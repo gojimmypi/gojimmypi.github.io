@@ -1,2 +1,3 @@
 	name: gojimmypi, blogger
 	markdown: kramdown
+	permalink: /blog/:year/:month/:day/:title

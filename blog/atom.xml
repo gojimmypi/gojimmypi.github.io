@@ -1,0 +1,26 @@
+---
+layout: feed
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+	<title>gojimmypi's Blog</title>
+	<link href="https://gojimmypi.github.io/blog/atom.xml" rel="self"/>
+	<link href="https://gojimmypi.github.io/blog"/>
+	<updated>{{ site.time | date_to_xmlschema }}</updated>
+	<id>https://gojimmypi.github.io/blog</id>
+	<author>
+		<name>gojimmypi</name>
+	</author>
+
+	{% for post in site.posts %}
+		<entry>
+			<title>{{ post.title }}</title>
+			<link href="http://gojimmypi.github.io{{ post.url }}"/>
+			<updated>{{ post.date | date_to_xmlschema }}</updated>
+			<id>http://gojimmypi.github.io{{ post.id }}</id>
+			<content type="html">{{ post.content | xml_escape }}</content>
+		</entry>
+	{% endfor %}
+
+</feed>
