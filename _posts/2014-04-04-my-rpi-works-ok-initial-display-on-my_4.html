@@ -1,0 +1,12 @@
+---
+layout: post
+title: 
+date: '2014-04-04T20:39:00.001-07:00'
+author: gojimmypi
+tags: 
+modified_time: '2014-04-30T20:11:50.264-07:00'
+blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-4073321329268549373
+blogger_orig_url: https://gojimmypi.blogspot.com/2014/04/my-rpi-works-ok-initial-display-on-my_4.html
+---
+
+My Rpi works! Ok, the initial display on my old tv was rather poor, but these settings via:<br /><br />sudo nano /boot/config.txt<br /><br />specifically adding:<br /><br />hdmi_group=1<br />hdmi_mode=4<br /><br />...ensures I am displaying hdmi in 720p (my old tv only displays 1024i = super blurry!)<br /><br />For more information on forcing video modes, see <a href="http://elinux.org/RPi_config.txt#Video">the elinux RPi Config (video section)</a><br /><br />I no longer need a keyboard and mouse attached to my RPi! I found <a href="http://www.raspberrypiblog.com/2012/10/how-to-setup-remote-desktop-from.html">this blog on how to setup RDP</a>&nbsp;and now I can access my RPi from the comfort of my Windows 7 machine. &lt;sigh of contentment&gt;<br /><br />Basically, to setup RDP, rum this command:<br /><br />sudo apt-get install xrdp<br /><br />(xwindows rdp, how cool is that!?)<br /><br />For reference, I used <a href="https://www.sdcard.org/downloads/formatter_4/eula_windows/">this SD formatter</a> to initialize my new SD card to install <a href="http://www.raspberrypi.org/downloads/">Raspian via the NOOBS installer (a simple copy to CD)</a>. Much more information on setup options can be found <a href="http://elinux.org/RPi_Easy_SD_Card_Setup">on the elinux "Easy CD Card Setup"</a><br /><br />The RPi is ridiculously cool.&nbsp; I've been out of the hardware world for way too long.

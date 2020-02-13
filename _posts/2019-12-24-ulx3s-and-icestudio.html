@@ -1,0 +1,18 @@
+---
+layout: post
+title: ULX3S and IceStudio
+date: '2019-12-24T07:42:00.002-08:00'
+author: gojimmypi
+tags:
+- cygwin
+- ULX3S
+- npm
+- node
+- FPGA
+- icestudio
+modified_time: '2019-12-25T02:00:34.965-08:00'
+blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-5484941050329001393
+blogger_orig_url: https://gojimmypi.blogspot.com/2019/12/ulx3s-and-icestudio.html
+---
+
+Today I <a href="https://twitter.com/Obijuan_cube/status/1209447531748438016?s=20">learned</a> that IceStudio supports the <a href="https://www.crowdsupply.com/radiona/ulx3s">ULX3S</a>! I thought I'd first try it in WSL Ubuntu.<br /><br />I'm not sure if X-Windows server is needed, but I have some <a href="https://gojimmypi.blogspot.com/2019/01/wsl-gui-using-cygwin-x-server-for.html">notes in a prior blog post</a>&nbsp;to use <a href="http://www.cygwin.com/">cygwin</a>&nbsp;from WSL.<br /><pre><code><br />sudo apt-get update  <br />sudo apt-get upgrade <br />sudo apt-get install nodejs<br />sudo apt-get install npm<br />node -v<br />cd ~/workspace/<br /><br />## see https://github.com/FPGAwars/icestudio#download<br />##<br />git clone https://github.com/FPGAwars/icestudio.git<br />cd icestudio<br /><br />## Do we need to have an X-Windows server running?<br />##<br />export DISPLAY=:0 # you may wish you put in this your ~/.bashrc<br />cp /mnt/c/cygwin64/home/gojimmypi/.Xauthority   ~/.Xauthority<br /><br />## test X-Windows<br />xclock<br /><br />## ensure we are on the develop branch<br />##<br />git status <br /><br />npm install<br />npm start<br /></code></pre><br />Unforunately, this left me in a state of "waiting..."<br /><br /><br /><code></code><br /><pre><code>gojimmypi:~/workspace/icestudio<br />$ npm start<br /><br />&gt; icestudio@0.5.1 start /home/gojimmypi/workspace/icestudio<br />&gt; grunt serve<br /><br />Running "nggettext_compile:all" (nggettext_compile) task<br /><br />Running "watch:scripts" (watch) task<br />Waiting...<br />Running "wiredep:task" (wiredep) task<br /><br />Running "exec:stopNW" (exec) task<br /><br />Running "exec:nw" (exec) task<br /><br />Done.<br />Completed in 3.118s at Tue Dec 24 2019 06:57:33 GMT-0800 (PST) - Waiting...<br /></code></pre><br /><br />For Windows, download the <a href="https://nodejs.org/en/download/">NodeJS</a> and NPM. I did get it <a href="https://twitter.com/gojimmypi/status/1209541773460168705?s=20">working</a>, but see <a href="https://github.com/FPGAwars/icestudio/issues/368">this icestudio GitHub issue #368</a>. More to come...<br /><br />Resources and links:<br /><br /><ul><li><a href="https://www.crowdsupply.com/radiona/ulx3s">ULX3S</a></li><li><a href="https://www.ftdichip.com/Drivers/D2XX.htm">FTDI Drivers</a>, specifically&nbsp;<a href="https://www.ftdichip.com/Drivers/CDM/CDM%20v2.12.28%20WHQL%20Certified.zip">CDM v2.12.28 WHQL Certified</a>&nbsp;(contains both 32 and 64 bit&nbsp;</li><li><a href="https://github.com/FPGAwars/icestudio#download">icestudio</a></li><li><a href="https://nodejs.org/en/download/">nodejs</a></li><li><a href="http://www.cygwin.com/">cygwin</a></li><li><a href="https://gojimmypi.blogspot.com/2019/01/wsl-gui-using-cygwin-x-server-for.html">WSL GUI - Using Cygwin X-Server for Graphical Interface</a></li><li><a href="https://gist.github.com/gojimmypi/7b65583f32434186dd002f35e26c1644">Makefile gtkwave sim and xserver recipes for WSL FPGA programming</a></li><li><a href="https://docs.microsoft.com/en-us/windows/wsl/wsl2-install">WSL2 install</a>&nbsp;(I still have WSL 1 for this blog)</li></ul>
