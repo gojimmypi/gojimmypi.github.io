@@ -6,7 +6,7 @@
 #   bio: this is some more information about the author. //--> optional as well, but pretty nice to have
 #   facebook: https://www.facebook.com/someone //--> optional
 #   twitter: https://twitter.com/someone //--> optional
-#   instagram: http://instagram.com/someone //--> optional
+#   instagram: https://instagram.com/someone //--> optional
 #   email: someone@something.com //--> optional
 
 -
@@ -16,7 +16,7 @@
   bio: this is some more information about the author.
   facebook: https://www.facebook.com/someone
   twitter: https://twitter.com/someone
-  instagram: http://instagram.com/someone
+  instagram: https://instagram.com/someone
   email: someone@something.com
 -
   id: person
