@@ -1,0 +1,14 @@
+---
+layout: index
+sidebar: true
+sidebar_type: material
+sidebar_position: left
+---
+{% capture page_date %}{{ page.date | date: "%Y" }}{% endcapture %}
+<h1 class="title">Posts from {{ page_date }}</h1>
+{% for post in site.posts %}
+	{% capture post_date %}{{ post.date | date: "%Y" }}{% endcapture %}
+	{% if post_date == page_date %}
+	    {% include article_index.html %}
+	{% endif %}
+{% endfor %}

@@ -1,0 +1,22 @@
+---
+layout: page
+sidebar: true
+sidebar_type: material
+sidebar_position: left
+title: Posts from Year—
+sitemap: false
+---
+<ul class="archive">
+  {% for post in site.posts %}
+    {% unless post.next %}
+        <h2><a href="{{ site.baseurl }}/archive/{{ post.date | date: '%Y' }}/">{{ post.date | date: '%Y' }}</a></h2>
+    {% else %}
+        {% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
+        {% capture nyear %}{{ post.next.date | date: '%Y' }}{% endcapture %}
+        {% if year != nyear %}
+            <h2><a href="{{ site.baseurl }}/archive/{{ post.date | date: '%Y' }}/">{{ post.date | date: '%Y' }}</a></h2>
+        {% endif %}
+    {% endunless %}
+    {% include article_index_short.html %}
+  {% endfor %}
+</ul>

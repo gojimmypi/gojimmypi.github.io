@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<channel>
+		<title>Gridster</title>
+		<description>the material experience for jekyll</description>
+		<link>http://localhost:4000</link>
+		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+		
+			<item>
+				<title>Standard Post</title>
+				
+				
+					<description>&lt;p&gt;Here you can see the basic post. No fancy type, no setting and the featured image is just embedded into the content.&lt;/p&gt;
+
+&lt;p&gt;The front matter for that basic post just consists of the basic tags, author, title, featimg, tags and category.&lt;/p&gt;
+</description>
+				
+				<pubDate>Tue, 10 Feb 2015 00:00:00 -0800</pubDate>
+				<link>http://localhost:4000/standard/</link>
+				<guid isPermaLink="true">http://localhost:4000/standard/</guid>
+			</item>
+		
+			<item>
+				<title>YouTube</title>
+				
+				
+					<description>&lt;p&gt;This is a youtube post type video.&lt;/p&gt;
+
+&lt;p&gt;For a YouTube video, no embedding code is required, it all works through the video ID. A featured image is not needed, as the video thumbnail will be used.&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;youtube&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;yt-video-id&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;JUT-3jGyjoM&lt;/span&gt;
+&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				
+				<pubDate>Mon, 09 Feb 2015 00:00:00 -0800</pubDate>
+				<link>http://localhost:4000/youtube/</link>
+				<guid isPermaLink="true">http://localhost:4000/youtube/</guid>
+			</item>
+		
+			<item>
+				<title>Audio</title>
+				
+				
+					<description>&lt;p&gt;This audio post is displays without a material-sidebar and has the iframe set for the index pages, instead of a featured image.&lt;/p&gt;
+
+&lt;p&gt;For the audio post to work, type must be set to audio and the audio-embed filled with an iframe.&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;audio&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;audio-embed&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;iframe width=&quot;100%&quot; height=&quot;450&quot; src=&quot;https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/188464611&amp;amp;amp;auto_play=false&amp;amp;amp;hide_related=false&amp;amp;amp;show_comments=true&amp;amp;amp;show_user=true&amp;amp;amp;show_reposts=false&amp;amp;amp;visual=true&quot;&amp;gt;&amp;lt;/iframe&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				
+				<pubDate>Sun, 08 Feb 2015 00:00:00 -0800</pubDate>
+				<link>http://localhost:4000/audio/</link>
+				<guid isPermaLink="true">http://localhost:4000/audio/</guid>
+			</item>
+		
+			<item>
+				<title>Image</title>
+				
+				
+					<description>&lt;p&gt;Here you see an image post in the standard layout, with material-sidebar.&lt;/p&gt;
+
+&lt;p&gt;The Front Matter for that looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;image&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;featimg&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;5.jpg&lt;/span&gt;
+&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				
+				<pubDate>Sat, 07 Feb 2015 00:00:00 -0800</pubDate>
+				<link>http://localhost:4000/img/</link>
+				<guid isPermaLink="true">http://localhost:4000/img/</guid>
+			</item>
+		
+			<item>
+				<title>Gallery</title>
+				
+				
+					<description>&lt;p&gt;Here you’ll find a simple gallery, that just adds all of the images at full-width directly in the post content.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h6 id=&quot;front-matter&quot;&gt;front matter&lt;/h6&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;gallery&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;images&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-1.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Bloom Flat&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-2.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Bloom&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-3.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Blossom in a Star&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-4.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Blossom&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-5.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Bubbly Bloom&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-6.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Rays of Gold&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-7.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Exotic&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-8.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Filled out&lt;/span&gt;
+&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h6 id=&quot;post-content&quot;&gt;post content&lt;/h6&gt;
+
+&lt;div class=&quot;language-liquid highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;p&quot;&gt;{%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;gallery.html&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;%}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;!-- simple gallery, where each of the files is just put after one another --&gt;
+&lt;div class=&quot;gallery&quot;&gt;
+    
+        
+            &lt;b&gt;Bloom Flat&lt;/b&gt;
+            &lt;img src=&quot;/media/compressed/gallery-1.jpg&quot; alt=&quot;Bloom Flat&quot; /&gt;
+        
+            &lt;b&gt;Bloom&lt;/b&gt;
+            &lt;img src=&quot;/media/compressed/gallery-2.jpg&quot; alt=&quot;Bloom&quot; /&gt;
+        
+            &lt;b&gt;Blossom in a Star&lt;/b&gt;
+            &lt;img src=&quot;/media/compressed/gallery-3.jpg&quot; alt=&quot;Blossom in a Star&quot; /&gt;
+        
+            &lt;b&gt;Blossom&lt;/b&gt;
+            &lt;img src=&quot;/media/compressed/gallery-4.jpg&quot; alt=&quot;Blossom&quot; /&gt;
+        
+            &lt;b&gt;Bubbly Bloom&lt;/b&gt;
+            &lt;img src=&quot;/media/compressed/gallery-5.jpg&quot; alt=&quot;Bubbly Bloom&quot; /&gt;
+        
+            &lt;b&gt;Rays of Gold&lt;/b&gt;
+            &lt;img src=&quot;/media/compressed/gallery-6.jpg&quot; alt=&quot;Rays of Gold&quot; /&gt;
+        
+            &lt;b&gt;Exotic&lt;/b&gt;
+            &lt;img src=&quot;/media/compressed/gallery-7.jpg&quot; alt=&quot;Exotic&quot; /&gt;
+        
+            &lt;b&gt;Filled out&lt;/b&gt;
+            &lt;img src=&quot;/media/compressed/gallery-8.jpg&quot; alt=&quot;Filled out&quot; /&gt;
+        
+    
+&lt;/div&gt;
+</description>
+				
+				<pubDate>Fri, 06 Feb 2015 00:00:00 -0800</pubDate>
+				<link>http://localhost:4000/gallery/</link>
+				<guid isPermaLink="true">http://localhost:4000/gallery/</guid>
+			</item>
+		
+			<item>
+				<title>Full Width Post</title>
+				
+				
+					<description>&lt;p&gt;a standard post displayed at full-width, only requires a layout, variable.
+The featured image will be added at the beginning of the content, but not above it, as in an image post.&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;post-full&lt;/span&gt;
+&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				
+				<pubDate>Thu, 05 Feb 2015 00:00:00 -0800</pubDate>
+				<link>http://localhost:4000/standard-full/</link>
+				<guid isPermaLink="true">http://localhost:4000/standard-full/</guid>
+			</item>
+		
+			<item>
+				<title>YouTube full</title>
+				
+				
+					<description>&lt;p&gt;This youtube video uses the iframe instead of the thumbnail image on the index pages.&lt;/p&gt;
+
+&lt;p&gt;For a YouTube video, no embedding code is required, it all works through the video ID.&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;post-full&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;youtube&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;yt-video-id&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;E802ZnXbnFY&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;homedisplay&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;iframe&lt;/span&gt;
+&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				
+				<pubDate>Wed, 04 Feb 2015 00:00:00 -0800</pubDate>
+				<link>http://localhost:4000/youtube-full/</link>
+				<guid isPermaLink="true">http://localhost:4000/youtube-full/</guid>
+			</item>
+		
+			<item>
+				<title>Audio Full</title>
+				
+				
+					<description>&lt;p&gt;This audio post is displays without a material-sidebar and has a featured image set for the index pages.&lt;/p&gt;
+
+&lt;p&gt;For the audio post to work, type must be set to audio and the audio-embed filled with an iframe.&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;post-full&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;audio&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;audio-embed&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;iframe width=&quot;100%&quot; height=&quot;450&quot; src=&quot;https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/143789807&amp;amp;amp;auto_play=false&amp;amp;amp;hide_related=false&amp;amp;amp;show_comments=true&amp;amp;amp;show_user=true&amp;amp;amp;show_reposts=false&amp;amp;amp;visual=true&quot;&amp;gt;&amp;lt;/iframe&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				
+				<pubDate>Tue, 03 Feb 2015 00:00:00 -0800</pubDate>
+				<link>http://localhost:4000/audio-full/</link>
+				<guid isPermaLink="true">http://localhost:4000/audio-full/</guid>
+			</item>
+		
+			<item>
+				<title>Image Full</title>
+				
+				
+					<description>&lt;p&gt;Here you see an image post with a full-width layout.&lt;/p&gt;
+
+&lt;p&gt;The Front Matter for that looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;post-full&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;image&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;featimg&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;5.jpg&lt;/span&gt;
+&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				
+				<pubDate>Mon, 02 Feb 2015 00:00:00 -0800</pubDate>
+				<link>http://localhost:4000/img-full/</link>
+				<guid isPermaLink="true">http://localhost:4000/img-full/</guid>
+			</item>
+		
+			<item>
+				<title>Gallery Alternative</title>
+				
+				
+					<description>&lt;p&gt;An alternative to the simple gallery would be this version, which displays the post ins a lightbox.
+The setup basically is the same, the include makes all the difference.&lt;/p&gt;
+
+&lt;p&gt;Galleries are defined in a data-sheet, set type and gallery-id in front matter and include &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gallery_lightbox.html&lt;/code&gt; within the content.
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;h6 id=&quot;front-matter&quot;&gt;front matter&lt;/h6&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;post-full&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;gallery&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;images&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-1.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Bloom Flat&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-2.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Bloom&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-3.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Blossom in a Star&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-4.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Blossom&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-5.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Bubbly Bloom&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-6.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Rays of Gold&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-7.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Exotic&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gallery-8.jpg&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;alttext&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Filled out&lt;/span&gt;
+&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h6 id=&quot;post-content&quot;&gt;post content&lt;/h6&gt;
+
+&lt;div class=&quot;language-liquid highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;p&quot;&gt;{%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;gallery_lightbox.html&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;%}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;!-- Gallery with lightbox --&gt;
+&lt;div class=&quot;masonry&quot;&gt;
+    
+        
+            &lt;a href=&quot;/media/compressed/gallery-1.jpg&quot; data-imagelightbox=&quot;f&quot; class=&quot;noline&quot;&gt;
+                
+                    
+                    &lt;img src=&quot;/media/compressed/crops/450x450/gallery-1-450x450.jpg&quot; alt=&quot;Bloom Flat&quot; /&gt;
+                
+            &lt;/a&gt;
+        
+            &lt;a href=&quot;/media/compressed/gallery-2.jpg&quot; data-imagelightbox=&quot;f&quot; class=&quot;noline&quot;&gt;
+                
+                    
+                    &lt;img src=&quot;/media/compressed/crops/450x450/gallery-2-450x450.jpg&quot; alt=&quot;Bloom&quot; /&gt;
+                
+            &lt;/a&gt;
+        
+            &lt;a href=&quot;/media/compressed/gallery-3.jpg&quot; data-imagelightbox=&quot;f&quot; class=&quot;noline&quot;&gt;
+                
+                    
+                    &lt;img src=&quot;/media/compressed/crops/450x450/gallery-3-450x450.jpg&quot; alt=&quot;Blossom in a Star&quot; /&gt;
+                
+            &lt;/a&gt;
+        
+            &lt;a href=&quot;/media/compressed/gallery-4.jpg&quot; data-imagelightbox=&quot;f&quot; class=&quot;noline&quot;&gt;
+                
+                    
+                    &lt;img src=&quot;/media/compressed/crops/450x450/gallery-4-450x450.jpg&quot; alt=&quot;Blossom&quot; /&gt;
+                
+            &lt;/a&gt;
+        
+            &lt;a href=&quot;/media/compressed/gallery-5.jpg&quot; data-imagelightbox=&quot;f&quot; class=&quot;noline&quot;&gt;
+                
+                    
+                    &lt;img src=&quot;/media/compressed/crops/450x450/gallery-5-450x450.jpg&quot; alt=&quot;Bubbly Bloom&quot; /&gt;
+                
+            &lt;/a&gt;
+        
+            &lt;a href=&quot;/media/compressed/gallery-6.jpg&quot; data-imagelightbox=&quot;f&quot; class=&quot;noline&quot;&gt;
+                
+                    
+                    &lt;img src=&quot;/media/compressed/crops/450x450/gallery-6-450x450.jpg&quot; alt=&quot;Rays of Gold&quot; /&gt;
+                
+            &lt;/a&gt;
+        
+            &lt;a href=&quot;/media/compressed/gallery-7.jpg&quot; data-imagelightbox=&quot;f&quot; class=&quot;noline&quot;&gt;
+                
+                    
+                    &lt;img src=&quot;/media/compressed/crops/450x450/gallery-7-450x450.jpg&quot; alt=&quot;Exotic&quot; /&gt;
+                
+            &lt;/a&gt;
+        
+            &lt;a href=&quot;/media/compressed/gallery-8.jpg&quot; data-imagelightbox=&quot;f&quot; class=&quot;noline&quot;&gt;
+                
+                    
+                    &lt;img src=&quot;/media/compressed/crops/450x450/gallery-8-450x450.jpg&quot; alt=&quot;Filled out&quot; /&gt;
+                
+            &lt;/a&gt;
+        
+    
+&lt;/div&gt;
+</description>
+				
+				<pubDate>Sun, 01 Feb 2015 00:00:00 -0800</pubDate>
+				<link>http://localhost:4000/gallery-alt/</link>
+				<guid isPermaLink="true">http://localhost:4000/gallery-alt/</guid>
+			</item>
+		
+			<item>
+				<title>Vimeo</title>
+				
+				
+					<description>&lt;p&gt;this is a video post using the vimeo format.&lt;/p&gt;
+
+&lt;p&gt;To create one you just have to use the type-specific variables within the Front Matter and paste the embed code directly from vimeo.&lt;/p&gt;
+
+&lt;p&gt;this post also shows the video on the home page instead of the featured image.&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;vimeo&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;vimeo-embed&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;iframe src=&quot;https://player.vimeo.com/video/107591790&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&amp;gt;&amp;lt;/iframe&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;homedisplay&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;iframe&lt;/span&gt;
+&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				
+				<pubDate>Sat, 31 Jan 2015 00:00:00 -0800</pubDate>
+				<link>http://localhost:4000/vimeo/</link>
+				<guid isPermaLink="true">http://localhost:4000/vimeo/</guid>
+			</item>
+		
+	</channel>
+</rss>

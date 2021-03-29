@@ -1,0 +1,54 @@
+---
+layout: compress
+---
+
+<!DOCTYPE html>
+<html>
+    <head>
+        {% include head.html %}
+    </head>
+<!-- use logic to toggle sidebar layouts -->
+{% if page.sidebar %}
+	<body class="has-{{page.sidebar_type}}-sidebar-{{page.sidebar_position}}">
+{% else %}
+    <body>
+{% endif %}
+        <header class="head">
+			<!-- use logic to toggle sidebar layouts -->
+			{% if page.sidebar == false or page.sidebar_type == "classic" %}
+	            {% include header.html %}
+            {% endif %}
+            {% include nav.html %}
+        </header>
+        {% include search.html %}
+        <div class="margin">
+			<!-- use logic to toggle sidebar layouts -->
+			{% if page.sidebar %}
+				<div class="content">
+			{% else %}
+	            <div class="content full">
+			{% endif %}
+                <div class="content-container">
+                    <article>
+                        {% if page.featimg %}
+                            <img class="featimg" src="{{ site.media_folder | prepend: site.baseurl | replace: '//', '/'}}/{{ page.featimg }}" alt="{{ page.featimg }}">
+                        {% endif %}
+
+                        <h1 class="page-title">
+                            {{ page.title }}
+                        </h1>
+                        <div class="post-content">
+                            {{ content }}
+                        </div>
+                    </article>
+                </div>
+				<!-- use logic to toggle sidebar layouts -->
+				{% if page.sidebar %}
+					{% include {{page.sidebar_type}}-sidebar.html %}
+				{% endif %}
+            </div>
+        </div>
+        {% include footer.html %}
+        
+    </body>
+</html>
