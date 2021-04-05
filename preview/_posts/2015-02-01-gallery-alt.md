@@ -1,6 +1,7 @@
 ---
 author: someone
-layout: post-full
+layout: post
+sidebar: false
 type: gallery
 featimg: gallery-2.jpg
 title: Gallery Alternative
@@ -62,10 +63,3 @@ gallery:
 
 ###### post content
 
-``` liquid
-{% raw  %}
-{% include gallery_lightbox.html %}
-{% endraw %}
-```
-
-{% include gallery_lightbox.html %}
