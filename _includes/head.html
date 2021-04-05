@@ -1,0 +1,97 @@
+<meta charset="UTF-8">
+<meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'/>
+<!-- JS -->
+{% if jekyll.environment != "development" %}<script>
+  var host = "{{ site.domain }}";
+  if ((host == window.location.host) && (window.location.protocol != "https:"))
+    window.location.protocol = "https";
+</script>{% endif %}
+{% if page.math %}<script type="text/x-mathjax-config">
+	{% include _mathjax-cdn-setup.min.js %}
+</script>{% endif %}
+<script>
+	{% include _fallback.min.js %}
+</script>
+<script>
+  fallback.load({
+    main: "{{ site.baseurl | replace: '//', '/' }}/css/main.css",
+		fontawesome: [
+			{% if jekyll.environment != "development" %}"https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css",
+			"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css",{% endif %}
+			"{{ site.baseurl | replace: '//', '/' }}/css/font-awesome.min.css"
+		],
+    jQuery: [
+			{% if jekyll.environment != "development" %}"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js",
+      "https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js",{% endif %}
+			"{{ site.baseurl | replace: '//', '/' }}/js/jquery-2.2.2.min.js"
+    ],
+		Materialize: [
+			{% if jekyll.environment != "development" %}"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js",{% endif %}
+			"{{ site.baseurl | replace: '//', '/' }}/js/materialize.min.js"
+		],
+    cssTransitionSupport: [
+      {% if site.infinite_scroll == true %}
+        {% if site.sidebar_toc == true %}
+          "{{ site.baseurl | replace: '//', '/' }}/js/global.infinite.toc.min.js"
+        {% else %}
+          "{{ site.baseurl | replace: '//', '/' }}/js/global.infinite.min.js"
+        {% endif %}
+      {% else %}
+        {% if site.sidebar_toc == true %}
+          "{{ site.baseurl | replace: '//', '/' }}/js/global.toc.min.js"
+        {% else %}
+          "{{ site.baseurl | replace: '//', '/' }}/js/global.min.js"
+        {% endif %}
+		  {% endif %}
+    ]{% if page.math %},
+		MathJax: [
+			{% if jekyll.environment != "development" %}"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full",{% endif %}
+			"{{ site.baseurl | replace: '//', '/' }}/MathJax/MathJax.js?config=TeX-AMS_CHTML-full"
+		]{% endif %}
+    }, {
+    shim: {
+      'Materialize': ['jQuery'],
+      'cssTransitionSupport': ['Materialize']
+    }
+  });
+{% if page.sidebar_toc %}
+	fallback.ready(function() {
+		$('#post-content').toc({
+      renderIn:'#renderTOC',
+			showCollapsed: true,
+			minItemsToShowToc: 0
+		});
+	});
+</script>
+<!-- CSS -->
+<style type="text/css">
+	{% capture include_to_scssify %}
+		{% include _heading.scss %}
+	{% endcapture %}
+	{{ include_to_scssify | scssify }}
+</style>
+{% else %}
+</script>
+{% endif %}
+{% if page.amsthm %}
+<style type="text/css">
+	{% capture include_to_scssify %}
+		{% include _amsthm.scss %}
+	{% endcapture %}
+	{{ include_to_scssify | scssify }}
+</style>
+{% endif %}
+<!-- Google Analytics. Put the ID in _config.yml -->
+{% if jekyll.environment != "development" %}<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', '{{site.analytics}}', 'auto');
+  ga('send', 'pageview');
+</script>{% endif %}
+<link rel="stylesheet" id="color-change">
+<!-- Site Infos -->
+{% seo %}
+{% feed_meta %}
+{% include favicon.html %}
