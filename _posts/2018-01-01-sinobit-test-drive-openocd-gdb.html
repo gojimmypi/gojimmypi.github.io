@@ -18,4 +18,285 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-62923125881921603
 blogger_orig_url: https://gojimmypi.blogspot.com/2018/01/sinobit-test-drive-openocd-gdb.html
 ---
 
-Sino:bit - Arduino, OpenOCD and GDB?<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-RjhYaUhQ8LA/WkpaMh5L0tI/AAAAAAAAAu8/F738cEa2CyQsROhC5ERN-U3zmObfL4CpACEwYBhgL/s1600/sinobit%2BHappy%2BFace.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="549" data-original-width="674" height="325" src="https://2.bp.blogspot.com/-RjhYaUhQ8LA/WkpaMh5L0tI/AAAAAAAAAu8/F738cEa2CyQsROhC5ERN-U3zmObfL4CpACEwYBhgL/s400/sinobit%2BHappy%2BFace.PNG" width="400" /></a></div><div class="separator" style="clear: both; text-align: center;"></div><br /><br />A little while back, I responded to an offer to get a free <a href="https://www.elecrow.com/sino-bit-v1-0.html">Sino:bit</a> from the nice folks at <a href="http://www.elecrow.com/">Elecrow</a>. Well, it was not completely free; I paid $4 for shipping from China, as it was not really practical for me to pick it up. ;)<br /><br />In case you've not heard - this is the Chinese version of the <a href="http://microbit.org/">BBC Micro:bit</a> - or more precisely, based on the <a href="https://github.com/calliope-mini/">Calliope mini</a>, which is based on the Micro:bit. Me... I'm in favor of pretty much any technology that may help inspire the next generation of programmers.<br /><br />Although there are a variety of ways to program this device, I followed along with the <a href="https://learn.adafruit.com/sino-bit-with-arduino/dastels-overview">Adafruit instructions</a>&nbsp;to use the Arduino IDE (and/or the <a href="http://www.visualmicro.com/">VisualMicro add-in</a> for Visual Studio).<br /><br />Initial programming was really quite easy. There was one little instruction missing from the Adafruit site. Hopefully they will notice <a href="https://twitter.com/gojimmypi/status/946186931561431040">my tweet</a> and make the correction. In short, the Arduino HT1632 libraries need to be manually added. So if you see an error like this:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-OO2WApsf14A/WkpcgSnSN3I/AAAAAAAAAvE/CqN9v6hj02grEC_xIv6CsKe2-yKipHpvwCLcBGAs/s1600/missing%2BHT1632%2Blib.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="595" data-original-width="972" height="242" src="https://3.bp.blogspot.com/-OO2WApsf14A/WkpcgSnSN3I/AAAAAAAAAvE/CqN9v6hj02grEC_xIv6CsKe2-yKipHpvwCLcBGAs/s400/missing%2BHT1632%2Blib.PNG" width="400" /></a></div><br />...then simply add the library:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-aG0amYeh0ko/Wkpc5lPYzuI/AAAAAAAAAvI/fENxECMI04YAwZn_q5SGR1nzLYP3Nt-BQCLcBGAs/s1600/SINOBIT%2Bneeds%2Blib.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="450" data-original-width="789" height="227" src="https://1.bp.blogspot.com/-aG0amYeh0ko/Wkpc5lPYzuI/AAAAAAAAAvI/fENxECMI04YAwZn_q5SGR1nzLYP3Nt-BQCLcBGAs/s400/SINOBIT%2Bneeds%2Blib.PNG" width="400" /></a></div><br />I like to turn on verbose compiling and uploading:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-Z_rqVXYVxjE/WkpdP-phxoI/AAAAAAAAAvQ/mLyunCtKtUw6j7KJzzsJv8-ys6nRRPjNwCLcBGAs/s1600/Sinobit%2BArduino%2BIDE%2Bsettings.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="240" data-original-width="720" height="211" src="https://1.bp.blogspot.com/-Z_rqVXYVxjE/WkpdP-phxoI/AAAAAAAAAvQ/mLyunCtKtUw6j7KJzzsJv8-ys6nRRPjNwCLcBGAs/s640/Sinobit%2BArduino%2BIDE%2Bsettings.PNG" width="640" /></a></div><br />When doing so, a successful upload will look like this:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-lTfIBfPLqMI/WkpdmOkJrTI/AAAAAAAAAvU/d3l5Han9-4IZW65MQZPeao2WF5fA2MT1gCLcBGAs/s1600/upload%2Bsuccess.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="423" data-original-width="912" height="296" src="https://4.bp.blogspot.com/-lTfIBfPLqMI/WkpdmOkJrTI/AAAAAAAAAvU/d3l5Han9-4IZW65MQZPeao2WF5fA2MT1gCLcBGAs/s640/upload%2Bsuccess.PNG" width="640" /></a></div><br />In particular, I noticed that a <a href="https://github.com/sandeepmistry/openocd-code-nrf5">forked version of Open OCD</a> is used to upload the sketch. The first thing that comes to mind when mentioning <a href="http://openocd.org/">OpenOCD</a>, is of course <a href="https://www.gnu.org/software/gdb/">GDB</a>! So I thought I'd see if I could get some single-step debugging working without the need for a potentially expensive hardware debugger.<br /><br />One line to notice during the verbose compile / upload is the last line of the compile. Note that a unique directory is created for the binaries. In my case: ~\arduino_build_91191<br /><br />The full line from my Arduino IDE looked like this:<br /><br /><pre><code>C:\Users\gojimmypi\AppData\Local\Arduino15\packages\sandeepmistry\tools\openocd\0.10.0-dev.nrf5/bin/openocd.exe -d2 -f interface/cmsis-dap.cfg -c ; -f target/nrf51.cfg -c program {{ "{{" }}C:\Users\GOJIMM~1\AppData\Local\Temp\arduino_build_91191/sinobit.ino.hex}} verify reset; shutdown; <br /></code></pre><br />In order to launch OpenOCD to simply listen, and not upload - minor modifications are needed. Remove everything after and including the "-c program":<br /><br /><pre><code>C:\Users\gojimmypi\AppData\Local\Arduino15\packages\sandeepmistry\tools\openocd\0.10.0-dev.nrf5/bin/openocd.exe -d2 -f interface/cmsis-dap.cfg -c ; -f target/nrf51.cfg  <br /></code></pre><br />Upon launching this in a DOS window, the resulting output looks like this:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-L4ATEIOlS2A/WkphQLTPcNI/AAAAAAAAAvg/PGu3G1JHTrAOvBRDi0Xt35O-Cal3gaoOQCLcBGAs/s1600/sinobit%2Bopencod.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="349" data-original-width="1240" height="179" src="https://4.bp.blogspot.com/-L4ATEIOlS2A/WkphQLTPcNI/AAAAAAAAAvg/PGu3G1JHTrAOvBRDi0Xt35O-Cal3gaoOQCLcBGAs/s640/sinobit%2Bopencod.PNG" width="640" /></a></div><br />Note that OpenOCD will not exit. It is waiting and listening for a GDB connection.<br /><br />In my case, I could not find a suitable Windows GDB executable. So I ventured into the land of <a href="https://docs.microsoft.com/en-us/windows/wsl/about">WSL </a>- specifically <a href="https://www.microsoft.com/en-us/store/p/ubuntu/9nblggh4msv6?SilentAuth=1&amp;wa=wsignin1.0">Ubuntu</a>. (I also wrote a <a href="https://gojimmypi.blogspot.fr/2017/04/installing-openocd-on-windows-wsl-ubuntu.html">little blog on OpenOCD on WSL Ubuntu</a>). Once a local Ubuntu is installed an operational, GDB can be added:<br /><br /><pre><code>sudo apt-get install gdb<br /></code></pre>Note that in WSL Ubunto, there's no C:\ drive and the slashes all go in the opposite directions. I went to my specific directory created by the Arduino IDE:<br /><br /><pre><code>cd /mnt/c/Users/gojimmypi/AppData/Local/Temp/arduino_build_91191<br /></code></pre><br /><br />GDB is launched like this: <br /><pre><code>gdb -d ./ -d /mnt/c/Users/gojimmypi/AppData/Local/arduino15/packages/sandeepmistry/hardware/nRF5/0.4.0/cores/nRF5 -f sinobit.ino.elf<br /></code></pre><br />If all goes well, when GDB is running and accepting commands, if will look something like this in the WSL Ubuntu window:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-_w6QmB1QtE8/WkpltS1OZlI/AAAAAAAAAvs/By-N9JN-thgC_ui4-knChT8zHaN4RpvrgCLcBGAs/s1600/gdb%2Bready.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="347" data-original-width="967" height="227" src="https://4.bp.blogspot.com/-_w6QmB1QtE8/WkpltS1OZlI/AAAAAAAAAvs/By-N9JN-thgC_ui4-knChT8zHaN4RpvrgCLcBGAs/s640/gdb%2Bready.PNG" width="640" /></a></div><br />Due to the oddities of Windows vs Linux, I first ran these commands:<br /><br /><br /><pre><code># C:\ is found in /mnt/c<br />set substitute-path c:/ /mnt/c<br /><br /># There was an odd case problem in Arduino15 vs arduino15<br />set substitute-path /mnt/c/Users/gojimmypi/AppData/Local/Arduino15/ /mnt/c/Users/gojimmypi/AppData/Local/arduino15/<br /><br /># make really sure the current directory is used<br />directory ./<br /></code></pre><br /><br />Then connect: <br /><pre><code>target remote localhost:3333<br />monitor reset init<br /></code></pre><br />The resulting GDB window in Ubuntu should look something like this:<br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-135jIGPbgd4/Wkpo4mJJSrI/AAAAAAAAAv4/FhjYgOTASLAdVPu611vx5GiFBPQeCqfxQCLcBGAs/s1600/gdb%2Bsinobit%2Bconnected.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="569" data-original-width="1121" height="324" src="https://4.bp.blogspot.com/-135jIGPbgd4/Wkpo4mJJSrI/AAAAAAAAAv4/FhjYgOTASLAdVPu611vx5GiFBPQeCqfxQCLcBGAs/s640/gdb%2Bsinobit%2Bconnected.PNG" width="640" /></a></div><br /><br />The OpenOCD DOS window should have updated, and look something like this, showing the successful connection:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-pzFFLZmWukQ/Wkpo-Qt3vBI/AAAAAAAAAv8/IYDBsJUWLoc3XjPBNpTUIbhecuQTDawfQCLcBGAs/s1600/openocd%2Bsinobit%2Bconnected.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="449" data-original-width="1241" height="228" src="https://3.bp.blogspot.com/-pzFFLZmWukQ/Wkpo-Qt3vBI/AAAAAAAAAv8/IYDBsJUWLoc3XjPBNpTUIbhecuQTDawfQCLcBGAs/s640/openocd%2Bsinobit%2Bconnected.PNG" width="640" /></a></div><br />At this point, things are really exciting! Ready to debug? Sadly, no. Typing the GDB "step" command results in the dreaded message:<br /><br /><pre><code>Cannot find bounds of current function</code></pre><br />I also tried to use the <a href="http://www.visualmicro.com/">VisualMicro add-in</a> for Visual Studio, no joy there, either:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-gpwXB9l5WgE/Wkps-_BL-wI/AAAAAAAAAwI/-Sp5cPBwVn4jduqh71mCH6i3Jn_NO8nsACLcBGAs/s1600/sinobit%2Bvsmicro%2Bdebug.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="300" data-original-width="1059" height="180" src="https://3.bp.blogspot.com/-gpwXB9l5WgE/Wkps-_BL-wI/AAAAAAAAAwI/-Sp5cPBwVn4jduqh71mCH6i3Jn_NO8nsACLcBGAs/s640/sinobit%2Bvsmicro%2Bdebug.PNG" width="640" /></a></div><br />Although it certainly works to compile and upload code in "release" (no single-step debugging) mode:<br /><br /><div class="separator" style="clear: both; text-align: center;"><img border="0" data-original-height="729" data-original-width="883" height="528" src="https://3.bp.blogspot.com/-xAz4jiVJTAA/WkptNBhfPnI/AAAAAAAAAwM/JGVmk-DLer0d6Ch2R_xlt9TmKBv2rNPXQCLcBGAs/s640/sinobit%2Bvsmicro%2Brelease.png" width="640" /></div><br /><br /><a href="https://twitter.com/TheFlyingZephyr/status/947852302664085505">@TheFlyingSephyr also suggested</a> trying the <a href="https://www.segger.com/products/development-tools/embedded-studio/">Embedded Studio IDE</a> with the Segger hardware debugger. Perhaps another blog for another day...<br /><br />On a side note, it might me interesting to peek at the elf file:<br /><br /><code></code><br /><pre><code>sudo apt-get install binutils<br />readelf -a /mnt/c/Users/gojimmypi/AppData/Local/Temp/arduino_build_91191/sinobit.ino.elf<br /></code></pre><br /><br />In the end, it seems that you simply <a href="https://devzone.nordicsemi.com/question/56790/debugging-softdevice-applications-with-gdb/">can't get to there from here</a>&nbsp;when attempting to debug a "soft device".&nbsp; :|  If you have any ideas, please leave a comment or send me a message at gmail.<br /><br />UPDATE: I've had a few replies regarding other debugging options. In particular a <a href="https://twitter.com/sceptic_int/status/947944444950732800">tweet from Tomas indicating that perhaps Mbed tools might help</a>. Indeed there's some interesting info that shows using&nbsp;arm-none-eabi-gdb and&nbsp;<a href="https://github.com/mbedmicro/pyOCD">pyOCD</a>. Although I was able to get that toolchain installed and working:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-FJzNmNk53Vs/WkuWF9N73XI/AAAAAAAAAws/Spj5_Uv4uWoYhCJQIIn_ejezYO-5okXswCLcBGAs/s1600/py-ocd-server.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="403" data-original-width="982" height="260" src="https://3.bp.blogspot.com/-FJzNmNk53Vs/WkuWF9N73XI/AAAAAAAAAws/Spj5_Uv4uWoYhCJQIIn_ejezYO-5okXswCLcBGAs/s640/py-ocd-server.PNG" width="640" /></a></div><br />I was not able to actually get single-step debugging working (nor does the Mbed instruction page indicate this is even possible). Note the error:<br /><code></code><br /><pre><code>(gdb) step<br />Warning:<br />Cannot insert hardware breakpoint 0.<br />Could not insert hardware breakpoints:<br />You may have requested too many hardware breakpoints/watchpoints.</code></pre><br />As show here:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-0ONpjmyotjE/WkuWM8rEDyI/AAAAAAAAAww/QXRU6gTbZ7Iylvm78FMIqhgMXhUQ5iZBgCLcBGAs/s1600/sinobit-arm-none-eabi-gdb-error.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="569" data-original-width="1121" height="324" src="https://3.bp.blogspot.com/-0ONpjmyotjE/WkuWM8rEDyI/AAAAAAAAAww/QXRU6gTbZ7Iylvm78FMIqhgMXhUQ5iZBgCLcBGAs/s640/sinobit-arm-none-eabi-gdb-error.PNG" width="640" /></a></div><br />Another more promising method (although considerably more complex and potentially expensive) - would be the <a href="https://www.xjtag.com/about-jtag/what-is-jtag/">hardware debugging method using JTAG</a>. One of the key things needed here is of course is how to connect the debugger. Many thanks to<a href="https://twitter.com/Elecrow1/status/948110853127020544"> Elecrow for the prompt reply on twitter</a>&nbsp;for information on the Sino:bit JTAG pins:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://2.bp.blogspot.com/-gyn2FDcsA1c/WkucMABb9qI/AAAAAAAAAxA/Q4gEdKuZXbstoRASI9HKSVPNcfa8JNp3ACLcBGAs/s1600/sinobit%2BJTAG.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="588" data-original-width="1009" height="371" src="https://2.bp.blogspot.com/-gyn2FDcsA1c/WkucMABb9qI/AAAAAAAAAxA/Q4gEdKuZXbstoRASI9HKSVPNcfa8JNp3ACLcBGAs/s640/sinobit%2BJTAG.PNG" width="640" /></a></div><br />What you cannot immediately see from the silkscreen is that those are pads and not through-holes. Another item on my wish list for version 2! (ok, let's make the proper wish: how about a actual header for JTAG connector!)<br /><br />I'll create another blog page for the Sino:bit JTAG. My first attempt will be using my <a href="https://gojimmypi.blogspot.fr/2017/07/BluePill-STM32F103-to-BlackMagic-Probe.html">$2 Blue Pill STM32F103 board converted to a Black Magic Probe</a>.<br /><br />Overall the Sino:bit seems very cool, despite the problems with OpenOCD and GDB. It would be awesome if some sort of single-step debugging was possible - bit that certainly is not a showstopper. Most people, certainly not beginners - would never even attempt this type of debugging. Other changes I would make would be having a less intensely bright power LED, and making the 12 x 12 grid of LED's multi-color.<br /><br /><br />Resources, Inspiration, Credits, and Other Links: <br /><ul><li><a href="https://github.com/sinobitorg/hardware">github - sinobit hardware</a></li><li><a href="https://electronics.stackexchange.com/questions/33948/how-do-i-debug-a-arduino-uno-with-gdb-on-a-linux-pc">StackExchange -&nbsp;How do I debug a Arduino Uno with gdb on a Linux pc?</a></li><li><a href="https://github.com/sandeepmistry/arduino-nRF5#selecting-a-softdevice">https://github.com/sandeepmistry/arduino-nRF5#selecting-a-softdevice</a></li><li><a href="https://github.com/Microsoft/vscode/issues/7556">Bash for Windows colors are unreadable with default terminal theme #7556</a></li><li><a href="http://sourceware.org/gdb/onlinedocs/gdb/Source-Path.html#set-substitute_002dpath">GDB - Specifying Source Directories</a></li><li><a href="https://ftp.gnu.org/old-gnu/Manuals/gdb/html_node/gdb_28.html">GDB - Setting Breakpoints</a></li><li><a href="https://stackoverflow.com/questions/8741493/why-i-do-get-cannot-find-bound-of-current-function-when-i-overwrite-the-ret-ad">stackoverflow.com: Why I do get “Cannot find bound of current function” when I overwrite the ret address of a vulnerable program?</a></li><li><a href="https://devzone.nordicsemi.com/question/56790/debugging-softdevice-applications-with-gdb/">Nordic Developer Zone: debugging softdevice applications with gdb</a></li><li><a href="http://rlab.org.uk/wiki/Going_beyond_the_Arduino_IDE">going beyond the arduino ide</a></li><li><a href="https://forum.arduino.cc/index.php?topic=328578.0">forum.arduino,cc - How do I use a Makefile?</a></li><li><a href="https://hardwarefun.com/tutorials/compiling-arduino-sketches-using-makefile">Compiling Arduino sketches using Makefile</a></li><li><a href="https://github.com/sudar/Arduino-Makefile">github sudar/Arduino-Makefile</a></li><li><a href="https://os.mbed.com/handbook/CMSIS-DAP">arm MBED CMSIS DAP</a></li><li><a href="https://www.nordicsemi.com/News/News-releases/Product-Related-News/Nordic-Semiconductor-adds-Embedded-Studio-IDE-support-for-nRF51-and-nRF52-SoC-development">Nordic Semiconductor adds Embedded Studio IDE support for nRF51 and nRF52 SoC development</a></li></ul><br />
+Sino:bit - Arduino, OpenOCD and GDB?<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/sinobit_Happy_Face.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="549" data-original-width="674" height="325" src="../images/s400/sinobit_Happy_Face.PNG" width="400"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+</div>
+<br />
+<br />A little while back, I responded to an offer to get a free 
+<a href="https://www.elecrow.com/sino-bit-v1-0.html">Sino:bit</a> from the nice folks at <a href="http://www.elecrow.com/">Elecrow</a>
+. Well, it was not completely free; I paid $4 for shipping from China, as it was not really practical for me to pick it up. ;)<br />
+<br />In case you've not heard - this is the Chinese version of the 
+<a href="http://microbit.org/">BBC Micro:bit</a> - or more precisely, based on the <a href="https://github.com/calliope-mini/">Calliope mini</a>
+, which is based on the Micro:bit. Me... I'm in favor of pretty much any technology that may help inspire the next generation of programmers.<br />
+<br />Although there are a variety of ways to program this device, I followed along with the 
+<a href="https://learn.adafruit.com/sino-bit-with-arduino/dastels-overview">Adafruit instructions</a>&nbsp;to use the Arduino IDE (and/or the <a href="http://www.visualmicro.com/">VisualMicro add-in</a>
+ for Visual Studio).<br />
+<br />Initial programming was really quite easy. There was one little instruction missing from the Adafruit site. Hopefully they will notice 
+<a href="https://twitter.com/gojimmypi/status/946186931561431040">my tweet</a>
+ and make the correction. In short, the Arduino HT1632 libraries need to be manually added. So if you see an error like this:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/missing_HT1632_lib.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="595" data-original-width="972" height="242" src="../images/s400/missing_HT1632_lib.PNG" width="400"></a>
+</div>
+<br />
+...then simply add the library:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/SINOBIT_needs_lib.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="450" data-original-width="789" height="227" src="../images/s400/SINOBIT_needs_lib.PNG" width="400"></a>
+</div>
+<br />
+I like to turn on verbose compiling and uploading:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Sinobit_Arduino_IDE_settings.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="240" data-original-width="720" height="211" src="../images/s640/Sinobit_Arduino_IDE_settings.PNG" width="640"></a>
+</div>
+<br />
+When doing so, a successful upload will look like this:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/upload_success.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="423" data-original-width="912" height="296" src="../images/s640/upload_success.PNG" width="640"></a>
+</div>
+<br />In particular, I noticed that a 
+<a href="https://github.com/sandeepmistry/openocd-code-nrf5">forked version of Open OCD</a> is used to upload the sketch. The first thing that comes to mind when mentioning <a href="http://openocd.org/">OpenOCD</a>, is of course <a href="https://www.gnu.org/software/gdb/">GDB</a>
+! So I thought I'd see if I could get some single-step debugging working without the need for a potentially expensive hardware debugger.<br />
+<br />
+One line to notice during the verbose compile / upload is the last line of the compile. Note that a unique directory is created for the binaries. In my case: ~\arduino_build_91191
+<br />
+<br />
+The full line from my Arduino IDE looked like this:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+C:\Users\gojimmypi\AppData\Local\Arduino15\packages\sandeepmistry\tools\openocd\0.10.0-dev.nrf5/bin/openocd.exe -d2 -f interface/cmsis-dap.cfg -c ; -f target/nrf51.cfg -c program {{ "{{" }}C:\Users\GOJIMM~1\AppData\Local\Temp\arduino_build_91191/sinobit.ino.hex}} verify reset; shutdown; </code></pre>
+<br />
+In order to launch OpenOCD to simply listen, and not upload - minor modifications are needed. Remove everything after and including the "-c program":
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+C:\Users\gojimmypi\AppData\Local\Arduino15\packages\sandeepmistry\tools\openocd\0.10.0-dev.nrf5/bin/openocd.exe -d2 -f interface/cmsis-dap.cfg -c ; -f target/nrf51.cfg  </code></pre>
+<br />
+Upon launching this in a DOS window, the resulting output looks like this:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/sinobit_opencod.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="349" data-original-width="1240" height="179" src="../images/s640/sinobit_opencod.PNG" width="640"></a>
+</div>
+<br />
+Note that OpenOCD will not exit. It is waiting and listening for a GDB connection.
+<br />
+<br />In my case, I could not find a suitable Windows GDB executable. So I ventured into the land of 
+<a href="https://docs.microsoft.com/en-us/windows/wsl/about">WSL </a>- specifically <a href="https://www.microsoft.com/en-us/store/p/ubuntu/9nblggh4msv6?SilentAuth=1&amp;wa=wsignin1.0">Ubuntu</a>. (I also wrote a <a href="https://gojimmypi.blogspot.fr/2017/04/installing-openocd-on-windows-wsl-ubuntu.html">little blog on OpenOCD on WSL Ubuntu</a>
+). Once a local Ubuntu is installed an operational, GDB can be added:<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo apt-get install gdb</code></pre>
+Note that in WSL Ubunto, there's no C:\ drive and the slashes all go in the opposite directions. I went to my specific directory created by the Arduino IDE:<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+cd /mnt/c/Users/gojimmypi/AppData/Local/Temp/arduino_build_91191</code></pre>
+<br />
+<br />
+GDB is launched like this: 
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+gdb -d ./ -d /mnt/c/Users/gojimmypi/AppData/Local/arduino15/packages/sandeepmistry/hardware/nRF5/0.4.0/cores/nRF5 -f sinobit.ino.elf</code></pre>
+<br />
+If all goes well, when GDB is running and accepting commands, if will look something like this in the WSL Ubuntu window:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/gdb_ready.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="347" data-original-width="967" height="227" src="../images/s640/gdb_ready.PNG" width="640"></a>
+</div>
+<br />
+Due to the oddities of Windows vs Linux, I first ran these commands:
+<br />
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# C:\ is found in /mnt/c
+set substitute-path c:/ /mnt/c
+# There was an odd case problem in Arduino15 vs arduino15
+set substitute-path /mnt/c/Users/gojimmypi/AppData/Local/Arduino15/ /mnt/c/Users/gojimmypi/AppData/Local/arduino15/
+# make really sure the current directory is used
+directory ./</code></pre>
+<br />
+<br />
+Then connect: 
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+target remote localhost:3333
+monitor reset init</code></pre>
+<br />
+The resulting GDB window in Ubuntu should look something like this:
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/gdb_sinobit_connected.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="569" data-original-width="1121" height="324" src="../images/s640/gdb_sinobit_connected.PNG" width="640"></a>
+</div>
+<br />
+<br />
+The OpenOCD DOS window should have updated, and look something like this, showing the successful connection:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/openocd_sinobit_connected.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="449" data-original-width="1241" height="228" src="../images/s640/openocd_sinobit_connected.PNG" width="640"></a>
+</div>
+<br />
+At this point, things are really exciting! Ready to debug? Sadly, no. Typing the GDB "step" command results in the dreaded message:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">Cannot find bounds of current function</code></pre>
+<br />I also tried to use the 
+<a href="http://www.visualmicro.com/">VisualMicro add-in</a>
+ for Visual Studio, no joy there, either:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/sinobit_vsmicro_debug.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="300" data-original-width="1059" height="180" src="../images/s640/sinobit_vsmicro_debug.PNG" width="640"></a>
+</div>
+<br />
+Although it certainly works to compile and upload code in "release" (no single-step debugging) mode:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<img border="0" data-original-height="729" data-original-width="883" height="528" src="../images/s640/sinobit_vsmicro_release.png" width="640">
+</div>
+<br />
+<br />
+<a href="https://twitter.com/TheFlyingZephyr/status/947852302664085505">@TheFlyingSephyr also suggested</a> trying the <a href="https://www.segger.com/products/development-tools/embedded-studio/">Embedded Studio IDE</a>
+ with the Segger hardware debugger. Perhaps another blog for another day...<br />
+<br />
+On a side note, it might me interesting to peek at the elf file:
+<br />
+<br />
+<code class="highlight"></code><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo apt-get install binutils
+readelf -a /mnt/c/Users/gojimmypi/AppData/Local/Temp/arduino_build_91191/sinobit.ino.elf</code></pre>
+<br />
+<br />In the end, it seems that you simply 
+<a href="https://devzone.nordicsemi.com/question/56790/debugging-softdevice-applications-with-gdb/">can't get to there from here</a>
+&nbsp;when attempting to debug a "soft device".&nbsp; :|  If you have any ideas, please leave a comment or send me a message at gmail.<br />
+<br />UPDATE: I've had a few replies regarding other debugging options. In particular a 
+<a href="https://twitter.com/sceptic_int/status/947944444950732800">tweet from Tomas indicating that perhaps Mbed tools might help</a>. Indeed there's some interesting info that shows using&nbsp;arm-none-eabi-gdb and&nbsp;<a href="https://github.com/mbedmicro/pyOCD">pyOCD</a>
+. Although I was able to get that toolchain installed and working:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/py-ocd-server.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="403" data-original-width="982" height="260" src="../images/s640/py-ocd-server.PNG" width="640"></a>
+</div>
+<br />
+I was not able to actually get single-step debugging working (nor does the Mbed instruction page indicate this is even possible). Note the error:
+<br />
+<code class="highlight"></code><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+(gdb) step
+Warning:
+Cannot insert hardware breakpoint 0.
+Could not insert hardware breakpoints:You may have requested too many hardware breakpoints/watchpoints.</code></pre>
+<br />
+As show here:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/sinobit-arm-none-eabi-gdb-error.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="569" data-original-width="1121" height="324" src="../images/s640/sinobit-arm-none-eabi-gdb-error.PNG" width="640"></a>
+</div>
+<br />Another more promising method (although considerably more complex and potentially expensive) - would be the 
+<a href="https://www.xjtag.com/about-jtag/what-is-jtag/">hardware debugging method using JTAG</a>. One of the key things needed here is of course is how to connect the debugger. Many thanks to<a href="https://twitter.com/Elecrow1/status/948110853127020544"> Elecrow for the prompt reply on twitter</a>
+&nbsp;for information on the Sino:bit JTAG pins:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/sinobit_JTAG.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="588" data-original-width="1009" height="371" src="../images/s640/sinobit_JTAG.PNG" width="640"></a>
+</div>
+<br />
+What you cannot immediately see from the silkscreen is that those are pads and not through-holes. Another item on my wish list for version 2! (ok, let's make the proper wish: how about a actual header for JTAG connector!)
+<br />
+<br />I'll create another blog page for the Sino:bit JTAG. My first attempt will be using my 
+<a href="https://gojimmypi.blogspot.fr/2017/07/BluePill-STM32F103-to-BlackMagic-Probe.html">$2 Blue Pill STM32F103 board converted to a Black Magic Probe</a>
+.<br />
+<br />
+Overall the Sino:bit seems very cool, despite the problems with OpenOCD and GDB. It would be awesome if some sort of single-step debugging was possible - bit that certainly is not a showstopper. Most people, certainly not beginners - would never even attempt this type of debugging. Other changes I would make would be having a less intensely bright power LED, and making the 12 x 12 grid of LED's multi-color.
+<br />
+<br />
+<br />
+Resources, Inspiration, Credits, and Other Links: 
+<br />
+<ul><li><a href="https://github.com/sinobitorg/hardware">github - sinobit hardware</a></li><li><a href="https://electronics.stackexchange.com/questions/33948/how-do-i-debug-a-arduino-uno-with-gdb-on-a-linux-pc">StackExchange -&nbsp;How do I debug a Arduino Uno with gdb on a Linux pc?</a></li><li><a href="https://github.com/sandeepmistry/arduino-nRF5#selecting-a-softdevice">https://github.com/sandeepmistry/arduino-nRF5#selecting-a-softdevice</a></li><li><a href="https://github.com/Microsoft/vscode/issues/7556">Bash for Windows colors are unreadable with default terminal theme #7556</a></li><li><a href="http://sourceware.org/gdb/onlinedocs/gdb/Source-Path.html#set-substitute_002dpath">GDB - Specifying Source Directories</a></li><li><a href="https://ftp.gnu.org/old-gnu/Manuals/gdb/html_node/gdb_28.html">GDB - Setting Breakpoints</a></li><li><a href="https://stackoverflow.com/questions/8741493/why-i-do-get-cannot-find-bound-of-current-function-when-i-overwrite-the-ret-ad">stackoverflow.com: Why I do get “Cannot find bound of current function” when I overwrite the ret address of a vulnerable program?</a></li><li><a href="https://devzone.nordicsemi.com/question/56790/debugging-softdevice-applications-with-gdb/">Nordic Developer Zone: debugging softdevice applications with gdb</a></li><li><a href="http://rlab.org.uk/wiki/Going_beyond_the_Arduino_IDE">going beyond the arduino ide</a></li><li><a href="https://forum.arduino.cc/index.php?topic=328578.0">forum.arduino,cc - How do I use a Makefile?</a></li><li><a href="https://hardwarefun.com/tutorials/compiling-arduino-sketches-using-makefile">Compiling Arduino sketches using Makefile</a></li><li><a href="https://github.com/sudar/Arduino-Makefile">github sudar/Arduino-Makefile</a></li><li><a href="https://os.mbed.com/handbook/CMSIS-DAP">arm MBED CMSIS DAP</a></li><li><a href="https://www.nordicsemi.com/News/News-releases/Product-Related-News/Nordic-Semiconductor-adds-Embedded-Studio-IDE-support-for-nRF51-and-nRF52-SoC-development">
+Nordic Semiconductor adds Embedded Studio IDE support for nRF51 and nRF52 SoC development</a></li></ul><br />
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:53 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

@@ -16,4 +16,116 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-37085638562048882
 blogger_orig_url: https://gojimmypi.blogspot.com/2020/03/esp32-s2-arrival-day-wsl-test-drive.html
 ---
 
-<br />My ESP32-S2 Saola R1 arrived!!<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-bdH7Wf1ew5Y/Xn1bErgqZTI/AAAAAAAACb8/lOBjqvmzoRkAK6QtUvWzgak0VqgZIGv6gCLcBGAsYHQ/s1600/my%2BESP32-S2.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="831" data-original-width="1600" height="165" src="https://1.bp.blogspot.com/-bdH7Wf1ew5Y/Xn1bErgqZTI/AAAAAAAACb8/lOBjqvmzoRkAK6QtUvWzgak0VqgZIGv6gCLcBGAsYHQ/s320/my%2BESP32-S2.jpg" width="320" /></a></div><br /><br />What exactly is that? Well, I <a href="https://twitter.com/gojimmypi/status/1242451172658565120">wondered</a> the same thing. Per the&nbsp;<a href="https://www.espressif.com/sites/default/files/documentation/espressif_products_ordering_information_en.pdf">Espressif Products Ordering Information</a>&nbsp;(see page 21)<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-bl4FmUEBjLU/Xn1SJ8SaWlI/AAAAAAAACbE/5hQrDpwly2AbYusvMvehiYobA6snrMW1QCLcBGAsYHQ/s1600/ESP32-S2%2BSaola%2BR1.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="597" data-original-width="1152" height="206" src="https://1.bp.blogspot.com/-bl4FmUEBjLU/Xn1SJ8SaWlI/AAAAAAAACbE/5hQrDpwly2AbYusvMvehiYobA6snrMW1QCLcBGAsYHQ/s400/ESP32-S2%2BSaola%2BR1.PNG" width="400" /></a></div><br />That means "<i>ESP32-S2 general purpose development board, embeds ESP32-S2-WROVER, 4 MB flash, with pin header</i>".&nbsp; The "R" means it includes 2MB of PSRAM, (as opposed to the "M" that does not)... and the fact that it is an "R" and not an "RI" means my antenna is the "<i>internal PCB onboard antenna</i>" (as opposed to the "<i>External IPEX antenna</i>".<br /><br />When mine starts up, it gives some basic info:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-StHa7Pix_QI/Xn1XYz725GI/AAAAAAAACbg/BL6XWkDv2iI5DaG4DjXuvK7Kj63a6aeewCLcBGAsYHQ/s1600/ESP32-S2%2Bstartup.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="421" data-original-width="662" height="253" src="https://1.bp.blogspot.com/-StHa7Pix_QI/Xn1XYz725GI/AAAAAAAACbg/BL6XWkDv2iI5DaG4DjXuvK7Kj63a6aeewCLcBGAsYHQ/s400/ESP32-S2%2Bstartup.PNG" width="400" /></a></div><br /><br />Make thanks to <a href="https://twitter.com/unexpectedmaker">@unexpectedmaker</a>&nbsp;for posting an <a href="https://www.youtube.com/watch?v=Xsl-99KCGgU">informative video on the ESP32-S2 toolchain setup</a>, including this tip on OTG pins:<br /><br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="https://1.bp.blogspot.com/-HNngvnfKRs0/Xn1DnX5SUpI/AAAAAAAACao/RotsO_DqL80aXi85pg8eayEDna-nUK6IACLcBGAsYHQ/s1600/ESP32-S2%2BOTG%2Bpins.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" data-original-height="335" data-original-width="695" height="192" src="https://1.bp.blogspot.com/-HNngvnfKRs0/Xn1DnX5SUpI/AAAAAAAACao/RotsO_DqL80aXi85pg8eayEDna-nUK6IACLcBGAsYHQ/s400/ESP32-S2%2BOTG%2Bpins.PNG" width="400" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">ESP32-S2 USB OTG Pins&nbsp; &nbsp;credit: @unexpectedmaker</td></tr></tbody></table>I've adapted those notes to run my idf in WSL. There are some dependencies:<br /><code></code><br /><pre><code>sudo apt-get install git wget flex bison gperf python python-pip python-setuptools cmake ninja-build ccache libffi-dev libssl-dev<br />sudo apt-get install python3 python3-pip python3-setuptools<br /><br /># system-wide update to default to python3<br />sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10<br /></code></pre><br />See also the <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/get-started/index.html#get-started-get-esp-idf">install documentation</a>.<br /><br />I also have this <a href="https://github.com/gojimmypi/ulx3s-toolchain/blob/master/install_esp32.sh">ESP32 install</a>&nbsp;as part of <a href="https://github.com/gojimmypi/ulx3s-toolchain">my full ULX3S toolchain installer</a>. (see <a href="https://github.com/ulx3s/ulx3s-toolchain">upstream repo</a>)<br /><br />Thank you <a href="https://twitter.com/i_grr">@i_grr</a> for <a href="https://twitter.com/i_grr/status/1243304651778392064?s=20">this</a>:<br /><blockquote class="tr_bq"><i>One more thing, do</i> <code>export ESPPORT=/dev/ttyS16</code> <i>once in the console session, and never have to pass -p argument to idf.py  </i></blockquote><pre><code># copy hello world<br />cp -r $IDF_PATH/examples/get-started/hello_world esp32-S2_hello_world<br /><br />cd esp32-S2_hello_world<br />idf.py set-target esp32s2<br />idf.py menuconfig<br /></code></pre>Apparently the menuconfig will assign settings only to this project (again, thank you&nbsp;<a href="https://twitter.com/unexpectedmaker">@unexpectedmaker</a>&nbsp;for the informative video!)<br /><br />To build:<br /><br /><pre><code>idf.py build<br /></code></pre><br />To flash:<br /><pre><code><br />idf.py -p /dev/ttyS16 -b 921600 flash<br /></code></pre><br />To monitor (the command-line equivalent of <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/">putty</a>):<br /><pre><code><br />idf.py -p /dev/ttyS16 -b monitor<br /></code></pre><br />Ctrl-[ to cancel<br /><br />See <a href="https://cliutils.gitlab.io/modern-cmake/">An Introduction to Modern CMake</a><br /><br />more to come...
+<br />
+My ESP32-S2 Saola R1 arrived!!
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/my_ESP32-S2.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="831" data-original-width="1600" height="165" src="../images/s320/my_ESP32-S2.jpg" width="320"></a>
+</div>
+<br />
+<br />What exactly is that? Well, I 
+<a href="https://twitter.com/gojimmypi/status/1242451172658565120">wondered</a> the same thing. Per the&nbsp;<a href="https://www.espressif.com/sites/default/files/documentation/espressif_products_ordering_information_en.pdf">Espressif Products Ordering Information</a>
+&nbsp;(see page 21)<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/ESP32-S2_Saola_R1.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="597" data-original-width="1152" height="206" src="../images/s400/ESP32-S2_Saola_R1.PNG" width="400"></a>
+</div>
+<br />That means "
+<i>ESP32-S2 general purpose development board, embeds ESP32-S2-WROVER, 4 MB flash, with pin header</i>".&nbsp; The "R" means it includes 2MB of PSRAM, (as opposed to the "M" that does not)... and the fact that it is an "R" and not an "RI" means my antenna is the "<i>internal PCB onboard antenna</i>" (as opposed to the "<i>External IPEX antenna</i>
+".<br />
+<br />
+When mine starts up, it gives some basic info:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/ESP32-S2_startup.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="421" data-original-width="662" height="253" src="../images/s400/ESP32-S2_startup.PNG" width="400"></a>
+</div>
+<br />
+<br />Make thanks to 
+<a href="https://twitter.com/unexpectedmaker">@unexpectedmaker</a>&nbsp;for posting an <a href="https://www.youtube.com/watch?v=Xsl-99KCGgU">informative video on the ESP32-S2 toolchain setup</a>
+, including this tip on OTG pins:<br />
+<br />
+<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/ESP32-S2_OTG_pins.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;">
+<img border="0" data-original-height="335" data-original-width="695" height="192" src="../images/s400/ESP32-S2_OTG_pins.PNG" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">ESP32-S2 USB OTG Pins&nbsp; &nbsp;credit: @unexpectedmaker</td></tr></tbody></table>
+I've adapted those notes to run my idf in WSL. There are some dependencies:<br />
+<code class="highlight"></code><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo apt-get install git wget flex bison gperf python python-pip python-setuptools cmake ninja-build ccache libffi-dev libssl-dev
+sudo apt-get install python3 python3-pip python3-setuptools
+# system-wide update to default to python3
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10</code></pre>
+<br />See also the 
+<a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/get-started/index.html#get-started-get-esp-idf">install documentation</a>
+.<br />
+<br />I also have this 
+<a href="https://github.com/gojimmypi/ulx3s-toolchain/blob/master/install_esp32.sh">ESP32 install</a>&nbsp;as part of <a href="https://github.com/gojimmypi/ulx3s-toolchain">my full ULX3S toolchain installer</a>. (see <a href="https://github.com/ulx3s/ulx3s-toolchain">upstream repo</a>
+)<br />
+<br />Thank you 
+<a href="https://twitter.com/i_grr">@i_grr</a> for <a href="https://twitter.com/i_grr/status/1243304651778392064?s=20">this</a>
+:<br />
+<blockquote class="tr_bq"><i>One more thing, do</i> <code class="highlight">export ESPPORT=/dev/ttyS16</code> <i>once in the console session, and never have to pass -p argument to idf.py  </i></blockquote>
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# copy hello world
+cp -r $IDF_PATH/examples/get-started/hello_world esp32-S2_hello_world
+cd esp32-S2_hello_world
+idf.py set-target esp32s2
+idf.py menuconfig</code></pre>
+Apparently the menuconfig will assign settings only to this project (again, thank you&nbsp;<a href="https://twitter.com/unexpectedmaker">@unexpectedmaker</a>
+&nbsp;for the informative video!)<br />
+<br />
+To build:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+idf.py build</code></pre>
+<br />
+To flash:
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+idf.py -p /dev/ttyS16 -b 921600 flash</code></pre>
+
+<br />To monitor (the command-line equivalent of 
+<a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/">putty</a>
+):<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+idf.py -p /dev/ttyS16 -b monitor</code></pre>
+
+<br />
+Ctrl-[ to cancel
+<br />
+<br />See 
+<a href="https://cliutils.gitlab.io/modern-cmake/">
+An Introduction to Modern CMake</a><br />
+<br />
+more to come...
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:54 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

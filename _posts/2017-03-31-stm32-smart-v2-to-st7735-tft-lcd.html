@@ -10,4 +10,283 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-69634825659417569
 blogger_orig_url: https://gojimmypi.blogspot.com/2017/03/stm32-smart-v2-to-st7735-tft-lcd.html
 ---
 
-Here are my notes on interfacing your basic 1.8" ST7735 TFT LCD display with an&nbsp;<a href="http://wiki.stm32duino.com/index.php?title=STM32_Smart_V2.0">STM32 Smart V2</a>&nbsp;board such as this <a href="http://www.ebay.com/itm/181917725345">1-8-inch-TFT-LCD-ST7735S-Display-Module128x160-51-AVR-STM32-ARM-8-16-bit</a>&nbsp;listing<span id="goog_876125362"></span><span id="goog_876125363"></span><a href="https://www.blogger.com/"></a>&nbsp;on ebay.<br /><div><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-GMR_v7QNWWU/WNgF2ScW1iI/AAAAAAAAAQU/FL3L51L7CqgEDL_KfA1QKPKvga_lE-5xACLcB/s1600/STM32%2Bto%2BST7735%2Bboards.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="195" src="https://1.bp.blogspot.com/-GMR_v7QNWWU/WNgF2ScW1iI/AAAAAAAAAQU/FL3L51L7CqgEDL_KfA1QKPKvga_lE-5xACLcB/s400/STM32%2Bto%2BST7735%2Bboards.png" width="400" /></a></div><br /><div><div><br /></div><div>This should have been a trivial project. The STM32 board has an 8 pin female header. The display board has an 8 pin male header. As with most things, getting it to actually function was way more difficult than it needed to be. Upon inspection, the pins are not a match. Fortunately the Vcc and GND are - so at least it is unlikely the board would be fried when plugging in, but it certainly won't work. More specifically, here are the pins:</div><div><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-20ZluNvTKLM/WNgGTN0NLdI/AAAAAAAAAQY/DjOyVYq9HJghXC903sFlQKUFD-ifLC0oQCLcB/s1600/STM32%2Bto%2BST7735%2Bbefore.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="210" src="https://4.bp.blogspot.com/-20ZluNvTKLM/WNgGTN0NLdI/AAAAAAAAAQY/DjOyVYq9HJghXC903sFlQKUFD-ifLC0oQCLcB/s400/STM32%2Bto%2BST7735%2Bbefore.png" width="400" /></a></div><br /><div>To make matters worse, even the sample code I planned to use was using yet another set of pin definitions (Port B, pins 3 to 7 including soft reset):</div></div><div><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-2NWxzvWyvEY/WNgHH8E5RkI/AAAAAAAAAQo/G_Sj_8W-xoE3JhtZqxz3DtmyEdMfLTNjgCLcB/s1600/code.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="https://2.bp.blogspot.com/-2NWxzvWyvEY/WNgHH8E5RkI/AAAAAAAAAQo/G_Sj_8W-xoE3JhtZqxz3DtmyEdMfLTNjgCLcB/s1600/code.PNG" /></a></div><div><br /></div><div>So ok, first whip together a bunch of jumper wires to make sure everything actually works.&nbsp;</div><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-_jnvtbs11v0/WNgInXrxwzI/AAAAAAAAAQ4/3VrHFPMT_YQTe8PdJ6wDCE4IMEbw-NXkgCLcB/s1600/working%2Bwith%2Bjumpers.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="320" src="https://3.bp.blogspot.com/-_jnvtbs11v0/WNgInXrxwzI/AAAAAAAAAQ4/3VrHFPMT_YQTe8PdJ6wDCE4IMEbw-NXkgCLcB/s320/working%2Bwith%2Bjumpers.PNG" width="240" /></a></div><div><br /></div><div>The octopus of jumper wires is really not very appealing. So I spent some time making a little adapter. (for the time it took, I'm glad I am not planning a production run!)</div><div><br /></div><div>Here's the interface modifications needed:</div><div><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-0fZXzriejGE/WNgJYrWE0XI/AAAAAAAAARA/79rccuUROiYb7_jyjliVnu0i_YfGhqQhgCLcB/s1600/STM32%2Bto%2BST7735%2Bwiring.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="185" src="https://2.bp.blogspot.com/-0fZXzriejGE/WNgJYrWE0XI/AAAAAAAAARA/79rccuUROiYb7_jyjliVnu0i_YfGhqQhgCLcB/s400/STM32%2Bto%2BST7735%2Bwiring.png" width="400" /></a></div><div><br /></div><div>And here's what my newly created adapter looks like:</div><div><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/--1l-o6g9dYg/WNgK_gPJUqI/AAAAAAAAARM/Trgvy2uH-uAxZSMGRQJppQO5MZ354PbQgCLcB/s1600/actual%2Badapter.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="312" src="https://1.bp.blogspot.com/--1l-o6g9dYg/WNgK_gPJUqI/AAAAAAAAARM/Trgvy2uH-uAxZSMGRQJppQO5MZ354PbQgCLcB/s320/actual%2Badapter.PNG" width="320" /></a></div><div><br /></div><div>This allows a somewhat more graceful connection, sans poulpe:</div><div><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-ZGOWe4xabRs/WNgLterngwI/AAAAAAAAARU/yIZcUyMjYjYNVJXxaVP8-sUF6_UykF6owCLcB/s1600/working%2Bwith%2Badapter.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="320" src="https://3.bp.blogspot.com/-ZGOWe4xabRs/WNgLterngwI/AAAAAAAAARU/yIZcUyMjYjYNVJXxaVP8-sUF6_UykF6owCLcB/s320/working%2Bwith%2Badapter.PNG" width="213" /></a></div><div><br /></div><div>One the software side, things were just as annoying - but of course way easier to fix. (no dremel tool to cut proto-board, no wiring, no soldering!)</div><div><br /></div><div>I found this really excellent STM32 ST7735 library on github:</div><div><br /></div><div><a href="https://github.com/LonelyWolf/stm32/tree/master/ST7735">https://github.com/LonelyWolf/stm32/tree/master/ST7735</a></div><div><br /></div><div>The code was of course not plug &amp; play... but it was very close. In addition to the pin definition inconsistencies - I also had the problem of IDE. Apparently the code on github was created with something that knows how to deal with a "coproj" project file (I have no idea what IDE is needed).</div><div><br /></div><div>So I cracked open my old time friend Visual Studio with the <a href="https://visualgdb.com/">VisualGDB add-in</a>. I first created a project with the STM32 HAL, then quickly realized the sample code was not implemented with HAL... so I tried again, creating another project this time with the&nbsp;STM32F1 Legacy Peripheral Library.<br /><br />Type STM32F103C8 in the filter to find the MCU chip used in the board.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-KP4u_KPu98I/WNlxr4uA68I/AAAAAAAAATY/8jByjI2kiAkBwUX9T5sJaxlHUNOvyltZgCLcB/s1600/IDE-Device-Select.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="300" src="https://4.bp.blogspot.com/-KP4u_KPu98I/WNlxr4uA68I/AAAAAAAAATY/8jByjI2kiAkBwUX9T5sJaxlHUNOvyltZgCLcB/s400/IDE-Device-Select.PNG" width="400" /></a></div><br /><br />Then pick the "LEDBlink (StdPeriph)" sample project to generate:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-fVUUXFfj6zQ/WNlxr2jQZRI/AAAAAAAAATc/y0G1lMrPhkMUhbXFtjBqeA4Owfg5cKC1QCEw/s1600/Sample-StdPeriph-Project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="152" src="https://1.bp.blogspot.com/-fVUUXFfj6zQ/WNlxr2jQZRI/AAAAAAAAATc/y0G1lMrPhkMUhbXFtjBqeA4Owfg5cKC1QCEw/s400/Sample-StdPeriph-Project.PNG" width="400" /></a></div><br /><br />Note the LED setting for the STM32 Smart V2 is on Port C Pin 13.<br /><br />On the last page, pick your debugger. I'm using a Segger J-Link:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-GJIk_lNngFc/WNlxr8ULFTI/AAAAAAAAATc/kAaQmYZR-4MV55uB05undpdlEw4vmurTQCEw/s1600/debugger-select.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="245" src="https://1.bp.blogspot.com/-GJIk_lNngFc/WNlxr8ULFTI/AAAAAAAAATc/kAaQmYZR-4MV55uB05undpdlEw4vmurTQCEw/s400/debugger-select.PNG" width="400" /></a></div><br />(I have some other <a href="http://gojimmypi.blogspot.com/2017/03/Segger-J-Link-STM32-with-VisualGDB.html">Segger&nbsp;USB tips here</a>)<br /><br />In order to add ST7735 LED Display support, only the main project directory files need to be copied from the github&nbsp;sample&nbsp;(VisualGDB has its own support files in the path). In this case: main, delay, font5x7, garmin-digits, and of course STM7735 files:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-2YMryidS5A8/WNls2suItOI/AAAAAAAAASo/RRAA_Aby_3Ab8QaWkiLOLUEr8DFlklLXQCLcB/s1600/Files-to-copy.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="https://1.bp.blogspot.com/-2YMryidS5A8/WNls2suItOI/AAAAAAAAASo/RRAA_Aby_3Ab8QaWkiLOLUEr8DFlklLXQCLcB/s1600/Files-to-copy.PNG" /></a></div><br />The crmsis and stm_lib directories can be ignored.<br /><br />Note that since the project created the LEDBlink.cpp file, that&nbsp;file will need to be deleted, as it also has a "void main()". Consider copying the LED blink code if interested.<br />&nbsp;</div><div>There were a variety of "issues" that needed to be addressed. For one, although the files ending in ".c" were included in the project, for some reason Visual Studio could not seem to "find" the code, giving me a ton of "undefined reference" errors. There are a bunch of other files that end in ".c" so I really don't know why the problem... but in renaming them to ".cpp" seems to have appeased the compiler.&nbsp; (there's likely a setting someplace that distinguishes a "C" app from a "C++" one.</div><div><br /></div><div>Things went a bit rough at first. Even once I was able to get the app to compile, I ended up stuck in some interesting code:</div><div><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-cnptNqPazJ4/WNgPbZkOb5I/AAAAAAAAARs/elOkFuUqBAM-5hYoUuuYAX2vniJehjBJgCLcB/s1600/stuck%2Bcode.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="https://2.bp.blogspot.com/-cnptNqPazJ4/WNgPbZkOb5I/AAAAAAAAARs/elOkFuUqBAM-5hYoUuuYAX2vniJehjBJgCLcB/s1600/stuck%2Bcode.PNG" /></a></div><div><br /></div><div>I had a difficult time with the suggested DEBUG_DEFAULT_INTERRUPT_HANDLERS. Fortunately the kind support folks at sysprogs forum had some helpful advice:</div><div><br /></div><div><a href="https://sysprogs.com/w/forums/topic/dealing-with-stm32-default_handler-debug_default_interrupt_handlers/">https://sysprogs.com/w/forums/topic/dealing-with-stm32-default_handler-debug_default_interrupt_handlers/</a></div><div><br /></div><div>And sure enough, when turning on the DEBUG_DEFAULT_INTERRUPT_HANDLERS feature in Visual Studio Project Properties: C/C++ Preprocessor Definitions:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-NL1pItchhxg/WNgRrEZ0NRI/AAAAAAAAASA/n7loN8rheU8kViCt8rGnd622B6ZyqLtogCLcB/s1600/debug%2Binterrupt.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="304" src="https://1.bp.blogspot.com/-NL1pItchhxg/WNgRrEZ0NRI/AAAAAAAAASA/n7loN8rheU8kViCt8rGnd622B6ZyqLtogCLcB/s640/debug%2Binterrupt.PNG" width="640" /></a></div><div><br /></div><div>The problem was immediately obvious. The SysTick_Handler was not properly configured (despite being right there in delay.c; renamed to delay.cpp). The problem here seems to be the difference between the original C code, and this C++ project. It needed to be prefixed with extern "C":</div><div><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-r4jumUfFjg4/WNgSwLYJABI/AAAAAAAAASM/Ja1HAPvVwf8J87ArrvqfTbo_l_dsW8THwCLcB/s1600/systick%2Bdef.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="118" src="https://2.bp.blogspot.com/-r4jumUfFjg4/WNgSwLYJABI/AAAAAAAAASM/Ja1HAPvVwf8J87ArrvqfTbo_l_dsW8THwCLcB/s400/systick%2Bdef.PNG" width="400" /></a></div><div><br /></div><div>(a compile-time warning might have been nice here)</div><div><br /></div><div>Once everything compiles successfully, a few more changes are needed to point the controlling pins at the ones actually used on the STM32 Smart V2 board. This is all defined in the SM7735.h file:<br /><br />This board uses GPIO Pins 13 and 15 (SPI Port 2), so set this in the config file:<br /><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"></span></span></span><br /><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;">#define</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"> </span></span><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">_SPI_PORT</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"> 2</span></span><br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-ZFHsVBD8nXg/WNlt4PR4anI/AAAAAAAAAS4/EH2B_qrNs08FXcAbMrNgE7i94NejZbwaACLcB/s1600/SPI-port-2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="345" src="https://3.bp.blogspot.com/-ZFHsVBD8nXg/WNlt4PR4anI/AAAAAAAAAS4/EH2B_qrNs08FXcAbMrNgE7i94NejZbwaACLcB/s400/SPI-port-2.PNG" width="400" /></a></div><br />Additionally, the A0 and CS pins need to be set. From the pin diagram, A0 is Port B pin 1, and CD is Port B pin 12.&nbsp; <br /><br /><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;">#define</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"> </span></span><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">ST7735_A0_PIN</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">      GPIO_Pin_1</span></span><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;">&nbsp; </span></span></span><br /><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"></span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"></span></span><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;">#define</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"> </span></span><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">ST7735_RST_PORT</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">    GPIOB</span></span><br /><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"></span></span><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;">#define</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"> </span></span><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">ST7735_RST_PIN</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">     GPIO_Pin_6&nbsp; </span></span><br /><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"></span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"></span></span><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;">#define</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"> </span></span><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">ST7735_CS_PORT</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">     GPIOB</span></span><br /><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;">#define</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"> </span></span><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">ST7735_CS_PIN</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">      GPIO_Pin_12</span></span><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;">&nbsp; </span></span></span><br /><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"></span><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-lKpXxZjB13I/WNlvQDZ6bdI/AAAAAAAAATE/01HkRD1fHgcGUIyIe12FQCtQhe7gb7wFQCLcB/s1600/Other-Pins.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="176" src="https://4.bp.blogspot.com/-lKpXxZjB13I/WNlvQDZ6bdI/AAAAAAAAATE/01HkRD1fHgcGUIyIe12FQCtQhe7gb7wFQCLcB/s640/Other-Pins.PNG" width="640" /></a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><br />Reset is hard wired to actual reset (NRST) line, so the "soft" reset functions will not work (e.g. <span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">RST_L</span></span></span>&nbsp;and&nbsp; <span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">RST_H</span></span></span>).&nbsp; In code, it is left assigned here to Port B Pin 6. The manual reset of the display occurs in void ST7735_Init(void).&nbsp; If you really want the soft reset, perhaps consider not connecting the NRST pin and instead wiring something up to the unused Pin 8 on the STM32 Smart board.<br /><br />I've posted my source code here: <a href="https://github.com/gojimmypi/STM32-ST7735">https://github.com/gojimmypi/STM32-ST7735</a><br /><br />If you are interested in the ST7735 display for the STM32, you may also be interested in some of the many other <a href="https://github.com/LonelyWolf/stm32">STM32 libraries created by LonelyWolf</a>:<br /><br /><a href="https://github.com/LonelyWolf/stm32">https://github.com/LonelyWolf/stm32</a><br /><br /><br /><br /><br /><br /><br /></div>
+Here are my notes on interfacing your basic 1.8" ST7735 TFT LCD display with an&nbsp;<a href="http://wiki.stm32duino.com/index.php?title=STM32_Smart_V2.0">STM32 Smart V2</a>&nbsp;board such as this <a href="http://www.ebay.com/itm/181917725345">1-8-inch-TFT-LCD-ST7735S-Display-Module128x160-51-AVR-STM32-ARM-8-16-bit</a>&nbsp;listing<span id="goog_876125362"></span><span id="goog_876125363"></span><a href="https://www.blogger.com/"></a>
+&nbsp;on ebay.<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/STM32_to_ST7735_boards.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="195" src="../images/s400/STM32_to_ST7735_boards.png" width="400"></a>
+</div>
+<br />
+
+<div>
+<br />
+
+<div>
+This should have been a trivial project. The STM32 board has an 8 pin female header. The display board has an 8 pin male header. As with most things, getting it to actually function was way more difficult than it needed to be. Upon inspection, the pins are not a match. Fortunately the Vcc and GND are - so at least it is unlikely the board would be fried when plugging in, but it certainly won't work. More specifically, here are the pins:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/STM32_to_ST7735_before.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="210" src="../images/s400/STM32_to_ST7735_before.png" width="400"></a>
+</div>
+<br />
+
+<div>
+To make matters worse, even the sample code I planned to use was using yet another set of pin definitions (Port B, pins 3 to 7 including soft reset):
+</div>
+
+</div>
+
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/code.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" src="../images/s1600/code.PNG"></a>
+</div>
+<br />
+
+<div>
+So ok, first whip together a bunch of jumper wires to make sure everything actually works.&nbsp;
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/working_with_jumpers.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="320" src="../images/s320/working_with_jumpers.PNG" width="240"></a>
+</div>
+<br />
+
+<div>
+The octopus of jumper wires is really not very appealing. So I spent some time making a little adapter. (for the time it took, I'm glad I am not planning a production run!)
+</div>
+<br />
+
+<div>
+Here's the interface modifications needed:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/STM32_to_ST7735_wiring.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="185" src="../images/s400/STM32_to_ST7735_wiring.png" width="400"></a>
+</div>
+<br />
+
+<div>
+And here's what my newly created adapter looks like:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/actual_adapter.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="312" src="../images/s320/actual_adapter.PNG" width="320"></a>
+</div>
+<br />
+
+<div>
+This allows a somewhat more graceful connection, sans poulpe:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/working_with_adapter.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="320" src="../images/s320/working_with_adapter.PNG" width="213"></a>
+</div>
+<br />
+
+<div>
+One the software side, things were just as annoying - but of course way easier to fix. (no dremel tool to cut proto-board, no wiring, no soldering!)
+</div>
+<br />
+
+<div>
+I found this really excellent STM32 ST7735 library on github:
+</div>
+<br />
+
+<div>
+<a href="https://github.com/LonelyWolf/stm32/tree/master/ST7735">https://github.com/LonelyWolf/stm32/tree/master/ST7735</a>
+</div>
+<br />
+
+<div>
+The code was of course not plug &amp; play... but it was very close. In addition to the pin definition inconsistencies - I also had the problem of IDE. Apparently the code on github was created with something that knows how to deal with a "coproj" project file (I have no idea what IDE is needed).
+</div>
+<br />
+
+<div>
+So I cracked open my old time friend Visual Studio with the <a href="https://visualgdb.com/">VisualGDB add-in</a>
+. I first created a project with the STM32 HAL, then quickly realized the sample code was not implemented with HAL... so I tried again, creating another project this time with the&nbsp;STM32F1 Legacy Peripheral Library.<br />
+<br />
+Type STM32F103C8 in the filter to find the MCU chip used in the board.
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/IDE-Device-Select.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="300" src="../images/s400/IDE-Device-Select.PNG" width="400"></a>
+</div>
+<br />
+<br />
+Then pick the "LEDBlink (StdPeriph)" sample project to generate:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Sample-StdPeriph-Project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="152" src="../images/s400/Sample-StdPeriph-Project.PNG" width="400"></a>
+</div>
+<br />
+<br />
+Note the LED setting for the STM32 Smart V2 is on Port C Pin 13.
+<br />
+<br />
+On the last page, pick your debugger. I'm using a Segger J-Link:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/debugger-select.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="245" src="../images/s400/debugger-select.PNG" width="400"></a>
+</div>
+<br />(I have some other 
+<a href="http://gojimmypi.blogspot.com/2017/03/Segger-J-Link-STM32-with-VisualGDB.html">Segger&nbsp;USB tips here</a>
+)<br />
+<br />
+In order to add ST7735 LED Display support, only the main project directory files need to be copied from the github&nbsp;sample&nbsp;(VisualGDB has its own support files in the path). In this case: main, delay, font5x7, garmin-digits, and of course STM7735 files:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Files-to-copy.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" src="../images/s1600/Files-to-copy.PNG"></a>
+</div>
+<br />
+The crmsis and stm_lib directories can be ignored.
+<br />
+<br />
+Note that since the project created the LEDBlink.cpp file, that&nbsp;file will need to be deleted, as it also has a "void main()". Consider copying the LED blink code if interested.
+<br />&nbsp;
+
+</div>
+
+<div>
+There were a variety of "issues" that needed to be addressed. For one, although the files ending in ".c" were included in the project, for some reason Visual Studio could not seem to "find" the code, giving me a ton of "undefined reference" errors. There are a bunch of other files that end in ".c" so I really don't know why the problem... but in renaming them to ".cpp" seems to have appeased the compiler.&nbsp; (there's likely a setting someplace that distinguishes a "C" app from a "C++" one.
+</div>
+<br />
+
+<div>
+Things went a bit rough at first. Even once I was able to get the app to compile, I ended up stuck in some interesting code:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/stuck_code.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" src="../images/s1600/stuck_code.PNG"></a>
+</div>
+<br />
+
+<div>
+I had a difficult time with the suggested DEBUG_DEFAULT_INTERRUPT_HANDLERS. Fortunately the kind support folks at sysprogs forum had some helpful advice:
+</div>
+<br />
+
+<div>
+<a href="https://sysprogs.com/w/forums/topic/dealing-with-stm32-default_handler-debug_default_interrupt_handlers/">https://sysprogs.com/w/forums/topic/dealing-with-stm32-default_handler-debug_default_interrupt_handlers/</a>
+</div>
+<br />
+
+<div>
+And sure enough, when turning on the DEBUG_DEFAULT_INTERRUPT_HANDLERS feature in Visual Studio Project Properties: C/C++ Preprocessor Definitions:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/debug_interrupt.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="304" src="../images/s640/debug_interrupt.PNG" width="640"></a>
+</div>
+<br />
+
+<div>
+The problem was immediately obvious. The SysTick_Handler was not properly configured (despite being right there in delay.c; renamed to delay.cpp). The problem here seems to be the difference between the original C code, and this C++ project. It needed to be prefixed with extern "C":
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/systick_def.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="118" src="../images/s400/systick_def.PNG" width="400"></a>
+</div>
+<br />
+
+<div>
+(a compile-time warning might have been nice here)
+</div>
+<br />
+
+<div>
+Once everything compiles successfully, a few more changes are needed to point the controlling pins at the ones actually used on the STM32 Smart V2 board. This is all defined in the SM7735.h file:<br />
+<br />
+This board uses GPIO Pins 13 and 15 (SPI Port 2), so set this in the config file:
+<br />
+<span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"></span></span></span><br />
+<span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;">#define</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"> </span></span><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">_SPI_PORT</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">
+ 2</span></span><br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/SPI-port-2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="345" src="../images/s400/SPI-port-2.PNG" width="400"></a>
+</div>
+<br />
+Additionally, the A0 and CS pins need to be set. From the pin diagram, A0 is Port B pin 1, and CD is Port B pin 12.&nbsp; 
+<br />
+<br />
+<span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;">#define</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"> </span></span><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">ST7735_A0_PIN</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">      GPIO_Pin_1</span></span><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;">
+&nbsp; </span></span></span><br />
+<span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"></span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"></span></span><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;">#define</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"> </span></span><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">ST7735_RST_PORT</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">
+    GPIOB</span></span><br />
+<span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"></span></span><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;">#define</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"> </span></span><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">ST7735_RST_PIN</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">
+     GPIO_Pin_6&nbsp; </span></span><br />
+<span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"></span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"></span></span><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;">#define</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"> </span></span><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">ST7735_CS_PORT</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">
+     GPIOB</span></span><br />
+<span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: blue; font-family: &quot;consolas&quot;; font-size: x-small;">#define</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;"> </span></span><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">ST7735_CS_PIN</span></span></span><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">      GPIO_Pin_12</span></span><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;">
+&nbsp; </span></span></span><br />
+<span style="color: green; font-family: &quot;consolas&quot;; font-size: x-small;"></span><br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Other-Pins.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="176" src="../images/s640/Other-Pins.PNG" width="640"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+<br />Reset is hard wired to actual reset (NRST) line, so the "soft" reset functions will not work (e.g. 
+<span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">RST_L</span></span></span>&nbsp;and&nbsp; <span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;"><span style="color: #bd63c5; font-family: &quot;consolas&quot;; font-size: x-small;">RST_H</span></span></span>
+).&nbsp; In code, it is left assigned here to Port B Pin 6. The manual reset of the display occurs in void ST7735_Init(void).&nbsp; If you really want the soft reset, perhaps consider not connecting the NRST pin and instead wiring something up to the unused Pin 8 on the STM32 Smart board.<br />
+<br />I've posted my source code here: 
+<a href="https://github.com/gojimmypi/STM32-ST7735">
+https://github.com/gojimmypi/STM32-ST7735</a><br />
+<br />If you are interested in the ST7735 display for the STM32, you may also be interested in some of the many other 
+<a href="https://github.com/LonelyWolf/stm32">STM32 libraries created by LonelyWolf</a>
+:<br />
+<br />
+<a href="https://github.com/LonelyWolf/stm32">
+https://github.com/LonelyWolf/stm32</a><br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+</div>
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:51 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

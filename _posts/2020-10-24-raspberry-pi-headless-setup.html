@@ -14,4 +14,82 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-37251700469572360
 blogger_orig_url: https://gojimmypi.blogspot.com/2020/10/raspberry-pi-headless-setup.html
 ---
 
-<div>Some notes on setting up a fresh Raspberry Pi.   <br />  <br /> TL;DR Edit 4 files on the SD card before initial powerup:   <br /> <ul style="text-align: left;">  <li><code>ssh</code> (just create a blank one)</li>  <li><code>cmdline.txt</code> (add option to disabled IPv6)</li>  <li><code>config.txt</code> (edit to enable UART)</li>  <li><code>wpa_supplicant.conf</code> (config to boot with WiFi working)</li></ul>  <br />  <div>Newer versions of <a href="https://www.raspberrypi.org/documentation/remote-access/ssh/">Raspian (now called Raspberry Pi OS)</a> come with the Serial UART TTL and SSH disabled by default. <a href="https://www.raspberrypi.org/documentation/remote-access/ssh/">Enable SSH by adding a file called SSH to the root directory</a>. The Serial UART can be enabled as described in the <a href="https://learn.adafruit.com/raspberry-pi-zero-creation/enable-uart">Adafruit Headless Quick Start</a> by adding a line to the <code>config.txt</code> file on the SD card before inserting into the RPi: </div> <br /><code><pre>#enable pins 8 (TxD) and 10 (RxD) as serial TTY                               <br />enable_uart=1                                   <br /></pre></code><br />Reminder for Windows users: Microsoft continues to try to out-think you by automatically adding a ".txt" to files created when right-clicking in Explorer. Check the box "View - File name extensions" in Explorer or use the <code>copy con: ssh</code> command from a DOS prompt (Ctrl-Z to write the file) <div><br /></div> <div>The network can be configured in the <code>wpa_supplicant.conf</code> (new file created on SD card) as <a href="https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md">described in Setting up a wireless LAN via the command line</a> by creating a file called <code>wpa_supplicant.conf</code>: (see <a href="https://www.raspberrypi.org/documentation/configuration/wireless/headless.md">docs</a>)   <br /></div> <code><pre>ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev                       <br />update_config=1<br />country=US<br /> <br />network={<br />    ssid="YOURSSID"<br />    psk=YOURPASSWORD<br />    scan_ssid=1<br />}<br /></pre></code><br />Some places will <a href="https://www.raspberrypi.org/documentation/configuration/wireless/access-point-bridged.md">claim to not use quotes</a>. I needed to use them around ssid, but not on psk.  <div><br /></div>The&nbsp;<span style="font-family: monospace;">wpa_supplicant.conf</span>&nbsp;file will be copied to <code>/etc/wpa_supplicant/wpa_supplicant.conf</code> and the removed from the boot directory at RPi startup time.  cmdline.txt file and add ipv6.disable=1  <div><br /></div>If you want to use a psk instead of a plain text password, and for some reason don't have a linux box or WSL to run <code>wpa_passphrase "YOURSSID"</code> (installed with <code>sudo apt install wpasupplicant</code>) there's a <a href="https://www.wireshark.org/tools/wpa-psk.html">Wireshark page that will do the conversion</a>.     <div><br /></div>     <div>We'll also (optionally) install log2ram as described in my prior blog on the Pi-Hole notes. </div><code><pre>sudo rfkill unblock wlan<br />sudo apt-get update<br />sudo-apt-get upgrade --assume-yes<br />sudo apt-get install fail2ban --assume-yes<br /><br /><br /># log2ram install (optional)<br />cd ~/<br />curl -Lo log2ram.tar.gz https://github.com/azlux/log2ram/archive/master.tar.gz<br />tar xf log2ram.tar.gz<br />cd log2ram-master<br />chmod +x install.sh &amp;&amp; sudo ./install.sh<br /># REBOOT BEFORE INSTALLING ANYTHING ELSE<br /></pre></code>  <br />  I saved these 4 files and simply copy them to the root of the CD card when burning a new image for a fresh Raspberry Pi setup.   </div>
+
+<div>
+Some notes on setting up a fresh Raspberry Pi.   <br />
+  
+<br />
+ TL;DR Edit 4 files on the SD card before initial powerup:   
+<br /> 
+<ul style="text-align: left;">  <li><code class="highlight">ssh</code> (just create a blank one)</li>  <li><code class="highlight">cmdline.txt</code> (add option to disabled IPv6)</li>  <li><code class="highlight">config.txt</code> (edit to enable UART)</li>  <li><code class="highlight">wpa_supplicant.conf</code> (config to boot with WiFi working)</li></ul>
+  <br />  
+
+<div>
+Newer versions of <a href="https://www.raspberrypi.org/documentation/remote-access/ssh/">Raspian (now called Raspberry Pi OS)</a> come with the Serial UART TTL and SSH disabled by default. <a href="https://www.raspberrypi.org/documentation/remote-access/ssh/">Enable SSH by adding a file called SSH to the root directory</a>. The Serial UART can be enabled as described in the <a href="https://learn.adafruit.com/raspberry-pi-zero-creation/enable-uart">Adafruit Headless Quick Start</a> by adding a line to the <code class="highlight">config.txt</code> file on the SD card before inserting into the RPi: 
+</div>
+ <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+#enable pins 8 (TxD) and 10 (RxD) as serial TTY                               
+enable_uart=1                                   </code></pre>
+<br />Reminder for Windows users: Microsoft continues to try to out-think you by automatically adding a ".txt" to files created when right-clicking in Explorer. Check the box "View - File name extensions" in Explorer or use the 
+<code class="highlight">copy con: ssh</code>
+ command from a DOS prompt (Ctrl-Z to write the file) <br /> 
+
+<div>
+The network can be configured in the <code class="highlight">wpa_supplicant.conf</code> (new file created on SD card) as <a href="https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md">described in Setting up a wireless LAN via the command line</a> by creating a file called <code class="highlight">wpa_supplicant.conf</code>: (see <a href="https://www.raspberrypi.org/documentation/configuration/wireless/headless.md">docs</a>
+)   <br />
+
+</div>
+ 
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev                       
+update_config=1
+country=US
+ 
+network={
+    ssid="YOURSSID"
+    psk=YOURPASSWORD
+    scan_ssid=1
+}</code></pre>
+<br />Some places will 
+<a href="https://www.raspberrypi.org/documentation/configuration/wireless/access-point-bridged.md">claim to not use quotes</a>
+. I needed to use them around ssid, but not on psk.  <br />The&nbsp;
+<span style="font-family: monospace;">wpa_supplicant.conf</span>&nbsp;file will be copied to <code class="highlight">/etc/wpa_supplicant/wpa_supplicant.conf</code>
+ and the removed from the boot directory at RPi startup time.  cmdline.txt file and add ipv6.disable=1  <br />If you want to use a psk instead of a plain text password, and for some reason don't have a linux box or WSL to run 
+<code class="highlight">wpa_passphrase "YOURSSID"</code> (installed with <code class="highlight">sudo apt install wpasupplicant</code>) there's a <a href="https://www.wireshark.org/tools/wpa-psk.html">Wireshark page that will do the conversion</a>
+.     <br />     
+
+<div>
+We'll also (optionally) install log2ram as described in my prior blog on the Pi-Hole notes. 
+</div>
+
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo rfkill unblock wlan
+sudo apt-get update
+sudo-apt-get upgrade --assume-yes
+sudo apt-get install fail2ban --assume-yes
+# log2ram install (optional)
+cd ~/
+curl -Lo log2ram.tar.gz https://github.com/azlux/log2ram/archive/master.tar.gz
+tar xf log2ram.tar.gz
+cd log2ram-master
+chmod +x install.sh &amp;&amp; sudo ./install.sh
+# REBOOT BEFORE INSTALLING ANYTHING ELSE</code></pre>
+  <br />  I saved these 4 files and simply copy them to the root of the CD card when burning a new image for a fresh Raspberry Pi setup.   
+
+</div>
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:54 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

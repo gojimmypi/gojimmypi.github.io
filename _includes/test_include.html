@@ -1,0 +1,17 @@
+<span class="myspan">Failed Static Page</span>
+<style>
+    .myspan {color:red;}
+    .TADA {color:green;}
+</style>
+<script type="text/javascript">
+        const myElements = document.querySelectorAll(".myspan");
+
+        // sample comment. if source removes all CR/LF chars, the next code segment won't run!
+        myElements.forEach((myElement, index) => {
+            myElement.innerText = "success!"
+            myElement.className = "TADA"
+        });
+</script>
+<!--
+  see https://github.com/jekyll/jekyll/issues/8660
+-->

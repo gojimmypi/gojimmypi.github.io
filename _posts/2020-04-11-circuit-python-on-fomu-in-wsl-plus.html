@@ -17,4 +17,345 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-17327742534693191
 blogger_orig_url: https://gojimmypi.blogspot.com/2020/04/circuit-python-on-fomu-in-wsl-plus.html
 ---
 
-<br />I started down the road of learning<a href="{{ site.baseurl }}{% post_url 2020-03-08-risc-v-circuit-python-on-ulx3s-starting %}"> FPGA Circuit Python</a> last month, with the (admittedly overly-ambitious) goal of getting Circuit Python working on the <a href="https://www.crowdsupply.com/radiona/ulx3s">ULX3S</a>. I was inspired to revisit this today when I saw <a href="https://blog.adafruit.com/2020/04/09/circuitpython-5-2-0-released/">Adafruit&nbsp;Blog - CircuitPython 5.2.0 Released</a>&nbsp;- that specifically mentioned LiteX for Circuit Python!! In this case, for the FOMU.<br /><br />TL;DR - WSL is by default NOT Case Sensitive. Use <a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil">fsutil.exe</a> in a DOS admin window to change this for each directory. To compile,&nbsp;<span style="font-family: monospace;">riscv64-unknown-elf-gcc</span>&nbsp;is needed, but the <a href="https://github.com/riscv/riscv-gnu-toolchain/">RISC-V GitHub GNU Repo</a>&nbsp;does not work here to build Circuit Python. Use the <a href="https://github.com/im-tomu/fomu-toolchain/releases">FOMU toolchain</a>. The make parameter should be lower case: <code>make BOARD=fomu</code><br /><br />If you are interested in Circuit Python, check out this&nbsp;<a href="https://www.crowdsupply.com/null-byte-labs/circuitbrains-deluxe">CircuitBrains Deluxe</a>&nbsp;on Crowd Supply.<br /><br />See Adafruit instructions on <a href="https://learn.adafruit.com/building-circuitpython/build-circuitpython">building Circuit Python</a>. All of the <a href="https://circuitpython.org/downloads">downloads for Circuit Python</a> are available online. Well, all but of course the <a href="https://tomu.im/fomu.html">FOMU</a> that I am most interested in. Hopefully it will be there soon, so for now we are doing this the hard way. (no fun if it is too easy, right?)<br /><br />I could not find any documentation on the FOMU build, so I had to dig and search for keywords. The initial part of fetching from GitHub is pretty standard, so we'll start there:<br /><br /><pre><code>git clone https://github.com/adafruit/circuitpython.git<br />cd circuitpython<br />git submodule sync<br />git submodule update --init<br />make -C mpy-cross<br /></code></pre>When doing the <code>git submodule update --init</code> in DOS (I sometimes do that, since my git clones are in C:\workspace - even though I compile in WSL from /mnt/c/workspace/)... I saw these errors:<br /><pre><code>git submodule update --init<br />Submodule 'extmod/ulab' (https://github.com/v923z/micropython-ulab/) registered for path 'extmod/ulab'<br />...etc<br />Submodule path 'lib/nrfutil': checked out '9e7dfb28a5c6f3d7a19340971b32e0c2b4128ecf'<br />Submodule path 'lib/tinyusb': checked out '1f95f439e11f519e69d75a4a8b7b9f28eaf5060e'<br />error: unable to create file tests/decomp-bad-inputs/00/id:000000,sig:11,src:000000,op:flip1,pos:10: Invalid argument<br />...etc<br />error: unable to create file tests/decomp-bad-inputs/00/id:000012,sig:11,src:000000,op:arith8,pos:11,val:+6: Invalid argument<br />error: unable to create file tests/decomp-bad-inputs/00/id:000013,sig:11,src:000000,op:arith8,pos:12,val:-9: Invalid argument<br />error: unable to create file tests/decomp-bad-inputs/00/id:000014,sig:11,src:000000,op:havoc,rep:16: Invalid argument<br />error: unable to create file tests/decomp-bad-inputs/00/id:000015,sig:11,src:000000,op:havoc,rep:2: Invalid argument<br />... many, many more similar errors<br /></code></pre>When doing the <code>git submodule update --init</code> from WSL just a few moments later, I did not see those errors. Perhaps there's some issue with Windows file names. (edit: I learned later this is likely a case sensitivity issue, see below).<br /><br />For the FOMU, there's a <a href="https://github.com/adafruit/circuitpython/blob/master/ports/litex/Makefile">Makefile</a> in <code>./ports/litex</code> <br /><pre><code>cd ./ports/litex<br />make BOARD=fomu<br /></code></pre>Edit: note that a case insensitive directory setting may allow <code>BOARD=FOMU</code> to work. ymmv. The safest one to use is a lower-case: <code>BOARD=fomu</code>. <br /><br />If you see an error like this:  <br /><pre><code>xargs: riscv64-unknown-elf-gcc: No such file or directory<br />../../py/mkrules.mk:81: recipe for target 'build-FOMU/genhdr/qstr.i.last' failed<br />make: *** [build-FOMU/genhdr/qstr.i.last] Error 127<br />make: *** Deleting file 'build-FOMU/genhdr/qstr.i.last'<br /></code></pre>Then try <code>riscv64-unknown-elf-gcc --version</code>&nbsp;to see if this RISC-V compiler is installed (perhaps you need to<a href="https://github.com/riscv/riscv-gnu-toolchain/blob/master/README.md"> install the compiler</a>). sadly, this is a different version of the compiler than is used in my ULX3S toolchain builder, that uses <a href="https://github.com/gojimmypi/ulx3s-toolchain/blob/master/install_riscv-gnu-toolchain-rv32i.sh">rv32i</a>&nbsp;installed to /opt/riscv32i. Of course it does. Sometimes I wonder if this is all a hard drive manufacturer conspiracy to use as much disk space as possible. ;)<br /><br />If like me you don't have the right compiler installed, make sure you have plenty of disk space:<br /><blockquote class="tr_bq"><i>This process will start by downloading about 200 MiB of upstream sources, then will patch, build, and install the toolchain. If a local cache of the upstream sources exists in $(DISTDIR), it will be used; the default location is /var/cache/distfiles. Your computer will need about 8 GiB of disk space to complete the process. </i></blockquote><br />Here's what I did in WSL:  <br /><pre><code>sudo apt-get install autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev<br />git clone --recursive https://github.com/riscv/riscv-gnu-toolchain  <br />cd riscv-gnu-toolchain  <br />./configure --prefix=/opt/riscv<br />sudo mkdir /opt/riscv<br />sudo chown $USER /opt/riscv<br />if [ "$(echo $PATH | grep  /opt/riscv/bin)" == "" ]; then export PATH=$PATH:/opt/riscv/bin; fi<br />make<br /></code></pre>You may wish to put the <code>export PATH=$PATH:/opt/riscv/bin</code> in your <code>./bash.rc</code> file.<br /><br />Do NOT run <code>make linux</code> if you want <code>riscv64-unknown-elf-gcc</code> files! The <code>linux</code> option creates <code>riscv64-unknown-linux-gnu</code> files, not elf!.<br /><br />My first attempt at install failed. After hours of downloading and building, the errors started here (and yes, I also incorrectly specified <code>linux</code>): <br /><pre><code><br />mv -f /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/rtld-libc.aT /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/rtld-libc.a<br />make[4]: Leaving directory '/mnt/c/workspace/riscv-gnu-toolchain/riscv-glibc/elf'<br />riscv64-unknown-linux-gnu-gcc    -nostdlib -nostartfiles -r -o /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/librtld.os '-Wl,-(' /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/dl-allobjs.os /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/rtld-libc.a -lgcc '-Wl,-)' \<br />          -Wl,-Map,/mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/librtld.os.map<br />riscv64-unknown-linux-gnu-gcc    -nostdlib -nostartfiles -shared -o /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/ld.so.new               \<br />          -Wl,-z,combreloc -Wl,-z,relro -Wl,--hash-style=both -Wl,-z,defs       \<br />          /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/librtld.os -Wl,--version-script=/mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/ld.map            \<br />          -Wl,-soname=ld-linux-riscv64-lp64d.so.1                       \<br />          -Wl,-defsym=_begin=0<br />/opt/riscv/lib/gcc/riscv64-unknown-linux-gnu/9.2.0/../../../../riscv64-unknown-linux-gnu/bin/ld: /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/librtld.os: in function `process_envvars':<br />/mnt/c/workspace/riscv-gnu-toolchain/riscv-glibc/elf/rtld.c:2484: undefined reference to `__GI___open64_nocancel'<br />/opt/riscv/lib/gcc/riscv64-unknown-linux-gnu/9.2.0/../../../../riscv64-unknown-linux-gnu/bin/ld: /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/librtld.os: in function `dl_main':<br />/mnt/c/workspace/riscv-gnu-toolchain/riscv-glibc/elf/rtld.c:1317: undefined reference to `__access'<br />/opt/riscv/lib/gcc/riscv64-unknown-linux-gnu/9.2.0/../../../../riscv64-unknown-linux-gnu/bin/ld: /mnt/c/workspace/riscv-gnu-toolchain/riscv-glibc/elf/rtld.c:2103: undefined reference to `__access'<br />/opt/riscv/lib/gcc/riscv64-unknown-linux-gnu/9.2.0/../../../../riscv64-unknown-linux-gnu/bin/ld: /mnt/c/workspace/riscv-gnu-toolchain/riscv-glibc/elf/rtld.c:1564: undefined reference to `__GI___close_nocancel'<br /></code></pre>and eventually culminated here: <br /><pre><code><br />/opt/riscv/lib/gcc/riscv64-unknown-linux-gnu/9.2.0/../../../../riscv64-unknown-linux-gnu/bin/ld: final link failed: bad value<br />collect2: error: ld returned 1 exit status<br />Makefile:496: recipe for target '/mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/ld.so' failed<br />make[3]: *** [/mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/ld.so] Error 1<br />make[3]: Leaving directory '/mnt/c/workspace/riscv-gnu-toolchain/riscv-glibc/elf'<br />Makefile:258: recipe for target 'elf/subdir_lib' failed<br />make[2]: *** [elf/subdir_lib] Error 2<br />make[2]: Leaving directory '/mnt/c/workspace/riscv-gnu-toolchain/riscv-glibc'<br />Makefile:9: recipe for target 'all' failed<br />make[1]: *** [all] Error 2<br />make[1]: Leaving directory '/mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d'<br />Makefile:234: recipe for target 'stamps/build-glibc-linux-rv64imafdc-lp64d' failed<br />make: *** [stamps/build-glibc-linux-rv64imafdc-lp64d] Error 2<br /></code></pre>I was about to open a GitHub issue, and then thought - hm... perhaps I just read the rest of the <a href="https://github.com/riscv/riscv-gnu-toolchain/blob/master/README.md">README</a>, eh? I know, I know, actually RTFM'ing takes away all the fun, but it is rather embarrassing when someone tells you to read the fine manual in response to asking for help. Sure enough, I found <a href="https://github.com/riscv/riscv-gnu-toolchain/blob/master/README.md#troubleshooting-build-problems">this</a>: <br /><blockquote class="tr_bq"><i>If building a linux toolchain on a MacOS system, or on a Windows system using the Linux subsystem or cygwin, you must ensure that the filesystem is case-sensitive. A build on a case-insensitive filesystem will fail when building glibc because *.os and *.oS files will clobber each other during the build eventually resulting in confusing link errors.   <a href="https://twitter.com/tnt">@tnt</a> aka <a href="https://github.com/smunaut">smunaut</a> has a&nbsp;<a href="https://github.com/smunaut/ice40-playground/tree/master/projects/riscv_usb">RISC-V USB</a>&nbsp;project in the works</i>.</blockquote>In order to install RISC-V for WSL I found <a href="https://devblogs.microsoft.com/commandline/per-directory-case-sensitivity-and-wsl/">this article</a> that noted after Windows 10 version 17093 there's a command <a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil">fsutil.exe</a> for setting case sensitivity:<br /><br /><pre><code>fsutil.exe file setCaseSensitiveInfo riscv-gnu-toolchain enable<br /></code></pre><br />Note this needs to be run in a DOS Window, <i>not </i>WSL, and with Administrative permissions:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-YnH6h4MJmKs/XpCgO2h9faI/AAAAAAAACeQ/4HI-rqxDoPc3NjImIv5LnCVFbCI4ShulgCLcBGAsYHQ/s1600/set%2Bdirectory%2Bcase%2Bsensitivity.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="233" data-original-width="721" height="126" src="https://1.bp.blogspot.com/-YnH6h4MJmKs/XpCgO2h9faI/AAAAAAAACeQ/4HI-rqxDoPc3NjImIv5LnCVFbCI4ShulgCLcBGAsYHQ/s400/set%2Bdirectory%2Bcase%2Bsensitivity.png" width="400" /></a></div><br />BUT! Note the command is <i>only for the specified directory</i>, and the attribute is NOT inherited&nbsp; (and certainly does not get applied to each existing sub-directory). So we need to iterate through <i>all </i>sub-directories individually. Yes, I'm sure many readers are rolling their eyes at this point, asking why I am doing this in WSL and not a "real" Linux machine or even a VM; what am I doing in Windows? I ask myself that sometimes, too. Well, I just think WSL is just too cool! Plus, I suppose that I like the challenge. So anyway, here's what I did to set case sensitivity:<br /><br /><pre><code>cd \workspace\riscv-gnu-toolchain\<br />for /f %f in ('dir /ad /s /b') do fsutil.exe file setCaseSensitiveInfo %f enable<br /></code></pre>There are <i>many </i>directories. Be patient...<br /><br />As a reminder, that command is meant to be executed interactively. If placed into a batch file, the percent symbols need to be doubled up.<br /><br />Now that everything in the riscv-gnu-toolchain directory is case sensitive, I ran make again:<br /><pre><code><br />cd /mnt/c/workspace/riscv-gnu-toolchain<br />make<br /></code></pre>This does a full rebuild, taking again a very long time. Did I mention being patient? <br /><br />If you can run <code>/opt/riscv/bin/riscv64-unknown-elf-gcc --version</code> but see a lot of errors when doing a <code>make BOARD=fomu</code> like: <br /><pre><code>/opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/include/stdint.h:9:16: fatal error: stdint.h: No such file or directory<br /></code></pre>That means the RISC-V make either failed... or you didn't wait until it finished. (for me, it was the latter; did I mention being <i>patient</i>?)  Once the RISC-V make is complete, the FOMU code can be built:  <br /><pre><code>cd /mnt/c/workspace/circuitpython/ports/litex<br />make BOARD=FOMU<br /></code></pre><br />Which resulted in this output: <pre><code><br />$ make BOARD=FOMU<br />Use make V=1, make V=2 or set BUILD_VERBOSE similarly in your environment to increase build verbosity.<br />QSTR updated<br />make: msgfmt: Command not found<br />../../py/py.mk:338: recipe for target 'build-FOMU/genhdr/en_US.mo' failed<br />make: *** [build-FOMU/genhdr/en_US.mo] Error 127<br /></code></pre><br />so ok, a quick google yields <a href="https://stackoverflow.com/questions/9500898/compiler-error-msgfmt-command-not-found">something useful on stackoverflow</a><br /><pre><code><br />apt-get install gettext<br /></code></pre><br />and so even after than, I saw even more errors like this: <br /><pre><code>/opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/../../../../riscv64-unknown-elf/bin/ld: build-FOMU/lib/libm/math.o: in function `floorf':<br />/mnt/c/workspace/circuitpython/ports/litex/../../lib/libm/math.c:790: undefined reference to `__addsf3'<br />/opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/../../../../riscv64-unknown-elf/bin/ld: /mnt/c/workspace/circuitpython/ports/litex/../../lib/libm/math.c:795: undefined reference to `__addsf3'<br />/opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/../../../../riscv64-unknown-elf/bin/ld: build-FOMU/lib/libm/math.o:/mnt/c/workspace/circuitpython/ports/litex/../../lib/libm/math.c:817: more undefined references to `__addsf3' follow<br />/opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/../../../../riscv64-unknown-elf/bin/ld: build-FOMU/firmware.elf(.text): relocation ".L15+0x0 (type R_RISCV_RVC_JUMP)" goes out of range<br />/opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/../../../../riscv64-unknown-elf/bin/ld: /opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/libgcc.a(divsf3.o): file class ELFCLASS64 incompatible with ELFCLASS32<br />/opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/../../../../riscv64-unknown-elf/bin/ld: final link failed: file in wrong format<br />collect2: error: ld returned 1 exit status<br />Makefile:177: recipe for target 'build-FOMU/firmware.elf' failed<br />make: *** [build-FOMU/firmware.elf] Error 1<br /></code></pre>So I did another one of these, this time for the circuitpython directory: <br /><pre><code><br />for /f %f in ('dir /ad /s /b') do fsutil.exe file setCaseSensitiveInfo %f enable<br /></code></pre><br />and things got even worse: <br /><pre><code>$ make BOARD=FOMU<br />Makefile:30: *** Invalid BOARD specified.  Stop.<br /></code></pre>So I tried to clean it, same error: <br /><pre><code>$ make BOARD=FOMU clean<br />Makefile:30: *** Invalid BOARD specified.  Stop.<br /></code></pre>Turns out that was case sensitive, so then it is: <br /><pre><code>make BOARD=fomu clean<br />make BOARD=fomu<br /></code></pre>Ok, at the point, readers must really, really wonder why I use Windows. I know, I know. But I'm persistent.<br /><br />It still failed. I gave up and <a href="https://github.com/adafruit/circuitpython/issues/2760">asked for help</a>. <br />I didn't get an answer to "should I use the FOMU toolchain instead of the RISC-V, so I thought I'd try it: <br /><pre><code><br /># fetch and extract<br />wget https://github.com/im-tomu/fomu-toolchain/releases/download/v1.5.6/fomu-toolchain-linux_x86_64-v1.5.6.tar.gz <br />tar -xzf fomu-toolchain-linux_x86_64-v1.5.6.tar.gz<br />sudo mv fomu-toolchain-linux_x86_64-v1.5.6 /opt/fomu-toolchain-linux_x86_64-v1.5.6<br /><br /># set the path<br />if [ "$(echo $PATH | grep fomu-toolchain-linux_x86_64-v1.5.6)" == "" ]; then export PATH=$PATH:/opt/fomu-toolchain-linux_x86_64-v1.5.6/bin; fi<br /><br /># verify it is in the path:<br />which riscv64-unknown-elf-gcc<br />riscv64-unknown-elf-gcc --version<br /><br />cd /mnt/c/workspace/circuitpython/ports/litex<br />make BOARD=fomu  clean<br /><br /></code></pre>And... TADA! A successful Circuit Python build for the FPGA FOMU!! Whew. <br /><pre><code><br />gojimmypi:/mnt/c/workspace/circuitpython/ports/litex<br />$ make BOARD=fomu<br />Use make V=1, make V=2 or set BUILD_VERBOSE similarly in your environment to increase build verbosity.<br />/opt/fomu-toolchain-linux_x86_64-v1.5.6/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/bin/ld: warning: section `.bss' type changed to PROGBITS<br /><br />739752 bytes free in flash firmware space out of 1048576 bytes (1024.0kB).<br />116920 bytes free in ram for stack and heap out of 131072 bytes (128.0kB).<br /><br />Create build-fomu/firmware.dfu<br />python3 ../../tools/dfu.py -b build-fomu/firmware.bin -D 0x1209:0x5bf0 "build-fomu/firmware.dfu"<br /></code></pre><br />Other notes (thanks @pdp7): <a href="https://www.youtube.com/watch?v=MkVX_mh5dOU">Using Python for creating hardware</a><br /><br /><a href="http://blog.lambdaconcept.com/doku.php?id=migen:tutorial">Migen Step by Step Tutorial</a><br /><br />LiteX is a fork of MiSoC<br /><br />MiSoc and LiteX are both based on Migen<br /><br /><br /> 
+<br />I started down the road of learning
+<a href="{{ site.baseurl }}{% post_url 2020-03-08-risc-v-circuit-python-on-ulx3s-starting %}"> FPGA Circuit Python</a> last month, with the (admittedly overly-ambitious) goal of getting Circuit Python working on the <a href="https://www.crowdsupply.com/radiona/ulx3s">ULX3S</a>. I was inspired to revisit this today when I saw <a href="https://blog.adafruit.com/2020/04/09/circuitpython-5-2-0-released/">Adafruit&nbsp;Blog - CircuitPython 5.2.0 Released</a>
+&nbsp;- that specifically mentioned LiteX for Circuit Python!! In this case, for the FOMU.<br />
+<br />TL;DR - WSL is by default NOT Case Sensitive. Use 
+<a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil">fsutil.exe</a> in a DOS admin window to change this for each directory. To compile,&nbsp;<span style="font-family: monospace;">riscv64-unknown-elf-gcc</span>&nbsp;is needed, but the <a href="https://github.com/riscv/riscv-gnu-toolchain/">RISC-V GitHub GNU Repo</a>&nbsp;does not work here to build Circuit Python. Use the <a href="https://github.com/im-tomu/fomu-toolchain/releases">FOMU toolchain</a>. The make parameter should be lower case: <code class="highlight">
+make BOARD=fomu</code><br />
+<br />If you are interested in Circuit Python, check out this&nbsp;
+<a href="https://www.crowdsupply.com/null-byte-labs/circuitbrains-deluxe">CircuitBrains Deluxe</a>
+&nbsp;on Crowd Supply.<br />
+<br />See Adafruit instructions on 
+<a href="https://learn.adafruit.com/building-circuitpython/build-circuitpython">building Circuit Python</a>. All of the <a href="https://circuitpython.org/downloads">downloads for Circuit Python</a> are available online. Well, all but of course the <a href="https://tomu.im/fomu.html">FOMU</a>
+ that I am most interested in. Hopefully it will be there soon, so for now we are doing this the hard way. (no fun if it is too easy, right?)<br />
+<br />
+I could not find any documentation on the FOMU build, so I had to dig and search for keywords. The initial part of fetching from GitHub is pretty standard, so we'll start there:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+git clone https://github.com/adafruit/circuitpython.git
+cd circuitpython
+git submodule sync
+git submodule update --init
+make -C mpy-cross</code></pre>
+When doing the <code class="highlight">git submodule update --init</code>
+ in DOS (I sometimes do that, since my git clones are in C:\workspace - even though I compile in WSL from /mnt/c/workspace/)... I saw these errors:<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+git submodule update --init
+Submodule 'extmod/ulab' (https://github.com/v923z/micropython-ulab/) registered for path 'extmod/ulab'
+...etc
+Submodule path 'lib/nrfutil': checked out '9e7dfb28a5c6f3d7a19340971b32e0c2b4128ecf'
+Submodule path 'lib/tinyusb': checked out '1f95f439e11f519e69d75a4a8b7b9f28eaf5060e'
+error: unable to create file tests/decomp-bad-inputs/00/id:000000,sig:11,src:000000,op:flip1,pos:10: Invalid argument
+...etc
+error: unable to create file tests/decomp-bad-inputs/00/id:000012,sig:11,src:000000,op:arith8,pos:11,val:+6: Invalid argument
+error: unable to create file tests/decomp-bad-inputs/00/id:000013,sig:11,src:000000,op:arith8,pos:12,val:-9: Invalid argument
+error: unable to create file tests/decomp-bad-inputs/00/id:000014,sig:11,src:000000,op:havoc,rep:16: Invalid argument
+error: unable to create file tests/decomp-bad-inputs/00/id:000015,sig:11,src:000000,op:havoc,rep:2: Invalid argument
+... many, many more similar errors</code></pre>
+When doing the <code class="highlight">git submodule update --init</code>
+ from WSL just a few moments later, I did not see those errors. Perhaps there's some issue with Windows file names. (edit: I learned later this is likely a case sensitivity issue, see below).<br />
+<br />For the FOMU, there's a 
+<a href="https://github.com/adafruit/circuitpython/blob/master/ports/litex/Makefile">Makefile</a> in <code class="highlight">./ports/litex</code>
+ <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+cd ./ports/litex
+make BOARD=fomu</code></pre>
+Edit: note that a case insensitive directory setting may allow <code class="highlight">BOARD=FOMU</code> to work. ymmv. The safest one to use is a lower-case: <code class="highlight">BOARD=fomu</code>
+. <br />
+<br />
+If you see an error like this:  
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+xargs: riscv64-unknown-elf-gcc: No such file or directory
+../../py/mkrules.mk:81: recipe for target 'build-FOMU/genhdr/qstr.i.last' failed
+make: *** [build-FOMU/genhdr/qstr.i.last] Error 127
+make: *** Deleting file 'build-FOMU/genhdr/qstr.i.last'</code></pre>
+Then try <code class="highlight">riscv64-unknown-elf-gcc --version</code>&nbsp;to see if this RISC-V compiler is installed (perhaps you need to<a href="https://github.com/riscv/riscv-gnu-toolchain/blob/master/README.md"> install the compiler</a>). sadly, this is a different version of the compiler than is used in my ULX3S toolchain builder, that uses <a href="https://github.com/gojimmypi/ulx3s-toolchain/blob/master/install_riscv-gnu-toolchain-rv32i.sh">rv32i</a>
+&nbsp;installed to /opt/riscv32i. Of course it does. Sometimes I wonder if this is all a hard drive manufacturer conspiracy to use as much disk space as possible. ;)<br />
+<br />
+If like me you don't have the right compiler installed, make sure you have plenty of disk space:
+<br />
+<blockquote class="tr_bq"><i>
+This process will start by downloading about 200 MiB of upstream sources, then will patch, build, and install the toolchain. If a local cache of the upstream sources exists in $(DISTDIR), it will be used; the default location is /var/cache/distfiles. Your computer will need about 8 GiB of disk space to complete the process. </i></blockquote><br />
+Here's what I did in WSL:  
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo apt-get install autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev
+git clone --recursive https://github.com/riscv/riscv-gnu-toolchain  
+cd riscv-gnu-toolchain  
+./configure --prefix=/opt/riscv
+sudo mkdir /opt/riscv
+sudo chown $USER /opt/riscv
+if [ "$(echo $PATH | grep  /opt/riscv/bin)" == "" ]; then export PATH=$PATH:/opt/riscv/bin; fi
+make</code></pre>
+You may wish to put the <code class="highlight">export PATH=$PATH:/opt/riscv/bin</code> in your <code class="highlight">./bash.rc</code>
+ file.<br />
+<br />Do NOT run 
+<code class="highlight">make linux</code> if you want <code class="highlight">riscv64-unknown-elf-gcc</code> files! The <code class="highlight">linux</code> option creates <code class="highlight">riscv64-unknown-linux-gnu</code>
+ files, not elf!.<br />
+<br />My first attempt at install failed. After hours of downloading and building, the errors started here (and yes, I also incorrectly specified 
+<code class="highlight">linux</code>
+): <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+mv -f /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/rtld-libc.aT /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/rtld-libc.a
+make[4]: Leaving directory '/mnt/c/workspace/riscv-gnu-toolchain/riscv-glibc/elf'
+riscv64-unknown-linux-gnu-gcc    -nostdlib -nostartfiles -r -o /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/librtld.os '-Wl,-(' /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/dl-allobjs.os /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/rtld-libc.a -lgcc '-Wl,-)' \
+          -Wl,-Map,/mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/librtld.os.map
+riscv64-unknown-linux-gnu-gcc    -nostdlib -nostartfiles -shared -o /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/ld.so.new               \
+          -Wl,-z,combreloc -Wl,-z,relro -Wl,--hash-style=both -Wl,-z,defs       \
+          /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/librtld.os -Wl,--version-script=/mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/ld.map            \
+          -Wl,-soname=ld-linux-riscv64-lp64d.so.1                       \
+          -Wl,-defsym=_begin=0
+/opt/riscv/lib/gcc/riscv64-unknown-linux-gnu/9.2.0/../../../../riscv64-unknown-linux-gnu/bin/ld: /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/librtld.os: in function `process_envvars':
+/mnt/c/workspace/riscv-gnu-toolchain/riscv-glibc/elf/rtld.c:2484: undefined reference to `__GI___open64_nocancel'
+/opt/riscv/lib/gcc/riscv64-unknown-linux-gnu/9.2.0/../../../../riscv64-unknown-linux-gnu/bin/ld: /mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/librtld.os: in function `dl_main':
+/mnt/c/workspace/riscv-gnu-toolchain/riscv-glibc/elf/rtld.c:1317: undefined reference to `__access'
+/opt/riscv/lib/gcc/riscv64-unknown-linux-gnu/9.2.0/../../../../riscv64-unknown-linux-gnu/bin/ld: /mnt/c/workspace/riscv-gnu-toolchain/riscv-glibc/elf/rtld.c:2103: undefined reference to `__access'
+/opt/riscv/lib/gcc/riscv64-unknown-linux-gnu/9.2.0/../../../../riscv64-unknown-linux-gnu/bin/ld: /mnt/c/workspace/riscv-gnu-toolchain/riscv-glibc/elf/rtld.c:1564: undefined reference to `__GI___close_nocancel'</code></pre>
+and eventually culminated here: 
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+/opt/riscv/lib/gcc/riscv64-unknown-linux-gnu/9.2.0/../../../../riscv64-unknown-linux-gnu/bin/ld: final link failed: bad value
+collect2: error: ld returned 1 exit status
+Makefile:496: recipe for target '/mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/ld.so' failed
+make[3]: *** [/mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d/elf/ld.so] Error 1
+make[3]: Leaving directory '/mnt/c/workspace/riscv-gnu-toolchain/riscv-glibc/elf'
+Makefile:258: recipe for target 'elf/subdir_lib' failed
+make[2]: *** [elf/subdir_lib] Error 2
+make[2]: Leaving directory '/mnt/c/workspace/riscv-gnu-toolchain/riscv-glibc'
+Makefile:9: recipe for target 'all' failed
+make[1]: *** [all] Error 2
+make[1]: Leaving directory '/mnt/c/workspace/riscv-gnu-toolchain/build-glibc-linux-rv64imafdc-lp64d'
+Makefile:234: recipe for target 'stamps/build-glibc-linux-rv64imafdc-lp64d' failed
+make: *** [stamps/build-glibc-linux-rv64imafdc-lp64d] Error 2</code></pre>
+I was about to open a GitHub issue, and then thought - hm... perhaps I just read the rest of the 
+<a href="https://github.com/riscv/riscv-gnu-toolchain/blob/master/README.md">README</a>, eh? I know, I know, actually RTFM'ing takes away all the fun, but it is rather embarrassing when someone tells you to read the fine manual in response to asking for help. Sure enough, I found <a href="https://github.com/riscv/riscv-gnu-toolchain/blob/master/README.md#troubleshooting-build-problems">this</a>
+: <br />
+<blockquote class="tr_bq"><i>If building a linux toolchain on a MacOS system, or on a Windows system using the Linux subsystem or cygwin, you must ensure that the filesystem is case-sensitive. A build on a case-insensitive filesystem will fail when building glibc because *.os and *.oS files will clobber each other during the build eventually resulting in confusing link errors.   <a href="https://twitter.com/tnt">@tnt</a> aka <a href="https://github.com/smunaut">smunaut</a> has a&nbsp;<a href="https://github.com/smunaut/ice40-playground/tree/master/projects/riscv_usb">RISC-V USB</a>&nbsp;project in the works</i>.</blockquote>In order to install RISC-V for WSL I found <a href="https://devblogs.microsoft.com/commandline/per-directory-case-sensitivity-and-wsl/">this article</a> that noted after Windows 10 version 17093 there's a command <a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil">fsutil.exe</a>
+ for setting case sensitivity:<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+fsutil.exe file setCaseSensitiveInfo riscv-gnu-toolchain enable</code></pre>
+<br />Note this needs to be run in a DOS Window, 
+<i>not </i>
+WSL, and with Administrative permissions:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/set_directory_case_sensitivity.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="233" data-original-width="721" height="126" src="../images/s400/set_directory_case_sensitivity.png" width="400"></a>
+</div>
+<br />BUT! Note the command is 
+<i>only for the specified directory</i>, and the attribute is NOT inherited&nbsp; (and certainly does not get applied to each existing sub-directory). So we need to iterate through <i>all </i>
+sub-directories individually. Yes, I'm sure many readers are rolling their eyes at this point, asking why I am doing this in WSL and not a "real" Linux machine or even a VM; what am I doing in Windows? I ask myself that sometimes, too. Well, I just think WSL is just too cool! Plus, I suppose that I like the challenge. So anyway, here's what I did to set case sensitivity:<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+cd \workspace\riscv-gnu-toolchain\
+for /f %f in ('dir /ad /s /b') do fsutil.exe file setCaseSensitiveInfo %f enable</code></pre>
+There are <i>many </i>
+directories. Be patient...<br />
+<br />
+As a reminder, that command is meant to be executed interactively. If placed into a batch file, the percent symbols need to be doubled up.
+<br />
+<br />
+Now that everything in the riscv-gnu-toolchain directory is case sensitive, I ran make again:
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+cd /mnt/c/workspace/riscv-gnu-toolchain
+make</code></pre>
+This does a full rebuild, taking again a very long time. Did I mention being patient? 
+<br />
+<br />If you can run 
+<code class="highlight">/opt/riscv/bin/riscv64-unknown-elf-gcc --version</code> but see a lot of errors when doing a <code class="highlight">make BOARD=fomu</code>
+ like: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+/opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/include/stdint.h:9:16: fatal error: stdint.h: No such file or directory</code></pre>
+That means the RISC-V make either failed... or you didn't wait until it finished. (for me, it was the latter; did I mention being <i>patient</i>
+?)  Once the RISC-V make is complete, the FOMU code can be built:  <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+cd /mnt/c/workspace/circuitpython/ports/litex
+make BOARD=FOMU</code></pre>
+<br />
+Which resulted in this output: 
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+$ make BOARD=FOMU
+Use make V=1, make V=2 or set BUILD_VERBOSE similarly in your environment to increase build verbosity.
+QSTR updated
+make: msgfmt: Command not found
+../../py/py.mk:338: recipe for target 'build-FOMU/genhdr/en_US.mo' failed
+make: *** [build-FOMU/genhdr/en_US.mo] Error 127</code></pre>
+
+<br />so ok, a quick google yields 
+<a href="https://stackoverflow.com/questions/9500898/compiler-error-msgfmt-command-not-found">
+something useful on stackoverflow</a><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+apt-get install gettext</code></pre>
+
+<br />
+and so even after than, I saw even more errors like this: 
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+/opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/../../../../riscv64-unknown-elf/bin/ld: build-FOMU/lib/libm/math.o: in function `floorf':
+/mnt/c/workspace/circuitpython/ports/litex/../../lib/libm/math.c:790: undefined reference to `__addsf3'
+/opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/../../../../riscv64-unknown-elf/bin/ld: /mnt/c/workspace/circuitpython/ports/litex/../../lib/libm/math.c:795: undefined reference to `__addsf3'
+/opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/../../../../riscv64-unknown-elf/bin/ld: build-FOMU/lib/libm/math.o:/mnt/c/workspace/circuitpython/ports/litex/../../lib/libm/math.c:817: more undefined references to `__addsf3' follow
+/opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/../../../../riscv64-unknown-elf/bin/ld: build-FOMU/firmware.elf(.text): relocation ".L15+0x0 (type R_RISCV_RVC_JUMP)" goes out of range
+/opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/../../../../riscv64-unknown-elf/bin/ld: /opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/libgcc.a(divsf3.o): file class ELFCLASS64 incompatible with ELFCLASS32
+/opt/riscv/lib/gcc/riscv64-unknown-elf/9.2.0/../../../../riscv64-unknown-elf/bin/ld: final link failed: file in wrong format
+collect2: error: ld returned 1 exit status
+Makefile:177: recipe for target 'build-FOMU/firmware.elf' failed
+make: *** [build-FOMU/firmware.elf] Error 1</code></pre>
+So I did another one of these, this time for the circuitpython directory: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+for /f %f in ('dir /ad /s /b') do fsutil.exe file setCaseSensitiveInfo %f enable</code></pre>
+
+<br />
+and things got even worse: 
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+$ make BOARD=FOMU
+Makefile:30: *** Invalid BOARD specified.  Stop.</code></pre>
+So I tried to clean it, same error: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+$ make BOARD=FOMU clean
+Makefile:30: *** Invalid BOARD specified.  Stop.</code></pre>
+Turns out that was case sensitive, so then it is: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+make BOARD=fomu clean
+make BOARD=fomu</code></pre>
+Ok, at the point, readers must really, really wonder why I use Windows. I know, I know. But I'm persistent.<br />
+<br />It still failed. I gave up and 
+<a href="https://github.com/adafruit/circuitpython/issues/2760">asked for help</a>
+. <br />
+I didn't get an answer to "should I use the FOMU toolchain instead of the RISC-V, so I thought I'd try it: 
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# fetch and extract
+wget https://github.com/im-tomu/fomu-toolchain/releases/download/v1.5.6/fomu-toolchain-linux_x86_64-v1.5.6.tar.gz 
+tar -xzf fomu-toolchain-linux_x86_64-v1.5.6.tar.gz
+sudo mv fomu-toolchain-linux_x86_64-v1.5.6 /opt/fomu-toolchain-linux_x86_64-v1.5.6
+# set the path
+if [ "$(echo $PATH | grep fomu-toolchain-linux_x86_64-v1.5.6)" == "" ]; then export PATH=$PATH:/opt/fomu-toolchain-linux_x86_64-v1.5.6/bin; fi
+# verify it is in the path:
+which riscv64-unknown-elf-gcc
+riscv64-unknown-elf-gcc --version
+cd /mnt/c/workspace/circuitpython/ports/litex
+make BOARD=fomu  clean</code></pre>
+And... TADA! A successful Circuit Python build for the FPGA FOMU!! Whew. 
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+gojimmypi:/mnt/c/workspace/circuitpython/ports/litex
+$ make BOARD=fomu
+Use make V=1, make V=2 or set BUILD_VERBOSE similarly in your environment to increase build verbosity.
+/opt/fomu-toolchain-linux_x86_64-v1.5.6/bin/../lib/gcc/riscv64-unknown-elf/8.3.0/../../../../riscv64-unknown-elf/bin/ld: warning: section `.bss' type changed to PROGBITS
+739752 bytes free in flash firmware space out of 1048576 bytes (1024.0kB).
+116920 bytes free in ram for stack and heap out of 131072 bytes (128.0kB).
+Create build-fomu/firmware.dfu
+python3 ../../tools/dfu.py -b build-fomu/firmware.bin -D 0x1209:0x5bf0 "build-fomu/firmware.dfu"</code></pre>
+
+<br />Other notes (thanks @pdp7): 
+<a href="https://www.youtube.com/watch?v=MkVX_mh5dOU">
+Using Python for creating hardware</a><br />
+<br />
+<a href="http://blog.lambdaconcept.com/doku.php?id=migen:tutorial">
+Migen Step by Step Tutorial</a><br />
+<br />
+LiteX is a fork of MiSoC
+<br />
+<br />
+MiSoc and LiteX are both based on Migen
+<br />
+<br />
+<br />
+ 
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:54 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

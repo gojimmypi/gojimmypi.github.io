@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 
 *{
     box-sizing: border-box;
@@ -79,13 +79,35 @@ iframe{
     // height: auto;
 }
 
-code{
+code {
     font-family: $code-font;
+    display: inline-block;
 }
 
 kbd,
-pre{
+pre {
     @extend code;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    padding: 10px 16px;
+    border-radius: 2px;
+    border-top: 4px solid #00aeef;
+    -moz-box-shadow: inset 0 0 10px #000;
+    box-shadow: inset 0 0 10px #000;
+}
+
+
+pre span {
+    counter-increment: line;
+}
+
+pre span:before {
+/*    counter-reset: line;
+    content: counter(line);
+*/    display: inline-block;
+    border-right: 1px solid #ddd;
+    padding: 0 .5em;
+    margin-right: .5em;
 }
 
 @if $paragraph-gap == yes{

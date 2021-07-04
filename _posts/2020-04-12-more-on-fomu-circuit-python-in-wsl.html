@@ -10,4 +10,190 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-21354638258607483
 blogger_orig_url: https://gojimmypi.blogspot.com/2020/04/more-on-fomu-circuit-python-in-wsl.html
 ---
 
-<br />After the <a href="{{ site.baseurl }}{% post_url 2020-04-11-circuit-python-on-fomu-in-wsl-plus %}">previous pains</a> of getting Circuit Python to just <i>build</i> for the FOMU, it is time to move on to more interesting things.... actually <i>putting it on</i> the FOMU!<br /><br />Back to <a href="{{ site.baseurl }}{% post_url 2020-03-08-risc-v-circuit-python-on-ulx3s-starting %}">my first notes</a>&nbsp;on this topic,&nbsp;the dfu-util is needed. There are a variety of sources of this app. Unfortunately the only one I was able to get working was from the ad-spam-laden sourceforge (it's really a shame what that site has become). Fortunately there's a <a href="https://github.com/ulx3s/dfu-util">ULX3S dfu-util repo</a> with a <a href="https://github.com/ulx3s/dfu-util/blob/master/bin-win64/dfu-util.exe">precompiled binary</a>. No ads.&nbsp; (If you, too are tired of so may ads, check out my <a href="{{ site.baseurl }}{% post_url 2020-02-23-raspberry-pi-pi-hole-setup-notes %}">pi-hole blog</a>).<br /><br />At this early stage of the game, there's really quite limited documentation available. One observation from the <a href="https://github.com/adafruit/circuitpython/blob/master/ports/litex/Makefile">Makefile</a> is that during the (by default relatively quiet) build of Circuit Python... the <i>only</i> thing happening there is just that: the RISC-V (more specifically&nbsp;VexRiscv) compile of "C" code into a binary DFU file. This means that the FOMU needs to have been pre-configured: make the FPGA a soft CPU.<br /><br />Fortunately, I had already loaded <a href="https://github.com/im-tomu/foboot">foboot</a>&nbsp;onto my FOMU. Specifically, I took the shortcut of using a pre-built version of&nbsp;<a href="https://github.com/im-tomu/foboot/blob/master/releases/v2.0.3/hacker-updater-v2.0.3.dfu">hacker-updater-v2.0.3.dfu</a> as noted&nbsp;<a href="https://github.com/hathach/tinyusb/issues/293#issuecomment-599227050">here</a>. To do something using with another FPGA, say... the ULX3S... clearly I'm going to have to get control of building that bitstream.<br /><br />But for now, let's run with that. The FOMU is configured as a soft CPU, which we learned from the Circuit Python text file is a VexRisc. The "only" thing needed is some code for it to run: Circuit Python.<br /><br />There's an apt-get install version of dfu-util for Ubuntu, but it does not work in WSL. It does not "see" the FOMU<br /><br /><pre><code>gojimmypi:~<br />$ which dfu-util<br />/usr/bin/dfu-util<br />gojimmypi:~<br />$ sudo dfu-util -l<br />[sudo] password for gojimmypi:<br />dfu-util 0.9<br /><br />Copyright 2005-2009 Weston Schmidt, Harald Welte and OpenMoko Inc.<br />Copyright 2010-2016 Tormod Volden and Stefan Schmidt<br />This program is Free Software and has ABSOLUTELY NO WARRANTY<br />Please report bugs to http://sourceforge.net/p/dfu-util/tickets/<br /><br />gojimmypi:~<br /></code></pre>There's another one that came with the <a href="https://github.com/im-tomu/fomu-toolchain/releases">FOMU Toolchain</a> mentioned in my <a href="{{ site.baseurl }}{% post_url 2020-04-11-circuit-python-on-fomu-in-wsl-plus %}">previous blog</a>, but that one does not work either, giving instead this error message:  <br /><pre><code>gojimmypi:~<br />$ /opt/fomu-toolchain-linux_x86_64-v1.5.6/bin/dfu-util -l<br />dfu-util 0.9<br /><br />Copyright 2005-2009 Weston Schmidt, Harald Welte and OpenMoko Inc.<br />Copyright 2010-2019 Tormod Volden and Stefan Schmidt<br />This program is Free Software and has ABSOLUTELY NO WARRANTY<br />Please report bugs to http://sourceforge.net/p/dfu-util/tickets/<br /><br />unable to initialize libusb: LIBUSB_ERROR_OTHER<br />gojimmypi:~<br /></code></pre>Of course, I'm doing this in WSL (not WSL2).. and there are <a href="https://github.com/microsoft/WSL/issues/2185">known problems with native USB drivers not working in WSL</a>. Given the libusb error, I'm pretty sure neither of those linux versions of dfu-util will ever work. However, one of the amazing things about WSL: Native Windows and DOS apps can be launched from the command prompt! The DOS version <i>does</i> work!<br /><pre><code>WORKSPACE=/mnt/c/workspace<br />cd $WORKSPACE<br />git clone https://github.com/ulx3s/dfu-util.git<br />$WORKSPACE/dfu-util/bin-win64/dfu-util.exe -l<br /></code></pre>This should identify the FOMU installed:<br /><pre><code>dfu-util 0.9<br /><br />Copyright 2005-2009 Weston Schmidt, Harald Welte and OpenMoko Inc.<br />Copyright 2010-2016 Tormod Volden and Stefan Schmidt<br />This program is Free Software and has ABSOLUTELY NO WARRANTY<br />Please report bugs to http://sourceforge.net/p/dfu-util/tickets/<br /><br />Found DFU: [1209:5bf0] ver=0101, devnum=12, cfg=1, intf=0, path="1-1.3", alt=0, name="Fomu Hacker running DFU Bootloader v2.0.3", serial="UNKNOWN"<br /></code></pre>Note that I have DFU Bootloader v2.0.3 installed on the FOMU as described in <a href="{{ site.baseurl }}{% post_url 2020-03-08-risc-v-circuit-python-on-ulx3s-starting %}">my prior blog</a>. In particular, see&nbsp;<a href="https://github.com/hathach/tinyusb/issues/293">tinyusb issues #293</a>&nbsp;for some oddities that I encountered when using older versions of the bootloader. See also&nbsp;&nbsp;<a href="https://github.com/microsoft/WSL/issues/2185">WSL Issue 2185</a>&nbsp;and&nbsp;<a href="https://github.com/microsoft/WSL/issues/3745">3745</a>&nbsp;regarding native USB drivers in WSL.<br /><br />If you need to make:  <br /><pre><code>make BOARD=fomu clean<br />make BOARD=fomu<br /></code></pre>The send the firmware to the device:  <br /><pre><code>cd $WORKSPACE/circuitpython/ports/litex<br />$WORKSPACE/dfu-util/bin-win64/dfu-util.exe  -D ./build-fomu/firmware.dfu<br /></code></pre>Note that this is a "soft" program of the FPGA. The <code>firmware.dfu</code> can't be sent to the FOMU again until power cycle. In fact, after a power cycle, it *needs* to be sent again. Normally I might say something about preventing corruption to be careful to to the USB eject. But after removing the device, it is no longer a Circuit Python.<br /><br />For reference, to put foboot in place:<br /><br /><pre><code>WORKSPACE=/mnt/c/workspace<br />cd $WORKSPACE<br />mkdir -p fomu<br />cd fomu<br />wget https://github.com/im-tomu/foboot/blob/master/releases/v2.0.3/hacker-updater-v2.0.3.dfu<br /><br /># for WSL, we need the DOS executable with usblib support:<br />$WORKSPACE/dfu-util/bin-win64/dfu-util.exe -D hacker-updater-v2.0.3.dfu<br /><br /># for regular linux:<br /># dfu-util -D hacker-updater-v2.0.3.dfu<br /><br /></code></pre>The thing is: we don't have a bootloader for the ULX3S. It does not show up as a device for dfu-util. Recall we use the ujprog to upload FPGA bitstreams to the FPGA, and the litex_term to upload the firwmware.bin file.<br /><br />As noted in a prior blog, I have a <a href="https://github.com/gojimmypi/ulx3s-toolchain/blob/master/soft_cpu.sh">soft CPU script</a> that shows how this is done on the ULX3S:<br /><pre><code><br />WORKSPACE=/mnt/c/workspace<br /><br />cd $WORKSPACE/litex-boards/litex_boards/targets/soc_basesoc_ulx3s/gateware<br /><br />$WORKSPACE/ulx3s-examples/bin/ujprog.exe top.bit<br /><br />cd $WORKSPACE/circuitpython/ports/litex/build-ulx3s<br /><br />litex_term --serial-boot --kernel firmware.bin /dev/ttyS15<br /></code></pre><br />Unfortunately, I've spent a bunch of time chasing <a href="https://github.com/enjoy-digital/litex/issues/465">toolchain</a> and <a href="https://github.com/litex-hub/litex-boards/issues/66">memory</a> problems. After updating everything to solve a problem where Migen was not creating a top.v file (which as it turns out, was even not necessary to solve the problem I was seeing), LiteX is now complaining that memtest is failing.<br /><br />My specific memory chip on my ULX3S is a&nbsp;<a href="https://github.com/enjoy-digital/litedram/blob/64c2be5d63d388f98ddd0585ed13254ec048a122/litedram/modules.py#L183">AS4C32M16SB</a>.&nbsp;I did at least learn how to do a memory check:<br /><code></code><br /><pre><code>git clone https://github.com/emard/ulx3s-bin.git<br />cd $WORKSPACE/ulx3s-bin/fpga/memtest/memtest-85k<br /><br /># be sure to select the correct bit file 32MB or 64MB for your specific memory chip<br />$WORKSPACE/ulx3s-examples/bin/ujprog.exe ulx3s_85f_memtest_32MB_190MHz_300deg.bit <br /></code></pre><br /><div>&nbsp;A good memory test looks like this on an HDMI monitor:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-5aImp1ZU91w/XpOwdzg4OFI/AAAAAAAACes/eVscadqcgl8I1LUmawnnKYIBdGmGlL1kQCLcBGAsYHQ/s1600/good%2Bmemory%2Btest.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="600" data-original-width="1200" height="160" src="https://1.bp.blogspot.com/-5aImp1ZU91w/XpOwdzg4OFI/AAAAAAAACes/eVscadqcgl8I1LUmawnnKYIBdGmGlL1kQCLcBGAsYHQ/s320/good%2Bmemory%2Btest.jpg" width="320" /></a></div><br />The top line is not used. The middle line is the number of memory tests completed. The red bottom line is the number of errors.<br /><br />A bad memory test, say when a 64MB test is loaded for a 32MB chip, looks like this:\\<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-5kFrSwgBtCE/XpOwsqJawSI/AAAAAAAACew/VRTZDY4CKYUVKp_lW44AzxyVj7SM-6A8ACLcBGAsYHQ/s1600/bad%2Bmemory%2Btest.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="600" data-original-width="1200" height="160" src="https://1.bp.blogspot.com/-5kFrSwgBtCE/XpOwsqJawSI/AAAAAAAACew/VRTZDY4CKYUVKp_lW44AzxyVj7SM-6A8ACLcBGAsYHQ/s320/bad%2Bmemory%2Btest.jpg" width="320" /></a></div><br />The 64MB test blinks onboard LEDs like <a href="https://twitter.com/gojimmypi/status/1249451852103483392?s=20">this</a>. The 32MB test does not.<br /><br />In the meantime, there are some really <a href="https://twitter.com/GregDavill/status/1249335600898912256?s=20">quite talented folks that do this stuff rather easily</a>. Perhaps I'll have more luck next time.<br /><br />See also:&nbsp;<a href="https://github.com/adafruit/circuitpython/issues/2604">Adafruit Circuit Python Issues 2604: Fomu port of CircuitPython</a><br /><br /><br /><br /></div>
+<br />After the 
+<a href="{{ site.baseurl }}{% post_url 2020-04-11-circuit-python-on-fomu-in-wsl-plus %}">previous pains</a> of getting Circuit Python to just <i>build</i> for the FOMU, it is time to move on to more interesting things.... actually <i>putting it on</i>
+ the FOMU!<br />
+<br />Back to 
+<a href="{{ site.baseurl }}{% post_url 2020-03-08-risc-v-circuit-python-on-ulx3s-starting %}">my first notes</a>&nbsp;on this topic,&nbsp;the dfu-util is needed. There are a variety of sources of this app. Unfortunately the only one I was able to get working was from the ad-spam-laden sourceforge (it's really a shame what that site has become). Fortunately there's a <a href="https://github.com/ulx3s/dfu-util">ULX3S dfu-util repo</a> with a <a href="https://github.com/ulx3s/dfu-util/blob/master/bin-win64/dfu-util.exe">precompiled binary</a>. No ads.&nbsp; (If you, too are tired of so may ads, check out my <a href="{{ site.baseurl }}{% post_url 2020-02-23-raspberry-pi-pi-hole-setup-notes %}">pi-hole blog</a>
+).<br />
+<br />At this early stage of the game, there's really quite limited documentation available. One observation from the 
+<a href="https://github.com/adafruit/circuitpython/blob/master/ports/litex/Makefile">Makefile</a> is that during the (by default relatively quiet) build of Circuit Python... the <i>only</i>
+ thing happening there is just that: the RISC-V (more specifically&nbsp;VexRiscv) compile of "C" code into a binary DFU file. This means that the FOMU needs to have been pre-configured: make the FPGA a soft CPU.<br />
+<br />Fortunately, I had already loaded 
+<a href="https://github.com/im-tomu/foboot">foboot</a>&nbsp;onto my FOMU. Specifically, I took the shortcut of using a pre-built version of&nbsp;<a href="https://github.com/im-tomu/foboot/blob/master/releases/v2.0.3/hacker-updater-v2.0.3.dfu">hacker-updater-v2.0.3.dfu</a> as noted&nbsp;<a href="https://github.com/hathach/tinyusb/issues/293#issuecomment-599227050">here</a>
+. To do something using with another FPGA, say... the ULX3S... clearly I'm going to have to get control of building that bitstream.<br />
+<br />
+But for now, let's run with that. The FOMU is configured as a soft CPU, which we learned from the Circuit Python text file is a VexRisc. The "only" thing needed is some code for it to run: Circuit Python.
+<br />
+<br />
+There's an apt-get install version of dfu-util for Ubuntu, but it does not work in WSL. It does not "see" the FOMU
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+gojimmypi:~
+$ which dfu-util
+/usr/bin/dfu-util
+gojimmypi:~
+$ sudo dfu-util -l
+[sudo] password for gojimmypi:
+dfu-util 0.9
+Copyright 2005-2009 Weston Schmidt, Harald Welte and OpenMoko Inc.
+Copyright 2010-2016 Tormod Volden and Stefan Schmidt
+This program is Free Software and has ABSOLUTELY NO WARRANTY
+Please report bugs to http://sourceforge.net/p/dfu-util/tickets/
+gojimmypi:~</code></pre>
+There's another one that came with the <a href="https://github.com/im-tomu/fomu-toolchain/releases">FOMU Toolchain</a> mentioned in my <a href="{{ site.baseurl }}{% post_url 2020-04-11-circuit-python-on-fomu-in-wsl-plus %}">previous blog</a>
+, but that one does not work either, giving instead this error message:  <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+gojimmypi:~
+$ /opt/fomu-toolchain-linux_x86_64-v1.5.6/bin/dfu-util -l
+dfu-util 0.9
+Copyright 2005-2009 Weston Schmidt, Harald Welte and OpenMoko Inc.
+Copyright 2010-2019 Tormod Volden and Stefan Schmidt
+This program is Free Software and has ABSOLUTELY NO WARRANTY
+Please report bugs to http://sourceforge.net/p/dfu-util/tickets/
+unable to initialize libusb: LIBUSB_ERROR_OTHER
+gojimmypi:~</code></pre>
+Of course, I'm doing this in WSL (not WSL2).. and there are <a href="https://github.com/microsoft/WSL/issues/2185">known problems with native USB drivers not working in WSL</a>. Given the libusb error, I'm pretty sure neither of those linux versions of dfu-util will ever work. However, one of the amazing things about WSL: Native Windows and DOS apps can be launched from the command prompt! The DOS version <i>does</i>
+ work!<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+WORKSPACE=/mnt/c/workspace
+cd $WORKSPACE
+git clone https://github.com/ulx3s/dfu-util.git
+$WORKSPACE/dfu-util/bin-win64/dfu-util.exe -l</code></pre>
+This should identify the FOMU installed:<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+dfu-util 0.9
+Copyright 2005-2009 Weston Schmidt, Harald Welte and OpenMoko Inc.
+Copyright 2010-2016 Tormod Volden and Stefan Schmidt
+This program is Free Software and has ABSOLUTELY NO WARRANTY
+Please report bugs to http://sourceforge.net/p/dfu-util/tickets/
+Found DFU: [1209:5bf0] ver=0101, devnum=12, cfg=1, intf=0, path="1-1.3", alt=0, name="Fomu Hacker running DFU Bootloader v2.0.3", serial="UNKNOWN"</code></pre>
+Note that I have DFU Bootloader v2.0.3 installed on the FOMU as described in <a href="{{ site.baseurl }}{% post_url 2020-03-08-risc-v-circuit-python-on-ulx3s-starting %}">my prior blog</a>. In particular, see&nbsp;<a href="https://github.com/hathach/tinyusb/issues/293">tinyusb issues #293</a>&nbsp;for some oddities that I encountered when using older versions of the bootloader. See also&nbsp;&nbsp;<a href="https://github.com/microsoft/WSL/issues/2185">WSL Issue 2185</a>&nbsp;and&nbsp;<a href="https://github.com/microsoft/WSL/issues/3745">3745</a>
+&nbsp;regarding native USB drivers in WSL.<br />
+<br />
+If you need to make:  
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+make BOARD=fomu clean
+make BOARD=fomu</code></pre>
+The send the firmware to the device:  <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+cd $WORKSPACE/circuitpython/ports/litex
+$WORKSPACE/dfu-util/bin-win64/dfu-util.exe  -D ./build-fomu/firmware.dfu</code></pre>
+Note that this is a "soft" program of the FPGA. The <code class="highlight">firmware.dfu</code>
+ can't be sent to the FOMU again until power cycle. In fact, after a power cycle, it *needs* to be sent again. Normally I might say something about preventing corruption to be careful to to the USB eject. But after removing the device, it is no longer a Circuit Python.<br />
+<br />
+For reference, to put foboot in place:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+WORKSPACE=/mnt/c/workspace
+cd $WORKSPACE
+mkdir -p fomu
+cd fomu
+wget https://github.com/im-tomu/foboot/blob/master/releases/v2.0.3/hacker-updater-v2.0.3.dfu
+# for WSL, we need the DOS executable with usblib support:
+$WORKSPACE/dfu-util/bin-win64/dfu-util.exe -D hacker-updater-v2.0.3.dfu
+# for regular linux:
+# dfu-util -D hacker-updater-v2.0.3.dfu</code></pre>
+The thing is: we don't have a bootloader for the ULX3S. It does not show up as a device for dfu-util. Recall we use the ujprog to upload FPGA bitstreams to the FPGA, and the litex_term to upload the firwmware.bin file.<br />
+<br />As noted in a prior blog, I have a 
+<a href="https://github.com/gojimmypi/ulx3s-toolchain/blob/master/soft_cpu.sh">soft CPU script</a>
+ that shows how this is done on the ULX3S:<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+WORKSPACE=/mnt/c/workspace
+cd $WORKSPACE/litex-boards/litex_boards/targets/soc_basesoc_ulx3s/gateware
+$WORKSPACE/ulx3s-examples/bin/ujprog.exe top.bit
+cd $WORKSPACE/circuitpython/ports/litex/build-ulx3s
+litex_term --serial-boot --kernel firmware.bin /dev/ttyS15</code></pre>
+
+<br />Unfortunately, I've spent a bunch of time chasing 
+<a href="https://github.com/enjoy-digital/litex/issues/465">toolchain</a> and <a href="https://github.com/litex-hub/litex-boards/issues/66">memory</a>
+ problems. After updating everything to solve a problem where Migen was not creating a top.v file (which as it turns out, was even not necessary to solve the problem I was seeing), LiteX is now complaining that memtest is failing.<br />
+<br />My specific memory chip on my ULX3S is a&nbsp;
+<a href="https://github.com/enjoy-digital/litedram/blob/64c2be5d63d388f98ddd0585ed13254ec048a122/litedram/modules.py#L183">AS4C32M16SB</a>
+.&nbsp;I did at least learn how to do a memory check:<br />
+<code class="highlight"></code><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+git clone https://github.com/emard/ulx3s-bin.git
+cd $WORKSPACE/ulx3s-bin/fpga/memtest/memtest-85k
+# be sure to select the correct bit file 32MB or 64MB for your specific memory chip
+$WORKSPACE/ulx3s-examples/bin/ujprog.exe ulx3s_85f_memtest_32MB_190MHz_300deg.bit </code></pre>
+<br />
+
+<div>
+&nbsp;A good memory test looks like this on an HDMI monitor:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/good_memory_test.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="600" data-original-width="1200" height="160" src="../images/s320/good_memory_test.jpg" width="320"></a>
+</div>
+<br />
+The top line is not used. The middle line is the number of memory tests completed. The red bottom line is the number of errors.
+<br />
+<br />
+A bad memory test, say when a 64MB test is loaded for a 32MB chip, looks like this:\\
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/bad_memory_test.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="600" data-original-width="1200" height="160" src="../images/s320/bad_memory_test.jpg" width="320"></a>
+</div>
+<br />The 64MB test blinks onboard LEDs like 
+<a href="https://twitter.com/gojimmypi/status/1249451852103483392?s=20">this</a>
+. The 32MB test does not.<br />
+<br />In the meantime, there are some really 
+<a href="https://twitter.com/GregDavill/status/1249335600898912256?s=20">quite talented folks that do this stuff rather easily</a>
+. Perhaps I'll have more luck next time.<br />
+<br />See also:&nbsp;
+<a href="https://github.com/adafruit/circuitpython/issues/2604">
+Adafruit Circuit Python Issues 2604: Fomu port of CircuitPython</a><br />
+<br />
+<br />
+<br />
+
+</div>
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:54 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

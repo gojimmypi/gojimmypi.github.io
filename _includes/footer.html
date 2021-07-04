@@ -4,6 +4,101 @@
         <span class="backtotop">Back to Top</span>
     </div>
 </footer>
-<!-- TypeKit -->
+<!--
+
 <script src="https://use.typekit.net/{{site.typekitid}}.js"></script>
 <script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+TypeKit -->
+{% comment %}
+ thanks Aleksandr Hovhannisyan for tips on code segment copy
+    https://www.aleksandrhovhannisyan.com/blog/how-to-add-a-copy-to-clipboard-button-to-your-jekyll-blog/
+{% endcomment %}
+
+<script type="text/javascript">
+    const codeBlocks = document.querySelectorAll('.code-header + .highlighter-rouge');
+    const copyCodeButtons = document.querySelectorAll('.copy-code-button');
+
+
+    if ((codeBlocks.length == 0) && (copyCodeButtons.length > 0)) {
+        {%  if jekyll.environment == "development"  %} 
+        alert("Warning: code block missing. Is your language spec missing or not lower case? Copy icons disabled.");
+        {%   endif   %} 
+    }
+    else
+    {
+        copyCodeButtons.forEach((copyCodeButton, index) => {
+            const code = codeBlocks[index].innerText;
+            copyCodeButton.addEventListener('click', () => {
+                window.navigator.clipboard.writeText(code);
+                copyCodeButton.classList.add('copied');
+
+                setTimeout(() => {
+                    copyCodeButton.classList.remove('copied');
+                }, 2000);
+            });
+        });
+
+    }
+
+
+    const themeMap = {
+        light: 'dark',
+        dark: 'light',
+    };
+
+    /* lamp theme toggle */
+    class ThemeToggle {
+        constructor({ toggleSelector, themeOwner, storageKey }) {
+            /* this is called once at page load time, not every time the lamp is pressed! */
+            this.toggleElement = document.querySelector(toggleSelector);
+            this.toggleElement.addEventListener('click', () => this.toggle());
+            this.themeOwner = themeOwner;
+            this.storageKey = storageKey;
+            this.theme = localStorage.getItem(storageKey) || 'light';
+            this.syncAriaLabelWithStorage();
+        }
+
+        get currentTheme() {
+            return this.theme;
+        }
+
+        toggle() {
+            const oldTheme = this.currentTheme;
+            const newTheme = themeMap[oldTheme];
+
+            this.themeOwner.classList.remove(oldTheme);
+            this.themeOwner.classList.add(newTheme);
+            const forceDarkMode = (newTheme == 'dark') ? true : false;
+            ToggleDarkMode(forceDarkMode);
+
+            localStorage.setItem(this.storageKey, newTheme);
+            this.theme = newTheme;
+            this.syncAriaLabelWithStorage();
+        }
+
+        syncAriaLabelWithStorage() {
+            const nextTheme = themeMap[this.currentTheme];
+            this.toggleElement.setAttribute('aria-label', `Switch to ${nextTheme} mode theme`);
+        }
+    }
+
+
+    /* lamp toggle */
+    const themeToggle = new ThemeToggle({
+        toggleSelector: '#theme-toggle',
+        storageKey: 'theme',
+        themeOwner: document.documentElement,
+    });
+
+
+    $(document).ready(function () {
+        // move to init ?
+        var _TheActiveTheme = localStorage.getItem('theme');
+        /* alert(_TheActiveTheme); */
+        if (_TheActiveTheme == null || _TheActiveTheme == "dark") {
+            ToggleDarkMode(true)
+        }
+    });
+
+</script>

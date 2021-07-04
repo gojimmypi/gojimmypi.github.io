@@ -10,4 +10,181 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-70563713726774799
 blogger_orig_url: https://gojimmypi.blogspot.com/2017/05/converting-opendps-to-visual-studio.html
 ---
 
-minimal description supporting thread at sysprogs forum.<br /><br />see: <a href="https://sysprogs.com/w/forums/topic/visualgdb-manual-import-failure-2-separate-compiles/">https://sysprogs.com/w/forums/topic/visualgdb-manual-import-failure-2-separate-compiles/</a><br /><br />come back soon. I'll post more details when I have this working :) <br /><br />Compile on Ubuntu VM...<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-JFwgtKJnOaE/WQxioiPBu7I/AAAAAAAAAXM/g_ac2VW6cN49uq4-OHCMdNG2CA1fRNMMgCLcB/s1600/01-git-fetch.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="325" src="https://2.bp.blogspot.com/-JFwgtKJnOaE/WQxioiPBu7I/AAAAAAAAAXM/g_ac2VW6cN49uq4-OHCMdNG2CA1fRNMMgCLcB/s400/01-git-fetch.PNG" width="400" /></a></div><br /><div class="separator" style="clear: both; text-align: center;">(compiles successfully)</div><div class="separator" style="clear: both; text-align: center;">&nbsp;</div><div class="separator" style="clear: both; text-align: center;"><a href="https://2.bp.blogspot.com/-bnzrWdRCvwk/WQxiooY4G0I/AAAAAAAAAXI/C8Bo2b1NhJwt1C1qfHUP2O4uc-HwiqJyQCLcB/s1600/02-compile-done.PNG" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" height="240" src="https://2.bp.blogspot.com/-bnzrWdRCvwk/WQxiooY4G0I/AAAAAAAAAXI/C8Bo2b1NhJwt1C1qfHUP2O4uc-HwiqJyQCLcB/s400/02-compile-done.PNG" width="400" /></a></div><div class="separator" style="clear: both; text-align: center;">(also compiles successfully)</div><br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://3.bp.blogspot.com/-M6krpfP9AfA/WQxiotWwmtI/AAAAAAAAAXE/QqwvHNlXXioo1UyB3ffYQBeSN2LP9TQzwCLcB/s1600/03-OpenOCD.PNG" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" height="203" src="https://3.bp.blogspot.com/-M6krpfP9AfA/WQxiotWwmtI/AAAAAAAAAXE/QqwvHNlXXioo1UyB3ffYQBeSN2LP9TQzwCLcB/s400/03-OpenOCD.PNG" width="400" /></a></div><div class="separator" style="clear: both; text-align: center;">Starting OpenOCD</div><br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://2.bp.blogspot.com/-i7Wz-6lTJmw/WQxio9832cI/AAAAAAAAAXQ/CEtmEXfTDCI-Ptmow7VBRH31GCunQDSNwCLcB/s1600/04-make-flash.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="576" src="https://2.bp.blogspot.com/-i7Wz-6lTJmw/WQxio9832cI/AAAAAAAAAXQ/CEtmEXfTDCI-Ptmow7VBRH31GCunQDSNwCLcB/s640/04-make-flash.PNG" width="640" /></a></div><div class="separator" style="clear: both; text-align: center;">Separate telnet session... flashing to hardware via OpenOCD</div><br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://4.bp.blogspot.com/-FwWt-0jQHU0/WQxipNncuPI/AAAAAAAAAXU/M9g2t0W87DIFA7MzJf_ZKNmNFjdpLucGgCLcB/s1600/05-Windows-drivemap.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="285" src="https://4.bp.blogspot.com/-FwWt-0jQHU0/WQxipNncuPI/AAAAAAAAAXU/M9g2t0W87DIFA7MzJf_ZKNmNFjdpLucGgCLcB/s640/05-Windows-drivemap.PNG" width="640" /></a></div><div class="separator" style="clear: both; text-align: center;">Windows drive map to VM</div><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-bKghtf5rdwI/WQxiprHTo9I/AAAAAAAAAXY/jf3yQlFVGCogGtt3c8cVDMJNKh0OownawCLcB/s1600/06-new-project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="442" src="https://1.bp.blogspot.com/-bKghtf5rdwI/WQxiprHTo9I/AAAAAAAAAXY/jf3yQlFVGCogGtt3c8cVDMJNKh0OownawCLcB/s640/06-new-project.PNG" width="640" /></a></div><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://4.bp.blogspot.com/-Ywfwi9aoTT8/WQxipi8XAjI/AAAAAAAAAXc/3LVUaGME9TIWCiY8uShUWgZx-_d1PVXzwCLcB/s1600/07-new-embedded-project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="499" src="https://4.bp.blogspot.com/-Ywfwi9aoTT8/WQxipi8XAjI/AAAAAAAAAXc/3LVUaGME9TIWCiY8uShUWgZx-_d1PVXzwCLcB/s640/07-new-embedded-project.PNG" width="640" /></a></div><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-4dRqN0mOWb8/WQxiptrX8CI/AAAAAAAAAXk/yRoMFOK1sGcBXWd1kzdp_pjGjrDiKI64gCLcB/s1600/08-new-embedded-project-step2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="497" src="https://1.bp.blogspot.com/-4dRqN0mOWb8/WQxiptrX8CI/AAAAAAAAAXk/yRoMFOK1sGcBXWd1kzdp_pjGjrDiKI64gCLcB/s640/08-new-embedded-project-step2.PNG" width="640" /></a></div><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://4.bp.blogspot.com/-B5XXOsCdk1g/WQxip6AwOYI/AAAAAAAAAXo/dp56lEwFUHQn--VwICaRp6SgNvt2RvAEACLcB/s1600/08-new-embedded-project-step3.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="438" src="https://4.bp.blogspot.com/-B5XXOsCdk1g/WQxip6AwOYI/AAAAAAAAAXo/dp56lEwFUHQn--VwICaRp6SgNvt2RvAEACLcB/s640/08-new-embedded-project-step3.PNG" width="640" /></a></div><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://3.bp.blogspot.com/-IOSxXxqQh5E/WQxip3qyALI/AAAAAAAAAXg/RneuDeIspJ0EDGcT5KY1JAc-Ee2-DdX1gCLcB/s1600/08-new-embedded-project-step4.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="437" src="https://3.bp.blogspot.com/-IOSxXxqQh5E/WQxip3qyALI/AAAAAAAAAXg/RneuDeIspJ0EDGcT5KY1JAc-Ee2-DdX1gCLcB/s640/08-new-embedded-project-step4.PNG" width="640" /></a></div><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://4.bp.blogspot.com/-NDo8kWBVaPU/WQxiqMOj_1I/AAAAAAAAAXs/05yfeG0hM7cgTUZdbe_VAO4u9Ny6hhhzACLcB/s1600/08-new-embedded-project-step5.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="437" src="https://4.bp.blogspot.com/-NDo8kWBVaPU/WQxiqMOj_1I/AAAAAAAAAXs/05yfeG0hM7cgTUZdbe_VAO4u9Ny6hhhzACLcB/s640/08-new-embedded-project-step5.PNG" width="640" /></a></div><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-CIJN-jis3As/WQxiqQfz5nI/AAAAAAAAAXw/N4L6jrPpvQwK4xvUuqXfpuTTI0rmrhIcgCLcB/s1600/09-VS-Crash.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="383" src="https://1.bp.blogspot.com/-CIJN-jis3As/WQxiqQfz5nI/AAAAAAAAAXw/N4L6jrPpvQwK4xvUuqXfpuTTI0rmrhIcgCLcB/s640/09-VS-Crash.PNG" width="640" /></a></div><br />If instead following the same instructions and using VS 2015:<br /><br /><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">make: *** No targets specified and no makefile found.  Stop.<br /></span></span><br />&nbsp;<span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">1&gt;C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.MakeFile.Targets(46,5): error MSB3073: The command ""C:\Program Files (x86)\Sysprogs\VisualGDB\\VisualGDB.exe" /rebuild "c:\workspace\opendps-import15\opendps-import15\opendps-import15.vcxproj" "/solution:c:\workspace\opendps-import15\opendps-import15.sln" "/config:Debug" "/platform:Win32"" exited with code 1.</span></span><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://2.bp.blogspot.com/-i6_i0x-bsTM/WQ9NRmMj4MI/AAAAAAAAAYc/xCwn9_2h3CMiELMP5JvqAZoZ2OK2zyu8gCEw/s1600/10-VS2015%2BCompile.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="https://2.bp.blogspot.com/-i6_i0x-bsTM/WQ9NRmMj4MI/AAAAAAAAAYc/xCwn9_2h3CMiELMP5JvqAZoZ2OK2zyu8gCEw/s1600/10-VS2015%2BCompile.PNG" /></a></div><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://2.bp.blogspot.com/-wsLOFIyZ9uI/WQ9NRtWM7oI/AAAAAAAAAYg/9KPgsM0ao4AVRK-Tmpqy1vl9b9F9jjd2gCEw/s1600/10-VS2015%2BCompile-output.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="https://2.bp.blogspot.com/-wsLOFIyZ9uI/WQ9NRtWM7oI/AAAAAAAAAYg/9KPgsM0ao4AVRK-Tmpqy1vl9b9F9jjd2gCEw/s1600/10-VS2015%2BCompile-output.PNG" /></a></div><div class="separator" style="clear: both; text-align: center;">&nbsp;</div><div class="separator" style="clear: both; text-align: center;">&nbsp;</div><div class="separator" style="clear: both; text-align: center;">&nbsp;</div><div class="separator" style="clear: both; text-align: center;">&nbsp;</div><div align="left" class="separator" style="clear: both; text-align: center;">&nbsp;</div><div align="left" class="separator" style="clear: both; text-align: center;">﻿</div><div class="separator" style="clear: both; text-align: left;">also tried "ARM" and "VisualGDB" platforms, same result:</div><div class="separator" style="clear: both; text-align: left;">&nbsp;</div><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-7Y1ij6snjxI/WQ9PN3cas5I/AAAAAAAAAYs/GHcZybr9UlEIglalmIg3ypW-T1CVegkiQCLcB/s1600/10-VS2015%2BBuildSettings.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="https://3.bp.blogspot.com/-7Y1ij6snjxI/WQ9PN3cas5I/AAAAAAAAAYs/GHcZybr9UlEIglalmIg3ypW-T1CVegkiQCLcB/s1600/10-VS2015%2BBuildSettings.PNG" /></a></div><div class="separator" style="clear: both; text-align: center;">&nbsp;</div><div class="separator" style="clear: both; text-align: center;">&nbsp;</div>
+minimal description supporting thread at sysprogs forum.<br />
+<br />see: 
+<a href="https://sysprogs.com/w/forums/topic/visualgdb-manual-import-failure-2-separate-compiles/">
+https://sysprogs.com/w/forums/topic/visualgdb-manual-import-failure-2-separate-compiles/</a><br />
+<br />
+come back soon. I'll post more details when I have this working :) 
+<br />
+<br />
+Compile on Ubuntu VM...
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/01-git-fetch.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="325" src="../images/s400/01-git-fetch.PNG" width="400"></a>
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+(compiles successfully)
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+&nbsp;
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/02-compile-done.PNG" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;">
+<img border="0" height="240" src="../images/s400/02-compile-done.PNG" width="400"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+(also compiles successfully)
+</div>
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/03-OpenOCD.PNG" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;">
+<img border="0" height="203" src="../images/s400/03-OpenOCD.PNG" width="400"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+Starting OpenOCD
+</div>
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/04-make-flash.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="576" src="../images/s640/04-make-flash.PNG" width="640"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+Separate telnet session... flashing to hardware via OpenOCD
+</div>
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/05-Windows-drivemap.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="285" src="../images/s640/05-Windows-drivemap.PNG" width="640"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+Windows drive map to VM
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/06-new-project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="442" src="../images/s640/06-new-project.PNG" width="640"></a>
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/07-new-embedded-project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="499" src="../images/s640/07-new-embedded-project.PNG" width="640"></a>
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/08-new-embedded-project-step2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="497" src="../images/s640/08-new-embedded-project-step2.PNG" width="640"></a>
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/08-new-embedded-project-step3.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="438" src="../images/s640/08-new-embedded-project-step3.PNG" width="640"></a>
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/08-new-embedded-project-step4.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="437" src="../images/s640/08-new-embedded-project-step4.PNG" width="640"></a>
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/08-new-embedded-project-step5.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="437" src="../images/s640/08-new-embedded-project-step5.PNG" width="640"></a>
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/09-VS-Crash.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="383" src="../images/s640/09-VS-Crash.PNG" width="640"></a>
+</div>
+<br />
+If instead following the same instructions and using VS 2015:
+<br />
+<br />
+<span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">
+make: *** No targets specified and no makefile found.  Stop.<br />
+</span></span><br />&nbsp;
+<span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">
+1&gt;C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.MakeFile.Targets(46,5): error MSB3073: The command ""C:\Program Files (x86)\Sysprogs\VisualGDB\\VisualGDB.exe" /rebuild "c:\workspace\opendps-import15\opendps-import15\opendps-import15.vcxproj" "/solution:c:\workspace\opendps-import15\opendps-import15.sln" "/config:Debug" "/platform:Win32"" exited with code 1.</span></span><br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/10-VS2015_Compile.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" src="../images/s1600/10-VS2015_Compile.PNG"></a>
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/10-VS2015_Compile-output.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" src="../images/s1600/10-VS2015_Compile-output.PNG"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+&nbsp;
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+&nbsp;
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+&nbsp;
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+&nbsp;
+</div>
+
+<div align="left" class="separator" style="clear: both; text-align: center;">
+&nbsp;
+</div>
+
+<div align="left" class="separator" style="clear: both; text-align: center;">﻿
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+also tried "ARM" and "VisualGDB" platforms, same result:
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+&nbsp;
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/10-VS2015_BuildSettings.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" src="../images/s1600/10-VS2015_BuildSettings.PNG"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+&nbsp;
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+&nbsp;
+</div>
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:52 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

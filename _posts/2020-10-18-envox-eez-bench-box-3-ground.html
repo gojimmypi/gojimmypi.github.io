@@ -13,4 +13,266 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-33933257462519371
 blogger_orig_url: https://gojimmypi.blogspot.com/2020/10/envox-eez-bench-box-3-ground.html
 ---
 
-Over the weekend, I received my <a href="https://www.envox.hr/eez/eez-bench-box-3/introduction.html">EEZ Bench Box 3</a> that I backed on <a href="https://www.crowdsupply.com/envox/eez-bb3">Crowd Supply</a>. The <a href="https://www.envox.hr/eez/eez-bench-box-3/bb3-user-manual/1-introduction.html">assembly instructions</a> are quite straightforward and easy to follow and I had it working fairly quickly:<div><br /></div><div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-jFE25Ytp77I/X4xnNsiAsgI/AAAAAAAAC2E/CApqCFj0fQsP4arhGvu4Puav0JJup5EoACLcBGAsYHQ/s2508/IMG-20201017-WA0029.jpeg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1254" data-original-width="2508" src="https://1.bp.blogspot.com/-jFE25Ytp77I/X4xnNsiAsgI/AAAAAAAAC2E/CApqCFj0fQsP4arhGvu4Puav0JJup5EoACLcBGAsYHQ/s320/IMG-20201017-WA0029.jpeg" width="320" /></a></div><br />Shortly after assembly however, I noticed the case was not properly grounded. I think this was on my mind, as my <a href="{{ site.baseurl }}{% post_url 2020-08-22-notes-on-upgrading-t962a-reflow-oven %}">recent reflow oven retrofit</a> had this exact same problem. And that's a commercial product by a much larger company! <br /><br />I mentioned this over on the <a href="https://discord.gg/wMY5gaf">Envox Discord Channel</a>;&nbsp; I started the&nbsp;<a href="https://discord.com/channels/511131497801973761/511133610556784640/767145662033952778">discord discussion on this topic</a>&nbsp;in the&nbsp;<a href="https://discord.com/channels/511131497801973761/511133610556784640">#eez-bb3 channel</a>, but it was&nbsp;<a href="https://discord.com/channels/511131497801973761/511133610556784640/767161638351929374">suggested</a>&nbsp;that I move it to the&nbsp;<a href="https://discord.com/channels/511131497801973761/511188695005659157">#crowdsupply channel</a>. So the&nbsp;<a href="https://discord.com/channels/511131497801973761/511188695005659157/767163215284404265">discussion continues there</a>.</div><div><br /></div><div><a href="https://discord.com/channels/511131497801973761/511188695005659157/767274260199899146">Sure enough</a>: although there was an excellent paint job on the enclosure, there was <i>not </i>supposed to be paint where the standoffs meet the case:</div><div><blockquote><i>"The fact is that one of the AUX-PS stand-off has connection to PE but enclosure maker didn't leave a part of bottom plate unpainted to make electrical contact" --prasimix (eez admin)</i></blockquote></div><div>My initial solution was to scrape off the paint on the inside bevel of the screw holes. Done carefully, and there will be minimal to no visibility once the screws are re-inserted:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-XXyHASl5AhA/X4xqW0JYhHI/AAAAAAAAC2Q/GJDocpB3xZ0birItlJQGV1eEf2lRQQitwCLcBGAsYHQ/s2508/IMG-20201017-WA0014.jpeg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1254" data-original-width="2508" src="https://1.bp.blogspot.com/-XXyHASl5AhA/X4xqW0JYhHI/AAAAAAAAC2Q/GJDocpB3xZ0birItlJQGV1eEf2lRQQitwCLcBGAsYHQ/s320/IMG-20201017-WA0014.jpeg" width="320" /></a></div><div><br /></div>Note the screws are black (painted!) so for a good electrical contact, the undersides of the screws should *also* be scraped.&nbsp;&nbsp;<div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-etk6DXrm8fk/X4xrZ9ZQUSI/AAAAAAAAC2g/VAjdvsxvcloYS3RpXiWljezde8taClKeACLcBGAsYHQ/s2508/IMG-20201017-WA0016.jpeg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="2508" data-original-width="1254" height="320" src="https://1.bp.blogspot.com/-etk6DXrm8fk/X4xrZ9ZQUSI/AAAAAAAAC2g/VAjdvsxvcloYS3RpXiWljezde8taClKeACLcBGAsYHQ/s320/IMG-20201017-WA0016.jpeg" /></a></div><br /><div><br /></div><div>Initially I used a hand-turned, over-sized drill bit to scratch off the paint in the holes:<div><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-Jh68C6MhVto/X4xrAtogCjI/AAAAAAAAC2Y/IcnIrNDJt9Quv1hTol2-cfMBIdbq3o7agCLcBGAsYHQ/s2508/IMG-20201017-WA0020.jpeg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="2508" data-original-width="1254" height="320" src="https://1.bp.blogspot.com/-Jh68C6MhVto/X4xrAtogCjI/AAAAAAAAC2Y/IcnIrNDJt9Quv1hTol2-cfMBIdbq3o7agCLcBGAsYHQ/s320/IMG-20201017-WA0020.jpeg" /></a></div><br /><div><div>Really on the back and bottom, I think plain silver, unpainted screws would be best, however I don't have any on hand. Even on the sides this might be a good idea, although admittedly the black screws on the nice blue case is quite aesthetically impressive. Still, safety should always take priority.</div><div><br /></div><div>My next modification was to actually hardwire the ground connection to the case. Fortunately there's even a space lug awaiting the connector. Here the blue end is on the screw holding the power connecting to the case (also scraped off paint on case, see above) and the bare connector is attached to the extra lug on the auxiliary power supply:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-02bgT6-QL3E/X4xtmf2wM7I/AAAAAAAAC24/WV5XTLIzJUE3ePYb75I84iQFjx2F59z_wCLcBGAsYHQ/s677/connector.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="320" data-original-width="677" src="https://1.bp.blogspot.com/-02bgT6-QL3E/X4xtmf2wM7I/AAAAAAAAC24/WV5XTLIzJUE3ePYb75I84iQFjx2F59z_wCLcBGAsYHQ/s320/connector.png" width="320" /></a></div><br /><div class="separator" style="clear: both; text-align: center;"><br /></div><div>Although my initial solution worked, it was <a href="https://discord.com/channels/511131497801973761/511188695005659157/767371926787194880">admittedly lazy</a>. The right way to do this would have been during assembly, to clean up <i>all</i> the paint around <i>all</i> of the standoffs. But I didn't really want to completely disassemble <i>everything </i>just to do this.&nbsp;</div><div><br /></div><div>I started with just the removal of the cover, and the side screws holding the auxiliary power supply:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-LqlTi7YIFtE/X4xuzPv26KI/AAAAAAAAC3E/MZGyFUTQQq00mg1KR5v3WsZB4EK23qCagCLcBGAsYHQ/s2508/IMG-20201018-WA0000.jpeg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1254" data-original-width="2508" src="https://1.bp.blogspot.com/-LqlTi7YIFtE/X4xuzPv26KI/AAAAAAAAC3E/MZGyFUTQQq00mg1KR5v3WsZB4EK23qCagCLcBGAsYHQ/s320/IMG-20201018-WA0000.jpeg" width="320" /></a></div><br /><div><br /></div><div>I then scraped off the paint in a little perimeter around the holes to ensure the standoffs would make electrical contact:</div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-pgTWsRyQ3Z8/X4xvULJeLkI/AAAAAAAAC3M/KrHAsPiOnYkpDsbAQYzrnXoZoJqRWcJEgCLcBGAsYHQ/s2508/IMG-20201018-WA0006.jpeg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1254" data-original-width="2508" src="https://1.bp.blogspot.com/-pgTWsRyQ3Z8/X4xvULJeLkI/AAAAAAAAC3M/KrHAsPiOnYkpDsbAQYzrnXoZoJqRWcJEgCLcBGAsYHQ/s320/IMG-20201018-WA0006.jpeg" width="320" /></a></div><br /><div><br /></div><div>The two holes closest to the rear of the unit (near the power cable) have standoffs that are in direct contact with the incoming earth ground on the power supply connector mounted on the PCB, so it would probably be a good idea to ensure these are in good contact with the case.</div><div><br /></div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-97jzqVwKCsc/X4xw0kDhKmI/AAAAAAAAC3g/uzMR6YqkbKA_tB5lXQwlCEF3nbEvYQu1QCLcBGAsYHQ/s2508/IMG-20201018-WA0011-with%2Bboxes.jpg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1254" data-original-width="2508" src="https://1.bp.blogspot.com/-97jzqVwKCsc/X4xw0kDhKmI/AAAAAAAAC3g/uzMR6YqkbKA_tB5lXQwlCEF3nbEvYQu1QCLcBGAsYHQ/s320/IMG-20201018-WA0011-with%2Bboxes.jpg" width="320" /></a></div><br /><div><div>The red square to the <b>left</b> is the most important This one is closest to the inbound ground from the power connector (the ground pin in the small red square in the middle). Note the PCB trace. The connector to the right is not connected to anything.</div><div><br /></div></div><div>I ended up removing <i>all</i> of the screws from the bottom case:</div><div><div><br /></div></div></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-fRFlVlUEPnY/X4xyA4prHRI/AAAAAAAAC4A/5luQ5QmRI1AzV_Fnzb0EJr-EyLeGh5VTACLcBGAsYHQ/s2508/IMG-20201018-WA0015.jpeg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1254" data-original-width="2508" src="https://1.bp.blogspot.com/-fRFlVlUEPnY/X4xyA4prHRI/AAAAAAAAC4A/5luQ5QmRI1AzV_Fnzb0EJr-EyLeGh5VTACLcBGAsYHQ/s320/IMG-20201018-WA0015.jpeg" width="320" /></a></div><br /></div></div><div>This allowed removing the bottom cover, without having to disassemble the entire front panel, display, PCBs, etc:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-I_LC1DFoJrY/X4xyZhNJUnI/AAAAAAAAC4I/DmquK-mK_Osrq5FlGLuVostg0UY-CwNYQCLcBGAsYHQ/s2508/IMG-20201018-WA0017.jpeg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1254" data-original-width="2508" src="https://1.bp.blogspot.com/-I_LC1DFoJrY/X4xyZhNJUnI/AAAAAAAAC4I/DmquK-mK_Osrq5FlGLuVostg0UY-CwNYQCLcBGAsYHQ/s320/IMG-20201018-WA0017.jpeg" width="320" /></a></div><div><br /></div>The paint is fairly durable, some sandpaper on the end of a pencil or small nut driver might work. I used a Dremel tool on lowest speed setting to gently clean off the paint around all of the standoff connectors in the bottom panel:<div><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-i5l73_3OF74/X4xyn3XltRI/AAAAAAAAC4M/PjHJ0z6-M34KQVo7vIeX0vwQOrSZtP0jQCLcBGAsYHQ/s2508/IMG-20201018-WA0019.jpeg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1254" data-original-width="2508" src="https://1.bp.blogspot.com/-i5l73_3OF74/X4xyn3XltRI/AAAAAAAAC4M/PjHJ0z6-M34KQVo7vIeX0vwQOrSZtP0jQCLcBGAsYHQ/s320/IMG-20201018-WA0019.jpeg" width="320" /></a></div><br /><div>Note the two screws that connect the front panel two the base should also conduct. Pay extra attention to these to ensure the best contact. It is really quite surprising just how well the painted case acts as an insulator. But with quality paint, and even painted screws - that's exactly what happens. Even upon assembly, the screws do not scratch the paint enough to make an electrical connection.</div><div><br /></div><div>Edit: it's really great when a lot of people participate! All sorts of great ideas come about.&nbsp;<a href="https://twitter.com/timonsku/status/1317891277455851524?s=20">@timonsku has an excellent suggestion of using those toothed lock washers to help make contact</a>!</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-N7NiupCX1jE/X4yJDWPXHkI/AAAAAAAAC48/HuQHuM2G158PHTYEED7kez1iDddCcDiVACLcBGAsYHQ/s995/lock%2Bwashers.PNG" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="447" data-original-width="995" src="https://1.bp.blogspot.com/-N7NiupCX1jE/X4yJDWPXHkI/AAAAAAAAC48/HuQHuM2G158PHTYEED7kez1iDddCcDiVACLcBGAsYHQ/s320/lock%2Bwashers.PNG" width="320" /></a></div><br /><div>When re-assembling, but sure to connect the wires FIRST, before moving everything into place. Otherwise it will be difficult to reattach them. (yes, I learned this the hard way and removed all the screws in the auxiliary power supply a second time)</div></div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-1qzIZ-1Tq3s/X4x0z_NXSyI/AAAAAAAAC4c/n2FjXbTuWgQToIqJE3JLZEIFHi-5C2hbwCLcBGAsYHQ/s2508/IMG-20201018-WA0026.jpeg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="2508" data-original-width="1254" height="320" src="https://1.bp.blogspot.com/-1qzIZ-1Tq3s/X4x0z_NXSyI/AAAAAAAAC4c/n2FjXbTuWgQToIqJE3JLZEIFHi-5C2hbwCLcBGAsYHQ/s320/IMG-20201018-WA0026.jpeg" /></a></div><br /><div>Afterwards, simply replace the bottom plate.</div><div><br /></div><div>Really what I need to do is order some longer screws, and connect the front panel to case ground with wires, and not rely only on the (painted) screws to make a good electrical contact. Note the screws holding the display plate are apparently built-in to the case (my unit arrived with the display already mounted, and the screws to not come through to the front panel). This would be an excellent place for a wired ground connection:</div><div class="separator" style="clear: both; text-align: center;"><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-Bi6-fEi9Miw/X4x7bskJIEI/AAAAAAAAC4w/jXA35ZiBoi8LbKUO1jLsvoO0CqS4OnrxACLcBGAsYHQ/s1429/front%2Bdisplay%2Bbolts.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="946" data-original-width="1429" src="https://1.bp.blogspot.com/-Bi6-fEi9Miw/X4x7bskJIEI/AAAAAAAAC4w/jXA35ZiBoi8LbKUO1jLsvoO0CqS4OnrxACLcBGAsYHQ/s320/front%2Bdisplay%2Bbolts.png" width="320" /></a></div><br /><div>When reassembling, be sure to check to top lid as well. Mine is completely insulated from the power supplies (not good).</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-hwKcbjfmCms/X4yOHxB2zsI/AAAAAAAAC5I/PoRd0S2fAB4Lr92eiSkyZiRW640WJUCwgCLcBGAsYHQ/s1600/IMG-20201018-WA0037.jpg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="800" data-original-width="1600" src="https://1.bp.blogspot.com/-hwKcbjfmCms/X4yOHxB2zsI/AAAAAAAAC5I/PoRd0S2fAB4Lr92eiSkyZiRW640WJUCwgCLcBGAsYHQ/s320/IMG-20201018-WA0037.jpg" width="320" /></a></div><br /><div>Really, I think <a href="https://discord.com/channels/511131497801973761/511188695005659157/767460840999092264">this</a> is the best suggestion: to have welded posts on all 4 case parts. Thanks [timonsku] :</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-yQPdxhc_irI/X4yZWdDkP3I/AAAAAAAAC5U/d9BeHRiJgpY5WBh24iScQQZD4adXyj8CACLcBGAsYHQ/s868/grounding-photo.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="379" data-original-width="868" src="https://1.bp.blogspot.com/-yQPdxhc_irI/X4yZWdDkP3I/AAAAAAAAC5U/d9BeHRiJgpY5WBh24iScQQZD4adXyj8CACLcBGAsYHQ/s320/grounding-photo.png" width="320" /></a></div><br /><div>Hopefully the EEZ folks will mention this early on in their&nbsp;<a href="https://www.envox.hr/eez/eez-bench-box-3/bb3-user-manual/1-introduction.html">assembly instructions</a>, as this whole process would certainly be easier <i>before </i>the unit is assembled.</div><div><div><br /></div><div>See also a discussion of the <a href="https://www.eevblog.com/forum/projects/eez-h25005-a-possible-successor-of-eez-h24005-programmable-power-supply/">BB3 on eevblog</a>&nbsp;and the <a href="https://github.com/eez-open/studio/releases">eez-open releases</a>, and <a href="https://github.com/eez-open/modular-psu-firmware/releases">firmware releases</a>.</div><div><br /></div></div><div><br /></div>
+Over the weekend, I received my <a href="https://www.envox.hr/eez/eez-bench-box-3/introduction.html">EEZ Bench Box 3</a> that I backed on <a href="https://www.crowdsupply.com/envox/eez-bb3">Crowd Supply</a>. The <a href="https://www.envox.hr/eez/eez-bench-box-3/bb3-user-manual/1-introduction.html">assembly instructions</a>
+ are quite straightforward and easy to follow and I had it working fairly quickly:<br />
+
+<div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s2508/IMG-20201017-WA0029.jpeg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1254" data-original-width="2508" src="../images/s320/IMG-20201017-WA0029.jpeg" width="320"></a>
+</div>
+<br />Shortly after assembly however, I noticed the case was not properly grounded. I think this was on my mind, as my 
+<a href="{{ site.baseurl }}{% post_url 2020-08-22-notes-on-upgrading-t962a-reflow-oven %}">recent reflow oven retrofit</a>
+ had this exact same problem. And that's a commercial product by a much larger company! <br />
+<br />I mentioned this over on the 
+<a href="https://discord.gg/wMY5gaf">Envox Discord Channel</a>;&nbsp; I started the&nbsp;<a href="https://discord.com/channels/511131497801973761/511133610556784640/767145662033952778">discord discussion on this topic</a>&nbsp;in the&nbsp;<a href="https://discord.com/channels/511131497801973761/511133610556784640">#eez-bb3 channel</a>, but it was&nbsp;<a href="https://discord.com/channels/511131497801973761/511133610556784640/767161638351929374">suggested</a>&nbsp;that I move it to the&nbsp;<a href="https://discord.com/channels/511131497801973761/511188695005659157">#crowdsupply channel</a>. So the&nbsp;<a href="https://discord.com/channels/511131497801973761/511188695005659157/767163215284404265">discussion continues there</a>.
+</div>
+<br />
+
+<div>
+<a href="https://discord.com/channels/511131497801973761/511188695005659157/767274260199899146">Sure enough</a>: although there was an excellent paint job on the enclosure, there was <i>not </i>supposed to be paint where the standoffs meet the case:
+</div>
+
+<div>
+<blockquote><i>"The fact is that one of the AUX-PS stand-off has connection to PE but enclosure maker didn't leave a part of bottom plate unpainted to make electrical contact" --prasimix (eez admin)</i></blockquote>
+</div>
+
+<div>
+My initial solution was to scrape off the paint on the inside bevel of the screw holes. Done carefully, and there will be minimal to no visibility once the screws are re-inserted:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s2508/IMG-20201017-WA0014.jpeg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1254" data-original-width="2508" src="../images/s320/IMG-20201017-WA0014.jpeg" width="320"></a>
+</div>
+<br />
+Note the screws are black (painted!) so for a good electrical contact, the undersides of the screws should *also* be scraped.&nbsp;&nbsp;
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s2508/IMG-20201017-WA0016.jpeg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="2508" data-original-width="1254" height="320" src="../images/s320/IMG-20201017-WA0016.jpeg"></a>
+</div>
+<br />
+<br />
+
+<div>
+Initially I used a hand-turned, over-sized drill bit to scratch off the paint in the holes:
+<div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s2508/IMG-20201017-WA0020.jpeg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="2508" data-original-width="1254" height="320" src="../images/s320/IMG-20201017-WA0020.jpeg"></a>
+</div>
+<br />
+
+<div>
+<div>
+Really on the back and bottom, I think plain silver, unpainted screws would be best, however I don't have any on hand. Even on the sides this might be a good idea, although admittedly the black screws on the nice blue case is quite aesthetically impressive. Still, safety should always take priority.
+</div>
+<br />
+
+<div>
+My next modification was to actually hardwire the ground connection to the case. Fortunately there's even a space lug awaiting the connector. Here the blue end is on the screw holding the power connecting to the case (also scraped off paint on case, see above) and the bare connector is attached to the extra lug on the auxiliary power supply:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s677/connector.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="320" data-original-width="677" src="../images/s320/connector.png" width="320"></a>
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<br />
+
+</div>
+
+
+<div>
+Although my initial solution worked, it was <a href="https://discord.com/channels/511131497801973761/511188695005659157/767371926787194880">admittedly lazy</a>. The right way to do this would have been during assembly, to clean up <i>all</i> the paint around <i>all</i> of the standoffs. But I didn't really want to completely disassemble <i>everything </i>just to do this.&nbsp;
+</div>
+<br />
+
+<div>
+I started with just the removal of the cover, and the side screws holding the auxiliary power supply:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s2508/IMG-20201018-WA0000.jpeg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1254" data-original-width="2508" src="../images/s320/IMG-20201018-WA0000.jpeg" width="320"></a>
+</div>
+<br />
+<br />
+
+<div>
+I then scraped off the paint in a little perimeter around the holes to ensure the standoffs would make electrical contact:
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s2508/IMG-20201018-WA0006.jpeg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1254" data-original-width="2508" src="../images/s320/IMG-20201018-WA0006.jpeg" width="320"></a>
+</div>
+<br />
+<br />
+
+<div>
+The two holes closest to the rear of the unit (near the power cable) have standoffs that are in direct contact with the incoming earth ground on the power supply connector mounted on the PCB, so it would probably be a good idea to ensure these are in good contact with the case.
+</div>
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s2508/IMG-20201018-WA0011-with_boxes.jpg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1254" data-original-width="2508" src="../images/s320/IMG-20201018-WA0011-with_boxes.jpg" width="320"></a>
+</div>
+<br />
+
+<div>
+<div>
+The red square to the <b>left</b> is the most important This one is closest to the inbound ground from the power connector (the ground pin in the small red square in the middle). Note the PCB trace. The connector to the right is not connected to anything.
+</div>
+<br />
+
+</div>
+
+<div>
+I ended up removing <i>all</i> of the screws from the bottom case:
+</div>
+
+<div>
+<br />
+
+</div>
+
+
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s2508/IMG-20201018-WA0015.jpeg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1254" data-original-width="2508" src="../images/s320/IMG-20201018-WA0015.jpeg" width="320"></a>
+</div>
+<br />
+
+</div>
+
+
+</div>
+
+<div>
+This allowed removing the bottom cover, without having to disassemble the entire front panel, display, PCBs, etc:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s2508/IMG-20201018-WA0017.jpeg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1254" data-original-width="2508" src="../images/s320/IMG-20201018-WA0017.jpeg" width="320"></a>
+</div>
+<br />
+The paint is fairly durable, some sandpaper on the end of a pencil or small nut driver might work. I used a Dremel tool on lowest speed setting to gently clean off the paint around all of the standoff connectors in the bottom panel:
+
+<div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s2508/IMG-20201018-WA0019.jpeg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1254" data-original-width="2508" src="../images/s320/IMG-20201018-WA0019.jpeg" width="320"></a>
+</div>
+<br />
+
+<div>
+Note the two screws that connect the front panel two the base should also conduct. Pay extra attention to these to ensure the best contact. It is really quite surprising just how well the painted case acts as an insulator. But with quality paint, and even painted screws - that's exactly what happens. Even upon assembly, the screws do not scratch the paint enough to make an electrical connection.
+</div>
+<br />
+
+<div>
+Edit: it's really great when a lot of people participate! All sorts of great ideas come about.&nbsp;<a href="https://twitter.com/timonsku/status/1317891277455851524?s=20">@timonsku has an excellent suggestion of using those toothed lock washers to help make contact</a>!
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s995/lock_washers.PNG" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="447" data-original-width="995" src="../images/s320/lock_washers.PNG" width="320"></a>
+</div>
+<br />
+
+<div>
+When re-assembling, but sure to connect the wires FIRST, before moving everything into place. Otherwise it will be difficult to reattach them. (yes, I learned this the hard way and removed all the screws in the auxiliary power supply a second time)
+</div>
+
+</div>
+
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s2508/IMG-20201018-WA0026.jpeg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="2508" data-original-width="1254" height="320" src="../images/s320/IMG-20201018-WA0026.jpeg"></a>
+</div>
+<br />
+
+<div>
+Afterwards, simply replace the bottom plate.
+</div>
+<br />
+
+<div>
+Really what I need to do is order some longer screws, and connect the front panel to case ground with wires, and not rely only on the (painted) screws to make a good electrical contact. Note the screws holding the display plate are apparently built-in to the case (my unit arrived with the display already mounted, and the screws to not come through to the front panel). This would be an excellent place for a wired ground connection:
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1429/front_display_bolts.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="946" data-original-width="1429" src="../images/s320/front_display_bolts.png" width="320"></a>
+</div>
+<br />
+
+<div>
+When reassembling, be sure to check to top lid as well. Mine is completely insulated from the power supplies (not good).
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/IMG-20201018-WA0037.jpg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="800" data-original-width="1600" src="../images/s320/IMG-20201018-WA0037.jpg" width="320"></a>
+</div>
+<br />
+
+<div>
+Really, I think <a href="https://discord.com/channels/511131497801973761/511188695005659157/767460840999092264">this</a> is the best suggestion: to have welded posts on all 4 case parts. Thanks [timonsku] :
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s868/grounding-photo.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="379" data-original-width="868" src="../images/s320/grounding-photo.png" width="320"></a>
+</div>
+<br />
+
+<div>
+Hopefully the EEZ folks will mention this early on in their&nbsp;<a href="https://www.envox.hr/eez/eez-bench-box-3/bb3-user-manual/1-introduction.html">assembly instructions</a>, as this whole process would certainly be easier <i>before </i>the unit is assembled.
+</div>
+
+<div>
+<br />
+
+<div>
+See also a discussion of the <a href="https://www.eevblog.com/forum/projects/eez-h25005-a-possible-successor-of-eez-h24005-programmable-power-supply/">BB3 on eevblog</a>&nbsp;and the <a href="https://github.com/eez-open/studio/releases">eez-open releases</a>, and <a href="https://github.com/eez-open/modular-psu-firmware/releases">firmware releases</a>.
+</div>
+<br />
+
+</div>
+
+<br />
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:54 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

@@ -1,8 +1,13 @@
 // social media and search icon container within main menu
-.iconnav{
+.iconnav {
+    position: absolute; 
+    right:0;
 
+    height: inherit;
+    background-color: $primary-color;
+    border-radius: 10px;
     // hide some of the icons once there is not enough space
-    @media screen and (max-width: 368px){
+    @media screen and (max-width: 368px) {
         .tumblr,
         .instagram,
         .twitter,
@@ -11,14 +16,14 @@
         }
     }
 
-    ul{
+    ul {
         list-style: none;
 
-        li{
+        li {
             list-style: none;
             display: inline-block;
 
-            a{
+            a {
                 padding: 0 3px;
             }
         }

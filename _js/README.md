@@ -1,0 +1,1 @@
+# This _js directory is only used when grunt is installed AND includes liquid tags

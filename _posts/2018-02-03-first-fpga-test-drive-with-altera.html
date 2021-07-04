@@ -19,4 +19,338 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-41328571133793739
 blogger_orig_url: https://gojimmypi.blogspot.com/2018/02/first-fpga-test-drive-with-altera.html
 ---
 
-I decided to finally learn how to program an FPGA! Here are some first impressions and notes to self for future reference.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-FV4my_9V49s/WnX0gmAiUiI/AAAAAAAAA1M/BOQmN0hIV5Qa5zMxiMsCma_-z8DMtPxQgCLcBGAs/s1600/myCyclone.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="703" data-original-width="872" height="257" src="https://2.bp.blogspot.com/-FV4my_9V49s/WnX0gmAiUiI/AAAAAAAAA1M/BOQmN0hIV5Qa5zMxiMsCma_-z8DMtPxQgCLcBGAs/s320/myCyclone.PNG" width="320" /></a></div><br />TL;DR<br /><br /><ul><li>Blaster drivers need to be manually installed from&nbsp;C:\intelFPGA_lite\17.1\quartus\drivers</li><li>Cyclone IV board is EP4CE6E22C8; do not use default "auto device" (for Pin Planner)&nbsp;</li><li>Verilog file added manually, module name must match file name and is case sensitive</li><li>Source files in the project are "Design Entities"</li><li>Do not insert to remove the USB Blaster ribbon cable while the device is powered on.</li><li>Download vendor board files <a href="https://1drv.ms/f/s!Ar3VgAmjw82yhYYiNXi_gBgsPi840A">here</a></li><li>JTAG programming of FPGA is temporary and lost upon power cycle</li></ul><br />I ordered my first FPGA board - the <a href="https://www.aliexpress.com/item/FPGA-development-board-ALTERA-Cyclone-IV-EP4CE-four-generations-SOPC-NIOSII-send-send-remote-control-to/32691369830.html">Altera Cyclone IV EP4CE6 FPGA Development Kit and USB Blaster</a>&nbsp;from the <a href="https://omdazz.aliexpress.com/">Numon Electric Cyberport Store on Aliexpress</a> thanks to inspiration by&nbsp;<a href="http://amitesh-singh.github.io/about/">Amitesh</a>. He did all the footwork to find what seems to be the coolest Cyclone FPGA board that can still be programmed with the free version software. (note the really cool GX version with Nios processor needs <a href="https://www.altera.com/buy/design-software.html">software costing thousands of dollars</a>)<br /><br />If you order the board from Numon Electric, they have a <a href="https://1drv.ms/f/s!Ar3VgAmjw82yhYYiNXi_gBgsPi840A">download available on one-drive</a>&nbsp;that includes a ton of really great documentation, sample code, and more. The file is called "RZ301 EP4CE6 development board.zip" however the contents of that zip file consist of mainly a single file "Altera Cyclone IV board V3.0.rar". Windows users will be annoyed that there's no native tool to easily extract RAR files. Having a linux VM or WSL will be handy here. The latest version of <a href="http://www.winzip.com/lanrar.htm">winzip</a> also appears to now support RAR extraction.<br /><br />Overall I was quite happy with the responsive customer service, prompt delivery, and quality of my new FPGA board. If you look close at the picture of my board, the actual silkscreen quality is much better than shown: the blur is from the poor picture.<br /><br />While awaiting delivery of my Cyclone, I found this <a href="https://store.tinyfpga.com/collections/frontpage/products/tinyfpga-a1">other tiny, inexpensive FPGA</a>&nbsp;created by <a href="https://twitter.com/tinyfpga">Luke Valenty</a>. Note that if you order on the <a href="https://store.tinyfpga.com/">tinyfpga store web site</a>, you can pay with Amazon, without having the hassle of creating an account, etc. This board is so cool, I think I will have a separate blog about it later.<br /><br />Surprisingly, my Cyclone board arrived relatively quickly in only about 2 weeks! (the estimate at order time was 19 to 39 days)<br /><br />In order to program the Cyclone board, the <a href="http://dl.altera.com/?edition=lite">Altera Quartus Prime Lite software</a>&nbsp;is needed. Unlike some other programs, installation was quick and easy.<br /><br /><b>IMPORTANT:</b> Do not insert to remove the USB Blaster ribbon cable while the device is powered on. There was an included warning that the board would likely be damaged. I did not test this.<br /><br />The USB Blaster was not Plug-N-Play, and Quartus Prime did not see it:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-jGGv77AQj5Q/Wm9gN8mY5wI/AAAAAAAAAxo/z9JPw0BAGh8wiY0lJgT1-1-zJsSUU4VFgCLcBGAs/s1600/Blaster%2Bnot%2Bworking.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="110" data-original-width="239" src="https://3.bp.blogspot.com/-jGGv77AQj5Q/Wm9gN8mY5wI/AAAAAAAAAxo/z9JPw0BAGh8wiY0lJgT1-1-zJsSUU4VFgCLcBGAs/s1600/Blaster%2Bnot%2Bworking.PNG" /></a></div><br />A quick google search indicated that <a href="https://www.altera.com/support/support-resources/download/drivers/usb-blaster/dri-usb-blaster-vista.html">the drivers need to be manually installed</a>;&nbsp;instructions copied from Altera site here for reference:<br /><blockquote class="tr_bq">The Altera On-Board USB-Blaster II cable appears as Altera USB-Blaster (unconfigured) when first attached to your system. After it has been configured by the Quartus Prime software, it will appear as Altera USB-Blaster II (JTAG interface) and then Altera USB-Blaster II (SystemConsole interface)<b>.</b> You might need to install drivers for each of these interfaces; follow the steps below to install the drivers.<br /><br />You must have system administration (Administrator) privileges to install the USB-Blaster and USB-Blaster II download cable driver.<br /><h3>Driver Installation for Altera USB-Blaster</h3><ol><li>Plug the USB-Blaster download cable into your PC. The <b>Found New Hardware</b> dialog box appears.</li><li>Select <b>Locate and install driver software (recommended)</b>.</li><li>Select <b>Don't search online</b>.</li><li>When you are prompted to <b>Insert the disc that came with your USB-Blaster</b>, select <b>I don’t have the disc. Show me other options</b>.</li><li>Select <b>Browse my computer for driver software (advanced)</b> when you see the <b>Windows couldn’t find driver software for your device</b> dialog box.</li><li>Click <b>Browse</b>, and browse to the<i><b> </b>&lt;<b>Path to Quartus Prime installation&gt;\drivers\usb-blaster</b></i> directory.<ul><li>Note: Do not select the x32 or x64 directories.</li></ul></li><li>Click <b>OK</b>.</li><li>Select the <b>Include subfolders</b> option, and click <b>Next</b>.</li><li>If you are prompted <b>Windows can’t verify the publisher of this driver software</b>, select <b>Install this driver software anyway</b> in the <b>Window Security</b> dialog box. The installation wizard guides you through the installation process.</li><li>When <b>The software for this device has been successfully installed</b> dialog box appears, click <b>Close</b>.</li><li>To complete your installation, <a href="https://www.altera.com/support/support-resources/download/drivers/dri-quartus.html">set up programming hardware in the Quartus Prime software</a>.</li></ol><h3>Driver Installation for Altera USB-Blaster II</h3><ol><li>Plug the USB-Blaster II cable into your PC.</li><li>Open the <b>Device Manager</b>, and right-click on the <b>Unknown device</b> under the <b>Other devices</b> branch.</li><li>Select <b>Update Driver Software</b>.</li><li>Select <b>Browse my computer for driver software</b>.</li><li>Enter the location of the Quartus Prime software USB-Blaster II driver files directory (<i>&lt;<b>Path to Quartus Prime installation&gt;\drivers\usb-blaster-ii</b></i>) in the <b>Search for driver software in this location</b> field.</li><li>Click <b>Next</b>.</li><li>Click <b>Install</b> in the <b>Would you like to install this device software?</b> Windows security dialog box.</li><li>Close the <b>Update Driver Software - Altera USB-Blaster II (Unconfigured)</b> successful installation notification. The Device Manager now shows a new branch called <b>JTAG cables</b> with an <b>Altera USB-Blaster II (Unconfigured)</b> node.</li><li>Open the Quartus Prime Programmer. Within a few seconds, the <b>JTAG cables</b> branch displays two nodes: <b>Altera USB-Blaster II (JTAG interface</b>) and <b>Altera-USB Blaster II (System Console interface)</b>.</li></ol></blockquote><br />The pin-out of the USB Blaster cable is such that it can be used for three different programming modes: AS, PS and JTAG, as shown in this pin definition table from the <a href="https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/ug/ug_usb_blstr.pdf">Intel FPGA USB Download Cable User Guide</a>:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-xF2ID7wRDkQ/Wm9mvCcOhOI/AAAAAAAAAx4/YmXsqtJaHrAWvphWI1vuBT1AidVg7-6mgCLcBGAs/s1600/blaster%2Bpins.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="386" data-original-width="609" height="403" src="https://4.bp.blogspot.com/-xF2ID7wRDkQ/Wm9mvCcOhOI/AAAAAAAAAx4/YmXsqtJaHrAWvphWI1vuBT1AidVg7-6mgCLcBGAs/s640/blaster%2Bpins.PNG" width="640" /></a></div><br />The important thing to note here is that <i>programming via JTAG is temporary</i>! My board came pre-programmed with something that cycles though the 4 LED's on the board. There's always a little fear of sending a new program that toasts your new FPGA (yes, this is absolutely possible!). So it is cool that upon power cycle, the original config is loaded back into the FPGA to confirm all us well. Fortunately my first program <a href="https://twitter.com/gojimmypi/status/958103753554518016">actually worked</a> the very first time!<br /><br />As with all development environments, Quartus has its own annoyances. I found it very difficult to simply: File - Create New Project and get something to actually work without a bit of fussing.<br /><br />The first annoyance is the default directory. For example, in Visual Studio, the IDE is smart enough to know to actually <i>create </i>a directory for your project. Any you only need to type it once. Here, the default directory is the IDE, and projects are created there unless explicitly stated in THREE places. So the new Project Wizard starts here:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-EQVGVhHGbxI/WnCqiAgfGQI/AAAAAAAAAyY/odAxMluR6k8CSWJaoMM4gQUaYWok3VD7ACLcBGAs/s1600/default%2Bproject.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="315" data-original-width="468" height="215" src="https://1.bp.blogspot.com/-EQVGVhHGbxI/WnCqiAgfGQI/AAAAAAAAAyY/odAxMluR6k8CSWJaoMM4gQUaYWok3VD7ACLcBGAs/s320/default%2Bproject.PNG" width="320" /></a></div><br /><br />Be sure to append a project name to the directory:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-w9zQGPbGgsE/WnCrOHX8ZHI/AAAAAAAAAyg/VVs8ksqaAqMdZsSRLCmh72z5OXKtK1h7ACLcBGAs/s1600/named%2Bproject.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="319" data-original-width="380" height="268" src="https://2.bp.blogspot.com/-w9zQGPbGgsE/WnCrOHX8ZHI/AAAAAAAAAyg/VVs8ksqaAqMdZsSRLCmh72z5OXKtK1h7ACLcBGAs/s320/named%2Bproject.PNG" width="320" /></a></div><br />Or better yet, I keep all my project in c:\workspace\ in this case for the new myFPGAgizmo project:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-xstkzvRKpHU/WnC0J2a-diI/AAAAAAAAAzE/YEc-__7iXYQY75l_OD14s9Mlf-LnRCWlACLcBGAs/s1600/new%2Bproject.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="320" data-original-width="406" height="252" src="https://3.bp.blogspot.com/-xstkzvRKpHU/WnC0J2a-diI/AAAAAAAAAzE/YEc-__7iXYQY75l_OD14s9Mlf-LnRCWlACLcBGAs/s320/new%2Bproject.PNG" width="320" /></a></div><br />You can set the default location in: Tools - Options - General - Default File Location.<br /><br />I created an empty project...<br /><br /><div class="separator" style="clear: both; text-align: center;"></div><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-uh4DgP4TdSY/WnCsMB0TnCI/AAAAAAAAAys/qDubtWx9KfgxK12qtjaOXXo7UhRUPFWTgCLcBGAs/s1600/empty%2Bproject.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="256" data-original-width="482" height="169" src="https://3.bp.blogspot.com/-uh4DgP4TdSY/WnCsMB0TnCI/AAAAAAAAAys/qDubtWx9KfgxK12qtjaOXXo7UhRUPFWTgCLcBGAs/s320/empty%2Bproject.PNG" width="320" /></a></div><br />and did not add any design files...<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-nmXTz7V_TCQ/WnCsMM5fDlI/AAAAAAAAAyw/yw-dqF6MltEt-Krd6aDPFDLo9DRps9yAgCEwYBhgL/s1600/add%2Bfiles.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="250" data-original-width="439" height="182" src="https://4.bp.blogspot.com/-nmXTz7V_TCQ/WnCsMM5fDlI/AAAAAAAAAyw/yw-dqF6MltEt-Krd6aDPFDLo9DRps9yAgCEwYBhgL/s320/add%2Bfiles.PNG" width="320" /></a></div><br />This next step is important... the default device is set to "Auto". What this does is completely <i>disables</i> the Pin Planner feature needed later, giving an error:<br /><blockquote class="tr_bq"><b>Cannot display Pin Planner the current Compiler settings assign an AUTO device.</b></blockquote>For a newbie like me.. the solution was not very obvious. To avoid this, change the default at new project time to&nbsp;EP4CE6E22C8<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-mvCL7Ifpaj0/WnC1iaIO78I/AAAAAAAAAzQ/tKHsQvUs9WgY7jm14Ccj669nOCxmhjwjACLcBGAs/s1600/EP4CE6E22C8.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="639" data-original-width="805" height="316" src="https://1.bp.blogspot.com/-mvCL7Ifpaj0/WnC1iaIO78I/AAAAAAAAAzQ/tKHsQvUs9WgY7jm14Ccj669nOCxmhjwjACLcBGAs/s400/EP4CE6E22C8.PNG" width="400" /></a></div><br />The tools are left as default:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-GJljapOj9Pg/WnC1y5AprKI/AAAAAAAAAzU/mM4lnFCcBIc42OVeoZhTTqijJK30Qc3-QCLcBGAs/s1600/tools.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="347" data-original-width="806" height="137" src="https://4.bp.blogspot.com/-GJljapOj9Pg/WnC1y5AprKI/AAAAAAAAAzU/mM4lnFCcBIc42OVeoZhTTqijJK30Qc3-QCLcBGAs/s320/tools.PNG" width="320" /></a></div><br />On the final Project Wizard page, the summary is shown:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-mpsB24qUW5A/WnC2Ia1h7pI/AAAAAAAAAzY/Ds5MntIYJGE4BtjWHfPmdff9yNmwp9AcwCLcBGAs/s1600/project%2Bsummary.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="639" data-original-width="806" height="316" src="https://3.bp.blogspot.com/-mpsB24qUW5A/WnC2Ia1h7pI/AAAAAAAAAzY/Ds5MntIYJGE4BtjWHfPmdff9yNmwp9AcwCLcBGAs/s400/project%2Bsummary.PNG" width="400" /></a></div><br />Tada! All done, right? Nope. The "Wizard" still does not actually complete a project.<br /><br />Double-click on "myFPGAgizmo" to edit the code, and a nice, less-than-intuitive error pops up:<br /><blockquote class="tr_bq"><b>Can't find design entity "myFPGAgizmo"</b>.</blockquote><div class="separator" style="clear: both; text-align: left;">Not exactly to most intuitive error message for a newbie.&nbsp;</div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-CbU_-Wc8Oxw/WnC264KLFII/AAAAAAAAAzo/mu5fPbuEiZMb23Y75B6zISL0YWtr5loJwCLcBGAs/s1600/error%2Bdesign%2Bentry.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="375" data-original-width="692" height="173" src="https://3.bp.blogspot.com/-CbU_-Wc8Oxw/WnC264KLFII/AAAAAAAAAzo/mu5fPbuEiZMb23Y75B6zISL0YWtr5loJwCLcBGAs/s320/error%2Bdesign%2Bentry.PNG" width="320" /></a></div><br /><br />Good luck finding "Add Design Entity" in the menu. Here, you just need to know that a new Design <i>File</i> needs to be manually added (why the wizard does not do this, I do not know).<br /><br />So from what I can tell:&nbsp; a source "File" == "Design Entity".<br /><br />File - New - Verilog HDL File:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-f63dzaH6ohg/WnC4p1HszFI/AAAAAAAAAz0/UylQa8Gi3UAzjmkSvY2R3ZALPwSpNeS3ACLcBGAs/s1600/new%2Bverilog.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="467" data-original-width="283" height="320" src="https://4.bp.blogspot.com/-f63dzaH6ohg/WnC4p1HszFI/AAAAAAAAAz0/UylQa8Gi3UAzjmkSvY2R3ZALPwSpNeS3ACLcBGAs/s320/new%2Bverilog.PNG" width="193" /></a></div><br />Quartus does not give you an opportunity to name this file when it is first created. Only at save time will it prompt to give it a new name. Visual Studio users will not be impressed.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-RoKtmmk6KXE/WnC-FA4qQqI/AAAAAAAAA0I/aDxgJ63QiJM0cZRmUvBpbG1T30wrqRgvACLcBGAs/s1600/top%2Blevel.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="201" data-original-width="633" height="101" src="https://3.bp.blogspot.com/-RoKtmmk6KXE/WnC-FA4qQqI/AAAAAAAAA0I/aDxgJ63QiJM0cZRmUvBpbG1T30wrqRgvACLcBGAs/s320/top%2Blevel.PNG" width="320" /></a></div><br />Now another important note: The name of the module MUST MATCH the name of the "top level" file name, and it is <b>case sensitive</b>. The "top level design entity" is that file first listed. You just need to know this. Otherwise the Quartus software gives the less-than-intuitive error message:<br /><blockquote class="tr_bq"><b>Top level design entity "myFPGAgizmo" is undefined&nbsp;</b></blockquote><div class="separator" style="clear: both; text-align: left;">Here the "myFPGAgimoName" needs to be the same as the file name "myFPGAgizmo":</div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-yHpYNMnsNkI/WnENt5_f9wI/AAAAAAAAA0w/Y8NIEFV9KTAheiQyqxo4i8ZU7v8A-um4gCLcBGAs/s1600/Top%2BLevel%2BUndefined.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="651" data-original-width="832" height="499" src="https://4.bp.blogspot.com/-yHpYNMnsNkI/WnENt5_f9wI/AAAAAAAAA0w/Y8NIEFV9KTAheiQyqxo4i8ZU7v8A-um4gCLcBGAs/s640/Top%2BLevel%2BUndefined.PNG" width="640" /></a></div><br /><div class="separator" style="clear: both; text-align: left;"><span style="margin-left: 1em; margin-right: 1em;"></span></div><div class="separator" style="clear: both; text-align: center;"></div>So after dealing with <strike>those annoyances</strike> the learning curve, I was finally able to write some Verilog that I found in <a href="ftp://ftp.altera.com/up/pub/Intel_Material/17.0/Tutorials/Verilog/Quartus_Pro_Introduction.pdf">another tutorial</a>&nbsp;(see page 14):<br /><br /><code></code><br /><pre><code>module myFPGAgizmo (x1, x2, f); <br />  input x1, x2; <br />  output f; <br />  assign f = (x1 &amp; ~x2)|(~x1 &amp; x2); <br />endmodule <br /></code></pre><br /><br />This is where things get interesting. It is one thing to write some code, but getting it to <i>interface to the real world</i> is what makes it fun! Normally I/O is abstracted through complex device drivers and API calls. However, it does not get much more direct in FPGA programming, as the <i>actual pins on the chip</i> are assigned to variables in our code! Even better, there's no<a href="https://twitter.com/gojimmypi/status/952536944105394176"> bizarre renumbering that I find ridiculously frustrating</a> in the world of Arduino programming. There's a single pin number. Ahhh. What bliss.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-Aits8COghLc/WnYD-b0AxOI/AAAAAAAAA1k/DU2WYr7Ly-o79v3FLxXYRRXaMMCpTAQwwCLcBGAs/s1600/pin%2Bassignment.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="219" data-original-width="335" height="209" src="https://4.bp.blogspot.com/-Aits8COghLc/WnYD-b0AxOI/AAAAAAAAA1k/DU2WYr7Ly-o79v3FLxXYRRXaMMCpTAQwwCLcBGAs/s320/pin%2Bassignment.PNG" width="320" /></a></div><br /><br />As can be seen in the schematic, Pin 87 is LED4, and Pins 88 and 89 are tied to keys (button switches) KEY1 and KEY2 (but yes, instead labeled S1 and S2 on the board). Yes, those are the<i> actual pins numbers</i> on the Cyclone IV - pins 87, 88, and 89. No big deal, right? Well, sure - but apparently not all engineers agree. Just google "<i>pin numbering arduino</i>" to see how many hours have been lost to frustrating abstracted re-numbering.<br /><br />Once code is entered, it is compiled using the menu: Processing - Start Compilation. When the pins are not actually assigned, there will be a compiler warning:<br /><blockquote class="tr_bq"><b><br /></b><b>Critical Warning (169085): No exact pin location assignment(s) for 3 pins of 3 total pins. For the list of pins please refer to the I/O Assignment Warnings table in the fitter report.</b></blockquote><div>Click on Assignments - Pin Planner. (recall above, we explicitly assigned our chip part number, otherwise this feature is not available).&nbsp; If you double-click in the Location column, a drop-down list will appear:</div><div><br /></div><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-DCA-A3NzRgA/WnYJsucChWI/AAAAAAAAA18/1v7xJaJt5xMzy6xAF38Hq21f-hjWXRaRACLcBGAs/s1600/pin%2Bedit.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="533" data-original-width="1069" height="316" src="https://3.bp.blogspot.com/-DCA-A3NzRgA/WnYJsucChWI/AAAAAAAAA18/1v7xJaJt5xMzy6xAF38Hq21f-hjWXRaRACLcBGAs/s640/pin%2Bedit.PNG" width="640" /></a></div><br />We need to assign the pins to keys and LED as shown in the schematic:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-5GQ-E2PAtqo/WnYKlHoED9I/AAAAAAAAA2I/aDxSDXzarkQF_EmFYEmgZy0G-5jlCz77wCLcBGAs/s1600/pins%2Bassigned.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="87" data-original-width="359" height="77" src="https://2.bp.blogspot.com/-5GQ-E2PAtqo/WnYKlHoED9I/AAAAAAAAA2I/aDxSDXzarkQF_EmFYEmgZy0G-5jlCz77wCLcBGAs/s320/pins%2Bassigned.PNG" width="320" /></a></div><br />Simply close the Pin Planner and compile again. We're ready to send the FPGA code to our device!<br /><br />Note the USB Blaster connection in the very first picture on this page.<br /><br />Click Tools - Programmer. If the currently selected hardware says "No Hardware", click the "Hardware Setup" button (make sure your device is plugged inn, and drivers installed)....<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-WutuhwoaV8I/WnYMxyj6JSI/AAAAAAAAA2g/1iKw2gexLrkTOns2yDZWCIQDsNU-2QrygCLcBGAs/s1600/hardware%2Bsetup.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="690" data-original-width="909" height="302" src="https://1.bp.blogspot.com/-WutuhwoaV8I/WnYMxyj6JSI/AAAAAAAAA2g/1iKw2gexLrkTOns2yDZWCIQDsNU-2QrygCLcBGAs/s400/hardware%2Bsetup.PNG" width="400" /></a></div><br />In this case, I selected the USB Blaster by double-clicking on it.<br /><br />To send the FPGA code to the device, select "Processing - Start" (or simply press the "Start Button"). If successful, there will be an indication in the progress box:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-Lmud7Si1e6Q/WnYN1BZAeJI/AAAAAAAAA2s/a_qNAE0wVJoj9AH8W06aDb_tQUquvoUywCLcBGAs/s1600/programmed.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="229" data-original-width="903" height="161" src="https://4.bp.blogspot.com/-Lmud7Si1e6Q/WnYN1BZAeJI/AAAAAAAAA2s/a_qNAE0wVJoj9AH8W06aDb_tQUquvoUywCLcBGAs/s640/programmed.PNG" width="640" /></a></div><br /><br />That's it! There's now an XOR gate programmed in the FPGA. Press S1 or S2 to have the LED got out. Press both or leave both unpressed and the LED1 will be illuminated. Cool.<br /><br />Note we've programmed the FPGA via the JTAG connector on the board. When the board is power cycled, we'll lose these changes and the board will revert back to vendor ship default.<br /><br /><br />Note that if you find cheap Cyclone boards on flea bay, the most recent version of Quartus does NOT support the older chips! I sadly learned this after buying a cheap, bare-bones Cyclone II and then noticed it was not listed as a device option in the Quartus IDE. The latest version supporting the Cyclone II is <a href="http://dl.altera.com/13.0sp1/">Quartus version 13.0sp1 from 2013</a>. (I wonder if side-by-side installs are supported? I didn't try)<br /><br />Here's a <a href="http://dl.altera.com/devices/">chart of supported devices vs Quartus versions</a>&nbsp;specifically the Cyclone series:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-FNDn9IbTfNA/WnEIV8aG_jI/AAAAAAAAA0k/aP5LlFknVFAVaGwgjlKenkHY6bs_RPbIQCLcBGAs/s1600/Quartus%2Bversions.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="408" data-original-width="752" height="216" src="https://3.bp.blogspot.com/-FNDn9IbTfNA/WnEIV8aG_jI/AAAAAAAAA0k/aP5LlFknVFAVaGwgjlKenkHY6bs_RPbIQCLcBGAs/s400/Quartus%2Bversions.PNG" width="400" /></a></div><br />That's it for now... <a href="https://twitter.com/gojimmypi">send me a message on twitter</a> if you have any feedback / suggestions / notice any typos.<br /><br /><br />Resources, Inspiration, Credits, and Other Links:<br /><br /><ul><li><a href="https://www.altera.com/en_US/pdfs/literature/tt/tt_my_first_fpga.pdf">Altera - My First FPGA Design Tutorial</a>&nbsp;</li><li><a href="ftp://ftp.altera.com/up/pub/Intel_Material/17.0/Tutorials/Verilog/Quartus_Pro_Introduction.pdf">Quartus Prime Introduction Using verilog Designs</a></li><li><a href="https://www.udemy.com/vhdl-and-fpga-development-for-beginners-and-intermediates/learn/v4/overview">UDemy -&nbsp;Learn VHDL and FPGA Development</a></li><li><a href="https://www.udemy.com/fpga-turbo-series-uart/learn/v4/overview">UDemy&nbsp;- FPGA Turbo Series - Implementing a UART</a></li><li><a href="https://marketplace.visualstudio.com/items?itemName=mshr-h.VerilogHDL">Verilog HDL support for VSCode</a></li><li><a href="https://www.nandland.com/verilog/tutorials/index.html">Verilog Tutorials and Examples at nandland</a></li><li><a href="https://www.aliexpress.com/item/FPGA-development-board-ALTERA-Cyclone-IV-EP4CE-four-generations-SOPC-NIOSII-send-send-remote-control-to/32691369830.html">Altera Cyclone IV</a>&nbsp;from&nbsp;<a href="https://omdazz.aliexpress.com/">Numon Electronic Cyberport Store </a></li><li><a href="https://onedrive.live.com/?authkey=%21ADV4v4AYLD4vONA&amp;id=B2CDC3A30980D5BD%2182722&amp;cid=B2CDC3A30980D5BD">Resource file with documentation and samples</a></li><li><a href="https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/ug/ug_usb_blstr.pdf">Intel FPGA USB Download Cable User Guide</a></li><li><a href="https://www.altera.com/products/design-software/fpga-design/quartus-prime/download.html">Quartus Prime Download</a></li><li><a href="http://dl.altera.com/devices/">Altera Device Downloads</a></li><li><a href="http://gnarlygrey.atspace.cc/development-platform.html#upduino">Gnarly Grey UPDuino v1.0 Board</a></li><li><a href="https://www.eeweb.com/profile/duane-benson-2/articles/a-look-at-tinyfpga-boards">A Look at TinyFPGA Boards</a></li><li><a href="https://www.nandland.com/vhdl/modules/module-uart-serial-port-rs232.html">UART, Serial Port, RS-232 Interface Code in both VHDL and Verilog for FPGA Implementation</a></li><li><a href="https://cloud.altera.com/devstore/platform/15.0.0/Standard/altera-lime-connectivity-and-ducddc-design-example/">Altera-Lime Connectivity and DUC/DDC Design Example</a></li></ul><br /><br />
+I decided to finally learn how to program an FPGA! Here are some first impressions and notes to self for future reference.<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/myCyclone.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="703" data-original-width="872" height="257" src="../images/s320/myCyclone.PNG" width="320"></a>
+</div>
+<br />
+TL;DR
+<br />
+<br />
+<ul><li>Blaster drivers need to be manually installed from&nbsp;C:\intelFPGA_lite\17.1\quartus\drivers</li><li>Cyclone IV board is EP4CE6E22C8; do not use default "auto device" (for Pin Planner)&nbsp;</li><li>Verilog file added manually, module name must match file name and is case sensitive</li><li>Source files in the project are "Design Entities"</li><li>Do not insert to remove the USB Blaster ribbon cable while the device is powered on.</li><li>Download vendor board files <a href="https://1drv.ms/f/s!Ar3VgAmjw82yhYYiNXi_gBgsPi840A">here</a></li><li>
+JTAG programming of FPGA is temporary and lost upon power cycle</li></ul><br />I ordered my first FPGA board - the 
+<a href="https://www.aliexpress.com/item/FPGA-development-board-ALTERA-Cyclone-IV-EP4CE-four-generations-SOPC-NIOSII-send-send-remote-control-to/32691369830.html">Altera Cyclone IV EP4CE6 FPGA Development Kit and USB Blaster</a>&nbsp;from the <a href="https://omdazz.aliexpress.com/">Numon Electric Cyberport Store on Aliexpress</a> thanks to inspiration by&nbsp;<a href="http://amitesh-singh.github.io/about/">Amitesh</a>. He did all the footwork to find what seems to be the coolest Cyclone FPGA board that can still be programmed with the free version software. (note the really cool GX version with Nios processor needs <a href="https://www.altera.com/buy/design-software.html">software costing thousands of dollars</a>
+)<br />
+<br />If you order the board from Numon Electric, they have a 
+<a href="https://1drv.ms/f/s!Ar3VgAmjw82yhYYiNXi_gBgsPi840A">download available on one-drive</a>&nbsp;that includes a ton of really great documentation, sample code, and more. The file is called "RZ301 EP4CE6 development board.zip" however the contents of that zip file consist of mainly a single file "Altera Cyclone IV board V3.0.rar". Windows users will be annoyed that there's no native tool to easily extract RAR files. Having a linux VM or WSL will be handy here. The latest version of <a href="http://www.winzip.com/lanrar.htm">winzip</a>
+ also appears to now support RAR extraction.<br />
+<br />
+Overall I was quite happy with the responsive customer service, prompt delivery, and quality of my new FPGA board. If you look close at the picture of my board, the actual silkscreen quality is much better than shown: the blur is from the poor picture.
+<br />
+<br />While awaiting delivery of my Cyclone, I found this 
+<a href="https://store.tinyfpga.com/collections/frontpage/products/tinyfpga-a1">other tiny, inexpensive FPGA</a>&nbsp;created by <a href="https://twitter.com/tinyfpga">Luke Valenty</a>. Note that if you order on the <a href="https://store.tinyfpga.com/">tinyfpga store web site</a>
+, you can pay with Amazon, without having the hassle of creating an account, etc. This board is so cool, I think I will have a separate blog about it later.<br />
+<br />
+Surprisingly, my Cyclone board arrived relatively quickly in only about 2 weeks! (the estimate at order time was 19 to 39 days)
+<br />
+<br />In order to program the Cyclone board, the 
+<a href="http://dl.altera.com/?edition=lite">Altera Quartus Prime Lite software</a>
+&nbsp;is needed. Unlike some other programs, installation was quick and easy.<br />
+<br />
+<b>IMPORTANT:</b>
+ Do not insert to remove the USB Blaster ribbon cable while the device is powered on. There was an included warning that the board would likely be damaged. I did not test this.<br />
+<br />
+The USB Blaster was not Plug-N-Play, and Quartus Prime did not see it:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Blaster_not_working.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="110" data-original-width="239" src="../images/s1600/Blaster_not_working.PNG"></a>
+</div>
+<br />A quick google search indicated that 
+<a href="https://www.altera.com/support/support-resources/download/drivers/usb-blaster/dri-usb-blaster-vista.html">the drivers need to be manually installed</a>
+;&nbsp;instructions copied from Altera site here for reference:<br />
+<blockquote class="tr_bq">The Altera On-Board USB-Blaster II cable appears as Altera USB-Blaster (unconfigured) when first attached to your system. After it has been configured by the Quartus Prime software, it will appear as Altera USB-Blaster II (JTAG interface) and then Altera USB-Blaster II (SystemConsole interface)<b>.</b>
+ You might need to install drivers for each of these interfaces; follow the steps below to install the drivers.<br />
+<br />
+You must have system administration (Administrator) privileges to install the USB-Blaster and USB-Blaster II download cable driver.
+<br />
+<h3>Driver Installation for Altera USB-Blaster</h3><ol><li>Plug the USB-Blaster download cable into your PC. The <b>Found New Hardware</b> dialog box appears.</li><li>Select <b>Locate and install driver software (recommended)</b>.</li><li>Select <b>Don't search online</b>.</li><li>When you are prompted to <b>Insert the disc that came with your USB-Blaster</b>, select <b>I don’t have the disc. Show me other options</b>.</li><li>Select <b>Browse my computer for driver software (advanced)</b> when you see the <b>Windows couldn’t find driver software for your device</b> dialog box.</li><li>Click <b>Browse</b>, and browse to the<i><b> </b>&lt;<b>Path to Quartus Prime installation&gt;\drivers\usb-blaster</b></i> directory.<ul><li>Note: Do not select the x32 or x64 directories.</li></ul></li><li>Click <b>OK</b>.</li><li>Select the <b>Include subfolders</b> option, and click <b>Next</b>.</li><li>If you are prompted <b>Windows can’t verify the publisher of this driver software</b>, select <b>Install this driver software anyway</b> in the <b>Window Security</b> dialog box. The installation wizard guides you through the installation process.</li><li>When <b>The software for this device has been successfully installed</b> dialog box appears, click <b>Close</b>.</li><li>To complete your installation, <a href="https://www.altera.com/support/support-resources/download/drivers/dri-quartus.html">set up programming hardware in the Quartus Prime software</a>.</li></ol><h3>Driver Installation for Altera USB-Blaster II</h3><ol><li>Plug the USB-Blaster II cable into your PC.</li><li>Open the <b>Device Manager</b>, and right-click on the <b>Unknown device</b> under the <b>Other devices</b> branch.</li><li>Select <b>Update Driver Software</b>.</li><li>Select <b>Browse my computer for driver software</b>.</li><li>Enter the location of the Quartus Prime software USB-Blaster II driver files directory (<i>&lt;<b>Path to Quartus Prime installation&gt;\drivers\usb-blaster-ii</b></i>) in the <b>Search for driver software in this location</b> field.</li><li>Click <b>Next</b>.</li><li>Click <b>Install</b> in the <b>Would you like to install this device software?</b> Windows security dialog box.</li><li>Close the <b>Update Driver Software - Altera USB-Blaster II (Unconfigured)</b> successful installation notification. The Device Manager now shows a new branch called <b>JTAG cables</b> with an <b>Altera USB-Blaster II (Unconfigured)</b> node.</li><li>Open the Quartus Prime Programmer. Within a few seconds, the <b>JTAG cables</b> branch displays two nodes: <b>Altera USB-Blaster II (JTAG interface</b>) and <b>Altera-USB Blaster II (System Console interface)</b>
+.</li></ol></blockquote><br />The pin-out of the USB Blaster cable is such that it can be used for three different programming modes: AS, PS and JTAG, as shown in this pin definition table from the 
+<a href="https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/ug/ug_usb_blstr.pdf">Intel FPGA USB Download Cable User Guide</a>
+:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/blaster_pins.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="386" data-original-width="609" height="403" src="../images/s640/blaster_pins.PNG" width="640"></a>
+</div>
+<br />The important thing to note here is that 
+<i>programming via JTAG is temporary</i>! My board came pre-programmed with something that cycles though the 4 LED's on the board. There's always a little fear of sending a new program that toasts your new FPGA (yes, this is absolutely possible!). So it is cool that upon power cycle, the original config is loaded back into the FPGA to confirm all us well. Fortunately my first program <a href="https://twitter.com/gojimmypi/status/958103753554518016">actually worked</a>
+ the very first time!<br />
+<br />
+As with all development environments, Quartus has its own annoyances. I found it very difficult to simply: File - Create New Project and get something to actually work without a bit of fussing.
+<br />
+<br />The first annoyance is the default directory. For example, in Visual Studio, the IDE is smart enough to know to actually 
+<i>create </i>
+a directory for your project. Any you only need to type it once. Here, the default directory is the IDE, and projects are created there unless explicitly stated in THREE places. So the new Project Wizard starts here:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/default_project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="315" data-original-width="468" height="215" src="../images/s320/default_project.PNG" width="320"></a>
+</div>
+<br />
+<br />
+Be sure to append a project name to the directory:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/named_project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="319" data-original-width="380" height="268" src="../images/s320/named_project.PNG" width="320"></a>
+</div>
+<br />
+Or better yet, I keep all my project in c:\workspace\ in this case for the new myFPGAgizmo project:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/new_project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="320" data-original-width="406" height="252" src="../images/s320/new_project.PNG" width="320"></a>
+</div>
+<br />
+You can set the default location in: Tools - Options - General - Default File Location.
+<br />
+<br />
+I created an empty project...
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/empty_project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="256" data-original-width="482" height="169" src="../images/s320/empty_project.PNG" width="320"></a>
+</div>
+<br />
+and did not add any design files...
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/add_files.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="250" data-original-width="439" height="182" src="../images/s320/add_files.PNG" width="320"></a>
+</div>
+<br />This next step is important... the default device is set to "Auto". What this does is completely 
+<i>disables</i>
+ the Pin Planner feature needed later, giving an error:<br />
+<blockquote class="tr_bq"><b>Cannot display Pin Planner the current Compiler settings assign an AUTO device.</b></blockquote>
+For a newbie like me.. the solution was not very obvious. To avoid this, change the default at new project time to&nbsp;EP4CE6E22C8<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/EP4CE6E22C8.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="639" data-original-width="805" height="316" src="../images/s400/EP4CE6E22C8.PNG" width="400"></a>
+</div>
+<br />
+The tools are left as default:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/tools.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="347" data-original-width="806" height="137" src="../images/s320/tools.PNG" width="320"></a>
+</div>
+<br />
+On the final Project Wizard page, the summary is shown:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/project_summary.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="639" data-original-width="806" height="316" src="../images/s400/project_summary.PNG" width="400"></a>
+</div>
+<br />
+Tada! All done, right? Nope. The "Wizard" still does not actually complete a project.
+<br />
+<br />
+Double-click on "myFPGAgizmo" to edit the code, and a nice, less-than-intuitive error pops up:
+<br />
+<blockquote class="tr_bq"><b>Can't find design entity "myFPGAgizmo"</b>.</blockquote>
+<div class="separator" style="clear: both; text-align: left;">
+Not exactly to most intuitive error message for a newbie.&nbsp;
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/error_design_entry.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="375" data-original-width="692" height="173" src="../images/s320/error_design_entry.PNG" width="320"></a>
+</div>
+<br />
+<br />Good luck finding "Add Design Entity" in the menu. Here, you just need to know that a new Design 
+<i>File</i>
+ needs to be manually added (why the wizard does not do this, I do not know).<br />
+<br />
+So from what I can tell:&nbsp; a source "File" == "Design Entity".
+<br />
+<br />
+File - New - Verilog HDL File:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/new_verilog.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="467" data-original-width="283" height="320" src="../images/s320/new_verilog.PNG" width="193"></a>
+</div>
+<br />
+Quartus does not give you an opportunity to name this file when it is first created. Only at save time will it prompt to give it a new name. Visual Studio users will not be impressed.
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/top_level.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="201" data-original-width="633" height="101" src="../images/s320/top_level.PNG" width="320"></a>
+</div>
+<br />Now another important note: The name of the module MUST MATCH the name of the "top level" file name, and it is 
+<b>case sensitive</b>
+. The "top level design entity" is that file first listed. You just need to know this. Otherwise the Quartus software gives the less-than-intuitive error message:<br />
+<blockquote class="tr_bq"><b>Top level design entity "myFPGAgizmo" is undefined&nbsp;</b></blockquote>
+<div class="separator" style="clear: both; text-align: left;">
+Here the "myFPGAgimoName" needs to be the same as the file name "myFPGAgizmo":
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Top_Level_Undefined.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="651" data-original-width="832" height="499" src="../images/s640/Top_Level_Undefined.PNG" width="640"></a>
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<span style="margin-left: 1em; margin-right: 1em;"></span>
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+</div>
+So after dealing with <strike>those annoyances</strike> the learning curve, I was finally able to write some Verilog that I found in <a href="ftp://ftp.altera.com/up/pub/Intel_Material/17.0/Tutorials/Verilog/Quartus_Pro_Introduction.pdf">another tutorial</a>
+&nbsp;(see page 14):<br />
+<br />
+<code class="highlight"></code><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+module myFPGAgizmo (x1, x2, f); 
+  input x1, x2; 
+  output f; 
+  assign f = (x1 &amp; ~x2)|(~x1 &amp; x2); 
+endmodule </code></pre>
+<br />
+<br />This is where things get interesting. It is one thing to write some code, but getting it to 
+<i>interface to the real world</i> is what makes it fun! Normally I/O is abstracted through complex device drivers and API calls. However, it does not get much more direct in FPGA programming, as the <i>actual pins on the chip</i> are assigned to variables in our code! Even better, there's no<a href="https://twitter.com/gojimmypi/status/952536944105394176"> bizarre renumbering that I find ridiculously frustrating</a>
+ in the world of Arduino programming. There's a single pin number. Ahhh. What bliss.<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/pin_assignment.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="219" data-original-width="335" height="209" src="../images/s320/pin_assignment.PNG" width="320"></a>
+</div>
+<br />
+<br />As can be seen in the schematic, Pin 87 is LED4, and Pins 88 and 89 are tied to keys (button switches) KEY1 and KEY2 (but yes, instead labeled S1 and S2 on the board). Yes, those are the
+<i> actual pins numbers</i> on the Cyclone IV - pins 87, 88, and 89. No big deal, right? Well, sure - but apparently not all engineers agree. Just google "<i>pin numbering arduino</i>
+" to see how many hours have been lost to frustrating abstracted re-numbering.<br />
+<br />
+Once code is entered, it is compiled using the menu: Processing - Start Compilation. When the pins are not actually assigned, there will be a compiler warning:
+<br />
+<blockquote class="tr_bq"><b><br />
+</b><b>Critical Warning (169085): No exact pin location assignment(s) for 3 pins of 3 total pins. For the list of pins please refer to the I/O Assignment Warnings table in the fitter report.</b></blockquote>
+<div>
+Click on Assignments - Pin Planner. (recall above, we explicitly assigned our chip part number, otherwise this feature is not available).&nbsp; If you double-click in the Location column, a drop-down list will appear:
+</div>
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/pin_edit.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="533" data-original-width="1069" height="316" src="../images/s640/pin_edit.PNG" width="640"></a>
+</div>
+<br />
+We need to assign the pins to keys and LED as shown in the schematic:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/pins_assigned.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="87" data-original-width="359" height="77" src="../images/s320/pins_assigned.PNG" width="320"></a>
+</div>
+<br />
+Simply close the Pin Planner and compile again. We're ready to send the FPGA code to our device!
+<br />
+<br />
+Note the USB Blaster connection in the very first picture on this page.
+<br />
+<br />
+Click Tools - Programmer. If the currently selected hardware says "No Hardware", click the "Hardware Setup" button (make sure your device is plugged inn, and drivers installed)....
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/hardware_setup.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="690" data-original-width="909" height="302" src="../images/s400/hardware_setup.PNG" width="400"></a>
+</div>
+<br />
+In this case, I selected the USB Blaster by double-clicking on it.
+<br />
+<br />
+To send the FPGA code to the device, select "Processing - Start" (or simply press the "Start Button"). If successful, there will be an indication in the progress box:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/programmed.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="229" data-original-width="903" height="161" src="../images/s640/programmed.PNG" width="640"></a>
+</div>
+<br />
+<br />
+That's it! There's now an XOR gate programmed in the FPGA. Press S1 or S2 to have the LED got out. Press both or leave both unpressed and the LED1 will be illuminated. Cool.
+<br />
+<br />
+Note we've programmed the FPGA via the JTAG connector on the board. When the board is power cycled, we'll lose these changes and the board will revert back to vendor ship default.
+<br />
+<br />
+<br />Note that if you find cheap Cyclone boards on flea bay, the most recent version of Quartus does NOT support the older chips! I sadly learned this after buying a cheap, bare-bones Cyclone II and then noticed it was not listed as a device option in the Quartus IDE. The latest version supporting the Cyclone II is 
+<a href="http://dl.altera.com/13.0sp1/">Quartus version 13.0sp1 from 2013</a>
+. (I wonder if side-by-side installs are supported? I didn't try)<br />
+<br />Here's a 
+<a href="http://dl.altera.com/devices/">chart of supported devices vs Quartus versions</a>
+&nbsp;specifically the Cyclone series:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Quartus_versions.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="408" data-original-width="752" height="216" src="../images/s400/Quartus_versions.PNG" width="400"></a>
+</div>
+<br />That's it for now... 
+<a href="https://twitter.com/gojimmypi">send me a message on twitter</a>
+ if you have any feedback / suggestions / notice any typos.<br />
+<br />
+<br />
+Resources, Inspiration, Credits, and Other Links:
+<br />
+<br />
+<ul><li><a href="https://www.altera.com/en_US/pdfs/literature/tt/tt_my_first_fpga.pdf">Altera - My First FPGA Design Tutorial</a>&nbsp;</li><li><a href="ftp://ftp.altera.com/up/pub/Intel_Material/17.0/Tutorials/Verilog/Quartus_Pro_Introduction.pdf">Quartus Prime Introduction Using verilog Designs</a></li><li><a href="https://www.udemy.com/vhdl-and-fpga-development-for-beginners-and-intermediates/learn/v4/overview">UDemy -&nbsp;Learn VHDL and FPGA Development</a></li><li><a href="https://www.udemy.com/fpga-turbo-series-uart/learn/v4/overview">UDemy&nbsp;- FPGA Turbo Series - Implementing a UART</a></li><li><a href="https://marketplace.visualstudio.com/items?itemName=mshr-h.VerilogHDL">Verilog HDL support for VSCode</a></li><li><a href="https://www.nandland.com/verilog/tutorials/index.html">Verilog Tutorials and Examples at nandland</a></li><li><a href="https://www.aliexpress.com/item/FPGA-development-board-ALTERA-Cyclone-IV-EP4CE-four-generations-SOPC-NIOSII-send-send-remote-control-to/32691369830.html">Altera Cyclone IV</a>&nbsp;from&nbsp;<a href="https://omdazz.aliexpress.com/">Numon Electronic Cyberport Store </a></li><li><a href="https://onedrive.live.com/?authkey=%21ADV4v4AYLD4vONA&amp;id=B2CDC3A30980D5BD%2182722&amp;cid=B2CDC3A30980D5BD">Resource file with documentation and samples</a></li><li><a href="https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/ug/ug_usb_blstr.pdf">Intel FPGA USB Download Cable User Guide</a></li><li><a href="https://www.altera.com/products/design-software/fpga-design/quartus-prime/download.html">Quartus Prime Download</a></li><li><a href="http://dl.altera.com/devices/">Altera Device Downloads</a></li><li><a href="http://gnarlygrey.atspace.cc/development-platform.html#upduino">Gnarly Grey UPDuino v1.0 Board</a></li><li><a href="https://www.eeweb.com/profile/duane-benson-2/articles/a-look-at-tinyfpga-boards">A Look at TinyFPGA Boards</a></li><li><a href="https://www.nandland.com/vhdl/modules/module-uart-serial-port-rs232.html">UART, Serial Port, RS-232 Interface Code in both VHDL and Verilog for FPGA Implementation</a></li><li><a href="https://cloud.altera.com/devstore/platform/15.0.0/Standard/altera-lime-connectivity-and-ducddc-design-example/">
+Altera-Lime Connectivity and DUC/DDC Design Example</a></li></ul><br />
+<br />
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:53 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

@@ -19,4 +19,67 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-85225977234921955
 blogger_orig_url: https://gojimmypi.blogspot.com/2017/03/more-on-segger-j-link-and-visualgdb.html
 ---
 
-In my <a href="http://gojimmypi.blogspot.com/2017/03/Segger-J-Link-STM32-with-VisualGDB.html">previous post</a>, I explained the problem of J-Link JTAG&nbsp;drivers being changed by OpenOCD in VisualGDB, and my difficulty in putting back the proper drivers for use by Segger utilities.<br /><br />Since posting this information to <a href="https://twitter.com/gojimmypi/status/843536377878732800">twitter</a> and <a href="https://sysprogs.com/w/forums/topic/segger-j-link-no-emulators-connected-via-usb-after-configuring-for-openocd/#post-10713">sysprogs</a> forums, I've learned some interesting (and cool) things:<br /><br />1) The clever folks at Sysprogs have their own "zadig-like" USB driver tool (strategically called USBDriverTool), that unlike zadig, has a "<em>put back the original drivers</em>" feature:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-Z8QSzTslaIc/WNAr7pv8ovI/AAAAAAAAAPk/HL_4EDBFbwwjUZ2rvEOhfOPb5b_Id59tQCEw/s1600/UsbDriverTool.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="234" src="https://3.bp.blogspot.com/-Z8QSzTslaIc/WNAr7pv8ovI/AAAAAAAAAPk/HL_4EDBFbwwjUZ2rvEOhfOPb5b_Id59tQCEw/s320/UsbDriverTool.png" width="320" /></a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><br />And can be downloaded (free!) here:<br /><br /><a href="http://visualgdb.com/UsbDriverTool/">http://visualgdb.com/UsbDriverTool/</a><br /><br />2) Additionally - the kind support folks at Segger responded to my email and pointed out that VisualGDB also supports talking to the Segger GDB server directly (instead of using OpenOCD). There's even an excellent example:<br /><br /><a href="https://visualgdb.com/tutorials/arm/stm32/">https://visualgdb.com/tutorials/arm/stm32/</a><br /><br />Note in particular that instead of picking the J-Link device from the OpenOCD Debug method drop-down list, that there's a "J-Link JTAG" debug method <em>also</em> listed!<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-cFopTcWVL70/WNAs8C23Z4I/AAAAAAAAAPs/wuLdIP159vkUlhWaWvpW9yQJvjRfaLFvwCLcB/s1600/11-jlinksettings.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="251" src="https://1.bp.blogspot.com/-cFopTcWVL70/WNAs8C23Z4I/AAAAAAAAAPs/wuLdIP159vkUlhWaWvpW9yQJvjRfaLFvwCLcB/s320/11-jlinksettings.png" width="320" /></a></div><br /><br />3) The Segger folks also have an explanation on the J-Link showing up as a BULK device in Windows. This is not a problem I had, but I am including this as relevant:<br /><br /><a href="https://wiki.segger.com/J-Link_shown_as_generic_BULK_device_in_Windows">https://wiki.segger.com/J-Link_shown_as_generic_BULK_device_in_Windows</a><br /><br />The screen snips there appear to&nbsp;be from an earlier version of Windows. Additionally, as noted in my proir post - simply selecting "Update Driver" would&nbsp;result in Windows saying that the drivers are already the current ones (even though it does not work). So you may need to delete the drivers before attempting the update when seeing this "BULK" driver issue.<br /><br /><br /><br /><br /><br /><br /><br /><br />
+In my <a href="http://gojimmypi.blogspot.com/2017/03/Segger-J-Link-STM32-with-VisualGDB.html">previous post</a>
+, I explained the problem of J-Link JTAG&nbsp;drivers being changed by OpenOCD in VisualGDB, and my difficulty in putting back the proper drivers for use by Segger utilities.<br />
+<br />Since posting this information to 
+<a href="https://twitter.com/gojimmypi/status/843536377878732800">twitter</a> and <a href="https://sysprogs.com/w/forums/topic/segger-j-link-no-emulators-connected-via-usb-after-configuring-for-openocd/#post-10713">sysprogs</a>
+ forums, I've learned some interesting (and cool) things:<br />
+<br />1) The clever folks at Sysprogs have their own "zadig-like" USB driver tool (strategically called USBDriverTool), that unlike zadig, has a "
+<em>put back the original drivers</em>
+" feature:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/UsbDriverTool.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="234" src="../images/s320/UsbDriverTool.png" width="320"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+<br />
+And can be downloaded (free!) here:
+<br />
+<br />
+<a href="http://visualgdb.com/UsbDriverTool/">
+http://visualgdb.com/UsbDriverTool/</a><br />
+<br />
+2) Additionally - the kind support folks at Segger responded to my email and pointed out that VisualGDB also supports talking to the Segger GDB server directly (instead of using OpenOCD). There's even an excellent example:
+<br />
+<br />
+<a href="https://visualgdb.com/tutorials/arm/stm32/">
+https://visualgdb.com/tutorials/arm/stm32/</a><br />
+<br />Note in particular that instead of picking the J-Link device from the OpenOCD Debug method drop-down list, that there's a "J-Link JTAG" debug method 
+<em>also</em>
+ listed!<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/11-jlinksettings.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="251" src="../images/s320/11-jlinksettings.png" width="320"></a>
+</div>
+<br />
+<br />
+3) The Segger folks also have an explanation on the J-Link showing up as a BULK device in Windows. This is not a problem I had, but I am including this as relevant:
+<br />
+<br />
+<a href="https://wiki.segger.com/J-Link_shown_as_generic_BULK_device_in_Windows">
+https://wiki.segger.com/J-Link_shown_as_generic_BULK_device_in_Windows</a><br />
+<br />
+The screen snips there appear to&nbsp;be from an earlier version of Windows. Additionally, as noted in my proir post - simply selecting "Update Driver" would&nbsp;result in Windows saying that the drivers are already the current ones (even though it does not work). So you may need to delete the drivers before attempting the update when seeing this "BULK" driver issue.
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:51 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

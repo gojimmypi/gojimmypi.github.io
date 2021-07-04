@@ -17,4 +17,253 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-90430379509635425
 blogger_orig_url: https://gojimmypi.blogspot.com/2019/02/wsl-tinyfpga-toolchain-risc-v-part-5.html
 ---
 
-<div>In my prior blogs, I wrote about the difficulties I encountered in using WSL for the TinyFPGA Verilog tool chain.<br /><br />TL;DR - Run <code>wslconfig /u Ubuntu</code> in a DOS command prompt. WSL may need to be manually deleted by uninstalling and removing the <code>CanonicalGroupLimited.Ubuntu{...}</code> directory in <code>%USERPROFILE%\AppData\Local\Packages\</code>. Uninstall the Windows "Apps &amp; Features" Ubuntu app, then visit <a href="https://aka.ms/wslstore">https://aka.ms/wslstore</a></div>and re-install Ubuntu app.<br /><br />As a reminder, <a href="https://blogs.msdn.microsoft.com/commandline/2016/11/17/do-not-change-linux-files-using-windows-apps-and-tools/">do not modify WSL filesystem file from Windows</a>! Yes, I've seen some pretty weird things happen when I tested that. But feel free to edit any other files. For instance, the entire <code>C:\</code> directory is available in WSL as <code>/mnt/c/</code>.<br /><br /><div>As it turns out, the biggest problem was the version of Ubuntu I had. Although I didn't think I had it installed for all that long - it was way outdated.&nbsp;</div><div><br /></div><div>The first thing to do: completely wipe out the old Ubuntu. I found <a href="https://docs.microsoft.com/en-us/windows/wsl/install-legacy">some instructions on removing Ubuntu</a> - that included both of these options:</div><div><br /></div>From DOS Prompt: <br /><pre><code>lxrun /uninstall /full<br /></code></pre>or also from DOS Prompt: <br /><pre><code>DEL /S %localappdata%\lxss\<br /></code></pre>I didn't have the <code>lxrun</code> command, nor a <code>C:\Users\gojimmypi\AppData\Local\lxss</code> directory. I tried DOS command prompt, a powershell prompt, the Windows bash prompt (C:\Windows\system32\bash.exe) and Ubuntu prompt. Indeed according to Microsoft, <a href="https://docs.microsoft.com/en-us/windows/wsl/reference">lxrun is deprecated as of Windows 10 1803 and later</a>.  As noted in a prior blog, my Ubuntu was installed in this directory: <br /><pre><code>C:\Users\gojimmypi\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\home\gojimmypi<br /></code></pre>To help find it, you can run a command like this in your WSL instance: <br /><pre><code>echo wow &gt; ~/zowie.tag<br /></code></pre>then from a DOS command-prompt: <br /><pre><code>C:\Users\gojimmypi&gt;dir zowie.tag /s<br /> Volume in drive C is Windows<br /> Volume Serial Number is 9078-2015<br /><br /> Directory of C:\Users\gojimmypi\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\home\gojimmypi<br /><br />02/03/2019  01:43 PM                 4 zowie.tag<br />               1 File(s)              4 bytes<br /></code></pre><br /><br /><br /><div><div class="separator" style="clear: both; text-align: center;"><a href="https://3.bp.blogspot.com/-qXi_lyssPxs/XFdh28sY7TI/AAAAAAAAB2k/vE0shAA0ziATUDJCSkH2Ei8VpLxA_H_VwCLcBGAs/s1600/Ubuntu%2BDirectory.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="409" data-original-width="837" height="155" src="https://3.bp.blogspot.com/-qXi_lyssPxs/XFdh28sY7TI/AAAAAAAAB2k/vE0shAA0ziATUDJCSkH2Ei8VpLxA_H_VwCLcBGAs/s320/Ubuntu%2BDirectory.PNG" width="320" /></a></div><br />So in my case, Ubuntu needed to be removed from<br /><br />&nbsp;C:\Users\gojimmypi\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc<br /><br />I was reluctant to try the brute-force directory deletion&nbsp; route. In part, I've seen where Windows did not "see" the proper file sizes and permissions. I eventually found the <a href="https://docs.microsoft.com/en-us/windows/wsl/wsl-config">wslconfig command</a>.<br /><br /><pre><code>del CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc /s /q &gt; null:wslconfig /list<br />pause<br />wslconfig /unregister distroname<br /></code></pre><br /><br />That didn't go so well:<br /><div class="separator" style="clear: both; text-align: center;"><a href="https://3.bp.blogspot.com/-yg7zBR66y3g/XFdqD6Ou_JI/AAAAAAAAB28/ix1u0w_DM7Ykiru-HKM78hR6oTvXBDV4wCLcBGAs/s1600/Uninstall%2BFail.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="231" data-original-width="505" height="145" src="https://3.bp.blogspot.com/-yg7zBR66y3g/XFdqD6Ou_JI/AAAAAAAAB28/ix1u0w_DM7Ykiru-HKM78hR6oTvXBDV4wCLcBGAs/s320/Uninstall%2BFail.PNG" width="320" /></a></div><br />And it didn't just fail, but corrupted the install:<br /><div class="separator" style="clear: both; text-align: center;"><a href="https://4.bp.blogspot.com/-tBm2Ay7Oo2A/XFdqihnWr3I/AAAAAAAAB3E/PXaOLfaIm6UBDy0UIQt1lOA8PdConrZogCLcBGAs/s1600/Ubuntu%2BHosed.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="309" data-original-width="673" height="145" src="https://4.bp.blogspot.com/-tBm2Ay7Oo2A/XFdqihnWr3I/AAAAAAAAB3E/PXaOLfaIm6UBDy0UIQt1lOA8PdConrZogCLcBGAs/s320/Ubuntu%2BHosed.PNG" width="320" /></a></div><br />Sometimes I really wonder why I continue to fuss with the Microsoft environment. :/<br /><br />So in the end, I ran the brute-force directoy delete like this:<br /><pre><code>del CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc /s /q &gt; null:<br />wslconfig /unregister distroname<br /></code></pre>The /s deletes all subdirectories. The /q is "quiet mode" (don't confirm every directory to delete), and I send output to null: as the RISC-V toolchain is massive, and showing all that on the screen would take forever. That actually didn't work, either - leaving behind a ton of directories. So then I tried:  <br /><pre><code>rmdir CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc /s /q<br /></code></pre>which also did not work, giving an error: <code>CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LOCALS~1\rootfs\lib\recovery-mode - The directory is not empty.</code>So I continued to manually delete directories manually until everything was gone. Running WSL from a DOS command prompt shows that nothing is installed:   <br /><div class="separator" style="clear: both; text-align: center;"><a href="https://2.bp.blogspot.com/-Gd3AD5w-cYM/XFdvBUmApOI/AAAAAAAAB3c/nslPWQyGjSMhBm5CpWaPMTjUoKWayAxEQCLcBGAs/s1600/No%2BWSL.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="197" data-original-width="642" height="96" src="https://2.bp.blogspot.com/-Gd3AD5w-cYM/XFdvBUmApOI/AAAAAAAAB3c/nslPWQyGjSMhBm5CpWaPMTjUoKWayAxEQCLcBGAs/s320/No%2BWSL.PNG" width="320" /></a></div><br /></div><div>So on to installing Ubuntu fresh from the <a href="https://aka.ms/wslstore">Microsoft Store - Linux on Windows</a>&nbsp;upon launching the Ubuntu, we should be able to confirm we have version 18.04 installed:<br /><pre><code>Installing, this may take a few minutes...<br />Please create a default UNIX user account. The username does not need to match your Windows username.<br />For more information visit: https://aka.ms/wslusers<br />Enter new UNIX username: gojimmypi<br />Enter new UNIX password:<br />Retype new UNIX password:<br />passwd: password updated successfully<br />Installation successful!<br />To run a command as administrator (user "root"), use "sudo <command></command>".<br />See "man sudo_root" for details.<br /><br />gojimmypi@HOSTNAME:~$ lsb_release -a<br />No LSB modules are available.<br />Distributor ID: Ubuntu<br />Description:    Ubuntu 18.04.1 LTS<br />Release:        18.04<br />Codename:       bionic<br /></code></pre><br />You may wish to setup a custom bash prompt like <a href="https://gist.github.com/gojimmypi/3b92f3a33d51252252976fba7bae407b">mine</a>&nbsp;(or see <a href="http://bashrcgenerator.com/">bashrcgenerator.com</a>).<br /><br /><br />Finally on to installing the tool chain again.    I've created a <a href="https://gist.github.com/gojimmypi/243fc3a6eead72ae3db8fd32f2567c96">TinyFPGA install gist</a>:   <br /><pre><code>mkdir -p ~/workspace/<br />cd ~/workspace/<br />git clone https://gist.github.com/243fc3a6eead72ae3db8fd32f2567c96.git TinyFPGA_Toolchain<br />cd TinyFPGA_Toolchain<br />chmod +x TinyFPGA_Toolchain.sh<br />sudo ./TinyFPGA_Toolchain.sh<br /><br /></code></pre>Or if you prefer:  <br /><pre><code>sudo ls # pause if copy/paste password prompt<br />sudo apt-get update --assume-yes<br />sudo apt-get upgrade --assume-yes<br /><br />mkdir -p ~/workspace/<br /><br />cd ~/workspace/<br /># install icestorm dependencies<br /># this next install needs a bit of disk space:<br />#   0 upgraded, 205 newly installed, 0 to remove and 3 not upgraded.<br />#   Need to get 130 MB of archives.<br />#   After this operation, 652 MB of additional disk space will be used.<br />#<br />sudo apt-get install build-essential clang bison flex libreadline-dev \<br />                     gawk tcl-dev libffi-dev git mercurial graphviz   \<br />                     xdot pkg-config python python3 libftdi-dev  --assume-yes<br /><br /># tinyFPGA BX<br />git clone --recursive https://github.com/tinyfpga/TinyFPGA-BX.git<br />cd ~/workspace/<br /><br /># icestorm<br />git clone https://github.com/cliffordwolf/icestorm.git icestorm<br />cd icestorm<br />make -j$(nproc)<br />sudo make install<br />cd ~/workspace/<br /><br /># arachne-pnr<br />git clone https://github.com/cseed/arachne-pnr.git arachne-pnr<br />cd arachne-pnr<br />make -j$(nproc)<br />sudo make install<br />cd ~/workspace/<br /><br /># nextpnr<br />git clone https://github.com/YosysHQ/nextpnr.git<br /># this next line is about another half gig of files!<br />#   0 upgraded, 249 newly installed, 0 to remove and 3 not upgraded.<br />#   Need to get 132 MB of archives.<br />#   After this operation, 623 MB of additional disk space will be used.<br />#<br />sudo apt-get install libboost-all-dev python3-dev qt5-default clang-format<br /><br />cd nextpnr<br />cmake -DARCH=ice40 .<br />make -j$(nproc)<br />sudo make install<br />cd ~/workspace/<br /><br /># yosys<br />git clone https://github.com/cliffordwolf/yosys.git yosys<br />cd yosys<br />make -j$(nproc)<br />sudo make install<br />cd ~/workspace/<br /><br />#RISC-V<br />git clone https://github.com/cliffordwolf/picorv32.git<br /><br />sudo mkdir /opt/riscv32i<br />sudo chown $USER /opt/riscv32i<br /><br />sudo apt-get install autoconf automake autotools-dev curl libmpc-dev \<br />        libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo \<br />    gperf libtool patchutils bc zlib1g-dev git libexpat1-dev  --assume-yes<br /></code></pre></div><br /><a href="https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fpublish.twitter.com%2F%3FbuttonType%3DFollowButton%26query%3Dhttps%253A%252F%252Ftwitter.com%252Fgojimmypi%26widget%3DButton&amp;ref_src=twsrc%5Etfw&amp;region=follow_link&amp;screen_name=gojimmypi&amp;tw_p=followbutton" style="text-decoration: none;" title="Follow @gojimmypi on Twitter">        <span style="background-color: #1b95e0; background-image: url(&quot;https://1.bp.blogspot.com/-J4ujLRevzes/XGBq3K6e3JI/AAAAAAAAB5s/vJR9XfI2-3UrXfXR1qUdQ3o6zVmXP6NfACLcBGAs/s200/Twitter_Logo_WhiteOnImage.png&quot;); background-position: left; background-repeat: no-repeat; background-size: 20px; border-radius: 3px; color: white; cursor: pointer; font-size: 11px; font-weight: 500; font: &quot;helvetica neue&quot; , &quot;arial&quot; , sans-serif; height: 20px; padding: 3px; text-align: right; width: 227px;">            &nbsp; &nbsp; &nbsp; &nbsp; Follow <b>@gojimmypi</b> &nbsp;         </span>    </a>
+
+<div>
+In my prior blogs, I wrote about the difficulties I encountered in using WSL for the TinyFPGA Verilog tool chain.<br />
+<br />TL;DR - Run 
+<code class="highlight">wslconfig /u Ubuntu</code> in a DOS command prompt. WSL may need to be manually deleted by uninstalling and removing the <code class="highlight">CanonicalGroupLimited.Ubuntu{...}</code> directory in <code class="highlight">%USERPROFILE%\AppData\Local\Packages\</code>. Uninstall the Windows "Apps &amp; Features" Ubuntu app, then visit <a href="https://aka.ms/wslstore">https://aka.ms/wslstore</a>
+</div>
+and re-install Ubuntu app.<br />
+<br />As a reminder, 
+<a href="https://blogs.msdn.microsoft.com/commandline/2016/11/17/do-not-change-linux-files-using-windows-apps-and-tools/">do not modify WSL filesystem file from Windows</a>! Yes, I've seen some pretty weird things happen when I tested that. But feel free to edit any other files. For instance, the entire <code class="highlight">C:\</code> directory is available in WSL as <code class="highlight">/mnt/c/</code>
+.<br />
+<br />
+
+<div>
+As it turns out, the biggest problem was the version of Ubuntu I had. Although I didn't think I had it installed for all that long - it was way outdated.&nbsp;
+</div>
+<br />
+
+<div>
+The first thing to do: completely wipe out the old Ubuntu. I found <a href="https://docs.microsoft.com/en-us/windows/wsl/install-legacy">some instructions on removing Ubuntu</a> - that included both of these options:
+</div>
+<br />
+From DOS Prompt: 
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+lxrun /uninstall /full</code></pre>
+or also from DOS Prompt: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+DEL /S %localappdata%\lxss\</code></pre>
+I didn't have the <code class="highlight">lxrun</code> command, nor a <code class="highlight">C:\Users\gojimmypi\AppData\Local\lxss</code> directory. I tried DOS command prompt, a powershell prompt, the Windows bash prompt (C:\Windows\system32\bash.exe) and Ubuntu prompt. Indeed according to Microsoft, <a href="https://docs.microsoft.com/en-us/windows/wsl/reference">lxrun is deprecated as of Windows 10 1803 and later</a>
+.  As noted in a prior blog, my Ubuntu was installed in this directory: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+C:\Users\gojimmypi\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\home\gojimmypi</code></pre>
+To help find it, you can run a command like this in your WSL instance: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+echo wow &gt; ~/zowie.tag</code></pre>
+then from a DOS command-prompt: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+C:\Users\gojimmypi&gt;dir zowie.tag /s
+ Volume in drive C is Windows
+ Volume Serial Number is 9078-2015
+ Directory of C:\Users\gojimmypi\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\home\gojimmypi
+02/03/2019  01:43 PM                 4 zowie.tag
+               1 File(s)              4 bytes</code></pre>
+<br />
+<br />
+<br />
+
+<div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/Ubuntu_Directory.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="409" data-original-width="837" height="155" src="../images/s320/Ubuntu_Directory.PNG" width="320"></a>
+</div>
+<br />
+So in my case, Ubuntu needed to be removed from
+<br />
+<br />
+&nbsp;C:\Users\gojimmypi\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc
+<br />
+<br />I was reluctant to try the brute-force directory deletion&nbsp; route. In part, I've seen where Windows did not "see" the proper file sizes and permissions. I eventually found the 
+<a href="https://docs.microsoft.com/en-us/windows/wsl/wsl-config">wslconfig command</a>
+.<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+del CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc /s /q &gt; null:wslconfig /list
+pause
+wslconfig /unregister distroname</code></pre>
+<br />
+<br />
+That didn't go so well:
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/Uninstall_Fail.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="231" data-original-width="505" height="145" src="../images/s320/Uninstall_Fail.PNG" width="320"></a>
+</div>
+<br />
+And it didn't just fail, but corrupted the install:
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/Ubuntu_Hosed.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="309" data-original-width="673" height="145" src="../images/s320/Ubuntu_Hosed.PNG" width="320"></a>
+</div>
+<br />
+Sometimes I really wonder why I continue to fuss with the Microsoft environment. :/
+<br />
+<br />
+So in the end, I ran the brute-force directoy delete like this:
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+del CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc /s /q &gt; null:
+wslconfig /unregister distroname</code></pre>
+The /s deletes all subdirectories. The /q is "quiet mode" (don't confirm every directory to delete), and I send output to null: as the RISC-V toolchain is massive, and showing all that on the screen would take forever. That actually didn't work, either - leaving behind a ton of directories. So then I tried:  <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+rmdir CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc /s /q</code></pre>
+which also did not work, giving an error: <code class="highlight">CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LOCALS~1\rootfs\lib\recovery-mode - The directory is not empty.</code>
+So I continued to manually delete directories manually until everything was gone. Running WSL from a DOS command prompt shows that nothing is installed:   <br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/No_WSL.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="197" data-original-width="642" height="96" src="../images/s320/No_WSL.PNG" width="320"></a>
+</div>
+<br />
+
+</div>
+
+<div>
+So on to installing Ubuntu fresh from the <a href="https://aka.ms/wslstore">Microsoft Store - Linux on Windows</a>
+&nbsp;upon launching the Ubuntu, we should be able to confirm we have version 18.04 installed:<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+Installing, this may take a few minutes...
+Please create a default UNIX user account. The username does not need to match your Windows username.
+For more information visit: https://aka.ms/wslusers
+Enter new UNIX username: gojimmypi
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+Installation successful!To run a command as administrator (user "root"), use "sudo <command></command>
+".
+See "man sudo_root" for details.
+gojimmypi@HOSTNAME:~$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 18.04.1 LTS
+Release:        18.04
+Codename:       bionic</code></pre>
+<br />You may wish to setup a custom bash prompt like 
+<a href="https://gist.github.com/gojimmypi/3b92f3a33d51252252976fba7bae407b">mine</a>&nbsp;(or see <a href="http://bashrcgenerator.com/">bashrcgenerator.com</a>
+).<br />
+<br />
+<br />Finally on to installing the tool chain again.    I've created a 
+<a href="https://gist.github.com/gojimmypi/243fc3a6eead72ae3db8fd32f2567c96">TinyFPGA install gist</a>
+:   <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+mkdir -p ~/workspace/
+cd ~/workspace/
+git clone https://gist.github.com/243fc3a6eead72ae3db8fd32f2567c96.git TinyFPGA_Toolchain
+cd TinyFPGA_Toolchain
+chmod +x TinyFPGA_Toolchain.sh
+sudo ./TinyFPGA_Toolchain.sh</code></pre>
+Or if you prefer:  <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo ls # pause if copy/paste password prompt
+sudo apt-get update --assume-yes
+sudo apt-get upgrade --assume-yes
+mkdir -p ~/workspace/
+cd ~/workspace/
+# install icestorm dependencies
+# this next install needs a bit of disk space:
+#   0 upgraded, 205 newly installed, 0 to remove and 3 not upgraded.
+#   Need to get 130 MB of archives.
+#   After this operation, 652 MB of additional disk space will be used.
+#
+sudo apt-get install build-essential clang bison flex libreadline-dev \
+                     gawk tcl-dev libffi-dev git mercurial graphviz   \
+                     xdot pkg-config python python3 libftdi-dev  --assume-yes
+# tinyFPGA BX
+git clone --recursive https://github.com/tinyfpga/TinyFPGA-BX.git
+cd ~/workspace/
+# icestorm
+git clone https://github.com/cliffordwolf/icestorm.git icestorm
+cd icestorm
+make -j$(nproc)
+sudo make install
+cd ~/workspace/
+# arachne-pnr
+git clone https://github.com/cseed/arachne-pnr.git arachne-pnr
+cd arachne-pnr
+make -j$(nproc)
+sudo make install
+cd ~/workspace/
+# nextpnr
+git clone https://github.com/YosysHQ/nextpnr.git
+# this next line is about another half gig of files!
+#   0 upgraded, 249 newly installed, 0 to remove and 3 not upgraded.
+#   Need to get 132 MB of archives.
+#   After this operation, 623 MB of additional disk space will be used.
+#
+sudo apt-get install libboost-all-dev python3-dev qt5-default clang-format
+cd nextpnr
+cmake -DARCH=ice40 .
+make -j$(nproc)
+sudo make install
+cd ~/workspace/
+# yosys
+git clone https://github.com/cliffordwolf/yosys.git yosys
+cd yosys
+make -j$(nproc)
+sudo make install
+cd ~/workspace/
+#RISC-V
+git clone https://github.com/cliffordwolf/picorv32.git
+sudo mkdir /opt/riscv32i
+sudo chown $USER /opt/riscv32i
+sudo apt-get install autoconf automake autotools-dev curl libmpc-dev \
+        libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo \
+    gperf libtool patchutils bc zlib1g-dev git libexpat1-dev  --assume-yes</code></pre>
+
+</div>
+<br />
+<a href="https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fpublish.twitter.com%2F%3FbuttonType%3DFollowButton%26query%3Dhttps%253A%252F%252Ftwitter.com%252Fgojimmypi%26widget%3DButton&amp;ref_src=twsrc%5Etfw&amp;region=follow_link&amp;screen_name=gojimmypi&amp;tw_p=followbutton" style="text-decoration: none;" title="Follow @gojimmypi on Twitter">        <span style="background-color: #1b95e0; background-image: url(&quot;https://1.bp.blogspot.com/-J4ujLRevzes/XGBq3K6e3JI/AAAAAAAAB5s/vJR9XfI2-3UrXfXR1qUdQ3o6zVmXP6NfACLcBGAs/s200/Twitter_Logo_WhiteOnImage.png&quot;); background-position: left; background-repeat: no-repeat; background-size: 20px; border-radius: 3px; color: white; cursor: pointer; font-size: 11px; font-weight: 500; font: &quot;helvetica neue&quot; , &quot;arial&quot; , sans-serif; height: 20px; padding: 3px; text-align: right; width: 227px;">            &nbsp; &nbsp; &nbsp; &nbsp; Follow <b>@gojimmypi</b> &nbsp;         </span>
+    </a><br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:54 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

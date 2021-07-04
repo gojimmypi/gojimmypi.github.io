@@ -17,4 +17,454 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-56134007793770266
 blogger_orig_url: https://gojimmypi.blogspot.com/2018/03/serial-port-debugging.html
 ---
 
-Today I'm trying to use the AVR serial port on a custom ATMEGA328 board.<br /><br />TL;DR<br /><br /><ul><li>Know your fuse settings! Incorrect settings can result in timing problems, including incorrect UART baud rates.</li><li>RS232 Serial port UART decoding using Rigol DS1054z Oscilloscope</li><li>How to fix bad baud rate timing with software.</li><li>Programming AVR devices from Atmel Studio and Arduino IDE with Atmel ICE</li></ul><br /><br />Try as I might, I simply could not get it to work properly. The LED on the USB/TTL adapter would blink during data transfer, but no data shows up in Putty from the AVR.<br /><br />After exhausting all obvious possibilities, it was time to get serious about looking at what's going on. <a href="https://www.rigolna.com/products/digital-oscilloscopes/1000z/">Rigol oscilloscope</a> debugging to the rescue!<br /><br />I had not performed any signal decoding any time recently and needed to refresh my memory.&nbsp; I tried <a href="http://beyondmeasure.rigoltech.com/acton/attachment/1579/f-050a/1/-/-/-/-/MSO1000Z%26DS1000Z_UserGuide.pdf">reading the fine manual</a>, but alas still could not get it to work quite the way I wanted. I found this really quite excellent YouTube video. (I have the DS1054z, but close enough)<br /><br /><br /><iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" height="315" src="https://www.youtube.com/embed/SarsWOCMvjg" width="560"></iframe> <br /><br />In short, the most important thing is that the oscilloscope needs to be "zoomed out" (horizontal scale) when doing single trigger. The full capture is apparently the scale of the visible screen. I might have implemented that a bit differently but it is ok once understood.<br /><br />Trigger: Menu Button (CH1, falling edge, single sweep). Adjust trigger level to halfway point, in my case 1.6V.<br /><br />Decode: Math Button, (Decode 1, Decoder = RS232, Decode ON, Tx = CH1, Baud Rate, etc)<br /><br />First, an example of a properly working H (from "Hello World") as sent by Putty:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-XUuIr7JRCMI/WqUGaYgMVrI/AAAAAAAABAM/lu8_M6KL4hsrS9znbHJNQsZctXn-HWN8ACLcBGAs/s1600/Putty%2BSource.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="445" data-original-width="462" height="308" src="https://3.bp.blogspot.com/-XUuIr7JRCMI/WqUGaYgMVrI/AAAAAAAABAM/lu8_M6KL4hsrS9znbHJNQsZctXn-HWN8ACLcBGAs/s320/Putty%2BSource.PNG" width="320" /></a></div><br />Fairly straightforward serial port setup: 9600 8N1. I connected my oscilloscope probe to GND and Tx of a <a href="https://www.ebay.com/itm/201543906640">typical USB TTL adapter</a>. Pressing the "H" on the keyboard when Putty has focus, sends a nice, clean RS232 digital sequence to the TTL adapter as shown:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-hJDDmBa8oPI/WqUHUNjF7MI/AAAAAAAABAY/KbBdOD5i5W0QEa7G8fcOTfp8nRxMVqc2gCLcBGAs/s1600/Putty.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="480" data-original-width="800" height="240" src="https://4.bp.blogspot.com/-hJDDmBa8oPI/WqUHUNjF7MI/AAAAAAAABAY/KbBdOD5i5W0QEa7G8fcOTfp8nRxMVqc2gCLcBGAs/s400/Putty.png" width="400" /></a></div><br />Reminder that&nbsp;<a href="https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter">UART</a>/TTL&nbsp;<a href="https://en.wikipedia.org/wiki/RS-232">RS232</a>&nbsp;idle is normally high, transmission begins with low start bit, then (in our case) 8 data bits, least-significant-bit (LSB) first, then followed by stop bit (aka mark) which is high.<br /><br />Note the scale here is 500 μs (0.5 ms) per division. We're seeing about 100 μs per bit. Actually at 9,600 baud, the expected time per bit is (1 bit / (9600 bits / sec)) =&nbsp;0.0001041667 seconds or about 104 μs&nbsp;per bit.<br /><br />The <a href="https://en.wikipedia.org/wiki/ASCII">ASCII value</a> of "H" is 72 = = 0x4c = = 0b01001000<br /><br />Indeed we see about 400 μs&nbsp;of zero (1 start bit, and then 3 LSB's of the "H"), a one, 2 more zeros, followed by a one, zero, then return to high for stop.<br /><br />So ok, the TTL adapter is working. Actually, I already knew that, as I used it to login to the serial port of my Raspberry Pi just to confirm. Ok, so that's the easy one. Now on to the data coming from the AVR. Much more interesting:<br /><br />Here's the source code in Atmel Studio. Also pretty straightforward:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-a6oHpJzpkfI/WqUH_itX4UI/AAAAAAAABAk/AEAn9AEjQGcdsmzGlRxAhJlmarN5oUn8wCLcBGAs/s1600/AVR%2BCode.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="254" data-original-width="575" height="176" src="https://3.bp.blogspot.com/-a6oHpJzpkfI/WqUH_itX4UI/AAAAAAAABAk/AEAn9AEjQGcdsmzGlRxAhJlmarN5oUn8wCLcBGAs/s400/AVR%2BCode.PNG" width="400" /></a></div><br />Here too, 9600, (default 8N1). But with a much different result:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-rsxF-Q03o5Q/WqUH20CDf7I/AAAAAAAABAg/eu1dkUiRXUolaCYWl4c1AX84wIFMlEmSQCLcBGAs/s1600/AVR.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="480" data-original-width="800" height="240" src="https://4.bp.blogspot.com/-rsxF-Q03o5Q/WqUH20CDf7I/AAAAAAAABAg/eu1dkUiRXUolaCYWl4c1AX84wIFMlEmSQCLcBGAs/s400/AVR.png" width="400" /></a></div><br />The first curious thing I observed was that the delay(milliseconds) function was off by an order of 16 (as measured by eye).&nbsp; Note the scale here is 5mS per division; 10x slower that the trace above!<br /><br />A coding delay(1000) actually waited for approximately 16 seconds. So the first thing I thought was perhaps the timescale was simply off, so I tried scaling the baud rate by 16. No luck.<br /><br />Ok, this certainly explains why nothing is showing up in putty! First: notice there seems to be a duplicate character! (there's no echo; nothing connected to the Tx pin other than the oscilloscope probe) Next: notice the scale on the properly decoded character above on CH2 is 500 μs/div.&nbsp; The scale on this AVR data is 5 ms/div.&nbsp; The first low pulse on CH1 is 400 μs, but on CH2 more like nearly 7 ms (7,000 μs!)<br /><br />Quick note on the math, assuming we're really off by exactly 16x:<br /><br />400 μs * 16 = 6400 (or 6.4 ms); more precisely (4 * 104.17) * 16 = 6,666.67 μs (or 6.67 ms)<br /><br />Unfortunately 9600 * 16 =&nbsp; 153,600 is not a valid baud rate. However 2400 * 16 = 38,400 baud is!<br /><br />So I tried changing the source code to send a character at 2400 * 16 baud (38,400). However it too could not be decoded.<br /><div><br /></div>The AVR serial port does indeed look like it is approximately 16x slower. Zooming in on that first low pulse to confirm:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-eHMUbX76xe0/WqUOszkH5aI/AAAAAAAABBQ/6hIFP2W-KpYoWH2EhxsoaHKsM5EE10VCQCEwYBhgL/s1600/DS1Z_QuickPrint3.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="480" data-original-width="800" height="240" src="https://3.bp.blogspot.com/-eHMUbX76xe0/WqUOszkH5aI/AAAAAAAABBQ/6hIFP2W-KpYoWH2EhxsoaHKsM5EE10VCQCEwYBhgL/s400/DS1Z_QuickPrint3.png" width="400" /></a></div><br />It appears that that first 4 bit pulse is actually 6.3 ms long. Interestingly it is not 6.4 ms (or more precisely not 6.67 ms). That makes a difference of&nbsp; (6,300 μS / (4 * 100 μS) = 15.75x, not the nice round 16.&nbsp; More precisely: (6,300 μS / (4 * 104.17 μS) = 15.12x.<br /><br />So ok, the good old Microsoft Paint program (glad to hear it will not be <a href="https://www.theguardian.com/technology/2017/jul/25/microsoft-paint-saved-windows-store">retired</a>!)... a quick copy / paste / scale of the non-working (10x scale; recall 500μs/dev vs 5ms/div ) waveform on top of the properly decoded signal shows we're not going to get from here to there with a simple baud rate scale. The data is not just duplicated at the wrong speed, something weird is going on with a lot more data than just a single character:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-cwpsVyz1uVQ/WqUUV_7Xx2I/AAAAAAAABBw/U1nXFtLUg_kDdeF9tQy_w8c-3xhIPaE9wCLcBGAs/s1600/Char%2Bmash.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="481" data-original-width="786" height="243" src="https://3.bp.blogspot.com/-cwpsVyz1uVQ/WqUUV_7Xx2I/AAAAAAAABBw/U1nXFtLUg_kDdeF9tQy_w8c-3xhIPaE9wCLcBGAs/s400/Char%2Bmash.png" width="400" /></a></div><div class="separator" style="clear: both; text-align: left;"></div><br />So it would seem my AVR is not going to be doing any useful Serial Port Communication anytime soon. Perhaps there's something weird going on in Atmel Studio. But of all the people that would know how to properly program an ATMEGA328, one would think it would be the ones that built Atmel Studio, eh? Time to go back to bed, just in time for the sunrise.<br /><br />UPDATE: Ok, so after getting some sleep I thought more about this problem. I was wrong about the math! I needed a target that is 15.75 (more precisely 15.12) times faster than the oscilloscope is capturing. So I simply scaled the baud rate in the app:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-z_VZpLpefbc/WqVijx4Om-I/AAAAAAAABCQ/Z0KxhW8mGlgSPGa5-zPrMdCgcvRzKLz3wCLcBGAs/s1600/baud%2Bscale%2Bcode.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="266" data-original-width="625" height="170" src="https://2.bp.blogspot.com/-z_VZpLpefbc/WqVijx4Om-I/AAAAAAAABCQ/Z0KxhW8mGlgSPGa5-zPrMdCgcvRzKLz3wCLcBGAs/s400/baud%2Bscale%2Bcode.PNG" width="400" /></a></div><br />And setting the decode frequency to the un-scaled value... TADA! Perfectly decoded. &lt;Happy dance&gt;.<br /><br />I've kept the estimated and precise numbers above, as the initial estimate of 15.75x worked, even though 15.12x is the more precise answer. Somewhere buried in the RS232/UART spec is probably a timing tolerance range.<br /><div><br /></div><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-fsclMJi1Y0c/WqVix8Vrt9I/AAAAAAAABCU/ZGq0ji2klicsfeU7-qMdcPdarjuRtGtpQCLcBGAs/s1600/H%2BCrLf.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="480" data-original-width="800" height="240" src="https://4.bp.blogspot.com/-fsclMJi1Y0c/WqVix8Vrt9I/AAAAAAAABCU/ZGq0ji2klicsfeU7-qMdcPdarjuRtGtpQCLcBGAs/s400/H%2BCrLf.png" width="400" /></a></div><br />Oh and look at that "extra" data: I'm doing a Serial.print<b>ln</b>() that includes extra carriage return and line feed chars! &lt;sigh&gt;<br /><br />Here's a lesson I've repeatedly learned: walking away from a problem can sometimes solve it ten times faster as compared to attempting to brute-force it non-stop. (particularly at 4:00 in the morning, time change day)<br /><br />Still it is curious that I needed to scale the baud rate by an odd value of 15.75 (?)<br /><br />So a little bit of googling (ok, imagine being an embedded programmer before the internet, say in the 80's. crazy)... I found this YouTube video on ISP programming problems due to wrong clock frequency:<br /><br /><iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" height="315" src="https://www.youtube.com/embed/vZ4ssr4N0qw" width="560"></iframe><br /><br />But that's not really my problem - as I can program it using ISP or debugWIRE, but the clock is still wrong by a factor of 15.12x.<br /><br />There's still the ISP Clock Frequency setting in Atmel Studio:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-sreWA7GklyY/WqVpB6KI_FI/AAAAAAAABC0/4T57nCdVo5IPfNrwRJxBBTz8Q_z65xGZQCLcBGAs/s1600/ISP%2Bclocl.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="496" data-original-width="709" height="223" src="https://4.bp.blogspot.com/-sreWA7GklyY/WqVpB6KI_FI/AAAAAAAABC0/4T57nCdVo5IPfNrwRJxBBTz8Q_z65xGZQCLcBGAs/s320/ISP%2Bclocl.png" width="320" /></a></div><br />But that's just the clock speed at which the ISP is <i>doing</i> the programming; this is not the clock speed of the processor. Eventually I found this interesting clip (starting at about the 1:50 mark):<br /><br /><iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" height="315" src="https://www.youtube.com/embed/aeXMPVQ3MuM" width="560"></iframe> <br /><br />This does seem like a reasonable solution. Perhaps I should have known there's a frequency setting. How else would the code "know" how long a millisecond is?<br /><br />But I've never needed to manually set the processor speed ever before and never had any serial problem quite like this. In any case - first time for everything. So I tried values of 16000000UL and&nbsp;1600000UL, and others. No values of #define&nbsp;F_CPU seemed to help. Ok, at this point I'm glad it was not something so obvious.<br /><br />I'm think it might be something with the fuse settings, but even with the <a href="http://www.engbedded.com/fusecalc/">online fuse calculator</a>, nothing jumps out as the obvious answer.<br /><br />Stay tuned for an update if I figure this one out. In the meantime to set a baud rate, I'll simply multiple by 15.12 (certainly makes for some <i>not-very-portable code</i>&nbsp; :|&nbsp; meh)<br /><br /><code></code><br /><pre><code>/*Begining of Auto generated code by Atmel studio */<br />#include <arduino .h=""><br />/*End of auto generated code by Atmel studio */<br /><br />#define  F_CPU 16000000UL # does this actually do anything?<br /><br />//Beginning of Auto generated function prototypes by Atmel Studio<br />//End of Auto generated function prototypes by Atmel Studio<br /><br />void setup() {<br />  // put your setup code here, to run once:<br />  //pinMode(2, OUTPUT);<br />  delay(100);<br />  Serial.begin(2400 * 15.12); // originally estimated at 15.75<br />}<br /><br />void loop() {<br />  // put your main code here, to run repeatedly:<br />  Serial.println("H");       // Hello World. (just the "H" to keep things simple)<br />  //digitalWrite(2, HIGH);   // turn the LED on (HIGH is the voltage level)<br />  //delay(10);               // wait  <br />  //digitalWrite(2, LOW);    // turn the LED off by making the voltage LOW<br />  delay(200);                // wait  HH<br />}<br /></arduino></code></pre><br />I've posted my entire Atmel Studio Solution <a href="https://github.com/gojimmypi/LoRa-GPIO/tree/M5-RadioHead">here</a>. (note that it is in the <a href="https://github.com/gojimmypi/LoRa-GPIO/tree/M5-RadioHead">M5-RadioHead branch of my LoRa-GPIO project)</a><br /><br />Thanks to <a href="https://www.avrfreaks.net/forum/how-set-fcpu">this post on the AVR Freaks forum</a>, I did find this setting in Atmel Studio for F_CPU:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-0MEb5QgBn1g/WqbtYz2yFAI/AAAAAAAABDU/ZAGKy2dR6eMQF8Lf7BUe7fKVfk9WvTcPgCLcBGAs/s1600/F_CPU.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="857" data-original-width="891" height="383" src="https://4.bp.blogspot.com/-0MEb5QgBn1g/WqbtYz2yFAI/AAAAAAAABDU/ZAGKy2dR6eMQF8Lf7BUe7fKVfk9WvTcPgCLcBGAs/s400/F_CPU.png" width="400" /></a></div><br />Although this certainly does not clarify why the problems exists in the first place. Perhaps if I had found the value something like 1,058,236 here, it would have been more of an AHA moment.&nbsp; (1.0582 * 15.1195 = 16).&nbsp; At this point I am thinking perhaps all this may be caused by a bad crystal oscillator. (?)<br /><br />It was suggested that I use the Arduino IDE to program the M5Stack AVR chip instead of Atmel Studio. I found <a href="https://www.avrfreaks.net/comment/1740521#comment-1740521">this forum thread</a> that has the solution for using the Atmel ICE with the Arduino IDE. In particular, the input device, data gateway, and composite devices with hex Id's: 03EB and 2141 need to be selected with the&nbsp;install-filter-win.exe tool:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-ya44FWX7XI8/WqdTzx8f5fI/AAAAAAAABDw/IN2AIIOtDiAjjbWpsz_hgqG5O0pcZtKbACLcBGAs/s1600/libusb-filter.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="530" data-original-width="489" height="400" src="https://4.bp.blogspot.com/-ya44FWX7XI8/WqdTzx8f5fI/AAAAAAAABDw/IN2AIIOtDiAjjbWpsz_hgqG5O0pcZtKbACLcBGAs/s400/libusb-filter.PNG" width="368" /></a></div><br />The Arduino IDE uses avrdude to program the ATmega328; the resultant output looks like this:<br /><br /><code></code><br /><pre><code>avrdude: Version 6.3, compiled on Jan 17 2017 at 12:00:53<br />         Copyright (c) 2000-2005 Brian Dean, http://www.bdmicro.com/<br />         Copyright (c) 2007-2014 Joerg Wunsch<br /><br />         System wide configuration file is "C:\Users\gojimmypi\AppData\Local\Arduino15\packages\arduino\tools\avrdude\6.3.0-arduino9/etc/avrdude.conf"<br /><br />         Using Port                    : usb<br />         Using Programmer              : atmelice_isp<br />avrdude: usbdev_open(): Found Atmel-ICE CMSIS-DAP, serno: J4180007xxxx<br />avrdude: Found CMSIS-DAP compliant device, using EDBG protocol<br />         AVR Part                      : ATmega328P<br />         Chip Erase delay              : 9000 us<br />         PAGEL                         : PD7<br />         BS2                           : PC2<br />         RESET disposition             : dedicated<br />         RETRY pulse                   : SCK<br />         serial program mode           : yes<br />         parallel program mode         : yes<br />         Timeout                       : 200<br />         StabDelay                     : 100<br />         CmdexeDelay                   : 25<br />         SyncLoops                     : 32<br />         ByteDelay                     : 0<br />         PollIndex                     : 3<br />         PollValue                     : 0x53<br />         Memory Detail                 :<br /><br />                                  Block Poll               Page                       Polled<br />           Memory Type Mode Delay Size  Indx Paged  Size   Size #Pages MinW  MaxW   ReadBack<br />           ----------- ---- ----- ----- ---- ------ ------ ---- ------ ----- ----- ---------<br />           eeprom        65    20     4    0 no       1024    4      0  3600  3600 0xff 0xff<br />           flash         65     6   128    0 yes     32768  128    256  4500  4500 0xff 0xff<br />           lfuse          0     0     0    0 no          1    0      0  4500  4500 0x00 0x00<br />           hfuse          0     0     0    0 no          1    0      0  4500  4500 0x00 0x00<br />           efuse          0     0     0    0 no          1    0      0  4500  4500 0x00 0x00<br />           lock           0     0     0    0 no          1    0      0  4500  4500 0x00 0x00<br />           calibration    0     0     0    0 no          1    0      0     0     0 0x00 0x00<br />           signature      0     0     0    0 no          3    0      0     0     0 0x00 0x00<br /><br />         Programmer Type : JTAG3_ISP<br />         Description     : Atmel-ICE (ARM/AVR) in ISP mode<br />         Vtarget         : 3.3 V<br />         SCK period      : 125.00 us<br /><br />avrdude: AVR device initialized and ready to accept instructions<br /><br />Reading | ################################################## | 100% 0.02s<br /><br />avrdude: Device signature = 0x1e950f (probably m328p)<br />avrdude: NOTE: "flash" memory has been specified, an erase cycle will be performed<br />         To disable this feature, specify the -D option.<br />avrdude: erasing chip<br />avrdude: reading input file "C:\Users\GOJIMM~1\AppData\Local\Temp\arduino_build_159166/M5Stack_LoRa_AVR.ino.ino.hex"<br />avrdude: writing flash (1694 bytes):<br /><br />Writing | ################################################## | 100% 6.94s<br /><br />avrdude: 1694 bytes of flash written<br />avrdude: verifying flash memory against C:\Users\GOJIMM~1\AppData\Local\Temp\arduino_build_159166/M5Stack_LoRa_AVR.ino.ino.hex:<br />avrdude: load data flash data from input file C:\Users\GOJIMM~1\AppData\Local\Temp\arduino_build_159166/M5Stack_LoRa_AVR.ino.ino.hex:<br />avrdude: input file C:\Users\GOJIMM~1\AppData\Local\Temp\arduino_build_159166/M5Stack_LoRa_AVR.ino.ino.hex contains 1694 bytes<br />avrdude: reading on-chip flash data:<br /><br />Reading | ################################################## | 100% 7.33s<br /><br />avrdude: verifying ...<br />avrdude: 1694 bytes of flash verified<br /><br />avrdude done.  Thank you.<br /></code></pre><br /><br />However I had the same result in needing the baud rate to be scaled by 15x in order for it to work properly. So this was still not the solution.<br /><br />Many thanks to Jimmy Lai at M5Stack for sending me fuse selection setting pics (there are many settings to choose from!):<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-QnR6r6qbqb0/WqeXVEyvziI/AAAAAAAABEM/WT11amep5RAjUua9hO94Hzsd_dRE4dHYwCLcBGAs/s1600/M5Stack_AVR_Recomended%2BFuse%2BSettings.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="528" data-original-width="894" height="235" src="https://2.bp.blogspot.com/-QnR6r6qbqb0/WqeXVEyvziI/AAAAAAAABEM/WT11amep5RAjUua9hO94Hzsd_dRE4dHYwCLcBGAs/s400/M5Stack_AVR_Recomended%2BFuse%2BSettings.PNG" width="400" /></a></div><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-8a7d7SanmtM/WqeXWpKuHmI/AAAAAAAABEQ/mc_74aj_qqoaTWCFNcCbvdNQOW0MCx4RQCEwYBhgL/s1600/M5Stack_AVR_Recomended%2BFuse%2BSettings2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="516" data-original-width="899" height="228" src="https://4.bp.blogspot.com/-8a7d7SanmtM/WqeXWpKuHmI/AAAAAAAABEQ/mc_74aj_qqoaTWCFNcCbvdNQOW0MCx4RQCEwYBhgL/s400/M5Stack_AVR_Recomended%2BFuse%2BSettings2.PNG" width="400" /></a></div><div class="separator" style="clear: both; text-align: center;"></div><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-t1f8mehq3MM/WqeeMp7sMXI/AAAAAAAABFQ/agZ3B3YnM-wndzD-fCCmRBljYOOiWj6IgCLcBGAs/s1600/M5Stack_AVR_Recomended%2BFuse%2BSettings3.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="364" data-original-width="610" height="237" src="https://2.bp.blogspot.com/-t1f8mehq3MM/WqeeMp7sMXI/AAAAAAAABFQ/agZ3B3YnM-wndzD-fCCmRBljYOOiWj6IgCLcBGAs/s400/M5Stack_AVR_Recomended%2BFuse%2BSettings3.PNG" width="400" /></a></div><br />In the second and third pic, it is important to note that the DIVCK8 needs to be left unchecked, despite the value here showing 4E in that first pic. The desired values are: CE D9 FF<br /><br />My fuse settings before:<br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-AqTfGW4arZ8/WqekRatmLDI/AAAAAAAABGY/nFZT4IOT_AwOCfPdRIKJ5fZ-gjEXU_LCACLcBGAs/s1600/Fuses-Before.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="768" data-original-width="755" height="400" src="https://3.bp.blogspot.com/-AqTfGW4arZ8/WqekRatmLDI/AAAAAAAABGY/nFZT4IOT_AwOCfPdRIKJ5fZ-gjEXU_LCACLcBGAs/s400/Fuses-Before.PNG" width="392" /></a></div><br /><br /><br /><div class="separator" style="clear: both; text-align: left;"></div><br />Notice LOW.SUT_CKSEL! It is set to an internal clock! There's actually an external clock on the board:<br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-G3RhxFUpo3w/WqecxTatzpI/AAAAAAAABE4/XPD13JCr83EhPz1cDhOnWv2_btTnRQl5wCLcBGAs/s1600/crystal.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="492" data-original-width="636" height="308" src="https://2.bp.blogspot.com/-G3RhxFUpo3w/WqecxTatzpI/AAAAAAAABE4/XPD13JCr83EhPz1cDhOnWv2_btTnRQl5wCLcBGAs/s400/crystal.PNG" width="400" /></a></div><br />Ok, one would think that even with an external clock, if the fuse settings say to use an internal clock - and this is in fact the default value, that it would work properly with the ATmega328p, eh? Apparently not. As seen above, the clock was wildly off.<br /><br />When changing the fuses, there's a nice indication of what has been changed, but not written to the chip:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-I-FPnSSGSl8/Wqejy9DLGtI/AAAAAAAABGQ/KIZts_C6PC4fC8xUgYuY7MJYc2PdJ8NGgCLcBGAs/s1600/Fuses-changing.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="766" data-original-width="801" height="382" src="https://1.bp.blogspot.com/-I-FPnSSGSl8/Wqejy9DLGtI/AAAAAAAABGQ/KIZts_C6PC4fC8xUgYuY7MJYc2PdJ8NGgCLcBGAs/s400/Fuses-changing.PNG" width="400" /></a></div><div class="separator" style="clear: both; text-align: left;"></div><br />When pressing the Program button, there's a warning that if you don't know what you are doing, you might brick the target:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-jkUskASOWTI/Wqee__QB4kI/AAAAAAAABFo/1kW4C67HJEsnOqTSb6dJm2jG6OOMbIFVwCLcBGAs/s1600/Fuse%2BWarning.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="357" data-original-width="439" height="325" src="https://4.bp.blogspot.com/-jkUskASOWTI/Wqee__QB4kI/AAAAAAAABFo/1kW4C67HJEsnOqTSb6dJm2jG6OOMbIFVwCLcBGAs/s400/Fuse%2BWarning.PNG" width="400" /></a></div><br />Braving the ominous warning dialog box... My final fuses look like this:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-Wua7GOT4HhI/Wqejo72PXAI/AAAAAAAABGM/T5bdR2Xk3_o1Ep2c-0H8bIskSM3XwY4JgCLcBGAs/s1600/Fuses-After.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="719" data-original-width="811" height="353" src="https://3.bp.blogspot.com/-Wua7GOT4HhI/Wqejo72PXAI/AAAAAAAABGM/T5bdR2Xk3_o1Ep2c-0H8bIskSM3XwY4JgCLcBGAs/s400/Fuses-After.PNG" width="400" /></a></div><br /><div class="separator" style="clear: both; text-align: left;"></div><br />TADA! &lt;big Happy Dance&gt; Serial.println("Hello world") at 2400 baud actually streams out the UART at 2400 baud. Go figure. This was a tremendous amount of time spent on a couple of fuse bit settings. However it was also an awesome learning opportunity.<br /><br />More coming soon.... now to get those RadioHead drivers onto the AVR...<br /><br /><br />Resources, Inspiration, Credits, and Other Links::<br /><ul><li><a href="http://www.righto.com/2013/07/tips-for-using-rigol-ds1052e.html">Twelve tips for using the Rigol DS1052E Oscilloscope</a></li><li><a href="https://arduino.stackexchange.com/questions/692/arduino-time-keeping-using-millis-is-not-accurate-or-correct">Arduino time keeping using millis() is not accurate or correct?</a></li><li><a href="https://youtu.be/aAw-7Lq-3tI">Debugging AVR Applications with Atmel Studio (YouTube)</a>&nbsp;</li><li><a href="https://youtu.be/s_I-qlARclw">Atmel: megaAVR Clock Sources and Potential Errors (YouTube)</a></li><li><a href="https://youtu.be/e_DoHqcENSs">How to Use Crystal Oscillators and Write the Fuse Bits to the AVR MCU (YouTube)</a></li><li><a href="https://www.avrfreaks.net/sites/default/files/forum_attachments/NefitSerial_cpp_0.txt">NefitSerial.cpp - Hardware serial library for Wiring</a></li><li><a href="http://www.engbedded.com/fusecalc/">Fuse Calc</a></li><li><a href="https://www.youtube.com/watch?v=HxpSYlnEDos&amp;feature=youtu.be">DS1000z I2C Decoding and Triggering (covers DS1054Z, DS1074Z, DS1100Z, MSO1074Z, MSO1104Z) </a></li><li><a href="http://beyondmeasure.rigoltech.com/acton/attachment/1579/f-050a/1/-/-/-/-/MSO1000Z%26DS1000Z_UserGuide.pdf">Rigol MSO1000Z/DS1000Z Series Digital Oscilloscope User Guide</a></li></ul><br /><br /><br /><br /><br /><br /><div class="separator" style="clear: both; text-align: center;"></div><br /><br /><br />
+Today I'm trying to use the AVR serial port on a custom ATMEGA328 board.<br />
+<br />
+TL;DR
+<br />
+<br />
+<ul><li>Know your fuse settings! Incorrect settings can result in timing problems, including incorrect UART baud rates.</li><li>RS232 Serial port UART decoding using Rigol DS1054z Oscilloscope</li><li>How to fix bad baud rate timing with software.</li><li>
+Programming AVR devices from Atmel Studio and Arduino IDE with Atmel ICE</li></ul><br />
+<br />
+Try as I might, I simply could not get it to work properly. The LED on the USB/TTL adapter would blink during data transfer, but no data shows up in Putty from the AVR.
+<br />
+<br />After exhausting all obvious possibilities, it was time to get serious about looking at what's going on. 
+<a href="https://www.rigolna.com/products/digital-oscilloscopes/1000z/">Rigol oscilloscope</a>
+ debugging to the rescue!<br />
+<br />I had not performed any signal decoding any time recently and needed to refresh my memory.&nbsp; I tried 
+<a href="http://beyondmeasure.rigoltech.com/acton/attachment/1579/f-050a/1/-/-/-/-/MSO1000Z%26DS1000Z_UserGuide.pdf">reading the fine manual</a>
+, but alas still could not get it to work quite the way I wanted. I found this really quite excellent YouTube video. (I have the DS1054z, but close enough)<br />
+<br />
+<br />
+<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" height="315" src="https://www.youtube.com/embed/SarsWOCMvjg" width="560"></iframe>
+ <br />
+<br />
+In short, the most important thing is that the oscilloscope needs to be "zoomed out" (horizontal scale) when doing single trigger. The full capture is apparently the scale of the visible screen. I might have implemented that a bit differently but it is ok once understood.
+<br />
+<br />
+Trigger: Menu Button (CH1, falling edge, single sweep). Adjust trigger level to halfway point, in my case 1.6V.
+<br />
+<br />
+Decode: Math Button, (Decode 1, Decoder = RS232, Decode ON, Tx = CH1, Baud Rate, etc)
+<br />
+<br />
+First, an example of a properly working H (from "Hello World") as sent by Putty:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Putty_Source.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="445" data-original-width="462" height="308" src="../images/s320/Putty_Source.PNG" width="320"></a>
+</div>
+<br />Fairly straightforward serial port setup: 9600 8N1. I connected my oscilloscope probe to GND and Tx of a 
+<a href="https://www.ebay.com/itm/201543906640">typical USB TTL adapter</a>
+. Pressing the "H" on the keyboard when Putty has focus, sends a nice, clean RS232 digital sequence to the TTL adapter as shown:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Putty.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="480" data-original-width="800" height="240" src="../images/s400/Putty.png" width="400"></a>
+</div>
+<br />Reminder that&nbsp;
+<a href="https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter">UART</a>/TTL&nbsp;<a href="https://en.wikipedia.org/wiki/RS-232">RS232</a>
+&nbsp;idle is normally high, transmission begins with low start bit, then (in our case) 8 data bits, least-significant-bit (LSB) first, then followed by stop bit (aka mark) which is high.<br />
+<br />
+Note the scale here is 500 μs (0.5 ms) per division. We're seeing about 100 μs per bit. Actually at 9,600 baud, the expected time per bit is (1 bit / (9600 bits / sec)) =&nbsp;0.0001041667 seconds or about 104 μs&nbsp;per bit.
+<br />
+<br />The 
+<a href="https://en.wikipedia.org/wiki/ASCII">ASCII value</a>
+ of "H" is 72 = = 0x4c = = 0b01001000<br />
+<br />
+Indeed we see about 400 μs&nbsp;of zero (1 start bit, and then 3 LSB's of the "H"), a one, 2 more zeros, followed by a one, zero, then return to high for stop.
+<br />
+<br />
+So ok, the TTL adapter is working. Actually, I already knew that, as I used it to login to the serial port of my Raspberry Pi just to confirm. Ok, so that's the easy one. Now on to the data coming from the AVR. Much more interesting:
+<br />
+<br />
+Here's the source code in Atmel Studio. Also pretty straightforward:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/AVR_Code.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="254" data-original-width="575" height="176" src="../images/s400/AVR_Code.PNG" width="400"></a>
+</div>
+<br />
+Here too, 9600, (default 8N1). But with a much different result:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/AVR.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="480" data-original-width="800" height="240" src="../images/s400/AVR.png" width="400"></a>
+</div>
+<br />
+The first curious thing I observed was that the delay(milliseconds) function was off by an order of 16 (as measured by eye).&nbsp; Note the scale here is 5mS per division; 10x slower that the trace above!
+<br />
+<br />
+A coding delay(1000) actually waited for approximately 16 seconds. So the first thing I thought was perhaps the timescale was simply off, so I tried scaling the baud rate by 16. No luck.
+<br />
+<br />
+Ok, this certainly explains why nothing is showing up in putty! First: notice there seems to be a duplicate character! (there's no echo; nothing connected to the Tx pin other than the oscilloscope probe) Next: notice the scale on the properly decoded character above on CH2 is 500 μs/div.&nbsp; The scale on this AVR data is 5 ms/div.&nbsp; The first low pulse on CH1 is 400 μs, but on CH2 more like nearly 7 ms (7,000 μs!)
+<br />
+<br />
+Quick note on the math, assuming we're really off by exactly 16x:
+<br />
+<br />
+400 μs * 16 = 6400 (or 6.4 ms); more precisely (4 * 104.17) * 16 = 6,666.67 μs (or 6.67 ms)
+<br />
+<br />
+Unfortunately 9600 * 16 =&nbsp; 153,600 is not a valid baud rate. However 2400 * 16 = 38,400 baud is!
+<br />
+<br />
+So I tried changing the source code to send a character at 2400 * 16 baud (38,400). However it too could not be decoded.
+<br />
+<br />
+The AVR serial port does indeed look like it is approximately 16x slower. Zooming in on that first low pulse to confirm:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/DS1Z_QuickPrint3.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="480" data-original-width="800" height="240" src="../images/s400/DS1Z_QuickPrint3.png" width="400"></a>
+</div>
+<br />
+It appears that that first 4 bit pulse is actually 6.3 ms long. Interestingly it is not 6.4 ms (or more precisely not 6.67 ms). That makes a difference of&nbsp; (6,300 μS / (4 * 100 μS) = 15.75x, not the nice round 16.&nbsp; More precisely: (6,300 μS / (4 * 104.17 μS) = 15.12x.
+<br />
+<br />So ok, the good old Microsoft Paint program (glad to hear it will not be 
+<a href="https://www.theguardian.com/technology/2017/jul/25/microsoft-paint-saved-windows-store">retired</a>
+!)... a quick copy / paste / scale of the non-working (10x scale; recall 500μs/dev vs 5ms/div ) waveform on top of the properly decoded signal shows we're not going to get from here to there with a simple baud rate scale. The data is not just duplicated at the wrong speed, something weird is going on with a lot more data than just a single character:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Char_mash.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="481" data-original-width="786" height="243" src="../images/s400/Char_mash.png" width="400"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+</div>
+<br />
+So it would seem my AVR is not going to be doing any useful Serial Port Communication anytime soon. Perhaps there's something weird going on in Atmel Studio. But of all the people that would know how to properly program an ATMEGA328, one would think it would be the ones that built Atmel Studio, eh? Time to go back to bed, just in time for the sunrise.
+<br />
+<br />
+UPDATE: Ok, so after getting some sleep I thought more about this problem. I was wrong about the math! I needed a target that is 15.75 (more precisely 15.12) times faster than the oscilloscope is capturing. So I simply scaled the baud rate in the app:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/baud_scale_code.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="266" data-original-width="625" height="170" src="../images/s400/baud_scale_code.PNG" width="400"></a>
+</div>
+<br />
+And setting the decode frequency to the un-scaled value... TADA! Perfectly decoded. &lt;Happy dance&gt;.
+<br />
+<br />
+I've kept the estimated and precise numbers above, as the initial estimate of 15.75x worked, even though 15.12x is the more precise answer. Somewhere buried in the RS232/UART spec is probably a timing tolerance range.
+<br />
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/H_CrLf.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="480" data-original-width="800" height="240" src="../images/s400/H_CrLf.png" width="400"></a>
+</div>
+<br />Oh and look at that "extra" data: I'm doing a Serial.print
+<b>ln</b>
+() that includes extra carriage return and line feed chars! &lt;sigh&gt;<br />
+<br />
+Here's a lesson I've repeatedly learned: walking away from a problem can sometimes solve it ten times faster as compared to attempting to brute-force it non-stop. (particularly at 4:00 in the morning, time change day)
+<br />
+<br />
+Still it is curious that I needed to scale the baud rate by an odd value of 15.75 (?)
+<br />
+<br />
+So a little bit of googling (ok, imagine being an embedded programmer before the internet, say in the 80's. crazy)... I found this YouTube video on ISP programming problems due to wrong clock frequency:
+<br />
+<br />
+<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" height="315" src="https://www.youtube.com/embed/vZ4ssr4N0qw" width="560"></iframe><br />
+<br />
+But that's not really my problem - as I can program it using ISP or debugWIRE, but the clock is still wrong by a factor of 15.12x.
+<br />
+<br />
+There's still the ISP Clock Frequency setting in Atmel Studio:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/ISP_clocl.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="496" data-original-width="709" height="223" src="../images/s320/ISP_clocl.png" width="320"></a>
+</div>
+<br />But that's just the clock speed at which the ISP is 
+<i>doing</i>
+ the programming; this is not the clock speed of the processor. Eventually I found this interesting clip (starting at about the 1:50 mark):<br />
+<br />
+<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" height="315" src="https://www.youtube.com/embed/aeXMPVQ3MuM" width="560"></iframe>
+ <br />
+<br />
+This does seem like a reasonable solution. Perhaps I should have known there's a frequency setting. How else would the code "know" how long a millisecond is?
+<br />
+<br />
+But I've never needed to manually set the processor speed ever before and never had any serial problem quite like this. In any case - first time for everything. So I tried values of 16000000UL and&nbsp;1600000UL, and others. No values of #define&nbsp;F_CPU seemed to help. Ok, at this point I'm glad it was not something so obvious.
+<br />
+<br />I'm think it might be something with the fuse settings, but even with the 
+<a href="http://www.engbedded.com/fusecalc/">online fuse calculator</a>
+, nothing jumps out as the obvious answer.<br />
+<br />Stay tuned for an update if I figure this one out. In the meantime to set a baud rate, I'll simply multiple by 15.12 (certainly makes for some 
+<i>not-very-portable code</i>
+&nbsp; :|&nbsp; meh)<br />
+<br />
+<code class="highlight"></code><br />
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+/*Begining of Auto generated code by Atmel studio */
+#include <arduino .h=""><br />
+/*End of auto generated code by Atmel studio */
+<br />
+<br />
+#define  F_CPU 16000000UL # does this actually do anything?
+<br />
+<br />
+//Beginning of Auto generated function prototypes by Atmel Studio
+<br />
+//End of Auto generated function prototypes by Atmel Studio
+<br />
+<br />
+void setup() {
+<br />
+  // put your setup code here, to run once:
+<br />
+  //pinMode(2, OUTPUT);
+<br />
+  delay(100);
+<br />
+  Serial.begin(2400 * 15.12); // originally estimated at 15.75
+<br />
+}
+<br />
+<br />
+void loop() {
+<br />
+  // put your main code here, to run repeatedly:
+<br />
+  Serial.println("H");       // Hello World. (just the "H" to keep things simple)
+<br />
+  //digitalWrite(2, HIGH);   // turn the LED on (HIGH is the voltage level)
+<br />
+  //delay(10);               // wait  
+<br />
+  //digitalWrite(2, LOW);    // turn the LED off by making the voltage LOW
+<br />
+  delay(200);                // wait  HH
+<br />
+}
+<br />
+</arduino></code></pre>
+<br />I've posted my entire Atmel Studio Solution 
+<a href="https://github.com/gojimmypi/LoRa-GPIO/tree/M5-RadioHead">here</a>. (note that it is in the <a href="https://github.com/gojimmypi/LoRa-GPIO/tree/M5-RadioHead">
+M5-RadioHead branch of my LoRa-GPIO project)</a><br />
+<br />Thanks to 
+<a href="https://www.avrfreaks.net/forum/how-set-fcpu">this post on the AVR Freaks forum</a>
+, I did find this setting in Atmel Studio for F_CPU:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/F_CPU.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="857" data-original-width="891" height="383" src="../images/s400/F_CPU.png" width="400"></a>
+</div>
+<br />
+Although this certainly does not clarify why the problems exists in the first place. Perhaps if I had found the value something like 1,058,236 here, it would have been more of an AHA moment.&nbsp; (1.0582 * 15.1195 = 16).&nbsp; At this point I am thinking perhaps all this may be caused by a bad crystal oscillator. (?)
+<br />
+<br />It was suggested that I use the Arduino IDE to program the M5Stack AVR chip instead of Atmel Studio. I found 
+<a href="https://www.avrfreaks.net/comment/1740521#comment-1740521">this forum thread</a>
+ that has the solution for using the Atmel ICE with the Arduino IDE. In particular, the input device, data gateway, and composite devices with hex Id's: 03EB and 2141 need to be selected with the&nbsp;install-filter-win.exe tool:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/libusb-filter.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="530" data-original-width="489" height="400" src="../images/s400/libusb-filter.PNG" width="368"></a>
+</div>
+<br />
+The Arduino IDE uses avrdude to program the ATmega328; the resultant output looks like this:
+<br />
+<br />
+<code class="highlight"></code><br />
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+avrdude: Version 6.3, compiled on Jan 17 2017 at 12:00:53
+         Copyright (c) 2000-2005 Brian Dean, http://www.bdmicro.com/
+         Copyright (c) 2007-2014 Joerg Wunsch
+         System wide configuration file is "C:\Users\gojimmypi\AppData\Local\Arduino15\packages\arduino\tools\avrdude\6.3.0-arduino9/etc/avrdude.conf"
+         Using Port                    : usb
+         Using Programmer              : atmelice_isp
+avrdude: usbdev_open(): Found Atmel-ICE CMSIS-DAP, serno: J4180007xxxx
+avrdude: Found CMSIS-DAP compliant device, using EDBG protocol
+         AVR Part                      : ATmega328P
+         Chip Erase delay              : 9000 us
+         PAGEL                         : PD7
+         BS2                           : PC2
+         RESET disposition             : dedicated
+         RETRY pulse                   : SCK
+         serial program mode           : yes
+         parallel program mode         : yes
+         Timeout                       : 200
+         StabDelay                     : 100
+         CmdexeDelay                   : 25
+         SyncLoops                     : 32
+         ByteDelay                     : 0
+         PollIndex                     : 3
+         PollValue                     : 0x53
+         Memory Detail                 :
+                                  Block Poll               Page                       Polled
+           Memory Type Mode Delay Size  Indx Paged  Size   Size #Pages MinW  MaxW   ReadBack
+           ----------- ---- ----- ----- ---- ------ ------ ---- ------ ----- ----- ---------
+           eeprom        65    20     4    0 no       1024    4      0  3600  3600 0xff 0xff
+           flash         65     6   128    0 yes     32768  128    256  4500  4500 0xff 0xff
+           lfuse          0     0     0    0 no          1    0      0  4500  4500 0x00 0x00
+           hfuse          0     0     0    0 no          1    0      0  4500  4500 0x00 0x00
+           efuse          0     0     0    0 no          1    0      0  4500  4500 0x00 0x00
+           lock           0     0     0    0 no          1    0      0  4500  4500 0x00 0x00
+           calibration    0     0     0    0 no          1    0      0     0     0 0x00 0x00
+           signature      0     0     0    0 no          3    0      0     0     0 0x00 0x00
+         Programmer Type : JTAG3_ISP
+         Description     : Atmel-ICE (ARM/AVR) in ISP mode
+         Vtarget         : 3.3 V
+         SCK period      : 125.00 us
+avrdude: AVR device initialized and ready to accept instructions
+Reading | ################################################## | 100% 0.02s
+avrdude: Device signature = 0x1e950f (probably m328p)
+avrdude: NOTE: "flash" memory has been specified, an erase cycle will be performed
+         To disable this feature, specify the -D option.
+avrdude: erasing chip
+avrdude: reading input file "C:\Users\GOJIMM~1\AppData\Local\Temp\arduino_build_159166/M5Stack_LoRa_AVR.ino.ino.hex"
+avrdude: writing flash (1694 bytes):
+Writing | ################################################## | 100% 6.94s
+avrdude: 1694 bytes of flash written
+avrdude: verifying flash memory against C:\Users\GOJIMM~1\AppData\Local\Temp\arduino_build_159166/M5Stack_LoRa_AVR.ino.ino.hex:
+avrdude: load data flash data from input file C:\Users\GOJIMM~1\AppData\Local\Temp\arduino_build_159166/M5Stack_LoRa_AVR.ino.ino.hex:
+avrdude: input file C:\Users\GOJIMM~1\AppData\Local\Temp\arduino_build_159166/M5Stack_LoRa_AVR.ino.ino.hex contains 1694 bytes
+avrdude: reading on-chip flash data:
+Reading | ################################################## | 100% 7.33s
+avrdude: verifying ...
+avrdude: 1694 bytes of flash verified
+avrdude done.  Thank you.</code></pre>
+<br />
+<br />
+However I had the same result in needing the baud rate to be scaled by 15x in order for it to work properly. So this was still not the solution.
+<br />
+<br />
+Many thanks to Jimmy Lai at M5Stack for sending me fuse selection setting pics (there are many settings to choose from!):
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/M5Stack_AVR_Recomended_Fuse_Settings.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="528" data-original-width="894" height="235" src="../images/s400/M5Stack_AVR_Recomended_Fuse_Settings.PNG" width="400"></a>
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/M5Stack_AVR_Recomended_Fuse_Settings2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="516" data-original-width="899" height="228" src="../images/s400/M5Stack_AVR_Recomended_Fuse_Settings2.PNG" width="400"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/M5Stack_AVR_Recomended_Fuse_Settings3.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="364" data-original-width="610" height="237" src="../images/s400/M5Stack_AVR_Recomended_Fuse_Settings3.PNG" width="400"></a>
+</div>
+<br />
+In the second and third pic, it is important to note that the DIVCK8 needs to be left unchecked, despite the value here showing 4E in that first pic. The desired values are: CE D9 FF
+<br />
+<br />
+My fuse settings before:
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Fuses-Before.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="768" data-original-width="755" height="400" src="../images/s400/Fuses-Before.PNG" width="392"></a>
+</div>
+<br />
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+</div>
+<br />
+Notice LOW.SUT_CKSEL! It is set to an internal clock! There's actually an external clock on the board:
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/crystal.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="492" data-original-width="636" height="308" src="../images/s400/crystal.PNG" width="400"></a>
+</div>
+<br />
+Ok, one would think that even with an external clock, if the fuse settings say to use an internal clock - and this is in fact the default value, that it would work properly with the ATmega328p, eh? Apparently not. As seen above, the clock was wildly off.
+<br />
+<br />
+When changing the fuses, there's a nice indication of what has been changed, but not written to the chip:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Fuses-changing.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="766" data-original-width="801" height="382" src="../images/s400/Fuses-changing.PNG" width="400"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+</div>
+<br />
+When pressing the Program button, there's a warning that if you don't know what you are doing, you might brick the target:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Fuse_Warning.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="357" data-original-width="439" height="325" src="../images/s400/Fuse_Warning.PNG" width="400"></a>
+</div>
+<br />
+Braving the ominous warning dialog box... My final fuses look like this:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Fuses-After.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="719" data-original-width="811" height="353" src="../images/s400/Fuses-After.PNG" width="400"></a>
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+</div>
+<br />
+TADA! &lt;big Happy Dance&gt; Serial.println("Hello world") at 2400 baud actually streams out the UART at 2400 baud. Go figure. This was a tremendous amount of time spent on a couple of fuse bit settings. However it was also an awesome learning opportunity.
+<br />
+<br />
+More coming soon.... now to get those RadioHead drivers onto the AVR...
+<br />
+<br />
+<br />
+Resources, Inspiration, Credits, and Other Links::
+<br />
+<ul><li><a href="http://www.righto.com/2013/07/tips-for-using-rigol-ds1052e.html">Twelve tips for using the Rigol DS1052E Oscilloscope</a></li><li><a href="https://arduino.stackexchange.com/questions/692/arduino-time-keeping-using-millis-is-not-accurate-or-correct">Arduino time keeping using millis() is not accurate or correct?</a></li><li><a href="https://youtu.be/aAw-7Lq-3tI">Debugging AVR Applications with Atmel Studio (YouTube)</a>&nbsp;</li><li><a href="https://youtu.be/s_I-qlARclw">Atmel: megaAVR Clock Sources and Potential Errors (YouTube)</a></li><li><a href="https://youtu.be/e_DoHqcENSs">How to Use Crystal Oscillators and Write the Fuse Bits to the AVR MCU (YouTube)</a></li><li><a href="https://www.avrfreaks.net/sites/default/files/forum_attachments/NefitSerial_cpp_0.txt">NefitSerial.cpp - Hardware serial library for Wiring</a></li><li><a href="http://www.engbedded.com/fusecalc/">Fuse Calc</a></li><li><a href="https://www.youtube.com/watch?v=HxpSYlnEDos&amp;feature=youtu.be">DS1000z I2C Decoding and Triggering (covers DS1054Z, DS1074Z, DS1100Z, MSO1074Z, MSO1104Z) </a></li><li><a href="http://beyondmeasure.rigoltech.com/acton/attachment/1579/f-050a/1/-/-/-/-/MSO1000Z%26DS1000Z_UserGuide.pdf">
+Rigol MSO1000Z/DS1000Z Series Digital Oscilloscope User Guide</a></li></ul><br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+</div>
+<br />
+<br />
+<br />
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:53 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

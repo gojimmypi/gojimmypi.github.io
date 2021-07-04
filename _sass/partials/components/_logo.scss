@@ -2,13 +2,8 @@
 
 .icon{
     transition: .3s all ease; 
-    fill:$dark-primary-color;    
     .lines{
-        stroke: white;
-        stroke-width:3;
-        stroke-linecap:butt;
-        stroke-linejoin:miter;
-        stroke-miterlimit:4;
+
     }
     .rectangle{
         // fill: $dark-primary-color;
@@ -16,7 +11,7 @@
 }
 
 .gridster{
-    font-size:110px;
+    font-size:70px;
     line-height:125%;
     fill:$primary-text;
     font-family: $sc-font;

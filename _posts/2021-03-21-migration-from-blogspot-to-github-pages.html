@@ -17,4 +17,134 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-79962882150214080
 blogger_orig_url: https://gojimmypi.blogspot.com/2021/03/migration-from-blogspot-to-github-pages.html
 ---
 
-<div><p>&nbsp;As convenient as <a href="http://blogger.com">blogger.com</a> marginally is... I've decided enough is enough with the wonky editing, complete lack of integrated source control, and always that little bit of nagging wonder if one day google will just pull the plug and decommission it.</p> <p>It was several years ago I tried to migrate to my <a href="https://pages.github.com/">GitHub Pages</a> site at <a href="http://gojimmypi.github.io">gojimmypi.github.io</a>. Although I consider myself rather persistent, I ended up giving up at the time due to <a href="https://github.com/jekyll/jekyll/issues/7594#issuecomment-500536188">unreconcilable issues</a> with Jekyll. (which admittedly were not supposed to be supported in Windows, and WSL was still somewhat new).</p> <p>Fast forward a few years and WOW! <a href="https://twitter.com/gojimmypi/status/1373340238198710272?s=20">My Jekyll install experience</a> was nearly trouble free.</p> <p>So ok, once Jekyll is working, there's still the tiny little issue of templates. I found one I liked from <a href="https://jekyllthemes.io">jekyllthemes.io</a>, specifically the <a href="https://jekyllthemes.io/theme/gridster-jekyll-theme">gridster-jekyll-theme</a>. Alas nothing is ever as easy as it is supposed to be. Of course, if it is too easy, it is no fun, eh? So the issue with this <i>particular</i> theme, is not only that it is old, but there are a few quirky things that need to be fixed. There are <a href="https://github.com/DigitalMindCH/gridster-jekyll-theme/network/members">literally hundreds of forks</a>. Which one might be of interest?</p> <p>How about looking at which fork has the most likes? Unfortunately, there's no such feature on GutHub, but <a href="https://stackoverflow.com/questions/59492080/how-to-find-the-best-changes-from-downstream-github-forks">stackoverflow</a> to the rescue once again. There was only one answer to the question "<i>How to find the best changes from downstream Github forks?</i>" and it didn't sound promising with the comment "<i>It's 3 years old, I can't seem to get it working, but someone could fork it</i>" - but <a href="https://github.com/elimohl/find_forks">find_forks</a> does work!<br /></p> <code><pre>cd /mnt/c/workspace/<br />git clone https://github.com/elimohl/find_forks.git                             <br />cd find_forks<br />pip3 install tqdm <br />pip3 install pygithub<br />./find_forks.py DigitalMindCH/gridster-jekyll-theme<br /></pre></code> <br />It should output something list this: <code><pre># usage: find_forks.py [-h] [-u USERNAME] [-p [PASSWORD]] [-s SLEEP_INTERVAL] repo_name<br />0 $  ./find_forks.py DigitalMindCH/gridster-jekyll-theme<br /> 95%|| 197/208 [02:23 00:08,  1.37it/s]Forks   Stars<br />https://github.com/pcesar65/renameme    1<br />https://github.com/tomer-ben-david/techblog     1<br />https://github.com/cristinafsanz/paintings      1<br />https://github.com/zirkc/appworms       0<br />https://github.com/bullwinkle-org/gridster-jekyll-theme 0<br />https://github.com/jfcorugedo/jfcorugedo.github.io      0<br />https://github.com/tanaphum/gridster-jekyll-theme       0<br />https://github.com/librarywon/librarywon.github.io      0<br />...<br /></pre></code> There's also brute-force method to call the GitHub API: <code><pre>curl https://api.github.com/repos/DigitalMindCH/gridster-jekyll-theme/forks?sort=watchers<br /></pre></code> <p>But that's only so useful. </p>So what about the most changes in a fork? I found <a href="https://github.com/hbbio/forkizard">forkizard</a>, but nothing happened after the scan. I noticed an <a href="https://github.com/hbbio/forkizard/issues/5">open issue</a> and fortunately a <a href="https://github.com/hbbio/forkizard/pull/6">PR to fix it</a>! So the one to use is at the&nbsp;<a href="https://github.com/trufanov-nok/forkizard">trufanov-nok/forkizard</a> fork. I also created my <a href="https://github.com/gojimmypi/forkizard">own fork</a>, just in case it ever gets deleted, as this could be really handy again in the future. It works really quite well: <br /> <code><pre># The source code is in Go. After this operation, 324 MB of additional disk space will be used:<br />sudo apt-get install golang-go<br /><br />git clone https://github.com/trufanov-nok/forkizard.git<br />go build<br /></pre></code>Run it like this:       <code><pre>0 $  ./forkizard "DigitalMindCH/gridster-jekyll-theme"<br />2021/03/21 13:14:55 208 forks<br /> 208 / 208 [============================================================] 100.00% 1m26s<br />done<br />/AwarenessOverload/AwarenessOverload              +388 -0<br />/vikasksrivastava/gridster-jekyll-theme           +293 -0<br />/BrunnaRosa/BrunnaRosa                            +227 -0<br />/ickc/gridster-jekyll-theme                       +138 -0<br />/NNUP/nnup.github.io                              +92 -0<br />/cett/cett.github.io                              +68 -0<br />/samyak45/Gridster                                +66 -0<br />/UntrustableRus/gridster-jekyll-theme             +53 -0<br />/guriosam/ajudamaceio                             +43 -0<br />/thiagohersan-jekyll/gridster-jekyll-theme-simple +43 -0<br /><br /></pre></code>I ended up choosing the <a href="https://github.com/ickc/gridster-jekyll-theme">ickc/gridster-jekyll-theme</a>&nbsp;with a demo at&nbsp;<a href="https://ickc.github.io/gridster-jekyll-theme/">ickc.github.io/gridster-jekyll-theme</a> (my fork is located <a href="https://github.com/gojimmypi/gridster-jekyll-theme">here</a>) I have it installed to a subdirectory in my GitHub.io page like this:</div><div><p></p> <p></p>  <code><pre>cd /mnt/c/workspace/gojimmypi.github.io<br /><br /># the repo is over 200MB in size!<br />git clone https://github.com/gojimmypi/gridster-jekyll-theme.git --depth 1<br /><br />cd gridster-jekyll-theme<br />bundle install<br />bundle update github-pages<br />bundle exec jekyll serve<br /></pre></code>The author was also kind in digging up the <a href="https://web.archive.org/web/20180506141831/http://gridster.digitalmind.ch/documentation/#gallery">documentation from the wayback machine</a>, and <a href="https://ickc.github.io/gridster-jekyll-theme/gridster-documentation/">included it as part of the theme</a>. <p><br /></p> Now to migrate pages... <code><pre></pre></code> </div>
+
+<div>
+<p>
+&nbsp;As convenient as <a href="http://blogger.com">blogger.com</a> marginally is... I've decided enough is enough with the wonky editing, complete lack of integrated source control, and always that little bit of nagging wonder if one day google will just pull the plug and decommission it.
+</p>
+ 
+<p>
+It was several years ago I tried to migrate to my <a href="https://pages.github.com/">GitHub Pages</a> site at <a href="http://gojimmypi.github.io">gojimmypi.github.io</a>. Although I consider myself rather persistent, I ended up giving up at the time due to <a href="https://github.com/jekyll/jekyll/issues/7594#issuecomment-500536188">unreconcilable issues</a> with Jekyll. (which admittedly were not supposed to be supported in Windows, and WSL was still somewhat new).
+</p>
+ 
+<p>
+Fast forward a few years and WOW! <a href="https://twitter.com/gojimmypi/status/1373340238198710272?s=20">My Jekyll install experience</a> was nearly trouble free.
+</p>
+ 
+<p>
+So ok, once Jekyll is working, there's still the tiny little issue of templates. I found one I liked from <a href="https://jekyllthemes.io">jekyllthemes.io</a>, specifically the <a href="https://jekyllthemes.io/theme/gridster-jekyll-theme">gridster-jekyll-theme</a>. Alas nothing is ever as easy as it is supposed to be. Of course, if it is too easy, it is no fun, eh? So the issue with this <i>particular</i> theme, is not only that it is old, but there are a few quirky things that need to be fixed. There are <a href="https://github.com/DigitalMindCH/gridster-jekyll-theme/network/members">literally hundreds of forks</a>. Which one might be of interest?
+</p>
+ 
+<p>
+How about looking at which fork has the most likes? Unfortunately, there's no such feature on GutHub, but <a href="https://stackoverflow.com/questions/59492080/how-to-find-the-best-changes-from-downstream-github-forks">stackoverflow</a> to the rescue once again. There was only one answer to the question "<i>How to find the best changes from downstream Github forks?</i>" and it didn't sound promising with the comment "<i>It's 3 years old, I can't seem to get it working, but someone could fork it</i>" - but <a href="https://github.com/elimohl/find_forks">find_forks</a>
+ does work!<br />
+
+</p>
+ 
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+cd /mnt/c/workspace/
+git clone https://github.com/elimohl/find_forks.git                             
+cd find_forks
+pip3 install tqdm 
+pip3 install pygithub
+./find_forks.py DigitalMindCH/gridster-jekyll-theme</code></pre>
+ <br />It should output something list this: 
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# usage: find_forks.py [-h] [-u USERNAME] [-p [PASSWORD]] [-s SLEEP_INTERVAL] repo_name
+0 $  ./find_forks.py DigitalMindCH/gridster-jekyll-theme
+ 95%|| 197/208 [02:23 00:08,  1.37it/s]Forks   Stars
+https://github.com/pcesar65/renameme    1
+https://github.com/tomer-ben-david/techblog     1
+https://github.com/cristinafsanz/paintings      1
+https://github.com/zirkc/appworms       0
+https://github.com/bullwinkle-org/gridster-jekyll-theme 0
+https://github.com/jfcorugedo/jfcorugedo.github.io      0
+https://github.com/tanaphum/gridster-jekyll-theme       0
+https://github.com/librarywon/librarywon.github.io      0
+...</code></pre>
+ There's also brute-force method to call the GitHub API: 
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+curl https://api.github.com/repos/DigitalMindCH/gridster-jekyll-theme/forks?sort=watchers</code></pre>
+ 
+<p>
+But that's only so useful. 
+</p>
+So what about the most changes in a fork? I found <a href="https://github.com/hbbio/forkizard">forkizard</a>, but nothing happened after the scan. I noticed an <a href="https://github.com/hbbio/forkizard/issues/5">open issue</a> and fortunately a <a href="https://github.com/hbbio/forkizard/pull/6">PR to fix it</a>! So the one to use is at the&nbsp;<a href="https://github.com/trufanov-nok/forkizard">trufanov-nok/forkizard</a> fork. I also created my <a href="https://github.com/gojimmypi/forkizard">own fork</a>
+, just in case it ever gets deleted, as this could be really handy again in the future. It works really quite well: <br /> 
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# The source code is in Go. After this operation, 324 MB of additional disk space will be used:
+sudo apt-get install golang-go
+git clone https://github.com/trufanov-nok/forkizard.git
+go build</code></pre>
+Run it like this:       
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+0 $  ./forkizard "DigitalMindCH/gridster-jekyll-theme"
+2021/03/21 13:14:55 208 forks
+ 208 / 208 [============================================================] 100.00% 1m26s
+done
+/AwarenessOverload/AwarenessOverload              +388 -0
+/vikasksrivastava/gridster-jekyll-theme           +293 -0
+/BrunnaRosa/BrunnaRosa                            +227 -0
+/ickc/gridster-jekyll-theme                       +138 -0
+/NNUP/nnup.github.io                              +92 -0
+/cett/cett.github.io                              +68 -0
+/samyak45/Gridster                                +66 -0
+/UntrustableRus/gridster-jekyll-theme             +53 -0
+/guriosam/ajudamaceio                             +43 -0
+/thiagohersan-jekyll/gridster-jekyll-theme-simple +43 -0</code></pre>
+I ended up choosing the <a href="https://github.com/ickc/gridster-jekyll-theme">ickc/gridster-jekyll-theme</a>&nbsp;with a demo at&nbsp;<a href="https://ickc.github.io/gridster-jekyll-theme/">ickc.github.io/gridster-jekyll-theme</a> (my fork is located <a href="https://github.com/gojimmypi/gridster-jekyll-theme">here</a>) I have it installed to a subdirectory in my GitHub.io page like this:
+</div>
+
+<div>
+<br />
+ 
+<br />  
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+cd /mnt/c/workspace/gojimmypi.github.io
+# the repo is over 200MB in size!
+git clone https://github.com/gojimmypi/gridster-jekyll-theme.git --depth 1
+cd gridster-jekyll-theme
+bundle install
+bundle update github-pages
+bundle exec jekyll serve</code></pre>
+The author was also kind in digging up the <a href="https://web.archive.org/web/20180506141831/http://gridster.digitalmind.ch/documentation/#gallery">documentation from the wayback machine</a>, and <a href="https://ickc.github.io/gridster-jekyll-theme/gridster-documentation/">included it as part of the theme</a>
+. 
+<p>
+<br />
+
+</p>
+ Now to migrate pages... 
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight"></code></pre>
+ 
+</div>
+
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:55 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

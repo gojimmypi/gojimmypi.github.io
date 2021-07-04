@@ -10,4 +10,214 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-53207626970767942
 blogger_orig_url: https://gojimmypi.blogspot.com/2017/05/using-openocd-and-gdb.html
 ---
 
-Reverse engineering an existing STM32 hardware device.<br /><br />I first started reverse engineering the STM32 based programmable power supply as described in&nbsp;<a href="http://gojimmypi.blogspot.com/2017/04/opendps-with-dps5015.html">a prior blog post</a>. The more I dug into Johan's code, the more impressed I became. There's a real gem stashed away in his project: the <a href="https://github.com/kanflo/opendps/blob/master/ocd-client.py">ocd-client.py</a>&nbsp;utility. This is a work of genius!<br /><br />Rather than play on my only DPS, I instead did some experimenting using the STM32_Smart V2 device, with a simple blink app installed.<br /><br />I learned how to use OpenOCD with GDB with the&nbsp;UDemy class by&nbsp;Peter Dalmaris called&nbsp;<a href="https://www.udemy.com/advanced-arduino-boards-and-tools/">Advanced Arduino Boards and Tools</a>. Although this was an Arduino-specific class - the instructions are the same for the STM32 devices.<br /><br />First, the OpenOCD server needs to be running (in this case with the Segger J-Link):<br /><br /><pre><code><br />cd ~/workspace/opendps/openocd/scripts<br />sudo openocd -f interface/jlink.cfg -f target/stm32f1x.cfg<br /><br /># or<br /><br />sudo openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg</code></pre><br /><br />With no other OpenOCD client connected (e.g. gdb not running!), we can inspect the GPIO Port C &nbsp;like this:<br /><pre><code><br />cd ~/workspace/opendps<br />./ocd-client.py gpioc<br /></code></pre><br />That command should return something like this:<br /><br /><pre><code>GPIOC settings<br />CRL      : 0x44444444  [0x40011000]<br />CRH      : 0x44344444  [0x40011004]<br />IDR      : 0x0000e000  [0x40011008]<br />ODR      : 0x00002000  [0x4001100c]<br />BSRR     : 0x00000000  [0x40011010]<br />BRR      : 0x00000000  [0x40011014]<br />LCKR     : 0x00000000  [0x40011018]<br /></code></pre><br />launch gdb. Note that a special one called "<a href="https://launchpad.net/ubuntu/+source/gdb-arm-none-eabi">arm-none-eabi-gdb</a>" is needed. I think gdb is really best with the "-tui" (text user interface) option turned on.&nbsp;Although not as&nbsp;cool as a full featured IDE such as Visual Studio, it is an impressive little text-based debugger.<br /><br /><pre><code><br />cd ~/workspace/opendps/opendps<br />arm-none-eabi-gdb -d ./ -f opendps.elf -tui<br /></code></pre><br />then from the gdb prompt:<br /><br /><br />target remote localhost:3333<br />monitor reset init<br /><br />If more source code is desired (beyond that in the app itself), in Ubunto go to "System settings - Software and&nbsp;Updates"<br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-Nfdq__4BKzs/WQ96_GjjzdI/AAAAAAAAAZI/7oD5M21SFOMEL1ue2VzYUAm6vWrTc5IogCLcB/s1600/Ubuntu-Source.PNG" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" height="206" src="https://1.bp.blogspot.com/-Nfdq__4BKzs/WQ96_GjjzdI/AAAAAAAAAZI/7oD5M21SFOMEL1ue2VzYUAm6vWrTc5IogCLcB/s320/Ubuntu-Source.PNG" width="320" /></a></div><div class="separator" style="clear: both; text-align: center;"><br /></div><br />and be sure "source" is selected:<br /><div class="separator" style="clear: both; text-align: center;"><a href="https://2.bp.blogspot.com/-DrU9U6WmpnQ/WQ97TTcC0GI/AAAAAAAAAZM/v5gp8f-wP-09VfX4ULqnxb0vi2aRPPiNACLcB/s1600/Ubuntu-Source-Selected.PNG" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" height="150" src="https://2.bp.blogspot.com/-DrU9U6WmpnQ/WQ97TTcC0GI/AAAAAAAAAZM/v5gp8f-wP-09VfX4ULqnxb0vi2aRPPiNACLcB/s320/Ubuntu-Source-Selected.PNG" width="320" /></a></div><div class="separator" style="clear: both; text-align: center;"><br /></div>without the "Source code"&nbsp;checkbox, you'll see an error like:<br /><br />E: You must put some 'source' URIs in your sources.list<br /><br />WITH&nbsp;that setting, then you can do things like:<br /><br /><pre><code><br />sudo apt-get build-dep gcc<br />sudo apt-get build-dep libusb-1.0-0-dev<br />sudo apt-get build-dep&nbsp; gcc-arm-none-eabi<br /><br /># this next command will typically install source code in your<br /># $USER\gcc-arm-none-eabi-4.9.3+svn231177<br />sudo apt-get source&nbsp; gcc-arm-none-eabi<br /></code></pre><br /><br />then in gdb:<br /><br /><pre><code><br />directory &nbsp;gcc-arm-none-eabi-4.9.3+svn231177/src/libgcc/config/arm<br /><br /></code></pre><br />I used that include directory as "ctrl-c" would typically break in this file:<br /><br />../../../../src/libgcc/config/arm/ieee754-df.S<br /><br /><br /><pre><code>MYLOG=~/toolchain.log<br />sudo apt-get update &nbsp;--assume-yes | tee -a $MYLOG<br /><br />sudo apt-get install ssh &nbsp;--assume-yes<br />sudo apt-get install xrdp &nbsp;--assume-yes<br />sudo apt-get install samba samba-common-bin &nbsp;--assume-yes<br />sudo apt-get install fail2ban &nbsp;--assume-yes<br /><br />sudo apt-get install binutils &nbsp;--assume-yes<br />sudo apt-get install gcc &nbsp;--assume-yes<br />sudo apt-get install gdb &nbsp;--assume-yes<br />sudo apt-get install make &nbsp;--assume-yes<br /><br />sudo apt-get install build-essential &nbsp;--assume-yes<br /><br />sudo apt-get install python &nbsp;--assume-yes<br /><br />sudo apt-get install gawk &nbsp;--assume-yes<br /><br /></code></pre>(TODO - I plan to put the whole toolchain script on github) <br /><br />Additional resources and inspiration:<br /><br /><div style="font-family: &quot;Times New Roman&quot;; white-space: normal;"><a href="https://www.youtube.com/watch?v=-EIaDxSIBYw">https://www.youtube.com/watch?v=-EIaDxSIBYw</a></div><div style="font-family: &quot;Times New Roman&quot;; white-space: normal;"></div><div style="font-family: &quot;Times New Roman&quot;; white-space: normal;"><a href="https://learn.adafruit.com/programming-microcontrollers-using-openocd-on-raspberry-pi/">https://learn.adafruit.com/programming-microcontrollers-using-openocd-on-raspberry-pi/</a></div><div style="font-family: &quot;Times New Roman&quot;; white-space: normal;"></div><div style="font-family: &quot;Times New Roman&quot;; white-space: normal;"><a href="https://petervanhoyweghen.wordpress.com/2015/10/11/burning-zero-bootloader-with-beaglebone-as-swd-programmer/">https://petervanhoyweghen.wordpress.com/2015/10/11/burning-zero-bootloader-with-beaglebone-as-swd-programmer/</a></div><div style="font-family: &quot;Times New Roman&quot;; white-space: normal;"></div><div style="font-family: &quot;Times New Roman&quot;; white-space: normal;"><a href="https://www.tincantools.com/wiki/Flyswatter2_BeagleBone_Black_How_To">https://www.tincantools.com/wiki/Flyswatter2_BeagleBone_Black_How_To</a></div><div style="font-family: &quot;Times New Roman&quot;; white-space: normal;"></div><div style="font-family: &quot;Times New Roman&quot;; white-space: normal;"><a href="https://www.tincantools.com/wiki/BeagleBone_Black_Eclipse_and_GDB">https://www.tincantools.com/wiki/BeagleBone_Black_Eclipse_and_GDB</a></div><div style="font-family: &quot;Times New Roman&quot;; white-space: normal;"></div><div style="font-family: &quot;Times New Roman&quot;; white-space: normal;"><a href="http://thehackerworkshop.com/?p=391">http://thehackerworkshop.com/?p=391</a></div><div style="font-family: &quot;Times New Roman&quot;; white-space: normal;"></div>
+Reverse engineering an existing STM32 hardware device.<br />
+<br />I first started reverse engineering the STM32 based programmable power supply as described in&nbsp;
+<a href="http://gojimmypi.blogspot.com/2017/04/opendps-with-dps5015.html">a prior blog post</a>. The more I dug into Johan's code, the more impressed I became. There's a real gem stashed away in his project: the <a href="https://github.com/kanflo/opendps/blob/master/ocd-client.py">ocd-client.py</a>
+&nbsp;utility. This is a work of genius!<br />
+<br />
+Rather than play on my only DPS, I instead did some experimenting using the STM32_Smart V2 device, with a simple blink app installed.
+<br />
+<br />I learned how to use OpenOCD with GDB with the&nbsp;UDemy class by&nbsp;Peter Dalmaris called&nbsp;
+<a href="https://www.udemy.com/advanced-arduino-boards-and-tools/">Advanced Arduino Boards and Tools</a>
+. Although this was an Arduino-specific class - the instructions are the same for the STM32 devices.<br />
+<br />
+First, the OpenOCD server needs to be running (in this case with the Segger J-Link):
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+cd ~/workspace/opendps/openocd/scripts
+sudo openocd -f interface/jlink.cfg -f target/stm32f1x.cfg
+# orsudo openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg</code></pre>
+
+<br />
+<br />
+With no other OpenOCD client connected (e.g. gdb not running!), we can inspect the GPIO Port C &nbsp;like this:
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+cd ~/workspace/opendps
+./ocd-client.py gpioc</code></pre>
+
+<br />
+That command should return something like this:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+GPIOC settings
+CRL      : 0x44444444  [0x40011000]
+CRH      : 0x44344444  [0x40011004]
+IDR      : 0x0000e000  [0x40011008]
+ODR      : 0x00002000  [0x4001100c]
+BSRR     : 0x00000000  [0x40011010]
+BRR      : 0x00000000  [0x40011014]
+LCKR     : 0x00000000  [0x40011018]</code></pre>
+<br />launch gdb. Note that a special one called "
+<a href="https://launchpad.net/ubuntu/+source/gdb-arm-none-eabi">arm-none-eabi-gdb</a>
+" is needed. I think gdb is really best with the "-tui" (text user interface) option turned on.&nbsp;Although not as&nbsp;cool as a full featured IDE such as Visual Studio, it is an impressive little text-based debugger.<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+cd ~/workspace/opendps/opendps
+arm-none-eabi-gdb -d ./ -f opendps.elf -tui</code></pre>
+
+<br />
+then from the gdb prompt:
+<br />
+<br />
+<br />
+target remote localhost:3333
+<br />
+monitor reset init
+<br />
+<br />
+If more source code is desired (beyond that in the app itself), in Ubunto go to "System settings - Software and&nbsp;Updates"
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/Ubuntu-Source.PNG" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;">
+<img border="0" height="206" src="../images/s320/Ubuntu-Source.PNG" width="320"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+<br />
+
+</div>
+
+<br />
+and be sure "source" is selected:
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/Ubuntu-Source-Selected.PNG" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;">
+<img border="0" height="150" src="../images/s320/Ubuntu-Source-Selected.PNG" width="320"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+<br />
+
+</div>
+without the "Source code"&nbsp;checkbox, you'll see an error like:
+<br />
+<br />
+E: You must put some 'source' URIs in your sources.list
+<br />
+<br />
+WITH&nbsp;that setting, then you can do things like:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo apt-get build-dep gcc
+sudo apt-get build-dep libusb-1.0-0-dev
+sudo apt-get build-dep&nbsp; gcc-arm-none-eabi
+# this next command will typically install source code in your
+# $USER\gcc-arm-none-eabi-4.9.3+svn231177
+sudo apt-get source&nbsp; gcc-arm-none-eabi</code></pre>
+
+<br />
+<br />
+then in gdb:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+directory &nbsp;gcc-arm-none-eabi-4.9.3+svn231177/src/libgcc/config/arm</code></pre>
+
+<br />
+I used that include directory as "ctrl-c" would typically break in this file:
+<br />
+<br />
+../../../../src/libgcc/config/arm/ieee754-df.S
+<br />
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+MYLOG=~/toolchain.log
+sudo apt-get update &nbsp;--assume-yes | tee -a $MYLOG
+sudo apt-get install ssh &nbsp;--assume-yes
+sudo apt-get install xrdp &nbsp;--assume-yes
+sudo apt-get install samba samba-common-bin &nbsp;--assume-yes
+sudo apt-get install fail2ban &nbsp;--assume-yes
+sudo apt-get install binutils &nbsp;--assume-yes
+sudo apt-get install gcc &nbsp;--assume-yes
+sudo apt-get install gdb &nbsp;--assume-yes
+sudo apt-get install make &nbsp;--assume-yes
+sudo apt-get install build-essential &nbsp;--assume-yes
+sudo apt-get install python &nbsp;--assume-yes
+sudo apt-get install gawk &nbsp;--assume-yes</code></pre>
+(TODO - I plan to put the whole toolchain script on github) <br />
+<br />
+Additional resources and inspiration:
+<br />
+<br />
+
+<div style="font-family: &quot;Times New Roman&quot;; white-space: normal;">
+<a href="https://www.youtube.com/watch?v=-EIaDxSIBYw">https://www.youtube.com/watch?v=-EIaDxSIBYw</a>
+</div>
+
+<div style="font-family: &quot;Times New Roman&quot;; white-space: normal;">
+</div>
+
+<div style="font-family: &quot;Times New Roman&quot;; white-space: normal;">
+<a href="https://learn.adafruit.com/programming-microcontrollers-using-openocd-on-raspberry-pi/">https://learn.adafruit.com/programming-microcontrollers-using-openocd-on-raspberry-pi/</a>
+</div>
+
+<div style="font-family: &quot;Times New Roman&quot;; white-space: normal;">
+</div>
+
+<div style="font-family: &quot;Times New Roman&quot;; white-space: normal;">
+<a href="https://petervanhoyweghen.wordpress.com/2015/10/11/burning-zero-bootloader-with-beaglebone-as-swd-programmer/">https://petervanhoyweghen.wordpress.com/2015/10/11/burning-zero-bootloader-with-beaglebone-as-swd-programmer/</a>
+</div>
+
+<div style="font-family: &quot;Times New Roman&quot;; white-space: normal;">
+</div>
+
+<div style="font-family: &quot;Times New Roman&quot;; white-space: normal;">
+<a href="https://www.tincantools.com/wiki/Flyswatter2_BeagleBone_Black_How_To">https://www.tincantools.com/wiki/Flyswatter2_BeagleBone_Black_How_To</a>
+</div>
+
+<div style="font-family: &quot;Times New Roman&quot;; white-space: normal;">
+</div>
+
+<div style="font-family: &quot;Times New Roman&quot;; white-space: normal;">
+<a href="https://www.tincantools.com/wiki/BeagleBone_Black_Eclipse_and_GDB">https://www.tincantools.com/wiki/BeagleBone_Black_Eclipse_and_GDB</a>
+</div>
+
+<div style="font-family: &quot;Times New Roman&quot;; white-space: normal;">
+</div>
+
+<div style="font-family: &quot;Times New Roman&quot;; white-space: normal;">
+<a href="http://thehackerworkshop.com/?p=391">http://thehackerworkshop.com/?p=391</a>
+</div>
+
+<div style="font-family: &quot;Times New Roman&quot;; white-space: normal;">
+</div>
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:52 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

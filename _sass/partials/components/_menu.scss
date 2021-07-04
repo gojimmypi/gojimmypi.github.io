@@ -5,20 +5,25 @@
     z-index: 105;
     background: $primary-color;
     color: $primary-text-icon-color;
+
     .toggle-link {
         display: none;
     }
+
     > ul {
         text-align: right;
         margin: 0;
         padding: 0;
     }
+
     li {
         display: inline-block;
         transition: .3s all linear;
+
         &:hover, &.active {
             background-color: rgba(0, 0, 0, .1);
         }
+
         > a {
             width: 100%;
             display: block;
@@ -40,42 +45,53 @@
         z-index: 108;
         @include shadow(1-half);
         background: white;
+
+        @media (prefers-color-scheme: dark) {
+            background: #121212;
+        }
+
         color: $primary-text;
         line-height: 44px;
-        
-        a{
+
+        a {
             color: $accent-color;
-            
-            &:hover{
+
+            &:hover {
                 color: $accent-color;
             }
         }
-        
+
         &.active {
             transform: translate(-320px, 0);
             transition: .3s all ease;
         }
+
         .toggle-link {
             display: block;
             position: relative;
             text-align: right;
+
             &:after {
                 content: "";
             }
         }
+
         > ul {
             text-align: $mainnav-responsive-text-align;
             width: 100%;
             position: relative;
         }
+
         li {
             display: block;
+
             &:first-of-type {
                 border-top: $noborder;
             }
+
             &:hover {
                 transition: .3s all linear;
-                background-color: rgba(0, 0, 0, .1);    
+                background-color: rgba(0, 0, 0, .1);
             }
         }
     }

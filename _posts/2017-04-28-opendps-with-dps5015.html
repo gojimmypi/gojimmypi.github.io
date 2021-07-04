@@ -18,4 +18,221 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-58220529942279855
 blogger_orig_url: https://gojimmypi.blogspot.com/2017/04/opendps-with-dps5015.html
 ---
 
-<br />Once again, I found an awesome project via twitter, this time from <a href="https://johan.kanflo.com/">Johan Kanflo</a>&nbsp;via this article from hackaday folks:<br /><br /><a href="http://hackaday.com/2017/03/07/open-source-firmware-for-a-cheap-programmable-power-supply/">http://hackaday.com/2017/03/07/open-source-firmware-for-a-cheap-programmable-power-supply/</a><br /><br />Or more directly, Johan's blog here:<br /><br /><a href="https://johan.kanflo.com/hacking-the-dps5005/">https://johan.kanflo.com/hacking-the-dps5005/</a><br /><br />After reading the details, I promptly ordered my own device, specifically <a href="http://www.ebay.com/itm/292040613735">this RD DPS5015 Buck Power Supply LCD color display step-down voltage converter</a> on eBay. This DPS is similar, but different than the one Johan used, going on the assumption that it is similar: "<em>Although this guide is written for the ‘5005 it should work for the entire DPS family but I only have 5005s to test with</em>."<br /><br />Upon inspection, I found that the onboard processor is an 32F100C8T6B with the LQFP48 pinout using the same pin configuration as on the DPS5005 in Johan's project:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-F1r6lqbFx3A/WQTR6BZCfKI/AAAAAAAAAWA/44Mqfr3kT78ocrrh7CobFfvF7DUKW8ejgCLcB/s1600/SWD-Pins.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="200" src="https://2.bp.blogspot.com/-F1r6lqbFx3A/WQTR6BZCfKI/AAAAAAAAAWA/44Mqfr3kT78ocrrh7CobFfvF7DUKW8ejgCLcB/s400/SWD-Pins.png" width="400" /></a></div><br /><br /><a href="http://www.st.com/content/st_com/en/products/microcontrollers/stm32-32-bit-arm-cortex-mcus/stm32f1-series/stm32f100-value-line/stm32f100c8.html">http://www.st.com/content/st_com/en/products/microcontrollers/stm32-32-bit-arm-cortex-mcus/stm32f1-series/stm32f100-value-line/stm32f100c8.html</a><br /><span style="font-family: &quot;helvetica&quot;; font-size: x-small;"><span style="font-family: &quot;helvetica&quot;; font-size: x-small;"></span></span><br /><div align="LEFT"><span style="font-family: &quot;helvetica&quot;; font-size: x-small;"><span style="font-family: &quot;helvetica&quot;; font-size: x-small;">"<em>Medium-density devices are STM32F100<strong>x</strong>8 and STM32F100<strong>x</strong>B microcontrollers where the Flash memory density ranges between 64 and 128 Kbytes</em>."&nbsp;[*1]</span></span></div><br />The [x] is a placeholder for only 1 character, not "all characters until the end, excluding the last B". The "B" in STM32F100CB means "128KB". This is not to be confused with STM32F100C8 or in the case of the DPS5015 - the STM32F100C8T6B - which are 64KB devices.<br /><br />Don't confuse the 8&nbsp;or B &nbsp;with the trailing "B" on the end, That last B is an "Internal Code" having nothing to do with flash size. <br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-SfxkOUr8cWA/WQTQgOBu5FI/AAAAAAAAAV0/ckEo43FSjOIImv8WqecXjV3CAHhmWBlZwCLcB/s1600/STM32-Part-Number-Identification.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="640" src="https://3.bp.blogspot.com/-SfxkOUr8cWA/WQTQgOBu5FI/AAAAAAAAAV0/ckEo43FSjOIImv8WqecXjV3CAHhmWBlZwCLcB/s640/STM32-Part-Number-Identification.PNG" width="464" /></a></div><br /><br />I had OpenOCD for Windows installed via the sysprog VisualGDB app, so I used&nbsp; that one:<br /><br /><div style="background-color: #1e1e1e; color: #d4d4d4; font-family: Consolas, &quot;Courier New&quot;, monospace; font-size: 14px; font-weight: normal; line-height: 19px; white-space: pre;"><div><span style="color: #d4d4d4;">cd C:\SysGCC\esp8266\esp8266-bsp\OpenOCD\share\openocd\scripts</span></div><div><span style="color: #d4d4d4;">openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg</span></div></div><br />Compiling on Windows turned out to be a real pain, giving lame errors like this:<br /><br />GENHDR include/libopencm3/stm32/l1/irq.json<br />GENHDR include/libopencm3/stm32/l4/irq.json<br />GENHDR include/libopencm3/vf6xx/irq.json<br />BUILD lib/stm32/f0<br />make[1]:&nbsp; No rule to make target desig.o', needed byC:/workspace/libopencm3/lib/libopencm3_stm32f0.a'. Stop.<br />make:&nbsp; [lib/stm32/f0] Error 2<br /><br /><a href="https://github.com/libopencm3/libopencm3">https://github.com/libopencm3/libopencm3</a><br /><br />@ChuckM over on the libopencm3 gitter:<br /><br /><a href="https://gitter.im/libopencm3/discuss?at=5903c836f22385553d886a4e">https://gitter.im/libopencm3/</a><br /><br />...suggested that I install the WSL<br /><br /><a href="https://msdn.microsoft.com/en-us/commandline/wsl/install_guide">https://msdn.microsoft.com/en-us/commandline/wsl/install_guide</a><br /><br />and so ok, once I have Ubuntu on Windows (am I the only one to find that crazy?!?! *Ubuntu* on *Windows* - wow!)... all the toolchain items need to be installed fresh. None of the Windows binaries will run. So I installed the items listed here:<br /><br /><a href="https://developer.arm.com/open-source/gnu-toolchain/gnu-rm">https://developer.arm.com/open-source/gnu-toolchain/gnu-rm</a><br /><br />specifically:<br /><br />sudo apt-get update<br />sudo apt-get install binutils<br />sudo apt-get install gcc<br />sudo apt-get install gdb<br />sudo apt-get install make<br />sudo apt-get install build-essential<br /><br />sudo apt-get install python<br />sudo apt-get install gawk<br /><br />sudo apt-get install openocd<br /><br /><br />then download the GNU ARM Embedded Toolchain from:<br /><br /><a href="https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads">https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads</a><br /><br />sudo tar -xvjf gcc-arm-none-eabi-6-2017-q1-update-linux.tar.bz2<br /><br />(I put mine in c:\Downloads\arm\&nbsp; aka&nbsp; /mnt/c/download/arm in Ubuntu window)<br /><br />All this ended up needing a path like this:<br /><br />export PATH="/usr/bin/Python27:/mnt/c/download/arm/gcc-arm-none-eabi-6-2017-q1-update/bin:/usr/local/bin:/usr/bin:/bin"<br /><br />I ended up hosting the OpenOCD from MINGW64 bash prompt, but programming via the Ubuntu bash prompt (this is NOT&nbsp;a good idea). The problem is with the apparent path. When doing a "make flash" - I kept getting a "couldn't open opendps.elf" error (yet the file was there). <br /><br />Doing a "pwd" from the OpenOCD telnet session revealed all! <br /><br />&nbsp;C:/workspace/opendps/openocd/scripts<br /><br />This is despite the fact that MINGW64&nbsp;sees the&nbsp;path as:<br /><br />/c/workspace/opendps/openocd/scripts<br /><br />and the Ubuntu Bash sees it as: <br /><br />/mnt/c/workspace/ ...<br /><br />the libopencm3.rules.mk file had this simple command for "make flash":<br /><br /><span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">program $(*).elf verify reset exit</span></span><br />so I used a manual command in the OpenOCD telnet session:<br /><br />program c:/workspace/opendps/opendps/opendps.elf verify reset<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://2.bp.blogspot.com/-DY31kFIiQTk/WQPxGDAcfMI/AAAAAAAAAU8/38l9Med67dAA1jEdSzdRJ1Wizpm2b0KQACLcB/s1600/Manual-Program.PNG" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" height="236" src="https://2.bp.blogspot.com/-DY31kFIiQTk/WQPxGDAcfMI/AAAAAAAAAU8/38l9Med67dAA1jEdSzdRJ1Wizpm2b0KQACLcB/s640/Manual-Program.PNG" width="640" /></a></div>and voila! a newly programmed &nbsp;DPS5015!<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-fgfYmzIfYh8/WQP07i1SyOI/AAAAAAAAAVU/gyoZ8s-ad9k6HSDYHdBmHZgYrY_amyIsQCLcB/s1600/DPS5015-final.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="372" src="https://3.bp.blogspot.com/-fgfYmzIfYh8/WQP07i1SyOI/AAAAAAAAAVU/gyoZ8s-ad9k6HSDYHdBmHZgYrY_amyIsQCLcB/s640/DPS5015-final.PNG" width="640" /></a></div><br /><br />Other stuff:<br /><br />I found a couple of nice cases on Aliexpress: <a href="https://www.aliexpress.com/store/product/RD-DP-and-DPS-Power-Supply-housing-Step-down-casing-digital-control-buck-Voltage-converter-only/923042_32800401603.html?spm=2114.12010108.1000023.15.XJAeEO">this console-style</a>&nbsp;and this <a href="https://www.aliexpress.com/store/product/RD-DPS5015-DPS3012-DPH3205-Power-Supply-housing-Constant-Voltage-current-casing-digital-control-buck-Voltage-converter/923042_32794029335.html?spm=2114.12010108.1000023.17.XJAeEO">this shelf unit style.</a><br /><br />There's also this interesting hack that uses an Arduino to control the unit by emulating the button presses: <a href="http://www.instructables.com/id/Power-Supply-Automation-DPS5015-DP50V5A-Controlled/">http://www.instructables.com/id/Power-Supply-Automation-DPS5015-DP50V5A-Controlled/</a><br /><br />The Hangzhou Ruideng Technologies Co., Ltd store can be found here:<br /><br /><a href="https://rdtech.aliexpress.com/store/923042">https://rdtech.aliexpress.com/store/923042</a><br /><br />There's also this video:<br /><iframe allowfullscreen="" frameborder="0" height="504" src="https://www.youtube.com/embed/8TRGoo66jm0" width="852"></iframe><br /><br /><br />Next step: follow Johan's instructions for using ESP8266 for WiFicontrol....<br /><br /><br />*1 - page&nbsp;6 of PM0063 Programming manual STM32F100xx value line Flash programming
+<br />Once again, I found an awesome project via twitter, this time from 
+<a href="https://johan.kanflo.com/">Johan Kanflo</a>
+&nbsp;via this article from hackaday folks:<br />
+<br />
+<a href="http://hackaday.com/2017/03/07/open-source-firmware-for-a-cheap-programmable-power-supply/">
+http://hackaday.com/2017/03/07/open-source-firmware-for-a-cheap-programmable-power-supply/</a><br />
+<br />
+Or more directly, Johan's blog here:
+<br />
+<br />
+<a href="https://johan.kanflo.com/hacking-the-dps5005/">
+https://johan.kanflo.com/hacking-the-dps5005/</a><br />
+<br />After reading the details, I promptly ordered my own device, specifically 
+<a href="http://www.ebay.com/itm/292040613735">this RD DPS5015 Buck Power Supply LCD color display step-down voltage converter</a> on eBay. This DPS is similar, but different than the one Johan used, going on the assumption that it is similar: "<em>Although this guide is written for the ‘5005 it should work for the entire DPS family but I only have 5005s to test with</em>
+."<br />
+<br />
+Upon inspection, I found that the onboard processor is an 32F100C8T6B with the LQFP48 pinout using the same pin configuration as on the DPS5005 in Johan's project:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/SWD-Pins.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="200" src="../images/s400/SWD-Pins.png" width="400"></a>
+</div>
+<br />
+<br />
+<a href="http://www.st.com/content/st_com/en/products/microcontrollers/stm32-32-bit-arm-cortex-mcus/stm32f1-series/stm32f100-value-line/stm32f100c8.html">
+http://www.st.com/content/st_com/en/products/microcontrollers/stm32-32-bit-arm-cortex-mcus/stm32f1-series/stm32f100-value-line/stm32f100c8.html</a><br />
+<span style="font-family: &quot;helvetica&quot;; font-size: x-small;"><span style="font-family: &quot;helvetica&quot;; font-size: x-small;"></span></span><br />
+
+<div align="LEFT">
+<span style="font-family: &quot;helvetica&quot;; font-size: x-small;"><span style="font-family: &quot;helvetica&quot;; font-size: x-small;">"<em>Medium-density devices are STM32F100<strong>x</strong>8 and STM32F100<strong>x</strong>B microcontrollers where the Flash memory density ranges between 64 and 128 Kbytes</em>."&nbsp;[*1]</span></span>
+</div>
+<br />
+The [x] is a placeholder for only 1 character, not "all characters until the end, excluding the last B". The "B" in STM32F100CB means "128KB". This is not to be confused with STM32F100C8 or in the case of the DPS5015 - the STM32F100C8T6B - which are 64KB devices.
+<br />
+<br />
+Don't confuse the 8&nbsp;or B &nbsp;with the trailing "B" on the end, That last B is an "Internal Code" having nothing to do with flash size. 
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/STM32-Part-Number-Identification.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="640" src="../images/s640/STM32-Part-Number-Identification.PNG" width="464"></a>
+</div>
+<br />
+<br />
+I had OpenOCD for Windows installed via the sysprog VisualGDB app, so I used&nbsp; that one:
+<br />
+<br />
+
+<div style="background-color: #1e1e1e; color: #d4d4d4; font-family: Consolas, &quot;Courier New&quot;, monospace; font-size: 14px; font-weight: normal; line-height: 19px; white-space: pre;">
+<div>
+<span style="color: #d4d4d4;">cd C:\SysGCC\esp8266\esp8266-bsp\OpenOCD\share\openocd\scripts</span>
+</div>
+
+<div>
+<span style="color: #d4d4d4;">openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg</span>
+</div>
+
+</div>
+<br />
+Compiling on Windows turned out to be a real pain, giving lame errors like this:
+<br />
+<br />
+GENHDR include/libopencm3/stm32/l1/irq.json
+<br />
+GENHDR include/libopencm3/stm32/l4/irq.json
+<br />
+GENHDR include/libopencm3/vf6xx/irq.json
+<br />
+BUILD lib/stm32/f0
+<br />
+make[1]:&nbsp; No rule to make target desig.o', needed byC:/workspace/libopencm3/lib/libopencm3_stm32f0.a'. Stop.
+<br />
+make:&nbsp; [lib/stm32/f0] Error 2
+<br />
+<br />
+<a href="https://github.com/libopencm3/libopencm3">
+https://github.com/libopencm3/libopencm3</a><br />
+<br />
+@ChuckM over on the libopencm3 gitter:
+<br />
+<br />
+<a href="https://gitter.im/libopencm3/discuss?at=5903c836f22385553d886a4e">
+https://gitter.im/libopencm3/</a><br />
+<br />
+...suggested that I install the WSL
+<br />
+<br />
+<a href="https://msdn.microsoft.com/en-us/commandline/wsl/install_guide">
+https://msdn.microsoft.com/en-us/commandline/wsl/install_guide</a><br />
+<br />
+and so ok, once I have Ubuntu on Windows (am I the only one to find that crazy?!?! *Ubuntu* on *Windows* - wow!)... all the toolchain items need to be installed fresh. None of the Windows binaries will run. So I installed the items listed here:
+<br />
+<br />
+<a href="https://developer.arm.com/open-source/gnu-toolchain/gnu-rm">
+https://developer.arm.com/open-source/gnu-toolchain/gnu-rm</a><br />
+<br />
+specifically:
+<br />
+<br />
+sudo apt-get update
+<br />
+sudo apt-get install binutils
+<br />
+sudo apt-get install gcc
+<br />
+sudo apt-get install gdb
+<br />
+sudo apt-get install make
+<br />
+sudo apt-get install build-essential
+<br />
+<br />
+sudo apt-get install python
+<br />
+sudo apt-get install gawk
+<br />
+<br />
+sudo apt-get install openocd
+<br />
+<br />
+<br />
+then download the GNU ARM Embedded Toolchain from:
+<br />
+<br />
+<a href="https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads">
+https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads</a><br />
+<br />
+sudo tar -xvjf gcc-arm-none-eabi-6-2017-q1-update-linux.tar.bz2
+<br />
+<br />
+(I put mine in c:\Downloads\arm\&nbsp; aka&nbsp; /mnt/c/download/arm in Ubuntu window)
+<br />
+<br />
+All this ended up needing a path like this:
+<br />
+<br />
+export PATH="/usr/bin/Python27:/mnt/c/download/arm/gcc-arm-none-eabi-6-2017-q1-update/bin:/usr/local/bin:/usr/bin:/bin"
+<br />
+<br />
+I ended up hosting the OpenOCD from MINGW64 bash prompt, but programming via the Ubuntu bash prompt (this is NOT&nbsp;a good idea). The problem is with the apparent path. When doing a "make flash" - I kept getting a "couldn't open opendps.elf" error (yet the file was there). 
+<br />
+<br />
+Doing a "pwd" from the OpenOCD telnet session revealed all! 
+<br />
+<br />
+&nbsp;C:/workspace/opendps/openocd/scripts
+<br />
+<br />
+This is despite the fact that MINGW64&nbsp;sees the&nbsp;path as:
+<br />
+<br />
+/c/workspace/opendps/openocd/scripts
+<br />
+<br />
+and the Ubuntu Bash sees it as: 
+<br />
+<br />
+/mnt/c/workspace/ ...
+<br />
+<br />
+the libopencm3.rules.mk file had this simple command for "make flash":
+<br />
+<br />
+<span style="font-family: &quot;consolas&quot;; font-size: x-small;"><span style="font-family: &quot;consolas&quot;; font-size: x-small;">
+program $(*).elf verify reset exit</span></span><br />
+so I used a manual command in the OpenOCD telnet session:
+<br />
+<br />
+program c:/workspace/opendps/opendps/opendps.elf verify reset
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/Manual-Program.PNG" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;">
+<img border="0" height="236" src="../images/s640/Manual-Program.PNG" width="640"></a>
+</div>
+and voila! a newly programmed &nbsp;DPS5015!<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/DPS5015-final.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="372" src="../images/s640/DPS5015-final.PNG" width="640"></a>
+</div>
+<br />
+<br />
+Other stuff:
+<br />
+<br />I found a couple of nice cases on Aliexpress: 
+<a href="https://www.aliexpress.com/store/product/RD-DP-and-DPS-Power-Supply-housing-Step-down-casing-digital-control-buck-Voltage-converter-only/923042_32800401603.html?spm=2114.12010108.1000023.15.XJAeEO">this console-style</a>&nbsp;and this <a href="https://www.aliexpress.com/store/product/RD-DPS5015-DPS3012-DPH3205-Power-Supply-housing-Constant-Voltage-current-casing-digital-control-buck-Voltage-converter/923042_32794029335.html?spm=2114.12010108.1000023.17.XJAeEO">
+this shelf unit style.</a><br />
+<br />There's also this interesting hack that uses an Arduino to control the unit by emulating the button presses: 
+<a href="http://www.instructables.com/id/Power-Supply-Automation-DPS5015-DP50V5A-Controlled/">
+http://www.instructables.com/id/Power-Supply-Automation-DPS5015-DP50V5A-Controlled/</a><br />
+<br />
+The Hangzhou Ruideng Technologies Co., Ltd store can be found here:
+<br />
+<br />
+<a href="https://rdtech.aliexpress.com/store/923042">
+https://rdtech.aliexpress.com/store/923042</a><br />
+<br />
+There's also this video:
+<br />
+<iframe allowfullscreen="" frameborder="0" height="504" src="https://www.youtube.com/embed/8TRGoo66jm0" width="852"></iframe><br />
+<br />
+<br />
+Next step: follow Johan's instructions for using ESP8266 for WiFicontrol....
+<br />
+<br />
+<br />
+*1 - page&nbsp;6 of PM0063 Programming manual STM32F100xx value line Flash programming
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:51 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

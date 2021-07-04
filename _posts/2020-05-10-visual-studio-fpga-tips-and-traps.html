@@ -10,4 +10,296 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-83644765011861203
 blogger_orig_url: https://gojimmypi.blogspot.com/2020/05/visual-studio-fpga-tips-and-traps.html
 ---
 
-<div>This weekend I went from&nbsp;<a href="https://www.youtube.com/watch?v=7dWu42KVMLI">File-New-Project, Right-Click - Build... to a ULX3S bit file</a>! This was originally supposed to be my blog on using <a href="https://visualstudio.microsoft.com/">Visual Studio</a> to build (synthesize) Verilog FPGA code. Instead, this first part is just a discussion of text editor issues to be aware of in Visual Studio.<br /><div><br /></div></div><div>TL;DR. It can be done! Be aware of <a href="https://en.wikipedia.org/wiki/Byte_order_mark">BOM</a>, <a href="https://www.cyberciti.biz/faq/howto-unix-linux-convert-dos-newlines-cr-lf-unix-text-format/">CR/LF</a>, <a href="https://docs.microsoft.com/en-us/windows/win32/winprog64/file-system-redirector">32/64 bit</a>, <a href="https://devblogs.microsoft.com/commandline/per-directory-case-sensitivity-and-wsl/">Case Sensitivity</a>, and other quirky issues.</div><div><br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="https://1.bp.blogspot.com/-Ffy7kv9XsIc/XrW3S2P7XHI/AAAAAAAAChY/wD9jCTXvli0-N3a1cD8K0c2DVuXw9IiQgCLcBGAsYHQ/s1600/yosys_in_visual_studio.png" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" data-original-height="634" data-original-width="966" height="262" src="https://1.bp.blogspot.com/-Ffy7kv9XsIc/XrW3S2P7XHI/AAAAAAAAChY/wD9jCTXvli0-N3a1cD8K0c2DVuXw9IiQgCLcBGAsYHQ/s400/yosys_in_visual_studio.png" width="400" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">My first <a href="https://twitter.com/gojimmypi/status/1258430493734735872?s=20">success pic tweeted</a>:&nbsp;running yosys in "right-click, build" in Visual Studio.&nbsp;</td></tr></tbody></table><br /></div><div>Text editor issues? How can that be? Visual Studio ("VS") has been around for <i>years</i>. How can there be problems with something as basic as a text editor? The answer lies in the history of differences between Linux and Windows. My workstation is a Windows machine. The day job is a Microsoft shop and all of my development is on Windows. The key tools I use every day only run on Windows. My FPGA toolchain however, is all in Ubuntu Linux:&nbsp;<a href="https://ubuntu.com/wsl">WSL Ubuntu on Windows</a>, to be exact.</div><div><br /></div><div>With WSL came some really amazing capabilities in Windows. Just having a Linux prompt on a Windows machine that is in a DOS-like window and not a VM is just magical. But the really incredible thing is that you can call Linux apps from DOS, and you can call DOS/Windows apps from WSL! Also: The file system is shared! My <code>C:\workspace</code> directory for Windows is <code>/mnt/c/workspace</code> in WSL. (<a href="https://devblogs.microsoft.com/commandline/do-not-change-linux-files-using-windows-apps-and-tools/">be careful when accessing WSL directories</a>; in particular <b>DO NOT access the Linux files inside of your %LOCALAPPDATA% folder; </b>perhaps you found the rootfs directory in Local\Packages\CanonicalGroupLimited.UbuntuonWindow...)</div><div><br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="https://devblogs.microsoft.com/commandline/do-not-change-linux-files-using-windows-apps-and-tools/" style="margin-left: auto; margin-right: auto;"><img border="0" data-original-height="216" data-original-width="777" height="107" src="https://1.bp.blogspot.com/-SMxXbuCvypY/XrWeLdbzJcI/AAAAAAAAChM/vi_B3pvbB4Y00Da2DpV1wK25SLESdwwBgCLcBGAsYHQ/s400/WSL%2Bdanger.png" width="400" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Snip of warning to not edit WSL %LOCALAPPDATA% files.</td></tr></tbody></table><br />Still, it is good to be aware of the directory, as it can use up a LOT of disk space. Even though I keep most of my GitHub repos and toolchain source in my C:\workspace directory, my WSL rootfs still takes up 25GB and 450,000 files.<br /><br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="https://1.bp.blogspot.com/-IcSEMvV0ayQ/XrW7xm_zQBI/AAAAAAAAChk/t_7n5GTuvJgsYmqYJ3NLlFv6cxmVRNGeACLcBGAsYHQ/s1600/rootfs_size.png" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" data-original-height="501" data-original-width="381" height="320" src="https://1.bp.blogspot.com/-IcSEMvV0ayQ/XrW7xm_zQBI/AAAAAAAAChk/t_7n5GTuvJgsYmqYJ3NLlFv6cxmVRNGeACLcBGAsYHQ/s320/rootfs_size.png" width="243" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Windows WSL rootfs files</td></tr></tbody></table><br />So just because you <i>can </i>access those files from Visual Studio: DON'T.<br /><br />Be aware that in WSL2, there's apparently a <a href="https://github.com/microsoft/WSL/issues/4197">performance issue</a> when using /mnt. All my work is in the original WSL. I do not yet have WSL2, as <a href="https://docs.microsoft.com/en-us/windows/wsl/wsl2-install">insider build 18917 is required</a>. So I can't really speak to this.<br /><br /></div><div>Alas with these new found capabilities, the underlying fundamental differences between Windows and Linux become increasingly painful for developers. I encountered this years ago with my first Raspberry Pi. Yes, I was the kind of person that would mount the file system on my Raspberry Pi as a network share and edit files in... yes, you guess it: Visual Studio. This was almost a WSL-like experience with a putty terminal session and a drive map that made it look like my Raspberry Pi was a local file system.</div><div><br /></div><div>There are some terrible gotchas in Visual Studio for Linux users. Not only will VS take a text file with LF line-ending characters and silently replace them with CR/LF at save time... (Linux does not play well with carriage returns at the end of lines in bash shell scripts)... no, even worse is when creating a simple text file, VS decides on its own to quietly add 3 hidden <a href="https://en.wikipedia.org/wiki/Byte_order_mark">BOM characters</a> at the beginning of the file. Many Linux apps will be quite intolerant of that when expecting a simple text file.&nbsp;</div><div><br /></div><div>So the first thing to be aware of... is that Visual Studio <i>by default</i> creates text files with BOM characters, when doing the Right Click on Project - Add - New Item - Text File:</div><div><br /></div><div><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-sJIhlmDtuYw/XrV4GGUkddI/AAAAAAAACgU/xIFheFvJ-scshyIZ1jaLN0EhIJMW1RupACLcBGAsYHQ/s1600/new_text_file.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="214" data-original-width="787" height="106" src="https://1.bp.blogspot.com/-sJIhlmDtuYw/XrV4GGUkddI/AAAAAAAACgU/xIFheFvJ-scshyIZ1jaLN0EhIJMW1RupACLcBGAsYHQ/s400/new_text_file.png" width="400" /></a></div></div><div><br /></div><div>My suggestion to Microsoft here is to <i>add options</i> to this list. The "TextFile with BOM" file option should be explicitly labeled as such as creation time, along with UTF-16 encoded files. If nothing else, a Text File should be just that: a plain, nothing-else, just UTF-8 character file.</div><div><br /></div><div>Many people will say "<i>why not just use VS Code</i>?". Yes, it is true <a href="https://code.visualstudio.com/">VS Code</a> handles this all vastly better. I did have my own issues with VS Code, such as a <a href="https://github.com/microsoft/vscode/issues/26626">problematic files.eol setting</a>, but that was resolved and these days VS Code is really quite impressive.&nbsp; For example, here's VS Code with a clear option of encoding and CRLF settings at the bottom of the editor:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-rfbB7wUTAbI/XrVy0w2MxxI/AAAAAAAACgI/IFx0OQ2RM_USpP-rUte8acK7apdoROfhQCLcBGAsYHQ/s1600/VS%2BCode%2BCR%2BLF%2BBOM.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="307" data-original-width="744" height="162" src="https://1.bp.blogspot.com/-rfbB7wUTAbI/XrVy0w2MxxI/AAAAAAAACgI/IFx0OQ2RM_USpP-rUte8acK7apdoROfhQCLcBGAsYHQ/s400/VS%2BCode%2BCR%2BLF%2BBOM.png" width="400" /></a></div><div>Still, I am most comfortable in Visual Studio. Plus, thank you Day Job for the <a href="https://visualstudio.microsoft.com/subscriptions/">MSDN Enterprise</a> subscription. I like the rich features, debugging, and vast array of other tools. I do use VS Code, but for different things. Even without the enterprise level, the free <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a> is still quite excellent.</div><div><br /></div><div>Fortunately, there are folks at Microsoft that are listening! I had a great offline discussion with&nbsp;<a href="https://twitter.com/robotdad?lang=en">@robotdad</a>&nbsp;who will hopefully will be able to encourage some of these things to changed. This has got to be a priority if Microsoft is going to embrace WSL.</div><div><br /></div><div>So how does the BOM issue manifest itself? The first time I tried to do an FPGA build in Visual Studio, it failed with a bizarre error message:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-24A5cRzZ1EM/XrV531XiyWI/AAAAAAAACgg/AFRyJZRL8IslmsGfbnaDUyzFaRqbshMmgCLcBGAsYHQ/s1600/yosys_bom_error.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="328" data-original-width="806" height="158" src="https://1.bp.blogspot.com/-24A5cRzZ1EM/XrV531XiyWI/AAAAAAAACgg/AFRyJZRL8IslmsGfbnaDUyzFaRqbshMmgCLcBGAsYHQ/s400/yosys_bom_error.png" width="400" /></a></div><div><br /></div><div>At first, it is a curious "no such command read_verilog" message. But upon closer inspection, what are those odd characters between "command" and "read"? Those pesky BOMs.</div><div><br /></div><div>Now, there's no easy way that I've found to fix this. One option is to open the file with VS Code. But how crazy is that?? The whole point is to use Visual Studio with FPGA devices. Next - Visual Studio has a built-in Binary Editor. Right click on the file and select "Open with..." then choose "Binary Editor:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-A3rQugCJvc4/XrV66IIlQ8I/AAAAAAAACgs/sRMkJ3aLfIoqz_B2H_llYikfUSLSsiLqwCLcBGAsYHQ/s1600/open_with_binary_editor.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="375" data-original-width="566" height="265" src="https://1.bp.blogspot.com/-A3rQugCJvc4/XrV66IIlQ8I/AAAAAAAACgs/sRMkJ3aLfIoqz_B2H_llYikfUSLSsiLqwCLcBGAsYHQ/s400/open_with_binary_editor.png" width="400" /></a></div><div><br /></div><div>When viewing the file here, we can immediately see there's more than meets the eye:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-ChdbXEcOsIw/XrV7hoz0JDI/AAAAAAAACg0/O6XukLsS4SIjnAEFAFuqmaCZOWvLOeXCgCEwYBhgL/s1600/BOM_binary_hex_example.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="146" data-original-width="571" height="101" src="https://1.bp.blogspot.com/-ChdbXEcOsIw/XrV7hoz0JDI/AAAAAAAACg0/O6XukLsS4SIjnAEFAFuqmaCZOWvLOeXCgCEwYBhgL/s400/BOM_binary_hex_example.png" width="400" /></a></div><div><br /></div><div>As this is a binary <i>editor</i>, you can simply put the cursor on either the text or hex digits and press delete or backspace to remove the extra three characters.</div><div><br /></div><div>This is such a big problem in Visual Studio, that there's an entire&nbsp;<a href="https://marketplace.visualstudio.com/items?itemName=SergeyVlasov.FixFileEncoding">Fix File Encoding Extension</a> that was first released <i>8 years ago</i>, with nearly <i>30,000 downloads</i>! Clearly I'm not the only one that has had this problem.</div><div><br /></div><div>Although the above solutions work well for the 3 leading BOM characters, it is not so great for finding an replacing all the CR/LF characters with just LF. This too, is a key feature that Visual Studio shockingly ignores. A cardinal rule of text editors: if you find a text file that has line endings with only LF characters, leave it that way upon save! Instead, Visual Studio will silently replace the LF characters with CR/LF and/or add them. Try running a bash script in WSL with CR characters for line endings. Not a pretty sight. The symptom that you have errant CR characters will be the <code>\r' : command not found</code>" like this. <br /><pre><code>./HelloWorld.sh: line 5: $'yosys\r': command not found<br /></code></pre><br />The <a href="http://manpages.ubuntu.com/manpages/bionic/man1/dos2unix.1.html">dos2unix</a> command in WSL becomes your friend.&nbsp; I also have a <a href="https://github.com/ulx3s/ulx3s-toolchain/blob/master/dos2unix.sh">script for converting all script files</a>. Although an external command, this fixes both the BOM and CRLF issues. Note also: the GitHub integration does a really poor job of recognizing these changes - particularly when hidden characters are the <i>only</i> change in a text file.<br /><br />The problems are not limited to copy and paste from <i>other </i>applications! Copy a block of text file editing a file in VS that is known to have only LF line terminations... and then paste it back into the same file. Check out the result with the binary editor: all of the LF terminations have been replaced with CR/LF. Not cool. No-one ever noticed or cared in Windows, but this is just horrible for files used in Linux. For example: I ran into this&nbsp;<a href="https://github.com/YosysHQ/nextpnr/issues/235#issuecomment-627249369">when processing lpf files with nextpnr</a>.<br /><br />Suggestion to Microsoft: honor line endings and fix the GitHub detection and change tracking of line endings.<br /><br />Bigger suggestion to Microsoft: have some sort of "<i>strip hidden&nbsp; characters and formatting when pasting text</i>" capability in Windows. Search for "ctrl-shift v" (the intuitive solution); it typically doesn't work. There are so many apps that I copy and paste first into Notepad, then in destination, just because I don't want all the original formatting. I've been burned on more than one occasion copying sample code from a PDF, or a web site like stackoverflow, or often just some quote from a web page that I'm pasting into an email - and get more than I bargained for with hidden characters and wonky formatting that I don't want. This is also a problem in Windows alone: copy some Linux commands from Notepad into a bash script in Visual Studio... yup, you got it: the line endings are all CR/LF even if the file was only using LF. Under no circumstances should LF-only text be pasted back as LF/CR.&nbsp;</div><div><br /></div><div>The next thing to be aware of: on at least some (most?) systems... is that Visual Studio is still a 32-bit app. On a 64-bit operating system, WSL will be 64 bit. What's the big deal? Well, if you want to call a WSL app from Visual Studio on a 64 bit system, you cannot do this:</div><div><br /><pre><code>wsl yosys Verilog.ys<br /></code></pre><br /><br />You <i>can </i>do that from a DOS prompt, but <i>not </i>from a VS build script. Otherwise an error like this will occur:<br /><br /><pre><code>1&gt;------ Build started: Project: SampleFail, Configuration: Release Any CPU ------<br />1&gt;  'c:\windows\system32\wsl.exe' is not recognized as an internal or external command,<br />1&gt;  operable program or batch file.<br />1&gt;C:\Users\gojimmypi\source\repos\SampleFail\SampleFail\SampleFail.csproj(16,5): error MSB3073: The command "c:\windows\system32\wsl.exe yosys Verilog.ys" exited with code 9009.<br />========== Build: 0 succeeded, 1 failed, 0 up-to-date, 0 skipped ==========<br /></code></pre><br />Whaat? "<i>not recognized as an internal or external command</i>"? Yet the wsl.exe file is <i>right there</i>! Well, there are more magic tricks going on behind the scenes to make 32bit and 64 bit apps all work together. This is called the <a href="https://docs.microsoft.com/en-us/windows/win32/winprog64/file-system-redirector">File System Redirector</a>. Read the first sentence on that page, it is not a typo:<br /><blockquote class="tr_bq">The %windir%\System32 directory is reserved for 64-bit applications on 64-bit Windows.  </blockquote>Yes, System32 <i>is for 64 bit apps</i>. Pretty crazy, eh? So ya - the solution is wow. No, literally:&nbsp;<a href="https://docs.microsoft.com/en-us/windows/win32/winprog64/wow64-implementation-details">WOW64</a>. I've used this in <a href="https://docs.microsoft.com/en-us/windows/win32/sysinfo/32-bit-and-64-bit-application-data-in-the-registry">registry</a> access at the day job, but this was the first I had seen it for file systems. The trick here is a magical pseudo-directory called <code>Sysnative</code>. If you go looking for it, you won't find it:</div><div><br /></div><div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-oBqaMRrNMiQ/XrWY7kb_-JI/AAAAAAAAChA/cjDZAB6hrNw42k3WMcvaGs3TeqUu2drYQCLcBGAsYHQ/s1600/no_sysnative_here.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="233" data-original-width="277" src="https://1.bp.blogspot.com/-oBqaMRrNMiQ/XrWY7kb_-JI/AAAAAAAAChA/cjDZAB6hrNw42k3WMcvaGs3TeqUu2drYQCLcBGAsYHQ/s1600/no_sysnative_here.png" /></a></div><br /><div class="separator" style="clear: both; text-align: center;"><br /></div></div><div>But if you try to <i>use </i>it in a path from Visual Studio.... voila! But note you <i>cannot </i>use this interactively in a DOS prompt:<br /><br /><pre><code>%windir%\Sysnative\wsl.exe yosys Verilog.ys<br /></code></pre><br />In the category of feature requests for Microsoft: it would be awesome to have a DOS command prompt have the option "run as 32bit app" to test and debug Visual Studio build scripts that can "see" the&nbsp;<span style="font-family: monospace;">Sysnative</span>&nbsp;directory.<br /><br />Suggestion to Microsoft: have an environment variable that ensures proper usage of&nbsp;<span style="font-family: monospace;">System32&nbsp;</span>or&nbsp;<span style="font-family: monospace;">Sysnative</span>&nbsp;automatically. I suppose the PROCESSOR_ARCHITECTURE is a workaround. (look for values like AMD64, x86, see <a href="https://stackoverflow.com/questions/4990839/batch-to-detect-if-system-is-a-32-bit-or-64-bit">stackoverflow</a>) . For me, I'll probably use the <a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/if">if exist</a>:<br /><pre><code>echo off<br />IF EXIST "%windir%\Sysnative\wsl.exe" (<br />  echo "Using Sysnative\wsl"<br />  ) ELSE ( <br />    IF EXIST "%windir%\System32\wsl.exe" (<br />      echo "Using System32\wsl"<br />      ) ELSE (<br />        echo " WSL Not found!"<br />        )<br />    )<br /></code></pre><br /><br />UPDATE: I encountered problems where Visual Studio was not properly highlighting Arduino/C/C++ syntax code and intellisense using Visual Micro. I eventually realized this was because the parent directory where my project was created (in my case the C:\workspace directory)... had been previously flagged as case sensitive in WSL. See <a href="https://devblogs.microsoft.com/commandline/per-directory-case-sensitivity-and-wsl/">this blog</a> for more details.<br /><br />In short: normal Visual Studio projects should NOT be created in a case-sensitive directory!<br /><br />To test if a directory is case sensitive:  <pre><code>fsutil.exe file queryCaseSensitiveInfo c:\workspace\<br /></code></pre> To disable directory case sensitivity:  <pre><code>fsutil.exe file setCaseSensitiveInfo  c:\workspace\ disable<br /></code></pre> <br /><br />So in the end, yes: there are quite a few "issues" for the Visual Studio WSL user. Most seem to be relatively simply, petty fixes. I'm hoping these issues can be addressed by Microsoft so that the Visual Studio development with WSL is a bit more friendly.<br /><br /><br /></div><div><br /></div><div><br /></div><div></div>
+
+<div>
+This weekend I went from&nbsp;<a href="https://www.youtube.com/watch?v=7dWu42KVMLI">File-New-Project, Right-Click - Build... to a ULX3S bit file</a>! This was originally supposed to be my blog on using <a href="https://visualstudio.microsoft.com/">Visual Studio</a>
+ to build (synthesize) Verilog FPGA code. Instead, this first part is just a discussion of text editor issues to be aware of in Visual Studio.<br />
+<br />
+
+</div>
+
+<div>
+TL;DR. It can be done! Be aware of <a href="https://en.wikipedia.org/wiki/Byte_order_mark">BOM</a>, <a href="https://www.cyberciti.biz/faq/howto-unix-linux-convert-dos-newlines-cr-lf-unix-text-format/">CR/LF</a>, <a href="https://docs.microsoft.com/en-us/windows/win32/winprog64/file-system-redirector">32/64 bit</a>, <a href="https://devblogs.microsoft.com/commandline/per-directory-case-sensitivity-and-wsl/">Case Sensitivity</a>, and other quirky issues.
+</div>
+
+<div>
+<br />
+<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/yosys_in_visual_studio.png" imageanchor="1" style="margin-left: auto; margin-right: auto;">
+<img border="0" data-original-height="634" data-original-width="966" height="262" src="../images/s400/yosys_in_visual_studio.png" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">My first <a href="https://twitter.com/gojimmypi/status/1258430493734735872?s=20">success pic tweeted</a>
+:&nbsp;running yosys in "right-click, build" in Visual Studio.&nbsp;</td></tr></tbody></table><br />
+
+</div>
+
+
+<div>
+Text editor issues? How can that be? Visual Studio ("VS") has been around for <i>years</i>. How can there be problems with something as basic as a text editor? The answer lies in the history of differences between Linux and Windows. My workstation is a Windows machine. The day job is a Microsoft shop and all of my development is on Windows. The key tools I use every day only run on Windows. My FPGA toolchain however, is all in Ubuntu Linux:&nbsp;<a href="https://ubuntu.com/wsl">WSL Ubuntu on Windows</a>, to be exact.
+</div>
+<br />
+
+<div>
+With WSL came some really amazing capabilities in Windows. Just having a Linux prompt on a Windows machine that is in a DOS-like window and not a VM is just magical. But the really incredible thing is that you can call Linux apps from DOS, and you can call DOS/Windows apps from WSL! Also: The file system is shared! My <code class="highlight">C:\workspace</code> directory for Windows is <code class="highlight">/mnt/c/workspace</code> in WSL. (<a href="https://devblogs.microsoft.com/commandline/do-not-change-linux-files-using-windows-apps-and-tools/">be careful when accessing WSL directories</a>; in particular <b>DO NOT access the Linux files inside of your %LOCALAPPDATA% folder; </b>perhaps you found the rootfs directory in Local\Packages\CanonicalGroupLimited.UbuntuonWindow...)
+</div>
+
+<div>
+<br />
+<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="https://devblogs.microsoft.com/commandline/do-not-change-linux-files-using-windows-apps-and-tools/" style="margin-left: auto; margin-right: auto;">
+<img border="0" data-original-height="216" data-original-width="777" height="107" src="../images/s400/WSL_danger.png" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">
+Snip of warning to not edit WSL %LOCALAPPDATA% files.</td></tr></tbody></table><br />
+Still, it is good to be aware of the directory, as it can use up a LOT of disk space. Even though I keep most of my GitHub repos and toolchain source in my C:\workspace directory, my WSL rootfs still takes up 25GB and 450,000 files.
+<br />
+<br />
+<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/rootfs_size.png" imageanchor="1" style="margin-left: auto; margin-right: auto;">
+<img border="0" data-original-height="501" data-original-width="381" height="320" src="../images/s320/rootfs_size.png" width="243"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">
+Windows WSL rootfs files</td></tr></tbody></table><br />So just because you 
+<i>can </i>
+access those files from Visual Studio: DON'T.<br />
+<br />Be aware that in WSL2, there's apparently a 
+<a href="https://github.com/microsoft/WSL/issues/4197">performance issue</a> when using /mnt. All my work is in the original WSL. I do not yet have WSL2, as <a href="https://docs.microsoft.com/en-us/windows/wsl/wsl2-install">insider build 18917 is required</a>
+. So I can't really speak to this.<br />
+<br />
+
+</div>
+
+
+<div>
+Alas with these new found capabilities, the underlying fundamental differences between Windows and Linux become increasingly painful for developers. I encountered this years ago with my first Raspberry Pi. Yes, I was the kind of person that would mount the file system on my Raspberry Pi as a network share and edit files in... yes, you guess it: Visual Studio. This was almost a WSL-like experience with a putty terminal session and a drive map that made it look like my Raspberry Pi was a local file system.
+</div>
+<br />
+
+<div>
+There are some terrible gotchas in Visual Studio for Linux users. Not only will VS take a text file with LF line-ending characters and silently replace them with CR/LF at save time... (Linux does not play well with carriage returns at the end of lines in bash shell scripts)... no, even worse is when creating a simple text file, VS decides on its own to quietly add 3 hidden <a href="https://en.wikipedia.org/wiki/Byte_order_mark">BOM characters</a> at the beginning of the file. Many Linux apps will be quite intolerant of that when expecting a simple text file.&nbsp;
+</div>
+<br />
+
+<div>
+So the first thing to be aware of... is that Visual Studio <i>by default</i> creates text files with BOM characters, when doing the Right Click on Project - Add - New Item - Text File:
+</div>
+<br />
+
+<div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/new_text_file.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="214" data-original-width="787" height="106" src="../images/s400/new_text_file.png" width="400"></a>
+</div>
+
+</div>
+
+<br />
+
+<div>
+My suggestion to Microsoft here is to <i>add options</i> to this list. The "TextFile with BOM" file option should be explicitly labeled as such as creation time, along with UTF-16 encoded files. If nothing else, a Text File should be just that: a plain, nothing-else, just UTF-8 character file.
+</div>
+<br />
+
+<div>
+Many people will say "<i>why not just use VS Code</i>?". Yes, it is true <a href="https://code.visualstudio.com/">VS Code</a> handles this all vastly better. I did have my own issues with VS Code, such as a <a href="https://github.com/microsoft/vscode/issues/26626">problematic files.eol setting</a>, but that was resolved and these days VS Code is really quite impressive.&nbsp; For example, here's VS Code with a clear option of encoding and CRLF settings at the bottom of the editor:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/VS_Code_CR_LF_BOM.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="307" data-original-width="744" height="162" src="../images/s400/VS_Code_CR_LF_BOM.png" width="400"></a>
+</div>
+
+<div>
+Still, I am most comfortable in Visual Studio. Plus, thank you Day Job for the <a href="https://visualstudio.microsoft.com/subscriptions/">MSDN Enterprise</a> subscription. I like the rich features, debugging, and vast array of other tools. I do use VS Code, but for different things. Even without the enterprise level, the free <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a> is still quite excellent.
+</div>
+<br />
+
+<div>
+Fortunately, there are folks at Microsoft that are listening! I had a great offline discussion with&nbsp;<a href="https://twitter.com/robotdad?lang=en">@robotdad</a>&nbsp;who will hopefully will be able to encourage some of these things to changed. This has got to be a priority if Microsoft is going to embrace WSL.
+</div>
+<br />
+
+<div>
+So how does the BOM issue manifest itself? The first time I tried to do an FPGA build in Visual Studio, it failed with a bizarre error message:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/yosys_bom_error.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="328" data-original-width="806" height="158" src="../images/s400/yosys_bom_error.png" width="400"></a>
+</div>
+<br />
+
+<div>
+At first, it is a curious "no such command read_verilog" message. But upon closer inspection, what are those odd characters between "command" and "read"? Those pesky BOMs.
+</div>
+<br />
+
+<div>
+Now, there's no easy way that I've found to fix this. One option is to open the file with VS Code. But how crazy is that?? The whole point is to use Visual Studio with FPGA devices. Next - Visual Studio has a built-in Binary Editor. Right click on the file and select "Open with..." then choose "Binary Editor:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/open_with_binary_editor.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="375" data-original-width="566" height="265" src="../images/s400/open_with_binary_editor.png" width="400"></a>
+</div>
+<br />
+
+<div>
+When viewing the file here, we can immediately see there's more than meets the eye:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/BOM_binary_hex_example.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="146" data-original-width="571" height="101" src="../images/s400/BOM_binary_hex_example.png" width="400"></a>
+</div>
+<br />
+
+<div>
+As this is a binary <i>editor</i>, you can simply put the cursor on either the text or hex digits and press delete or backspace to remove the extra three characters.
+</div>
+<br />
+
+<div>
+This is such a big problem in Visual Studio, that there's an entire&nbsp;<a href="https://marketplace.visualstudio.com/items?itemName=SergeyVlasov.FixFileEncoding">Fix File Encoding Extension</a> that was first released <i>8 years ago</i>, with nearly <i>30,000 downloads</i>! Clearly I'm not the only one that has had this problem.
+</div>
+<br />
+
+<div>
+Although the above solutions work well for the 3 leading BOM characters, it is not so great for finding an replacing all the CR/LF characters with just LF. This too, is a key feature that Visual Studio shockingly ignores. A cardinal rule of text editors: if you find a text file that has line endings with only LF characters, leave it that way upon save! Instead, Visual Studio will silently replace the LF characters with CR/LF and/or add them. Try running a bash script in WSL with CR characters for line endings. Not a pretty sight. The symptom that you have errant CR characters will be the <code class="highlight">\r' : command not found</code>
+" like this. <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+./HelloWorld.sh: line 5: $'yosys\r': command not found</code></pre>
+<br />The 
+<a href="http://manpages.ubuntu.com/manpages/bionic/man1/dos2unix.1.html">dos2unix</a> command in WSL becomes your friend.&nbsp; I also have a <a href="https://github.com/ulx3s/ulx3s-toolchain/blob/master/dos2unix.sh">script for converting all script files</a>. Although an external command, this fixes both the BOM and CRLF issues. Note also: the GitHub integration does a really poor job of recognizing these changes - particularly when hidden characters are the <i>only</i>
+ change in a text file.<br />
+<br />The problems are not limited to copy and paste from 
+<i>other </i>applications! Copy a block of text file editing a file in VS that is known to have only LF line terminations... and then paste it back into the same file. Check out the result with the binary editor: all of the LF terminations have been replaced with CR/LF. Not cool. No-one ever noticed or cared in Windows, but this is just horrible for files used in Linux. For example: I ran into this&nbsp;<a href="https://github.com/YosysHQ/nextpnr/issues/235#issuecomment-627249369">when processing lpf files with nextpnr</a>
+.<br />
+<br />
+Suggestion to Microsoft: honor line endings and fix the GitHub detection and change tracking of line endings.
+<br />
+<br />Bigger suggestion to Microsoft: have some sort of "
+<i>strip hidden&nbsp; characters and formatting when pasting text</i>" capability in Windows. Search for "ctrl-shift v" (the intuitive solution); it typically doesn't work. There are so many apps that I copy and paste first into Notepad, then in destination, just because I don't want all the original formatting. I've been burned on more than one occasion copying sample code from a PDF, or a web site like stackoverflow, or often just some quote from a web page that I'm pasting into an email - and get more than I bargained for with hidden characters and wonky formatting that I don't want. This is also a problem in Windows alone: copy some Linux commands from Notepad into a bash script in Visual Studio... yup, you got it: the line endings are all CR/LF even if the file was only using LF. Under no circumstances should LF-only text be pasted back as LF/CR.&nbsp;
+</div>
+<br />
+
+<div>
+The next thing to be aware of: on at least some (most?) systems... is that Visual Studio is still a 32-bit app. On a 64-bit operating system, WSL will be 64 bit. What's the big deal? Well, if you want to call a WSL app from Visual Studio on a 64 bit system, you cannot do this:
+</div>
+
+<div>
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+wsl yosys Verilog.ys</code></pre>
+<br />
+<br />You 
+<i>can </i>do that from a DOS prompt, but <i>not </i>
+from a VS build script. Otherwise an error like this will occur:<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+1&gt;------ Build started: Project: SampleFail, Configuration: Release Any CPU ------
+1&gt;  'c:\windows\system32\wsl.exe' is not recognized as an internal or external command,
+1&gt;  operable program or batch file.
+1&gt;C:\Users\gojimmypi\source\repos\SampleFail\SampleFail\SampleFail.csproj(16,5): error MSB3073: The command "c:\windows\system32\wsl.exe yosys Verilog.ys" exited with code 9009.
+========== Build: 0 succeeded, 1 failed, 0 up-to-date, 0 skipped ==========</code></pre>
+<br />Whaat? "
+<i>not recognized as an internal or external command</i>"? Yet the wsl.exe file is <i>right there</i>! Well, there are more magic tricks going on behind the scenes to make 32bit and 64 bit apps all work together. This is called the <a href="https://docs.microsoft.com/en-us/windows/win32/winprog64/file-system-redirector">File System Redirector</a>
+. Read the first sentence on that page, it is not a typo:<br />
+<blockquote class="tr_bq">The %windir%\System32 directory is reserved for 64-bit applications on 64-bit Windows.  </blockquote>Yes, System32 <i>is for 64 bit apps</i>. Pretty crazy, eh? So ya - the solution is wow. No, literally:&nbsp;<a href="https://docs.microsoft.com/en-us/windows/win32/winprog64/wow64-implementation-details">WOW64</a>. I've used this in <a href="https://docs.microsoft.com/en-us/windows/win32/sysinfo/32-bit-and-64-bit-application-data-in-the-registry">registry</a> access at the day job, but this was the first I had seen it for file systems. The trick here is a magical pseudo-directory called <code class="highlight">Sysnative</code>. If you go looking for it, you won't find it:
+</div>
+
+<br />
+
+<div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/no_sysnative_here.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="233" data-original-width="277" src="../images/s1600/no_sysnative_here.png"></a>
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<br />
+
+</div>
+
+
+</div>
+
+<div>
+But if you try to <i>use </i>it in a path from Visual Studio.... voila! But note you <i>cannot </i>
+use this interactively in a DOS prompt:<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+%windir%\Sysnative\wsl.exe yosys Verilog.ys</code></pre>
+<br />In the category of feature requests for Microsoft: it would be awesome to have a DOS command prompt have the option "run as 32bit app" to test and debug Visual Studio build scripts that can "see" the&nbsp;
+<span style="font-family: monospace;">Sysnative</span>
+&nbsp;directory.<br />
+<br />Suggestion to Microsoft: have an environment variable that ensures proper usage of&nbsp;
+<span style="font-family: monospace;">System32&nbsp;</span>or&nbsp;<span style="font-family: monospace;">Sysnative</span>&nbsp;automatically. I suppose the PROCESSOR_ARCHITECTURE is a workaround. (look for values like AMD64, x86, see <a href="https://stackoverflow.com/questions/4990839/batch-to-detect-if-system-is-a-32-bit-or-64-bit">stackoverflow</a>) . For me, I'll probably use the <a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/if">if exist</a>
+:<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+echo off
+IF EXIST "%windir%\Sysnative\wsl.exe" (
+  echo "Using Sysnative\wsl"
+  ) ELSE ( 
+    IF EXIST "%windir%\System32\wsl.exe" (
+      echo "Using System32\wsl"
+      ) ELSE (
+        echo " WSL Not found!"
+        )
+    )</code></pre>
+<br />
+<br />UPDATE: I encountered problems where Visual Studio was not properly highlighting Arduino/C/C++ syntax code and intellisense using Visual Micro. I eventually realized this was because the parent directory where my project was created (in my case the C:\workspace directory)... had been previously flagged as case sensitive in WSL. See 
+<a href="https://devblogs.microsoft.com/commandline/per-directory-case-sensitivity-and-wsl/">this blog</a>
+ for more details.<br />
+<br />
+In short: normal Visual Studio projects should NOT be created in a case-sensitive directory!
+<br />
+<br />To test if a directory is case sensitive:  
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+fsutil.exe file queryCaseSensitiveInfo c:\workspace\</code></pre>
+ To disable directory case sensitivity:  
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+fsutil.exe file setCaseSensitiveInfo  c:\workspace\ disable</code></pre>
+ <br />
+<br />
+So in the end, yes: there are quite a few "issues" for the Visual Studio WSL user. Most seem to be relatively simply, petty fixes. I'm hoping these issues can be addressed by Microsoft so that the Visual Studio development with WSL is a bit more friendly.
+<br />
+<br />
+<br />
+
+</div>
+<br />
+<br />
+
+<div>
+</div>
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:54 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

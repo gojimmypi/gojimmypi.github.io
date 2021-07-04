@@ -1,0 +1,9 @@
+---
+layout: index
+sidebar: true
+sidebar_type: material
+sidebar_position: left
+---
+{% for post in site.categories[page.title] %}
+    {% include article_index.html %}
+{% endfor %}

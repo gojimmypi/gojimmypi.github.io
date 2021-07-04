@@ -15,4 +15,318 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-44463691024908357
 blogger_orig_url: https://gojimmypi.blogspot.com/2020/03/risc-v-circuit-python-on-ulx3s-starting.html
 ---
 
-Some notes on setting up a soft RISC-V CPU to run Circuit Python.<br /><br />I started with the ambitious idea of wanting Circuit Python to work on the <a href="https://www.crowdsupply.com/radiona/ulx3s">Radiona ULX3S</a>. Easily said...<br /><br />Really short TL;DR this ended up being mostly a blog about the (mysteries and difficulties of installing) toolchain. See <a href="https://github.com/gojimmypi/ulx3s-toolchain">this to get started</a>.<br /><br />TL;DR; <a href="https://github.com/adafruit/circuitpython">Circuit Python</a> is a "C" app that needs a CPU to run on. The <a href="https://www.adafruit.com/product/3403">Feather M0</a> is an <a href="https://developer.arm.com/ip-products/processors/cortex-m/cortex-m0">ARM processor</a> option <a href="https://learn.adafruit.com/adafruit-feather-m0-express-designed-for-circuit-python-circuitpython">known to work well with Circuit Python</a>.&nbsp; We'll need to configure the <a href="https://www.latticesemi.com/Products/FPGAandCPLD/ECP5">ECP5 FPGA</a> to be a soft CPU on the ULX3S, as Circuit Python no longer supports the current ESP32 as of version 4, but the <a href="https://blog.adafruit.com/2020/03/05/eye-on-npi-espressif-esp32-s2-soc-eyeonnpi-esp32s2-esp32-adafruit-espressifsystem-digikey/">ESP32-S2 will be supported</a>.&nbsp;<a href="https://tomu.im/fomu.html">Fomu</a> is an FPGA that's had some work towards Circuit Python. There are multiple <a href="https://workshop.fomu.im/en/latest/requirements.html#which-fomu-do-i-have">Fomu</a> versions. Need to first install <a href="https://github.com/im-tomu/foboot">foboot</a>. Then the <a href="https://github.com/rxrbln/picorv32">rxrbln fork</a>&nbsp;of&nbsp;<a href="https://github.com/cliffordwolf/picorv32">Claire Wolf's RISC-V toolchain</a>&nbsp;for the ULX3S ECP5. Note&nbsp;<i>make -j$(nproc) build-tools</i> installs all 4 toolchains, when we probably only want riscv32i. There's an open <a href="https://github.com/adafruit/circuitpython/issues/2604">Adafruit issue regarding Fomu port of CircuitPython #2604</a>. Be <a href="https://github.com/hathach/tinyusb/issues/293">careful using a hub</a>. Install FPGA toolchain; see <a href="https://gist.github.com/gojimmypi/f96cd86b2b8595b4cf3be4baf493c5a7">this gist</a>&nbsp;and <a href="https://github.com/gojimmypi/ulx3s-toolchain">this repo</a>. Note that <a href="https://github.com/SymbiFlow/prjtrellis/issues/122">4GB is now the minimum RAM to build prjtrellis</a>, <a href="https://github.com/YosysHQ/nextpnr/issues/115">5GB to build nextpnr-ecp5</a>, and at least 30GB disk.<br /><br />First, I'd like to extend my thanks to Tim "mithro" Ansell for giving me a pair of Hacker Fomu's at Hackaday 2019. I'm so glad I had a chance to meet him. What an awesome guy!<br /><br />Many of my notes here are quite similar to <a href="{{ site.baseurl }}{% post_url 2019-01-27-risc-v-on-tinyfpga-bx-via-wsl-with %}">my previous, multi-part post on setting up a RISC-V on the tinyFPGA-BX</a>.&nbsp; See also Luke's&nbsp;<a href="http://chmod%20+x%20ulx3s_wsl_toolchain.sh%20./ULX3S_WSL_Toolchain.sh">picosoc example code here</a>.<br /><br />There are <a href="https://workshop.fomu.im/en/latest/requirements.html#which-fomu-do-i-have">multiple FOMU versions</a>. My FOMU that I received from Tim looks like this and is the hacker version, using the bash command <code>export FOMU_REV=hacker</code>:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-UC-UP70oypQ/XlwEAxRVz8I/AAAAAAAACYU/HwFh_WHJbAYNSsD84b7S653tNyZBO5JgACLcBGAsYHQ/s1600/my_fomu.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="413" data-original-width="406" height="320" src="https://1.bp.blogspot.com/-UC-UP70oypQ/XlwEAxRVz8I/AAAAAAAACYU/HwFh_WHJbAYNSsD84b7S653tNyZBO5JgACLcBGAsYHQ/s320/my_fomu.PNG" width="313" /></a></div><br /><br />The <a href="https://www.adafruit.com/product/4332">Adafruit FOMU (#4332)</a> is the production version:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-7GP0CcHFxn4/XlwDi3LWl2I/AAAAAAAACYM/cTJ6RYnN67AGeOY3f7abbhEsbDp-hNWCACLcBGAsYHQ/s1600/adafruit_fomu.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="389" data-original-width="335" height="320" src="https://1.bp.blogspot.com/-7GP0CcHFxn4/XlwDi3LWl2I/AAAAAAAACYM/cTJ6RYnN67AGeOY3f7abbhEsbDp-hNWCACLcBGAsYHQ/s320/adafruit_fomu.PNG" width="275" /></a></div><br />I started following along the <a href="https://github.com/timvideos/litex-buildenv/wiki/Getting-started-with-FOMU-(an-FPGA-in-your-USB-port)">timvideos getting started</a> but didn't have a lot of success.<br /><br />The tutorial references and links to <a href="https://github.com/im-tomu/foboot/tree/master/releases/v1.8.1">foboot 1.8.1 (evt-installable.dfu)</a> I eventually noticed in the <a href="https://github.com/im-tomu/foboot/tree/master/releases">list of releases</a> and a note that the Hacker version did not have support until <a href="https://github.com/im-tomu/foboot/tree/master/releases/v1.8.8">Version 1.8.8</a>. Of course it didn't. No fun if it's too easy. :)<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-kpJe3fD0ihs/XlwNkPJw_RI/AAAAAAAACYw/ZN27Qseb2WITJUf3xywJSxuGMdEu2IFyQCLcBGAsYHQ/s1600/fomu_initial_version.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="200" data-original-width="659" height="116" src="https://1.bp.blogspot.com/-kpJe3fD0ihs/XlwNkPJw_RI/AAAAAAAACYw/ZN27Qseb2WITJUf3xywJSxuGMdEu2IFyQCLcBGAsYHQ/s400/fomu_initial_version.PNG" width="400" /></a></div><br /><br />I also ordered an even more robust, known-good CircuitPython board, the <a href="https://www.adafruit.com/product/3403">Adafruit Feather M0 Express</a>. This started me down yet another <a href="https://twitter.com/gojimmypi/status/1234246192176881672?s=09">rabbit hole</a>&nbsp;(specifically <a href="https://twitter.com/gojimmypi/status/1234671369087963145?s=20">this</a>)&nbsp;as the fomu didn't play well when sharing a USB hub.<br /><br />Also - in my case, for some reason the Ubuntu VM no longer had an IP address after rebooting the host. Apparently&nbsp;<a href="https://askubuntu.com/questions/793214/unable-to-access-internet-on-vmware">others have had the same problem</a>. Indeed I needed to add this to my <code>/etc/network/interfaces</code> after confirming <code>ens33</code> was the name of my network adapter with the&nbsp;<code>ip address</code> command. Nothing is ever as easy as it is supposed to be. The fun never stops! ;)<br /><br /><pre><code><br /># The primary network interface<br />auto ens33<br />iface ens33 inet dhcp<br /></code></pre>confirm that ens33 is the proper device.<br /><br />Update: it seems that Ubuntu only "forgets" the IP address assignment if the VM is paused. During reboots or initial install - the network interface works properly with no edits to the interface file. <br /><br />Oh - and more that the default 20GB disk space is needed (40GB is safe, but perhaps as little as 35GB) if doing this in a VM. Ubuntu does not automatically recognize a bigger disk after it has been expanded, so gparted needs to be installed <a href="https://unix.stackexchange.com/questions/196512/how-to-extend-filesystem-partition-on-ubuntu-vm">as explained on stackexchange</a>. Simply right-click and select "Resize/Move". Be sure to click on the little green check mark to apply changes.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-IUlgcAyq3qE/Xl_PkWyrWqI/AAAAAAAACZM/_Hz7uTTSD5E5HdCUE_jjvjC85JoYIMWOgCLcBGAsYHQ/s1600/Screenshot%2Bfrom%2B2020-03-04%2B07-47-06.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="818" data-original-width="747" height="400" src="https://1.bp.blogspot.com/-IUlgcAyq3qE/Xl_PkWyrWqI/AAAAAAAACZM/_Hz7uTTSD5E5HdCUE_jjvjC85JoYIMWOgCLcBGAsYHQ/s400/Screenshot%2Bfrom%2B2020-03-04%2B07-47-06.png" width="365" /></a></div><br /><pre><code>cd ~<br /><br /># does dfu-util work?<br />dfu-util -l<br /><br /># if "Cannot open DFU device 1209:5bf0" try sudo<br />sudo dfu-util -l<br /><br /># can't find dfu-util with sudo?<br />whereis dfu-util<br /><br /># here we go<br />sudo /home/gojimmypi/ecp5-toolchain-linux_x86_64-v1.6.2/bin/dfu-util -l<br /><br /># upgrade foumu<br />cd workspace<br />mkdir fomu<br />cd fomu<br />wget https://github.com/im-tomu/foboot/raw/master/releases/v1.8.1/evt-installable.dfu<br />sudo /home/gojimmypi/ecp5-toolchain-linux_x86_64-v1.6.2/bin/dfu-util -D evt-installable.dfu<br /></code></pre><br />If successful, should give output like this:<br /><br /><pre><code>dfu-util 0.9<br /><br />Copyright 2005-2009 Weston Schmidt, Harald Welte and OpenMoko Inc.<br />Copyright 2010-2019 Tormod Volden and Stefan Schmidt<br />This program is Free Software and has ABSOLUTELY NO WARRANTY<br />Please report bugs to http://sourceforge.net/p/dfu-util/tickets/<br /><br />Match vendor ID from file: 1209<br />Match product ID from file: 5bf0<br />Opening DFU capable USB device...<br />ID 1209:5bf0<br />Run-time device DFU version 0101<br />Claiming USB DFU Interface...<br />Setting Alternate Setting #0 ...<br />Determining device status: state = dfuIDLE, status = 0<br />dfuIDLE, continuing<br />DFU mode device DFU version 0101<br />Device returned transfer size 1024<br />Copying data from PC to DFU device<br />Download [=========================] 100%       106814 bytes<br />Download done.<br />state(7) = dfuMANIFEST, status(0) = No error condition is present<br />state(8) = dfuMANIFEST-WAIT-RESET, status(0) = No error condition is present<br />Done!<br /></code></pre><br />To more gracefully setup permissions see the <a href="https://workshop.fomu.im/en/latest/requirements.html#setup-udev-rules">fomu docs</a>. Basically:<br /><pre><code># add this line to /etc/udev/rules.d/99-fomu.rules<br />SUBSYSTEM=="usb", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="5bf0", MODE="0664", GROUP="plugdev"<br /></code></pre><br />And then:  <br /><pre><code><br />sudo groupadd plugdev<br />sudo usermod -a -G plugdev $USER<br />id $USER<br />sudo udevadm control --reload-rules<br />sudo udevadm trigger<br /><br /># logoff then back on<br /></code></pre><br /><br />Next, we want to have the <a href="https://github.com/rxrbln/picorv32">rxrbln ULX3S version of PicoRV32</a>:  <br /><pre><code># on a completely new system:<br />THISRISCV=riscv32i<br />THIS_RISCV_PATH=/opt/$THISRISCV/bin<br />MIN_ULX3S_MEMORY=5050000<br /><br />if [ $(free | grep Mem | awk '{ print $2 }') -lt $MIN_ULX3S_MEMORY ]; then<br />  echo ""<br />  echo "System memory found:"<br />  free<br />  echo ""<br />  read -p "Warning, at least $MIN_ULX3S_MEMORY bytes of memory is needed. Press$<br />fi<br /><br /><br />sudo apt-get update --assume-yes <br />sudo apt-get upgrade --assume-yes<br />sudo apt-get install git --assume-yes<br /><br />cd ~<br />mkdir -p ~/workspace<br />cd workspace<br /><br />git clone https://github.com/rxrbln/picorv32.git<br /><br />cd picorv32<br /><br />sudo apt-get install make        --assume-yes<br />sudo apt-get install make-guile  --assume-yes<br />sudo apt-get install libgmp3-dev --assume-yes<br />sudo apt-get install libmpfr-dev --assume-yes<br />sudo apt-get install libmpc-dev  --assume-yes<br /><br />sudo apt-get install autoconf automake autotools-dev curl libmpc-dev \<br />        libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo \<br />    gperf libtool patchutils bc zlib1g-dev git libexpat1-dev --assume-yes<br /><br /><br />make download-tools<br /><br /># install *all four* riscv flavor toolchains:<br /># make -j$(nproc) build-tools<br /><br /># or install only riscv32i:<br />sudo mkdir /opt/riscv32i<br />sudo chown $USER /opt/riscv32i<br /><br />git clone https://github.com/riscv/riscv-gnu-toolchain riscv-gnu-toolchain-rv32i<br />cd riscv-gnu-toolchain-rv32i<br />git checkout 411d134<br /><br /># if you see fatal: clone of 'git://  ... <br /># users sitting behind a firewall may need these:<br />git config --global url.https://github.com/.insteadOf git://github.com/<br />git config --global url.https://git.qemu.org/git/.insteadOf git://git.qemu-project.org/<br />git config --global url.https://anongit.freedesktop.org/git/.insteadOf git://anongit.freedesktop.org/<br />git config --global url.https://github.com/riscv.insteadOf git://github.com/riscv<br /><br /># this next statement takes a long time. be patient:<br />git submodule update --init --recursive<br /><br />mkdir build; cd build<br />../configure --with-arch=rv32i --prefix=/opt/riscv32i<br />make -j$(nproc)<br /><br /># see if it is working:<br />/opt/riscv32i/bin/riscv32-unknown-elf-gcc --version<br /><br /># add to path<br />if [ "$(cat ~/.bashrc | grep  $THIS_RISCV_PATH)" == "" ]; then<br />  echo PATH=$PATH:$THIS_RISCV_PATH &gt;&gt; ~/.bashrc<br />  echo "~/.bashrc updated with this line:"<br />  echo PATH=$PATH:$THIS_RISCV_PATH<br />else<br />  echo "Found $THIS_RISCV_PATH in ~/.bashrc - path not changed."<br />fi<br /><br />if [ "$(echo $PATH | grep  $THIS_RISCV_PATH)" == "" ]; then<br />  export PATH=$PATH:$THIS_RISCV_PATH<br />  echo "Updated current path: $PATH"<br />else<br />  echo "Path not updated. PATH=$PATH"<br />fi<br /><br />cd ~/workspace<br />git clone https://gist.github.com/gojimmypi/f96cd86b2b8595b4cf3be4baf493c5a7 ulx3s_fpga_toolchain<br />cd ulx3s_fpga_toolchain<br />chmod +x ULX3S_WSL_Toolchain.sh<br />./ULX3S_WSL_Toolchain.sh<br /><br /><br /></code></pre><br />Run scripts with the <a href="https://stackoverflow.com/questions/18547881/shell-script-to-set-environment-variables">source command</a> if you don't want to start a new shell, or manually set path. You may wish to put this line at the end of your <code>~/.bashrc</code> file: <br /><pre><code>#add path to riscv32i compiler<br />PATH=/opt/riscv32i/bin:$PATH<br /></code></pre><br />Once the RISC-V toolchain is installed, there's some sample code in the picosoc directory. Fortunately rxrbln has already made some modifications in the Makefile for the ULX3S. The C code is compiled with:<br /><code></code><br /><pre><code>make ulx3s_fw.img<br /></code></pre><br /><br />To upload the code to the ULX3S:<br /><code></code><br /><pre><code>make ulx3sprog<br /></code></pre><br /><br />Note from the Makefile there are 2 key steps: #1 to put the ulx3s.bit soft CPU onto the FPGA, then #2 put the firmware into FLASH memory: <code></code><br /><pre><code>/usr/src/f32c-ujprog/ujprog/ujprog -j FLASH -f 0x200000 ulx3s_fw.img<br />/usr/src/f32c-ujprog/ujprog/ujprog -t ulx3s.bit # -j FLASH <br /></code></pre><br /><br />The default install directory for ujprog is <code>/usr/local/bin/ujprog</code> however the rxrbln Makefile expects it to be <code>/usr/src/f32c-ujprog/ujprog/ujprog</code><br />so we'll just create a quick symlink <code></code><br /><pre><code>sudo mkdir -p /usr/src/f32c-ujprog/ujprog/<br />sudo ln -s /usr/local/bin/ujprog /usr/src/f32c-ujprog/ujprog/ujprog<br /></code></pre>yosys/nextpnr/ https://gist.github.com/gojimmypi/243fc3a6eead72ae3db8fd32f2567c96<br /><br /><br />In the end, I put together <a href="https://github.com/gojimmypi/ulx3s-toolchain">a full ULX3S toolchain installer</a>. Next blog I go into details of actually getting the soft CPU and RISC-V code onto the ULX3S.<br /><br /><br />Other stuff:<br /><br />TODO - do we really want a <a href="https://github.com/cliffordwolf/picorv32#building-a-pure-rv32i-toolchain">2+ year old RV32I toolchain</a>? (note git checkout 411d134)<br /><br /><br /><br />&nbsp;* https://workshop.fomu.im/en/latest/  <br /><br />See also: <br /><br /><a href="https://blog.adafruit.com/2019/12/02/a-cobbled-together-profiler-for-circuitpython-circuitpython-circuitpython-xobs/">A cobbled-together profiler for CircuitPython</a>.<br /><br />
+Some notes on setting up a soft RISC-V CPU to run Circuit Python.<br />
+<br />I started with the ambitious idea of wanting Circuit Python to work on the 
+<a href="https://www.crowdsupply.com/radiona/ulx3s">Radiona ULX3S</a>
+. Easily said...<br />
+<br />Really short TL;DR this ended up being mostly a blog about the (mysteries and difficulties of installing) toolchain. See 
+<a href="https://github.com/gojimmypi/ulx3s-toolchain">this to get started</a>
+.<br />
+<br />TL;DR; 
+<a href="https://github.com/adafruit/circuitpython">Circuit Python</a> is a "C" app that needs a CPU to run on. The <a href="https://www.adafruit.com/product/3403">Feather M0</a> is an <a href="https://developer.arm.com/ip-products/processors/cortex-m/cortex-m0">ARM processor</a> option <a href="https://learn.adafruit.com/adafruit-feather-m0-express-designed-for-circuit-python-circuitpython">known to work well with Circuit Python</a>.&nbsp; We'll need to configure the <a href="https://www.latticesemi.com/Products/FPGAandCPLD/ECP5">ECP5 FPGA</a> to be a soft CPU on the ULX3S, as Circuit Python no longer supports the current ESP32 as of version 4, but the <a href="https://blog.adafruit.com/2020/03/05/eye-on-npi-espressif-esp32-s2-soc-eyeonnpi-esp32s2-esp32-adafruit-espressifsystem-digikey/">ESP32-S2 will be supported</a>.&nbsp;<a href="https://tomu.im/fomu.html">Fomu</a> is an FPGA that's had some work towards Circuit Python. There are multiple <a href="https://workshop.fomu.im/en/latest/requirements.html#which-fomu-do-i-have">Fomu</a> versions. Need to first install <a href="https://github.com/im-tomu/foboot">foboot</a>. Then the <a href="https://github.com/rxrbln/picorv32">rxrbln fork</a>&nbsp;of&nbsp;<a href="https://github.com/cliffordwolf/picorv32">Claire Wolf's RISC-V toolchain</a>&nbsp;for the ULX3S ECP5. Note&nbsp;<i>make -j$(nproc) build-tools</i> installs all 4 toolchains, when we probably only want riscv32i. There's an open <a href="https://github.com/adafruit/circuitpython/issues/2604">Adafruit issue regarding Fomu port of CircuitPython #2604</a>. Be <a href="https://github.com/hathach/tinyusb/issues/293">careful using a hub</a>. Install FPGA toolchain; see <a href="https://gist.github.com/gojimmypi/f96cd86b2b8595b4cf3be4baf493c5a7">this gist</a>&nbsp;and <a href="https://github.com/gojimmypi/ulx3s-toolchain">this repo</a>. Note that <a href="https://github.com/SymbiFlow/prjtrellis/issues/122">4GB is now the minimum RAM to build prjtrellis</a>, <a href="https://github.com/YosysHQ/nextpnr/issues/115">5GB to build nextpnr-ecp5</a>
+, and at least 30GB disk.<br />
+<br />
+First, I'd like to extend my thanks to Tim "mithro" Ansell for giving me a pair of Hacker Fomu's at Hackaday 2019. I'm so glad I had a chance to meet him. What an awesome guy!
+<br />
+<br />Many of my notes here are quite similar to 
+<a href="{{ site.baseurl }}{% post_url 2019-01-27-risc-v-on-tinyfpga-bx-via-wsl-with %}">my previous, multi-part post on setting up a RISC-V on the tinyFPGA-BX</a>.&nbsp; See also Luke's&nbsp;<a href="http://chmod%20+x%20ulx3s_wsl_toolchain.sh%20./ULX3S_WSL_Toolchain.sh">picosoc example code here</a>
+.<br />
+<br />There are 
+<a href="https://workshop.fomu.im/en/latest/requirements.html#which-fomu-do-i-have">multiple FOMU versions</a>. My FOMU that I received from Tim looks like this and is the hacker version, using the bash command <code class="highlight">export FOMU_REV=hacker</code>
+:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/my_fomu.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="413" data-original-width="406" height="320" src="../images/s320/my_fomu.PNG" width="313"></a>
+</div>
+<br />
+<br />The 
+<a href="https://www.adafruit.com/product/4332">Adafruit FOMU (#4332)</a>
+ is the production version:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/adafruit_fomu.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="389" data-original-width="335" height="320" src="../images/s320/adafruit_fomu.PNG" width="275"></a>
+</div>
+<br />I started following along the 
+<a href="https://github.com/timvideos/litex-buildenv/wiki/Getting-started-with-FOMU-(an-FPGA-in-your-USB-port)">timvideos getting started</a>
+ but didn't have a lot of success.<br />
+<br />The tutorial references and links to 
+<a href="https://github.com/im-tomu/foboot/tree/master/releases/v1.8.1">foboot 1.8.1 (evt-installable.dfu)</a> I eventually noticed in the <a href="https://github.com/im-tomu/foboot/tree/master/releases">list of releases</a> and a note that the Hacker version did not have support until <a href="https://github.com/im-tomu/foboot/tree/master/releases/v1.8.8">Version 1.8.8</a>
+. Of course it didn't. No fun if it's too easy. :)<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/fomu_initial_version.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="200" data-original-width="659" height="116" src="../images/s400/fomu_initial_version.PNG" width="400"></a>
+</div>
+<br />
+<br />I also ordered an even more robust, known-good CircuitPython board, the 
+<a href="https://www.adafruit.com/product/3403">Adafruit Feather M0 Express</a>. This started me down yet another <a href="https://twitter.com/gojimmypi/status/1234246192176881672?s=09">rabbit hole</a>&nbsp;(specifically <a href="https://twitter.com/gojimmypi/status/1234671369087963145?s=20">this</a>
+)&nbsp;as the fomu didn't play well when sharing a USB hub.<br />
+<br />Also - in my case, for some reason the Ubuntu VM no longer had an IP address after rebooting the host. Apparently&nbsp;
+<a href="https://askubuntu.com/questions/793214/unable-to-access-internet-on-vmware">others have had the same problem</a>. Indeed I needed to add this to my <code class="highlight">/etc/network/interfaces</code> after confirming <code class="highlight">ens33</code> was the name of my network adapter with the&nbsp;<code class="highlight">ip address</code>
+ command. Nothing is ever as easy as it is supposed to be. The fun never stops! ;)<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# The primary network interface
+auto ens33
+iface ens33 inet dhcp</code></pre>
+confirm that ens33 is the proper device.
+<br />
+<br />
+Update: it seems that Ubuntu only "forgets" the IP address assignment if the VM is paused. During reboots or initial install - the network interface works properly with no edits to the interface file. 
+<br />
+<br />Oh - and more that the default 20GB disk space is needed (40GB is safe, but perhaps as little as 35GB) if doing this in a VM. Ubuntu does not automatically recognize a bigger disk after it has been expanded, so gparted needs to be installed 
+<a href="https://unix.stackexchange.com/questions/196512/how-to-extend-filesystem-partition-on-ubuntu-vm">as explained on stackexchange</a>
+. Simply right-click and select "Resize/Move". Be sure to click on the little green check mark to apply changes.<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/Screenshot_from_2020-03-04_07-47-06.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="818" data-original-width="747" height="400" src="../images/s400/Screenshot_from_2020-03-04_07-47-06.png" width="365"></a>
+</div>
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+cd ~
+# does dfu-util work?
+dfu-util -l
+# if "Cannot open DFU device 1209:5bf0" try sudo
+sudo dfu-util -l
+# can't find dfu-util with sudo?
+whereis dfu-util
+# here we go
+sudo /home/gojimmypi/ecp5-toolchain-linux_x86_64-v1.6.2/bin/dfu-util -l
+# upgrade foumu
+cd workspace
+mkdir fomu
+cd fomu
+wget https://github.com/im-tomu/foboot/raw/master/releases/v1.8.1/evt-installable.dfu
+sudo /home/gojimmypi/ecp5-toolchain-linux_x86_64-v1.6.2/bin/dfu-util -D evt-installable.dfu</code></pre>
+<br />
+If successful, should give output like this:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+dfu-util 0.9
+Copyright 2005-2009 Weston Schmidt, Harald Welte and OpenMoko Inc.
+Copyright 2010-2019 Tormod Volden and Stefan Schmidt
+This program is Free Software and has ABSOLUTELY NO WARRANTY
+Please report bugs to http://sourceforge.net/p/dfu-util/tickets/
+Match vendor ID from file: 1209
+Match product ID from file: 5bf0
+Opening DFU capable USB device...
+ID 1209:5bf0
+Run-time device DFU version 0101
+Claiming USB DFU Interface...
+Setting Alternate Setting #0 ...
+Determining device status: state = dfuIDLE, status = 0
+dfuIDLE, continuing
+DFU mode device DFU version 0101
+Device returned transfer size 1024
+Copying data from PC to DFU device
+Download [=========================] 100%       106814 bytes
+Download done.
+state(7) = dfuMANIFEST, status(0) = No error condition is present
+state(8) = dfuMANIFEST-WAIT-RESET, status(0) = No error condition is present
+Done!</code></pre>
+<br />To more gracefully setup permissions see the 
+<a href="https://workshop.fomu.im/en/latest/requirements.html#setup-udev-rules">fomu docs</a>
+. Basically:<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# add this line to /etc/udev/rules.d/99-fomu.rules
+SUBSYSTEM=="usb", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="5bf0", MODE="0664", GROUP="plugdev"</code></pre>
+<br />
+And then:  
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo groupadd plugdev
+sudo usermod -a -G plugdev $USER
+id $USER
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+# logoff then back on</code></pre>
+
+<br />
+<br />Next, we want to have the 
+<a href="https://github.com/rxrbln/picorv32">rxrbln ULX3S version of PicoRV32</a>
+:  <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# on a completely new system:
+THISRISCV=riscv32i
+THIS_RISCV_PATH=/opt/$THISRISCV/bin
+MIN_ULX3S_MEMORY=5050000
+if [ $(free | grep Mem | awk '{ print $2 }') -lt $MIN_ULX3S_MEMORY ]; then
+  echo ""
+  echo "System memory found:"
+  free
+  echo ""
+  read -p "Warning, at least $MIN_ULX3S_MEMORY bytes of memory is needed. Press$
+fi
+sudo apt-get update --assume-yes 
+sudo apt-get upgrade --assume-yes
+sudo apt-get install git --assume-yes
+cd ~
+mkdir -p ~/workspace
+cd workspace
+git clone https://github.com/rxrbln/picorv32.git
+cd picorv32
+sudo apt-get install make        --assume-yes
+sudo apt-get install make-guile  --assume-yes
+sudo apt-get install libgmp3-dev --assume-yes
+sudo apt-get install libmpfr-dev --assume-yes
+sudo apt-get install libmpc-dev  --assume-yes
+sudo apt-get install autoconf automake autotools-dev curl libmpc-dev \
+        libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo \
+    gperf libtool patchutils bc zlib1g-dev git libexpat1-dev --assume-yes
+make download-tools
+# install *all four* riscv flavor toolchains:
+# make -j$(nproc) build-tools
+# or install only riscv32i:
+sudo mkdir /opt/riscv32i
+sudo chown $USER /opt/riscv32i
+git clone https://github.com/riscv/riscv-gnu-toolchain riscv-gnu-toolchain-rv32i
+cd riscv-gnu-toolchain-rv32i
+git checkout 411d134
+# if you see fatal: clone of 'git://  ... 
+# users sitting behind a firewall may need these:
+git config --global url.https://github.com/.insteadOf git://github.com/
+git config --global url.https://git.qemu.org/git/.insteadOf git://git.qemu-project.org/
+git config --global url.https://anongit.freedesktop.org/git/.insteadOf git://anongit.freedesktop.org/
+git config --global url.https://github.com/riscv.insteadOf git://github.com/riscv
+# this next statement takes a long time. be patient:
+git submodule update --init --recursive
+mkdir build; cd build
+../configure --with-arch=rv32i --prefix=/opt/riscv32i
+make -j$(nproc)
+# see if it is working:
+/opt/riscv32i/bin/riscv32-unknown-elf-gcc --version
+# add to path
+if [ "$(cat ~/.bashrc | grep  $THIS_RISCV_PATH)" == "" ]; then
+  echo PATH=$PATH:$THIS_RISCV_PATH &gt;&gt; ~/.bashrc
+  echo "~/.bashrc updated with this line:"
+  echo PATH=$PATH:$THIS_RISCV_PATH
+else
+  echo "Found $THIS_RISCV_PATH in ~/.bashrc - path not changed."
+fi
+if [ "$(echo $PATH | grep  $THIS_RISCV_PATH)" == "" ]; then
+  export PATH=$PATH:$THIS_RISCV_PATH
+  echo "Updated current path: $PATH"
+else
+  echo "Path not updated. PATH=$PATH"
+fi
+cd ~/workspace
+git clone https://gist.github.com/gojimmypi/f96cd86b2b8595b4cf3be4baf493c5a7 ulx3s_fpga_toolchain
+cd ulx3s_fpga_toolchain
+chmod +x ULX3S_WSL_Toolchain.sh
+./ULX3S_WSL_Toolchain.sh</code></pre>
+<br />Run scripts with the 
+<a href="https://stackoverflow.com/questions/18547881/shell-script-to-set-environment-variables">source command</a> if you don't want to start a new shell, or manually set path. You may wish to put this line at the end of your <code class="highlight">~/.bashrc</code>
+ file: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+#add path to riscv32i compiler
+PATH=/opt/riscv32i/bin:$PATH</code></pre>
+<br />
+Once the RISC-V toolchain is installed, there's some sample code in the picosoc directory. Fortunately rxrbln has already made some modifications in the Makefile for the ULX3S. The C code is compiled with:
+<br />
+<code class="highlight"></code><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+make ulx3s_fw.img</code></pre>
+<br />
+<br />
+To upload the code to the ULX3S:
+<br />
+<code class="highlight"></code><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+make ulx3sprog</code></pre>
+<br />
+<br />
+Note from the Makefile there are 2 key steps: #1 to put the ulx3s.bit soft CPU onto the FPGA, then #2 put the firmware into FLASH memory: 
+<code class="highlight"></code><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+/usr/src/f32c-ujprog/ujprog/ujprog -j FLASH -f 0x200000 ulx3s_fw.img
+/usr/src/f32c-ujprog/ujprog/ujprog -t ulx3s.bit # -j FLASH </code></pre>
+<br />
+<br />The default install directory for ujprog is 
+<code class="highlight">/usr/local/bin/ujprog</code> however the rxrbln Makefile expects it to be <code class="highlight">
+/usr/src/f32c-ujprog/ujprog/ujprog</code><br />
+so we'll just create a quick symlink 
+<code class="highlight"></code><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo mkdir -p /usr/src/f32c-ujprog/ujprog/
+sudo ln -s /usr/local/bin/ujprog /usr/src/f32c-ujprog/ujprog/ujprog</code></pre>
+yosys/nextpnr/ https://gist.github.com/gojimmypi/243fc3a6eead72ae3db8fd32f2567c96<br />
+<br />
+<br />In the end, I put together 
+<a href="https://github.com/gojimmypi/ulx3s-toolchain">a full ULX3S toolchain installer</a>
+. Next blog I go into details of actually getting the soft CPU and RISC-V code onto the ULX3S.<br />
+<br />
+<br />
+Other stuff:
+<br />
+<br />TODO - do we really want a 
+<a href="https://github.com/cliffordwolf/picorv32#building-a-pure-rv32i-toolchain">2+ year old RV32I toolchain</a>
+? (note git checkout 411d134)<br />
+<br />
+<br />
+<br />
+&nbsp;* https://workshop.fomu.im/en/latest/  
+<br />
+<br />
+See also: 
+<br />
+<br />
+<a href="https://blog.adafruit.com/2019/12/02/a-cobbled-together-profiler-for-circuitpython-circuitpython-circuitpython-xobs/">A cobbled-together profiler for CircuitPython</a>
+.<br />
+<br />
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:54 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

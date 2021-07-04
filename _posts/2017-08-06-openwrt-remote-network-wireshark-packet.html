@@ -10,4 +10,135 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-88856750451602722
 blogger_orig_url: https://gojimmypi.blogspot.com/2017/08/openwrt-remote-network-wireshark-packet.html
 ---
 
-After my last post on <a href="{{ site.baseurl }}{% post_url 2017-07-22-openwrt-on-ea3500-with-rtl-sdr-stream %}">installing OpenWrt on a Cisco/LinkSys EA3500 to stream RTL-SDR data</a>, I was inspired to investigate other "interesting" data to stream from a WiFi hub. In particular I was hoping to sniff some ESP8266/ESP32 packets during development.<br /><br />&nbsp;I had an old Linksys E1200 on hand. Things looked a <a href="https://wiki.openwrt.org/toh/linksys/linksys_e1200_2">little bleak as the OpenWrt site seemed to indicate there were some issues</a>. However the router noted there was apparently slightly different than mine (I have the Cisco logo) so I thought I'd give it a try.<br /><br />At the bottom of the <a href="https://wiki.openwrt.org/toh/hwdata/linksys/linksys_e1200_2">Linksys TechData</a> page I found a link to the <a href="https://downloads.openwrt.org/chaos_calmer/15.05/brcm47xx/mips74k/openwrt-15.05-brcm47xx-mips74k-linksys-e1200-v2-squashfs.bin">OpenWrt firmware:&nbsp;openwrt-15.05-brcm47xx-mips74k-linksys-e1200-v2-squashfs.bin</a>&nbsp;and downloaded it (there are <a href="https://downloads.openwrt.org/chaos_calmer/15.05.1/brcm47xx/mips74k/">other downloads here</a>&nbsp;in case you don't have a V2, etc). Install was easy from the stock Linksys firmware. I was able to easily telnet to IP 192.168.1.1 - a fixed address when plugging the router into my test network, not via DHCP. This also meant it had no clue as to DNS, default router, etc. Surprisingly LuCI came pre-installed with the bin image. I still edited the config file manually.<br /><br />You'll probably need to use vi to edit the<a href="https://wiki.openwrt.org/doc/uci/network"> config files</a>&nbsp;if you don't use LuCI:<br /><code></code><br /><pre><code>i          - to insert<br />[esc] :qw  - to same and exit<br /></code></pre>I added only 2 lines to the /etc/config/network file - the gateway and dns settings: <code></code><br /><pre><code>config interface 'lan'<br />        option ifname 'eth0.1'<br />        option force_link '1'<br />        option type 'bridge'<br />        option proto 'static'<br />        option ipaddr '192.168.1.1'<br />        option netmask '255.255.255.0'<br />        option gateway '192.168.1.10'<br />        option dns '8.8.8.8'<br />        option ip6assign '60'<br /></code></pre><code></code> Reload the network settings: <br /><code></code><br /><pre><code>/etc/init.d/network reload<br /></code></pre>Try to ping google.com (or anything on the internet) from the router. If successful, install a few things: <br /><pre><code>opkg update<br />opkg install nano # install nano if you don't know VI/VIM very well<br />opkg install tcpdump # this is the important part that will be called remotely from you client wireshark<br /></code></pre><br />On your local Ubuntu:<br /><pre><code>sudo apt-get install wireshark<br />sudo mkfifo /tmp/pipe<br />sudo chmod 777 /tmp/pipe<br /></code></pre><code></code><br />Or on Windows WSL (Ubuntu on Windows 10): <code></code><br /><pre><code>sudo apt-get install wireshark<br />sudo apt-get install x11-apps<br />export DISPLAY=:0 # you may wish you put in this your ~/.bashrc<br />sudo pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR wireshark<br /></code></pre>Then for wireshark: <br /><pre><code>wireshark -k -i /tmp/pipe &amp; ssh root@192.168.1.1 "tcpdump -i any -s 0 -U -w - not port 22" &gt; /tmp/pipe<br /></code></pre>It should look something like this. There's initially a failure message, but then a few moments later a password prompt. One you login, all the WiFi router packets should be forwarded to the your&nbsp;local network packet capture! <br /><pre><code>0 $ wireshark -k -i /tmp/pipe &amp; ssh root@192.168.1.1 "tcpdump -i any -s 0 -U -w - not port 22" &gt; /tmp/pipe<br />[3] 4709<br />Failed to connect to generic netlink.<br />root@192.168.1.1's password:<br />tcpdump: listening on any, link-type LINUX_SLL (Linux cooked), capture size 65535 bytes<br /></code></pre><br />For Windows 10 WSL: I downloaded <a href="https://xming.en.softonic.com/download">XMing X-windows client.</a>&nbsp;Be careful,there are a lot of fake download links there. If you know of a better place to download XMing or some other Windows X-windows client, please let me know. Despite being 8 years old - XMing seems to work well on Windows 10:<br /><br /><br /><table cellpadding="0" cellspacing="0" class="tr-caption-container" style="float: left; margin-right: 1em; text-align: left;"><tbody><tr><td style="text-align: center;"><a href="https://1.bp.blogspot.com/-ruu57HmOx6c/WYdx4hkhsII/AAAAAAAAAn8/CPUhKbZ_OUwMH8nCIjB4TOy7sEa0FbzNwCLcBGAs/s1600/ping.PNG" imageanchor="1" style="clear: left; margin-bottom: 1em; margin-left: auto; margin-right: auto;"><img border="0" data-original-height="318" data-original-width="517" height="245" src="https://1.bp.blogspot.com/-ruu57HmOx6c/WYdx4hkhsII/AAAAAAAAAn8/CPUhKbZ_OUwMH8nCIjB4TOy7sEa0FbzNwCLcBGAs/s400/ping.PNG" width="400" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Pinging google from local router</td></tr></tbody></table><br /><br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="float: left; margin-right: 1em; text-align: left;"><tbody><tr><td style="text-align: center;"><a href="https://2.bp.blogspot.com/-daIM8-7hOhg/WYdxR7AN9rI/AAAAAAAAAn0/pUiWcXRM9eM71ieebABI8CPjPeYpGTsiwCLcBGAs/s1600/packet%2Bpeek.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" data-original-height="630" data-original-width="979" height="256" src="https://2.bp.blogspot.com/-daIM8-7hOhg/WYdxR7AN9rI/AAAAAAAAAn0/pUiWcXRM9eM71ieebABI8CPjPeYpGTsiwCLcBGAs/s400/packet%2Bpeek.PNG" width="400" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">viewing local router traffic on remote WSL WireShark w/XMing</td></tr></tbody></table><div class="separator" style="clear: both; text-align: center;"><br /></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-3PY36Lz4nF4/WYdwr6Xt5gI/AAAAAAAAAn4/Lmo6hhhIPXAJ6R1AH_3FgvQbObpATv-BACEwYBhgL/s1600/XMing.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="528" data-original-width="788" height="268" src="https://1.bp.blogspot.com/-3PY36Lz4nF4/WYdwr6Xt5gI/AAAAAAAAAn4/Lmo6hhhIPXAJ6R1AH_3FgvQbObpATv-BACEwYBhgL/s400/XMing.PNG" width="400" /></a></div><br /><br /><br /><br /><ul><li><a href="http://bbb-solutions.blogspot.com/2015/12/monitor-openwrt-traffic-with-wireshark.html">Monitor OpenWRT Traffic with Wireshark</a></li><li><a href="https://superuser.com/questions/1075659/open-ubuntu-bashs-gui-applications-on-windows-10">superuser.com - Open Ubuntu Bash's GUI applications on Windows 10</a></li><li><br /></li></ul>
+After my last post on <a href="{{ site.baseurl }}{% post_url 2017-07-22-openwrt-on-ea3500-with-rtl-sdr-stream %}">installing OpenWrt on a Cisco/LinkSys EA3500 to stream RTL-SDR data</a>
+, I was inspired to investigate other "interesting" data to stream from a WiFi hub. In particular I was hoping to sniff some ESP8266/ESP32 packets during development.<br />
+<br />&nbsp;I had an old Linksys E1200 on hand. Things looked a 
+<a href="https://wiki.openwrt.org/toh/linksys/linksys_e1200_2">little bleak as the OpenWrt site seemed to indicate there were some issues</a>
+. However the router noted there was apparently slightly different than mine (I have the Cisco logo) so I thought I'd give it a try.<br />
+<br />At the bottom of the 
+<a href="https://wiki.openwrt.org/toh/hwdata/linksys/linksys_e1200_2">Linksys TechData</a> page I found a link to the <a href="https://downloads.openwrt.org/chaos_calmer/15.05/brcm47xx/mips74k/openwrt-15.05-brcm47xx-mips74k-linksys-e1200-v2-squashfs.bin">OpenWrt firmware:&nbsp;openwrt-15.05-brcm47xx-mips74k-linksys-e1200-v2-squashfs.bin</a>&nbsp;and downloaded it (there are <a href="https://downloads.openwrt.org/chaos_calmer/15.05.1/brcm47xx/mips74k/">other downloads here</a>
+&nbsp;in case you don't have a V2, etc). Install was easy from the stock Linksys firmware. I was able to easily telnet to IP 192.168.1.1 - a fixed address when plugging the router into my test network, not via DHCP. This also meant it had no clue as to DNS, default router, etc. Surprisingly LuCI came pre-installed with the bin image. I still edited the config file manually.<br />
+<br />You'll probably need to use vi to edit the
+<a href="https://wiki.openwrt.org/doc/uci/network"> config files</a>
+&nbsp;if you don't use LuCI:<br />
+<code class="highlight"></code><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+i          - to insert
+[esc] :qw  - to same and exit</code></pre>
+I added only 2 lines to the /etc/config/network file - the gateway and dns settings: <code class="highlight"></code><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+config interface 'lan'
+        option ifname 'eth0.1'
+        option force_link '1'
+        option type 'bridge'
+        option proto 'static'
+        option ipaddr '192.168.1.1'
+        option netmask '255.255.255.0'
+        option gateway '192.168.1.10'
+        option dns '8.8.8.8'
+        option ip6assign '60'</code></pre>
+<code class="highlight"></code>
+ Reload the network settings: <br />
+<code class="highlight"></code><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+/etc/init.d/network reload</code></pre>
+Try to ping google.com (or anything on the internet) from the router. If successful, install a few things: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+opkg update
+opkg install nano # install nano if you don't know VI/VIM very well
+opkg install tcpdump # this is the important part that will be called remotely from you client wireshark</code></pre>
+<br />
+On your local Ubuntu:
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo apt-get install wireshark
+sudo mkfifo /tmp/pipe
+sudo chmod 777 /tmp/pipe</code></pre>
+<code class="highlight"></code><br />
+Or on Windows WSL (Ubuntu on Windows 10): 
+<code class="highlight"></code><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo apt-get install wireshark
+sudo apt-get install x11-apps
+export DISPLAY=:0 # you may wish you put in this your ~/.bashrc
+sudo pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR wireshark</code></pre>
+Then for wireshark: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+wireshark -k -i /tmp/pipe &amp; ssh root@192.168.1.1 "tcpdump -i any -s 0 -U -w - not port 22" &gt; /tmp/pipe</code></pre>
+It should look something like this. There's initially a failure message, but then a few moments later a password prompt. One you login, all the WiFi router packets should be forwarded to the your&nbsp;local network packet capture! <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+0 $ wireshark -k -i /tmp/pipe &amp; ssh root@192.168.1.1 "tcpdump -i any -s 0 -U -w - not port 22" &gt; /tmp/pipe
+[3] 4709
+Failed to connect to generic netlink.
+root@192.168.1.1's password:
+tcpdump: listening on any, link-type LINUX_SLL (Linux cooked), capture size 65535 bytes</code></pre>
+<br />For Windows 10 WSL: I downloaded 
+<a href="https://xming.en.softonic.com/download">XMing X-windows client.</a>
+&nbsp;Be careful,there are a lot of fake download links there. If you know of a better place to download XMing or some other Windows X-windows client, please let me know. Despite being 8 years old - XMing seems to work well on Windows 10:<br />
+<br />
+<br />
+<table cellpadding="0" cellspacing="0" class="tr-caption-container" style="float: left; margin-right: 1em; text-align: left;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/ping.PNG" imageanchor="1" style="clear: left; margin-bottom: 1em; margin-left: auto; margin-right: auto;">
+<img border="0" data-original-height="318" data-original-width="517" height="245" src="../images/s400/ping.PNG" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">
+Pinging google from local router</td></tr></tbody></table><br />
+<br />
+<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="float: left; margin-right: 1em; text-align: left;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/packet_peek.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;">
+<img border="0" data-original-height="630" data-original-width="979" height="256" src="../images/s400/packet_peek.PNG" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">viewing local router traffic on remote WSL WireShark w/XMing</td></tr></tbody></table>
+<div class="separator" style="clear: both; text-align: center;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/XMing.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="528" data-original-width="788" height="268" src="../images/s400/XMing.PNG" width="400"></a>
+</div>
+<br />
+<br />
+<br />
+<br />
+<ul><li><a href="http://bbb-solutions.blogspot.com/2015/12/monitor-openwrt-traffic-with-wireshark.html">Monitor OpenWRT Traffic with Wireshark</a></li><li><a href="https://superuser.com/questions/1075659/open-ubuntu-bashs-gui-applications-on-windows-10">
+superuser.com - Open Ubuntu Bash's GUI applications on Windows 10</a></li><li><br />
+</li></ul><br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:53 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

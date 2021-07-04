@@ -10,4 +10,351 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-63051142064668175
 blogger_orig_url: https://gojimmypi.blogspot.com/2017/10/atecc508a-embedded-crypto-first.html
 ---
 
-Having an embedded crypto chip to offload SSL processing for say, an ESP8266 sounds really quite interesting - particularly a solution that could be housed in a package as small as a tiny 3-Lead SOT-3 package! Wow, how cool would that be to help solve the problem of plain text IoT devices on devices with limited processing power and memory?<br /><br />First, I'd like to thank <a href="https://twitter.com/MartyMacGyver/status/876320265889751044"><complete id="goog_1493950466">@</complete>MartyMacGyver</a> for his time and assistance in helping me to better understand the Atmel crypto chips and related development boards. Be sure to see see his <a href="https://github.com/MartyMacGyver/CryptoAuth-explorations">CryptoAuth-explorations</a>. As with his information, this project is neither affiliated with nor sponsored by Microchip / Atmel.<br /><br />My <a href="http://www.atmel.com/tools/AT88CK590.aspx">AT88CK590 </a>from <a href="http://www.mouser.com/ProductDetail/Microchip/AT88CK590/">Mouser Electronics</a> arrived<strike> last week</strike>! (erm, by the time I published this, actually a couple of months ago). Atmel has apparently not heard of "Frustration Free Packaging". Petty cardboard complaint aside, even the cheap plastic USB cap was very difficult to remove. Alas only twenty bucks, but you'd think that they'd want to make a better first impression with a developer kit, eh? Besides, you'll probably want to <a href="https://github.com/MartyMacGyver/CryptoAuth-explorations/wiki/Modding-the-USB-Dongle's-Hardware">pry it open anyhow</a>. I took a soldering iron to mine and flattened the bumps that hold the USB cover in place to make it easier to remove.<br /><br />I first upgraded Atmel Studio (Help - Check for Updates). That took quite some time. Next I installed the&nbsp;<a href="http://www.atmel.com/System/BaseForm.aspx?target=tcm:26-17838">ACES 5.0.0 Setup</a> from the <a href="http://www.atmel.com/tools/AT88CK590.aspx">ATT88CK50</a> page. You must have a device to use the software. Otherwise nothing but the "No devices" dialog box:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-ljPaB58pREY/WUw7zlqxIhI/AAAAAAAAAc4/b3wymDhhpH4_EoExPe6zqb-tFcJMszUTwCLcBGAs/s1600/ATT88CK50%2Bstartup..PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="128" data-original-width="333" height="152" src="https://1.bp.blogspot.com/-ljPaB58pREY/WUw7zlqxIhI/AAAAAAAAAc4/b3wymDhhpH4_EoExPe6zqb-tFcJMszUTwCLcBGAs/s400/ATT88CK50%2Bstartup..PNG" width="400" /></a></div><br />Once you plug in the device, the dialog box will change:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-D1pFelGzt9o/WUw8OqL4rKI/AAAAAAAAAc8/2JeMQXpqL8Mja7Ttr0dDbz3gfdlqRI29ACLcBGAs/s1600/ATT88CK50%2Bstartup2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="213" data-original-width="273" src="https://3.bp.blogspot.com/-D1pFelGzt9o/WUw8OqL4rKI/AAAAAAAAAc8/2JeMQXpqL8Mja7Ttr0dDbz3gfdlqRI29ACLcBGAs/s1600/ATT88CK50%2Bstartup2.PNG" /></a></div><br />Note that the AT88CK590 USB dongle has 3 different security chips on it, each with 3 different I2C addresses. These three chips are controlled by the onboard ATmega 8-bit&nbsp;<a href="http://www.microchip.com/wwwproducts/en/AT90USB1287">Atmel AVR® AT90USB1287 microcontroller</a>. The <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/doc7593.pdf">complete&nbsp;AT90USB1287 datasheet</a> is a whopping 456 pages long, There's also a <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/7593S.pdf">summary datasheet</a> that's only 39 pages. The <a href="http://www.atmel.com/Images/Atmel-CryptoAuth-AT88CK590_Schematics.pdf">schematic diagram</a> is likely useful for review.<br /><br />The important thing here: when test driving the crypto-chips directly on the USB dongle, code will target the ATUSB1287. Code will also need to be portable to your target MCU,<br /><br />While reviewing the schematic, you'll see that the USB port talks *only* to the MCU, Only the MCU talks on the I2C bus to the security devices. Thus if you put different firmware on it, you could well find yourself no longer able to use the ACES software to talk to the security chips. Program with caution!<br /><br />As a side note, when using Atmel Studio, here's a list of the supported programming tools for the ATUSB1287. Probably the most important one is that last DFU item.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/--USWXYr29Nw/WU2lniYOMOI/AAAAAAAAAe0/2LEhIDoO2jgCLKvjLEfdiDdughXjL154ACLcBGAs/s1600/device%2Bprogramming.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="535" data-original-width="766" height="277" src="https://1.bp.blogspot.com/--USWXYr29Nw/WU2lniYOMOI/AAAAAAAAAe0/2LEhIDoO2jgCLKvjLEfdiDdughXjL154ACLcBGAs/s400/device%2Bprogramming.PNG" width="400" /></a></div><br /><br />The so-called "walk-through"s in the AECS Config help were less than impressive. I swear the help looked the same as those found in Windows 3.1 - and worse: the contents also did not fully match my app. For example: there was no green indicator for system status:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-mjcT3g4cPeU/WUxH-kd4C-I/AAAAAAAAAdc/0fCIMtjapuMl01IS5LmduqhN8AFBKN_oACLcBGAs/s1600/system%2Bstatus.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="541" data-original-width="534" height="400" src="https://2.bp.blogspot.com/-mjcT3g4cPeU/WUxH-kd4C-I/AAAAAAAAAdc/0fCIMtjapuMl01IS5LmduqhN8AFBKN_oACLcBGAs/s400/system%2Bstatus.PNG" width="393" /></a></div><br />Next, there was no mention of the most important point - that the Key ID number for step 2 needs to match Key ID in step #3. &nbsp;Obvious of course once you know this - but for first time users following a Walk-Through... hmm.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-J6qCXZi6BYs/WUxH-enaYdI/AAAAAAAAAdY/rz4o6vFZZlguOXIpAyZRefiQcmJTWHBsgCLcBGAs/s1600/Validate%2BMAC.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="587" data-original-width="460" height="400" src="https://3.bp.blogspot.com/-J6qCXZi6BYs/WUxH-enaYdI/AAAAAAAAAdY/rz4o6vFZZlguOXIpAyZRefiQcmJTWHBsgCLcBGAs/s400/Validate%2BMAC.PNG" width="312" /></a></div><br />So anyhow, type a challenge phrase, press the [Execute Nonce] button, then [Execute Mac] then [Execute CheckMac]. If successful there should be a Matched status.<br /><br />The ATAES132 walk-though is even less complete &amp; less helpful.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-cRHEvxXgPik/WUxJpd3591I/AAAAAAAAAdo/BTInEbDmAd4Pwn_jk341iOidz8qwQhF8QCLcBGAs/s1600/AT%2Bwalk%2Bthrough.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="271" data-original-width="225" src="https://3.bp.blogspot.com/-cRHEvxXgPik/WUxJpd3591I/AAAAAAAAAdo/BTInEbDmAd4Pwn_jk341iOidz8qwQhF8QCLcBGAs/s1600/AT%2Bwalk%2Bthrough.PNG" /></a></div><br />There's only online help for 2 of the 3 chips: the ATSHA204 and and ATAES132. Of course my <a href="http://www.mouser.com/ProductDetail/Microchip-Technology-Atmel/ATECC508A-SSHDA-B/">ATECC508A</a> is not listed. :| &nbsp;The only reason I ordered this evaluation kit was to take that chip for a test drive. After a bit of digging, I eventually discovered "<i><a href="http://www.microchip.com/design-centers/security-ics/cryptoauthentication/sha">The ATECC108A and ATECC508A are supersets of the ATSHA204A and thus upward compatible</a></i>". I was unable to find a full datasheet for the 508 - however once knowing that it is a superset of the <a href="http://www.atmel.com/Images/Atmel-8885-CryptoAuth-ATSHA204A-Datasheet.pdf">ATSHA204A</a>, one makes the assumption that the <a href="http://www.atmel.com/Images/Atmel-8885-CryptoAuth-ATSHA204A-Datasheet.pdf">datasheet</a> is (hopefully) "similar enough" to the 508.<br /><br />An important piece of information in the&nbsp;<a href="http://www.atmel.com/Images/Atmel-8885-CryptoAuth-ATSHA204A-Datasheet.pdf">ATSHA204A datasheet</a>&nbsp;(page 14, Section 2.1.3):<br /><blockquote class="tr_bq">"<i>The OTP zone of 64 bytes (512 bits) is part of the EEPROM array, and can be used for read-only storage.</i>&nbsp;</blockquote><blockquote class="tr_bq"><i>Prior to locking the configuration section (using lockConfig), the OTP zone is inaccessible and can be neither read nor written. After configuration locking, but prior to locking of the OTP zone (using lockData), the entire OTP zone can be written using the Write command. If desired, the data to be written can be encrypted. When unlocked the OTP zone cannot be read.</i>"</blockquote><br /><div>Once you start the AECS Config tool, it appears there is no way to select a different chip to test drive. So exit and restart the app to choose a different one.<br /><br />Upon restarting and selecting the 508, I was not able to get the Verify Mac to work. It appears that although the other two chips are pre-configured, this one is not. That may be expected in the stand-alone chips. I had <a href="https://twitter.com/gojimmypi/status/874709854518034432">asked mouser if I could buy individual quantities of the ATTEC508A-SSHAW (the ones pre-configured for AWS)</a> - but unfortunately they responded indicating that they could not break the 4000-piece reels. Still I would have expected the &nbsp;<a href="http://www.atmel.com/tools/AT88CK590.aspx">ATT88CK50</a>&nbsp;to arrive pre-configured with something even if the individual 508's that I also bought were blank.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-IUgR6Z5QjLg/WUxLmQhUQHI/AAAAAAAAAeA/9ZsY3ZF3DmcB_O13zeRQ5aXUo4oXI6kDACLcBGAs/s1600/Test%2B508.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="619" data-original-width="1154" height="340" src="https://1.bp.blogspot.com/-IUgR6Z5QjLg/WUxLmQhUQHI/AAAAAAAAAeA/9ZsY3ZF3DmcB_O13zeRQ5aXUo4oXI6kDACLcBGAs/s640/Test%2B508.PNG" width="640" /></a></div><br />So also take note of the downloads on the Atmel site. The first two code samples after the ACES software are for the ATSHA204 chip, <b>not</b> the ATECC508A.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-H8lsYfHz820/WUxMgebXi0I/AAAAAAAAAeY/G5ydq_GMpMYbJ9H7FTBs1NcCTMmv1ycGQCLcBGAs/s1600/downloads.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="222" data-original-width="662" height="214" src="https://1.bp.blogspot.com/-H8lsYfHz820/WUxMgebXi0I/AAAAAAAAAeY/G5ydq_GMpMYbJ9H7FTBs1NcCTMmv1ycGQCLcBGAs/s640/downloads.PNG" width="640" /></a></div>The last download, the&nbsp;<a href="http://www.atmel.com/images/Atmel-CryptoAuth-AT88CK590_Project-C-code.zip">Atmel-CryptoAuth-AT88CK590_Project-C-code.zip</a> has over 3000 files. Alas that too, seems to be limited to the SHA204 and AES132 libraries. Cool if that's what you are looking for, but I was hoping to dig into the new '508s (the third and most interesting of the chips!)<br /><br />So back to the Atmel/Microchip web site... &lt;sigh&gt; and I came across <a href="http://www.atmel.com/products/security-ics/cryptoauthentication/ecc-256.aspx">this page on ECC-based Crypto Elements</a>. Clicking on <a href="http://www.atmel.com/products/security-ics/cryptoauthentication/start-now.aspx">"start now" takes you to yet another crypto page</a>. Chasing the links and you'll find the <a href="http://www.atmel.com/tools/AT88CK101.aspx">AT88CK101 Development Kit</a>. Finally on THAT page, there's a link to the&nbsp;<a href="http://www.atmel.com/Images/Atmel-CryptoAuth-ATECC108A-508A_Library-Distributable_1.2.1.zip">CryptoAuthentication ATECC108A/508A Development Library 1.2.1 download</a>. This is the <b>eccX08_library-150525</b> with a brief README and some C header and source files; not much of a walk-though here, but code is interesting.<br /><br />As for the AT88CK101 - well Mouser has <a href="http://www.mouser.com/Search/Refine.aspx?Keyword=AT88CK101+Development+Kit">6 similar but different products listed</a>, Each are about $90 but none of which list the ATECC508A. So I'm not sure if it would be useful or not with the '508.<br /><br />Continuing to chase the links, you'll see further down on the <a href="http://www.atmel.com/products/security-ics/cryptoauthentication/start-now.aspx">Start Now page</a>, that there's a link to&nbsp;<a href="http://www.atmel.com/tools/CryptoAuthLib.aspx">CryptoAuthLib</a>. &nbsp;And on THAT page, there's a link to the&nbsp;<a href="http://www.atmel.com/images/Atmel-CryptoAuthLib-Firmware_20160108.zip">CryptoAuthLib Firmware Library 20160108</a>. This is a 12MB compressed zip with many more interesting files. I'd start with the .\cryptoauthlib\docs\README.pdf then move on to .\cryptoauthlib\docs\html\index.html where there's finally some good docs! Also see there's a <a href="http://www.atmel.com/tools/CryptoAuthLib.aspx?tab=documents">doc tab, with even more downloads</a>.<br /><br />I was not able to find this code in the <a href="https://github.com/atmelcorp">Atmel github repository</a>, nor the <a href="https://github.com/MicrochipTech">MicroChip github respository</a>. However, MicroChip does have this<a href="https://github.com/MicrochipTech/cryptoauth-openssl-engine"> github cryptoauth-openssl-engine repository</a> that is definitely worth a look. The <a href="https://github.com/MicrochipTech/cryptoauth-openssl-engine/blob/master/README.md">README</a> there starts out with: "<i>This is an OpenSSL Engine implementation using ATECC508A for ECC key storage, ECDSA sign/verify, ECDH, and FIPS Random Number Generator</i>" and there's a cool <a href="https://github.com/MicrochipTech/cryptoauth-openssl-engine/wiki">wiki</a> as well.<br /><br />After finding the MicroChip github, I realized that there's an entirely <a href="http://www.microchip.com/wwwproducts/en/ATECC508A">different subset of documentation and downloads for the ATECC508A</a>&nbsp;available, separate and different from Atmel. Apparently a cohesive and consistent web site has not been a priority after the acquisition.<br /><br />I really prefer that code be available on github, rather than zip downloads. So I copied what I believe are the most relevant source files to my own <a href="https://github.com/gojimmypi/atmel-code">atmel-code repository</a>. My github clones are stored in \workspace\ directory, so be sure to start with:<br /><br />\workspace\atmel-code\cryptoauthlib\docs\html\index.html<br /><br />After getting all this installed, I just happened to be lucky enough to be on the<a href="https://github.com/MicrochipTech/cryptoauth-openssl-engine/issues/1#issuecomment-314552806"> github notification email alert for issue #1</a>&nbsp;and there.. a <a href="http://www.microchip.com/SWLibraryWeb/product.aspx?product=CryptoAuthLib">link in the MicroChip site to this updated CryptoAuthLib gem (updated &nbsp;July 5, 2017)</a>. Note the CryptoAuthLib link above, specifically the &nbsp;<a href="http://ww1.microchip.com/downloads/en//softwarelibrary/cryptoauthlib/atmel-cryptoauthlib-firmware_20160108.zip">Atmel-CryptoAuthLib-Firmware_20160108.zip</a> is noted on this new page as "<b><i>Not recommended for New Designs</i></b>" - note there's also no indication of this new firmware on the <a href="http://www.atmel.com/tools/CryptoAuthLib.aspx">Atmel CryptoAuthLib page</a>!<br /><br />If you download that updated zip file - in the README.md there's a note to watch the <a href="http://www.atmel.com/tools/CryptoAuthLib.aspx?tab=documents">CryptoAuthLib documents (on the Atmel site)</a> for "new examples coming online". (as of the timw of my writing this, there's noting newer than January of 2016). I wonder why MicroChip would post new code on the Atmel site, referenced from a download from the MicroChip site?<br /><br />Revisiting the mod topic, the <a href="http://www.atmel.com/tools/flip.aspx">Atmel Flip 3.4.7</a> as mentioned <a href="https://github.com/MartyMacGyver/CryptoAuth-explorations/wiki/Flashing-the-USB-Dongle's-Firmware">here</a> does not seem to work on Windows 10. Both the "requires Java Runtime and "Jave Runtime Included" return an error message:<br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-5oxqEb-1VwE/WU2u83WDoTI/AAAAAAAAAfQ/ps1smTceeKwJdGjlNUJ2i9YLx3qm2hi4gCLcBGAs/s1600/flip.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="228" data-original-width="443" height="205" src="https://1.bp.blogspot.com/-5oxqEb-1VwE/WU2u83WDoTI/AAAAAAAAAfQ/ps1smTceeKwJdGjlNUJ2i9YLx3qm2hi4gCLcBGAs/s400/flip.PNG" width="400" /></a></div><br />The <a href="http://www.microchip.com/developmenttools/productdetails.aspx?partno=flip">newer (January 2017) flip program on the MicroChip site</a> is actually an older version 2.4.6 from 2002 that only supports a limited number of chips such as the 89c51 series.<br /><br />Fortunately I happened to already have a Windows 7 machine setup in a VMWare Workstation, Upon running the same setup there, I was able to get the Flip utility working. However not much more than that - as after selecting an MCU, I received this error complaining about a missing libusb0.dll<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-IvubPItUCgc/WU2xJ6sxZ0I/AAAAAAAAAfo/hmnofSndbJU3ffxBuAkyZJVxvYkRjO-qgCLcBGAs/s1600/libusb%2Bmissing.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="531" data-original-width="629" height="539" src="https://2.bp.blogspot.com/-IvubPItUCgc/WU2xJ6sxZ0I/AAAAAAAAAfo/hmnofSndbJU3ffxBuAkyZJVxvYkRjO-qgCLcBGAs/s640/libusb%2Bmissing.PNG" width="640" /></a></div><br />The issue here, is that apparently the Atmel drivers needs to be manually installed/updated. Once again, thanks&nbsp;@MartyMacGyver for the <a href="https://github.com/MartyMacGyver/CryptoAuth-explorations/wiki/Flashing-the-USB-Dongle's-Firmware">tips on replacing the AT90USB1287</a> drivers on Windows 7. Here, just go to Control Panel - Device Manager. Right-click on the Atmel Device and select "Update Driver Software...".<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-FBpsv1u1334/WVF6iKhtoCI/AAAAAAAAAgo/qpy-qQc1jIIFh0woF2S6lfU4xiZQpkHMwCEwYBhgL/s1600/atmel%2Bdevice%2Bwin%2B7.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="350" data-original-width="385" height="362" src="https://2.bp.blogspot.com/-FBpsv1u1334/WVF6iKhtoCI/AAAAAAAAAgo/qpy-qQc1jIIFh0woF2S6lfU4xiZQpkHMwCEwYBhgL/s400/atmel%2Bdevice%2Bwin%2B7.PNG" width="400" /></a></div><br />Then manually select the Atmel Flip directory:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-FkqFmqjZ1cI/WVF6jr0wA5I/AAAAAAAAAgs/RZkKuhkWRBIqHRNowxs-lAgaqDy98gq-QCEwYBhgL/s1600/atmel%2Bupdate%2Bwin%2B7.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="221" data-original-width="580" height="241" src="https://2.bp.blogspot.com/-FkqFmqjZ1cI/WVF6jr0wA5I/AAAAAAAAAgs/RZkKuhkWRBIqHRNowxs-lAgaqDy98gq-QCEwYBhgL/s640/atmel%2Bupdate%2Bwin%2B7.PNG" width="640" /></a></div><br />(as usual, you may be prompted to reboot)<br /><br />Curiously, not only do I have the Java Virtual Machine problem on Windows 10, but I also don't see the Atmel device listed anywhere in device manager. Windows 10 *does* see it, as I am able to go into VMWare workstation and connect the host device to the Windows 7 VM. Hmm.. I'm not sure I want to fire up a Windows 7 VM every time.<br /><br />So at this point, I am really quite underwhelmed, unimpressed, and rather disappointed and frustrated. I am also however - rather relentless. A bit of googling and of course I immediately found others with the <a href="http://www.avrfreaks.net/comment/2069031">same problem</a> on the <a href="http://www.avrfreaks.net/">avrfreaks site</a>. Fortunately the <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/doc7618.pdf">AT90USB1287 is DFU Bootloader Capable</a>, and my old friend <a href="http://www.nongnu.org/avrdude/">avrdude</a> is a DFU loader! There are a variety of avrdude tutorials out there, including <a href="http://www.ladyada.net/learn/avr/avrdude.html">this one from lady ada</a>. If you have the Arduino library installed on Windows, you likely have avrdude installed here: &nbsp;&nbsp;C:\Program Files (x86)\Arduino\hardware\tools\avr\bin (and it likely will not be in your path).<br /><br />The first thing we'll want to do is read and save the firmware!<br /><br /><br /><br />"C:\Program Files (x86)\Arduino\hardware\tools\avr\bin\avrdude.exe"<br />"C:\Download\Atmel\Atmel-CryptoAuth-AT88CK590_Project-C-code_1-0-5\DevelopmentKits\AT88CK590\CombinedLibraries\AtmelStudio6\CombinedLibraries\OutputConfigDefault\"<br /><br />gives an error:<br /><br /><pre><code><br />avrdude.exe: can't open config file "": Invalid argument<br />avrdude.exe: error reading system wide configuration file ""<br /></code></pre><br />so I tried on linux (Ubuntu)<br /><br /><pre><code><br />avrdude -pusb1287 -cflip1 -Uflash:r:read-usb1287:a<br /></code></pre><br />different error:<br /><br /><pre><code><br />avrdude: Error: No matching USB device found<br />avrdude: AVR device initialized and ready to accept instructions<br /><br />Reading |                                                    | 0% 0.00savrdude: error reading signature data for part "AT90USB1287", rc=-1<br />avrdude: error reading signature data, rc=-1<br /><br />avrdude done.  Thank you.<br /></code></pre><div><br /></div><div>it appears that when plugged in, there are 2 new /dev/ items:</div><div><br /></div><div>/dev/hidraw1</div><div>/dev/usb</div><div><br /></div><div>I tried to change permissions, no luck there.</div><br /><pre><code><br />sudo chmod 777 /dev/usb<br />sudo chmod 777 /dev/hidraw1<br /></code></pre><div><br /></div><div>Same avrdude error. A bit more googling and I found <a href="http://www.tatsch.it/flashing-atmel-at90usbkey2-at90usb1287-avrdude/">this note</a> that you need to first boot the usb1287 into DFU mode. As yes, just as <a href="https://github.com/MartyMacGyver">@MartyMacGyver</a> described in his wiki on <a href="https://github.com/MartyMacGyver/CryptoAuth-explorations/wiki/Flashing-the-USB-Dongle's-Firmware">entering DFU mode</a>. After chasing documentation and other software issues, I had almost forgotten about his great walk-through that includes valuable DFU info.</div><div><br /></div><div>I simply want to have an embedded solution for SSL. They certainly don't make it easy. Just out of curiosity, I thought I'd poke around and see what sort of alternative solution might be available. One of the tools appears to be the&nbsp;<a href="http://www.atmel.com/tools/AT88CK9000.aspx">AT88CK9000 Secure Personalization Kit</a>. Alas, that too turned out to be a comedy of "not available":</div><div><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-Dj-XbMryjq8/WVFj-5aNPGI/AAAAAAAAAgE/9ybvu75ti4EhCqpK-we5lpCmksY3r06sgCLcBGAs/s1600/buy%2Bnow%2B-%2Bnot.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="513" data-original-width="1079" height="304" src="https://4.bp.blogspot.com/-Dj-XbMryjq8/WVFj-5aNPGI/AAAAAAAAAgE/9ybvu75ti4EhCqpK-we5lpCmksY3r06sgCLcBGAs/s640/buy%2Bnow%2B-%2Bnot.PNG" width="640" /></a></div><div><br /></div><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-MhWxK9eNAJU/WVFkI67HfPI/AAAAAAAAAgI/3cwRYuu787sARNU_5jYoW7KY9ukbLJNCQCLcBGAs/s1600/not%2Bfound%2B1.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="327" data-original-width="881" height="236" src="https://1.bp.blogspot.com/-MhWxK9eNAJU/WVFkI67HfPI/AAAAAAAAAgI/3cwRYuu787sARNU_5jYoW7KY9ukbLJNCQCLcBGAs/s640/not%2Bfound%2B1.PNG" width="640" /></a></div><br />I at least <a href="http://www.mouser.com/Search/Refine.aspx?Keyword=AT88CK9000">found them at Mouser</a>. There are 2 options: <a href="http://www.mouser.com/ProductDetail/Microchip-Technology-Atmel/AT88CK9000-TSU/">$374 for the 3 lead SOT23 package</a>, oh - but $<a href="http://www.mouser.com/ProductDetail/Microchip-Technology-Atmel/AT88CK9000-8SH/">499 for the 8 pic SOIC package</a>, currently "on order".<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-2ZZ2TdzjlmE/WVFltrzbFpI/AAAAAAAAAgM/5KPMKfmyn-gMspWjCANsNlXuKUXkwjaiACLcBGAs/s1600/AT88CK9000.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="456" data-original-width="1034" height="282" src="https://1.bp.blogspot.com/-2ZZ2TdzjlmE/WVFltrzbFpI/AAAAAAAAAgM/5KPMKfmyn-gMspWjCANsNlXuKUXkwjaiACLcBGAs/s640/AT88CK9000.PNG" width="640" /></a></div><br />Ok, so back to getting the device into DFU mode. Looks like I will need to jump in with both feet with no return.<br /><br />again with avrdude, this time in DFU (you'll know DFU mode by seeing only the red LED illuminated; all the blue crypto LED's will be dark.<br /><br /><pre><code>avrdude -pusb1287 -cflip1 -Uflash:r:read-usb1287:a<br /></code></pre><br /><br />results instead with:<br /><br /><pre><code>avrdude: AVR device initialized and ready to accept instructions<br /><br />Reading | ################################################## | 100% 0.02s<br /><br />avrdude: Device signature = 0x1e9782 (probably usb1287)<br />avrdude: Error: "lfuse" memory not accessible using FLIP<br />avrdude: Error: "lfuse" memory not accessible using FLIP<br />avrdude: reading flash memory:<br /><br />Reading |                                                    | 0% 0.00savrdude: Error: DFU_UPLOAD failed: error sending control message: Broken pipe<br /><br />avrdude:<br />         ***********************************************************************<br />         Maybe the device is in ``security mode´´, and needs a chip erase first?<br />         ***********************************************************************<br /><br />avrdude: Error: DFU_UPLOAD failed: error sending control message: Broken pipe<br />avr_read(): error reading address 0x0000<br />    read operation not supported for memory "flash"<br />avrdude: failed to read all of flash memory, rc=-2<br /><br />avrdude: Error: "lfuse" memory not accessible using FLIP<br />avrdude: Error: "lfuse" memory not accessible using FLIP<br />avrdude: Error: "lfuse" memory not accessible using FLIP<br />avrdude: Error: "lfuse" memory not accessible using FLIP<br />avrdude: safemode: Sorry, reading back fuses was unreliable. I have given up and exited programming mode<br /><br />avrdude done.  Thank you.<br /></code></pre><br /><br /><br /><br />Clearly a part 2 is due here... see this <a href="{{ site.baseurl }}{% post_url 2017-10-14-atecc508a-embedded-crypto-next %}">next part on setting up AWS as a secure MQTT server</a><br /><br />Resources and other info:<br /><br /><ul><li><a href="https://letsencrypt.org/">Free SSL Certs at https://letsencrypt.org/</a></li><li><a href="http://www.atmel.com/products/security-ics/cryptoauthentication/start-now.aspx">Microchip / Atmel: Get Started - CryptoAuthentication</a></li><li><a href="http://www.atmel.com/tools/cryptoauthlib.aspx?tab=overview">http://www.atmel.com/tools/cryptoauthlib.aspx?tab=overview</a></li><li><a href="https://github.com/aws/aws-iot-device-sdk-embedded-C">https://github.com/aws/aws-iot-device-sdk-embedded-C</a></li><li><a href="https://github.com/cryptotronix/EClet">https://github.com/cryptotronix/EClet</a></li><li><a href="https://aws.amazon.com/blogs/iot/elliptic-curve-cryptography-and-forward-secrecy-support-in-aws-iot-3/">Creating an EC-based certificate using AWS IoT</a></li><li><a href="http://www.mouser.com/search/ProductDetail.aspx?R=0virtualkey0virtualkeyATECC508A-SSHDA-B">ATECC508A-SSHDA-B at Mouser</a>&nbsp;(B=bulk)</li><li><a href="http://www.mouser.com/ProductDetail/Microchip-Technology-Atmel/AT88CK590/">Mouser Security / Authentication Development Tools CryptoAuthentication Eval Kit for ECC508</a></li><li><a href="http://www.microchip.com/DevelopmentTools/ProductDetails.aspx?PartNO=AT88CK590">AT88CK590 Evaluation Kit - Docs</a></li><li><a href="http://www.atmel.com/tools/ATMELCRYPTOEVALUATIONSTUDIO_ACES.aspx">Atmel Crypto Evaluation Studio (ACES)</a>&nbsp;(download)</li><li><a href="http://www.microchip.com/DevelopmentTools/ProductDetails.aspx?PartNO=Atmel+Crypto++Studio+(ACES)">Atmel Crypto Evaluation Studio (ACES)</a>&nbsp;(docs)</li><li><a href="http://www.atmel.com/tools/CryptoAuthLib.aspx">Atmel CryptoAuthLib</a></li><li><a href="https://cryptotronix.com/2014/05/26/atecc108_eclet_linux_driver/">The beginnings of the ATECC108 ECDSA Linux driver</a></li><li><a href="http://www.ebay.com/itm/SOP8-turn-DIP8-SOIC8-to-DIP8-IC-socket-Programmer-adapter-150mil-A063-/">SOP8 turn DIP8 SOIC8 to DIP8 IC socket Programmer adapter 150mil A063  (Ships from USA)</a></li><li><a href="https://bootstrap-it.com/encryption/">https://bootstrap-it.com/encryption/</a></li><li><a href="https://app.pluralsight.com/library/courses/linux-encryption-security-lpic-3-303/table-of-contents">pluralsight linux encryption security</a></li><li><a href="http://www.avrfreaks.net/comment/2069031">avrfreaks - Installing FLIP on Windows 10</a></li><li><a href="http://www.tatsch.it/flashing-atmel-at90usbkey2-at90usb1287-avrdude/">Flashing Atmel AT90USBKEY2 AT90USB1287 with avrdude</a></li><li>&nbsp;</li></ul></div>
+Having an embedded crypto chip to offload SSL processing for say, an ESP8266 sounds really quite interesting - particularly a solution that could be housed in a package as small as a tiny 3-Lead SOT-3 package! Wow, how cool would that be to help solve the problem of plain text IoT devices on devices with limited processing power and memory?<br />
+<br />First, I'd like to thank 
+<a href="https://twitter.com/MartyMacGyver/status/876320265889751044"><complete id="goog_1493950466">@</complete>MartyMacGyver</a> for his time and assistance in helping me to better understand the Atmel crypto chips and related development boards. Be sure to see see his <a href="https://github.com/MartyMacGyver/CryptoAuth-explorations">CryptoAuth-explorations</a>
+. As with his information, this project is neither affiliated with nor sponsored by Microchip / Atmel.<br />
+<br />My 
+<a href="http://www.atmel.com/tools/AT88CK590.aspx">AT88CK590 </a>from <a href="http://www.mouser.com/ProductDetail/Microchip/AT88CK590/">Mouser Electronics</a> arrived<strike> last week</strike>! (erm, by the time I published this, actually a couple of months ago). Atmel has apparently not heard of "Frustration Free Packaging". Petty cardboard complaint aside, even the cheap plastic USB cap was very difficult to remove. Alas only twenty bucks, but you'd think that they'd want to make a better first impression with a developer kit, eh? Besides, you'll probably want to <a href="https://github.com/MartyMacGyver/CryptoAuth-explorations/wiki/Modding-the-USB-Dongle's-Hardware">pry it open anyhow</a>
+. I took a soldering iron to mine and flattened the bumps that hold the USB cover in place to make it easier to remove.<br />
+<br />I first upgraded Atmel Studio (Help - Check for Updates). That took quite some time. Next I installed the&nbsp;
+<a href="http://www.atmel.com/System/BaseForm.aspx?target=tcm:26-17838">ACES 5.0.0 Setup</a> from the <a href="http://www.atmel.com/tools/AT88CK590.aspx">ATT88CK50</a>
+ page. You must have a device to use the software. Otherwise nothing but the "No devices" dialog box:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/ATT88CK50_startup..PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="128" data-original-width="333" height="152" src="../images/s400/ATT88CK50_startup..PNG" width="400"></a>
+</div>
+<br />
+Once you plug in the device, the dialog box will change:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/ATT88CK50_startup2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="213" data-original-width="273" src="../images/s1600/ATT88CK50_startup2.PNG"></a>
+</div>
+<br />Note that the AT88CK590 USB dongle has 3 different security chips on it, each with 3 different I2C addresses. These three chips are controlled by the onboard ATmega 8-bit&nbsp;
+<a href="http://www.microchip.com/wwwproducts/en/AT90USB1287">Atmel AVR® AT90USB1287 microcontroller</a>. The <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/doc7593.pdf">complete&nbsp;AT90USB1287 datasheet</a> is a whopping 456 pages long, There's also a <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/7593S.pdf">summary datasheet</a> that's only 39 pages. The <a href="http://www.atmel.com/Images/Atmel-CryptoAuth-AT88CK590_Schematics.pdf">schematic diagram</a>
+ is likely useful for review.<br />
+<br />
+The important thing here: when test driving the crypto-chips directly on the USB dongle, code will target the ATUSB1287. Code will also need to be portable to your target MCU,
+<br />
+<br />
+While reviewing the schematic, you'll see that the USB port talks *only* to the MCU, Only the MCU talks on the I2C bus to the security devices. Thus if you put different firmware on it, you could well find yourself no longer able to use the ACES software to talk to the security chips. Program with caution!
+<br />
+<br />
+As a side note, when using Atmel Studio, here's a list of the supported programming tools for the ATUSB1287. Probably the most important one is that last DFU item.
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/device_programming.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="535" data-original-width="766" height="277" src="../images/s400/device_programming.PNG" width="400"></a>
+</div>
+<br />
+<br />
+The so-called "walk-through"s in the AECS Config help were less than impressive. I swear the help looked the same as those found in Windows 3.1 - and worse: the contents also did not fully match my app. For example: there was no green indicator for system status:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/system_status.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="541" data-original-width="534" height="400" src="../images/s400/system_status.PNG" width="393"></a>
+</div>
+<br />
+Next, there was no mention of the most important point - that the Key ID number for step 2 needs to match Key ID in step #3. &nbsp;Obvious of course once you know this - but for first time users following a Walk-Through... hmm.
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Validate_MAC.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="587" data-original-width="460" height="400" src="../images/s400/Validate_MAC.PNG" width="312"></a>
+</div>
+<br />
+So anyhow, type a challenge phrase, press the [Execute Nonce] button, then [Execute Mac] then [Execute CheckMac]. If successful there should be a Matched status.
+<br />
+<br />
+The ATAES132 walk-though is even less complete &amp; less helpful.
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/AT_walk_through.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="271" data-original-width="225" src="../images/s1600/AT_walk_through.PNG"></a>
+</div>
+<br />There's only online help for 2 of the 3 chips: the ATSHA204 and and ATAES132. Of course my 
+<a href="http://www.mouser.com/ProductDetail/Microchip-Technology-Atmel/ATECC508A-SSHDA-B/">ATECC508A</a> is not listed. :| &nbsp;The only reason I ordered this evaluation kit was to take that chip for a test drive. After a bit of digging, I eventually discovered "<i><a href="http://www.microchip.com/design-centers/security-ics/cryptoauthentication/sha">The ATECC108A and ATECC508A are supersets of the ATSHA204A and thus upward compatible</a></i>". I was unable to find a full datasheet for the 508 - however once knowing that it is a superset of the <a href="http://www.atmel.com/Images/Atmel-8885-CryptoAuth-ATSHA204A-Datasheet.pdf">ATSHA204A</a>, one makes the assumption that the <a href="http://www.atmel.com/Images/Atmel-8885-CryptoAuth-ATSHA204A-Datasheet.pdf">datasheet</a>
+ is (hopefully) "similar enough" to the 508.<br />
+<br />An important piece of information in the&nbsp;
+<a href="http://www.atmel.com/Images/Atmel-8885-CryptoAuth-ATSHA204A-Datasheet.pdf">ATSHA204A datasheet</a>
+&nbsp;(page 14, Section 2.1.3):<br />
+<blockquote class="tr_bq">"<i>The OTP zone of 64 bytes (512 bits) is part of the EEPROM array, and can be used for read-only storage.</i>&nbsp;</blockquote><blockquote class="tr_bq"><i>Prior to locking the configuration section (using lockConfig), the OTP zone is inaccessible and can be neither read nor written. After configuration locking, but prior to locking of the OTP zone (using lockData), the entire OTP zone can be written using the Write command. If desired, the data to be written can be encrypted. When unlocked the OTP zone cannot be read.</i>
+"</blockquote><br />
+
+<div>
+Once you start the AECS Config tool, it appears there is no way to select a different chip to test drive. So exit and restart the app to choose a different one.<br />
+<br />Upon restarting and selecting the 508, I was not able to get the Verify Mac to work. It appears that although the other two chips are pre-configured, this one is not. That may be expected in the stand-alone chips. I had 
+<a href="https://twitter.com/gojimmypi/status/874709854518034432">asked mouser if I could buy individual quantities of the ATTEC508A-SSHAW (the ones pre-configured for AWS)</a> - but unfortunately they responded indicating that they could not break the 4000-piece reels. Still I would have expected the &nbsp;<a href="http://www.atmel.com/tools/AT88CK590.aspx">ATT88CK50</a>
+&nbsp;to arrive pre-configured with something even if the individual 508's that I also bought were blank.<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Test_508.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="619" data-original-width="1154" height="340" src="../images/s640/Test_508.PNG" width="640"></a>
+</div>
+<br />So also take note of the downloads on the Atmel site. The first two code samples after the ACES software are for the ATSHA204 chip, 
+<b>not</b>
+ the ATECC508A.<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/downloads.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="222" data-original-width="662" height="214" src="../images/s640/downloads.PNG" width="640"></a>
+</div>
+The last download, the&nbsp;<a href="http://www.atmel.com/images/Atmel-CryptoAuth-AT88CK590_Project-C-code.zip">Atmel-CryptoAuth-AT88CK590_Project-C-code.zip</a>
+ has over 3000 files. Alas that too, seems to be limited to the SHA204 and AES132 libraries. Cool if that's what you are looking for, but I was hoping to dig into the new '508s (the third and most interesting of the chips!)<br />
+<br />So back to the Atmel/Microchip web site... &lt;sigh&gt; and I came across 
+<a href="http://www.atmel.com/products/security-ics/cryptoauthentication/ecc-256.aspx">this page on ECC-based Crypto Elements</a>. Clicking on <a href="http://www.atmel.com/products/security-ics/cryptoauthentication/start-now.aspx">"start now" takes you to yet another crypto page</a>. Chasing the links and you'll find the <a href="http://www.atmel.com/tools/AT88CK101.aspx">AT88CK101 Development Kit</a>. Finally on THAT page, there's a link to the&nbsp;<a href="http://www.atmel.com/Images/Atmel-CryptoAuth-ATECC108A-508A_Library-Distributable_1.2.1.zip">CryptoAuthentication ATECC108A/508A Development Library 1.2.1 download</a>. This is the <b>eccX08_library-150525</b>
+ with a brief README and some C header and source files; not much of a walk-though here, but code is interesting.<br />
+<br />As for the AT88CK101 - well Mouser has 
+<a href="http://www.mouser.com/Search/Refine.aspx?Keyword=AT88CK101+Development+Kit">6 similar but different products listed</a>
+, Each are about $90 but none of which list the ATECC508A. So I'm not sure if it would be useful or not with the '508.<br />
+<br />Continuing to chase the links, you'll see further down on the 
+<a href="http://www.atmel.com/products/security-ics/cryptoauthentication/start-now.aspx">Start Now page</a>, that there's a link to&nbsp;<a href="http://www.atmel.com/tools/CryptoAuthLib.aspx">CryptoAuthLib</a>. &nbsp;And on THAT page, there's a link to the&nbsp;<a href="http://www.atmel.com/images/Atmel-CryptoAuthLib-Firmware_20160108.zip">CryptoAuthLib Firmware Library 20160108</a>. This is a 12MB compressed zip with many more interesting files. I'd start with the .\cryptoauthlib\docs\README.pdf then move on to .\cryptoauthlib\docs\html\index.html where there's finally some good docs! Also see there's a <a href="http://www.atmel.com/tools/CryptoAuthLib.aspx?tab=documents">doc tab, with even more downloads</a>
+.<br />
+<br />I was not able to find this code in the 
+<a href="https://github.com/atmelcorp">Atmel github repository</a>, nor the <a href="https://github.com/MicrochipTech">MicroChip github respository</a>. However, MicroChip does have this<a href="https://github.com/MicrochipTech/cryptoauth-openssl-engine"> github cryptoauth-openssl-engine repository</a> that is definitely worth a look. The <a href="https://github.com/MicrochipTech/cryptoauth-openssl-engine/blob/master/README.md">README</a> there starts out with: "<i>This is an OpenSSL Engine implementation using ATECC508A for ECC key storage, ECDSA sign/verify, ECDH, and FIPS Random Number Generator</i>" and there's a cool <a href="https://github.com/MicrochipTech/cryptoauth-openssl-engine/wiki">wiki</a>
+ as well.<br />
+<br />After finding the MicroChip github, I realized that there's an entirely 
+<a href="http://www.microchip.com/wwwproducts/en/ATECC508A">different subset of documentation and downloads for the ATECC508A</a>
+&nbsp;available, separate and different from Atmel. Apparently a cohesive and consistent web site has not been a priority after the acquisition.<br />
+<br />I really prefer that code be available on github, rather than zip downloads. So I copied what I believe are the most relevant source files to my own 
+<a href="https://github.com/gojimmypi/atmel-code">atmel-code repository</a>
+. My github clones are stored in \workspace\ directory, so be sure to start with:<br />
+<br />
+\workspace\atmel-code\cryptoauthlib\docs\html\index.html
+<br />
+<br />After getting all this installed, I just happened to be lucky enough to be on the
+<a href="https://github.com/MicrochipTech/cryptoauth-openssl-engine/issues/1#issuecomment-314552806"> github notification email alert for issue #1</a>&nbsp;and there.. a <a href="http://www.microchip.com/SWLibraryWeb/product.aspx?product=CryptoAuthLib">link in the MicroChip site to this updated CryptoAuthLib gem (updated &nbsp;July 5, 2017)</a>. Note the CryptoAuthLib link above, specifically the &nbsp;<a href="http://ww1.microchip.com/downloads/en//softwarelibrary/cryptoauthlib/atmel-cryptoauthlib-firmware_20160108.zip">Atmel-CryptoAuthLib-Firmware_20160108.zip</a> is noted on this new page as "<b><i>Not recommended for New Designs</i></b>" - note there's also no indication of this new firmware on the <a href="http://www.atmel.com/tools/CryptoAuthLib.aspx">Atmel CryptoAuthLib page</a>
+!<br />
+<br />If you download that updated zip file - in the README.md there's a note to watch the 
+<a href="http://www.atmel.com/tools/CryptoAuthLib.aspx?tab=documents">CryptoAuthLib documents (on the Atmel site)</a>
+ for "new examples coming online". (as of the timw of my writing this, there's noting newer than January of 2016). I wonder why MicroChip would post new code on the Atmel site, referenced from a download from the MicroChip site?<br />
+<br />Revisiting the mod topic, the 
+<a href="http://www.atmel.com/tools/flip.aspx">Atmel Flip 3.4.7</a> as mentioned <a href="https://github.com/MartyMacGyver/CryptoAuth-explorations/wiki/Flashing-the-USB-Dongle's-Firmware">here</a>
+ does not seem to work on Windows 10. Both the "requires Java Runtime and "Jave Runtime Included" return an error message:<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/flip.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="228" data-original-width="443" height="205" src="../images/s400/flip.PNG" width="400"></a>
+</div>
+<br />The 
+<a href="http://www.microchip.com/developmenttools/productdetails.aspx?partno=flip">newer (January 2017) flip program on the MicroChip site</a>
+ is actually an older version 2.4.6 from 2002 that only supports a limited number of chips such as the 89c51 series.<br />
+<br />
+Fortunately I happened to already have a Windows 7 machine setup in a VMWare Workstation, Upon running the same setup there, I was able to get the Flip utility working. However not much more than that - as after selecting an MCU, I received this error complaining about a missing libusb0.dll
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/libusb_missing.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="531" data-original-width="629" height="539" src="../images/s640/libusb_missing.PNG" width="640"></a>
+</div>
+<br />The issue here, is that apparently the Atmel drivers needs to be manually installed/updated. Once again, thanks&nbsp;@MartyMacGyver for the 
+<a href="https://github.com/MartyMacGyver/CryptoAuth-explorations/wiki/Flashing-the-USB-Dongle's-Firmware">tips on replacing the AT90USB1287</a>
+ drivers on Windows 7. Here, just go to Control Panel - Device Manager. Right-click on the Atmel Device and select "Update Driver Software...".<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/atmel_device_win_7.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="350" data-original-width="385" height="362" src="../images/s400/atmel_device_win_7.PNG" width="400"></a>
+</div>
+<br />
+Then manually select the Atmel Flip directory:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/atmel_update_win_7.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="221" data-original-width="580" height="241" src="../images/s640/atmel_update_win_7.PNG" width="640"></a>
+</div>
+<br />
+(as usual, you may be prompted to reboot)
+<br />
+<br />
+Curiously, not only do I have the Java Virtual Machine problem on Windows 10, but I also don't see the Atmel device listed anywhere in device manager. Windows 10 *does* see it, as I am able to go into VMWare workstation and connect the host device to the Windows 7 VM. Hmm.. I'm not sure I want to fire up a Windows 7 VM every time.
+<br />
+<br />So at this point, I am really quite underwhelmed, unimpressed, and rather disappointed and frustrated. I am also however - rather relentless. A bit of googling and of course I immediately found others with the 
+<a href="http://www.avrfreaks.net/comment/2069031">same problem</a> on the <a href="http://www.avrfreaks.net/">avrfreaks site</a>. Fortunately the <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/doc7618.pdf">AT90USB1287 is DFU Bootloader Capable</a>, and my old friend <a href="http://www.nongnu.org/avrdude/">avrdude</a> is a DFU loader! There are a variety of avrdude tutorials out there, including <a href="http://www.ladyada.net/learn/avr/avrdude.html">this one from lady ada</a>
+. If you have the Arduino library installed on Windows, you likely have avrdude installed here: &nbsp;&nbsp;C:\Program Files (x86)\Arduino\hardware\tools\avr\bin (and it likely will not be in your path).<br />
+<br />
+The first thing we'll want to do is read and save the firmware!
+<br />
+<br />
+<br />
+<br />
+"C:\Program Files (x86)\Arduino\hardware\tools\avr\bin\avrdude.exe"
+<br />
+"C:\Download\Atmel\Atmel-CryptoAuth-AT88CK590_Project-C-code_1-0-5\DevelopmentKits\AT88CK590\CombinedLibraries\AtmelStudio6\CombinedLibraries\OutputConfigDefault\"
+<br />
+<br />
+gives an error:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+avrdude.exe: can't open config file "": Invalid argument
+avrdude.exe: error reading system wide configuration file ""</code></pre>
+
+<br />
+so I tried on linux (Ubuntu)
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+avrdude -pusb1287 -cflip1 -Uflash:r:read-usb1287:a</code></pre>
+
+<br />
+different error:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+avrdude: Error: No matching USB device found
+avrdude: AVR device initialized and ready to accept instructions
+Reading |                                                    | 0% 0.00savrdude: error reading signature data for part "AT90USB1287", rc=-1
+avrdude: error reading signature data, rc=-1
+avrdude done.  Thank you.</code></pre>
+
+<br />
+
+<div>
+it appears that when plugged in, there are 2 new /dev/ items:
+</div>
+<br />
+
+<div>
+/dev/hidraw1
+</div>
+
+<div>
+/dev/usb
+</div>
+<br />
+
+<div>
+I tried to change permissions, no luck there.
+</div>
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo chmod 777 /dev/usb
+sudo chmod 777 /dev/hidraw1</code></pre>
+
+<br />
+
+<div>
+Same avrdude error. A bit more googling and I found <a href="http://www.tatsch.it/flashing-atmel-at90usbkey2-at90usb1287-avrdude/">this note</a> that you need to first boot the usb1287 into DFU mode. As yes, just as <a href="https://github.com/MartyMacGyver">@MartyMacGyver</a> described in his wiki on <a href="https://github.com/MartyMacGyver/CryptoAuth-explorations/wiki/Flashing-the-USB-Dongle's-Firmware">entering DFU mode</a>. After chasing documentation and other software issues, I had almost forgotten about his great walk-through that includes valuable DFU info.
+</div>
+<br />
+
+<div>
+I simply want to have an embedded solution for SSL. They certainly don't make it easy. Just out of curiosity, I thought I'd poke around and see what sort of alternative solution might be available. One of the tools appears to be the&nbsp;<a href="http://www.atmel.com/tools/AT88CK9000.aspx">AT88CK9000 Secure Personalization Kit</a>. Alas, that too turned out to be a comedy of "not available":
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/buy_now_not.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="513" data-original-width="1079" height="304" src="../images/s640/buy_now_not.PNG" width="640"></a>
+</div>
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/not_found_1.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="327" data-original-width="881" height="236" src="../images/s640/not_found_1.PNG" width="640"></a>
+</div>
+<br />I at least 
+<a href="http://www.mouser.com/Search/Refine.aspx?Keyword=AT88CK9000">found them at Mouser</a>. There are 2 options: <a href="http://www.mouser.com/ProductDetail/Microchip-Technology-Atmel/AT88CK9000-TSU/">$374 for the 3 lead SOT23 package</a>, oh - but $<a href="http://www.mouser.com/ProductDetail/Microchip-Technology-Atmel/AT88CK9000-8SH/">499 for the 8 pic SOIC package</a>
+, currently "on order".<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/AT88CK9000.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="456" data-original-width="1034" height="282" src="../images/s640/AT88CK9000.PNG" width="640"></a>
+</div>
+<br />
+Ok, so back to getting the device into DFU mode. Looks like I will need to jump in with both feet with no return.
+<br />
+<br />
+again with avrdude, this time in DFU (you'll know DFU mode by seeing only the red LED illuminated; all the blue crypto LED's will be dark.
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+avrdude -pusb1287 -cflip1 -Uflash:r:read-usb1287:a</code></pre>
+<br />
+<br />
+results instead with:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+avrdude: AVR device initialized and ready to accept instructions
+Reading | ################################################## | 100% 0.02s
+avrdude: Device signature = 0x1e9782 (probably usb1287)
+avrdude: Error: "lfuse" memory not accessible using FLIP
+avrdude: Error: "lfuse" memory not accessible using FLIP
+avrdude: reading flash memory:
+Reading |                                                    | 0% 0.00savrdude: Error: DFU_UPLOAD failed: error sending control message: Broken pipe
+avrdude:
+         ***********************************************************************
+         Maybe the device is in ``security mode´´, and needs a chip erase first?
+         ***********************************************************************
+avrdude: Error: DFU_UPLOAD failed: error sending control message: Broken pipe
+avr_read(): error reading address 0x0000
+    read operation not supported for memory "flash"
+avrdude: failed to read all of flash memory, rc=-2
+avrdude: Error: "lfuse" memory not accessible using FLIP
+avrdude: Error: "lfuse" memory not accessible using FLIP
+avrdude: Error: "lfuse" memory not accessible using FLIP
+avrdude: Error: "lfuse" memory not accessible using FLIP
+avrdude: safemode: Sorry, reading back fuses was unreliable. I have given up and exited programming mode
+avrdude done.  Thank you.</code></pre>
+<br />
+<br />
+<br />
+<br />Clearly a part 2 is due here... see this 
+<a href="{{ site.baseurl }}{% post_url 2017-10-14-atecc508a-embedded-crypto-next %}">
+next part on setting up AWS as a secure MQTT server</a><br />
+<br />
+Resources and other info:
+<br />
+<br />
+<ul><li><a href="https://letsencrypt.org/">Free SSL Certs at https://letsencrypt.org/</a></li><li><a href="http://www.atmel.com/products/security-ics/cryptoauthentication/start-now.aspx">Microchip / Atmel: Get Started - CryptoAuthentication</a></li><li><a href="http://www.atmel.com/tools/cryptoauthlib.aspx?tab=overview">http://www.atmel.com/tools/cryptoauthlib.aspx?tab=overview</a></li><li><a href="https://github.com/aws/aws-iot-device-sdk-embedded-C">https://github.com/aws/aws-iot-device-sdk-embedded-C</a></li><li><a href="https://github.com/cryptotronix/EClet">https://github.com/cryptotronix/EClet</a></li><li><a href="https://aws.amazon.com/blogs/iot/elliptic-curve-cryptography-and-forward-secrecy-support-in-aws-iot-3/">Creating an EC-based certificate using AWS IoT</a></li><li><a href="http://www.mouser.com/search/ProductDetail.aspx?R=0virtualkey0virtualkeyATECC508A-SSHDA-B">ATECC508A-SSHDA-B at Mouser</a>&nbsp;(B=bulk)</li><li><a href="http://www.mouser.com/ProductDetail/Microchip-Technology-Atmel/AT88CK590/">Mouser Security / Authentication Development Tools CryptoAuthentication Eval Kit for ECC508</a></li><li><a href="http://www.microchip.com/DevelopmentTools/ProductDetails.aspx?PartNO=AT88CK590">AT88CK590 Evaluation Kit - Docs</a></li><li><a href="http://www.atmel.com/tools/ATMELCRYPTOEVALUATIONSTUDIO_ACES.aspx">Atmel Crypto Evaluation Studio (ACES)</a>&nbsp;(download)</li><li><a href="http://www.microchip.com/DevelopmentTools/ProductDetails.aspx?PartNO=Atmel+Crypto++Studio+(ACES)">Atmel Crypto Evaluation Studio (ACES)</a>&nbsp;(docs)</li><li><a href="http://www.atmel.com/tools/CryptoAuthLib.aspx">Atmel CryptoAuthLib</a></li><li><a href="https://cryptotronix.com/2014/05/26/atecc108_eclet_linux_driver/">The beginnings of the ATECC108 ECDSA Linux driver</a></li><li><a href="http://www.ebay.com/itm/SOP8-turn-DIP8-SOIC8-to-DIP8-IC-socket-Programmer-adapter-150mil-A063-/">SOP8 turn DIP8 SOIC8 to DIP8 IC socket Programmer adapter 150mil A063  (Ships from USA)</a></li><li><a href="https://bootstrap-it.com/encryption/">https://bootstrap-it.com/encryption/</a></li><li><a href="https://app.pluralsight.com/library/courses/linux-encryption-security-lpic-3-303/table-of-contents">pluralsight linux encryption security</a></li><li><a href="http://www.avrfreaks.net/comment/2069031">avrfreaks - Installing FLIP on Windows 10</a></li><li><a href="http://www.tatsch.it/flashing-atmel-at90usbkey2-at90usb1287-avrdude/">Flashing Atmel AT90USBKEY2 AT90USB1287 with avrdude</a></li><li>&nbsp;</li></ul>
+</div>
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:53 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

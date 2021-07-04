@@ -16,4 +16,469 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-59853340794233013
 blogger_orig_url: https://gojimmypi.blogspot.com/2020/11/goes17-satellite-image-reception-with.html
 ---
 
-<p>These are my (admittedly sometimes long and rambling) thoughts and more of a "review" of my recent purchase. I'm planning a second blog with just the details on setting up. Stay tuned.</p><p>My first "full disk" image was pulled from the GOES-17 Satellite on <a href="https://twitter.com/gojimmypi/status/1325599563906867200?s=20">November 8</a>!</p><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-UdT2jK0rMog/X63bnuB2YWI/AAAAAAAAC_0/iSkVGhnadiE-Q8XxigYLwfaM0Ro-7LlPwCLcBGAsYHQ/s1216/helloworld%2B-%2Bblog.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="849" data-original-width="1216" height="279" src="https://1.bp.blogspot.com/-UdT2jK0rMog/X63bnuB2YWI/AAAAAAAAC_0/iSkVGhnadiE-Q8XxigYLwfaM0Ro-7LlPwCLcBGAsYHQ/w400-h279/helloworld%2B-%2Bblog.png" width="400" /></a></div><p>I've been wanting to learn about satellite reception and SDR signal processing for quite some time. I have pretty much zero experience here. I've never even owned a TV satellite dish. This is certainly not my first SDR product from Nooelec. I first received their&nbsp;<a href="https://smile.amazon.com/dp/B01HA642SW/">NESDR Smart RTL-SDR</a>&nbsp;as a birthday present several years ago, and really enjoyed setting up&nbsp;<a href="{{ site.baseurl }}{% post_url 2017-07-22-openwrt-on-ea3500-with-rtl-sdr-stream %}">OpenWRT on EA3500 with RTL-SDR Stream</a>.&nbsp;</p><p>I was inspired to buy the <a href="https://smile.amazon.com/gp/product/B08HGQXC7C/">Nooelec kit on Amazon</a>&nbsp;after reading about it on the <a href="https://www.rtl-sdr.com/new-goes-weather-satellite-bundle-from-nooelec/">RTL SDR blog</a>, in particular the quite excellent <a href="https://www.rtl-sdr.com/rtl-sdr-com-goes-16-17-and-gk-2a-weather-satellite-reception-comprehensive-tutorial/">online tutorial on GOES 16/17 Weather Satellite Reception</a>. This was somewhat of a gamble, as I bought mine before any of the reviews on Amazon. (there are now <i>several </i>5 star reviews!)</p><p>I first tried&nbsp;<a href="https://en.wikipedia.org/wiki/GOES-17">137.2W GOES-S (GOES-17)</a>.</p><p>See also the&nbsp;<a href="https://www.reddit.com/r/amateursatellites/comments/jqcaxl/psa_what_you_need_to_know_about_goes13/">reddit PSA PSA: What you need to know about GOES-13</a>:</p><blockquote style="border: none; margin: 0px 0px 0px 40px; padding: 0px;"><p style="text-align: left;"><i>The hardware and software requirements for successful GOES-13 decoding are completely different from GOES-16/17 and all other L-Band geostationary weather satellites, do not expect the same setup that works for LRIT/HRIT to work with GOES-13</i></p> </blockquote><p>Update: The&nbsp;<a href="http://usradioguy.com/goes-satellite-imagery-reception/">USRADIOGUY GOES Satellite Imagery Reception</a>&nbsp;is a great place for info, that would have been quite helpful had I known about it when I started.&nbsp;</p><p>Note that if you go looking for those PDF files at the end in the <a href="https://github.com/creinemann/goestools#resources">resources section</a>, they are no longer available. I contacted&nbsp;NOAA support and they responded within 24 hours and even included the files! I submitted an <a href="https://github.com/pietern/goestools/pull/102">upstream PR</a>, but it looks like there has not been much activity recently. I have a copy in my WIP <a href="https://github.com/gojimmypi/goes-setup/tree/main/doc">GOES-Setup docs</a>.</p><p>When the kit arrived, I thought the dish was all one piece, as it arrived in one of the biggest Amazon boxes I've ever received. Is the box half full or half empty? I think it is twice as big as it needs to be, just the right size for two of them:</p><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-Zs0Y_MT-jxc/X6w2NjUgQTI/AAAAAAAAC_Q/9mocyBNE6fYBtC6o0kxIagofIxltpqUQgCLcBGAsYHQ/s1289/IMG-20201111-WA0002.jpg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="739" data-original-width="1289" src="https://1.bp.blogspot.com/-Zs0Y_MT-jxc/X6w2NjUgQTI/AAAAAAAAC_Q/9mocyBNE6fYBtC6o0kxIagofIxltpqUQgCLcBGAsYHQ/s320/IMG-20201111-WA0002.jpg" width="320" /></a></div><br /><p>The out-of-box experience was a bit frustrating. There was pretty much no documentation included on assembly or operation. The only thing included was a thank-you card with a link to <a href="http://start.nesdr.com">start.nesdr.com</a>&nbsp;which as of the time if this writing, just redirected to&nbsp;<a href="https://www.nooelec.com/store/qs">nooelec.com/store/qs</a>&nbsp;with nothing more than basic information on how install the drivers.&nbsp;</p><p>Update: there's now a helpful&nbsp;<a href="https://support.nooelec.com/hc/en-us/articles/360058812593-Nooelec-GOES-Weather-Satellite-RTL-SDR-Bundle">Set-Up Instructions</a>&nbsp;page on the Nooelec site, and they've added a setup picture on the Amazon product page:</p><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-enbvoK_VH-E/X6xKyJTkYGI/AAAAAAAAC_c/7bt4A-pr7dwpkTBZ1IcSJsfRAmNuNCsowCLcBGAsYHQ/s1500/connection%2Binfo.jpg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1500" data-original-width="1370" height="320" src="https://1.bp.blogspot.com/-enbvoK_VH-E/X6xKyJTkYGI/AAAAAAAAC_c/7bt4A-pr7dwpkTBZ1IcSJsfRAmNuNCsowCLcBGAsYHQ/s320/connection%2Binfo.jpg" /></a></div><br /><p>The "driver download" is actually just an old (Version 2.3 from 2017) of Zadig, not actually the drivers. The Nooelec web site was also annoying, as well: Google Chrome would do this annoying oscillation when hovering over the little question mark icons to view the pictures. It was <a href="https://www.youtube.com/watch?v=lb1M4ttN4MU">exceptionally frustrating</a> to <i>just view the web picture</i>. Within 24 hours of my message to support, the Nooelec folks fixed that!</p><p>In any case, there's not much to do in Windows anyhow, as the <a href="https://usa-satcom.com/xrit-decoder-for-goes-satellite/">XRIT Decoder for GOES Satellite</a> is another $125, as <a href="https://twitter.com/Nooelec/status/1321819968791580672?s=20">noted on Twitter</a>; note in particular the link to&nbsp;<a href="https://pietern.github.io/goestools/guides/minimal_receiver.html">A minimal LRIT/HRIT receiver</a>. But I wanted to at least see if everything was working in Windows.</p> <p>Nooelec has <a href="https://www.nooelec.com/store/catalogsearch/result/?q=sawbird">several SAWbird Low Noise Amplifiers ("LNA")</a>&nbsp;for <a href="https://www.nooelec.com/store/sawbird-plus-noaa-308.html">NOAA</a>, the <a href="https://www.nooelec.com/store/sawbird-ir.html">iridium and Inmarsat</a>&nbsp;and other satellites, but the one shipped in this kit was the <a href="https://www.nooelec.com/store/sawbird-goes-305.html">GOES</a> flavor with a 1688 MHz Center Frequency: specifically the "premium" version with an aluminum enclosure. Note there's another bare board version.</p><p>The kit ships with a USB to power adapter. I had no idea if I am supposed to use it or not, as their web site claims:</p><blockquote style="border: none; margin: 0px 0px 0px 40px; padding: 0px;"><p style="text-align: left;">&nbsp;"<i>Each module allows for 3 different power options, <b>but you should only power with one option at any given time</b></i>! <i>The recommended power input through the SMA output port (for bias-tee capable SDRs like the NESDR SMArTee XTR) is 3V-5V DC</i>".&nbsp;</p></blockquote><p>As the&nbsp;NESDR SMArTee XTR was also part of the kit, I assumed the power adapter is superfluous. However the web site also states "<i>Our recommendation is the NESDR SMArTee XTR <b>v2</b>, which contains a bias-tee capable of powering the SAWbird GOES module with bias power</i>". Not a single one of&nbsp; the&nbsp;<a href="https://www.nooelec.com/store/catalogsearch/result/index/?p=1&amp;q=nesdr+xtr">nesdr xtr</a>&nbsp;items made any mention of a "V2". There's one that looks similar, a&nbsp;<a href="https://www.nooelec.com/store/nesdr-smart-xtr-sdr.html">Nooelec NESDR SMArt XTR SDR - Premium RTL-SDR w/ Extended Tuning Range, Aluminum Enclosure, 0.5PPM TCXO, SMA Input</a>&nbsp;and another that looks exactly the same, but is labeled as&nbsp;<a href="https://www.nooelec.com/store/nesdr-smartee-xtr-sdr.html">Nooelec NESDR SMArTee XTR SDR - Premium RTL-SDR w/ Extended Tuning Range, Aluminum Enclosure, Bias Tee, 0.5PPM TCXO, SMA Input</a>. (note that it mentions the "bias tee") I'm hoping the Amazon description of "<i>The NESDR SMArTee XTR SDR unit will automatically feed the LNA through a built-in always-on Bias-T</i>" is accurate and this will actually power the SAWbird.</p><p>Update: yes, it does! The power adapter is not needed; it's a bonus!</p><blockquote style="border: none; margin: 0px 0px 0px 40px; padding: 0px;"><p style="text-align: left;">"<i>There is no need to use the external power option.&nbsp; We opted to include the cable as it allows for easier use for customers who might want to use a different SDR for decoding than what came in the bundle</i>" -- Nooelec Support</p></blockquote> <p>The SAWbird was initially equally frustrating; an SMA connector on each end with absolutely no indication of which end is input and which is output.&nbsp;</p><p>Update: Apparently somehow my SAWbird snuck through QA missing the silkscreen (perhaps that makes it a Collector's Edition?)</p><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-NHPTvdaai2E/X6wti9vrbDI/AAAAAAAAC-4/ileFrqZqKtQOtf7DET4TRjggEe0FHD3TQCLcBGAsYHQ/s1189/my%2BNooelec.PNG" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="659" data-original-width="1189" src="https://1.bp.blogspot.com/-NHPTvdaai2E/X6wti9vrbDI/AAAAAAAAC-4/ileFrqZqKtQOtf7DET4TRjggEe0FHD3TQCLcBGAsYHQ/s320/my%2BNooelec.PNG" width="320" /></a></div><p>There's a&nbsp;<a href="https://www.nooelec.com/store/media/catalog/product/cache/1/image/1200x/040ec09b1e35df139433887a97daa66f/s/a/sawbird_2_4_2.png">poor quality picture on the Nooelec site</a>&nbsp;that shows the bare board version has the input on the USB-side of the device:</p><p><br /></p><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-WywybsNrj0s/X6g2rcM4cQI/AAAAAAAAC-A/duq5LlaL6HUZfLSCEpggNC93tSoYjVrkACLcBGAsYHQ/s746/sawbird_input.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="706" data-original-width="746" src="https://1.bp.blogspot.com/-WywybsNrj0s/X6g2rcM4cQI/AAAAAAAAC-A/duq5LlaL6HUZfLSCEpggNC93tSoYjVrkACLcBGAsYHQ/s320/sawbird_input.png" width="320" /></a></div>As those labels are barely visible, it is at least reassuring to see the output label on the other end:<div><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-C_EZdvqDK5k/X6g27LxklTI/AAAAAAAAC-I/dYPC16JHXO8r1S-7zJOJVto8hXH5-dKjwCLcBGAsYHQ/s661/sawbird_output.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="553" data-original-width="661" src="https://1.bp.blogspot.com/-C_EZdvqDK5k/X6g27LxklTI/AAAAAAAAC-I/dYPC16JHXO8r1S-7zJOJVto8hXH5-dKjwCLcBGAsYHQ/s320/sawbird_output.png" width="320" /></a></div><div><br /></div>Although I suppose it makes sense to have power input on the antenna input site of the SAWbird, it ends up being the <i>opposite </i>end of the USB input on the SMArtee device. So in the case of no bias-tee, you have power at opposite ends.</div><div><br /></div><div>Update: the kind support folks at Nooelec pointed out that there <i>should </i>be a silkscreen as on the <a href="https://www.nooelec.com/store/sdr/sdr-addons/sawbird/sawbird-h1.html">Hydrogen Line SAWbird</a>&nbsp;as shown in this image from their product web page, confirming that yes the input from the antenna is on the USB port end:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-FCf4B7BxinA/X6wub576g7I/AAAAAAAAC_E/nQJsZswzc_cVQpO9oA48l8jkL1xYlMlgwCLcBGAsYHQ/s1200/sawbird%2Binput.jpg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1200" data-original-width="1200" height="320" src="https://1.bp.blogspot.com/-FCf4B7BxinA/X6wub576g7I/AAAAAAAAC_E/nQJsZswzc_cVQpO9oA48l8jkL1xYlMlgwCLcBGAsYHQ/s320/sawbird%2Binput.jpg" /></a></div><br /><div>On the topic of input, see the <a href="https://www.rtl-sdr.com/rtl-sdr-com-goes-16-17-and-gk-2a-weather-satellite-reception-comprehensive-tutorial/">RTL SDR blog</a>, in particular the part:</div><div><br /></div><blockquote style="border: none; margin: 0px 0px 0px 40px; padding: 0px;"><i>Either use low loss coax cable or a USB extension cable to get the LNA and/or RTL-SDR out to the antenna.&nbsp; ...&nbsp;</i><i>We strongly recommend using as little coax as possible after the LNA too. The SAWbird LNA doesn't have enough gain to push the signal through long runs of coax. If you're forced to use long runs of coax, use a secondary LNA. Preferably use a USB extension cable to reduce coax runs</i></blockquote><div><br /></div> <div>I would certainly have preferred a long stretch of active USB cable instead of&nbsp;10m (30 feet) of LMR400 cable. Although yes the LMR400 is "low loss", it is certainly not "no loss". This&nbsp;<a href="https://www.pasternack.com/50-ohm-low-loss-flexible-lmr400-pe-jacket-double-shielded-black-lmr-400-P.aspx">Pasternack Product Listing</a>, and in particular the <a href="https://www.pasternack.com/images/ProductPDF/LMR-400.pdf">datasheet</a>&nbsp;indicates that there's fairly significant loss in the 1.7GHz range and shown from this snip of Times Microwave Systems graph:</div> <div><br /></div><div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-9eD3AKmnQvs/X6g9onDWonI/AAAAAAAAC-U/7_YLKqwd5FcNLgWmit3oPclvwhwalBJrwCLcBGAsYHQ/s864/LMR400%2BAttenuation.PNG" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="766" data-original-width="864" height="284" src="https://1.bp.blogspot.com/-9eD3AKmnQvs/X6g9onDWonI/AAAAAAAAC-U/7_YLKqwd5FcNLgWmit3oPclvwhwalBJrwCLcBGAsYHQ/w320-h284/LMR400%2BAttenuation.PNG" title="LMR400" width="320" /></a></div><br />After reading this blog, the Nooelec folks kindly responded with this helpful information:</div><div><br /></div><blockquote style="border: none; margin: 0px 0px 0px 40px; padding: 0px;"><div style="text-align: left;"><i>"The snipped of text from the blog website you quoted is lacking a bit in detail.&nbsp; As general advice (for which it was intended) it's appropriate.&nbsp; However, the details matter.&nbsp; The required level of gain from the 1st &amp; 2nd stage amplification on the SAWbird LNA will be contingent on the signal strength from the antenna (which is higher from our custom mesh than most normal installations).&nbsp; Further, it assumes a lossy cable (most people at best use RG58, which has insertion loss 4x higher than the included LMR400).&nbsp; Without getting into all the finer details, for most installations there will be about 10dB of headroom from the SAWbird before issues should start to crop up that might require a secondary LNA.&nbsp; That would be about 150' or more of LMR400 :)&nbsp; There should be zero difference if you try to decode at the output of the SAWbird vs. after the LMR400 included other than the gain on the SDR which would be more than sufficient to compensate for it.&nbsp; What matters more is the noise figure, which is dominated by the signal chain at and before the first LNA in the SAWbird.&nbsp; That is why we use high quality LMR400 on the antenna as well, and why that length is short, and why we mention it is crucial to keep the SAWbird as close to the antenna as possible." -- </i>Nooelec support</div></blockquote><div><br /></div><div><br /></div><div>On to Raspberry Pi setup... See my prior blog on&nbsp;<a href="{{ site.baseurl }}{% post_url 2020-10-24-raspberry-pi-headless-setup %}">Raspberry Pi Headless Setup</a></div><div><br /></div><div>Do not install the RTLSDR USB hardware into an already powered-on Raspberry Pi! The RPi crashes from the power surge. Yes, I learned this the hard way. I never trust the SD card after such a crash, so I started over.</div><div><br /></div><div>I ran the install for the Raspberry Pi. It takes quite some time to download and install everything:<p>   </p><pre><code>sudo apt-get install -y \<br />    build-essential \<br />    cmake \<br />    git-core \<br />    libopencv-dev \<br />    zlib1g-dev \<br />    librtlsdr-dev<br /><br /># be sure librtlsdr-dev is installed *before* compiling! <br /><br />git clone --recursive https://github.com/pietern/goestools<br />cd goestools<br />mkdir build<br />cd build<br />cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local<br />make<br />sudo make install    <br />  </code></pre>  <br />  Yes, without the <code>sudo</code> for <code>make install</code>, I saw this error:   <code><pre>  <br /><br />  Install the project...<br />-- Install configuration: "RelWithDebInfo"<br />CMake Error at cmake_install.cmake:41 (file):<br />  file cannot create directory: /usr/local/share/goestools.  Maybe need<br />  administrative privileges.<br /><br /><br />make: *** [Makefile:140: install] Error 1<br /></pre></code>     <br /><br /></div><div>  There are <i>two </i>components to receiving satellite images, that I ran in separate putty sessions. One is the goesrecv which, as the name implies, is the data stream receiver. The other key software component that runs completely separately, either on the same RPi or another computer, is the goesproc which actually processes the data stream and turns it into images. Amazing images.</div><div><br /></div><div>Note the "source" just refers to one of the other sections in the config file with parameter settings:   <p></p>  <pre><code>[demodulator]<br /># mode = "lrit"<br />mode = "hrit"<br />source = "rtlsdr"<br /><br /># The section below configures the sample source to use.<br />#<br /># You can leave them commented out to use the default values for the<br /># demodulator mode you choose ("lrit" or "hrit"). To use and configure<br /># any of them, uncomment the section below, and change the demodulator<br /># source field to match the source you want to use.<br />#<br /><br /># [airspy]<br /># frequency = 1694100000<br /># gain = 18<br /><br />[rtlsdr]<br />frequency = 1694100000<br />sample_rate = 2000000<br />gain = 30<br />bias_tee = true<br /><br /># [nanomsg]<br /># connect = "tcp://1.2.3.4:5005"<br /># receive_buffer = 2097152<br /># sample_rate = 2400000<br /><br />[costas]<br />max_deviation = 200e3<br /><br /># [clock_recovery.sample_publisher]<br /># bind = "tcp://0.0.0.0:5002"<br /># send_buffer = 2097152<br /><br />[quantization.soft_bit_publisher]<br />bind = "tcp://0.0.0.0:5001"<br />send_buffer = 1048576<br /><br />[decoder.packet_publisher]<br />bind = "tcp://0.0.0.0:5004"<br />send_buffer = 1048576<br /><br /># The demodulator stats publisher sends a JSON object that describes<br /># the state of the demodulator (gain, frequency correction, samples<br /># per symbol), for every block of samples.<br />#[demodulator.stats_publisher]<br />#bind = "tcp://0.0.0.0:6001"<br /><br /># The decoder stats publisher sends a JSON object for every packet it<br /># decodes (Viterbi corrections, Reed-Solomon corrections, etc.).<br />[decoder.stats_publisher]<br />bind = "tcp://0.0.0.0:6002"<br /><br /># The monitor can log aggregated stats (counters, gauges, and<br /># histograms) to a statsd daemon. Because this uses UDP, you can keep<br /># this enabled even if you haven't setup a statsd daemon yet.<br />[monitor]<br />statsd_address = "udp4://localhost:8125"<br /><br /></code></pre>    <br />  Then run    <pre><code>goesrecv -c goes.conf -v -i 1<br />  </code></pre>  <br />  Note if you see an error: <code>Invalid downlink type:</code> then you forgot to uncomment the <code>hrit</code> or <code>lrit</code> in the <code>[demodulator]</code> section of the config file. I opened <a href="https://github.com/pietern/goestools/issues/101">Issue #101</a> to perhaps address this for others.&nbsp;<p></p>For reference, if the receiver is getting no data (such as the case when sitting in the house on the kitchen floor for me during initial setup), the output looks like this: <br />   <pre><code>pi@raspberrypi:~ $ goesrecv -c goes.conf -v -i 1<br />Detached kernel driver<br />Found Elonics E4000 tuner<br />Disabled direct sampling mode<br />[E4K] PLL not locked for 0 Hz!<br />Allocating 15 zero-copy buffers<br />2020-11-08T22:29:39Z [monitor] gain:  3.99, freq:    39.0, omega: 8.166, vit(avg): 2167, rs(sum):    0, packets:  0, drops:  6<br />2020-11-08T22:29:40Z [monitor] gain:  4.57, freq:    -7.6, omega: 8.166, vit(avg): 2205, rs(sum):    0, packets:  0, drops: 12<br />2020-11-08T22:29:41Z [monitor] gain:  4.59, freq:    26.5, omega: 8.166, vit(avg): 2182, rs(sum):    0, packets:  0, drops: 11<br />2020-11-08T22:29:42Z [monitor] gain:  4.60, freq:     7.4, omega: 8.167, vit(avg): 2194, rs(sum):    0, packets:  0, drops: 12<br />2020-11-08T22:29:43Z [monitor] gain:  4.61, freq:   -13.3, omega: 8.167, vit(avg): 2179, rs(sum):    0, packets:  0, drops: 11<br />2020-11-08T22:29:44Z [monitor] gain:  4.62, freq:   -41.2, omega: 8.167, vit(avg): 2186, rs(sum):    0, packets:  0, drops: 12<br />2020-11-08T22:29:45Z [monitor] gain:  4.60, freq:   -16.9, omega: 8.167, vit(avg): 2194, rs(sum):    0, packets:  0, drops: 11<br />^CSignal caught, exiting!<br />2020-11-08T22:29:46Z [monitor] gain:  4.58, freq:   -27.7, omega: 8.167, vit(avg): 2185, rs(sum):    0, packets:  0, drops:  2<br />Reattached kernel driver<br />  </code></pre>  <br />Many of the blogs seemed to make a big deal about leveling, having accurate compass, and other positioning issues. I don't think any of that is essential. The only thing really important is <i>stability</i>. I did buy an <a href="https://smile.amazon.com/gp/product/B00004T807/">inexpensive angle locator on Amazon</a>:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-HXVyurk0liY/X6xWhf0_V_I/AAAAAAAAC_o/FvZxK1sb6o0zPAiApIvUqMOiUTxmOCpMgCLcBGAsYHQ/s1200/angle%2Bfinder.jpg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1200" data-original-width="1007" height="320" src="https://1.bp.blogspot.com/-HXVyurk0liY/X6xWhf0_V_I/AAAAAAAAC_o/FvZxK1sb6o0zPAiApIvUqMOiUTxmOCpMgCLcBGAsYHQ/s320/angle%2Bfinder.jpg" /></a></div><br /><div>So the only thing I actually <i>measured </i>was the initial inclination of the dish boom - which btw is aluminum, so the magnetic feature didn't help much here. I pointed the dish in the general direction of the satellite as indicated for my location from&nbsp;<a href="https://www.dishpointer.com/">www.dishpointer.com</a>. Then I loaded up <a href="https://play.google.com/store/apps/details?id=com.sonelli.juicessh&amp;hl=en_US">juice ssh</a> on a mobile device (or you could take a laptop), and manually adjusted the dish to get the vit(avg) values as low as possible.</div><div><br /></div><div>   And don't be discouraged if all packets are initially dropped, it may take a bit of time for the signal to lock:    <pre><code>pi@raspberrypi:~ $ goesrecv -c goes.conf -v -i 1<br />Detached kernel driver<br />Found Elonics E4000 tuner<br />Disabled direct sampling mode<br />[E4K] PLL not locked for 0 Hz!<br />Exact sample rate is: 2000000.052982 Hz<br />Allocating 15 zero-copy buffers<br />2020-11-09T15:49:02Z [monitor] gain:  2.82, freq:    34.9, omega: 2.157, vit(avg): 1149, rs(sum):    0, packets:  0, drops: 40<br />2020-11-09T15:49:03Z [monitor] gain:  3.07, freq:    26.5, omega: 2.157, vit(avg): 1151, rs(sum):    0, packets:  0, drops: 54<br />2020-11-09T15:49:04Z [monitor] gain:  3.07, freq:    12.2, omega: 2.157, vit(avg): 1150, rs(sum):    0, packets:  0, drops: 56<br />2020-11-09T15:49:05Z [monitor] gain:  3.07, freq:    -4.6, omega: 2.157, vit(avg): 1172, rs(sum):    0, packets:  0, drops: 54<br />2020-11-09T15:49:06Z [monitor] gain:  3.08, freq:    -7.8, omega: 2.157, vit(avg): 1148, rs(sum):    0, packets:  0, drops: 57<br />2020-11-09T15:49:07Z [monitor] gain:  3.08, freq:    -1.2, omega: 2.157, vit(avg): 1166, rs(sum):    0, packets:  0, drops: 57<br />2020-11-09T15:49:08Z [monitor] gain:  3.08, freq:    13.2, omega: 2.158, vit(avg): 1164, rs(sum):    0, packets:  0, drops: 51<br />2020-11-09T15:49:09Z [monitor] gain:  3.08, freq:    -9.9, omega: 2.157, vit(avg): 1143, rs(sum):    0, packets:  0, drops: 52<br />2020-11-09T15:49:10Z [monitor] gain:  3.08, freq:    32.7, omega: 2.158, vit(avg): 1217, rs(sum):    0, packets:  0, drops: 52<br />2020-11-09T15:49:11Z [monitor] gain:  3.09, freq:  -870.8, omega: 2.157, vit(avg):  821, rs(sum):   16, packets: 19, drops: 35<br />2020-11-09T15:49:12Z [monitor] gain:  3.09, freq: -2376.1, omega: 2.157, vit(avg):  199, rs(sum):   76, packets: 55, drops:  0<br />2020-11-09T15:49:13Z [monitor] gain:  3.09, freq: -2352.7, omega: 2.158, vit(avg):  196, rs(sum):   65, packets: 56, drops:  0<br />2020-11-09T15:49:14Z [monitor] gain:  3.09, freq: -2351.0, omega: 2.157, vit(avg):  196, rs(sum):   76, packets: 57, drops:  0<br />2020-11-09T15:49:15Z [monitor] gain:  3.09, freq: -2391.0, omega: 2.158, vit(avg):  195, rs(sum):   64, packets: 58, drops:  0<br />2020-11-09T15:49:16Z [monitor] gain:  3.09, freq: -2377.3, omega: 2.158, vit(avg):  199, rs(sum):   83, packets: 55, drops:  0<br />2020-11-09T15:49:17Z [monitor] gain:  3.10, freq: -2337.0, omega: 2.158, vit(avg):  197, rs(sum):   89, packets: 57, drops:  0<br />2020-11-09T15:49:18Z [monitor] gain:  3.09, freq: -2385.5, omega: 2.157, vit(avg):  195, rs(sum):   52, packets: 58, drops:  0<br />2020-11-09T15:49:19Z [monitor] gain:  3.09, freq: -2393.7, omega: 2.158, vit(avg):  196, rs(sum):   72, packets: 56, drops:  0<br />2020-11-09T15:49:20Z [monitor] gain:  3.10, freq: -2389.4, omega: 2.158, vit(avg):  196, rs(sum):  103, packets: 56, drops:  0<br />  </code></pre>  <br />         <pre><code># Example configuration file for goesproc<br />#<br /># This tool is designed to run on streaming data (live or recorded)<br /># and product whatever is listed in this file. A single product can be<br /># processed multiple times (e.g. with different contrast curves,<br /># different scale, or different annotations) by listing multiple<br /># handlers for that same product.<br />#<br /><br /># GOES-16 mesoscale region 1 imagery is stored at ./goes16/m1/YYYY-MM-DD<br /># The pattern specified in {time:XXX} is extrapolated using strftime(3).<br /># It can be used more than once if needed.<br />[[handler]]<br />type = "image"<br />origin = "goes17"<br />region = "m1"<br />dir = "./goes17/m1/{time:%Y-%m-%d}"<br /><br /># GOES-17 full disk originals.<br />[[handler]]<br />type = "image"<br />origin = "goes17"<br />region = "fd"<br />dir = "./goes17/fd/{time:%Y-%m-%d}"<br /><br /># GOES-16 full disk, channel 2, with contrast curve applied.<br /># The section [handler.remap] below applies to this handler.<br />[[handler]]<br />type = "image"<br />origin = "goes17"<br />region = "fd"<br />channels = [ "ch02" ]<br />directory = "./goes16/fd/{time:%Y-%m-%d}"<br />filename = "{filename}_contrast"<br /><br />  </code></pre>    Running in a second SSH session: <br />    <pre><code>sudo goesproc -c ~/goesproc.conf --subscribe tcp://127.0.0.1:5004<br />    </code></pre><div><br /></div>Note that yes, I am using sudo with goesproc. Although it seemed to run without error otherwise, the files that it claimed to have saved were nowhere to be found.</div><div><br /></div><div>To get the pictures off the Raspberry Pi, you can use pscp that comes with Putty.</div><div><br /></div><div>That's only fun for the first few pictures, I suggest getting something like <a href="https://winscp.net/eng/download.php">winscp</a>.</div><div><br /><ul style="text-align: left;"><li><a href="https://www.rtl-sdr.com/rtl-sdr-com-goes-16-17-and-gk-2a-weather-satellite-reception-comprehensive-tutorial/">rtl-sdr.com GOES 16/17 and gk 2a weather satellite reception comprehensive tutorial</a><br /></li><li><a href="https://gist.github.com/lxe/c1756ca659c3b78414149a3ea723eae2#file-goes16-rtlsdr-md">Receive GOES-16 and GOES-17 Images with a Raspberry Pi and RTL-SDR dongle</a><br /></li><li><a href="https://www.dishpointer.com/">www.dishpointer.com</a><br /></li><li><a href="http://usradioguy.com/">usradioguy.com</a><br /></li><li><a href="https://pietern.github.io/goestools/index.html">pietern.github.io/goestools</a><br /></li><li><a href="https://pietern.github.io/goestools/guides/minimal_receiver.html">goestools - A minimal LRIT/HRIT receiver</a><br /></li><li><a href="https://pietern.github.io/goestools/installation.html#installation">goestools installation</a><br /></li><li><a href="https://pietern.github.io/goestools/commands/goesrecv.html#sample-configuration">goestools goesrecv</a>; see&nbsp;<a href="https://github.com/pietern/goestools/blob/master/etc/goesrecv.conf">./etc/goesrecv.conf</a><br /></li><li><a href="https://pietern.github.io/goestools/commands/goesproc.html">goestools goesproc</a><br /></li><li><a href="https://wx-star.com/post/169608535305/designing-false-colors-for-goes-r-hrit">Designing false colors for goes-r hrit</a><br /></li><li><a href="https://usa-satcom.com/xrit-decoder-for-goes-satellite/">xrit decoder</a><br /></li><li><a href="https://wiki.satnogs.org/SatNOGS_Rotator_v3">SatNOGS Rotator v3</a><br /></li><li><a href="https://cimss.ssec.wisc.edu/satellite-blog/archives/30714">CIMSS Satellite Blog - GOES-17 arrives at its GOES-West position of 137.2º W longitude</a><br /></li></ul></div>
+
+<p>
+These are my (admittedly sometimes long and rambling) thoughts and more of a "review" of my recent purchase. I'm planning a second blog with just the details on setting up. Stay tuned.
+</p>
+
+<p>
+My first "full disk" image was pulled from the GOES-17 Satellite on <a href="https://twitter.com/gojimmypi/status/1325599563906867200?s=20">November 8</a>!
+</p>
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1216/helloworld_blog.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="849" data-original-width="1216" height="279" src="../images/w400-h279/helloworld_blog.png" width="400"></a>
+</div>
+
+<p>
+I've been wanting to learn about satellite reception and SDR signal processing for quite some time. I have pretty much zero experience here. I've never even owned a TV satellite dish. This is certainly not my first SDR product from Nooelec. I first received their&nbsp;<a href="https://smile.amazon.com/dp/B01HA642SW/">NESDR Smart RTL-SDR</a>&nbsp;as a birthday present several years ago, and really enjoyed setting up&nbsp;<a href="{{ site.baseurl }}{% post_url 2017-07-22-openwrt-on-ea3500-with-rtl-sdr-stream %}">OpenWRT on EA3500 with RTL-SDR Stream</a>.&nbsp;
+</p>
+
+<p>
+I was inspired to buy the <a href="https://smile.amazon.com/gp/product/B08HGQXC7C/">Nooelec kit on Amazon</a>&nbsp;after reading about it on the <a href="https://www.rtl-sdr.com/new-goes-weather-satellite-bundle-from-nooelec/">RTL SDR blog</a>, in particular the quite excellent <a href="https://www.rtl-sdr.com/rtl-sdr-com-goes-16-17-and-gk-2a-weather-satellite-reception-comprehensive-tutorial/">online tutorial on GOES 16/17 Weather Satellite Reception</a>. This was somewhat of a gamble, as I bought mine before any of the reviews on Amazon. (there are now <i>several </i>5 star reviews!)
+</p>
+
+<p>
+I first tried&nbsp;<a href="https://en.wikipedia.org/wiki/GOES-17">137.2W GOES-S (GOES-17)</a>.
+</p>
+
+<p>
+See also the&nbsp;<a href="https://www.reddit.com/r/amateursatellites/comments/jqcaxl/psa_what_you_need_to_know_about_goes13/">reddit PSA PSA: What you need to know about GOES-13</a>:
+</p>
+<blockquote style="border: none; margin: 0px 0px 0px 40px; padding: 0px;">
+<p style="text-align: left;">
+<i>The hardware and software requirements for successful GOES-13 decoding are completely different from GOES-16/17 and all other L-Band geostationary weather satellites, do not expect the same setup that works for LRIT/HRIT to work with GOES-13</i>
+</p>
+ </blockquote>
+<p>
+Update: The&nbsp;<a href="http://usradioguy.com/goes-satellite-imagery-reception/">USRADIOGUY GOES Satellite Imagery Reception</a>&nbsp;is a great place for info, that would have been quite helpful had I known about it when I started.&nbsp;
+</p>
+
+<p>
+Note that if you go looking for those PDF files at the end in the <a href="https://github.com/creinemann/goestools#resources">resources section</a>, they are no longer available. I contacted&nbsp;NOAA support and they responded within 24 hours and even included the files! I submitted an <a href="https://github.com/pietern/goestools/pull/102">upstream PR</a>, but it looks like there has not been much activity recently. I have a copy in my WIP <a href="https://github.com/gojimmypi/goes-setup/tree/main/doc">GOES-Setup docs</a>.
+</p>
+
+<p>
+When the kit arrived, I thought the dish was all one piece, as it arrived in one of the biggest Amazon boxes I've ever received. Is the box half full or half empty? I think it is twice as big as it needs to be, just the right size for two of them:
+</p>
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1289/IMG-20201111-WA0002.jpg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="739" data-original-width="1289" src="../images/s320/IMG-20201111-WA0002.jpg" width="320"></a>
+</div>
+<br />
+
+<p>
+The out-of-box experience was a bit frustrating. There was pretty much no documentation included on assembly or operation. The only thing included was a thank-you card with a link to <a href="http://start.nesdr.com">start.nesdr.com</a>&nbsp;which as of the time if this writing, just redirected to&nbsp;<a href="https://www.nooelec.com/store/qs">nooelec.com/store/qs</a>&nbsp;with nothing more than basic information on how install the drivers.&nbsp;
+</p>
+
+<p>
+Update: there's now a helpful&nbsp;<a href="https://support.nooelec.com/hc/en-us/articles/360058812593-Nooelec-GOES-Weather-Satellite-RTL-SDR-Bundle">Set-Up Instructions</a>&nbsp;page on the Nooelec site, and they've added a setup picture on the Amazon product page:
+</p>
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1500/connection_info.jpg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1500" data-original-width="1370" height="320" src="../images/s320/connection_info.jpg"></a>
+</div>
+<br />
+
+<p>
+The "driver download" is actually just an old (Version 2.3 from 2017) of Zadig, not actually the drivers. The Nooelec web site was also annoying, as well: Google Chrome would do this annoying oscillation when hovering over the little question mark icons to view the pictures. It was <a href="https://www.youtube.com/watch?v=lb1M4ttN4MU">exceptionally frustrating</a> to <i>just view the web picture</i>. Within 24 hours of my message to support, the Nooelec folks fixed that!
+</p>
+
+<p>
+In any case, there's not much to do in Windows anyhow, as the <a href="https://usa-satcom.com/xrit-decoder-for-goes-satellite/">XRIT Decoder for GOES Satellite</a> is another $125, as <a href="https://twitter.com/Nooelec/status/1321819968791580672?s=20">noted on Twitter</a>; note in particular the link to&nbsp;<a href="https://pietern.github.io/goestools/guides/minimal_receiver.html">A minimal LRIT/HRIT receiver</a>. But I wanted to at least see if everything was working in Windows.
+</p>
+ 
+<p>
+Nooelec has <a href="https://www.nooelec.com/store/catalogsearch/result/?q=sawbird">several SAWbird Low Noise Amplifiers ("LNA")</a>&nbsp;for <a href="https://www.nooelec.com/store/sawbird-plus-noaa-308.html">NOAA</a>, the <a href="https://www.nooelec.com/store/sawbird-ir.html">iridium and Inmarsat</a>&nbsp;and other satellites, but the one shipped in this kit was the <a href="https://www.nooelec.com/store/sawbird-goes-305.html">GOES</a> flavor with a 1688 MHz Center Frequency: specifically the "premium" version with an aluminum enclosure. Note there's another bare board version.
+</p>
+
+<p>
+The kit ships with a USB to power adapter. I had no idea if I am supposed to use it or not, as their web site claims:
+</p>
+<blockquote style="border: none; margin: 0px 0px 0px 40px; padding: 0px;">
+<p style="text-align: left;">
+&nbsp;"<i>Each module allows for 3 different power options, <b>but you should only power with one option at any given time</b></i>! <i>The recommended power input through the SMA output port (for bias-tee capable SDRs like the NESDR SMArTee XTR) is 3V-5V DC</i>".&nbsp;
+</p>
+</blockquote>
+<p>
+As the&nbsp;NESDR SMArTee XTR was also part of the kit, I assumed the power adapter is superfluous. However the web site also states "<i>Our recommendation is the NESDR SMArTee XTR <b>v2</b>, which contains a bias-tee capable of powering the SAWbird GOES module with bias power</i>". Not a single one of&nbsp; the&nbsp;<a href="https://www.nooelec.com/store/catalogsearch/result/index/?p=1&amp;q=nesdr+xtr">nesdr xtr</a>&nbsp;items made any mention of a "V2". There's one that looks similar, a&nbsp;<a href="https://www.nooelec.com/store/nesdr-smart-xtr-sdr.html">Nooelec NESDR SMArt XTR SDR - Premium RTL-SDR w/ Extended Tuning Range, Aluminum Enclosure, 0.5PPM TCXO, SMA Input</a>&nbsp;and another that looks exactly the same, but is labeled as&nbsp;<a href="https://www.nooelec.com/store/nesdr-smartee-xtr-sdr.html">Nooelec NESDR SMArTee XTR SDR - Premium RTL-SDR w/ Extended Tuning Range, Aluminum Enclosure, Bias Tee, 0.5PPM TCXO, SMA Input</a>. (note that it mentions the "bias tee") I'm hoping the Amazon description of "<i>The NESDR SMArTee XTR SDR unit will automatically feed the LNA through a built-in always-on Bias-T</i>" is accurate and this will actually power the SAWbird.
+</p>
+
+<p>
+Update: yes, it does! The power adapter is not needed; it's a bonus!
+</p>
+<blockquote style="border: none; margin: 0px 0px 0px 40px; padding: 0px;">
+<p style="text-align: left;">
+"<i>There is no need to use the external power option.&nbsp; We opted to include the cable as it allows for easier use for customers who might want to use a different SDR for decoding than what came in the bundle</i>" -- Nooelec Support
+</p>
+</blockquote> 
+<p>
+The SAWbird was initially equally frustrating; an SMA connector on each end with absolutely no indication of which end is input and which is output.&nbsp;
+</p>
+
+<p>
+Update: Apparently somehow my SAWbird snuck through QA missing the silkscreen (perhaps that makes it a Collector's Edition?)
+</p>
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1189/my_Nooelec.PNG" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="659" data-original-width="1189" src="../images/s320/my_Nooelec.PNG" width="320"></a>
+</div>
+
+<p>
+There's a&nbsp;<a href="../images/a/sawbird_2_4_2.png">poor quality picture on the Nooelec site</a>&nbsp;that shows the bare board version has the input on the USB-side of the device:
+</p>
+
+<p>
+<br />
+
+</p>
+
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s746/sawbird_input.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="706" data-original-width="746" src="../images/s320/sawbird_input.png" width="320"></a>
+</div>
+As those labels are barely visible, it is at least reassuring to see the output label on the other end:
+<div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s661/sawbird_output.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="553" data-original-width="661" src="../images/s320/sawbird_output.png" width="320"></a>
+</div>
+<br />Although I suppose it makes sense to have power input on the antenna input site of the SAWbird, it ends up being the 
+<i>opposite </i>end of the USB input on the SMArtee device. So in the case of no bias-tee, you have power at opposite ends.
+</div>
+
+<br />
+
+<div>
+Update: the kind support folks at Nooelec pointed out that there <i>should </i>be a silkscreen as on the <a href="https://www.nooelec.com/store/sdr/sdr-addons/sawbird/sawbird-h1.html">Hydrogen Line SAWbird</a>&nbsp;as shown in this image from their product web page, confirming that yes the input from the antenna is on the USB port end:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1200/sawbird_input.jpg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1200" data-original-width="1200" height="320" src="../images/s320/sawbird_input.jpg"></a>
+</div>
+<br />
+
+<div>
+On the topic of input, see the <a href="https://www.rtl-sdr.com/rtl-sdr-com-goes-16-17-and-gk-2a-weather-satellite-reception-comprehensive-tutorial/">RTL SDR blog</a>, in particular the part:
+</div>
+<br />
+<blockquote style="border: none; margin: 0px 0px 0px 40px; padding: 0px;"><i>Either use low loss coax cable or a USB extension cable to get the LNA and/or RTL-SDR out to the antenna.&nbsp; ...&nbsp;</i><i>
+We strongly recommend using as little coax as possible after the LNA too. The SAWbird LNA doesn't have enough gain to push the signal through long runs of coax. If you're forced to use long runs of coax, use a secondary LNA. Preferably use a USB extension cable to reduce coax runs</i></blockquote><br /> 
+
+<div>
+I would certainly have preferred a long stretch of active USB cable instead of&nbsp;10m (30 feet) of LMR400 cable. Although yes the LMR400 is "low loss", it is certainly not "no loss". This&nbsp;<a href="https://www.pasternack.com/50-ohm-low-loss-flexible-lmr400-pe-jacket-double-shielded-black-lmr-400-P.aspx">Pasternack Product Listing</a>, and in particular the <a href="https://www.pasternack.com/images/ProductPDF/LMR-400.pdf">datasheet</a>&nbsp;indicates that there's fairly significant loss in the 1.7GHz range and shown from this snip of Times Microwave Systems graph:
+</div>
+ <br />
+
+<div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s864/LMR400_Attenuation.PNG" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="766" data-original-width="864" height="284" src="../images/w320-h284/LMR400_Attenuation.PNG" title="LMR400" width="320"></a>
+</div>
+<br />After reading this blog, the Nooelec folks kindly responded with this helpful information:
+
+</div>
+<br />
+<blockquote style="border: none; margin: 0px 0px 0px 40px; padding: 0px;">
+<div style="text-align: left;">
+<i>"The snipped of text from the blog website you quoted is lacking a bit in detail.&nbsp; As general advice (for which it was intended) it's appropriate.&nbsp; However, the details matter.&nbsp; The required level of gain from the 1st &amp; 2nd stage amplification on the SAWbird LNA will be contingent on the signal strength from the antenna (which is higher from our custom mesh than most normal installations).&nbsp; Further, it assumes a lossy cable (most people at best use RG58, which has insertion loss 4x higher than the included LMR400).&nbsp; Without getting into all the finer details, for most installations there will be about 10dB of headroom from the SAWbird before issues should start to crop up that might require a secondary LNA.&nbsp; That would be about 150' or more of LMR400 :)&nbsp; There should be zero difference if you try to decode at the output of the SAWbird vs. after the LMR400 included other than the gain on the SDR which would be more than sufficient to compensate for it.&nbsp; What matters more is the noise figure, which is dominated by the signal chain at and before the first LNA in the SAWbird.&nbsp; That is why we use high quality LMR400 on the antenna as well, and why that length is short, and why we mention it is crucial to keep the SAWbird as close to the antenna as possible." -- </i>Nooelec support
+</div>
+</blockquote><br />
+<br />
+
+<div>
+On to Raspberry Pi setup... See my prior blog on&nbsp;<a href="{{ site.baseurl }}{% post_url 2020-10-24-raspberry-pi-headless-setup %}">Raspberry Pi Headless Setup</a>
+</div>
+<br />
+
+<div>
+Do not install the RTLSDR USB hardware into an already powered-on Raspberry Pi! The RPi crashes from the power surge. Yes, I learned this the hard way. I never trust the SD card after such a crash, so I started over.
+</div>
+<br />
+
+<div>
+I ran the install for the Raspberry Pi. It takes quite some time to download and install everything:
+<p>
+   
+</p>
+
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo apt-get install -y \
+    build-essential \
+    cmake \
+    git-core \
+    libopencv-dev \
+    zlib1g-dev \
+    librtlsdr-dev
+# be sure librtlsdr-dev is installed *before* compiling! 
+git clone --recursive https://github.com/pietern/goestools
+cd goestools
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local
+make
+sudo make install      </code></pre>
+  <br />  Yes, without the 
+<code class="highlight">sudo</code> for <code class="highlight">make install</code>, I saw this error:   
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+  
+  Install the project...
+-- Install configuration: "RelWithDebInfo"
+CMake Error at cmake_install.cmake:41 (file):
+  file cannot create directory: /usr/local/share/goestools.  Maybe need
+  administrative privileges.
+make: *** [Makefile:140: install] Error 1</code></pre>
+     <br />
+<br />
+
+</div>
+
+<div>
+  There are <i>two </i>components to receiving satellite images, that I ran in separate putty sessions. One is the goesrecv which, as the name implies, is the data stream receiver. The other key software component that runs completely separately, either on the same RPi or another computer, is the goesproc which actually processes the data stream and turns it into images. Amazing images.
+</div>
+<br />
+
+<div>
+Note the "source" just refers to one of the other sections in the config file with parameter settings:   <br />  
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+[demodulator]
+# mode = "lrit"
+mode = "hrit"
+source = "rtlsdr"
+# The section below configures the sample source to use.
+#
+# You can leave them commented out to use the default values for the
+# demodulator mode you choose ("lrit" or "hrit"). To use and configure
+# any of them, uncomment the section below, and change the demodulator
+# source field to match the source you want to use.
+#
+# [airspy]
+# frequency = 1694100000
+# gain = 18
+[rtlsdr]
+frequency = 1694100000
+sample_rate = 2000000
+gain = 30
+bias_tee = true
+# [nanomsg]
+# connect = "tcp://1.2.3.4:5005"
+# receive_buffer = 2097152
+# sample_rate = 2400000
+[costas]
+max_deviation = 200e3
+# [clock_recovery.sample_publisher]
+# bind = "tcp://0.0.0.0:5002"
+# send_buffer = 2097152
+[quantization.soft_bit_publisher]
+bind = "tcp://0.0.0.0:5001"
+send_buffer = 1048576
+[decoder.packet_publisher]
+bind = "tcp://0.0.0.0:5004"
+send_buffer = 1048576
+# The demodulator stats publisher sends a JSON object that describes
+# the state of the demodulator (gain, frequency correction, samples
+# per symbol), for every block of samples.
+#[demodulator.stats_publisher]
+#bind = "tcp://0.0.0.0:6001"
+# The decoder stats publisher sends a JSON object for every packet it
+# decodes (Viterbi corrections, Reed-Solomon corrections, etc.).
+[decoder.stats_publisher]
+bind = "tcp://0.0.0.0:6002"
+# The monitor can log aggregated stats (counters, gauges, and
+# histograms) to a statsd daemon. Because this uses UDP, you can keep
+# this enabled even if you haven't setup a statsd daemon yet.
+[monitor]
+statsd_address = "udp4://localhost:8125"</code></pre>
+    <br />  Then run    
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+goesrecv -c goes.conf -v -i 1  </code></pre>
+  <br />  Note if you see an error: 
+<code class="highlight">Invalid downlink type:</code> then you forgot to uncomment the <code class="highlight">hrit</code> or <code class="highlight">lrit</code> in the <code class="highlight">[demodulator]</code> section of the config file. I opened <a href="https://github.com/pietern/goestools/issues/101">Issue #101</a>
+ to perhaps address this for others.&nbsp;<br />
+For reference, if the receiver is getting no data (such as the case when sitting in the house on the kitchen floor for me during initial setup), the output looks like this: 
+<br />   
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+pi@raspberrypi:~ $ goesrecv -c goes.conf -v -i 1
+Detached kernel driver
+Found Elonics E4000 tuner
+Disabled direct sampling mode
+[E4K] PLL not locked for 0 Hz!
+Allocating 15 zero-copy buffers
+2020-11-08T22:29:39Z [monitor] gain:  3.99, freq:    39.0, omega: 8.166, vit(avg): 2167, rs(sum):    0, packets:  0, drops:  6
+2020-11-08T22:29:40Z [monitor] gain:  4.57, freq:    -7.6, omega: 8.166, vit(avg): 2205, rs(sum):    0, packets:  0, drops: 12
+2020-11-08T22:29:41Z [monitor] gain:  4.59, freq:    26.5, omega: 8.166, vit(avg): 2182, rs(sum):    0, packets:  0, drops: 11
+2020-11-08T22:29:42Z [monitor] gain:  4.60, freq:     7.4, omega: 8.167, vit(avg): 2194, rs(sum):    0, packets:  0, drops: 12
+2020-11-08T22:29:43Z [monitor] gain:  4.61, freq:   -13.3, omega: 8.167, vit(avg): 2179, rs(sum):    0, packets:  0, drops: 11
+2020-11-08T22:29:44Z [monitor] gain:  4.62, freq:   -41.2, omega: 8.167, vit(avg): 2186, rs(sum):    0, packets:  0, drops: 12
+2020-11-08T22:29:45Z [monitor] gain:  4.60, freq:   -16.9, omega: 8.167, vit(avg): 2194, rs(sum):    0, packets:  0, drops: 11
+^CSignal caught, exiting!
+2020-11-08T22:29:46Z [monitor] gain:  4.58, freq:   -27.7, omega: 8.167, vit(avg): 2185, rs(sum):    0, packets:  0, drops:  2
+Reattached kernel driver  </code></pre>
+  <br />Many of the blogs seemed to make a big deal about leveling, having accurate compass, and other positioning issues. I don't think any of that is essential. The only thing really important is 
+<i>stability</i>. I did buy an <a href="https://smile.amazon.com/gp/product/B00004T807/">inexpensive angle locator on Amazon</a>:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1200/angle_finder.jpg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1200" data-original-width="1007" height="320" src="../images/s320/angle_finder.jpg"></a>
+</div>
+<br />
+
+<div>
+So the only thing I actually <i>measured </i>was the initial inclination of the dish boom - which btw is aluminum, so the magnetic feature didn't help much here. I pointed the dish in the general direction of the satellite as indicated for my location from&nbsp;<a href="https://www.dishpointer.com/">www.dishpointer.com</a>. Then I loaded up <a href="https://play.google.com/store/apps/details?id=com.sonelli.juicessh&amp;hl=en_US">juice ssh</a> on a mobile device (or you could take a laptop), and manually adjusted the dish to get the vit(avg) values as low as possible.
+</div>
+<br />
+
+<div>
+   And don't be discouraged if all packets are initially dropped, it may take a bit of time for the signal to lock:    
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+pi@raspberrypi:~ $ goesrecv -c goes.conf -v -i 1
+Detached kernel driver
+Found Elonics E4000 tuner
+Disabled direct sampling mode
+[E4K] PLL not locked for 0 Hz!
+Exact sample rate is: 2000000.052982 Hz
+Allocating 15 zero-copy buffers
+2020-11-09T15:49:02Z [monitor] gain:  2.82, freq:    34.9, omega: 2.157, vit(avg): 1149, rs(sum):    0, packets:  0, drops: 40
+2020-11-09T15:49:03Z [monitor] gain:  3.07, freq:    26.5, omega: 2.157, vit(avg): 1151, rs(sum):    0, packets:  0, drops: 54
+2020-11-09T15:49:04Z [monitor] gain:  3.07, freq:    12.2, omega: 2.157, vit(avg): 1150, rs(sum):    0, packets:  0, drops: 56
+2020-11-09T15:49:05Z [monitor] gain:  3.07, freq:    -4.6, omega: 2.157, vit(avg): 1172, rs(sum):    0, packets:  0, drops: 54
+2020-11-09T15:49:06Z [monitor] gain:  3.08, freq:    -7.8, omega: 2.157, vit(avg): 1148, rs(sum):    0, packets:  0, drops: 57
+2020-11-09T15:49:07Z [monitor] gain:  3.08, freq:    -1.2, omega: 2.157, vit(avg): 1166, rs(sum):    0, packets:  0, drops: 57
+2020-11-09T15:49:08Z [monitor] gain:  3.08, freq:    13.2, omega: 2.158, vit(avg): 1164, rs(sum):    0, packets:  0, drops: 51
+2020-11-09T15:49:09Z [monitor] gain:  3.08, freq:    -9.9, omega: 2.157, vit(avg): 1143, rs(sum):    0, packets:  0, drops: 52
+2020-11-09T15:49:10Z [monitor] gain:  3.08, freq:    32.7, omega: 2.158, vit(avg): 1217, rs(sum):    0, packets:  0, drops: 52
+2020-11-09T15:49:11Z [monitor] gain:  3.09, freq:  -870.8, omega: 2.157, vit(avg):  821, rs(sum):   16, packets: 19, drops: 35
+2020-11-09T15:49:12Z [monitor] gain:  3.09, freq: -2376.1, omega: 2.157, vit(avg):  199, rs(sum):   76, packets: 55, drops:  0
+2020-11-09T15:49:13Z [monitor] gain:  3.09, freq: -2352.7, omega: 2.158, vit(avg):  196, rs(sum):   65, packets: 56, drops:  0
+2020-11-09T15:49:14Z [monitor] gain:  3.09, freq: -2351.0, omega: 2.157, vit(avg):  196, rs(sum):   76, packets: 57, drops:  0
+2020-11-09T15:49:15Z [monitor] gain:  3.09, freq: -2391.0, omega: 2.158, vit(avg):  195, rs(sum):   64, packets: 58, drops:  0
+2020-11-09T15:49:16Z [monitor] gain:  3.09, freq: -2377.3, omega: 2.158, vit(avg):  199, rs(sum):   83, packets: 55, drops:  0
+2020-11-09T15:49:17Z [monitor] gain:  3.10, freq: -2337.0, omega: 2.158, vit(avg):  197, rs(sum):   89, packets: 57, drops:  0
+2020-11-09T15:49:18Z [monitor] gain:  3.09, freq: -2385.5, omega: 2.157, vit(avg):  195, rs(sum):   52, packets: 58, drops:  0
+2020-11-09T15:49:19Z [monitor] gain:  3.09, freq: -2393.7, omega: 2.158, vit(avg):  196, rs(sum):   72, packets: 56, drops:  0
+2020-11-09T15:49:20Z [monitor] gain:  3.10, freq: -2389.4, omega: 2.158, vit(avg):  196, rs(sum):  103, packets: 56, drops:  0  </code></pre>
+  <br />         
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# Example configuration file for goesproc
+#
+# This tool is designed to run on streaming data (live or recorded)
+# and product whatever is listed in this file. A single product can be
+# processed multiple times (e.g. with different contrast curves,
+# different scale, or different annotations) by listing multiple
+# handlers for that same product.
+#
+# GOES-16 mesoscale region 1 imagery is stored at ./goes16/m1/YYYY-MM-DD
+# The pattern specified in {time:XXX} is extrapolated using strftime(3).
+# It can be used more than once if needed.
+[[handler]]
+type = "image"
+origin = "goes17"
+region = "m1"
+dir = "./goes17/m1/{time:%Y-%m-%d}"
+# GOES-17 full disk originals.
+[[handler]]
+type = "image"
+origin = "goes17"
+region = "fd"
+dir = "./goes17/fd/{time:%Y-%m-%d}"
+# GOES-16 full disk, channel 2, with contrast curve applied.
+# The section [handler.remap] below applies to this handler.
+[[handler]]
+type = "image"
+origin = "goes17"
+region = "fd"
+channels = [ "ch02" ]
+directory = "./goes16/fd/{time:%Y-%m-%d}"
+filename = "{filename}_contrast"  </code></pre>
+    Running in a second SSH session: <br />    
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo goesproc -c ~/goesproc.conf --subscribe tcp://127.0.0.1:5004    </code></pre>
+<br />Note that yes, I am using sudo with goesproc. Although it seemed to run without error otherwise, the files that it claimed to have saved were nowhere to be found.
+
+</div>
+<br />
+
+<div>
+To get the pictures off the Raspberry Pi, you can use pscp that comes with Putty.
+</div>
+<br />
+
+<div>
+That's only fun for the first few pictures, I suggest getting something like <a href="https://winscp.net/eng/download.php">winscp</a>.
+</div>
+
+<div>
+<br />
+<ul style="text-align: left;"><li><a href="https://www.rtl-sdr.com/rtl-sdr-com-goes-16-17-and-gk-2a-weather-satellite-reception-comprehensive-tutorial/">
+rtl-sdr.com GOES 16/17 and gk 2a weather satellite reception comprehensive tutorial</a><br />
+</li><li><a href="https://gist.github.com/lxe/c1756ca659c3b78414149a3ea723eae2#file-goes16-rtlsdr-md">
+Receive GOES-16 and GOES-17 Images with a Raspberry Pi and RTL-SDR dongle</a><br />
+</li><li><a href="https://www.dishpointer.com/">
+www.dishpointer.com</a><br />
+</li><li><a href="http://usradioguy.com/">
+usradioguy.com</a><br />
+</li><li><a href="https://pietern.github.io/goestools/index.html">
+pietern.github.io/goestools</a><br />
+</li><li><a href="https://pietern.github.io/goestools/guides/minimal_receiver.html">
+goestools - A minimal LRIT/HRIT receiver</a><br />
+</li><li><a href="https://pietern.github.io/goestools/installation.html#installation">
+goestools installation</a><br />
+</li><li><a href="https://pietern.github.io/goestools/commands/goesrecv.html#sample-configuration">goestools goesrecv</a>; see&nbsp;<a href="https://github.com/pietern/goestools/blob/master/etc/goesrecv.conf">
+./etc/goesrecv.conf</a><br />
+</li><li><a href="https://pietern.github.io/goestools/commands/goesproc.html">
+goestools goesproc</a><br />
+</li><li><a href="https://wx-star.com/post/169608535305/designing-false-colors-for-goes-r-hrit">
+Designing false colors for goes-r hrit</a><br />
+</li><li><a href="https://usa-satcom.com/xrit-decoder-for-goes-satellite/">
+xrit decoder</a><br />
+</li><li><a href="https://wiki.satnogs.org/SatNOGS_Rotator_v3">
+SatNOGS Rotator v3</a><br />
+</li><li><a href="https://cimss.ssec.wisc.edu/satellite-blog/archives/30714">
+CIMSS Satellite Blog - GOES-17 arrives at its GOES-West position of 137.2º W longitude</a><br />
+</li></ul>
+</div>
+
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:55 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

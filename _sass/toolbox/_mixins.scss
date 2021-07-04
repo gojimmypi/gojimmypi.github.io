@@ -268,3 +268,17 @@
 }
 // @include flag(width, height, peak, direction, color)
 // flag, best on pseudo-elements, use for ribbons
+
+@mixin font-size($step) {
+    $multiplier: map-get($type-scale, 'scale');
+    $font-size-base: map-get($type-scale, 'font-size-base');
+    $step-config: map-get(map-get($type-scale, 'steps'), $step);
+
+    $font-size: rnd($font-size-base * pow($multiplier, $step), 2);
+    $line-height: map-get($step-config, 'line-height');
+    // expose CSS var to later compute other things, e.g., spacing
+    --line-height: #{$line-height};
+    --font-size: #{$font-size};
+    font-size: var(--font-size);
+    line-height: var(--line-height);
+}

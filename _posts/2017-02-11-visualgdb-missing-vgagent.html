@@ -15,4 +15,136 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-35056138919326680
 blogger_orig_url: https://gojimmypi.blogspot.com/2017/02/visualgdb-missing-vgagent.html
 ---
 
-<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">This morning my <a href="https://visualgdb.com/">VisualGDB</a>&nbsp;starting giving me problems with weird error messages about a missing file called <b>vgagent.exe</b></div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;"><br /></div><div class="separator" style="clear: both; text-align: center;"></div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">Rather than fuss with it, I decided might as well re-install - as I noticed there was an incrementally newer version available. So I downloaded VisualGDB-5.2r8-trial.msi (the previous one I downloaded was&nbsp;VisualGDB-5.2r7-trial.msi from January) from the&nbsp;<a href="https://visualgdb.com/download/">Sysprogs VisualGDB download page</a>.</div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;"><br /></div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">All installed successfully and I was able to resume my attempts at getting my Segger JTAG to debug the ESP8266 (which I <a href="http://gojimmypi.blogspot.com/2017/02/esp8266-jtag-debugging-in-visual-studio.html">did</a>!)</div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;"><br /></div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">After taking a break for a few hours, when I returned Norton Anti-virus had popped an alert that it had detected Heur.AdvML.B&nbsp;</div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;"><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://4.bp.blogspot.com/-tEtdVDNTsHY/WJ9UyK8JcoI/AAAAAAAAAG8/A4jPH1D1PuojOtHtDLgbp9OKnc46ozECACEw/s1600/vgagent.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="303" src="https://4.bp.blogspot.com/-tEtdVDNTsHY/WJ9UyK8JcoI/AAAAAAAAAG8/A4jPH1D1PuojOtHtDLgbp9OKnc46ozECACEw/s400/vgagent.PNG" width="400" /></a></div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;"><br /></div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;"><br />and this screen snip of the prior removal of the same-name file just yesterday:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://2.bp.blogspot.com/-q8daj7B-fHI/WJ9asqbtKiI/AAAAAAAAAHU/Wx1imGZv_p05htnUJwl39EeVGqlT-mEvgCLcB/s1600/vgagent_history.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="266" src="https://2.bp.blogspot.com/-q8daj7B-fHI/WJ9asqbtKiI/AAAAAAAAAHU/Wx1imGZv_p05htnUJwl39EeVGqlT-mEvgCLcB/s400/vgagent_history.PNG" width="400" /></a></div><br /><br /></div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">googling Heur.AdvML.B and&nbsp;there appears to be many suspect bait-and-infect links (so be careful when clicking).</div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;"><br /></div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">There's also a thread on the Norton forum that questions whether these are false positives:</div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;"><br /></div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;"><a href="https://community.norton.com/en/forums/heuradvmlb-detected-false-positive-or-not">https://community.norton.com/en/forums/heuradvmlb-detected-false-positive-or-not</a></div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;"><br /></div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">I've posted <a href="https://sysprogs.com/w/forums/topic/missing-vgagent-exe-problem-norton-av-thinks-it-is-infected-with-heur-advml-b/">this question on the syslogs forum</a>&nbsp;(hopefully it is indeed simply a false positive).</div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;"><br /></div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;"><br /></div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;"><br /></div><div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;"><br data-mce-bogus="1" /></div>
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+This morning my <a href="https://visualgdb.com/">VisualGDB</a>&nbsp;starting giving me problems with weird error messages about a missing file called <b>vgagent.exe</b>
+</div>
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: center;">
+</div>
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+Rather than fuss with it, I decided might as well re-install - as I noticed there was an incrementally newer version available. So I downloaded VisualGDB-5.2r8-trial.msi (the previous one I downloaded was&nbsp;VisualGDB-5.2r7-trial.msi from January) from the&nbsp;<a href="https://visualgdb.com/download/">Sysprogs VisualGDB download page</a>.
+</div>
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+<br />
+
+</div>
+
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+All installed successfully and I was able to resume my attempts at getting my Segger JTAG to debug the ESP8266 (which I <a href="http://gojimmypi.blogspot.com/2017/02/esp8266-jtag-debugging-in-visual-studio.html">did</a>!)
+</div>
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+<br />
+
+</div>
+
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+After taking a break for a few hours, when I returned Norton Anti-virus had popped an alert that it had detected Heur.AdvML.B&nbsp;
+</div>
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/vgagent.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="303" src="../images/s400/vgagent.PNG" width="400"></a>
+</div>
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+<br />
+
+</div>
+
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+<br />
+and this screen snip of the prior removal of the same-name file just yesterday:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/vgagent_history.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="266" src="../images/s400/vgagent_history.PNG" width="400"></a>
+</div>
+<br />
+<br />
+
+</div>
+
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+googling Heur.AdvML.B and&nbsp;there appears to be many suspect bait-and-infect links (so be careful when clicking).
+</div>
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+<br />
+
+</div>
+
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+There's also a thread on the Norton forum that questions whether these are false positives:
+</div>
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+<br />
+
+</div>
+
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+<a href="https://community.norton.com/en/forums/heuradvmlb-detected-false-positive-or-not">https://community.norton.com/en/forums/heuradvmlb-detected-false-positive-or-not</a>
+</div>
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+<br />
+
+</div>
+
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+I've posted <a href="https://sysprogs.com/w/forums/topic/missing-vgagent-exe-problem-norton-av-thinks-it-is-infected-with-heur-advml-b/">this question on the syslogs forum</a>&nbsp;(hopefully it is indeed simply a false positive).
+</div>
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+<br />
+
+</div>
+
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+<br />
+
+</div>
+
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+<br />
+
+</div>
+
+
+<div style="color: #333333; font-family: Georgia, &quot;Times New Roman&quot;, &quot;Bitstream Charter&quot;, Times, serif; font-size: 16px;">
+<br data-mce-bogus="1">
+
+</div>
+
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:51 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

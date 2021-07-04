@@ -15,4 +15,95 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-86610889250126011
 blogger_orig_url: https://gojimmypi.blogspot.com/2020/10/bridge-eth0-to-wlan0-with-wlankabel.html
 ---
 
-<div>I spent a ridiculous amount of time trying to persuade native Raspberry Pi OS to bridge the local ethernet port onto the WiFi segment. (turns out it is apparently not possible)&nbsp;</div><div><br /></div><div>My intention is having a remote device such as my <a href="https://www.crowdsupply.com/envox/eez-bb3">Envox BB3 programmable power supply</a> with only a wired ethernet connection, connect to my WiFi segment so that I can use <a href="https://www.envox.hr/eez/eez-bench-box-3/introduction.html">EEZ Studio</a>&nbsp;without needing to plug the BB3 into a wired ethernet port. The connection is the same as before:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-ANz0gpP4gIo/X5YQ80gHV1I/AAAAAAAAC6k/dqgkig2TNTo-ec-bKX6x1ZCsXpdCG44sACLcBGAsYHQ/s681/bb3%2Bwireless%2Bnetworking.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="100" data-original-width="681" height="59" src="https://1.bp.blogspot.com/-ANz0gpP4gIo/X5YQ80gHV1I/AAAAAAAAC6k/dqgkig2TNTo-ec-bKX6x1ZCsXpdCG44sACLcBGAsYHQ/w400-h59/bb3%2Bwireless%2Bnetworking.png" width="400" /></a></div><br /><div><br />In my <a href="{{ site.baseurl }}{% post_url 2020-10-25-raspberry-pi-network-eth0-to-wlan0 %}">prior blog, I came up with a somewhat brute-force method of setting up a local DHCP server and using dnsmasq</a>. However, as brute force methods go, it was also neither a very graceful nor flexible solution.<br /><br />While surfing the internet looking for alternatives, there was one person that casually mentioned "<i><a href="https://raspberrypi.stackexchange.com/questions/51057/raspberry-pi-3-model-b-wireless-bridge-to-ethernet">you can also try wlan_kabel</a></i>". This turned out to be a ridiculously cool solution! <br />   <br />Starting with <a href="{{ site.baseurl }}{% post_url 2020-10-24-raspberry-pi-headless-setup %}">my default headless Raspberry Pi setup</a>, install git and clone&nbsp;<a href="https://github.com/escitalopram/wlan_kabel">escitalopram's wlan_kabel</a>. You'll need the MAC address of the device to use; the BB3 shows this on the <a href="https://www.envox.hr/eez/eez-bench-box-3/bb3-user-manual/8-system-settings.html#bb3_man_ethernet_settings">ethernet settings screen</a>:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-zCSkwJOxmcc/X5XzqaTioHI/AAAAAAAAC54/Q5JrmTeDyj0IvB5dEtv6DrR_z1V20vzFQCLcBGAsYHQ/s480/bb3_man_ethernet_dhcp.jpg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="272" data-original-width="480" src="https://1.bp.blogspot.com/-zCSkwJOxmcc/X5XzqaTioHI/AAAAAAAAC54/Q5JrmTeDyj0IvB5dEtv6DrR_z1V20vzFQCLcBGAsYHQ/s320/bb3_man_ethernet_dhcp.jpg" width="320" /></a></div><br /><div><br /></div><br /><code><pre>sudo apt-get install git<br />git clone https://github.com/escitalopram/wlan_kabel.git<br />cd wlan_kabel<br />make<br /><br /># the magic (showing the example MAC address from the docs)<br /># you'll need to put your own address here:<br />sudo ./wlan_kabel wlan0 eth0 74:69:69:2d:30:11<br /></pre></code><br />That's it! It <i>just works</i>. There are of course limitations (one device connected to Raspberry Pi eth0 port). <br /><br />To run wlan_kabel at boot time, put this in <code>/etc/rc.local&nbsp;</code>:   <code><pre>(/home/pi/wlan_kabel/wlan_kabel wlan0 eth0 74:69:69:2d:30:11 &gt; /dev/null 2&gt;&amp;1) &amp;<br /></pre></code>Don't forget to use your own MAC address, and be sure to include the training ampersand.<div><br /></div><div>This is a vastly more graceful solution. Just plug in the RPi and connect to the IP address shown, in my case 192.168.1.114 then connect:</div><div><br /></div><div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-aYdKCxy3jx0/X5YIS1Ch--I/AAAAAAAAC6E/Gmos59kV-m41wKuIOCT5bvKGtVk2Hth8QCLcBGAsYHQ/s748/connect%2Bto%2Beez%2Bstudio.PNG" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="453" data-original-width="748" src="https://1.bp.blogspot.com/-aYdKCxy3jx0/X5YIS1Ch--I/AAAAAAAAC6E/Gmos59kV-m41wKuIOCT5bvKGtVk2Hth8QCLcBGAsYHQ/s320/connect%2Bto%2Beez%2Bstudio.PNG" width="320" /></a></div><br />&nbsp; Et voilà!<br /></div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-aMXKeQcqHXw/X5YIo-S8xBI/AAAAAAAAC6M/nAEDRsJRaaoV9aM6AcwfrEfeBIwAGAiTQCLcBGAsYHQ/s751/eez%2Bstudio%2Bconnected.PNG" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="474" data-original-width="751" src="https://1.bp.blogspot.com/-aMXKeQcqHXw/X5YIo-S8xBI/AAAAAAAAC6M/nAEDRsJRaaoV9aM6AcwfrEfeBIwAGAiTQCLcBGAsYHQ/s320/eez%2Bstudio%2Bconnected.PNG" width="320" /></a></div><div><br /></div>Note the hard-wired ethernet port of the BB3 on the other wise of the Raspberry Pi has an IP address from the WiFi.<br /><div><br /></div>
+
+<div>
+I spent a ridiculous amount of time trying to persuade native Raspberry Pi OS to bridge the local ethernet port onto the WiFi segment. (turns out it is apparently not possible)&nbsp;
+</div>
+<br />
+
+<div>
+My intention is having a remote device such as my <a href="https://www.crowdsupply.com/envox/eez-bb3">Envox BB3 programmable power supply</a> with only a wired ethernet connection, connect to my WiFi segment so that I can use <a href="https://www.envox.hr/eez/eez-bench-box-3/introduction.html">EEZ Studio</a>&nbsp;without needing to plug the BB3 into a wired ethernet port. The connection is the same as before:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s681/bb3_wireless_networking.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="100" data-original-width="681" height="59" src="../images/w400-h59/bb3_wireless_networking.png" width="400"></a>
+</div>
+<br />
+
+<div>
+<br />In my 
+<a href="{{ site.baseurl }}{% post_url 2020-10-25-raspberry-pi-network-eth0-to-wlan0 %}">prior blog, I came up with a somewhat brute-force method of setting up a local DHCP server and using dnsmasq</a>
+. However, as brute force methods go, it was also neither a very graceful nor flexible solution.<br />
+<br />While surfing the internet looking for alternatives, there was one person that casually mentioned "
+<i><a href="https://raspberrypi.stackexchange.com/questions/51057/raspberry-pi-3-model-b-wireless-bridge-to-ethernet">you can also try wlan_kabel</a></i>
+". This turned out to be a ridiculously cool solution! <br />
+   
+<br />Starting with 
+<a href="{{ site.baseurl }}{% post_url 2020-10-24-raspberry-pi-headless-setup %}">my default headless Raspberry Pi setup</a>, install git and clone&nbsp;<a href="https://github.com/escitalopram/wlan_kabel">escitalopram's wlan_kabel</a>. You'll need the MAC address of the device to use; the BB3 shows this on the <a href="https://www.envox.hr/eez/eez-bench-box-3/bb3-user-manual/8-system-settings.html#bb3_man_ethernet_settings">ethernet settings screen</a>:
+</div>
+
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s480/bb3_man_ethernet_dhcp.jpg" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="272" data-original-width="480" src="../images/s320/bb3_man_ethernet_dhcp.jpg" width="320"></a>
+</div>
+<br />
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo apt-get install git
+git clone https://github.com/escitalopram/wlan_kabel.git
+cd wlan_kabel
+make
+# the magic (showing the example MAC address from the docs)
+# you'll need to put your own address here:
+sudo ./wlan_kabel wlan0 eth0 74:69:69:2d:30:11</code></pre>
+<br />That's it! It 
+<i>just works</i>
+. There are of course limitations (one device connected to Raspberry Pi eth0 port). <br />
+<br />To run wlan_kabel at boot time, put this in 
+<code class="highlight">/etc/rc.local&nbsp;</code>:   
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+(/home/pi/wlan_kabel/wlan_kabel wlan0 eth0 74:69:69:2d:30:11 &gt; /dev/null 2&gt;&amp;1) &amp;</code></pre>
+Don't forget to use your own MAC address, and be sure to include the training ampersand.<br />
+
+<div>
+This is a vastly more graceful solution. Just plug in the RPi and connect to the IP address shown, in my case 192.168.1.114 then connect:
+</div>
+<br />
+
+<div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s748/connect_to_eez_studio.PNG" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="453" data-original-width="748" src="../images/s320/connect_to_eez_studio.PNG" width="320"></a>
+</div>
+<br />
+&nbsp; Et voilà!
+<br />
+
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s751/eez_studio_connected.PNG" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="474" data-original-width="751" src="../images/s320/eez_studio_connected.PNG" width="320"></a>
+</div>
+<br />
+Note the hard-wired ethernet port of the BB3 on the other wise of the Raspberry Pi has an IP address from the WiFi.
+<br />
+<br />
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:55 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

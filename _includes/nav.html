@@ -5,7 +5,7 @@
             <a class="toggle-link noline"><i class="fa fa-close fa-lg fa-fw"></i></a>
             <ul>
                 <li>
-                    <a class="homelink" href="{{ site.baseurl | replace: '//', '/' }}/"><i class="fa fa-home fa-lg fa-fw"></i></a>
+                    <a class="homelink" href="{{ site.baseurl | replace: '//', '/' }}/" title="Home" ><i class="fa fa-home fa-lg fa-fw"></i></a>
                 </li>
                 <li>
                     <a class="dropdown-button" href="#" data-activates='drop-author'>About<i class="fa fa-caret-down fa-fw"></i></a>
@@ -13,31 +13,37 @@
                 <li>
                     <a class="dropdown-button" href="#" data-activates='drop-archive'>Archive<i class="fa fa-caret-down fa-fw"></i></a>
                 </li>
-				  {% include nav_pages.html %}
+                {% include nav_pages.html %}
                 <li>
                     <a href="#colorswitch" class="modal-trigger">Change Colors <i class="fa fa-cog"></i></a>
                 </li>
-	        </ul>
+                <li id="theme-toggle-container" class="lamp-navbar-item">
+                    <button id="theme-toggle" class="lamp" aria-label="Toggle theme" type="button">
+                        <img id="lightModeIcon" src="{{ site.baseurl | replace: '//', '/' }}/icons/light_mode_white_24dp.svg" style="display:inline;" title="Light Mode; Click to swtich to Dark Mode"/><img id="darkModeIcon" src="{{ site.baseurl | replace: '//', '/' }}/icons/dark_mode_black_24dp.svg" style="display:none;"  title="Dark Mode; Click to swtich to Light Mode" />
+                    </button>
+                </li>
+
+            </ul>
             <ul id="drop-author" class="dropdown-content">
-              <li>
-                  <a href="{{ site.authors_dir | prepend: site.baseurl | replace: '//', '/' }}">About</a>
-              </li>
-              {% for siteauthor in site.data.authors %}
+                <li>
+                    <a href="{{ site.authors_dir | prepend: site.baseurl | replace: '//', '/' }}">About</a>
+                </li>
+                {% for siteauthor in site.data.authors %}
                 <li>
                     <a href="{{ site.baseurl }}{{ site.author_dir }}/{{ siteauthor.id }}">{{ siteauthor.name }}</a>
                 </li>
-              {% endfor %}
+                {% endfor %}
             </ul>
             <ul id="drop-archive" class="dropdown-content">
-              <li>
-                  <a href="{{ site.categories_dir | prepend: site.baseurl | replace: '//', '/' }}">Categories</a>
-              </li>
-              <li>
-                  <a href="{{ site.tags_dir | prepend: site.baseurl | replace: '//', '/' }}">Tags</a>
-              </li>
-              <li>
-                  <a href="{{ site.baseurl | replace: '//', '/' }}/archive">Yearly</a>
-              </li>
+                <li>
+                    <a href="{{ site.categories_dir | prepend: site.baseurl | replace: '//', '/' }}">Categories</a>
+                </li>
+                <li>
+                    <a href="{{ site.tags_dir | prepend: site.baseurl | replace: '//', '/' }}">Tags</a>
+                </li>
+                <li>
+                    <a href="{{ site.baseurl | replace: '//', '/' }}/archive">Yearly</a>
+                </li>
             </ul>
         </nav>
         <nav class="iconnav">
@@ -49,10 +55,6 @@
                 <li class="social">
                     <a href="{{ site.baseurl }}{{ site.rss }}" class="rss"><i class="fa fa-rss fa-lg fa-fw"></i></a>
                 </li>
-                {% endif %} {% if site.author.email %}
-                <li class="social">
-                    <a href="mailto:{{ site.author.email }}" class="noline"><i class="fa fa-envelope fa-lg fa-fw"></i></a>
-                </li>
                 {% endif %} {% if site.tumblr %}
                 <li class="social">
                     <a href="{{ site.tumblr }}" class="tumblr"><i class="fa fa-tumblr fa-lg fa-fw"></i></a>
@@ -63,7 +65,7 @@
                 </li>
                 {% endif %} {% if site.youtube %}
                 <li class="social">
-                    <a href="{{ site.youtube }}" class="youtube"><i class="fa fa-youtube fa-lg fa-fw"></i></a>
+                    <a href="{{ site.youtube }}" class="youtube" title="View {{ site.author.name  }} YouTube Channel"><i class="fa fa-youtube fa-lg fa-fw"></i></a>
                 </li>
                 {% endif %} {% if site.vimeo %}
                 <li class="social">
@@ -73,10 +75,6 @@
                 <li class="social">
                     <a href="{{ site.soundcloud }}" class="soundcloud"><i class="fa fa-soundcloud fa-lg fa-fw"></i></a>
                 </li>
-                {% endif %} {% if site.twitter.username %}
-                <li class="social">
-                    <a href="https://twitter.com/{{ site.twitter.username }}" class="twitter"><i class="fa fa-twitter fa-lg fa-fw"></i></a>
-                </li>
                 {% endif %} {% if site.instagram %}
                 <li class="social">
                     <a href="{{ site.instagram }}" class="instagram"><i class="fa fa-instagram fa-lg fa-fw"></i></a>
@@ -85,13 +83,23 @@
                 <li class="social">
                     <a href="{{ site.facebook.publisher }}" class="facebook"><i class="fa fa-facebook fa-lg fa-fw"></i></a>
                 </li>
+                {% endif %} {% if site.twitter.username %}
+                <li class="social">
+                    <a href="https://twitter.com/{{ site.twitter.username }}" class="twitter" title="Visit {{ site.author.name  }} on Twitter"><i class="fa fa-twitter fa-lg fa-fw"></i></a>
+                </li>
+                {% endif %} {% if site.author.email %}
+                <li class="social">
+                    <a href="mailto:{{ site.author.email }}" class="noline" title="Send an email to {{ site.author.name  }}"><i class="fa fa-envelope fa-lg fa-fw"></i></a>
+                </li>
                 {% endif %}
             </ul>
         </nav>
+
         <a href='#menu' class="toggle-link noline">
             <i class="fa fa-navicon"></i>
         </a>
     </div>
+    {% include github-corner.html %}
 </div>
 
 

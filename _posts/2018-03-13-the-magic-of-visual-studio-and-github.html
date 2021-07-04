@@ -14,4 +14,202 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-86357945549454278
 blogger_orig_url: https://gojimmypi.blogspot.com/2018/03/the-magic-of-visual-studio-and-github.html
 ---
 
-The more I use <a href="https://www.visualstudio.com/vs/">Visual Studio 2017</a> and the integration with GitHub, the more I am amazed at just how well this all works. I'll use a real-world walk-through with some <a href="https://www.espressif.com/en/products/hardware/esp-wroom-32/overview">Espressif ESP32</a>&nbsp;Arduino code that I am using on my <a href="http://www.m5stack.com/">M5Stack </a>to show how really useful this is.<br /><br />First, note that I have a couple of add-ins installed (Tools - Extensions and Updates). In particular the <a href="http://www.visualmicro.com/">Arduino IDE for Visual Studio</a> and the <a href="https://visualstudio.github.com/">GitHub Extension for Visual Studio</a>.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-pRalDiXBct8/WqhuvEZdr_I/AAAAAAAABMU/izBr2ARRDRczGzr5mbrJsy1cFdTMVSdLwCLcBGAs/s1600/VS%2BGitHub.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="63" data-original-width="434" height="46" src="https://3.bp.blogspot.com/-pRalDiXBct8/WqhuvEZdr_I/AAAAAAAABMU/izBr2ARRDRczGzr5mbrJsy1cFdTMVSdLwCLcBGAs/s320/VS%2BGitHub.PNG" width="320" /></a></div><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-duJz-RYvBx8/Wqhu1OYsD6I/AAAAAAAABMY/G8BO9fSYlI0LwlaWnRIIEe_Cskq6KX6NgCLcBGAs/s1600/Arduino%2BIDE.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="70" data-original-width="435" height="51" src="https://4.bp.blogspot.com/-duJz-RYvBx8/Wqhu1OYsD6I/AAAAAAAABMY/G8BO9fSYlI0LwlaWnRIIEe_Cskq6KX6NgCLcBGAs/s320/Arduino%2BIDE.PNG" width="320" /></a></div><br />I was reading&nbsp;<a href="https://thingpulse.com/2018/03/12/5-hacks-prolong-espapers-battery-run-time/">this thingpulse blog entry on reducing ESP32 power</a>&nbsp;when I noticed the line:<br /><pre><code>WiFi.forceSleepBegin();<br /></code></pre><br />Hmm... interesting. But when I tried to use that, it seems to not be implemented for me:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-wf3o7iR8Tmc/WqgGBgsFqrI/AAAAAAAABIY/9FZjxJkMS90ntoh2cHiyMcmRoHjHr_9TACLcBGAs/s1600/no%2Bsleep.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="74" data-original-width="505" height="57" src="https://2.bp.blogspot.com/-wf3o7iR8Tmc/WqgGBgsFqrI/AAAAAAAABIY/9FZjxJkMS90ntoh2cHiyMcmRoHjHr_9TACLcBGAs/s400/no%2Bsleep.PNG" width="400" /></a></div><br />So here we can right click on WiFi and Go To Definition:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-NSKD11ddR1E/WqgkL1MUcZI/AAAAAAAABJE/n0Ak5zFAansy8VoswOkLpApZhsnct35bACEwYBhgL/s1600/goto%2Bdef.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="248" data-original-width="542" height="182" src="https://3.bp.blogspot.com/-NSKD11ddR1E/WqgkL1MUcZI/AAAAAAAABJE/n0Ak5zFAansy8VoswOkLpApZhsnct35bACEwYBhgL/s400/goto%2Bdef.png" width="400" /></a></div><div class="separator" style="clear: both; text-align: left;"></div><br />And sure enough.. the WiFi.h file opens... but as a "soft" open tab on the right, instead of the regular solution file on the left; hmm. there's no forceSleepBegin() in the header. Let's see if we can find out more.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-K5jzfBQmGa0/WqgG8hlSFII/AAAAAAAABIk/j2LGeTPWokElBKHEYRzrTkfVAFvlLYRoACLcBGAs/s1600/def%2Btab.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="653" data-original-width="681" height="382" src="https://2.bp.blogspot.com/-K5jzfBQmGa0/WqgG8hlSFII/AAAAAAAABIk/j2LGeTPWokElBKHEYRzrTkfVAFvlLYRoACLcBGAs/s400/def%2Btab.PNG" width="400" /></a></div><br />It gets more interesting, as now we can right click on the WiFi.h tab name and select Open Containing Folder:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-Ys28m73-3dk/WqglKSZNFBI/AAAAAAAABJQ/3Nc-JLwiiZoYs_5octOe4dRp7bhvkDNPQCLcBGAs/s1600/containing%2Bfolder.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="320" data-original-width="486" height="262" src="https://2.bp.blogspot.com/-Ys28m73-3dk/WqglKSZNFBI/AAAAAAAABJQ/3Nc-JLwiiZoYs_5octOe4dRp7bhvkDNPQCLcBGAs/s400/containing%2Bfolder.PNG" width="400" /></a></div><br /><br />So here I can see which of the several (in my case Arduino or ESP32) WiFi libraries are actually being used in this project. In the path we see the ESP32 library is being referenced:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-kZmmuch7EgI/WqgmCv2VIGI/AAAAAAAABJc/_3YsEj4oSgMIwfy7lFJSh1ZRvwHY0aJjQCLcBGAs/s1600/explorer.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="245" data-original-width="828" height="117" src="https://4.bp.blogspot.com/-kZmmuch7EgI/WqgmCv2VIGI/AAAAAAAABJc/_3YsEj4oSgMIwfy7lFJSh1ZRvwHY0aJjQCLcBGAs/s400/explorer.PNG" width="400" /></a></div><br /><br />Now.. this directory was installed via a git clone command some months ago.<br /><br />Even more cool, is we can right-click on Windows Explorer and Open in Visual Studio. (yes, going back!) Be sure to click on white page in the Explorer file list, and not on a specific file. Otherwise only that single file will be opened.<br /><div><br /></div><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-rk-uO913y8k/WqgoVl73w-I/AAAAAAAABKA/GopSCEhxCEYg3jGF-ZeIyJ_xkHNe80fYwCLcBGAs/s1600/Open%2Bin%2BVisaual%2BStudio.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="508" data-original-width="473" height="400" src="https://1.bp.blogspot.com/-rk-uO913y8k/WqgoVl73w-I/AAAAAAAABKA/GopSCEhxCEYg3jGF-ZeIyJ_xkHNe80fYwCLcBGAs/s400/Open%2Bin%2BVisaual%2BStudio.PNG" width="371" /></a></div><br /><div class="separator" style="clear: both; text-align: left;">Note how the ~\src directory is opened in the solution. Looking closely, there are little lock symbols next to each file! I didn't do anything to set that up. It just works!</div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-9J8Ek2MRZuE/Wqgp2QaD3YI/AAAAAAAABKM/lx-anvaeSiMG2venJEUYZC3bHdyLwPyVACLcBGAs/s1600/Solution%2BExplorer.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="167" data-original-width="115" src="https://1.bp.blogspot.com/-9J8Ek2MRZuE/Wqgp2QaD3YI/AAAAAAAABKM/lx-anvaeSiMG2venJEUYZC3bHdyLwPyVACLcBGAs/s1600/Solution%2BExplorer.PNG" /></a></div><br />Yes, those little locks say "<i>this is a file under source control and has not been checked out nor edited</i>".<br /><br />Next, to really see the magic, click on the Team Explorer tab (or View - Team Explorer).<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-hQSOAt8HCUs/Wqgqqo2w7jI/AAAAAAAABKg/x7FpmcXW3FQ57YnOQJqfHJBryimkP4m-ACLcBGAs/s1600/Team%2BExplorer.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="554" data-original-width="434" height="400" src="https://2.bp.blogspot.com/-hQSOAt8HCUs/Wqgqqo2w7jI/AAAAAAAABKg/x7FpmcXW3FQ57YnOQJqfHJBryimkP4m-ACLcBGAs/s400/Team%2BExplorer.PNG" width="312" /></a></div><br /><br />Look! A Welcome to GitHub for Visual Studio message. It <i>just knows</i> that this subdirectory has a parent directory somewhere above that has the git clone repository information. How cool is that!?!<br /><br />Click on the Sync Button/Tab and we can see the incoming commits, LIVE from GitHub!<br /><br />Here we can press the Fetch link to just bring in the historical information, but not change our local files.<br /><div><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-F9HSxDmuCik/WqgrcWLS_II/AAAAAAAABKo/ieA7bVEv-2IhPMqT9oajfxXphHZIGh4CgCLcBGAs/s1600/Incoming%2BCommit.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="580" data-original-width="525" height="400" src="https://2.bp.blogspot.com/-F9HSxDmuCik/WqgrcWLS_II/AAAAAAAABKo/ieA7bVEv-2IhPMqT9oajfxXphHZIGh4CgCLcBGAs/s400/Incoming%2BCommit.PNG" width="361" /></a></div><br />Want something else? Click on the master Branch text/link, to view the other branches:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-Nfst6wlpFhs/WqgsRNLnnsI/AAAAAAAABKw/AAiyvCG3WJs5dz_lVA0ZdNvC8UV-C8ydgCLcBGAs/s1600/branches.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="362" data-original-width="319" height="400" src="https://3.bp.blogspot.com/-Nfst6wlpFhs/WqgsRNLnnsI/AAAAAAAABKw/AAiyvCG3WJs5dz_lVA0ZdNvC8UV-C8ydgCLcBGAs/s400/branches.PNG" width="351" /></a></div><br />Double-click to select a different branch. All the usual git commands apply, so git stash is probably your friend here. (unfortunately manually from command line, as far as I know)<br /><br />Sadly, the "Search Work Items" does not seem to work for me; I cannot type anything there. That will soon be a Very Cool feature.<br /><br />We can however, right-click on commit items and compare &amp; see what changes by pulling each commit:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-j30HfWthTD8/WqgtnBNwJxI/AAAAAAAABK8/cELENqW2toMF_8sBbvMfwomO-b7ZiTWHQCLcBGAs/s1600/changes.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="607" data-original-width="625" height="387" src="https://2.bp.blogspot.com/-j30HfWthTD8/WqgtnBNwJxI/AAAAAAAABK8/cELENqW2toMF_8sBbvMfwomO-b7ZiTWHQCLcBGAs/s400/changes.PNG" width="400" /></a></div><br />All from the comfort of the Visual Studio UI. How really awesome is that!?! :)<br /><br />Close the yellow welcome message banner and we can see exactly where this repository lives on GitHub. Press the little home icon any time in Team Explorer to return to this view:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-41Tgm-mJORE/WqgvF3kj3GI/AAAAAAAABLU/cyV6O5Dvt6QYJijn-LptvuK-Xb5WGIJRQCLcBGAs/s1600/Team%2BExplorer%2B2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="417" data-original-width="552" height="301" src="https://4.bp.blogspot.com/-41Tgm-mJORE/WqgvF3kj3GI/AAAAAAAABLU/cyV6O5Dvt6QYJijn-LptvuK-Xb5WGIJRQCLcBGAs/s400/Team%2BExplorer%2B2.PNG" width="400" /></a></div><br />Click on the repository link and the GitHub web page for the repository (in this case&nbsp;<a href="https://github.com/espressif/arduino-esp32">Espressif Aduino repository on GitHub</a>) opens in your default browser.<br /><br />As a suggestion, there are probably some files that should be added to your .gitignore file. Simply going though this exercise creates some files that you probably don't want to push back to the repository and may interfere with pulls. Click the Changes tab/button on the Team Explorer home to see what's been added:<br /><div><br /></div><div class="separator" style="clear: both;"><a href="https://1.bp.blogspot.com/-6swOGKdNWPE/WqgxXU7TR0I/AAAAAAAABL4/qWWUr-IqC8Et4JpaaZJo-xDcyoK2K9uEgCLcBGAs/s1600/ignore%2Besp32.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="223" data-original-width="313" src="https://1.bp.blogspot.com/-6swOGKdNWPE/WqgxXU7TR0I/AAAAAAAABL4/qWWUr-IqC8Et4JpaaZJo-xDcyoK2K9uEgCLcBGAs/s1600/ignore%2Besp32.PNG" /></a></div><div><br /></div>These will of course interfere with selecting other branches, etc.<br /><br />Overall this is really quite cool. The developers creating Visual Studio simply rock. :)<br /><br />There's a ton of other cool stuff going on. Be sure to check out <a href="https://blogs.msdn.microsoft.com/visualstudio/">The Visual Studio Blog</a>&nbsp;and the <a href="https://gitter.im/Microsoft/VisualStudio">Visual Studio conversation in the Gitter community</a>.<br /><br /><br />Other links:<br /><ul><li><a href="https://github.com/espressif/arduino-esp32">Arduino core for ESP32 WiFi chip</a></li><li><a href="https://esp-idf.readthedocs.io/en/latest/get-started/windows-setup.html">ESP32 Windows Toolchain Setup</a></li><li><a href="https://esp-idf.readthedocs.io/en/latest/get-started/index.html#get-esp-idf">Get EDP-IDF</a></li></ul>
+The more I use <a href="https://www.visualstudio.com/vs/">Visual Studio 2017</a> and the integration with GitHub, the more I am amazed at just how well this all works. I'll use a real-world walk-through with some <a href="https://www.espressif.com/en/products/hardware/esp-wroom-32/overview">Espressif ESP32</a>&nbsp;Arduino code that I am using on my <a href="http://www.m5stack.com/">M5Stack </a>
+to show how really useful this is.<br />
+<br />First, note that I have a couple of add-ins installed (Tools - Extensions and Updates). In particular the 
+<a href="http://www.visualmicro.com/">Arduino IDE for Visual Studio</a> and the <a href="https://visualstudio.github.com/">GitHub Extension for Visual Studio</a>
+.<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/VS_GitHub.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="63" data-original-width="434" height="46" src="../images/s320/VS_GitHub.PNG" width="320"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Arduino_IDE.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="70" data-original-width="435" height="51" src="../images/s320/Arduino_IDE.PNG" width="320"></a>
+</div>
+<br />I was reading&nbsp;
+<a href="https://thingpulse.com/2018/03/12/5-hacks-prolong-espapers-battery-run-time/">this thingpulse blog entry on reducing ESP32 power</a>
+&nbsp;when I noticed the line:<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+WiFi.forceSleepBegin();</code></pre>
+<br />
+Hmm... interesting. But when I tried to use that, it seems to not be implemented for me:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/no_sleep.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="74" data-original-width="505" height="57" src="../images/s400/no_sleep.PNG" width="400"></a>
+</div>
+<br />
+So here we can right click on WiFi and Go To Definition:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/goto_def.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="248" data-original-width="542" height="182" src="../images/s400/goto_def.png" width="400"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+</div>
+<br />
+And sure enough.. the WiFi.h file opens... but as a "soft" open tab on the right, instead of the regular solution file on the left; hmm. there's no forceSleepBegin() in the header. Let's see if we can find out more.
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/def_tab.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="653" data-original-width="681" height="382" src="../images/s400/def_tab.PNG" width="400"></a>
+</div>
+<br />
+It gets more interesting, as now we can right click on the WiFi.h tab name and select Open Containing Folder:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/containing_folder.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="320" data-original-width="486" height="262" src="../images/s400/containing_folder.PNG" width="400"></a>
+</div>
+<br />
+<br />
+So here I can see which of the several (in my case Arduino or ESP32) WiFi libraries are actually being used in this project. In the path we see the ESP32 library is being referenced:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/explorer.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="245" data-original-width="828" height="117" src="../images/s400/explorer.PNG" width="400"></a>
+</div>
+<br />
+<br />
+Now.. this directory was installed via a git clone command some months ago.
+<br />
+<br />
+Even more cool, is we can right-click on Windows Explorer and Open in Visual Studio. (yes, going back!) Be sure to click on white page in the Explorer file list, and not on a specific file. Otherwise only that single file will be opened.
+<br />
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Open_in_Visaual_Studio.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="508" data-original-width="473" height="400" src="../images/s400/Open_in_Visaual_Studio.PNG" width="371"></a>
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+Note how the ~\src directory is opened in the solution. Looking closely, there are little lock symbols next to each file! I didn't do anything to set that up. It just works!
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Solution_Explorer.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="167" data-original-width="115" src="../images/s1600/Solution_Explorer.PNG"></a>
+</div>
+<br />Yes, those little locks say "
+<i>this is a file under source control and has not been checked out nor edited</i>
+".<br />
+<br />
+Next, to really see the magic, click on the Team Explorer tab (or View - Team Explorer).
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Team_Explorer.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="554" data-original-width="434" height="400" src="../images/s400/Team_Explorer.PNG" width="312"></a>
+</div>
+<br />
+<br />Look! A Welcome to GitHub for Visual Studio message. It 
+<i>just knows</i>
+ that this subdirectory has a parent directory somewhere above that has the git clone repository information. How cool is that!?!<br />
+<br />
+Click on the Sync Button/Tab and we can see the incoming commits, LIVE from GitHub!
+<br />
+<br />
+Here we can press the Fetch link to just bring in the historical information, but not change our local files.
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Incoming_Commit.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="580" data-original-width="525" height="400" src="../images/s400/Incoming_Commit.PNG" width="361"></a>
+</div>
+<br />
+Want something else? Click on the master Branch text/link, to view the other branches:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/branches.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="362" data-original-width="319" height="400" src="../images/s400/branches.PNG" width="351"></a>
+</div>
+<br />
+Double-click to select a different branch. All the usual git commands apply, so git stash is probably your friend here. (unfortunately manually from command line, as far as I know)
+<br />
+<br />
+Sadly, the "Search Work Items" does not seem to work for me; I cannot type anything there. That will soon be a Very Cool feature.
+<br />
+<br />
+We can however, right-click on commit items and compare &amp; see what changes by pulling each commit:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/changes.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="607" data-original-width="625" height="387" src="../images/s400/changes.PNG" width="400"></a>
+</div>
+<br />
+All from the comfort of the Visual Studio UI. How really awesome is that!?! :)
+<br />
+<br />
+Close the yellow welcome message banner and we can see exactly where this repository lives on GitHub. Press the little home icon any time in Team Explorer to return to this view:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Team_Explorer_2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="417" data-original-width="552" height="301" src="../images/s400/Team_Explorer_2.PNG" width="400"></a>
+</div>
+<br />Click on the repository link and the GitHub web page for the repository (in this case&nbsp;
+<a href="https://github.com/espressif/arduino-esp32">Espressif Aduino repository on GitHub</a>
+) opens in your default browser.<br />
+<br />
+As a suggestion, there are probably some files that should be added to your .gitignore file. Simply going though this exercise creates some files that you probably don't want to push back to the repository and may interfere with pulls. Click the Changes tab/button on the Team Explorer home to see what's been added:
+<br />
+<br />
+
+<div class="separator" style="clear: both;">
+<a href="../images/s1600/ignore_esp32.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="223" data-original-width="313" src="../images/s1600/ignore_esp32.PNG"></a>
+</div>
+<br />
+These will of course interfere with selecting other branches, etc.
+<br />
+<br />
+Overall this is really quite cool. The developers creating Visual Studio simply rock. :)
+<br />
+<br />There's a ton of other cool stuff going on. Be sure to check out 
+<a href="https://blogs.msdn.microsoft.com/visualstudio/">The Visual Studio Blog</a>&nbsp;and the <a href="https://gitter.im/Microsoft/VisualStudio">Visual Studio conversation in the Gitter community</a>
+.<br />
+<br />
+<br />
+Other links:
+<br />
+<ul><li><a href="https://github.com/espressif/arduino-esp32">Arduino core for ESP32 WiFi chip</a></li><li><a href="https://esp-idf.readthedocs.io/en/latest/get-started/windows-setup.html">ESP32 Windows Toolchain Setup</a></li><li><a href="https://esp-idf.readthedocs.io/en/latest/get-started/index.html#get-esp-idf">
+Get EDP-IDF</a></li></ul><br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:53 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

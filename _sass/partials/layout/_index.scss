@@ -1,51 +1,55 @@
 // Layout switcher on index pages
-.switch{
+.switch {
     margin-bottom: 10px;
     padding: 10px 0;
-    @media screen and (max-width: $layoutswitch-hiding-point){
+
+    @media screen and (max-width: $layoutswitch-hiding-point) {
         display: none;
     }
 }
 
-.title{
+.title {
     width: 100%;
 }
 
-.index{
-    article{
+.index {
+    article {
 
-        h1{
+        h1 {
             color: $title-color !important;
-		    font-weight: bold;
-            line-height: 48px;
+            font-weight: bold;
             font-size: 24px;
             margin: 0;
             transition: .3s all ease;
 
-            &:hover{
+            &:hover {
                 text-decoration: underline;
             }
         }
-        span{
+
+        span {
             padding: 10px;
         }
 
-        .actions{
+        .actions {
             border-top: $line;
             padding: 20px;
             margin-top: 20px;
+            position: absolute;
+            bottom: 0;
 
-            a{
+            a {
                 margin-right: 20px;
-			    font-family: $sc-font;
+                font-family: $sc-font;
             }
         }
     }
 }
 
 // layoutswitch buttons
-#grid{
+#grid {
     @include button($accent-color, btn);
+
     span {
         display: block;
         width: 25px;
@@ -54,8 +58,8 @@
         position: relative;
         top: 50%;
         transform: translateY(-50%);
-        
-        &:before{
+
+        &:before {
             content: '';
             width: 2px;
             height: 100%;
@@ -64,7 +68,8 @@
             top: 0;
             left: calc(50% - 1px);
         }
-        &:after{
+
+        &:after {
             content: '';
             background: $accent-color;
             position: absolute;
@@ -74,21 +79,23 @@
             left: 0;
         }
     }
-    &:hover{
-        span{
+
+    &:hover {
+        span {
             background: white;
+
             &:before,
-            &:after{
-                background: lighten($accent-color, 5%);                
+            &:after {
+                background: lighten($accent-color, 5%);
             }
         }
     }
 }
 
-#classic{
+#classic {
     @include button($accent-color, btn);
-    
-    span{
+
+    span {
         display: block;
         width: 25px;
         height: 25px;
@@ -96,7 +103,7 @@
         position: relative;
         top: 50%;
         transform: translateY(-50%);
-        
+
         &:before,
         &:after {
             content: '';
@@ -107,21 +114,22 @@
             left: 0;
         }
 
-        &:before{
+        &:before {
             top: calc((100% /3) - 1px );
         }
 
-        &:after{
+        &:after {
             bottom: calc((100% /3) - 1px );
         }
     }
-    
-    &:hover{
-        span{
+
+    &:hover {
+        span {
             background: white;
+
             &:before,
-            &:after{
-                background: lighten($accent-color, 5%);                
+            &:after {
+                background: lighten($accent-color, 5%);
             }
         }
     }

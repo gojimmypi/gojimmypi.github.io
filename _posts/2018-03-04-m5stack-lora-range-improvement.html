@@ -21,4 +21,316 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-69067829884520393
 blogger_orig_url: https://gojimmypi.blogspot.com/2018/03/m5stack-lora-range-improvement.html
 ---
 
-<br />Last month I started working on a <a href="{{ site.baseurl }}{% post_url 2018-02-12-m5stack-lora-range-issues %}">project to control GPIO pins on a device (relatively) very far away using LoRa</a> technology. Most of the showstopper problems seem to have been resolved. Well, at least getting the RadioHead code working on the M5Stack. This blog entry continues on that topic...<br /><br />TL;DR<br /><ul><li><a href="http://www.visualmicro.com/">VisualMicro</a>&nbsp;Arduino projects in Visual Studio, using&nbsp;<a href="https://www.amazon.com/gp/product/B0716ZN7WX/">32u4</a>&nbsp;(see also&nbsp;<a href="https://www.adafruit.com/product/3078">Adafruit 32u4</a>)&nbsp;and&nbsp;<a href="http://www.m5stack.com/">M5Stack</a>&nbsp;- both over LoRa.</li><li>M5Stack RSSI is a solid RSSI strength of 10 points worse than the exact same code on 32u4 which has the exact same RA-02 AI-Thinker LoRa device.</li><li>Recall from previous blog, LoRa RST and IRQ are reversed. (RST is actually GPIO36 input only; unusable). Otherwise it would have been: Beep = LoRa reset.&nbsp;</li><li>M5Stack Speaker (GPIO25) is shared with LoRa Interrupt. (beep = interrupt?)</li><li>The M5Stack display shares the NSS pin with the LoRa module. (poke registers with care!)</li><li>The receiver and transmitter need to be configured EXACTLY the same for best range (more than just the same frequency); but this was not the problem with our poor RSSI</li><li>My LoRa-GPIO project and required RadioHead and M5Stack libraries merged to master on GitHub</li><li>When updating library (include) code, Visual Studio apparently does not look at file dates and may use previous compiled code; clean project after library changes.</li></ul>The latest working (although not very pretty) Very Remote <a href="https://github.com/gojimmypi/LoRa-GPIO">Lora-GPIO</a>&nbsp;Control and Monitoring Project code has been merged onto my master branch.<br /><br />I've merged my <a href="https://github.com/gojimmypi/RadioHead/tree/M5Stack">M5Stack development branch</a> back to my <a href="https://github.com/gojimmypi/RadioHead">RadioHead master branch</a>. This was a "Squash and Merge". Normally I like to keep the history... but as the RadioHead owners prefer a single patch file, perhaps this will be better. Time will tell. History is still in the branch.<br /><br />I've submitted a <a href="https://github.com/adafruit/RadioHead/pull/5">PR to Adafruit</a>&nbsp;at their <a href="https://github.com/adafruit/RadioHead/issues/4">request</a>, as well as well as <a href="https://groups.google.com/forum/#!topic/radiohead-arduino/U1VJhaKDwpo">sent a patch file to Mike at ReadioHead</a>. Ok, this is weekend and evening working, certainly not some of my best polished work. I need to go back and clean things up.<br /><br />My <a href="https://github.com/gojimmypi/M5Stack">M5Stack library fork</a> is, and has been up to date on the master branch. (no branches)<br /><br />The main LoRa-GPIO solution contains <a href="https://github.com/gojimmypi/LoRa-GPIO">several projects as noted in the GitHub readme</a>. These are all Arduino-style projects using the really awesome VisualMicro add-in for Visual Studio.<br /><br />As a side note, while working on this - I found what appears to be <a href="https://github.com/gojimmypi/CompareCheck/blob/master/README.md">GitHub branch-to-branch compares not working properly</a>.&nbsp; (if it *does* work properly and I'm simply not doing it correctly, please let me know)<br /><br />I've been reading through the <a href="https://www.amazon.com/dp/1625950136/">ARRL Ham Radio License manual</a>. I don't know if I will actually get a ham license, but wow - what a great book this is to cover the essentials of what you need to know for RF communications (such as the LoRa for this project). Although I had a ton of classes in college covering a wide variety of electronics, electromagnetism, communications, even an entire class on antenna theory... this ARRL book contains a lot of relatively straightforward, every-day language on the practical essentials of radio frequency communication - all in one place. The <a href="https://www.arrl.org/">ARRL</a> web site also has some excellent resources. Ok, there's also pretty much NO math, NO theory: Just useful facts. So this is certainly not a book for how or why or how to apply to new problem. Still, it is a quite good book. Highly recommended &amp; would make a great gift for someone new to the field.<br /><br />So on to the testing... now that I have the RadioHead drivers working, I actually went back to the M5Stack example code (Sandeep drivers renamed M5LoRa). Recall that I have the RadioHead drivers on a remote 32u4 sending LoRa packets. Here's the sample code for the M5Stack receiver (Arduino: File - Examples - M5Stack - Modules - LoRa - LoRaReceiver) :<br /><br /><br /><code></code><br /><pre><code>#include <m5stack .h=""><br />#include <m5lora .h=""><br /><br />#define LORA_CS_PIN   5<br />#define LORA_RST_PIN  26<br />#define LORA_IRQ_PIN  36<br /><br />void setup() {<br />  <br />  M5.begin();<br /><br />  // override the default CS, reset, and IRQ pins (optional)<br />  LoRa.setPins(LORA_CS_PIN, LORA_RST_PIN, LORA_IRQ_PIN); // set CS, reset, IRQ pin<br />  Serial.println("LoRa Receiver");<br />  M5.Lcd.println("LoRa Receiver");<br /><br />  // frequency in Hz (433E6, 866E6, 915E6)<br />  if (!LoRa.begin(433E6)) {<br />    Serial.println("Starting LoRa failed!");<br />    M5.Lcd.println("Starting LoRa failed!");<br />    while (1);<br />  }<br /><br />  // LoRa.setSyncWord(0x69);<br />  Serial.println("LoRa init succeeded.");<br />  M5.Lcd.println("LoRa init succeeded.");<br />}<br /><br />void loop() {<br />  // try to parse packet<br />  int packetSize = LoRa.parsePacket();<br />  if (packetSize) {<br />    // received a packet<br />    Serial.print("Received packet: \"");<br />    M5.Lcd.print("Received packet: \"");<br /><br />    // read packet<br />    while (LoRa.available()) {<br />      char ch = (char)LoRa.read();<br />      Serial.print(ch);<br />      M5.Lcd.print(ch);<br />    }<br /><br />    // print RSSI of packet<br />    Serial.print("\" with RSSI ");<br />    Serial.println(LoRa.packetRssi());<br />    M5.Lcd.print("\" with RSSI ");<br />    M5.Lcd.println(LoRa.packetRssi());<br />  }<br />}<br /></m5lora></m5stack></code></pre><br />This code writes to&nbsp; both the M5Stack display as well as the serial port. The display is cool as I don't need to remember to disconnect the serial port when reprogramming. HOWEVER: You may recall from my previous blog that the M5Stack display *and* LoRa module share the NSS (slave select) pin. That simply sounds dangerous (and indeed I observed some display oddities), so I put M5Stack LoRa to sleep when writing to the display.<br /><br />The shocking thing here is that there's up to a difference of TEN in RSSI values as compared to using the RadioHead drivers. (RSSI 36 vs 26). As this is a log scale, that's a 10x difference in power! Now - this is not to say that the Sandeep library has a problem just because it is polling rather than using interrupts. It is a matter of default configuration. I picked apart the RadioHead control register libraries and added a note about the matching importance:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-O8kSSIUbZT0/WpxECPucHLI/AAAAAAAAA6M/nlZUBDnEPCkHJTkgUDF5YXWsmLtvn6b2wCLcBGAs/s1600/RadioHead%2BRegs.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="162" data-original-width="660" height="157" src="https://4.bp.blogspot.com/-O8kSSIUbZT0/WpxECPucHLI/AAAAAAAAA6M/nlZUBDnEPCkHJTkgUDF5YXWsmLtvn6b2wCLcBGAs/s640/RadioHead%2BRegs.PNG" width="640" /></a></div><br />When printing the register values from the Sandeep (M5LoRa) library, (move the readRegister from the private to public section)...<br /><br /><pre><code>    Serial.print("0x");<br />    Serial.print(LoRa.readRegister((uint8_t )0x1d),HEX);<br />    Serial.print(", 0x");<br />    Serial.print(LoRa.readRegister((uint8_t )0x1e),HEX);<br />    Serial.print(", 0x");<br />    Serial.print(LoRa.readRegister((uint8_t )0x26),HEX);<br /></code></pre><br /><br />There's a SINGLE BIT different (CRC not enabled!):&nbsp; 0x72, 0x70, 0x4 - alas that didn't seem to make much of a substantial difference in RSSI values. I supposed I had expected different error coding, spreading factor, or some other obvious difference.<br /><br />I confirmed the running values of RadioHead cinfig registers are also 0x72, 0x70, 0x4 - but the RSSI is typically -25 whereas the Sandeep (M5Lora) drivers report an RSSI of typically -35!<br /><br />So the next thing is: how to each of them <i>calculate</i> RSSI?<br /><br /><br />Well, the Sandeep / M5Lora library does this:<br /><br /><pre><code>int LoRaClass::packetRssi()<br />{<br />  return (readRegister(REG_PKT_RSSI_VALUE) - (_frequency &lt; 868E6 ? 164 : 157));<br />}<br /><br />float LoRaClass::packetSnr()<br />{<br />  return ((int8_t)readRegister(REG_PKT_SNR_VALUE)) * 0.25;<br />}<br /></code></pre><br />But the RadioHead library does this: <br /><pre><code>// Remember the last signal to noise ratio, LORA mode<br />// Per page 111, SX1276/77/78/79 datasheet<br />_lastSNR = (int8_t)spiRead(RH_RF95_REG_19_PKT_SNR_VALUE) / 4;<br /><br />// Remember the RSSI of this packet, LORA mode<br />// this is according to the doc, but is it really correct?<br />// weakest receiveable signals are reported RSSI at about -66<br />_lastRssi = spiRead(RH_RF95_REG_1A_PKT_RSSI_VALUE);<br />// Adjust the RSSI, datasheet page 87<br />if (_lastSNR &lt; 0)<br /> _lastRssi = _lastRssi + _lastSNR;<br />else<br /> _lastRssi = (int)_lastRssi * 16 / 15;<br />if (_usingHFport)<br /> _lastRssi -= 157;<br />else<br /> _lastRssi -= 164;<br /></code></pre><br /><br />Grr... So ok, the difference in RSSI appears to be simply a different calculation.&nbsp; The real test is: how far away can the units be and still communicate? I'm still happy I have the RadioHead libraries working. In my opinion is is clearly the superior code.<br /><br />So reference check: after all the code changes, let's try same units: 32u4 to 32u4. Cleaned project, full rebuild. RSSI value is -19 or -20! Rechecking the M5Stack, RSSI is -27.&nbsp; So even with the same codebase and same calcs, the M5Stack LoRa has a poorer RSSI value. Using an <a href="https://www.amazon.com/dp/B0194WDVHI">external battery power</a>&nbsp;source and the value improves to RSSI = -24.<br /><br />So, as mentioned about - I've been reading about real world antennas, so perhaps the M5Stack antenna has an issue. Well, I tried that as well, replacing the internal antenna with one of those external antennas - identical to the one on the 32u4. Still there's a discrepancy in RSSI values between the two devices.<br /><br />What else? Ok, so there's a speaker in the M5Stack. Poking around with that, defined in:<br /><br />libraries\M5Stack\src\utility\Config.h<br /><br />there's a declaration:<br /><br />// BEEP PIN<br />#define SPEAKER_PIN 25<br /><br />Ah yes, GPIO25, our friend. The LoRa interrupt pin.&nbsp; (sigh)<br /><br />So perhaps all the extras in the M5Stack are indeed causing a problem. I tried to disable a few things&nbsp; such as the speaker init, but no luck. I do however, have another <a href="https://github.com/gojimmypi/LoRa-GPIO/tree/master/Console">Console (without display) app</a> that is specifically targeted for the 32u4, but with the magic of simply changing platforms in the IDE, can be recompiled and sent to the M5Stack!&nbsp; RSSI about that same at -27 (ranging from -23 to -29).&nbsp; Replace with the exact same code on the 32u4 and the RSSI is a full 10 points better at -17.&nbsp; (10x improvement in signal strength!).<br /><br />I tried another M5Stack unit with a different LoRa module. Same result.<br /><br />So at this point, I really believe it is a hardware issue. I've been unable to get a copy of the schematic for the M5Stack LoRa module, However the 32u4 has a <a href="https://github.com/gojimmypi/LoRa-GPIO/blob/master/doc/DIY0031-LoRa32u4%20pinout%20diagram.pdf">pin connection diagram here</a>.<br /><br />As soon as hardware is questioned - the first thing to do is of course add some capacitors! I added a 10uF and a 10pf cap directly to the power input to the RA-02.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-IrbbleyZoXY/WpyZdms6rDI/AAAAAAAAA6o/yqwzVdPFRVEHBunUljed7GUGyde_uuoewCLcBGAs/s1600/caps.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="454" data-original-width="417" src="https://2.bp.blogspot.com/-IrbbleyZoXY/WpyZdms6rDI/AAAAAAAAA6o/yqwzVdPFRVEHBunUljed7GUGyde_uuoewCLcBGAs/s1600/caps.PNG" /></a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">In the pic, you can see I fished a new, external antenna along with the new caps. And ya, I got a little close to the side of the M5 Lora module.</div><div class="separator" style="clear: both; text-align: left;"><br /></div>Additionally I added a shield (aluminum foil sandwiched between two layers of clear packing tape) to both sides of the LoRa module. After all - there is an ESP32 microprocessor buzzing away just on the other side of the PCB!<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-nxK1_wxtRbE/WpyaBd3Sg1I/AAAAAAAAA6w/mLx4X2Hc-QkgLvsD8ycU5YfVI0cit9kfgCLcBGAs/s1600/M5%2Bw%2Bshield.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="362" data-original-width="593" height="243" src="https://1.bp.blogspot.com/-nxK1_wxtRbE/WpyaBd3Sg1I/AAAAAAAAA6w/mLx4X2Hc-QkgLvsD8ycU5YfVI0cit9kfgCLcBGAs/s400/M5%2Bw%2Bshield.PNG" width="400" /></a></div><br /><br />The first field test was a relative success! I more than doubled the original range! Ok, so I didn't actually test after each change, so I don't know exactly which was the most effective in extending the range.<br /><br />Note the Semtech site has a <a href="https://www.semtech.com/products/wireless-rf/lora-transceivers/SX1276">bunch of LoRa resources</a>, including this <a href="https://www.semtech.com/uploads/documents/SX1272LoRaCalculatorSetup1_1.zip">cool LoRa calculator</a> (I will include in my GitHub repository in the docs container, in case the link to Semtech ever breaks.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-XMAJK-qonE8/WpycA06o7fI/AAAAAAAAA7I/J34ZlzVyuqcitbjs_E2VHTfyND1oC0JkQCLcBGAs/s1600/LoRa%2Bcalculator.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="560" data-original-width="771" height="290" src="https://3.bp.blogspot.com/-XMAJK-qonE8/WpycA06o7fI/AAAAAAAAA7I/J34ZlzVyuqcitbjs_E2VHTfyND1oC0JkQCLcBGAs/s400/LoRa%2Bcalculator.PNG" width="400" /></a></div><br />Note that I am currently transmitting at 125kHz. Lowering this increases range! Lower this to about 15.6kHz and you get another 10db in "link performance". (in theory).<br /><br />Overall I am quite happy with the result. Ok, I'm not seeing multi-kilometer ranges. But that's also line-of-sight. My transmitter is on the kitchen table - with the entire garage between it and the M5Stack receiver. Next test will be from line of site.<br /><br />The super exciting thing is I have a prototype from the kind folks at M5Stack arriving in the mail soon for the next potential version of the LoRa module. I am quite interested in seeing how well it performs.<br /><br />Stay tuned for my <a href="{{ site.baseurl }}{% post_url 2018-03-10-single-step-debugging-atmega328-arduino-uno %}">next blog</a>&nbsp;where I work on the prototype V2 LoRa modules with its own embedded ATMEGA328.<br /><br /><br />Resources, Inspiration, Credits, and Other Links:<br /><ul><li><a href="https://github.com/gojimmypi/LoRa-GPIO">My LoRa-GPIO project</a></li><li><a href="https://electronics.stackexchange.com/questions/132051/433mhz-quarter-wave-length-antenna-longer-is-better">Is a longer antenna better?</a></li><li><a href="https://github.com/gojimmypi/LoRa-GPIO/blob/master/doc/DIY0031-LoRa32u4%20pinout%20diagram.pdf">LoRa32u4 pinout</a></li><li><a href="http://airspayce.com/mikem/arduino/RadioHead/">RadioHead master source</a></li><li><a href="https://groups.google.com/forum/#!forum/radiohead-arduino">RadioHead forum</a></li><li><a href="https://www.semtech.com/uploads/documents/LoraDesignGuide_STD.pdf">Semtech LoRa Modem Designer's Guide</a> (I will add a copy to my project doc directory)</li><li><a href="https://www.semtech.com/uploads/documents/sx1276.pdf">SX1276/77/78/79 datasheet</a> (copy also in doc directory)</li><li><a href="https://www.semtech.com/uploads/documents/an120014-xo-guidance-lora-modulation.pdf">Semtech LoRa Modulation Crystal Oscillator Guide</a></li><li><a href="https://www.semtech.com/uploads/documents/an1200.26.pdf">LoRa and FCC Part 15.247 Measurement Guidance</a></li><li><a href="https://www.semtech.com/products/wireless-rf/lora-transceivers/SX1276">Semtech SX1276 home page</a></li><li><a href="https://cdn-learn.adafruit.com/assets/assets/000/031/658/original/feather_schem.png?1460518302">Adafruit Feather LoRa 32u4 schematic</a>&nbsp;(RFM69FW)</li><li><a href="https://www.minicircuits.com/app/DG03-111.pdf">Return Loss vs VWSR</a></li><li><a href="https://guides.github.com/features/mastering-markdown/">GitHub Mastering Markdown</a></li><li><a href="https://github.com/gojimmypi/CompareCheck/blob/master/README.md">Do GitHub Branch Compares work?</a></li></ul><br /><br />
+<br />Last month I started working on a 
+<a href="{{ site.baseurl }}{% post_url 2018-02-12-m5stack-lora-range-issues %}">project to control GPIO pins on a device (relatively) very far away using LoRa</a>
+ technology. Most of the showstopper problems seem to have been resolved. Well, at least getting the RadioHead code working on the M5Stack. This blog entry continues on that topic...<br />
+<br />
+TL;DR
+<br />
+<ul><li><a href="http://www.visualmicro.com/">VisualMicro</a>&nbsp;Arduino projects in Visual Studio, using&nbsp;<a href="https://www.amazon.com/gp/product/B0716ZN7WX/">32u4</a>&nbsp;(see also&nbsp;<a href="https://www.adafruit.com/product/3078">Adafruit 32u4</a>)&nbsp;and&nbsp;<a href="http://www.m5stack.com/">M5Stack</a>&nbsp;- both over LoRa.</li><li>M5Stack RSSI is a solid RSSI strength of 10 points worse than the exact same code on 32u4 which has the exact same RA-02 AI-Thinker LoRa device.</li><li>Recall from previous blog, LoRa RST and IRQ are reversed. (RST is actually GPIO36 input only; unusable). Otherwise it would have been: Beep = LoRa reset.&nbsp;</li><li>M5Stack Speaker (GPIO25) is shared with LoRa Interrupt. (beep = interrupt?)</li><li>The M5Stack display shares the NSS pin with the LoRa module. (poke registers with care!)</li><li>The receiver and transmitter need to be configured EXACTLY the same for best range (more than just the same frequency); but this was not the problem with our poor RSSI</li><li>My LoRa-GPIO project and required RadioHead and M5Stack libraries merged to master on GitHub</li><li>When updating library (include) code, Visual Studio apparently does not look at file dates and may use previous compiled code; clean project after library changes.</li></ul>The latest working (although not very pretty) Very Remote <a href="https://github.com/gojimmypi/LoRa-GPIO">Lora-GPIO</a>
+&nbsp;Control and Monitoring Project code has been merged onto my master branch.<br />
+<br />I've merged my 
+<a href="https://github.com/gojimmypi/RadioHead/tree/M5Stack">M5Stack development branch</a> back to my <a href="https://github.com/gojimmypi/RadioHead">RadioHead master branch</a>
+. This was a "Squash and Merge". Normally I like to keep the history... but as the RadioHead owners prefer a single patch file, perhaps this will be better. Time will tell. History is still in the branch.<br />
+<br />I've submitted a 
+<a href="https://github.com/adafruit/RadioHead/pull/5">PR to Adafruit</a>&nbsp;at their <a href="https://github.com/adafruit/RadioHead/issues/4">request</a>, as well as well as <a href="https://groups.google.com/forum/#!topic/radiohead-arduino/U1VJhaKDwpo">sent a patch file to Mike at ReadioHead</a>
+. Ok, this is weekend and evening working, certainly not some of my best polished work. I need to go back and clean things up.<br />
+<br />My 
+<a href="https://github.com/gojimmypi/M5Stack">M5Stack library fork</a>
+ is, and has been up to date on the master branch. (no branches)<br />
+<br />The main LoRa-GPIO solution contains 
+<a href="https://github.com/gojimmypi/LoRa-GPIO">several projects as noted in the GitHub readme</a>
+. These are all Arduino-style projects using the really awesome VisualMicro add-in for Visual Studio.<br />
+<br />As a side note, while working on this - I found what appears to be 
+<a href="https://github.com/gojimmypi/CompareCheck/blob/master/README.md">GitHub branch-to-branch compares not working properly</a>
+.&nbsp; (if it *does* work properly and I'm simply not doing it correctly, please let me know)<br />
+<br />I've been reading through the 
+<a href="https://www.amazon.com/dp/1625950136/">ARRL Ham Radio License manual</a>. I don't know if I will actually get a ham license, but wow - what a great book this is to cover the essentials of what you need to know for RF communications (such as the LoRa for this project). Although I had a ton of classes in college covering a wide variety of electronics, electromagnetism, communications, even an entire class on antenna theory... this ARRL book contains a lot of relatively straightforward, every-day language on the practical essentials of radio frequency communication - all in one place. The <a href="https://www.arrl.org/">ARRL</a>
+ web site also has some excellent resources. Ok, there's also pretty much NO math, NO theory: Just useful facts. So this is certainly not a book for how or why or how to apply to new problem. Still, it is a quite good book. Highly recommended &amp; would make a great gift for someone new to the field.<br />
+<br />
+So on to the testing... now that I have the RadioHead drivers working, I actually went back to the M5Stack example code (Sandeep drivers renamed M5LoRa). Recall that I have the RadioHead drivers on a remote 32u4 sending LoRa packets. Here's the sample code for the M5Stack receiver (Arduino: File - Examples - M5Stack - Modules - LoRa - LoRaReceiver) :
+<br />
+<br />
+<br />
+<code class="highlight"></code><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+#include <m5stack .h=""><br />
+#include 
+<m5lora .h=""><br />
+<br />
+#define LORA_CS_PIN   5
+<br />
+#define LORA_RST_PIN  26
+<br />
+#define LORA_IRQ_PIN  36
+<br />
+<br />
+void setup() {
+<br />
+  
+<br />
+  M5.begin();
+<br />
+<br />
+  // override the default CS, reset, and IRQ pins (optional)
+<br />
+  LoRa.setPins(LORA_CS_PIN, LORA_RST_PIN, LORA_IRQ_PIN); // set CS, reset, IRQ pin
+<br />
+  Serial.println("LoRa Receiver");
+<br />
+  M5.Lcd.println("LoRa Receiver");
+<br />
+<br />
+  // frequency in Hz (433E6, 866E6, 915E6)
+<br />
+  if (!LoRa.begin(433E6)) {
+<br />
+    Serial.println("Starting LoRa failed!");
+<br />
+    M5.Lcd.println("Starting LoRa failed!");
+<br />
+    while (1);
+<br />
+  }
+<br />
+<br />
+  // LoRa.setSyncWord(0x69);
+<br />
+  Serial.println("LoRa init succeeded.");
+<br />
+  M5.Lcd.println("LoRa init succeeded.");
+<br />
+}
+<br />
+<br />
+void loop() {
+<br />
+  // try to parse packet
+<br />
+  int packetSize = LoRa.parsePacket();
+<br />
+  if (packetSize) {
+<br />
+    // received a packet
+<br />
+    Serial.print("Received packet: \"");
+<br />
+    M5.Lcd.print("Received packet: \"");
+<br />
+<br />
+    // read packet
+<br />
+    while (LoRa.available()) {
+<br />
+      char ch = (char)LoRa.read();
+<br />
+      Serial.print(ch);
+<br />
+      M5.Lcd.print(ch);
+<br />
+    }
+<br />
+<br />
+    // print RSSI of packet
+<br />
+    Serial.print("\" with RSSI ");
+<br />
+    Serial.println(LoRa.packetRssi());
+<br />
+    M5.Lcd.print("\" with RSSI ");
+<br />
+    M5.Lcd.println(LoRa.packetRssi());
+<br />
+  }
+<br />
+}
+<br />
+</m5lora></m5stack></code></pre>
+<br />
+This code writes to&nbsp; both the M5Stack display as well as the serial port. The display is cool as I don't need to remember to disconnect the serial port when reprogramming. HOWEVER: You may recall from my previous blog that the M5Stack display *and* LoRa module share the NSS (slave select) pin. That simply sounds dangerous (and indeed I observed some display oddities), so I put M5Stack LoRa to sleep when writing to the display.
+<br />
+<br />
+The shocking thing here is that there's up to a difference of TEN in RSSI values as compared to using the RadioHead drivers. (RSSI 36 vs 26). As this is a log scale, that's a 10x difference in power! Now - this is not to say that the Sandeep library has a problem just because it is polling rather than using interrupts. It is a matter of default configuration. I picked apart the RadioHead control register libraries and added a note about the matching importance:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/RadioHead_Regs.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="162" data-original-width="660" height="157" src="../images/s640/RadioHead_Regs.PNG" width="640"></a>
+</div>
+<br />
+When printing the register values from the Sandeep (M5LoRa) library, (move the readRegister from the private to public section)...
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+    Serial.print("0x");
+    Serial.print(LoRa.readRegister((uint8_t )0x1d),HEX);
+    Serial.print(", 0x");
+    Serial.print(LoRa.readRegister((uint8_t )0x1e),HEX);
+    Serial.print(", 0x");
+    Serial.print(LoRa.readRegister((uint8_t )0x26),HEX);</code></pre>
+<br />
+<br />
+There's a SINGLE BIT different (CRC not enabled!):&nbsp; 0x72, 0x70, 0x4 - alas that didn't seem to make much of a substantial difference in RSSI values. I supposed I had expected different error coding, spreading factor, or some other obvious difference.
+<br />
+<br />
+I confirmed the running values of RadioHead cinfig registers are also 0x72, 0x70, 0x4 - but the RSSI is typically -25 whereas the Sandeep (M5Lora) drivers report an RSSI of typically -35!
+<br />
+<br />So the next thing is: how to each of them 
+<i>calculate</i>
+ RSSI?<br />
+<br />
+<br />
+Well, the Sandeep / M5Lora library does this:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+int LoRaClass::packetRssi()
+{
+  return (readRegister(REG_PKT_RSSI_VALUE) - (_frequency &lt; 868E6 ? 164 : 157));
+}
+float LoRaClass::packetSnr()
+{
+  return ((int8_t)readRegister(REG_PKT_SNR_VALUE)) * 0.25;
+}</code></pre>
+<br />
+But the RadioHead library does this: 
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+// Remember the last signal to noise ratio, LORA mode
+// Per page 111, SX1276/77/78/79 datasheet
+_lastSNR = (int8_t)spiRead(RH_RF95_REG_19_PKT_SNR_VALUE) / 4;
+// Remember the RSSI of this packet, LORA mode
+// this is according to the doc, but is it really correct?
+// weakest receiveable signals are reported RSSI at about -66
+_lastRssi = spiRead(RH_RF95_REG_1A_PKT_RSSI_VALUE);
+// Adjust the RSSI, datasheet page 87
+if (_lastSNR &lt; 0)
+ _lastRssi = _lastRssi + _lastSNR;
+else
+ _lastRssi = (int)_lastRssi * 16 / 15;
+if (_usingHFport)
+ _lastRssi -= 157;
+else
+ _lastRssi -= 164;</code></pre>
+<br />
+<br />
+Grr... So ok, the difference in RSSI appears to be simply a different calculation.&nbsp; The real test is: how far away can the units be and still communicate? I'm still happy I have the RadioHead libraries working. In my opinion is is clearly the superior code.
+<br />
+<br />So reference check: after all the code changes, let's try same units: 32u4 to 32u4. Cleaned project, full rebuild. RSSI value is -19 or -20! Rechecking the M5Stack, RSSI is -27.&nbsp; So even with the same codebase and same calcs, the M5Stack LoRa has a poorer RSSI value. Using an 
+<a href="https://www.amazon.com/dp/B0194WDVHI">external battery power</a>
+&nbsp;source and the value improves to RSSI = -24.<br />
+<br />
+So, as mentioned about - I've been reading about real world antennas, so perhaps the M5Stack antenna has an issue. Well, I tried that as well, replacing the internal antenna with one of those external antennas - identical to the one on the 32u4. Still there's a discrepancy in RSSI values between the two devices.
+<br />
+<br />
+What else? Ok, so there's a speaker in the M5Stack. Poking around with that, defined in:
+<br />
+<br />
+libraries\M5Stack\src\utility\Config.h
+<br />
+<br />
+there's a declaration:
+<br />
+<br />
+// BEEP PIN
+<br />
+#define SPEAKER_PIN 25
+<br />
+<br />
+Ah yes, GPIO25, our friend. The LoRa interrupt pin.&nbsp; (sigh)
+<br />
+<br />So perhaps all the extras in the M5Stack are indeed causing a problem. I tried to disable a few things&nbsp; such as the speaker init, but no luck. I do however, have another 
+<a href="https://github.com/gojimmypi/LoRa-GPIO/tree/master/Console">Console (without display) app</a>
+ that is specifically targeted for the 32u4, but with the magic of simply changing platforms in the IDE, can be recompiled and sent to the M5Stack!&nbsp; RSSI about that same at -27 (ranging from -23 to -29).&nbsp; Replace with the exact same code on the 32u4 and the RSSI is a full 10 points better at -17.&nbsp; (10x improvement in signal strength!).<br />
+<br />
+I tried another M5Stack unit with a different LoRa module. Same result.
+<br />
+<br />So at this point, I really believe it is a hardware issue. I've been unable to get a copy of the schematic for the M5Stack LoRa module, However the 32u4 has a 
+<a href="https://github.com/gojimmypi/LoRa-GPIO/blob/master/doc/DIY0031-LoRa32u4%20pinout%20diagram.pdf">pin connection diagram here</a>
+.<br />
+<br />
+As soon as hardware is questioned - the first thing to do is of course add some capacitors! I added a 10uF and a 10pf cap directly to the power input to the RA-02.
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/caps.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="454" data-original-width="417" src="../images/s1600/caps.PNG"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+In the pic, you can see I fished a new, external antenna along with the new caps. And ya, I got a little close to the side of the M5 Lora module.
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+Additionally I added a shield (aluminum foil sandwiched between two layers of clear packing tape) to both sides of the LoRa module. After all - there is an ESP32 microprocessor buzzing away just on the other side of the PCB!
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/M5_w_shield.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="362" data-original-width="593" height="243" src="../images/s400/M5_w_shield.PNG" width="400"></a>
+</div>
+<br />
+<br />
+The first field test was a relative success! I more than doubled the original range! Ok, so I didn't actually test after each change, so I don't know exactly which was the most effective in extending the range.
+<br />
+<br />Note the Semtech site has a 
+<a href="https://www.semtech.com/products/wireless-rf/lora-transceivers/SX1276">bunch of LoRa resources</a>, including this <a href="https://www.semtech.com/uploads/documents/SX1272LoRaCalculatorSetup1_1.zip">cool LoRa calculator</a>
+ (I will include in my GitHub repository in the docs container, in case the link to Semtech ever breaks.<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/LoRa_calculator.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="560" data-original-width="771" height="290" src="../images/s400/LoRa_calculator.PNG" width="400"></a>
+</div>
+<br />
+Note that I am currently transmitting at 125kHz. Lowering this increases range! Lower this to about 15.6kHz and you get another 10db in "link performance". (in theory).
+<br />
+<br />
+Overall I am quite happy with the result. Ok, I'm not seeing multi-kilometer ranges. But that's also line-of-sight. My transmitter is on the kitchen table - with the entire garage between it and the M5Stack receiver. Next test will be from line of site.
+<br />
+<br />
+The super exciting thing is I have a prototype from the kind folks at M5Stack arriving in the mail soon for the next potential version of the LoRa module. I am quite interested in seeing how well it performs.
+<br />
+<br />Stay tuned for my 
+<a href="{{ site.baseurl }}{% post_url 2018-03-10-single-step-debugging-atmega328-arduino-uno %}">next blog</a>
+&nbsp;where I work on the prototype V2 LoRa modules with its own embedded ATMEGA328.<br />
+<br />
+<br />
+Resources, Inspiration, Credits, and Other Links:
+<br />
+<ul><li><a href="https://github.com/gojimmypi/LoRa-GPIO">My LoRa-GPIO project</a></li><li><a href="https://electronics.stackexchange.com/questions/132051/433mhz-quarter-wave-length-antenna-longer-is-better">Is a longer antenna better?</a></li><li><a href="https://github.com/gojimmypi/LoRa-GPIO/blob/master/doc/DIY0031-LoRa32u4%20pinout%20diagram.pdf">LoRa32u4 pinout</a></li><li><a href="http://airspayce.com/mikem/arduino/RadioHead/">RadioHead master source</a></li><li><a href="https://groups.google.com/forum/#!forum/radiohead-arduino">RadioHead forum</a></li><li><a href="https://www.semtech.com/uploads/documents/LoraDesignGuide_STD.pdf">Semtech LoRa Modem Designer's Guide</a> (I will add a copy to my project doc directory)</li><li><a href="https://www.semtech.com/uploads/documents/sx1276.pdf">SX1276/77/78/79 datasheet</a> (copy also in doc directory)</li><li><a href="https://www.semtech.com/uploads/documents/an120014-xo-guidance-lora-modulation.pdf">Semtech LoRa Modulation Crystal Oscillator Guide</a></li><li><a href="https://www.semtech.com/uploads/documents/an1200.26.pdf">LoRa and FCC Part 15.247 Measurement Guidance</a></li><li><a href="https://www.semtech.com/products/wireless-rf/lora-transceivers/SX1276">Semtech SX1276 home page</a></li><li><a href="https://cdn-learn.adafruit.com/assets/assets/000/031/658/original/feather_schem.png?1460518302">Adafruit Feather LoRa 32u4 schematic</a>&nbsp;(RFM69FW)</li><li><a href="https://www.minicircuits.com/app/DG03-111.pdf">Return Loss vs VWSR</a></li><li><a href="https://guides.github.com/features/mastering-markdown/">GitHub Mastering Markdown</a></li><li><a href="https://github.com/gojimmypi/CompareCheck/blob/master/README.md">
+Do GitHub Branch Compares work?</a></li></ul><br />
+<br />
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:53 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

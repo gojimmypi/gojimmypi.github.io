@@ -13,4 +13,150 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-39773595120824129
 blogger_orig_url: https://gojimmypi.blogspot.com/2019/01/tinyfpga-bx-using-tinyprog-in-wsl.html
 ---
 
-Recently, I encountered a problem getting the <a href="https://tinyfpga.com/bx/guide.html">tinyFPGA BX</a> to be recognized in WSL. I submitted a <a href="https://github.com/Microsoft/WSL/issues/3745">WSL issue on GitHub</a> that was acknowledged and promptly closed as a duplicate, as apparently no USB devices are currently supported in WSL. I am almost certain that I previously had this working. A quick Google search, and <a href="https://discourse.tinyfpga.com/t/project-icestorm-on-windows/754/2">others appear to be using WSL as well</a>.<br /><br />TL;DR - I created a <a href="https://gist.github.com/gojimmypi/243fc3a6eead72ae3db8fd32f2567c96">gist</a> for the entire WSL toolchain setup for the TinyFPGA.<br /><br />The problem that I encountered: is that although a Windows DOS prompt sees the device:<br /><br /><pre><code>C:\Users\gojimmypi&gt;tinyprog<br /><br />    TinyProg CLI<br />    ------------<br />    Using device id 1d50:6130<br />    Only one board with active bootloader, using it.<br /></code></pre><br />WSL does not: <br /><br /><pre><code>gojimmypi@MYHOST: ~<br />0 $ tinyprog<br /><br />    TinyProg CLI<br />    ------------<br />    Using device id 1d50:6130<br />    No port was specified and no active bootloaders found.<br />    Activate bootloader by pressing the reset button.<br /></code></pre><br />Given the comments in my GitHub issue about libusb having <i>never</i> been supported in WSL, I wondered how it could have previously worked? Curiously, I discovered that the tinyFPGA can use <i>either</i> the serial port or the USB drivers (note the last two options: no libusb support in WSL, but COM ports via pyserial should work):<br /><br /><pre><code>usage: tinyprog [-h] [-l] [-p PROGRAM] [-u PROGRAM_USERDATA]<br />                [--program-image PROGRAM_IMAGE] [-b] [-c COM] [-i ID]<br />                [-d DEVICE] [-a ADDR] [-m] [--update-bootloader] [--libusb]<br />                [--pyserial]<br /><br />optional arguments:<br />  -h, --help            show this help message and exit<br />  -l, --list            list connected and active FPGA boards<br />  -p PROGRAM, --program PROGRAM<br />                        program FPGA board with the given user bitstream<br />  -u PROGRAM_USERDATA, --program-userdata PROGRAM_USERDATA<br />                        program FPGA board with the given user data<br />  --program-image PROGRAM_IMAGE<br />                        program FPGA board with a combined user bitstream and<br />                        data<br />  -b, --boot            command the FPGA board to exit the bootloader and load<br />                        the user configuration<br />  -c COM, --com COM     serial port name<br />  -i ID, --id ID        FPGA board ID<br />  -d DEVICE, --device DEVICE<br />                        device id (vendor:product); default is (1d50:6130)<br />  -a ADDR, --addr ADDR  force the address to write the bitstream to<br />  -m, --meta            dump out the metadata for all connected boards in JSON<br />  --update-bootloader   check for new bootloader and update eligible connected<br />                        boards<br />  --libusb              try using libusb to connect to boards without a serial<br />                        driver attached<br />  --pyserial            use pyserial to connect to boards<br /></code></pre><br />So in theory, this should have forced the issue in WSL and used the serial port, but no luck:<br /><br /><pre><code>tinyprog --pyserial --list<br /><br />    TinyProg CLI<br />    ------------<br />    Using device id 1d50:6130<br />    No port was specified and no active bootloaders found.<br />    Activate bootloader by pressing the reset button.<br /></code></pre><div><br /></div>I also tried setting permissions, just in case:<br /><br /><pre><code>sudo usermod -a -G dialout $USER<br />sudo usermod -a -G tty $USER<br /></code></pre><br />Microsoft <a href="https://blogs.msdn.microsoft.com/wsl/2017/04/14/serial-support-on-the-windows-subsystem-for-linux/">claims that Serial COM ports have been supported on WSL</a> since <a href="https://blogs.msdn.microsoft.com/wsl/2017/04/14/serial-support-on-the-windows-subsystem-for-linux/">Windows Insider Build 16176</a>. There's also <a href="https://github.com/Microsoft/WSL/issues/1929">this WSL issue #1929</a> that indicates serial port issues have been resolved.<br /><br />Annoyingly, although<a href="https://www.tldp.org/HOWTO/Remote-Serial-Console-HOWTO/preparation-setport.html"> Linux starts counting at zero</a>, Microsoft instead apparently decided to instead start at 1 for serial ports in WSL.&nbsp; Thus <code>/dev/ttyS0</code> for Linux is COM1: on the PC, however COM1: will be <code>/dev/ttyS1</code> on WSL.<br /><br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="https://4.bp.blogspot.com/-t-r16RxPk2s/XCyRj6w-A6I/AAAAAAAABx0/p4I9RDOKg2oICPghkqlCjQWAwaYSIOFoACLcBGAs/s1600/COM%2Bport%2Bnumbering.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" data-original-height="272" data-original-width="633" height="137" src="https://4.bp.blogspot.com/-t-r16RxPk2s/XCyRj6w-A6I/AAAAAAAABx0/p4I9RDOKg2oICPghkqlCjQWAwaYSIOFoACLcBGAs/s320/COM%2Bport%2Bnumbering.PNG" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Google Search Result for "linux list serial ports"</td></tr></tbody></table><br /><br />I also opened a new <a href="https://discourse.tinyfpga.com/t/recognizing-tinyfpga-bx-in-wsl/849">Recognizing TinyFPGA BX in WSL</a>&nbsp;topic on the <a href="https://discourse.tinyfpga.com/">tinyFPGA discourse</a> site.<br /><br />UPDATE: many thanks to&nbsp;<a data-user-card="lawrie.griffiths" href="https://discourse.tinyfpga.com/u/lawrie.griffiths">lawrie.griffiths</a>&nbsp;for his help on the <a href="https://discourse.tinyfpga.com/t/recognizing-tinyfpga-bx-in-wsl/849/9?u=gojimmypi">tinyFPGA discourse thread</a> for determining that although the <code>--list</code> and <code>--meta</code> parameters do not currently work in WSL, forcing a reboot with <code>-b</code> and most importantly, programming with <code>-p</code> while explicitly naming the com port with the <code>-c</code> option does work! Woohoo :)<br /><br />Here are the commands in WSL of interest:<br /><br /><code></code><br /><pre><code># force tinyFPGA to exit bootloader (reset or unplug board afterwards as needed)<br />tinyprog -b -c /dev/ttyS12<br /><br /># program the tinyFPGA, while explicitly naming the port<br />tinyprog  --com /dev/ttyS12 -p hello_word.bin<br /></code></pre><br />As a reminder, <a href="https://blogs.msdn.microsoft.com/commandline/2016/11/17/do-not-change-linux-files-using-windows-apps-and-tools/">do not modify WSL filesystem file from Windows</a>! Yes, I've seen some pretty weird things happen when I tested that. But feel free to edit any other files. For instance, the entire <code>C:\</code> directory is available in WSL as <code>/mnt/c/</code>.<br /><br /><br />Check out my <a href="{{ site.baseurl }}{% post_url 2019-01-04-risc-v-on-fpga-tinyfpga-via-wsl %}">next blog on setting up a soft RISC-V CPU on the tinyFPGA</a>.<br /><br />Resources, Inspiration, Credits, and Other Links:<br /><br /><ul><li><a href="https://tinyfpga.com/bx/guide.html">TinyFPGA BX User Guide</a></li><li><a href="https://github.com/tinyfpga/TinyFPGA-BX">https://github.com/tinyfpga/TinyFPGA-BX</a></li><li><a href="https://blogs.msdn.microsoft.com/wsl/2017/04/14/serial-support-on-the-windows-subsystem-for-linux/">Serial Support on the Windows Subsystem for Linux</a></li><li><a href="https://www.cyberciti.biz/faq/find-out-linux-serial-ports-with-setserial/">How To Check and Use Serial Ports Under Linux</a></li><li><a href="https://github.com/Microsoft/WSL/issues/1929">github.com/Microsoft/WSL/issues/ - COM Port Access in WSL #1929</a></li><li><a href="https://superuser.com/questions/131044/how-do-i-know-which-dev-ttys-is-my-serial-port">superuser.com - How do I know which /dev/ttyS* is my serial port?</a></li></ul><br /><br />Please leave comments, ideas, suggestions below (moderated, sometimes delayed) or send me a message at gmail, or find&nbsp;<a href="https://twitter.com/gojimmypi/" style="font-family: &quot;Times New Roman&quot;; white-space: normal;">me on twitter</a><span style="font-family: &quot;times new roman&quot;; white-space: normal;">.</span> 
+Recently, I encountered a problem getting the <a href="https://tinyfpga.com/bx/guide.html">tinyFPGA BX</a> to be recognized in WSL. I submitted a <a href="https://github.com/Microsoft/WSL/issues/3745">WSL issue on GitHub</a> that was acknowledged and promptly closed as a duplicate, as apparently no USB devices are currently supported in WSL. I am almost certain that I previously had this working. A quick Google search, and <a href="https://discourse.tinyfpga.com/t/project-icestorm-on-windows/754/2">others appear to be using WSL as well</a>
+.<br />
+<br />TL;DR - I created a 
+<a href="https://gist.github.com/gojimmypi/243fc3a6eead72ae3db8fd32f2567c96">gist</a>
+ for the entire WSL toolchain setup for the TinyFPGA.<br />
+<br />
+The problem that I encountered: is that although a Windows DOS prompt sees the device:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+C:\Users\gojimmypi&gt;tinyprog
+    TinyProg CLI
+    ------------
+    Using device id 1d50:6130
+    Only one board with active bootloader, using it.</code></pre>
+<br />
+WSL does not: 
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+gojimmypi@MYHOST: ~
+0 $ tinyprog
+    TinyProg CLI
+    ------------
+    Using device id 1d50:6130
+    No port was specified and no active bootloaders found.
+    Activate bootloader by pressing the reset button.</code></pre>
+<br />Given the comments in my GitHub issue about libusb having 
+<i>never</i> been supported in WSL, I wondered how it could have previously worked? Curiously, I discovered that the tinyFPGA can use <i>either</i>
+ the serial port or the USB drivers (note the last two options: no libusb support in WSL, but COM ports via pyserial should work):<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+usage: tinyprog [-h] [-l] [-p PROGRAM] [-u PROGRAM_USERDATA]
+                [--program-image PROGRAM_IMAGE] [-b] [-c COM] [-i ID]
+                [-d DEVICE] [-a ADDR] [-m] [--update-bootloader] [--libusb]
+                [--pyserial]
+optional arguments:
+  -h, --help            show this help message and exit
+  -l, --list            list connected and active FPGA boards
+  -p PROGRAM, --program PROGRAM
+                        program FPGA board with the given user bitstream
+  -u PROGRAM_USERDATA, --program-userdata PROGRAM_USERDATA
+                        program FPGA board with the given user data
+  --program-image PROGRAM_IMAGE
+                        program FPGA board with a combined user bitstream and
+                        data
+  -b, --boot            command the FPGA board to exit the bootloader and load
+                        the user configuration
+  -c COM, --com COM     serial port name
+  -i ID, --id ID        FPGA board ID
+  -d DEVICE, --device DEVICE
+                        device id (vendor:product); default is (1d50:6130)
+  -a ADDR, --addr ADDR  force the address to write the bitstream to
+  -m, --meta            dump out the metadata for all connected boards in JSON
+  --update-bootloader   check for new bootloader and update eligible connected
+                        boards
+  --libusb              try using libusb to connect to boards without a serial
+                        driver attached
+  --pyserial            use pyserial to connect to boards</code></pre>
+<br />
+So in theory, this should have forced the issue in WSL and used the serial port, but no luck:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+tinyprog --pyserial --list
+    TinyProg CLI
+    ------------
+    Using device id 1d50:6130
+    No port was specified and no active bootloaders found.
+    Activate bootloader by pressing the reset button.</code></pre>
+<br />
+I also tried setting permissions, just in case:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo usermod -a -G dialout $USER
+sudo usermod -a -G tty $USER</code></pre>
+<br />Microsoft 
+<a href="https://blogs.msdn.microsoft.com/wsl/2017/04/14/serial-support-on-the-windows-subsystem-for-linux/">claims that Serial COM ports have been supported on WSL</a> since <a href="https://blogs.msdn.microsoft.com/wsl/2017/04/14/serial-support-on-the-windows-subsystem-for-linux/">Windows Insider Build 16176</a>. There's also <a href="https://github.com/Microsoft/WSL/issues/1929">this WSL issue #1929</a>
+ that indicates serial port issues have been resolved.<br />
+<br />Annoyingly, although
+<a href="https://www.tldp.org/HOWTO/Remote-Serial-Console-HOWTO/preparation-setport.html"> Linux starts counting at zero</a>, Microsoft instead apparently decided to instead start at 1 for serial ports in WSL.&nbsp; Thus <code class="highlight">/dev/ttyS0</code> for Linux is COM1: on the PC, however COM1: will be <code class="highlight">/dev/ttyS1</code>
+ on WSL.<br />
+<br />
+<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/COM_port_numbering.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;">
+<img border="0" data-original-height="272" data-original-width="633" height="137" src="../images/s320/COM_port_numbering.PNG" width="320"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">
+Google Search Result for "linux list serial ports"</td></tr></tbody></table><br />
+<br />I also opened a new 
+<a href="https://discourse.tinyfpga.com/t/recognizing-tinyfpga-bx-in-wsl/849">Recognizing TinyFPGA BX in WSL</a>&nbsp;topic on the <a href="https://discourse.tinyfpga.com/">tinyFPGA discourse</a>
+ site.<br />
+<br />UPDATE: many thanks to&nbsp;
+<a data-user-card="lawrie.griffiths" href="https://discourse.tinyfpga.com/u/lawrie.griffiths">lawrie.griffiths</a>&nbsp;for his help on the <a href="https://discourse.tinyfpga.com/t/recognizing-tinyfpga-bx-in-wsl/849/9?u=gojimmypi">tinyFPGA discourse thread</a> for determining that although the <code class="highlight">--list</code> and <code class="highlight">--meta</code> parameters do not currently work in WSL, forcing a reboot with <code class="highlight">-b</code> and most importantly, programming with <code class="highlight">-p</code> while explicitly naming the com port with the <code class="highlight">-c</code>
+ option does work! Woohoo :)<br />
+<br />
+Here are the commands in WSL of interest:
+<br />
+<br />
+<code class="highlight"></code><br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# force tinyFPGA to exit bootloader (reset or unplug board afterwards as needed)
+tinyprog -b -c /dev/ttyS12
+# program the tinyFPGA, while explicitly naming the port
+tinyprog  --com /dev/ttyS12 -p hello_word.bin</code></pre>
+<br />As a reminder, 
+<a href="https://blogs.msdn.microsoft.com/commandline/2016/11/17/do-not-change-linux-files-using-windows-apps-and-tools/">do not modify WSL filesystem file from Windows</a>! Yes, I've seen some pretty weird things happen when I tested that. But feel free to edit any other files. For instance, the entire <code class="highlight">C:\</code> directory is available in WSL as <code class="highlight">/mnt/c/</code>
+.<br />
+<br />
+<br />Check out my 
+<a href="{{ site.baseurl }}{% post_url 2019-01-04-risc-v-on-fpga-tinyfpga-via-wsl %}">next blog on setting up a soft RISC-V CPU on the tinyFPGA</a>
+.<br />
+<br />
+Resources, Inspiration, Credits, and Other Links:
+<br />
+<br />
+<ul><li><a href="https://tinyfpga.com/bx/guide.html">TinyFPGA BX User Guide</a></li><li><a href="https://github.com/tinyfpga/TinyFPGA-BX">https://github.com/tinyfpga/TinyFPGA-BX</a></li><li><a href="https://blogs.msdn.microsoft.com/wsl/2017/04/14/serial-support-on-the-windows-subsystem-for-linux/">Serial Support on the Windows Subsystem for Linux</a></li><li><a href="https://www.cyberciti.biz/faq/find-out-linux-serial-ports-with-setserial/">How To Check and Use Serial Ports Under Linux</a></li><li><a href="https://github.com/Microsoft/WSL/issues/1929">github.com/Microsoft/WSL/issues/ - COM Port Access in WSL #1929</a></li><li><a href="https://superuser.com/questions/131044/how-do-i-know-which-dev-ttys-is-my-serial-port">
+superuser.com - How do I know which /dev/ttyS* is my serial port?</a></li></ul><br />
+<br />Please leave comments, ideas, suggestions below (moderated, sometimes delayed) or send me a message at gmail, or find&nbsp;
+<a href="https://twitter.com/gojimmypi/" style="font-family: &quot;Times New Roman&quot;; white-space: normal;">me on twitter</a><span style="font-family: &quot;times new roman&quot;; white-space: normal;">.</span>
+ <br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:54 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

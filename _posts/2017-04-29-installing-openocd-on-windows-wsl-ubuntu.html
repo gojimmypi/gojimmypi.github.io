@@ -10,4 +10,111 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-43213264948541263
 blogger_orig_url: https://gojimmypi.blogspot.com/2017/04/installing-openocd-on-windows-wsl-ubuntu.html
 ---
 
-While working on my <a href="{{ site.baseurl }}{% post_url 2017-04-28-opendps-with-dps5015 %}">OpenDPS Project</a> I needed to use OpenOCD onw Windows. I cheated and used the one that came with VisualGDB running in a DOS Window:<br /><br />from the \openocd\scripts directory:<br /><br />C:\Users\gojimmypi\AppData\Local\VisualGDB\EmbeddedDebugPackages\com.sysprogs.arm.openocd\bin\openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg<br /><br />but really, I want to have OpenOCD in Ubuntu.<br /><br />So I downloaded it from <a href="https://launchpad.net/ubuntu/+source/openocd">https://launchpad.net/ubuntu/+source/openocd</a>&nbsp;or specifically:<br /><br />wget <a href="https://launchpad.net/ubuntu/+archive/primary/+files/openocd_0.9.0.orig.tar.gz">https://launchpad.net/ubuntu/+archive/primary/+files/openocd_0.9.0.orig.tar.gz</a><br /><br />and unzipped it: <br /><br /><div style="background-color: #1e1e1e; color: #d4d4d4; font-family: Consolas, &quot;Courier New&quot;, monospace; font-size: 14px; font-weight: normal; line-height: 19px; white-space: pre;"><div><span style="color: #d4d4d4;">tar -xzvf&nbsp;openocd_0.9.0.orig.tar.gz</span>&nbsp;</div></div><br />There's an INSTALL file that gives basic instructions:<br /><br />./configure <br />make<br />sudo make install<br /><br />if you don't use "sudo" on that last command, you'll get this wonderfully intuitive error:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-IctJ_uyhO-Q/WQTmlcW6UVI/AAAAAAAAAWo/OwAAtDQoRSwNjkjVLOUQ04_PbQORyaO9ACLcB/s1600/OpenOCD-install-without-sudo.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="155" src="https://2.bp.blogspot.com/-IctJ_uyhO-Q/WQTmlcW6UVI/AAAAAAAAAWo/OwAAtDQoRSwNjkjVLOUQ04_PbQORyaO9ACLcB/s640/OpenOCD-install-without-sudo.PNG" width="640" /></a></div><br />(ho - and people wonder why Windows is so popular.. but I digress...)<br /><br />Now from the /openocd/scripts directory, this command:<br /><br /><div style="background-color: #1e1e1e; color: #d4d4d4; font-family: Consolas, &quot;Courier New&quot;, monospace; font-size: 14px; font-weight: normal; line-height: 19px; white-space: pre;"><div><span style="color: #d4d4d4;">openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg</span></div></div><br />or simply:<br /><br /><div style="background-color: #1e1e1e; color: #d4d4d4; font-family: Consolas, &quot;Courier New&quot;, monospace; font-size: 14px; font-weight: normal; line-height: 19px; white-space: pre;"><div><span style="color: #d4d4d4;">./run-openocd.sh</span></div></div><br />from the /openocd directory.<br /><br />well, it does not find my ST-LINK, or any other USB devices. It seems WSL does not recognize any of my USB ports. <br /><br /><div style="background-color: #1e1e1e; color: #d4d4d4; font-family: Consolas, &quot;Courier New&quot;, monospace; font-size: 14px; font-weight: normal; line-height: 19px; white-space: pre;"><div><span style="color: #d4d4d4;">$ lsusb</span></div><div><span style="color: #d4d4d4;">unable to initialize libusb: -99</span></div></div><br />On to installing the toolchain in a Debian VM....<br /><br /><br />If there are problems, well there's <br /><br /><a href="https://answers.launchpad.net/ubuntu/">https://answers.launchpad.net/ubuntu/</a><br /><a href="https://github.com/Microsoft/BashOnWindows/issues/">https://github.com/Microsoft/BashOnWindows/issues/</a><br /><br />
+While working on my <a href="{{ site.baseurl }}{% post_url 2017-04-28-opendps-with-dps5015 %}">OpenDPS Project</a>
+ I needed to use OpenOCD onw Windows. I cheated and used the one that came with VisualGDB running in a DOS Window:<br />
+<br />
+from the \openocd\scripts directory:
+<br />
+<br />
+C:\Users\gojimmypi\AppData\Local\VisualGDB\EmbeddedDebugPackages\com.sysprogs.arm.openocd\bin\openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg
+<br />
+<br />
+but really, I want to have OpenOCD in Ubuntu.
+<br />
+<br />So I downloaded it from 
+<a href="https://launchpad.net/ubuntu/+source/openocd">https://launchpad.net/ubuntu/+source/openocd</a>
+&nbsp;or specifically:<br />
+<br />wget 
+<a href="https://launchpad.net/ubuntu/+archive/primary/+files/openocd_0.9.0.orig.tar.gz">
+https://launchpad.net/ubuntu/+archive/primary/+files/openocd_0.9.0.orig.tar.gz</a><br />
+<br />
+and unzipped it: 
+<br />
+<br />
+
+<div style="background-color: #1e1e1e; color: #d4d4d4; font-family: Consolas, &quot;Courier New&quot;, monospace; font-size: 14px; font-weight: normal; line-height: 19px; white-space: pre;">
+<div>
+<span style="color: #d4d4d4;">tar -xzvf&nbsp;openocd_0.9.0.orig.tar.gz</span>&nbsp;
+</div>
+
+</div>
+<br />
+There's an INSTALL file that gives basic instructions:
+<br />
+<br />
+./configure 
+<br />
+make
+<br />
+sudo make install
+<br />
+<br />
+if you don't use "sudo" on that last command, you'll get this wonderfully intuitive error:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/OpenOCD-install-without-sudo.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="155" src="../images/s640/OpenOCD-install-without-sudo.PNG" width="640"></a>
+</div>
+<br />
+(ho - and people wonder why Windows is so popular.. but I digress...)
+<br />
+<br />
+Now from the /openocd/scripts directory, this command:
+<br />
+<br />
+
+<div style="background-color: #1e1e1e; color: #d4d4d4; font-family: Consolas, &quot;Courier New&quot;, monospace; font-size: 14px; font-weight: normal; line-height: 19px; white-space: pre;">
+<div>
+<span style="color: #d4d4d4;">openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg</span>
+</div>
+
+</div>
+<br />
+or simply:
+<br />
+<br />
+
+<div style="background-color: #1e1e1e; color: #d4d4d4; font-family: Consolas, &quot;Courier New&quot;, monospace; font-size: 14px; font-weight: normal; line-height: 19px; white-space: pre;">
+<div>
+<span style="color: #d4d4d4;">./run-openocd.sh</span>
+</div>
+
+</div>
+<br />
+from the /openocd directory.
+<br />
+<br />
+well, it does not find my ST-LINK, or any other USB devices. It seems WSL does not recognize any of my USB ports. 
+<br />
+<br />
+
+<div style="background-color: #1e1e1e; color: #d4d4d4; font-family: Consolas, &quot;Courier New&quot;, monospace; font-size: 14px; font-weight: normal; line-height: 19px; white-space: pre;">
+<div>
+<span style="color: #d4d4d4;">$ lsusb</span>
+</div>
+
+<div>
+<span style="color: #d4d4d4;">unable to initialize libusb: -99</span>
+</div>
+
+</div>
+<br />
+On to installing the toolchain in a Debian VM....
+<br />
+<br />
+<br />
+If there are problems, well there's 
+<br />
+<br />
+<a href="https://answers.launchpad.net/ubuntu/">
+https://answers.launchpad.net/ubuntu/</a><br />
+<a href="https://github.com/Microsoft/BashOnWindows/issues/">
+https://github.com/Microsoft/BashOnWindows/issues/</a><br />
+<br />
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:52 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

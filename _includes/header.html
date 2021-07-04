@@ -1,7 +1,36 @@
-<div class="row">
-    <a href="{{ site.baseurl | replace: '//', '/' }}/" class="logo noline">
-        {% include full.html %}
-        {% include logo.html %}
-        {% include icon.html %}
-    </a>
+<div>
+    <style>
+        .logo-container {
+            background: $almost-white;
+            display: block !important;
+            width: 100% !important;
+            height: auto !important;
+            align-self: flex-start !important;
+        }
+
+        .logo-container a {
+                display: inline-block !important;
+                margin: auto !important;
+                width: 7rem !important;
+                max-width: 96% !important;
+            }
+
+        img.jimmy_logo {
+            margin: 5px;
+            display: block !important;
+            width: 100% !important;
+            height: auto !important;
+        }
+
+        @media screen and (max-width:900px) {
+            img.jimmy_logo {
+                /* some specific CSS for lower than 900px screens and windows */
+            }
+        }
+    </style>
+    <div class="logo-container">
+        <a href="{{ site.baseurl | replace: '//', '/' }}/" class="logo noline">
+            <img src="/gridster-jekyll-theme/images/gojimmypi.svg" class="jimmy_logo">
+        </a>
+    </div>
 </div>

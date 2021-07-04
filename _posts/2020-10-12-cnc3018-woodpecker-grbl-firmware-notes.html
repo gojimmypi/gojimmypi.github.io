@@ -14,4 +14,248 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-33585665340647419
 blogger_orig_url: https://gojimmypi.blogspot.com/2020/10/cnc3018-woodpecker-grbl-firmware-notes.html
 ---
 
-<p><br /></p><p>The Woodpecker boards shares the USB 5VDC line with the power input. I use a <a href="https://www.amazon.com/gp/product/B003M0NURK/">non-powered USB hub</a> between my computer and the CNC machine. Honestly I'm not sure if it actually does anything to isolate or perhaps I'm just lucky. (probably the latter) TODO: find and buy a good isolated USB, such as the <a href="https://www.adafruit.com/product/2107">Adafruit USB Isolator - 100mA Isolated Low/Full Speed USB</a>.</p><p>For reference, my current firmware version is <a href="https://github.com/gnea/grbl/releases/tag/v1.1f.20170801">Grbl 1.1f</a>, or more specifically <code>$I</code> result:</p><code><pre>[VER:1.1f.20170801:]<br />[OPT:V,15,128]<br /></pre></code><br />The Woodpecker board has a CH340 serial chip and is accessible via the usual putty 8N1/115200:<div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-dQc392uFyt8/X4NUowUrYWI/AAAAAAAACzE/vZi1cRVURdoGxx2N9a1GIoIZHL7QlSDigCLcBGAsYHQ/s466/putty_8N1.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="459" data-original-width="466" src="https://1.bp.blogspot.com/-dQc392uFyt8/X4NUowUrYWI/AAAAAAAACzE/vZi1cRVURdoGxx2N9a1GIoIZHL7QlSDigCLcBGAsYHQ/s320/putty_8N1.png" width="320" /></a></div><div>   <p>"Help" <code>$$</code> is simply this one line:</p><pre><code>[HLP:$$ $# $G $I $N $x=val $Nx=line $J=line $SLP $C $X $H ~ ! ? ctrl-x]<br /></code></pre><p></p><div>That's not very helpful, but according to the <a href="https://github.com/grbl/grbl/wiki/Configuring-Grbl-v0.9">documentation</a>, newer versions will apparently provide more details:</div><p> <code></code></p><pre><code>$$ (view Grbl settings)<br />$# (view # parameters)<br />$G (view parser state)<br />$I (view build info)<br />$N (view startup blocks)<br />$x=value (save Grbl setting)<br />$Nx=line (save startup block)<br />$C (check gcode mode)<br />$X (kill alarm lock)<br />$H (run homing cycle)<br />~ (cycle start)<br />! (feed hold)<br />? (current status)<br />ctrl-x (reset Grbl)<br /></code></pre>     <p>My settings via <code>$$</code> (always a good idea to save these BEFORE upgrading firmware):</p><code><pre>$0=10                                                           <br />$1=25<br />$2=0<br />$3=5<br />$4=0<br />$5=0<br />$6=0<br />$10=1<br />$11=0.010<br />$12=0.002<br />$13=0<br />$20=0<br />$21=0<br />$22=0<br />$23=0<br />$24=25.000<br />$25=500.000<br />$26=250<br />$27=1.000<br />$30=1000<br />$31=0<br />$32=0<br />$100=800.000<br />$101=800.000<br />$102=800.000<br />$110=800.000<br />$111=800.000<br />$112=600.000<br />$120=10.000<br />$121=10.000<br />$122=10.000<br />$130=200.000<br />$131=200.000<br />$132=200.000<br /></pre></code>  The <a href="https://github.com/grbl/grbl/wiki/Configuring-Grbl-v0.9#grbl-settings">Grbl Default Settings</a>:   <code><pre>$0=10 (step pulse, usec)                                          <br />$1=25 (step idle delay, msec)<br />$2=0 (step port invert mask:00000000)<br />$3=6 (dir port invert mask:00000110)<br />$4=0 (step enable invert, bool)<br />$5=0 (limit pins invert, bool)<br />$6=0 (probe pin invert, bool)<br />$10=3 (status report mask:00000011)<br />$11=0.020 (junction deviation, mm)<br />$12=0.002 (arc tolerance, mm)<br />$13=0 (report inches, bool)<br />$20=0 (soft limits, bool)<br />$21=0 (hard limits, bool)<br />$22=0 (homing cycle, bool)<br />$23=1 (homing dir invert mask:00000001)<br />$24=50.000 (homing feed, mm/min)<br />$25=635.000 (homing seek, mm/min)<br />$26=250 (homing debounce, msec)<br />$27=1.000 (homing pull-off, mm)<br />$100=314.961 (x, step/mm)<br />$101=314.961 (y, step/mm)<br />$102=314.961 (z, step/mm)<br />$110=635.000 (x max rate, mm/min)<br />$111=635.000 (y max rate, mm/min)<br />$112=635.000 (z max rate, mm/min)<br />$120=50.000 (x accel, mm/sec^2)<br />$121=50.000 (y accel, mm/sec^2)<br />$122=50.000 (z accel, mm/sec^2)<br />$130=225.000 (x max travel, mm)<br />$131=125.000 (y max travel, mm)<br />$132=170.000 (z max travel, mm)<br /></pre></code><div>See also the <a href="https://github.com/gnea/grbl/issues/123#issuecomment-318474119">settings reported by&nbsp;Brandon2255p</a></div><div><br /></div><br />   My <code>$#</code> result:   <br /><code><pre>[G54:0.000,0.000,0.000]                                          <br />[G55:0.000,0.000,0.000]<br />[G56:0.000,0.000,0.000]<br />[G57:0.000,0.000,0.000]<br />[G58:0.000,0.000,0.000]<br />[G59:0.000,0.000,0.000]<br />[G28:0.000,0.000,0.000]<br />[G30:0.000,0.000,0.000]<br />[G92:0.000,0.000,0.000]<br />[TLO:0.000]<br />[PRB:0.000,0.000,0.000:0]<br /><br /></pre></code> <p><br /></p><p>Whistling sound? Thanks <a href="https://github.com/gnea/grbl/issues/123#issuecomment-352818997">chamnit</a>:</p><p></p><blockquote>The PWM frequency changed from 7.8 kHz to 1kHz in Grbl v1.1. To change back, edit the cpu_map.h file and look for the SPINDLE_TCCRB_INIT_MASK macros. There are several commented, including the one for 1kHz. Just swap them and recompile</blockquote><p></p><div><br /></div><p>If for some reason I ever need to replace the controller board, I'll probably try the&nbsp;<a href="https://www.sainsmart.com/products/controller-board-for-genmtisu-cnc-router-3018-3018-pro-1810-rpo">SAINSMART Controller Board for Genmtisu CNC Router 3018, 3018-PRO, 1810-RP</a>&nbsp;and the&nbsp;<a href="https://www.sainsmart.com/products/sainsmart-offline-controller-module-for-genmitsu-cnc-router-3018-prover">Offline Controller Module</a>&nbsp;(although need to determine if there's anything hardware specific to their Genmtisu)</p><p><br /></p><p>Resources, Inspiration, Credits, and Other Links:</p><ul style="text-align: left;"><li><a href="https://github.com/gnea/grbl/issues/336">Beware of upgrade mishaps: gnea/grbl/issues/336</a><br /><br /></li><li><a href="https://github.com/gnea/grbl/releases">gnea/grbl/releases on GitHub</a>&nbsp;<br /><br /></li><li><a href="https://github.com/gnea/grbl/wiki/Flashing-Grbl-to-an-Arduino">Flashing Grbl to an Arduino</a><br /><br /></li><li><a href="https://plugins.octoprint.org/plugins/bettergrblsupport/">Better Grbl Support: octoprint plugin "Provides core functionality and UI integration for GRBL based engravers and CNC machines"</a><br /><br /></li><li>&nbsp;<a href="https://github.com/mic159/octoprint-grbl-plugin">mic159/octoprint-grbl-plugin</a><br /><br /></li><li><a href="https://openbuilds.com/forums/controller-boards.28/">OpenBuilds - controller board forum</a><br /><br /></li><li>my <a href="https://marketplace.visualstudio.com/items?itemName=gojimmypi.gojimmypi-gcode-language-extension">Visual Studio Extension for G-Code syntax highlighting</a> (not VS Code)</li></ul><p></p><p><br /></p><p><br /></p><p><br /></p></div>
+
+<p>
+<br />
+
+</p>
+
+
+<p>
+The Woodpecker boards shares the USB 5VDC line with the power input. I use a <a href="https://www.amazon.com/gp/product/B003M0NURK/">non-powered USB hub</a> between my computer and the CNC machine. Honestly I'm not sure if it actually does anything to isolate or perhaps I'm just lucky. (probably the latter) TODO: find and buy a good isolated USB, such as the <a href="https://www.adafruit.com/product/2107">Adafruit USB Isolator - 100mA Isolated Low/Full Speed USB</a>.
+</p>
+
+<p>
+For reference, my current firmware version is <a href="https://github.com/gnea/grbl/releases/tag/v1.1f.20170801">Grbl 1.1f</a>, or more specifically <code class="highlight">$I</code> result:
+</p>
+
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+[VER:1.1f.20170801:]
+[OPT:V,15,128]</code></pre>
+<br />
+The Woodpecker board has a CH340 serial chip and is accessible via the usual putty 8N1/115200:
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s466/putty_8N1.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="459" data-original-width="466" src="../images/s320/putty_8N1.png" width="320"></a>
+</div>
+
+<div>
+   
+<p>
+"Help" <code class="highlight">$$</code> is simply this one line:
+</p>
+
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+[HLP:$$ $# $G $I $N $x=val $Nx=line $J=line $SLP $C $X $H ~ ! ? ctrl-x]</code></pre>
+<br />
+
+<div>
+That's not very helpful, but according to the <a href="https://github.com/grbl/grbl/wiki/Configuring-Grbl-v0.9">documentation</a>, newer versions will apparently provide more details:
+</div>
+
+<p>
+ <code class="highlight"></code>
+</p>
+
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+$$ (view Grbl settings)
+$# (view # parameters)
+$G (view parser state)
+$I (view build info)
+$N (view startup blocks)
+$x=value (save Grbl setting)
+$Nx=line (save startup block)
+$C (check gcode mode)
+$X (kill alarm lock)
+$H (run homing cycle)
+~ (cycle start)
+! (feed hold)
+? (current status)
+ctrl-x (reset Grbl)</code></pre>
+     
+<p>
+My settings via <code class="highlight">$$</code> (always a good idea to save these BEFORE upgrading firmware):
+</p>
+
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+$0=10                                                           
+$1=25
+$2=0
+$3=5
+$4=0
+$5=0
+$6=0
+$10=1
+$11=0.010
+$12=0.002
+$13=0
+$20=0
+$21=0
+$22=0
+$23=0
+$24=25.000
+$25=500.000
+$26=250
+$27=1.000
+$30=1000
+$31=0
+$32=0
+$100=800.000
+$101=800.000
+$102=800.000
+$110=800.000
+$111=800.000
+$112=600.000
+$120=10.000
+$121=10.000
+$122=10.000
+$130=200.000
+$131=200.000
+$132=200.000</code></pre>
+  The <a href="https://github.com/grbl/grbl/wiki/Configuring-Grbl-v0.9#grbl-settings">Grbl Default Settings</a>:   
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+$0=10 (step pulse, usec)                                          
+$1=25 (step idle delay, msec)
+$2=0 (step port invert mask:00000000)
+$3=6 (dir port invert mask:00000110)
+$4=0 (step enable invert, bool)
+$5=0 (limit pins invert, bool)
+$6=0 (probe pin invert, bool)
+$10=3 (status report mask:00000011)
+$11=0.020 (junction deviation, mm)
+$12=0.002 (arc tolerance, mm)
+$13=0 (report inches, bool)
+$20=0 (soft limits, bool)
+$21=0 (hard limits, bool)
+$22=0 (homing cycle, bool)
+$23=1 (homing dir invert mask:00000001)
+$24=50.000 (homing feed, mm/min)
+$25=635.000 (homing seek, mm/min)
+$26=250 (homing debounce, msec)
+$27=1.000 (homing pull-off, mm)
+$100=314.961 (x, step/mm)
+$101=314.961 (y, step/mm)
+$102=314.961 (z, step/mm)
+$110=635.000 (x max rate, mm/min)
+$111=635.000 (y max rate, mm/min)
+$112=635.000 (z max rate, mm/min)
+$120=50.000 (x accel, mm/sec^2)
+$121=50.000 (y accel, mm/sec^2)
+$122=50.000 (z accel, mm/sec^2)
+$130=225.000 (x max travel, mm)
+$131=125.000 (y max travel, mm)
+$132=170.000 (z max travel, mm)</code></pre>
+
+<div>
+See also the <a href="https://github.com/gnea/grbl/issues/123#issuecomment-318474119">settings reported by&nbsp;Brandon2255p</a>
+</div>
+<br />
+<br />   My 
+<code class="highlight">$#</code>
+ result:   <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+[G54:0.000,0.000,0.000]                                          
+[G55:0.000,0.000,0.000]
+[G56:0.000,0.000,0.000]
+[G57:0.000,0.000,0.000]
+[G58:0.000,0.000,0.000]
+[G59:0.000,0.000,0.000]
+[G28:0.000,0.000,0.000]
+[G30:0.000,0.000,0.000]
+[G92:0.000,0.000,0.000]
+[TLO:0.000]
+[PRB:0.000,0.000,0.000:0]</code></pre>
+ 
+<p>
+<br />
+
+</p>
+
+
+<p>
+Whistling sound? Thanks <a href="https://github.com/gnea/grbl/issues/123#issuecomment-352818997">chamnit</a>:
+</p>
+<br />
+<blockquote>
+The PWM frequency changed from 7.8 kHz to 1kHz in Grbl v1.1. To change back, edit the cpu_map.h file and look for the SPINDLE_TCCRB_INIT_MASK macros. There are several commented, including the one for 1kHz. Just swap them and recompile</blockquote><br />
+<br />
+
+<p>
+If for some reason I ever need to replace the controller board, I'll probably try the&nbsp;<a href="https://www.sainsmart.com/products/controller-board-for-genmtisu-cnc-router-3018-3018-pro-1810-rpo">SAINSMART Controller Board for Genmtisu CNC Router 3018, 3018-PRO, 1810-RP</a>&nbsp;and the&nbsp;<a href="https://www.sainsmart.com/products/sainsmart-offline-controller-module-for-genmitsu-cnc-router-3018-prover">Offline Controller Module</a>&nbsp;(although need to determine if there's anything hardware specific to their Genmtisu)
+</p>
+
+<p>
+<br />
+
+</p>
+
+
+<p>
+Resources, Inspiration, Credits, and Other Links:
+</p>
+<ul style="text-align: left;"><li><a href="https://github.com/gnea/grbl/issues/336">
+Beware of upgrade mishaps: gnea/grbl/issues/336</a><br />
+<br />
+</li><li><a href="https://github.com/gnea/grbl/releases">gnea/grbl/releases on GitHub</a>
+&nbsp;<br />
+<br />
+</li><li><a href="https://github.com/gnea/grbl/wiki/Flashing-Grbl-to-an-Arduino">
+Flashing Grbl to an Arduino</a><br />
+<br />
+</li><li><a href="https://plugins.octoprint.org/plugins/bettergrblsupport/">
+Better Grbl Support: octoprint plugin "Provides core functionality and UI integration for GRBL based engravers and CNC machines"</a><br />
+<br />
+</li><li>&nbsp;<a href="https://github.com/mic159/octoprint-grbl-plugin">
+mic159/octoprint-grbl-plugin</a><br />
+<br />
+</li><li><a href="https://openbuilds.com/forums/controller-boards.28/">
+OpenBuilds - controller board forum</a><br />
+<br />
+</li><li>my <a href="https://marketplace.visualstudio.com/items?itemName=gojimmypi.gojimmypi-gcode-language-extension">Visual Studio Extension for G-Code syntax highlighting</a>
+ (not VS Code)</li></ul><br />
+
+<p>
+<br />
+
+</p>
+
+
+<p>
+<br />
+
+</p>
+
+
+<p>
+<br />
+
+</p>
+
+
+</div>
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:54 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

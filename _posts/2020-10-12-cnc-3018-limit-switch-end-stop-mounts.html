@@ -10,4 +10,526 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-73178016238511075
 blogger_orig_url: https://gojimmypi.blogspot.com/2020/10/cnc-3018-limit-switch-end-stop-mounts.html
 ---
 
-<p>This is a continuation of my prior blog:&nbsp;<a href="{{ site.baseurl }}{% post_url 2020-10-12-the-road-to-cnc3018-limit-switches %}">The road to CNC3018 Limit Switches</a>.</p><p>These parts that I custom designed are for the CNC3018 (specifically the CNC3-3018Pro) Desktop CNC Engraving Router such as the one I purchased from <a href="https://twowincnctool.aliexpress.com/store/group/3018/1988027_512425692.html">Twowin Tools on AliExpress</a>. Some of these mounts may be applicable to other CNC Routers as well. ymmv.</p><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-4L9tHDgZhGU/X4NMpBvv8UI/AAAAAAAACys/alW3e3J8XDoBhxrkYklZlaL-tMAImVMZgCLcBGAsYHQ/s907/Z-Axis_Installed_Switches.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="907" data-original-width="616" height="320" src="https://1.bp.blogspot.com/-4L9tHDgZhGU/X4NMpBvv8UI/AAAAAAAACys/alW3e3J8XDoBhxrkYklZlaL-tMAImVMZgCLcBGAsYHQ/s320/Z-Axis_Installed_Switches.png" /></a></div><br /><p>All of the designs here are for the relatively common Makerbot limit switch available on <a href="https://smile.amazon.com/dp/B07D3S28FG/">Amazon</a>, <a href="https://www.ebay.com/itm/292692013947">eBay</a>, AliExpress, etc...</p><p>There are certainly <a href="https://github.com/gnea/grbl/issues/123#issuecomment-343013513">less complex implementations</a> of limit switches.</p><p><span style="background-color: #fcff01; color: #660000;"><b>WARNING: CNC Machining, even on a small desktop unit is inherently DANGEROUS.</b></span></p><p>I'm a software engineer at the Day Job, with relatively minimal mechanical engineering experience. This project is also my first experience with Fusion360. Although I've gone through (an embarrassingly large number of) iterations trying to take into account a surprising number of factors - there are probably still problems. DO NOT RELY ON THESE MOUNTS FOR PERSONAL SAFETY. There is no guarantee of proper operation or reliability.&nbsp;</p><p><span style="background-color: #fcff01; color: #660000;"><b>WEAR EYE PROTECTION AT ALL TIMES.</b></span></p><div>For installation, I wanted to minimize any additional machine tooling: no drilling, cutting, or other modifications are needed to mount these switches.</div><div><br /></div><div><b>Parts Needed:</b></div><div><br /></div><div><ul style="text-align: left;"><li>6x Switches: a pair for each axis end limit: X, Y, Z.</li></ul></div><div><ul style="text-align: left;"><li>M3 x 8mm screws.</li></ul></div><div><ul style="text-align: left;"><li><a href="https://www.amazon.com/gp/product/B077Z94V83/">T-Slot Nuts</a>.<br /><br /></li><li>Optional (but recommended) <a href="https://www.amazon.com/gp/product/B000HBGHFY/">low-strength threadlocker</a>. (purple or blue)</li></ul></div><div><br /></div><div><b>Optional:<br /></b></div><div><ul style="text-align: left;"><li>Assembly tools such as a quite handy&nbsp;<a href="https://www.amazon.com/gp/product/B0002FSRUI/">2.5 MM Ball-Hex (allen) driver</a>. The ball-end is just too cool for screwing in M3 nuts from an angle.<br /><br /></li><li>Opto-isolator, such as the&nbsp;<a href="https://www.tindie.com/products/eccentricwkshp/cnc-optical-limit-switch-isolator-grbl/">CNC Optical Limit Switch Isolator - GRBL on Tindie</a>. Note that TWO of these boards may be needed to cover both end limits for some machines. This is clearly illustrated in the <a href="https://forum.eccentricworkshop.com/download/file.php?id=26">schematic</a>&nbsp;that I should have studied more closely (but who would want a limit in only one direction?). As it turns out, I was "lucky" in that both ends of each axis are tied together on the PCB anyhow. So one board should work just fine for my desktop CNC:<br /></li></ul><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-RamHvnjZTuY/X4ILvwPc6DI/AAAAAAAACwE/F4nD-pjCAi4WBfF7PV7Muyfx80-MgS5iQCLcBGAsYHQ/s931/OptoIsolator_Schematic_Eccentric_Workshop.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="469" data-original-width="931" src="https://1.bp.blogspot.com/-RamHvnjZTuY/X4ILvwPc6DI/AAAAAAAACwE/F4nD-pjCAi4WBfF7PV7Muyfx80-MgS5iQCLcBGAsYHQ/s320/OptoIsolator_Schematic_Eccentric_Workshop.png" width="320" /></a></div><div class="separator" style="clear: both; text-align: center;"><div style="text-align: left;"><br /></div></div><div>&nbsp;</div></div><div><br /></div><div><b>Axis Designation</b></div><div><br /></div><div>The notation in Fusion360 XYZ, Red Green Blue is followed:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-bpYbvemT8Yc/X4IJTzZ5yTI/AAAAAAAACv4/VXnYLqF4hdEZSq3mxHElIkppsaDTjJU_gCLcBGAsYHQ/s142/XYZ_RedGreenBlkue.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="123" data-original-width="142" src="https://1.bp.blogspot.com/-bpYbvemT8Yc/X4IJTzZ5yTI/AAAAAAAACv4/VXnYLqF4hdEZSq3mxHElIkppsaDTjJU_gCLcBGAsYHQ/s0/XYZ_RedGreenBlkue.png" /></a></div><br /><div><br /></div><div><br /></div><div>These parts are all printed with <a href="https://shop.prusa3d.com/en/21-pla">Prusament PLA (silver)</a> on a <a href="https://shop.prusa3d.com/en/3d-printers/180-original-prusa-i3-mk3s-kit.html">Prusa I3 MK3S kit</a> with the <a href="https://shop.prusa3d.com/en/i3-accessories-mk3s-mk25s-etc/214-powder-coated-spring-steel-sheet.html">Double-sided Textured PEI Powder-coated Spring Steel Sheet</a> using mostly default settings for 0.15mm Quality, 15% infill and the "brim" checkbox in the PrusaSlicer with the exception that I increase the bed temperature to 65C for the first layer:&nbsp;</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-U9EAE94VykE/X4IdQ6KfBaI/AAAAAAAACwQ/Zt6vp8ukRBYByZq2t94So5Ih7LjwkL7VACLcBGAsYHQ/s647/Prusa_Filament_Settings.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="289" data-original-width="647" src="https://1.bp.blogspot.com/-U9EAE94VykE/X4IdQ6KfBaI/AAAAAAAACwQ/Zt6vp8ukRBYByZq2t94So5Ih7LjwkL7VACLcBGAsYHQ/s320/Prusa_Filament_Settings.png" width="320" /></a></div><div><b>X-Axis (red)</b></div><p>The X-Axis on the CNC3018 is the left-right worm gear holding the engraver motor. Thus the motor moves in the X and Z directions.</p><p>My final design for the X-Axis end-stops uses the black Bakelite sides as the stop for the actuator.</p><p>The switches are mounted on a pair of symmetric clip-on brackets. One is as shown:&nbsp;</p><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-JGloAcsb6Gw/X4HlYd5HS8I/AAAAAAAACuI/RygLJtnSVdMno1hMWFREGgBuAH8VadtlACLcBGAsYHQ/s1536/X-Clip_Notation.png" style="margin-left: 1em; margin-right: 1em;"><img alt="X-Axis Switch Mount" border="0" data-original-height="895" data-original-width="1536" height="186" src="https://1.bp.blogspot.com/-JGloAcsb6Gw/X4HlYd5HS8I/AAAAAAAACuI/RygLJtnSVdMno1hMWFREGgBuAH8VadtlACLcBGAsYHQ/w320-h186/X-Clip_Notation.png" title="X-Axis Switch Mount" width="320" /></a></div><br /><p></p><ol style="text-align: left;"><li>The wrap-around clip that holds the bracket in place.<br /><br /></li><li>Holes for 5.5mm nuts. The fit is a bit tight to make assembly easier. It may be useful to first thread a screw to pull the nut into the hole.<br /><br /></li><li>Wire routing channel.<br /><br /></li><li>Alignment holes for the "chimney" portion of the wire routing channel extension.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-e94bxHWhWiI/X4Hn27LQjuI/AAAAAAAACuU/Lfn5bk2-B-EhbH95D5cM97GyD0fOjGpqwCLcBGAsYHQ/s1604/X-Clip_Chimney_Notation.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1128" data-original-width="1604" src="https://1.bp.blogspot.com/-e94bxHWhWiI/X4Hn27LQjuI/AAAAAAAACuU/Lfn5bk2-B-EhbH95D5cM97GyD0fOjGpqwCLcBGAsYHQ/s320/X-Clip_Chimney_Notation.png" width="320" /></a><br /><br /></div></li><li>Continued wire routing channel.<br /><br /></li><li>Cutout for wire exit.<br /><br /></li><li>Nubs to snap into pre-existing hold in the side of the motor mount.</li></ol><p></p><div><br /></div>Here's the as-seen, design view of one of the mounting clips with the chimney:<div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-Hrf-s8eDdj4/X4HpeACUttI/AAAAAAAACug/BY9QUmvL-2c3nWRkj5ek0LauxY1Do7pDgCLcBGAsYHQ/s1384/X-Clip_with_Chimney.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1106" data-original-width="1384" src="https://1.bp.blogspot.com/-Hrf-s8eDdj4/X4HpeACUttI/AAAAAAAACug/BY9QUmvL-2c3nWRkj5ek0LauxY1Do7pDgCLcBGAsYHQ/s320/X-Clip_with_Chimney.png" width="320" /></a></div>With an additional X-Axis Clip-on Bracket, the actual assembly looks like this:<br /><div><br /><p><br /></p><p><b>Y-Axis (green)</b></p><p>The Y-Axis end-stops are located underneath the plan of the the moving table. Two assemblies are used: one on each side of the router table. The design is such that the switch is positioned underneath the table to minimize debris dropping into what could have otherwise been considered <a href="https://twitter.com/gojimmypi/status/1311834515799638016?s=20">a bucket in earlier designs</a>. This was one of the many things not considered during design, but abundantly obvious once viewed in place.</p><p>There are a total 7 parts for each of the Y-Axis mounts. Although one could certainly buy mounting hardware, 4 of the printed parts are the pair of nuts and bolts:</p><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-oWFYoQLcyFA/X4H1aDTwjqI/AAAAAAAACuw/8hKVF1qNB-o3ezT5VW9elF8EMXfZ1nALACLcBGAsYHQ/s771/Nut_and_bolt.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="669" data-original-width="771" src="https://1.bp.blogspot.com/-oWFYoQLcyFA/X4H1aDTwjqI/AAAAAAAACuw/8hKVF1qNB-o3ezT5VW9elF8EMXfZ1nALACLcBGAsYHQ/s320/Nut_and_bolt.png" width="320" /></a></div><br /><p>Printing nuts and bolts is a <a href="https://twitter.com/gojimmypi/status/1307727877060792320?s=20">learning opportunity</a>&nbsp;(including paying attention to left or right-hand threading). The fit is not super great as-printed. I used this as an excuse to buy a <a href="https://www.amazon.com/gp/product/B073Y5N5Y1/">metric tap and die set</a>. These specific ones are designed as M8X1.25</p><p>Other than the 4 parts for nuts and bolts, the remaining 3 parts for the Y-Axis are the actual switch mount, lid and limit stop. The stop is a vertical thin tab designed to be break-away in case of mishap, instead of destroying the bracket housing the Y-Axis electronics:</p><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-aGlAzRjowtk/X4H36dYxghI/AAAAAAAACu8/33t-sEHYxpcf9Nb3_B0c4QsBsut1Qn1HgCLcBGAsYHQ/s1356/Y-Tab_Stop.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="974" data-original-width="1356" src="https://1.bp.blogspot.com/-aGlAzRjowtk/X4H36dYxghI/AAAAAAAACu8/33t-sEHYxpcf9Nb3_B0c4QsBsut1Qn1HgCLcBGAsYHQ/s320/Y-Tab_Stop.png" width="320" /></a></div>The vertical tab stop is not only thin, but it is also printed parallel to the print bed, making it even more weak. It should only be strong enough to trigger the switch.</div><div><br /></div><div>The body of the Y-Axis switch mount Body is considerably more complex:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-hLkwjyHQML4/X4H5WQGFgoI/AAAAAAAACvI/23KyOo-t5DIOHdPzqpm3H2JkJIFQECprgCLcBGAsYHQ/s1371/Y-Mount_Body.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="839" data-original-width="1371" src="https://1.bp.blogspot.com/-hLkwjyHQML4/X4H5WQGFgoI/AAAAAAAACvI/23KyOo-t5DIOHdPzqpm3H2JkJIFQECprgCLcBGAsYHQ/s320/Y-Mount_Body.png" width="320" /></a></div><br /><div><ol style="text-align: left;"><li>Through-holes for mounting the PCB for the switch.<br />(2x) 10mm M3 screw and (2x) 5.5mm nuts.<br /><br /></li><li>Posts with a snap-in nub for the other 2 holes in the switch PCB. <br /><br /></li><li>Bumps to help catch and hold the lid from the sides.<br /><br /></li><li>Another bump to hold the lid in place.<br /><br /></li><li>Opening for wire exit.<br /><br /></li><li>Narrow channel for wire routing.<br /><br /></li><li>Mounting holes to mount to side rail.&nbsp;<br />(2x) 8mm M3 screw and (2x) T-Slot nuts.<br /><br /><br />The final part of the Y-Axis end-stop is the Lid:<br /><br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-St7FIM2A1cM/X4H7oqyszcI/AAAAAAAACvU/U3QaN2l14aAi5ynJdRX1yJZAoBScO4wzQCLcBGAsYHQ/s1141/Y-Mount_Lid.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="639" data-original-width="1141" src="https://1.bp.blogspot.com/-St7FIM2A1cM/X4H7oqyszcI/AAAAAAAACvU/U3QaN2l14aAi5ynJdRX1yJZAoBScO4wzQCLcBGAsYHQ/s320/Y-Mount_Lid.png" width="320" /></a></div></li><li>Catch for the bumps on the base, (#3) above.<br />s</li><li>Rear catch for #4 bump from above.<br /><br /></li><li>Wire hold-downs.<br /><br /></li><li>Window for switch trigger arm.</li></ol><div>The complete, rendered Y-Axis mount Body and Lid:</div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-dhpVH7L3n4g/X4H9TRG5PJI/AAAAAAAACvg/xdc_RoIK2K81lRKHMmGhKVcbTHg7PONBgCLcBGAsYHQ/s1396/Y-Mount_Body_and_Lid.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1030" data-original-width="1396" src="https://1.bp.blogspot.com/-dhpVH7L3n4g/X4H9TRG5PJI/AAAAAAAACvg/xdc_RoIK2K81lRKHMmGhKVcbTHg7PONBgCLcBGAsYHQ/s320/Y-Mount_Body_and_Lid.png" width="320" /></a></div><br /><div>A complete set of the above Y-Axis parts is used both on the left and right sides for min / max limits.</div><div><br /></div><div>(TODO: which is which?)</div><div><br /></div><div>It's probably best to mount the PCB inside the switch housing and install the lid before mounting to the side rail with (2x) 8mm M3 screw and (2x) 5.5mm nuts.</div><div><br /></div><div><br /></div><div><br /></div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><br /></div><p><b>Z-Axis (blue)</b></p><p>There are 4 main components for the Z-Axis: an upper and lower end limit clip, and a 2-part switch mount. All attach to the motor mount with snap-on, press-fit.</p><p>The first part is this lower limit clip:</p><p><br /></p><p></p><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-D5fnksdxPEE/X4IgYA0qD-I/AAAAAAAACwc/DOyYpYbEIPgoLYRDfmAWJ0ct5SbLs2DyACLcBGAsYHQ/s1536/Z-Lower_Clip.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="948" data-original-width="1536" src="https://1.bp.blogspot.com/-D5fnksdxPEE/X4IgYA0qD-I/AAAAAAAACwc/DOyYpYbEIPgoLYRDfmAWJ0ct5SbLs2DyACLcBGAsYHQ/s320/Z-Lower_Clip.png" width="320" /></a></div><br /><ol style="text-align: left;"><li>The sides extend back fairly far. They are thin here to minimize any wasted travel distance range in the X direction (the motor mount otherwise travels right up flush with the Bakelite sides.<br /><br /></li><li>Little round nubs catch in pre-existing holes on the motor mount.<br /><br /></li><li>An extension is providing to distance the clip from the actual switch lever.<br /><br />The next part is the upper clip used for the vertical limit:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-qmf_4DtgKq8/X4IkcMOedII/AAAAAAAACw8/RAE31QicW8ojfICO2RHYcZPv8ifMMBlggCLcBGAsYHQ/s1318/Z-Upper_Clip.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1146" data-original-width="1318" src="https://1.bp.blogspot.com/-qmf_4DtgKq8/X4IkcMOedII/AAAAAAAACw8/RAE31QicW8ojfICO2RHYcZPv8ifMMBlggCLcBGAsYHQ/s320/Z-Upper_Clip.png" width="320" /></a></div><br /></li><li><div class="separator" style="clear: both; text-align: center;"><div style="text-align: left;">Mounting brackets to snap onto the vertical Z-Axis motor spacers.<br /><br /></div></div></li><li>Spare cutting bit holder. (beware the bits are extremely sharp: the protective cover for them typically protects the bit, not your fingers. Yes, I learned this the hard way. Twice. The first time, I didn't even know how I cut my finger!)&nbsp; TODO: design a cover.<br /><br /></li><li>Not visible in this photo is a little bump that hits the upper Z-Axis switch.<br /><br />Switches are mounted with this two part assembly. The first part snaps onto the motor mount:<br /><br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-H8xk1Ji6nBk/X4InZQ7LipI/AAAAAAAACxI/y4gjeaKbPdU54WNCerqiNKnyaO8vAL1XwCLcBGAsYHQ/s1367/Z-Housing_Inner.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1093" data-original-width="1367" src="https://1.bp.blogspot.com/-H8xk1Ji6nBk/X4InZQ7LipI/AAAAAAAACxI/y4gjeaKbPdU54WNCerqiNKnyaO8vAL1XwCLcBGAsYHQ/s320/Z-Housing_Inner.png" width="320" /></a></div><br /></li><li>Mounting Holes to attach the second part that has switches mounted. (see below)<br /><br /></li><li>Clearance for the upper clip.<br /><br /></li><li>Clearance for the lower clip.<br /><br /></li><li>Upper nub to latch housing onto motor mount.<br /><br /></li><li>Part of housing "wraps around" front of motor mount here.<br /><br /></li><li>Unnecessary material removed.<br /><br /><br /><br /><div class="separator" style="clear: both; text-align: center;"><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-scZBNWt_bI8/X4IqwMiehvI/AAAAAAAACxo/fxzHAc7lSN0kXmVi1t05VZFqQx8J5i7IgCLcBGAsYHQ/s1500/Z-Housing_Outer.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="917" data-original-width="1500" src="https://1.bp.blogspot.com/-scZBNWt_bI8/X4IqwMiehvI/AAAAAAAACxo/fxzHAc7lSN0kXmVi1t05VZFqQx8J5i7IgCLcBGAsYHQ/s320/Z-Housing_Outer.png" width="320" /></a></div><br /><br /></div></li><li><div class="separator" style="clear: both; text-align: left;">Posts with a snap-in nub for the other 2 holes in the switch PCB. (upper limit)<br /><br /></div></li><li><div class="separator" style="clear: both; text-align: left;">Posts with a snap-in nub for the other 2 holes in the switch PCB.(lower limit)<br /><br /></div></li><li><div class="separator" style="clear: both; text-align: left;">Through-holes for mounting the PCB for the switch. Aligns with holes in first part, the inner housing described above. This is for the <i><b>lower </b></i>limit switch.<br />(2x) 10mm M3 screw and (2x) 5.5mm nuts.<br /><br /></div></li><li><div class="separator" style="clear: both; text-align: left;">Through-holes for mounting the PCB for the switch. Aligns with holes in first part, the inner housing described above. This is for the <i><b>upper </b></i>limit switch.<br />(2x) 10mm M3 screw and (2x) 5.5mm nuts.<br /><br /></div></li><li><div class="separator" style="clear: both; text-align: left;">Unnecessary material removed.<br /><br /></div></li><li><div class="separator" style="clear: both; text-align: left;">Ridge to hold snap-on cover (TODO: design Z-Axis switch cover)<br /><br /></div></li></ol><div>Both Z-Housing Mounts, rendered together as a single assembly:</div><div><br /><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-2KPqRL6Qj_4/X4IrhL3K27I/AAAAAAAACxw/genX3SArshEJH4NZU7GtsZtmCaXleUkfACLcBGAsYHQ/s1491/Z-Housing_TwoPart_Render.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1114" data-original-width="1491" src="https://1.bp.blogspot.com/-2KPqRL6Qj_4/X4IrhL3K27I/AAAAAAAACxw/genX3SArshEJH4NZU7GtsZtmCaXleUkfACLcBGAsYHQ/s320/Z-Housing_TwoPart_Render.png" width="320" /></a></div><div><br /></div>And so I guess in the end, yes: this is a rather overly complex design for something as (seemingly) simple as CNC limit switches. Alas this is 2020 and I have plenty of time at home to learn all these things that I've wanted for so long. For a software guy like me - it is really quite amazing to draw something and have it actually end up as a physical thing, all from the comfort of my home.</div><div><br /></div><div><br /></div><div><br /></div><div>If you've read along this far (hey! thank you, I'm glad <i>someone </i>is interested) ... and if you have a CNC machine like the one described above but do not have a 3D printer, I have a bunch of initial prototype parts that with a bit of TLC (read: they don't fully work; time needed to sand, cut, or otherwise modify and adjust) ... that could probably be adapted to function. I'm willing to ship them anywhere in the USA for free, and perhaps anywhere in the world, depending on actual destination and cost. It's a shame to throw them away and I don't know what I would do with them otherwise. So if the prototypes can go to a good home, let me know. My blog name at gmail works.</div><div><br /></div><div>See my next blog post on&nbsp;<a href="{{ site.baseurl }}{% post_url 2020-10-12-cnc-3018-makerbot-limit-switch-wiring %}">CNC 3018 Makerbot Limit Switch Wiring</a>.<br /><div class="separator" style="clear: both; text-align: center;"><br /></div><p>As always: I am not specifically recommending or endorsing any of the product links in this blog. None are ads, or "affiliate" links. These links are included from my personal experience, "notes to self" and for reader convenience only. If you, too, are ridiculously tired of excessive ads, check out <a href="https://pi-hole.net/">The pi-hole</a>.</p><p><br /></p><p><b><br /></b></p><p></p><ul style="text-align: left;"><li><b><a href="https://www.eaton.com/ecm/groups/public/@pub/@electrical/documents/content/pct_1549250.pdf">Eaton: The Basics of Limit Switches</a><br /><br /></b></li><li><a href="https://www.thingiverse.com/thing:2659592">Enclosure for Woodpecker GRBL Control Board</a><br /></li></ul><p></p></div>
+
+<p>
+This is a continuation of my prior blog:&nbsp;<a href="{{ site.baseurl }}{% post_url 2020-10-12-the-road-to-cnc3018-limit-switches %}">The road to CNC3018 Limit Switches</a>.
+</p>
+
+<p>
+These parts that I custom designed are for the CNC3018 (specifically the CNC3-3018Pro) Desktop CNC Engraving Router such as the one I purchased from <a href="https://twowincnctool.aliexpress.com/store/group/3018/1988027_512425692.html">Twowin Tools on AliExpress</a>. Some of these mounts may be applicable to other CNC Routers as well. ymmv.
+</p>
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s907/Z-Axis_Installed_Switches.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="907" data-original-width="616" height="320" src="../images/s320/Z-Axis_Installed_Switches.png"></a>
+</div>
+<br />
+
+<p>
+All of the designs here are for the relatively common Makerbot limit switch available on <a href="https://smile.amazon.com/dp/B07D3S28FG/">Amazon</a>, <a href="https://www.ebay.com/itm/292692013947">eBay</a>, AliExpress, etc...
+</p>
+
+<p>
+There are certainly <a href="https://github.com/gnea/grbl/issues/123#issuecomment-343013513">less complex implementations</a> of limit switches.
+</p>
+
+<p>
+<span style="background-color: #fcff01; color: #660000;"><b>WARNING: CNC Machining, even on a small desktop unit is inherently DANGEROUS.</b></span>
+</p>
+
+<p>
+I'm a software engineer at the Day Job, with relatively minimal mechanical engineering experience. This project is also my first experience with Fusion360. Although I've gone through (an embarrassingly large number of) iterations trying to take into account a surprising number of factors - there are probably still problems. DO NOT RELY ON THESE MOUNTS FOR PERSONAL SAFETY. There is no guarantee of proper operation or reliability.&nbsp;
+</p>
+
+<p>
+<span style="background-color: #fcff01; color: #660000;"><b>WEAR EYE PROTECTION AT ALL TIMES.</b></span>
+</p>
+
+<div>
+For installation, I wanted to minimize any additional machine tooling: no drilling, cutting, or other modifications are needed to mount these switches.
+</div>
+<br />
+
+<div>
+<b>Parts Needed:</b>
+</div>
+<br />
+
+<div>
+<ul style="text-align: left;"><li>6x Switches: a pair for each axis end limit: X, Y, Z.</li></ul>
+</div>
+
+<div>
+<ul style="text-align: left;"><li>M3 x 8mm screws.</li></ul>
+</div>
+
+<div>
+<ul style="text-align: left;"><li><a href="https://www.amazon.com/gp/product/B077Z94V83/">T-Slot Nuts</a>
+.<br />
+<br />
+</li><li>Optional (but recommended) <a href="https://www.amazon.com/gp/product/B000HBGHFY/">low-strength threadlocker</a>. (purple or blue)</li></ul>
+</div>
+<br />
+
+<div>
+<b>
+Optional:<br />
+</b>
+</div>
+
+<div>
+<ul style="text-align: left;"><li>Assembly tools such as a quite handy&nbsp;<a href="https://www.amazon.com/gp/product/B0002FSRUI/">2.5 MM Ball-Hex (allen) driver</a>
+. The ball-end is just too cool for screwing in M3 nuts from an angle.<br />
+<br />
+</li><li>Opto-isolator, such as the&nbsp;<a href="https://www.tindie.com/products/eccentricwkshp/cnc-optical-limit-switch-isolator-grbl/">CNC Optical Limit Switch Isolator - GRBL on Tindie</a>. Note that TWO of these boards may be needed to cover both end limits for some machines. This is clearly illustrated in the <a href="https://forum.eccentricworkshop.com/download/file.php?id=26">schematic</a>
+&nbsp;that I should have studied more closely (but who would want a limit in only one direction?). As it turns out, I was "lucky" in that both ends of each axis are tied together on the PCB anyhow. So one board should work just fine for my desktop CNC:<br />
+</li></ul>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s931/OptoIsolator_Schematic_Eccentric_Workshop.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="469" data-original-width="931" src="../images/s320/OptoIsolator_Schematic_Eccentric_Workshop.png" width="320"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: center;">
+<div style="text-align: left;">
+<br />
+
+</div>
+
+
+</div>
+
+<div>
+&nbsp;
+</div>
+
+</div>
+<br />
+
+<div>
+<b>Axis Designation</b>
+</div>
+<br />
+
+<div>
+The notation in Fusion360 XYZ, Red Green Blue is followed:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s142/XYZ_RedGreenBlkue.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="123" data-original-width="142" src="../images/s0/XYZ_RedGreenBlkue.png"></a>
+</div>
+<br />
+<br />
+<br />
+
+<div>
+These parts are all printed with <a href="https://shop.prusa3d.com/en/21-pla">Prusament PLA (silver)</a> on a <a href="https://shop.prusa3d.com/en/3d-printers/180-original-prusa-i3-mk3s-kit.html">Prusa I3 MK3S kit</a> with the <a href="https://shop.prusa3d.com/en/i3-accessories-mk3s-mk25s-etc/214-powder-coated-spring-steel-sheet.html">Double-sided Textured PEI Powder-coated Spring Steel Sheet</a> using mostly default settings for 0.15mm Quality, 15% infill and the "brim" checkbox in the PrusaSlicer with the exception that I increase the bed temperature to 65C for the first layer:&nbsp;
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s647/Prusa_Filament_Settings.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="289" data-original-width="647" src="../images/s320/Prusa_Filament_Settings.png" width="320"></a>
+</div>
+
+<div>
+<b>X-Axis (red)</b>
+</div>
+
+<p>
+The X-Axis on the CNC3018 is the left-right worm gear holding the engraver motor. Thus the motor moves in the X and Z directions.
+</p>
+
+<p>
+My final design for the X-Axis end-stops uses the black Bakelite sides as the stop for the actuator.
+</p>
+
+<p>
+The switches are mounted on a pair of symmetric clip-on brackets. One is as shown:&nbsp;
+</p>
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1536/X-Clip_Notation.png" style="margin-left: 1em; margin-right: 1em;">
+<img alt="X-Axis Switch Mount" border="0" data-original-height="895" data-original-width="1536" height="186" src="../images/w320-h186/X-Clip_Notation.png" title="X-Axis Switch Mount" width="320"></a>
+</div>
+<br />
+<br />
+<ol style="text-align: left;"><li>
+The wrap-around clip that holds the bracket in place.<br />
+<br />
+</li><li>
+Holes for 5.5mm nuts. The fit is a bit tight to make assembly easier. It may be useful to first thread a screw to pull the nut into the hole.<br />
+<br />
+</li><li>
+Wire routing channel.<br />
+<br />
+</li><li>
+Alignment holes for the "chimney" portion of the wire routing channel extension.<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1604/X-Clip_Chimney_Notation.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1128" data-original-width="1604" src="../images/s320/X-Clip_Chimney_Notation.png" width="320"></a><br />
+<br />
+
+</div>
+</li><li>
+Continued wire routing channel.<br />
+<br />
+</li><li>
+Cutout for wire exit.<br />
+<br />
+</li><li>
+Nubs to snap into pre-existing hold in the side of the motor mount.</li></ol><br />
+<br />
+Here's the as-seen, design view of one of the mounting clips with the chimney:
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1384/X-Clip_with_Chimney.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1106" data-original-width="1384" src="../images/s320/X-Clip_with_Chimney.png" width="320"></a>
+</div>
+With an additional X-Axis Clip-on Bracket, the actual assembly looks like this:<br />
+
+<div>
+<br />
+
+<p>
+<br />
+
+</p>
+
+
+<p>
+<b>Y-Axis (green)</b>
+</p>
+
+<p>
+The Y-Axis end-stops are located underneath the plan of the the moving table. Two assemblies are used: one on each side of the router table. The design is such that the switch is positioned underneath the table to minimize debris dropping into what could have otherwise been considered <a href="https://twitter.com/gojimmypi/status/1311834515799638016?s=20">a bucket in earlier designs</a>. This was one of the many things not considered during design, but abundantly obvious once viewed in place.
+</p>
+
+<p>
+There are a total 7 parts for each of the Y-Axis mounts. Although one could certainly buy mounting hardware, 4 of the printed parts are the pair of nuts and bolts:
+</p>
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s771/Nut_and_bolt.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="669" data-original-width="771" src="../images/s320/Nut_and_bolt.png" width="320"></a>
+</div>
+<br />
+
+<p>
+Printing nuts and bolts is a <a href="https://twitter.com/gojimmypi/status/1307727877060792320?s=20">learning opportunity</a>&nbsp;(including paying attention to left or right-hand threading). The fit is not super great as-printed. I used this as an excuse to buy a <a href="https://www.amazon.com/gp/product/B073Y5N5Y1/">metric tap and die set</a>. These specific ones are designed as M8X1.25
+</p>
+
+<p>
+Other than the 4 parts for nuts and bolts, the remaining 3 parts for the Y-Axis are the actual switch mount, lid and limit stop. The stop is a vertical thin tab designed to be break-away in case of mishap, instead of destroying the bracket housing the Y-Axis electronics:
+</p>
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1356/Y-Tab_Stop.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="974" data-original-width="1356" src="../images/s320/Y-Tab_Stop.png" width="320"></a>
+</div>
+The vertical tab stop is not only thin, but it is also printed parallel to the print bed, making it even more weak. It should only be strong enough to trigger the switch.
+</div>
+
+<br />
+
+<div>
+The body of the Y-Axis switch mount Body is considerably more complex:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1371/Y-Mount_Body.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="839" data-original-width="1371" src="../images/s320/Y-Mount_Body.png" width="320"></a>
+</div>
+<br />
+
+<div>
+<ol style="text-align: left;"><li>
+Through-holes for mounting the PCB for the switch.<br />
+(2x) 10mm M3 screw and (2x) 5.5mm nuts.
+<br />
+<br />
+</li><li>
+Posts with a snap-in nub for the other 2 holes in the switch PCB. <br />
+<br />
+</li><li>
+Bumps to help catch and hold the lid from the sides.<br />
+<br />
+</li><li>
+Another bump to hold the lid in place.<br />
+<br />
+</li><li>
+Opening for wire exit.<br />
+<br />
+</li><li>
+Narrow channel for wire routing.<br />
+<br />
+</li><li>
+Mounting holes to mount to side rail.&nbsp;<br />
+(2x) 8mm M3 screw and (2x) T-Slot nuts.
+<br />
+<br />
+<br />
+The final part of the Y-Axis end-stop is the Lid:
+<br />
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1141/Y-Mount_Lid.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="639" data-original-width="1141" src="../images/s320/Y-Mount_Lid.png" width="320"></a>
+</div>
+</li><li>
+Catch for the bumps on the base, (#3) above.<br />s
+</li><li>
+Rear catch for #4 bump from above.<br />
+<br />
+</li><li>
+Wire hold-downs.<br />
+<br />
+</li><li>Window for switch trigger arm.</li></ol>
+<div>
+The complete, rendered Y-Axis mount Body and Lid:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1396/Y-Mount_Body_and_Lid.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1030" data-original-width="1396" src="../images/s320/Y-Mount_Body_and_Lid.png" width="320"></a>
+</div>
+<br />
+
+<div>
+A complete set of the above Y-Axis parts is used both on the left and right sides for min / max limits.
+</div>
+<br />
+
+<div>
+(TODO: which is which?)
+</div>
+<br />
+
+<div>
+It's probably best to mount the PCB inside the switch housing and install the lid before mounting to the side rail with (2x) 8mm M3 screw and (2x) 5.5mm nuts.
+</div>
+<br />
+<br />
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<br />
+
+</div>
+
+
+<p>
+<b>Z-Axis (blue)</b>
+</p>
+
+<p>
+There are 4 main components for the Z-Axis: an upper and lower end limit clip, and a 2-part switch mount. All attach to the motor mount with snap-on, press-fit.
+</p>
+
+<p>
+The first part is this lower limit clip:
+</p>
+
+<p>
+<br />
+
+</p>
+
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1536/Z-Lower_Clip.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="948" data-original-width="1536" src="../images/s320/Z-Lower_Clip.png" width="320"></a>
+</div>
+<br />
+<ol style="text-align: left;"><li>
+The sides extend back fairly far. They are thin here to minimize any wasted travel distance range in the X direction (the motor mount otherwise travels right up flush with the Bakelite sides.<br />
+<br />
+</li><li>
+Little round nubs catch in pre-existing holes on the motor mount.<br />
+<br />
+</li><li>
+An extension is providing to distance the clip from the actual switch lever.<br />
+<br />
+The next part is the upper clip used for the vertical limit:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1318/Z-Upper_Clip.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1146" data-original-width="1318" src="../images/s320/Z-Upper_Clip.png" width="320"></a>
+</div>
+<br />
+</li><li>
+<div class="separator" style="clear: both; text-align: center;">
+<div style="text-align: left;">
+Mounting brackets to snap onto the vertical Z-Axis motor spacers.<br />
+<br />
+
+</div>
+
+</div>
+</li><li>
+Spare cutting bit holder. (beware the bits are extremely sharp: the protective cover for them typically protects the bit, not your fingers. Yes, I learned this the hard way. Twice. The first time, I didn't even know how I cut my finger!)&nbsp; TODO: design a cover.<br />
+<br />
+</li><li>
+Not visible in this photo is a little bump that hits the upper Z-Axis switch.<br />
+<br />
+Switches are mounted with this two part assembly. The first part snaps onto the motor mount:
+<br />
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1367/Z-Housing_Inner.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1093" data-original-width="1367" src="../images/s320/Z-Housing_Inner.png" width="320"></a>
+</div>
+<br />
+</li><li>
+Mounting Holes to attach the second part that has switches mounted. (see below)<br />
+<br />
+</li><li>
+Clearance for the upper clip.<br />
+<br />
+</li><li>
+Clearance for the lower clip.<br />
+<br />
+</li><li>
+Upper nub to latch housing onto motor mount.<br />
+<br />
+</li><li>
+Part of housing "wraps around" front of motor mount here.<br />
+<br />
+</li><li>
+Unnecessary material removed.<br />
+<br />
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1500/Z-Housing_Outer.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="917" data-original-width="1500" src="../images/s320/Z-Housing_Outer.png" width="320"></a>
+</div>
+<br />
+<br />
+
+</div>
+</li><li>
+<div class="separator" style="clear: both; text-align: left;">
+Posts with a snap-in nub for the other 2 holes in the switch PCB. (upper limit)<br />
+<br />
+
+</div>
+</li><li>
+<div class="separator" style="clear: both; text-align: left;">
+Posts with a snap-in nub for the other 2 holes in the switch PCB.(lower limit)<br />
+<br />
+
+</div>
+</li><li>
+<div class="separator" style="clear: both; text-align: left;">
+Through-holes for mounting the PCB for the switch. Aligns with holes in first part, the inner housing described above. This is for the <i><b>lower </b></i>
+limit switch.<br />
+(2x) 10mm M3 screw and (2x) 5.5mm nuts.
+<br />
+<br />
+
+</div>
+</li><li>
+<div class="separator" style="clear: both; text-align: left;">
+Through-holes for mounting the PCB for the switch. Aligns with holes in first part, the inner housing described above. This is for the <i><b>upper </b></i>
+limit switch.<br />
+(2x) 10mm M3 screw and (2x) 5.5mm nuts.
+<br />
+<br />
+
+</div>
+</li><li>
+<div class="separator" style="clear: both; text-align: left;">
+Unnecessary material removed.<br />
+<br />
+
+</div>
+</li><li>
+<div class="separator" style="clear: both; text-align: left;">
+Ridge to hold snap-on cover (TODO: design Z-Axis switch cover)<br />
+<br />
+
+</div>
+</li></ol>
+<div>
+Both Z-Housing Mounts, rendered together as a single assembly:
+</div>
+
+<div>
+<br />
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1491/Z-Housing_TwoPart_Render.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="1114" data-original-width="1491" src="../images/s320/Z-Housing_TwoPart_Render.png" width="320"></a>
+</div>
+<br />And so I guess in the end, yes: this is a rather overly complex design for something as (seemingly) simple as CNC limit switches. Alas this is 2020 and I have plenty of time at home to learn all these things that I've wanted for so long. For a software guy like me - it is really quite amazing to draw something and have it actually end up as a physical thing, all from the comfort of my home.
+
+</div>
+<br />
+<br />
+<br />
+
+<div>
+If you've read along this far (hey! thank you, I'm glad <i>someone </i>is interested) ... and if you have a CNC machine like the one described above but do not have a 3D printer, I have a bunch of initial prototype parts that with a bit of TLC (read: they don't fully work; time needed to sand, cut, or otherwise modify and adjust) ... that could probably be adapted to function. I'm willing to ship them anywhere in the USA for free, and perhaps anywhere in the world, depending on actual destination and cost. It's a shame to throw them away and I don't know what I would do with them otherwise. So if the prototypes can go to a good home, let me know. My blog name at gmail works.
+</div>
+<br />
+
+<div>
+See my next blog post on&nbsp;<a href="{{ site.baseurl }}{% post_url 2020-10-12-cnc-3018-makerbot-limit-switch-wiring %}">CNC 3018 Makerbot Limit Switch Wiring</a>
+.<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+<br />
+
+</div>
+
+
+<p>
+As always: I am not specifically recommending or endorsing any of the product links in this blog. None are ads, or "affiliate" links. These links are included from my personal experience, "notes to self" and for reader convenience only. If you, too, are ridiculously tired of excessive ads, check out <a href="https://pi-hole.net/">The pi-hole</a>.
+</p>
+
+<p>
+<br />
+
+</p>
+
+
+<p>
+<b><br />
+</b>
+</p>
+
+<br />
+<ul style="text-align: left;"><li><b><a href="https://www.eaton.com/ecm/groups/public/@pub/@electrical/documents/content/pct_1549250.pdf">
+Eaton: The Basics of Limit Switches</a><br />
+<br />
+</b></li><li><a href="https://www.thingiverse.com/thing:2659592">
+Enclosure for Woodpecker GRBL Control Board</a><br />
+</li></ul><br />
+
+</div>
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:54 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

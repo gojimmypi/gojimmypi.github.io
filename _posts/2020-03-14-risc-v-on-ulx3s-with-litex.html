@@ -13,4 +13,178 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-85652275755479994
 blogger_orig_url: https://gojimmypi.blogspot.com/2020/03/risc-v-on-ulx3s-with-litex.html
 ---
 
-Today is <a href="https://www.crowdsupply.com/radiona/ulx3s">ULX3S Campaign Launch Day on Crowd Supply</a>!!<br /><br />As I write this, funding is at 40% in just the first hour!<br /><br />In pursuit of my ongoing quest to get Circuit Python working on my <a href="https://radiona.org/ulx3s/">ULX3S</a>.... I decided to try out <a href="https://github.com/enjoy-digital/litex">LiteX</a>. I wasn't able to get the <a href="https://github.com/rxrbln/picorv32/tree/master/picosoc">rxrbln picorv32 picosoc for ULX3S</a> working (yet) due to some missing files that have not yet been checked in. Part of the journey is simply figuring out which working components to use.<br /><div><br /><div>LiteX is included in my <a href="https://github.com/gojimmypi/ulx3s-toolchain">full toolchain build for the ULX3S</a>&nbsp;(see my <a href="{{ site.baseurl }}{% post_url 2020-03-08-risc-v-circuit-python-on-ulx3s-starting %}">prior blog</a>).</div><div><br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="https://1.bp.blogspot.com/-i0MU1HjB_DA/Xm6B5xss7DI/AAAAAAAACaA/THRXIA617k8vlNu4isYXceM-7b5FsSPIwCLcBGAsYHQ/s1600/full%2Bulx3s%2Btoolchain%2Bdirectory%2Blist.png" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" data-original-height="324" data-original-width="642" height="200" src="https://1.bp.blogspot.com/-i0MU1HjB_DA/Xm6B5xss7DI/AAAAAAAACaA/THRXIA617k8vlNu4isYXceM-7b5FsSPIwCLcBGAsYHQ/s400/full%2Bulx3s%2Btoolchain%2Bdirectory%2Blist.png" width="400" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Full ULX3S toolchain directory list</td></tr></tbody></table>Once everything is installed (OMG, it takes the better part of a day)... we can get started.</div><div><br />First: if you are considering getting your own <a href="https://www.crowdsupply.com/radiona/ulx3s">ULX3S from the upcoming Crowd Supply campaign</a>, be aware that only the larger 45F and 85F versions are available options (and capable?) of running the LiteX VexRiscv.</div><div><br />Some key&nbsp;<a href="https://github.com/timvideos/litex-buildenv/wiki/LiteX-for-Hardware-Engineers#glossary">terminology from timvideos</a> to get started: <b>Gateware </b>(as in Field Programmable <i>Gate</i> Array) is the stuff that gets loaded onto the FPGA. <b>Firmware</b> is the application code that the soft CPU will execute. The&nbsp;<b>BIOS</b> is bootstrapping code baked into FPGA.<br /><br />Note that I installed my development toolchain on WSL Ubuntu. I've also tested the install multiple times on VM's with real Ubuntu. But here, my blog is about using WSL, so all of my stuff is installed on my local <span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;">C:\workspace</span> directory, or from WSL's perspective: <span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;">/mnt/c/workpace</span>. On a real Ubuntu machine, simply replace that with your own <span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;">~/workspace/</span> directory.<br /><br />Why didn't I just put my workspace in the WSL <span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;">~/workspace</span> directory instead? Well for one, I can completely wipe out WSL and reinstall, and all my Windows workspace files are still there. I can also access those files easily from Windows and Visual Studio in particular. I'm still waiting on WSL2 (only available to Windows insider / preview at this time, which I chose not to sign up for) - and I believe I need to rip &amp; replace for that version.<br /><br /></div><div>LiteX is a code generator. Not only does it create Verilog, but also a bash script to run yosys / nextpnr / ecppack to actually generate an ECP5 FPGA bit file. The fact that it can generate code to build a complete soft CPU is frankly astonishing.<br /><br />Run the&nbsp;<a href="https://github.com/litex-hub/litex-boards/blob/master/litex_boards/targets/ulx3s.py"><span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;">ulx3s.py</span></a>&nbsp;for the respective device:<br /><pre><code>cd /mnt/c/workspace/litex-boards/litex_boards/targets<br /># ./ulx3s.py --device LFE5U-45F<br />./ulx3s.py --device LFE5U-85F<br /></code></pre>It is not super intuitive where files end up. There's certainly not a lot of <a href="https://github.com/litex-hub/litex-boards/blob/master/README">documentation for the litex-boards repo</a>. I searched in powershell: <br /><pre><code>Get-ChildItem -Recurse | Where-Object { $_.LastWriteTime -ge "03/08/2020 4:00pm" }<br /></code></pre>the <span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;">top.bit</span> file ended up in:<br /><pre><code>C:\workspace\litex-boards\litex_boards\targets\soc_basesoc_ulx3s\gateware<br /></code></pre>So from WSL it can be loaded onto the ULX3S like this: <br /><pre><code># make sure nothing is using the ULX3S, including VM's, terminal sessions in putty, etc!<br />cd /mnt/c/workspace/litex-boards/litex_boards/targets/soc_basesoc_ulx3s/gateware<br /><br />/mnt/c/workspace/ulx3s-examples/bin/ujprog.exe top.bit<br /></code></pre>Note how Windows executables can be called from the WSL prompt. The same command can be used in a DOS window: <br /><pre><code># make sure nothing is using the ULX3S, including VM's, terminal sessions in putty, etc!<br />c:<br />cd \workspace\litex-boards\litex_boards\targets\soc_basesoc_ulx3s\gateware<br /><br />c:\workspace\ulx3s-examples\bin\ujprog.exe top.bit<br /></code></pre>Stupid things to be aware of: the serial port is running at 11500 8N1. Don't ask me how much time I wasted when using a <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">putty</a> saved connection for the COM port preset at 19200 and kept wondering why there was no response when trying to connect. I don't think I'll ever make that mistake again. lol<br /><br />There's also an interesting <span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;">bios.bin</span> file in<br /><pre><code>C:\workspace\litex-boards\litex_boards\targets\soc_basesoc_ulx3s\software\bios<br /></code></pre>My script for synthesizing the CPU ended up in: <br /><pre><code>/mnt/c/workspace/linux-on-litex-vexriscv/build/ulx3s/gateware/build_top.sh<br /></code></pre>I had found that build_top.sh file prior to realizing&nbsp;<span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;"><a href="https://github.com/litex-hub/litex-boards/blob/master/litex_boards/targets/ulx3s.py">ulx3s.py</a>&nbsp;</span>accepted a device parameter. I&nbsp; have two ULX3S devices, the 12F and the 85F. Guess which one is the defined default for the LiteX build? Yup, the 45F. Did I mention if things are too easy it's no fun? At first I manually edited the build file (note the above call to&nbsp;<span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;"><a href="https://github.com/litex-hub/litex-boards/blob/master/litex_boards/targets/ulx3s.py">ulx3s.py</a></span>&nbsp;does everything, including synthesizing the FPGA VexRiscv core). The default looks like this:</div><pre><code># Autogenerated by LiteX / git: e801dc02<br />set -e<br />yosys -l top.rpt top.ys<br />nextpnr-ecp5 --json top.json --lpf top.lpf --textcfg top.config --45k --package CABGA381 --speed 6 --timing-allow-fail<br />ecppack top.config --svf top.svf --bit top.bit<br /></code></pre>Ok, so one of the parameters looks easy enough. Ooph, but what about the "CABGA381"? Well, a quick google search and it turns out that's just a package specification. See the <a href="https://github.com/SymbiFlow/prjtrellis/blob/master/devices.json">prjtrellis devices.json</a>&nbsp;for a list of all of them.  I'll assume that I each of the ECP5 options on the ULX3S will use the same package, and simply change the "45k" to "85k".<br /><br />There are some <a href="https://github.com/timvideos/litex-buildenv/wiki/BIOS">bios</a> docs.<br /><br />Constraint (pin-level) implementation details can be found in&nbsp;<a href="https://github.com/enjoy-digital/litex/blob/master/litex/boards/platforms/ulx3s.py">platforms/ulx3s.py</a>.<br /><br />As shown in the <a href="https://github.com/enjoy-digital/litex/blob/master/litex/boards/platforms/ulx3s.py#L22">ulx3s.py platform file</a>, there's no Ethernet port configured and the serial port is configured for ECP5 pins L4 and M1: <br /><pre><code><br />    ("serial", 0,<br />        Subsignal("tx", Pins("L4"), IOStandard("LVCMOS33")),<br />        Subsignal("rx", Pins("M1"), IOStandard("LVCMOS33"))<br />    ),<br /></code></pre>To build the binaries: <br /><pre><code><br />cd $WORKSPACE/litex-boards/litex_boards/targets<br /><br />./ulx3s.py --device LFE5U-85F --cpu-type picorv32<br /><br />cd $WORKSPACE/litex-boards/litex_boards/targets/soc_basesoc_ulx3s/gateware<br /><br /># to program the FPGA as a CPU:<br />$WORKSPACE/ulx3s-examples/bin/ujprog.exe top.bit<br /><br />cd /mnt/c/workspace/litex-boards/litex_boards/targets/soc_basesoc_ulx3s/software/bios<br /><br />litex_term --serial-boot --kernel bios.bin /dev/ttyS15<br /></code></pre><pre><code><br /></code></pre>More to come... see my next blog:&nbsp;<a href="{{ site.baseurl }}{% post_url 2020-03-28-risc-v-on-ulx3s-with-litex-part-2 %}">ULX3S RISC-V with LiteX - Part 2</a>.<br /><br /><br /></div>
+Today is <a href="https://www.crowdsupply.com/radiona/ulx3s">ULX3S Campaign Launch Day on Crowd Supply</a>
+!!<br />
+<br />
+As I write this, funding is at 40% in just the first hour!
+<br />
+<br />In pursuit of my ongoing quest to get Circuit Python working on my 
+<a href="https://radiona.org/ulx3s/">ULX3S</a>.... I decided to try out <a href="https://github.com/enjoy-digital/litex">LiteX</a>. I wasn't able to get the <a href="https://github.com/rxrbln/picorv32/tree/master/picosoc">rxrbln picorv32 picosoc for ULX3S</a>
+ working (yet) due to some missing files that have not yet been checked in. Part of the journey is simply figuring out which working components to use.<br />
+
+<div>
+<br />
+
+<div>
+LiteX is included in my <a href="https://github.com/gojimmypi/ulx3s-toolchain">full toolchain build for the ULX3S</a>&nbsp;(see my <a href="{{ site.baseurl }}{% post_url 2020-03-08-risc-v-circuit-python-on-ulx3s-starting %}">prior blog</a>).
+</div>
+
+<div>
+<br />
+<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/full_ulx3s_toolchain_directory_list.png" imageanchor="1" style="margin-left: auto; margin-right: auto;">
+<img border="0" data-original-height="324" data-original-width="642" height="200" src="../images/s400/full_ulx3s_toolchain_directory_list.png" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Full ULX3S toolchain directory list</td></tr></tbody></table>Once everything is installed (OMG, it takes the better part of a day)... we can get started.
+</div>
+
+
+<div>
+<br />First: if you are considering getting your own 
+<a href="https://www.crowdsupply.com/radiona/ulx3s">ULX3S from the upcoming Crowd Supply campaign</a>, be aware that only the larger 45F and 85F versions are available options (and capable?) of running the LiteX VexRiscv.
+</div>
+
+
+<div>
+<br />Some key&nbsp;
+<a href="https://github.com/timvideos/litex-buildenv/wiki/LiteX-for-Hardware-Engineers#glossary">terminology from timvideos</a> to get started: <b>Gateware </b>(as in Field Programmable <i>Gate</i> Array) is the stuff that gets loaded onto the FPGA. <b>Firmware</b> is the application code that the soft CPU will execute. The&nbsp;<b>BIOS</b>
+ is bootstrapping code baked into FPGA.<br />
+<br />Note that I installed my development toolchain on WSL Ubuntu. I've also tested the install multiple times on VM's with real Ubuntu. But here, my blog is about using WSL, so all of my stuff is installed on my local 
+<span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;">C:\workspace</span> directory, or from WSL's perspective: <span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;">/mnt/c/workpace</span>. On a real Ubuntu machine, simply replace that with your own <span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;">~/workspace/</span>
+ directory.<br />
+<br />Why didn't I just put my workspace in the WSL 
+<span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;">~/workspace</span>
+ directory instead? Well for one, I can completely wipe out WSL and reinstall, and all my Windows workspace files are still there. I can also access those files easily from Windows and Visual Studio in particular. I'm still waiting on WSL2 (only available to Windows insider / preview at this time, which I chose not to sign up for) - and I believe I need to rip &amp; replace for that version.<br />
+<br />
+
+</div>
+
+
+<div>
+LiteX is a code generator. Not only does it create Verilog, but also a bash script to run yosys / nextpnr / ecppack to actually generate an ECP5 FPGA bit file. The fact that it can generate code to build a complete soft CPU is frankly astonishing.<br />
+<br />Run the&nbsp;
+<a href="https://github.com/litex-hub/litex-boards/blob/master/litex_boards/targets/ulx3s.py"><span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;">ulx3s.py</span></a>
+&nbsp;for the respective device:<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+cd /mnt/c/workspace/litex-boards/litex_boards/targets
+# ./ulx3s.py --device LFE5U-45F
+./ulx3s.py --device LFE5U-85F</code></pre>
+It is not super intuitive where files end up. There's certainly not a lot of <a href="https://github.com/litex-hub/litex-boards/blob/master/README">documentation for the litex-boards repo</a>
+. I searched in powershell: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+Get-ChildItem -Recurse | Where-Object { $_.LastWriteTime -ge "03/08/2020 4:00pm" }</code></pre>
+the <span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;">top.bit</span>
+ file ended up in:<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+C:\workspace\litex-boards\litex_boards\targets\soc_basesoc_ulx3s\gateware</code></pre>
+So from WSL it can be loaded onto the ULX3S like this: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# make sure nothing is using the ULX3S, including VM's, terminal sessions in putty, etc!
+cd /mnt/c/workspace/litex-boards/litex_boards/targets/soc_basesoc_ulx3s/gateware
+/mnt/c/workspace/ulx3s-examples/bin/ujprog.exe top.bit</code></pre>
+Note how Windows executables can be called from the WSL prompt. The same command can be used in a DOS window: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# make sure nothing is using the ULX3S, including VM's, terminal sessions in putty, etc!
+c:
+cd \workspace\litex-boards\litex_boards\targets\soc_basesoc_ulx3s\gateware
+c:\workspace\ulx3s-examples\bin\ujprog.exe top.bit</code></pre>
+Stupid things to be aware of: the serial port is running at 11500 8N1. Don't ask me how much time I wasted when using a <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">putty</a>
+ saved connection for the COM port preset at 19200 and kept wondering why there was no response when trying to connect. I don't think I'll ever make that mistake again. lol<br />
+<br />There's also an interesting 
+<span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;">bios.bin</span>
+ file in<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+C:\workspace\litex-boards\litex_boards\targets\soc_basesoc_ulx3s\software\bios</code></pre>
+My script for synthesizing the CPU ended up in: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+/mnt/c/workspace/linux-on-litex-vexriscv/build/ulx3s/gateware/build_top.sh</code></pre>
+I had found that build_top.sh file prior to realizing&nbsp;<span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;"><a href="https://github.com/litex-hub/litex-boards/blob/master/litex_boards/targets/ulx3s.py">ulx3s.py</a>&nbsp;</span>accepted a device parameter. I&nbsp; have two ULX3S devices, the 12F and the 85F. Guess which one is the defined default for the LiteX build? Yup, the 45F. Did I mention if things are too easy it's no fun? At first I manually edited the build file (note the above call to&nbsp;<span style="font-family: &quot;courier new&quot; , &quot;courier&quot; , monospace;"><a href="https://github.com/litex-hub/litex-boards/blob/master/litex_boards/targets/ulx3s.py">ulx3s.py</a></span>&nbsp;does everything, including synthesizing the FPGA VexRiscv core). The default looks like this:
+</div>
+
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# Autogenerated by LiteX / git: e801dc02
+set -e
+yosys -l top.rpt top.ys
+nextpnr-ecp5 --json top.json --lpf top.lpf --textcfg top.config --45k --package CABGA381 --speed 6 --timing-allow-fail
+ecppack top.config --svf top.svf --bit top.bit</code></pre>
+Ok, so one of the parameters looks easy enough. Ooph, but what about the "CABGA381"? Well, a quick google search and it turns out that's just a package specification. See the <a href="https://github.com/SymbiFlow/prjtrellis/blob/master/devices.json">prjtrellis devices.json</a>
+&nbsp;for a list of all of them.  I'll assume that I each of the ECP5 options on the ULX3S will use the same package, and simply change the "45k" to "85k".<br />
+<br />There are some 
+<a href="https://github.com/timvideos/litex-buildenv/wiki/BIOS">bios</a>
+ docs.<br />
+<br />Constraint (pin-level) implementation details can be found in&nbsp;
+<a href="https://github.com/enjoy-digital/litex/blob/master/litex/boards/platforms/ulx3s.py">platforms/ulx3s.py</a>
+.<br />
+<br />As shown in the 
+<a href="https://github.com/enjoy-digital/litex/blob/master/litex/boards/platforms/ulx3s.py#L22">ulx3s.py platform file</a>
+, there's no Ethernet port configured and the serial port is configured for ECP5 pins L4 and M1: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+    ("serial", 0,
+        Subsignal("tx", Pins("L4"), IOStandard("LVCMOS33")),
+        Subsignal("rx", Pins("M1"), IOStandard("LVCMOS33"))
+    ),</code></pre>
+To build the binaries: 
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+cd $WORKSPACE/litex-boards/litex_boards/targets
+./ulx3s.py --device LFE5U-85F --cpu-type picorv32
+cd $WORKSPACE/litex-boards/litex_boards/targets/soc_basesoc_ulx3s/gateware
+# to program the FPGA as a CPU:
+$WORKSPACE/ulx3s-examples/bin/ujprog.exe top.bit
+cd /mnt/c/workspace/litex-boards/litex_boards/targets/soc_basesoc_ulx3s/software/bios
+litex_term --serial-boot --kernel bios.bin /dev/ttyS15</code></pre>
+
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight"></code></pre>
+More to come... see my next blog:&nbsp;
+<a href="{{ site.baseurl }}{% post_url 2020-03-28-risc-v-on-ulx3s-with-litex-part-2 %}">ULX3S RISC-V with LiteX - Part 2</a>
+.<br />
+<br />
+<br />
+
+</div>
+
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:54 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

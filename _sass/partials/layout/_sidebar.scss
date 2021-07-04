@@ -107,7 +107,7 @@
             i {
                 transition: 1s all ease;
                 position: absolute;
-                right: $margin-width/2;
+                right: 9 + ($margin-width/2); /* offset by 9 px for scrollbar */
                 top: 50%;
                 transform: translate(50%, -50%);
             }

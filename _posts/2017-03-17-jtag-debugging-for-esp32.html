@@ -20,4 +20,425 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-14311797729920033
 blogger_orig_url: https://gojimmypi.blogspot.com/2017/03/jtag-debugging-for-esp32.html
 ---
 
-Notes and information on JTAG Debugging the ESP32 WROOM-32 (aka DevKitC, aka ESP32_Core_Board_V2)<br /><br />I started off my day thinking I'd take my ESP32 for a JTAG test drive. Searching for pinouts I quickly realized there are known bad pinouts floating around. This was quite a surprise as the ESP32 has been out for well over a year. I wasted a ton of time on that. I'm posting my findings here.<br /><br />As one might expect - the Adafruit pinout appears to be the most&nbsp;accurate one:<br /><br />﻿<br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="https://2.bp.blogspot.com/-HNyJUtC4hLU/WMwZzDBzWYI/AAAAAAAAALI/VsISUXPBvEYPi5JJMNGWYw42pT2h7qPKwCLcB/s1600/pinout_wroom_pinout.png" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="226" src="https://2.bp.blogspot.com/-HNyJUtC4hLU/WMwZzDBzWYI/AAAAAAAAALI/VsISUXPBvEYPi5JJMNGWYw42pT2h7qPKwCLcB/s320/pinout_wroom_pinout.png" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">WROOM-32 ESP32 Pinout</td></tr></tbody></table>&nbsp;from: <a href="https://cdn-shop.adafruit.com/product-files/3269/pinout_wroom_pinout.png">https://cdn-shop.adafruit.com/product-files/3269/pinout_wroom_pinout.png</a><br /><br />(many thanks to the folks at @esp32net for responding to my tweet and helping to identify correct pinout).<br /><br />So if you happen to see the pinout on the sparkfun site, the information is WRONG (hopefully they will correct it soon):<br /><br /><a href="https://www.sparkfun.com/news/2017">https://www.sparkfun.com/news/2017</a>  (bad pinout here!)<br /><br />I modified a known-good pinout image to create this little reference to easily identity a bad ESP32 pinout. <em>Hint:&nbsp;look for the locations of the GND pins</em>.<br /><br /><div style="text-align: left;">﻿</div><div style="text-align: left;"><table align="left" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="https://2.bp.blogspot.com/-AfZvvQ4-soI/WMwbBaecuiI/AAAAAAAAALU/dwUjJOUmnAQaZW0GnfOkrw1H4KQkHZhgQCLcB/s1600/ESP32%2BGND.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="313" src="https://2.bp.blogspot.com/-AfZvvQ4-soI/WMwbBaecuiI/AAAAAAAAALU/dwUjJOUmnAQaZW0GnfOkrw1H4KQkHZhgQCLcB/s320/ESP32%2BGND.PNG" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Not all online pinouts are accurate. Here's where to find proper GND on ESP32</td></tr></tbody></table></div><div style="text-align: left;">﻿</div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">Really, the ultimate authority is of course the Espressif data sheet:</div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="http://www.espressif.com/sites/default/files/documentation/esp_wroom_32_datasheet_en.pdf">http://www.espressif.com/sites/default/files/documentation/esp_wroom_32_datasheet_en.pdf</a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">The PDF&nbsp;has this pinout overview, with the functions listed in a table&nbsp;on the following pages of the PDF:</div><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-JUptfCAq1bc/WMweWOrmQGI/AAAAAAAAALg/OlF7ja4n0vcUSh9-9BLAUmGcUTUrtsVBACLcB/s1600/Correct%2BESP32.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="320" src="https://1.bp.blogspot.com/-JUptfCAq1bc/WMweWOrmQGI/AAAAAAAAALg/OlF7ja4n0vcUSh9-9BLAUmGcUTUrtsVBACLcB/s320/Correct%2BESP32.PNG" width="281" /></a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">See also the Espressif ESP-IDF docs on GitHub:</div><div class="separator" style="clear: both; text-align: left;"><a href="https://github.com/espressif/esp-idf/blob/master/docs/openocd.rst">https://github.com/espressif/esp-idf/blob/master/docs/openocd.rst</a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">Ok, so once the correct pinout is found - there was&nbsp;a moment of "<em>oh no, all the JTAG pins are not available on my CoreBoard V2 breakout (grumble, grumble I don't want to solder them on)</em>". But no... all good. Who would think that SD2 = TCK?</div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">I should mention that "ESP32_Core_Board_V2" is the same as "ESP32-DevKitC" </div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">Resources available here:</div><div class="separator" style="clear: both; text-align: left;"><a href="http://espressif.com/en/products/hardware/esp32-devkitc/resources">http://espressif.com/en/products/hardware/esp32-devkitc/resources</a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">In particular the PDF of schematic found in "ESP32 Development Board Reference Design":</div><div class="separator" style="clear: both; text-align: left;"><a href="http://espressif.com/sites/default/files/documentation/esp32_development_board_reference_design.zip">http://espressif.com/sites/default/files/documentation/esp32_development_board_reference_design.zip</a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">found in the zip buried in this directory: </div><div class="separator" style="clear: both; text-align: left;">ESP32_Development_Board_Reference_Design\ESP32-DevKitC(ESP32_Core_Board_V2)\01_Schematic</div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://3.bp.blogspot.com/-zyGHuqISKPs/WMx4MWPAZOI/AAAAAAAAAMw/xxDcpwVSq0garkCG5n8yQfn4X7r94zMHACLcB/s1600/ESP%2B32%2BSchematic.PNG" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" height="183" src="https://3.bp.blogspot.com/-zyGHuqISKPs/WMx4MWPAZOI/AAAAAAAAAMw/xxDcpwVSq0garkCG5n8yQfn4X7r94zMHACLcB/s320/ESP%2B32%2BSchematic.PNG" width="320" /></a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">I took a variety of sources and copy/pasted into a new pinout diagram for myself:</div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="https://4.bp.blogspot.com/-GaYtSmpZza8/WMx3lx9vGlI/AAAAAAAAAMo/-AkKTbKelYk8IK3Z1vZ-i_GXD2XebfpUQCLcB/s1600/myESP32%2Bpinout.png" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" height="226" src="https://4.bp.blogspot.com/-GaYtSmpZza8/WMx3lx9vGlI/AAAAAAAAAMo/-AkKTbKelYk8IK3Z1vZ-i_GXD2XebfpUQCLcB/s320/myESP32%2Bpinout.png" width="320" /></a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">This one is the whole dev board and&nbsp;includes the 20 pin JTAG header, and my (arbitrary) color code:</div><div class="separator" style="clear: both; text-align: left;"><br /></div><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="float: left; margin-right: 1em; text-align: left;"><tbody><tr><td style="text-align: center;"><a href="https://1.bp.blogspot.com/-RL8tkZprmjc/WMxXKaIgocI/AAAAAAAAALw/xLM5Qt3jgSALQ_hHRaurJswgGK5G4wVxwCLcB/s1600/myESP32%2BDevKitC%2Bpinout.png" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="160" src="https://1.bp.blogspot.com/-RL8tkZprmjc/WMxXKaIgocI/AAAAAAAAALw/xLM5Qt3jgSALQ_hHRaurJswgGK5G4wVxwCLcB/s320/myESP32%2BDevKitC%2Bpinout.png" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">ESP32-WROOM32 Pinout for ESP32 DevKitC / ESP32_Core_Board_V2</td></tr></tbody></table><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://raw.githubusercontent.com/gojimmypi/ESP32/master/images/myESP32%20DevKitC%20pinout.png">https://raw.githubusercontent.com/gojimmypi/ESP32/master/images/myESP32%20DevKitC%20pinout.png</a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">So these days, I've been really enjoying the JTAG capabilities of the Sysprogs VisualGDB:</div><div class="separator" style="clear: both; text-align: left;"><a href="http://visualgdb.com/download/">http://visualgdb.com/download/</a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">They have a tutorial for ESP32 JTAG here:</div><div class="separator" style="clear: both; text-align: left;"><a href="https://visualgdb.com/tutorials/esp32/">https://visualgdb.com/tutorials/esp32/</a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">Online tutorials are really awesome. I wonder how long it would have taken me to figure out Step 7 on my own! ha! (issue with Visual Studio/ESP-IDF framework&nbsp;and optimization default problem: who would have guessed?)</div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">But that tutorial is using the Sparkfun ESP32 Thing, and mine is the Adafruit ESP32 Core Board V2, mentioned above.</div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">Note: Although the Sparkfun apparently has an LED on GPIO5 - according to the schematics, the only LED on this board is the power LED - so don't expect it to blink - unless you are having really serious power problems! ;) But the sample code does indeed control GPIO5.</div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">There's a recommended max of 6mA per pin on ESP32, with and absolute max&nbsp;of 12mA (read: you could still damage or shorten life). Many LED's run at 20mA and drop 1.8V.&nbsp;At (3.3V - 1.8) = &nbsp;1.5; this means you should be using at least a (1.5/0.006) =&nbsp;250 or 270 ohm resister for only 6mA. This may not result in a very brightly illuminated&nbsp;LED.</div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">Here are a couple of hookup pics:</div><div class="separator" style="clear: both; text-align: left;"><br /></div><div style="text-align: left;">﻿</div><div style="text-align: left;"><table align="left" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="https://2.bp.blogspot.com/-Y51x9xAcfek/WMxxSkW0VSI/AAAAAAAAAMY/8wasFjuQYcYxAZApDFEcE35Q9_KWpNUrgCLcB/s1600/JTAG%2BHookup2.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="244" src="https://2.bp.blogspot.com/-Y51x9xAcfek/WMxxSkW0VSI/AAAAAAAAAMY/8wasFjuQYcYxAZApDFEcE35Q9_KWpNUrgCLcB/s320/JTAG%2BHookup2.PNG" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">JTAG connections for ESP32</td></tr></tbody></table></div><div style="text-align: left;">﻿</div><br /><div style="text-align: left;">﻿</div><div style="text-align: left;"><table align="left" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="https://1.bp.blogspot.com/-v4nAW1JO-N0/WMxxRjBV19I/AAAAAAAAAMU/lWsYGfrh8Qk9S0loaUXVdZdub6HQbCKEgCLcB/s1600/JTAG%2BHookup1.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="180" src="https://1.bp.blogspot.com/-v4nAW1JO-N0/WMxxRjBV19I/AAAAAAAAAMU/lWsYGfrh8Qk9S0loaUXVdZdub6HQbCKEgCLcB/s320/JTAG%2BHookup1.PNG" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">JTAG connections to Segger J-Link for ESP32</td></tr></tbody></table></div><div style="text-align: left;">﻿</div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">For information on VSCode debugging of ESP32, see <a href="{{ site.baseurl }}{% post_url 2017-05-25-vscode-jtag-debugging-of-esp32-part-1 %}">this post</a>.</div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">My success tweet: <a href="https://twitter.com/gojimmypi/status/842861378801086464">https://twitter.com/gojimmypi/status/842861378801086464</a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">Visual Studio 2017 source code for ESP32 JTAG Tutorial:</div><div class="separator" style="clear: both; text-align: left;"><a href="https://github.com/gojimmypi/ESP32/tree/master/ESP32-JTAG-VisualGDB">https://github.com/gojimmypi/ESP32/tree/master/ESP32-JTAG-VisualGDB</a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">As a bonus, the tutorial is based on freeRTOS (I think all of the ESP32 code is using that). There's a pretty good UDemy FreeRTOS class that I'm taking:</div><div class="separator" style="clear: both; text-align: left;"><a href="https://www.udemy.com/mastering-rtos-hands-on-with-freertos-arduino-and-stm32fx/">https://www.udemy.com/mastering-rtos-hands-on-with-freertos-arduino-and-stm32fx/</a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;">Where to buy:</div><div class="separator" style="clear: both; text-align: left;"><a href="https://www.amazon.com/dp/B01N0SB08Q">https://www.amazon.com/dp/B01N0SB08Q</a></div><div class="separator" style="clear: both; text-align: left;"><br /></div><a href="https://www.adafruit.com/product/3269">https://www.adafruit.com/product/3269</a><br /><div class="separator" style="clear: both; text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: left;"><a href="https://www.olimex.com/Products/IoT/ESP32-CoreBoard/">https://www.olimex.com/Products/IoT/ESP32-CoreBoard/</a></div><br />See also: <a href="http://esp32.net/">http://esp32.net/</a>&nbsp; (this site is so comprehensive, I should say "start here first!")<br /><br />
+Notes and information on JTAG Debugging the ESP32 WROOM-32 (aka DevKitC, aka ESP32_Core_Board_V2)<br />
+<br />
+I started off my day thinking I'd take my ESP32 for a JTAG test drive. Searching for pinouts I quickly realized there are known bad pinouts floating around. This was quite a surprise as the ESP32 has been out for well over a year. I wasted a ton of time on that. I'm posting my findings here.
+<br />
+<br />
+As one might expect - the Adafruit pinout appears to be the most&nbsp;accurate one:
+<br />
+<br />
+﻿
+<br />
+<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/pinout_wroom_pinout.png" imageanchor="1" style="margin-left: auto; margin-right: auto;">
+<img border="0" height="226" src="../images/s320/pinout_wroom_pinout.png" width="320"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">WROOM-32 ESP32 Pinout</td></tr></tbody></table>&nbsp;from: <a href="../images/3269/pinout_wroom_pinout.png">
+https://cdn-shop.adafruit.com/product-files/3269/pinout_wroom_pinout.png</a><br />
+<br />
+(many thanks to the folks at @esp32net for responding to my tweet and helping to identify correct pinout).
+<br />
+<br />
+So if you happen to see the pinout on the sparkfun site, the information is WRONG (hopefully they will correct it soon):
+<br />
+<br />
+<a href="https://www.sparkfun.com/news/2017">https://www.sparkfun.com/news/2017</a>
+  (bad pinout here!)<br />
+<br />I modified a known-good pinout image to create this little reference to easily identity a bad ESP32 pinout. 
+<em>Hint:&nbsp;look for the locations of the GND pins</em>
+.<br />
+<br />
+
+<div style="text-align: left;">﻿
+</div>
+
+<div style="text-align: left;">
+<table align="left" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/ESP32_GND.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;">
+<img border="0" height="313" src="../images/s320/ESP32_GND.PNG" width="320"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Not all online pinouts are accurate. Here's where to find proper GND on ESP32</td></tr></tbody></table>
+</div>
+
+<div style="text-align: left;">﻿
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+Really, the ultimate authority is of course the Espressif data sheet:
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="http://www.espressif.com/sites/default/files/documentation/esp_wroom_32_datasheet_en.pdf">http://www.espressif.com/sites/default/files/documentation/esp_wroom_32_datasheet_en.pdf</a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+The PDF&nbsp;has this pinout overview, with the functions listed in a table&nbsp;on the following pages of the PDF:
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Correct_ESP32.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="320" src="../images/s320/Correct_ESP32.PNG" width="281"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+See also the Espressif ESP-IDF docs on GitHub:
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="https://github.com/espressif/esp-idf/blob/master/docs/openocd.rst">https://github.com/espressif/esp-idf/blob/master/docs/openocd.rst</a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+Ok, so once the correct pinout is found - there was&nbsp;a moment of "<em>oh no, all the JTAG pins are not available on my CoreBoard V2 breakout (grumble, grumble I don't want to solder them on)</em>". But no... all good. Who would think that SD2 = TCK?
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+I should mention that "ESP32_Core_Board_V2" is the same as "ESP32-DevKitC" 
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+Resources available here:
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="http://espressif.com/en/products/hardware/esp32-devkitc/resources">http://espressif.com/en/products/hardware/esp32-devkitc/resources</a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+In particular the PDF of schematic found in "ESP32 Development Board Reference Design":
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="http://espressif.com/sites/default/files/documentation/esp32_development_board_reference_design.zip">http://espressif.com/sites/default/files/documentation/esp32_development_board_reference_design.zip</a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+found in the zip buried in this directory: 
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+ESP32_Development_Board_Reference_Design\ESP32-DevKitC(ESP32_Core_Board_V2)\01_Schematic
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/ESP_32_Schematic.PNG" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;">
+<img border="0" height="183" src="../images/s320/ESP_32_Schematic.PNG" width="320"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+I took a variety of sources and copy/pasted into a new pinout diagram for myself:
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="../images/s1600/myESP32_pinout.png" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;">
+<img border="0" height="226" src="../images/s320/myESP32_pinout.png" width="320"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+This one is the whole dev board and&nbsp;includes the 20 pin JTAG header, and my (arbitrary) color code:
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="float: left; margin-right: 1em; text-align: left;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/myESP32_DevKitC_pinout.png" imageanchor="1" style="margin-left: auto; margin-right: auto;">
+<img border="0" height="160" src="../images/s320/myESP32_DevKitC_pinout.png" width="320"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">ESP32-WROOM32 Pinout for ESP32 DevKitC / ESP32_Core_Board_V2</td></tr></tbody></table>
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/images/myESP32%20DevKitC%20pinout.png">https://raw.githubusercontent.com/gojimmypi/ESP32/master/images/myESP32%20DevKitC%20pinout.png</a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+So these days, I've been really enjoying the JTAG capabilities of the Sysprogs VisualGDB:
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="http://visualgdb.com/download/">http://visualgdb.com/download/</a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+They have a tutorial for ESP32 JTAG here:
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="https://visualgdb.com/tutorials/esp32/">https://visualgdb.com/tutorials/esp32/</a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+Online tutorials are really awesome. I wonder how long it would have taken me to figure out Step 7 on my own! ha! (issue with Visual Studio/ESP-IDF framework&nbsp;and optimization default problem: who would have guessed?)
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+But that tutorial is using the Sparkfun ESP32 Thing, and mine is the Adafruit ESP32 Core Board V2, mentioned above.
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+Note: Although the Sparkfun apparently has an LED on GPIO5 - according to the schematics, the only LED on this board is the power LED - so don't expect it to blink - unless you are having really serious power problems! ;) But the sample code does indeed control GPIO5.
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+There's a recommended max of 6mA per pin on ESP32, with and absolute max&nbsp;of 12mA (read: you could still damage or shorten life). Many LED's run at 20mA and drop 1.8V.&nbsp;At (3.3V - 1.8) = &nbsp;1.5; this means you should be using at least a (1.5/0.006) =&nbsp;250 or 270 ohm resister for only 6mA. This may not result in a very brightly illuminated&nbsp;LED.
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+Here are a couple of hookup pics:
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div style="text-align: left;">﻿
+</div>
+
+<div style="text-align: left;">
+<table align="left" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/JTAG_Hookup2.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;">
+<img border="0" height="244" src="../images/s320/JTAG_Hookup2.PNG" width="320"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">JTAG connections for ESP32</td></tr></tbody></table>
+</div>
+
+<div style="text-align: left;">﻿
+</div>
+<br />
+
+<div style="text-align: left;">﻿
+</div>
+
+<div style="text-align: left;">
+<table align="left" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/JTAG_Hookup1.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;">
+<img border="0" height="180" src="../images/s320/JTAG_Hookup1.PNG" width="320"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">JTAG connections to Segger J-Link for ESP32</td></tr></tbody></table>
+</div>
+
+<div style="text-align: left;">﻿
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+For information on VSCode debugging of ESP32, see <a href="{{ site.baseurl }}{% post_url 2017-05-25-vscode-jtag-debugging-of-esp32-part-1 %}">this post</a>.
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+My success tweet: <a href="https://twitter.com/gojimmypi/status/842861378801086464">https://twitter.com/gojimmypi/status/842861378801086464</a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+Visual Studio 2017 source code for ESP32 JTAG Tutorial:
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="https://github.com/gojimmypi/ESP32/tree/master/ESP32-JTAG-VisualGDB">https://github.com/gojimmypi/ESP32/tree/master/ESP32-JTAG-VisualGDB</a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+As a bonus, the tutorial is based on freeRTOS (I think all of the ESP32 code is using that). There's a pretty good UDemy FreeRTOS class that I'm taking:
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="https://www.udemy.com/mastering-rtos-hands-on-with-freertos-arduino-and-stm32fx/">https://www.udemy.com/mastering-rtos-hands-on-with-freertos-arduino-and-stm32fx/</a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+Where to buy:
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="https://www.amazon.com/dp/B01N0SB08Q">https://www.amazon.com/dp/B01N0SB08Q</a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+<a href="https://www.adafruit.com/product/3269">
+https://www.adafruit.com/product/3269</a><br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<br />
+
+</div>
+
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="https://www.olimex.com/Products/IoT/ESP32-CoreBoard/">https://www.olimex.com/Products/IoT/ESP32-CoreBoard/</a>
+</div>
+<br />See also: 
+<a href="http://esp32.net/">http://esp32.net/</a>
+&nbsp; (this site is so comprehensive, I should say "start here first!")<br />
+<br />
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:51 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

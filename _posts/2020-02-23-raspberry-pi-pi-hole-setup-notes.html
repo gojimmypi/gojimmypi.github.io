@@ -14,4 +14,312 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-75426295690684833
 blogger_orig_url: https://gojimmypi.blogspot.com/2020/02/raspberry-pi-pi-hole-setup-notes.html
 ---
 
-In the category of "<i>why didn't I do this sooner</i>" - I finally setup my full network ad-blocking&nbsp;<a href="https://pi-hole.net/">pi-hole</a>. It's great! I can't believe I waited this long.&nbsp;<a href="https://github.com/pi-hole/pi-hole/#one-step-automated-install">The install</a> is really quite straightforward for a basic system, however there are always options for fine tuning.<br /><br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="https://1.bp.blogspot.com/-fV1gBl6-VH0/XkrBAN8JysI/AAAAAAAACVM/A0K6aPCnKcEUunJs95nmanjZ1eOEBJMlgCLcBGAsYHQ/s1600/my_pi_hole.jpg" style="margin-left: auto; margin-right: auto;"><img alt="" border="0" data-original-height="289" data-original-width="1042" height="105" src="https://1.bp.blogspot.com/-fV1gBl6-VH0/XkrBAN8JysI/AAAAAAAACVM/A0K6aPCnKcEUunJs95nmanjZ1eOEBJMlgCLcBGAsYHQ/s400/my_pi_hole.jpg" title="basic blocking dashboard" width="400" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">The basic install is quite good and blocks quite a bit of junk.</td></tr></tbody></table><br />One of the places that has more extensive information on pi-hole options is <a href="https://www.smarthomebeginner.com/pi-hole-setup-guide/">this smart home beginner article</a>, which ironically also features a ton of ads that are not blocked by a pi-hole default install. :/<br /><br />When considering which device to run pi-hole on, consider the requirements. It does not have to be a Raspberry Pi, although that's nearly a perfect platform for most users. I ended up choosing a prior-generation <a href="https://www.amazon.com/dp/B07BC7BMHY/">Raspberry Pi 3 Model B+</a> for the lower power consumption and a&nbsp;<a href="https://www.amazon.com/dp/B06XWN9Q99/">Samsung 32GB microSDHC EVO</a>, purchased separately.&nbsp; Given my actual requirements, I probably should have chosen the Raspberry Pi 2, instead. (see below on power details)<br /><br />My Raspberry Pi 3B+ has built-in WiFi and Bluetooth. Both are features that I will not likely use for my pi-hole. I prefer the reliability (and security) of a wired Ethernet connection for something as important as DNS lookups.<br /><br />One of the benefits of the 3B+ is that the&nbsp;<a href="https://www.raspberrypi.org/products/poe-hat/">official Raspberry Pi PoE HAT</a>&nbsp;can be used to power the Raspberry Pi over Ethernet. I didn't go this route.<div><br /></div><div>Update: see my blog on&nbsp;<a href="{{ site.baseurl }}{% post_url 2020-10-24-raspberry-pi-headless-setup %}">Raspberry Pi Headless Setup</a>. I've found setting up those 4 pre-configured files and copying them to the root of SD card at image-write-time is quite handy and gets the RPi basically operational with minimal fuss.<br /><br />A key detail is to edit the <code>config.txt</code> file on the root of SD card (found in <code>/boot/config.txt</code> once RPi is running) before inserting into the RPi; add this line to allow serial TTL communication and avoid needing to plug in a monitor and keyboard for initial setup:<br /><br /><pre><code>enable_uart=1<br /></code></pre><br />Note that despite having 5V pins right next door, the Raspberry Pi serial port uses 3.3V logic.<br /><br />Connect your favorite <a href="https://www.adafruit.com/product/954">USB to TTL Serial cable</a>:<br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="https://1.bp.blogspot.com/-s2Ec6Pqu8YE/Xkl8A0Vw8uI/AAAAAAAACUw/NY9MgwBhgnMY0YQY59Mdp_m31VyCfWxzgCLcBGAsYHQ/s1600/GPIO-Pinout-Diagram-2_serial.png" style="margin-left: auto; margin-right: auto;"><img border="0" data-original-height="919" data-original-width="1600" height="226" src="https://1.bp.blogspot.com/-s2Ec6Pqu8YE/Xkl8A0Vw8uI/AAAAAAAACUw/NY9MgwBhgnMY0YQY59Mdp_m31VyCfWxzgCLcBGAsYHQ/s400/GPIO-Pinout-Diagram-2_serial.png" width="400" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Raspberry Pi pinout showing Serial TTL from&nbsp;<a href="https://www.raspberrypi.org/documentation/usage/gpio/">raspberrypi.org docs</a></td></tr></tbody></table>Then login with <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/">putty</a> or some other terminal program. For more detailed information on setting up a headless Raspberry Pi, see&nbsp;<a href="https://learn.sparkfun.com/tutorials/headless-raspberry-pi-setup/all">this sparkfun how-to</a>.<br /><br />I prefer to run <code>sudo raspi-config</code> to do things like:<br /><ul><li>Assign password</li></ul>Network Options:<br /><ul><li>assign host name such as "pi-hole"</li></ul>Localisation Options:<br /><ul><li>Change the locale to <code>en_US.UTF-8 UTF-8</code></li><li>Change timezone to Pacific Time</li></ul>Interfacing Options:<br /><ul><li>Disable Camera</li><li>Enable SSH</li><li>Disable VNC</li><li>Disable SPI</li><li>Disable I2C</li><li>Enable Serial</li><li>Disable 1-Wire</li><li>Disable Remote GPIO</li></ul>Advanced Options:<br /><ul><li>Expand Filesystem&nbsp;</li><li>GPU Memory Split set to 16</li></ul>Update <code>raspi-config</code> to the latest version.<br /><br />Next assign a static IP address via&nbsp;<code>sudo nano /etc/dhcpcd.conf</code> and add these lines: <br /><pre><code><br />interface eth0<br />        static ip_address=192.168.1.77/24<br />        static routers=192.168.1.254<br />        static domain_name_servers=127.0.0.1<br /></code></pre><br />Put in your values for device IP address, router, and actual DNS (needed for initial install) . After setting up the pi_hole, set the DNS to 127.0.0.1 as shown.</div><div><br /></div><div>Disable IPV6 unless you know you need it. Edit <code>/etc/sysctl.conf</code> and put these lines at the bottom:</div><pre><code>net.ipv6.conf.all.disable_ipv6 = 1<br />net.ipv6.conf.default.disable_ipv6 = 1<br />net.ipv6.conf.lo.disable_ipv6 = 1<br />net.ipv6.conf.tun0.disable_ipv6 = 1<br /></code></pre><div><br /><br />One of the main problems with the Raspberry Pi is the continual writing to the SD card and subsequent (lack of) reliability when in operation for years. See the&nbsp;<a href="https://github.com/azlux/log2ram">log2ram</a>&nbsp;install, below, that can help with this. Hackaday also has <a href="https://hackaday.com/2019/04/08/give-your-raspberry-pi-sd-card-a-break-log-to-ram/">an article on the coolness of log2ram</a>&nbsp;that refers to <a href="https://mcuoneclipse.com/2019/04/01/log2ram-extending-sd-card-lifetime-for-raspberry-pi-lorawan-gateway/">this log2ram blog by Erich Styger</a>.<br /><br />Next, main setup: <br /><pre><code><br /># system update<br />sudo apt-get update &amp;&amp; sudo apt-get upgrade<br /><br /># install essentials<br />sudo apt-get install git<br />sudo apt-get install fail2ban<br />sudo apt-get install dnsutils<br />sudo apt-get install arpwatch<br />sudo apt-get install iptables-persistent<br /><br /># remove things that will not be used:<br />sudo apt-get purge realvnc-vnc-server --assume-yes<br /><br /># basic pi-hole install<br />cd ~/<br />git clone --depth 1 https://github.com/pi-hole/pi-hole.git<br />cd "pi-hole/automated install/"<br />sudo bash basic-install.sh<br />sudo pihole -a -p<br /><br /># log2ram install (optional)<br />cd ~/<br />curl -Lo log2ram.tar.gz https://github.com/azlux/log2ram/archive/master.tar.gz<br />tar xf log2ram.tar.gz<br />cd log2ram-master<br />chmod +x install.sh &amp;&amp; sudo ./install.sh<br /># REBOOT BEFORE INSTALLING ANYTHING ELSE<br /><br /></code></pre>This might be a good time to set that <code>static domain_name_servers=127.0.0.1</code> setting.<br /><br />Operational check for log2ram: <br /><pre><code><br /># not blank if working properly:<br />mount | grep log2ram<br /><br /># not blank if working properly:<br />df -h | grep log2ram<br /><br /></code></pre>If it appears the log files need more space, edit the <code>/etc/log2ram.conf</code><br />. <br />See firewall notes for&nbsp;<a href="https://docs.pi-hole.net/main/prerequesites/#supported-operating-systems">supported operating systems</a>. Secure the RPi with IP Tables (optional):<br /><pre><code><br /># Flush the tables to apply changes<br />sudo iptables -F<br />sudo ip6tables -F<br /><br /># Default policy to drop everything but our output to internet<br />sudo iptables -P FORWARD DROP<br />sudo iptables -P INPUT   DROP<br />sudo iptables -P OUTPUT  ACCEPT<br /><br /># do the same for IPv6<br />sudo ip6tables -P FORWARD DROP<br />sudo ip6tables -P INPUT   DROP<br />sudo ip6tables -P OUTPUT  ACCEPT<br /><br /># Allow established connections (the responses to our outgoing traffic)<br />sudo iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT<br /><br /># Allow IPv6 established connections (the responses to our outgoing traffic)<br />sudo ip6tables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT<br /><br /># Allow local programs that use loopback (Unix sockets)<br />sudo iptables -A INPUT -s 127.0.0.0/8 -d 127.0.0.0/8 -i lo -j ACCEPT<br /><br /># allow incoming SSH/SCP conections to this machine from 192.168.1.0/24 only<br />sudo iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 22 -m state --state NEW -j ACCEPT<br /><br /># In case a Windows drive is mapped, uncomment this line:<br /># sudo iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 445 -m state --state NEW -j ACCEPT<br /><br /># pi-hole ports<br />iptables -I INPUT 1 -p tcp -m tcp --dport 80 -j ACCEPT<br />iptables -I INPUT 1 -p tcp -m tcp --dport 53 -j ACCEPT<br />iptables -I INPUT 1 -p udp -m udp --dport 53 -j ACCEPT<br />iptables -I INPUT 1 -p tcp -m tcp --dport 67 -j ACCEPT<br />iptables -I INPUT 1 -p udp -m udp --dport 67 -j ACCEPT<br />iptables -I INPUT 1 -p tcp -m tcp --dport 4711 -i lo -j ACCEPT<br /><br /># save iptables to be in place after a reboot<br />sudo /sbin/iptables-save &gt; ~/iptables.txt<br />sudo cp ~/iptables.txt /etc/iptables/rules<br />iptables-persistent<br />iptables --list<br /><br /></code></pre><br />To make the IP Table changes stick, I chose&nbsp;<code>iptables-persistent</code><br /><br />See also:&nbsp;<a href="https://www.cyberciti.biz/tips/linux-iptables-how-to-specify-a-range-of-ip-addresses-or-ports.html">Linux Iptables: How to specify a range of IP addresses or ports</a>.<br /><br />If your pi-hole sits on a different network then all traffic it "sees" will appear to come from a single router IP address.<br /><br />Some people may be interested in <a href="https://docs.pi-hole.net/guides/unbound/">unbound</a>&nbsp;recursive DNS server solution (see also <a href="https://medium.com/@puhuresi/how-to-install-pi-hole-and-unbound-a-beginners-guide-285456141ed3">this how-to</a>).&nbsp;I didn't initially have&nbsp;<a href="https://twitter.com/gojimmypi/status/1227001197107662849?s=20">much luck</a>&nbsp;with it, and in fact I later saw my first system crash on a different Raspberry Pi within 24 hours of installing it.<br /><br />Once everything is setup, there are MANY more lists to make the pi-hole even better. Thanks&nbsp;<a href="https://twitter.com/jermsmit/status/1226651875333869568?s=20">Jermal Smith</a>&nbsp;for suggestions on other lists to block from <a href="http://jermsmit.com/blocking-internet-advertisements-and-more-with-pi-hole/">his pi-hole blog</a>.<br /><br />For more information on manually adding domains, see the&nbsp;<a href="https://docs.pi-hole.net/core/pihole-command/#whitelisting-blacklisting-and-regex">pihole command</a>. Local lists can be appended by using the FILE:// syntax, although the data in that file does not seem to be successfully added to block list. No warning or other message is given:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-BT5upWADbeE/XkrYIg5vn9I/AAAAAAAACVo/mDduu9YE2XUyhskMf1O61_gOkH_D5exqwCLcBGAsYHQ/s1600/pi_hole_local_file.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="181" data-original-width="416" height="170" src="https://1.bp.blogspot.com/-BT5upWADbeE/XkrYIg5vn9I/AAAAAAAACVo/mDduu9YE2XUyhskMf1O61_gOkH_D5exqwCLcBGAsYHQ/s400/pi_hole_local_file.png" width="400" /></a></div><br /><pre><code>file://c:/download/pi-hole/my_block_list.txt<br /></code></pre><br />Yet after refresh, the entry is not in the block domain list search:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-ZjcDf8rfIjk/XkreEhABt1I/AAAAAAAACWE/E5thJz2GuhouLYqV9kIWwZIGmIW8yWhDQCLcBGAsYHQ/s1600/blocked_domain_list_search.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="203" data-original-width="542" height="146" src="https://1.bp.blogspot.com/-ZjcDf8rfIjk/XkreEhABt1I/AAAAAAAACWE/E5thJz2GuhouLYqV9kIWwZIGmIW8yWhDQCLcBGAsYHQ/s400/blocked_domain_list_search.png" width="400" /></a></div><br />So perhaps a GitHub gist is a better home for custom lists.<br /><br />To add a large list of lists, such as <a href="https://pastebin.com/raw/eV3cUnjy">this one from Jermal Smith</a>, simply add them to the respective <code>/etc/pihole/adlists.list&nbsp;</code>on the pi-hole. Be sure to include only URL's and not the title text in the first line.<br /><br />Some essentials that I needed to whitelist:<br /><br /><br /><pre><code>aka.ms - used for Visual Studio updates<br /></code></pre><br /><br />A final fine-tuning: See the&nbsp;<a href="https://www.raspberrypi.org/documentation/faqs/#pi-power">Raspberry Pi Power Requirements</a>. It's a shame to waste <a href="https://en.wikipedia.org/wiki/Standby_power">standby power</a> for things not being used. Note that the Raspberry Pi 3 Model B+ I chose typically uses 500mA. In contrast, the Raspberry Pi 2 uses only 350mA, Part of the difference is the on-board WiFi and Bluetooth capabilities.<br /><br />These can be manually turned off: <br /><br /><pre><code><br />sudo iwconfig wlan0 power off<br /></code></pre>This can be added to <code>/etc/rc.local</code>. Also consider editing <code>/etc/modprobe.d/raspi-blacklist.conf</code> as noted in <a href="https://www.raspberrypi.org/forums/viewtopic.php?t=138610">the forum topic</a>:<br /><br /><pre><code><br />#wifi<br />blacklist brcmfmac<br />blacklist brcmutil<br />#bt<br />blacklist btbcm<br />blacklist hci_uart<br /><br />or<br /><br /># ref: https://www.raspberrypi.org/forums/viewtopic.php?f=63&amp;t=138610<br /># bluetooth<br />blacklist hci_uart<br />blacklist btbcm<br />blacklist btintel<br />blacklist rfcom<br />blacklist btqca<br />blacklist btsdio<br />blacklist bluetooth<br /><br /></code></pre><br />And edit the <code>/boot/config.txt</code>:<br /><br /><pre><code><br />dtoverlay=pi3-disable-wifi<br />dtoverlay=pi3-disable-bt<br /></code></pre><br /><br />Note the 1000BaseT has a higher power requirement.<br /><br />My Raspberry Pi operates at about 50°C;&nbsp;(specs qualified from -40°C to 85°C)<br /><br />For more information, see the&nbsp;<a href="https://discourse.pi-hole.net/">pi-hole discourse</a>.<br /><br /><ul><li><a href="https://docs.pi-hole.net/main/prerequesites/">pi-hole prerequesites</a></li><li><a href="https://learn.sparkfun.com/tutorials/headless-raspberry-pi-setup/all">sparkfun.com headless raspberry pi setup</a></li><li><a href="https://unix.stackexchange.com/questions/52376/why-do-iptables-rules-disappear-when-restarting-my-debian-system">stackexchange: Why do iptables rules disappear when restarting</a></li><li><a href="https://www.raspberrypi.org/documentation/faqs/">raspberrypi.org documentation faqs</a></li></ul></div>
+In the category of "<i>why didn't I do this sooner</i>" - I finally setup my full network ad-blocking&nbsp;<a href="https://pi-hole.net/">pi-hole</a>. It's great! I can't believe I waited this long.&nbsp;<a href="https://github.com/pi-hole/pi-hole/#one-step-automated-install">The install</a>
+ is really quite straightforward for a basic system, however there are always options for fine tuning.<br />
+<br />
+<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/my_pi_hole.jpg" style="margin-left: auto; margin-right: auto;">
+<img alt="" border="0" data-original-height="289" data-original-width="1042" height="105" src="../images/s400/my_pi_hole.jpg" title="basic blocking dashboard" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">
+The basic install is quite good and blocks quite a bit of junk.</td></tr></tbody></table><br />One of the places that has more extensive information on pi-hole options is 
+<a href="https://www.smarthomebeginner.com/pi-hole-setup-guide/">this smart home beginner article</a>
+, which ironically also features a ton of ads that are not blocked by a pi-hole default install. :/<br />
+<br />When considering which device to run pi-hole on, consider the requirements. It does not have to be a Raspberry Pi, although that's nearly a perfect platform for most users. I ended up choosing a prior-generation 
+<a href="https://www.amazon.com/dp/B07BC7BMHY/">Raspberry Pi 3 Model B+</a> for the lower power consumption and a&nbsp;<a href="https://www.amazon.com/dp/B06XWN9Q99/">Samsung 32GB microSDHC EVO</a>
+, purchased separately.&nbsp; Given my actual requirements, I probably should have chosen the Raspberry Pi 2, instead. (see below on power details)<br />
+<br />
+My Raspberry Pi 3B+ has built-in WiFi and Bluetooth. Both are features that I will not likely use for my pi-hole. I prefer the reliability (and security) of a wired Ethernet connection for something as important as DNS lookups.
+<br />
+<br />One of the benefits of the 3B+ is that the&nbsp;
+<a href="https://www.raspberrypi.org/products/poe-hat/">official Raspberry Pi PoE HAT</a>
+&nbsp;can be used to power the Raspberry Pi over Ethernet. I didn't go this route.<br />
+
+<div>
+Update: see my blog on&nbsp;<a href="{{ site.baseurl }}{% post_url 2020-10-24-raspberry-pi-headless-setup %}">Raspberry Pi Headless Setup</a>
+. I've found setting up those 4 pre-configured files and copying them to the root of SD card at image-write-time is quite handy and gets the RPi basically operational with minimal fuss.<br />
+<br />A key detail is to edit the 
+<code class="highlight">config.txt</code> file on the root of SD card (found in <code class="highlight">/boot/config.txt</code>
+ once RPi is running) before inserting into the RPi; add this line to allow serial TTL communication and avoid needing to plug in a monitor and keyboard for initial setup:<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+enable_uart=1</code></pre>
+<br />
+Note that despite having 5V pins right next door, the Raspberry Pi serial port uses 3.3V logic.
+<br />
+<br />Connect your favorite 
+<a href="https://www.adafruit.com/product/954">USB to TTL Serial cable</a>
+:<br />
+<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/GPIO-Pinout-Diagram-2_serial.png" style="margin-left: auto; margin-right: auto;">
+<img border="0" data-original-height="919" data-original-width="1600" height="226" src="../images/s400/GPIO-Pinout-Diagram-2_serial.png" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Raspberry Pi pinout showing Serial TTL from&nbsp;<a href="https://www.raspberrypi.org/documentation/usage/gpio/">raspberrypi.org docs</a></td></tr></tbody></table>Then login with <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/">putty</a> or some other terminal program. For more detailed information on setting up a headless Raspberry Pi, see&nbsp;<a href="https://learn.sparkfun.com/tutorials/headless-raspberry-pi-setup/all">this sparkfun how-to</a>
+.<br />
+<br />I prefer to run 
+<code class="highlight">sudo raspi-config</code>
+ to do things like:<br />
+<ul><li>Assign password</li></ul>
+Network Options:<br />
+<ul><li>assign host name such as "pi-hole"</li></ul>
+Localisation Options:<br />
+<ul><li>Change the locale to <code class="highlight">en_US.UTF-8 UTF-8</code></li><li>Change timezone to Pacific Time</li></ul>
+Interfacing Options:<br />
+<ul><li>Disable Camera</li><li>Enable SSH</li><li>Disable VNC</li><li>Disable SPI</li><li>Disable I2C</li><li>Enable Serial</li><li>Disable 1-Wire</li><li>Disable Remote GPIO</li></ul>
+Advanced Options:<br />
+<ul><li>Expand Filesystem&nbsp;</li><li>GPU Memory Split set to 16</li></ul>Update <code class="highlight">raspi-config</code>
+ to the latest version.<br />
+<br />Next assign a static IP address via&nbsp;
+<code class="highlight">sudo nano /etc/dhcpcd.conf</code>
+ and add these lines: <br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+interface eth0
+        static ip_address=192.168.1.77/24
+        static routers=192.168.1.254
+        static domain_name_servers=127.0.0.1</code></pre>
+
+<br />Put in your values for device IP address, router, and actual DNS (needed for initial install) . After setting up the pi_hole, set the DNS to 127.0.0.1 as shown.
+
+</div>
+<br />
+
+<div>
+Disable IPV6 unless you know you need it. Edit <code class="highlight">/etc/sysctl.conf</code> and put these lines at the bottom:
+</div>
+
+
+{% include code_header.html %}
+<pre class="language highlighter-rouge">
+<code class="highlight">
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+net.ipv6.conf.tun0.disable_ipv6 = 1</code></pre>
+
+<div>
+<br />
+<br />One of the main problems with the Raspberry Pi is the continual writing to the SD card and subsequent (lack of) reliability when in operation for years. See the&nbsp;
+<a href="https://github.com/azlux/log2ram">log2ram</a>&nbsp;install, below, that can help with this. Hackaday also has <a href="https://hackaday.com/2019/04/08/give-your-raspberry-pi-sd-card-a-break-log-to-ram/">an article on the coolness of log2ram</a>&nbsp;that refers to <a href="https://mcuoneclipse.com/2019/04/01/log2ram-extending-sd-card-lifetime-for-raspberry-pi-lorawan-gateway/">this log2ram blog by Erich Styger</a>
+.<br />
+<br />
+Next, main setup: 
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# system update
+sudo apt-get update &amp;&amp; sudo apt-get upgrade
+# install essentials
+sudo apt-get install git
+sudo apt-get install fail2ban
+sudo apt-get install dnsutils
+sudo apt-get install arpwatch
+sudo apt-get install iptables-persistent
+# remove things that will not be used:
+sudo apt-get purge realvnc-vnc-server --assume-yes
+# basic pi-hole install
+cd ~/
+git clone --depth 1 https://github.com/pi-hole/pi-hole.git
+cd "pi-hole/automated install/"
+sudo bash basic-install.sh
+sudo pihole -a -p
+# log2ram install (optional)
+cd ~/
+curl -Lo log2ram.tar.gz https://github.com/azlux/log2ram/archive/master.tar.gz
+tar xf log2ram.tar.gz
+cd log2ram-master
+chmod +x install.sh &amp;&amp; sudo ./install.sh
+# REBOOT BEFORE INSTALLING ANYTHING ELSE</code></pre>
+This might be a good time to set that 
+<code class="highlight">static domain_name_servers=127.0.0.1</code>
+ setting.<br />
+<br />
+Operational check for log2ram: 
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# not blank if working properly:
+mount | grep log2ram
+# not blank if working properly:
+df -h | grep log2ram</code></pre>
+If it appears the log files need more space, edit the 
+<code class="highlight">
+/etc/log2ram.conf</code><br />
+. 
+<br />See firewall notes for&nbsp;
+<a href="https://docs.pi-hole.net/main/prerequesites/#supported-operating-systems">supported operating systems</a>
+. Secure the RPi with IP Tables (optional):<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+# Flush the tables to apply changes
+sudo iptables -F
+sudo ip6tables -F
+# Default policy to drop everything but our output to internet
+sudo iptables -P FORWARD DROP
+sudo iptables -P INPUT   DROP
+sudo iptables -P OUTPUT  ACCEPT
+# do the same for IPv6
+sudo ip6tables -P FORWARD DROP
+sudo ip6tables -P INPUT   DROP
+sudo ip6tables -P OUTPUT  ACCEPT
+# Allow established connections (the responses to our outgoing traffic)
+sudo iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+# Allow IPv6 established connections (the responses to our outgoing traffic)
+sudo ip6tables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+# Allow local programs that use loopback (Unix sockets)
+sudo iptables -A INPUT -s 127.0.0.0/8 -d 127.0.0.0/8 -i lo -j ACCEPT
+# allow incoming SSH/SCP conections to this machine from 192.168.1.0/24 only
+sudo iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 22 -m state --state NEW -j ACCEPT
+# In case a Windows drive is mapped, uncomment this line:
+# sudo iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 445 -m state --state NEW -j ACCEPT
+# pi-hole ports
+iptables -I INPUT 1 -p tcp -m tcp --dport 80 -j ACCEPT
+iptables -I INPUT 1 -p tcp -m tcp --dport 53 -j ACCEPT
+iptables -I INPUT 1 -p udp -m udp --dport 53 -j ACCEPT
+iptables -I INPUT 1 -p tcp -m tcp --dport 67 -j ACCEPT
+iptables -I INPUT 1 -p udp -m udp --dport 67 -j ACCEPT
+iptables -I INPUT 1 -p tcp -m tcp --dport 4711 -i lo -j ACCEPT
+# save iptables to be in place after a reboot
+sudo /sbin/iptables-save &gt; ~/iptables.txt
+sudo cp ~/iptables.txt /etc/iptables/rules
+iptables-persistent
+iptables --list</code></pre>
+
+<br />To make the IP Table changes stick, I chose&nbsp;
+<code class="highlight">
+iptables-persistent</code><br />
+<br />See also:&nbsp;
+<a href="https://www.cyberciti.biz/tips/linux-iptables-how-to-specify-a-range-of-ip-addresses-or-ports.html">Linux Iptables: How to specify a range of IP addresses or ports</a>
+.<br />
+<br />
+If your pi-hole sits on a different network then all traffic it "sees" will appear to come from a single router IP address.
+<br />
+<br />Some people may be interested in 
+<a href="https://docs.pi-hole.net/guides/unbound/">unbound</a>&nbsp;recursive DNS server solution (see also <a href="https://medium.com/@puhuresi/how-to-install-pi-hole-and-unbound-a-beginners-guide-285456141ed3">this how-to</a>).&nbsp;I didn't initially have&nbsp;<a href="https://twitter.com/gojimmypi/status/1227001197107662849?s=20">much luck</a>
+&nbsp;with it, and in fact I later saw my first system crash on a different Raspberry Pi within 24 hours of installing it.<br />
+<br />Once everything is setup, there are MANY more lists to make the pi-hole even better. Thanks&nbsp;
+<a href="https://twitter.com/jermsmit/status/1226651875333869568?s=20">Jermal Smith</a>&nbsp;for suggestions on other lists to block from <a href="http://jermsmit.com/blocking-internet-advertisements-and-more-with-pi-hole/">his pi-hole blog</a>
+.<br />
+<br />For more information on manually adding domains, see the&nbsp;
+<a href="https://docs.pi-hole.net/core/pihole-command/#whitelisting-blacklisting-and-regex">pihole command</a>
+. Local lists can be appended by using the FILE:// syntax, although the data in that file does not seem to be successfully added to block list. No warning or other message is given:<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/pi_hole_local_file.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="181" data-original-width="416" height="170" src="../images/s400/pi_hole_local_file.png" width="400"></a>
+</div>
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+file://c:/download/pi-hole/my_block_list.txt</code></pre>
+<br />
+Yet after refresh, the entry is not in the block domain list search:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/blocked_domain_list_search.png" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="203" data-original-width="542" height="146" src="../images/s400/blocked_domain_list_search.png" width="400"></a>
+</div>
+<br />
+So perhaps a GitHub gist is a better home for custom lists.
+<br />
+<br />To add a large list of lists, such as 
+<a href="https://pastebin.com/raw/eV3cUnjy">this one from Jermal Smith</a>, simply add them to the respective <code class="highlight">/etc/pihole/adlists.list&nbsp;</code>
+on the pi-hole. Be sure to include only URL's and not the title text in the first line.<br />
+<br />
+Some essentials that I needed to whitelist:
+<br />
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+aka.ms - used for Visual Studio updates</code></pre>
+<br />
+<br />A final fine-tuning: See the&nbsp;
+<a href="https://www.raspberrypi.org/documentation/faqs/#pi-power">Raspberry Pi Power Requirements</a>. It's a shame to waste <a href="https://en.wikipedia.org/wiki/Standby_power">standby power</a>
+ for things not being used. Note that the Raspberry Pi 3 Model B+ I chose typically uses 500mA. In contrast, the Raspberry Pi 2 uses only 350mA, Part of the difference is the on-board WiFi and Bluetooth capabilities.<br />
+<br />
+These can be manually turned off: 
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+sudo iwconfig wlan0 power off</code></pre>
+This can be added to 
+<code class="highlight">/etc/rc.local</code>. Also consider editing <code class="highlight">/etc/modprobe.d/raspi-blacklist.conf</code> as noted in <a href="https://www.raspberrypi.org/forums/viewtopic.php?t=138610">the forum topic</a>
+:<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+#wifi
+blacklist brcmfmac
+blacklist brcmutil
+#bt
+blacklist btbcm
+blacklist hci_uart
+or
+# ref: https://www.raspberrypi.org/forums/viewtopic.php?f=63&amp;t=138610
+# bluetooth
+blacklist hci_uart
+blacklist btbcm
+blacklist btintel
+blacklist rfcom
+blacklist btqca
+blacklist btsdio
+blacklist bluetooth</code></pre>
+
+<br />And edit the 
+<code class="highlight">/boot/config.txt</code>
+:<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+dtoverlay=pi3-disable-wifi
+dtoverlay=pi3-disable-bt</code></pre>
+
+<br />
+<br />
+Note the 1000BaseT has a higher power requirement.
+<br />
+<br />
+My Raspberry Pi operates at about 50°C;&nbsp;(specs qualified from -40°C to 85°C)
+<br />
+<br />For more information, see the&nbsp;
+<a href="https://discourse.pi-hole.net/">pi-hole discourse</a>
+.<br />
+<br />
+<ul><li><a href="https://docs.pi-hole.net/main/prerequesites/">pi-hole prerequesites</a></li><li><a href="https://learn.sparkfun.com/tutorials/headless-raspberry-pi-setup/all">sparkfun.com headless raspberry pi setup</a></li><li><a href="https://unix.stackexchange.com/questions/52376/why-do-iptables-rules-disappear-when-restarting-my-debian-system">stackexchange: Why do iptables rules disappear when restarting</a></li><li><a href="https://www.raspberrypi.org/documentation/faqs/">raspberrypi.org documentation faqs</a></li></ul>
+</div>
+
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:54 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

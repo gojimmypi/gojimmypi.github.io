@@ -10,4 +10,172 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-60200872787311365
 blogger_orig_url: https://gojimmypi.blogspot.com/2017/05/vscode-remote-debugging-of-embedded.html
 ---
 
-The developers for&nbsp;<a href="https://code.visualstudio.com/">Visual Studio Code</a>&nbsp;continue to amaze me by implementing really awesome features. This latest feature is remote OpenOCD / GDB debugging!<br /><br />As&nbsp;<a href="{{ site.baseurl }}{% post_url 2017-04-28-opendps-with-dps5015 %}">mentioned in a previous post</a>, I've been really enjoying the &nbsp;<a href="https://johan.kanflo.com/hacking-the-dps5005/">OpenDPS Programmable Power Supply project introduced by Johan</a>. This has been a really cool and fun learning opportunity.<br /><br />Recently, I was able to get an<a href="{{ site.baseurl }}{% post_url 2017-05-09-using-openocd-and-gdb %}"> OpenOCD / GDB session running on Ubuntu to do single-step debugging</a>. If you've ever used gdb on a linux machine, even with the tui ... well, it is really cool, but when coming from the world of Visual Studio, there are a lot of cool IDE features missing.<br /><br />I've tried&nbsp;<a href="http://www.visualmicro.com/">Visual Micro</a>&nbsp;and really like that environment. The drawback is that (at least at the time) there was no JTAG debugging. I noticed a recent update mentions that, so I need to revisit. Another drawback is that it is *very* Arduino specific. So embedded apps that use other libraries - say FreeRTOS - are practically impossible to load up, compile, and debug.<br /><br />Another major player in the Visual Studio IDE world is the&nbsp;<a href="http://sysprogs.com/">SysProgs VisualGDB</a>&nbsp;add-in app. It is a considerably more serious debugger supporting JTAG and more... alas there's <a href="https://sysprogs.com/w/forums/topic/import-arduino-projects-andor-libraries/#post-10942">*no* current or even planned Arduino library support</a>. I really like the Arduino world. I have several ESP8266 and soon ESP32 projects that use Arduino-style code libraries. <a href="https://www.adafruit.com/">Adafruit </a>in particular has a ton of really <a href="https://github.com/adafruit/ESP8266-Arduino">cool open source ESP8266 libraries and sample code</a>.<br /><br />Enter VSCode. WOW! It supports gdb debugging! And shockingly easily!<br /><br />First, make sure you have the&nbsp;<a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">VSCode ms-vscode.cpptools add-in</a>&nbsp;installed.<br /><br />Browse to the source code directory of your embedded app. In my case, I have my "Z:" drive mapped to a VM hosting Ubuntu (I have samba installed there).<br /><br /><pre><code>net use z: \\192.168.8.130\c$\<br /></code></pre><br />It seems to be very important to use the same full path on Windows as Linux, as this process seems to see the full path on the Linux side for debugging, so Windows needs to have the same respective path starting at the root &nbsp;(e.g. in my case /home/gojimmypi/ ).<br /><br />I keep my projects in a directory called ~/workspace. My OpenDPS project directory is thus:<br /><br /><pre><code>Z:/home/gojimmypi/workspace/opendps/opendps/</code></pre><br />Right click on the directory in Windows File Explorer and click "Open with Code". From VSCode, click on Debug - Add Configuration. Then select "C++ (GDB/LLDB)". A template comes up, ready to be filled in, but perhaps not the most intuitive the first time.<br /><br />Here's my complete launch.json that you could purge / edit &amp; replace the default template:<br /><pre><code>{<br />    "version": "0.2.0",<br />    "configurations": [<br /><br />        {<br />            "name": "Debug",<br />            "type": "cppdbg",<br />            "request": "launch",<br />            "miDebuggerPath": "C:/workspace/opendps/opendps/arm-none-eabi-gdb.exe",<br />            "targetArchitecture": "arm",<br />            "program": "Z:/home/gojimmypi/workspace/opendps/opendps/opendps.elf",<br /><br />            "setupCommands": [<br />            {<br />                "text": "file Z:/home/gojimmypi/workspace/opendps/opendps/opendps.elf"<br />            },<br />            {<br />                "text": "target remote 192.168.8.130:3333"<br />            },<br />            {<br />                "text": "monitor reset init"<br />            }<br />                <br />            ],<br />            "externalConsole": false,<br />            "cwd": "Z:/home/gojimmypi/workspace/opendps/opendps/"<br />            }<br />    ]<br />}<br /></code><br /></pre>I had some<a href="https://github.com/Microsoft/vscode-cpptools/issues/706"> initial difficulties as noted in issue 706</a>&nbsp;on gitthub, so be sure to take note of the forward slashes (not back-slashes!) when editing the file paths.<br /><br />Note that I have OpenOCD running on the Ubuntu VM (192.168.8.130) and I am using an ST-Link V2 JTAG debugger interface, launched in a putty terminal window like this:<br /><br /><pre><code>  cd ~/workspace/opendps/openocd/scripts<br />  sudo openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg<br /></code><br /></pre><div><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-XuuPBq-e3kQ/WRJqlu8C47I/AAAAAAAAAaE/3EI2Ziq4sh4NdsLmojhQxbnynyzDe5qUgCLcB/s1600/OpenOCD%2Bfor%2BVSCode.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="341" src="https://4.bp.blogspot.com/-XuuPBq-e3kQ/WRJqlu8C47I/AAAAAAAAAaE/3EI2Ziq4sh4NdsLmojhQxbnynyzDe5qUgCLcB/s400/OpenOCD%2Bfor%2BVSCode.PNG" width="400" /></a></div><br />I have <a href="{{ site.baseurl }}{% post_url 2017-05-09-using-openocd-and-gdb %}">more details on Ubuntu OpenOCD in my prior post here</a>.<br /><br />Additionally, I also have Atmel Studio 7 installed, and I am using their arm-none-eabi-gdb.exe file located here:<br /><pre><code><br />C:/Program Files (x86)/Atmel/Studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/arm-none-eabi-gdb.exe<br /></code><br /></pre><strike>Note that one of the things I did was copy the&nbsp;arm-none-eabi-gdb.exe executable to the project directory (so as to have no spaces in path).</strike> There's no problem with spaces in the path, just the forward vs back slash issue.<br /><br />If you don't have (and don't want) Atmel Studio installed, you could try to install the Windows GNU ARM Embedded Toolchain located here:<br /><br /><a href="https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads">https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads</a><br /><br />Once everything is step, simply press "F5" to start debugging in VSCode! Some gdb commands result in errors, including important ones like "n" and "s" for stepping. So be sure and use the icons at the top of the screen. You'll probably want to press pause first if there are no break points.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-AlCAxKH2VbA/WRJoEy1xGzI/AAAAAAAAAZs/H-DHVZJfV2AqDYOpvr1oQwtR8pux4bfBACLcB/s1600/VSCodeGDB.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="240" src="https://3.bp.blogspot.com/-AlCAxKH2VbA/WRJoEy1xGzI/AAAAAAAAAZs/H-DHVZJfV2AqDYOpvr1oQwtR8pux4bfBACLcB/s400/VSCodeGDB.PNG" width="400" /></a></div><br /></div>Even more cool - is just like Visual Studio - you can hover over many variables while paused, and SEE THE VALUES in the hover text! No real big deal in Visual Studio, but VSCode via GDB and OpenOCD to a remote embedded device is really quite cool. &nbsp;:)<br /><br /><br />This is simply amazing!<br /><br />See also: "Configuring launch.json for C/C++ debugging" here:<br /><br /><a href="https://github.com/Microsoft/vscode-cpptools/blob/master/launch.md">https://github.com/Microsoft/vscode-cpptools/blob/master/launch.md</a><br /><br /><br />Additional resources:<br /><br /><a href="https://code.visualstudio.com/docs/editor/debugging">https://code.visualstudio.com/docs/editor/debugging</a><br /><br /><a href="https://code.visualstudio.com/docs/languages/cpp#_debugging">https://code.visualstudio.com/docs/languages/cpp#_debugging</a><br /><br /><a href="https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads">https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads</a><br /><br /><a href="https://code.visualstudio.com/docs/editor/tasks">https://code.visualstudio.com/docs/editor/tasks</a><br /><br /><a href="https://github.com/Microsoft/vscode-cpptools/issues/682">https://github.com/Microsoft/vscode-cpptools/issues/682</a><br /><br /><br />
+The developers for&nbsp;<a href="https://code.visualstudio.com/">Visual Studio Code</a>
+&nbsp;continue to amaze me by implementing really awesome features. This latest feature is remote OpenOCD / GDB debugging!<br />
+<br />As&nbsp;
+<a href="{{ site.baseurl }}{% post_url 2017-04-28-opendps-with-dps5015 %}">mentioned in a previous post</a>, I've been really enjoying the &nbsp;<a href="https://johan.kanflo.com/hacking-the-dps5005/">OpenDPS Programmable Power Supply project introduced by Johan</a>
+. This has been a really cool and fun learning opportunity.<br />
+<br />Recently, I was able to get an
+<a href="{{ site.baseurl }}{% post_url 2017-05-09-using-openocd-and-gdb %}"> OpenOCD / GDB session running on Ubuntu to do single-step debugging</a>
+. If you've ever used gdb on a linux machine, even with the tui ... well, it is really cool, but when coming from the world of Visual Studio, there are a lot of cool IDE features missing.<br />
+<br />I've tried&nbsp;
+<a href="http://www.visualmicro.com/">Visual Micro</a>
+&nbsp;and really like that environment. The drawback is that (at least at the time) there was no JTAG debugging. I noticed a recent update mentions that, so I need to revisit. Another drawback is that it is *very* Arduino specific. So embedded apps that use other libraries - say FreeRTOS - are practically impossible to load up, compile, and debug.<br />
+<br />Another major player in the Visual Studio IDE world is the&nbsp;
+<a href="http://sysprogs.com/">SysProgs VisualGDB</a>&nbsp;add-in app. It is a considerably more serious debugger supporting JTAG and more... alas there's <a href="https://sysprogs.com/w/forums/topic/import-arduino-projects-andor-libraries/#post-10942">*no* current or even planned Arduino library support</a>. I really like the Arduino world. I have several ESP8266 and soon ESP32 projects that use Arduino-style code libraries. <a href="https://www.adafruit.com/">Adafruit </a>in particular has a ton of really <a href="https://github.com/adafruit/ESP8266-Arduino">cool open source ESP8266 libraries and sample code</a>
+.<br />
+<br />
+Enter VSCode. WOW! It supports gdb debugging! And shockingly easily!
+<br />
+<br />First, make sure you have the&nbsp;
+<a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">VSCode ms-vscode.cpptools add-in</a>
+&nbsp;installed.<br />
+<br />
+Browse to the source code directory of your embedded app. In my case, I have my "Z:" drive mapped to a VM hosting Ubuntu (I have samba installed there).
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+net use z: \\192.168.8.130\c$\</code></pre>
+<br />
+It seems to be very important to use the same full path on Windows as Linux, as this process seems to see the full path on the Linux side for debugging, so Windows needs to have the same respective path starting at the root &nbsp;(e.g. in my case /home/gojimmypi/ ).
+<br />
+<br />
+I keep my projects in a directory called ~/workspace. My OpenDPS project directory is thus:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">Z:/home/gojimmypi/workspace/opendps/opendps/</code></pre>
+<br />
+Right click on the directory in Windows File Explorer and click "Open with Code". From VSCode, click on Debug - Add Configuration. Then select "C++ (GDB/LLDB)". A template comes up, ready to be filled in, but perhaps not the most intuitive the first time.
+<br />
+<br />
+Here's my complete launch.json that you could purge / edit &amp; replace the default template:
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "miDebuggerPath": "C:/workspace/opendps/opendps/arm-none-eabi-gdb.exe",
+            "targetArchitecture": "arm",
+            "program": "Z:/home/gojimmypi/workspace/opendps/opendps/opendps.elf",
+            "setupCommands": [
+            {
+                "text": "file Z:/home/gojimmypi/workspace/opendps/opendps/opendps.elf"
+            },
+            {
+                "text": "target remote 192.168.8.130:3333"
+            },
+            {
+                "text": "monitor reset init"
+            }
+                
+            ],
+            "externalConsole": false,
+            "cwd": "Z:/home/gojimmypi/workspace/opendps/opendps/"
+            }
+    ]
+}</code><br /></pre>
+I had some<a href="https://github.com/Microsoft/vscode-cpptools/issues/706"> initial difficulties as noted in issue 706</a>
+&nbsp;on gitthub, so be sure to take note of the forward slashes (not back-slashes!) when editing the file paths.<br />
+<br />
+Note that I have OpenOCD running on the Ubuntu VM (192.168.8.130) and I am using an ST-Link V2 JTAG debugger interface, launched in a putty terminal window like this:
+<br />
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+  cd ~/workspace/opendps/openocd/scripts
+  sudo openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg</code><br /></pre>
+
+<div>
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/OpenOCD_for_VSCode.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="341" src="../images/s400/OpenOCD_for_VSCode.PNG" width="400"></a>
+</div>
+<br />I have 
+<a href="{{ site.baseurl }}{% post_url 2017-05-09-using-openocd-and-gdb %}">more details on Ubuntu OpenOCD in my prior post here</a>
+.<br />
+<br />
+Additionally, I also have Atmel Studio 7 installed, and I am using their arm-none-eabi-gdb.exe file located here:
+<br />
+
+{% include code_header.html %}
+
+<pre class="language highlighter-rouge">
+<code class="highlight">
+C:/Program Files (x86)/Atmel/Studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/arm-none-eabi-gdb.exe</code><br /></pre>
+
+<strike>Note that one of the things I did was copy the&nbsp;arm-none-eabi-gdb.exe executable to the project directory (so as to have no spaces in path).</strike>
+ There's no problem with spaces in the path, just the forward vs back slash issue.<br />
+<br />
+If you don't have (and don't want) Atmel Studio installed, you could try to install the Windows GNU ARM Embedded Toolchain located here:
+<br />
+<br />
+<a href="https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads">
+https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads</a><br />
+<br />
+Once everything is step, simply press "F5" to start debugging in VSCode! Some gdb commands result in errors, including important ones like "n" and "s" for stepping. So be sure and use the icons at the top of the screen. You'll probably want to press pause first if there are no break points.
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/VSCodeGDB.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="240" src="../images/s400/VSCodeGDB.PNG" width="400"></a>
+</div>
+<br />
+
+</div>
+Even more cool - is just like Visual Studio - you can hover over many variables while paused, and SEE THE VALUES in the hover text! No real big deal in Visual Studio, but VSCode via GDB and OpenOCD to a remote embedded device is really quite cool. &nbsp;:)<br />
+<br />
+<br />
+This is simply amazing!
+<br />
+<br />
+See also: "Configuring launch.json for C/C++ debugging" here:
+<br />
+<br />
+<a href="https://github.com/Microsoft/vscode-cpptools/blob/master/launch.md">
+https://github.com/Microsoft/vscode-cpptools/blob/master/launch.md</a><br />
+<br />
+<br />
+Additional resources:
+<br />
+<br />
+<a href="https://code.visualstudio.com/docs/editor/debugging">
+https://code.visualstudio.com/docs/editor/debugging</a><br />
+<br />
+<a href="https://code.visualstudio.com/docs/languages/cpp#_debugging">
+https://code.visualstudio.com/docs/languages/cpp#_debugging</a><br />
+<br />
+<a href="https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads">
+https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads</a><br />
+<br />
+<a href="https://code.visualstudio.com/docs/editor/tasks">
+https://code.visualstudio.com/docs/editor/tasks</a><br />
+<br />
+<a href="https://github.com/Microsoft/vscode-cpptools/issues/682">
+https://github.com/Microsoft/vscode-cpptools/issues/682</a><br />
+<br />
+<br />
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:52 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->

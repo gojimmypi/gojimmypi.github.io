@@ -10,4 +10,111 @@ blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-28553930069870746
 blogger_orig_url: https://gojimmypi.blogspot.com/2018/04/nxp-freescale-frdm-kl25z-first.html
 ---
 
-I found an <a href="https://twitter.com/gojimmypi/status/988986125447454720">inexpensive C/TCP-IP, the Embedded Protocol Stack for the Kinetis Arm Cortex-M4 book on amazon</a>, somehow listed for sale at 90% off! ...&nbsp;along with a used&nbsp;<a href="https://www.ebay.com/itm/222322937786?ul_noapp=true">used NXP freescale FRDM-KL25Z on ebay similar to this one.</a>&nbsp;The initial Getting Started at <a href="http://freescale.com/FRDM-KL25Z">freescale.com/FRDM-KL25Z</a> was initially pretty impressive. But then I encountered the hassle of "<i><a href="https://twitter.com/gojimmypi/status/990623105214173185">you need to register and give up a bunch of PII just so you can download our software to see if you even want to use our product</a></i>".<br /><br />So ok, after a bit of anti-climactic download adventures, the download completed. Apparently the software have not been updated in the last couple of years. Either it is really good and stable, but free with no security issues... or is is not a high priority.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-kENjlxYLqmY/WuX1Dl075iI/AAAAAAAABYA/8wEIwSZfzUkFJewGFB0FBYutK8ZgWZxlgCLcBGAs/s1600/Kinetis%2BInsight.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="535" data-original-width="800" height="214" src="https://1.bp.blogspot.com/-kENjlxYLqmY/WuX1Dl075iI/AAAAAAAABYA/8wEIwSZfzUkFJewGFB0FBYutK8ZgWZxlgCLcBGAs/s320/Kinetis%2BInsight.PNG" width="320" /></a></div><br /><div class="separator" style="clear: both; text-align: center;"></div>So another underwhelming "feature" of the software... once install is complete, there's a disappointment when there's no "new items" in Windows 10, nor under "F" for freescale, nor "K" for Kinetis, nor "N" for NXP. You'll need to remember that it was installed in&nbsp;C:\Freescale. Nothing obvious to get going on your own. No executable, no README. Well, that's apparently because there's yet ANOTHER download for the development environment. Why don't they just bundle all this into a single download?<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://1.bp.blogspot.com/-D-XaSwhEcTs/WuX_UIy79EI/AAAAAAAABYc/K_yUBWpo60c5E9xe80Nmq4W_zOlII2bGwCLcBGAs/s1600/Kinetis%2BDownload.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="378" data-original-width="785" height="192" src="https://1.bp.blogspot.com/-D-XaSwhEcTs/WuX_UIy79EI/AAAAAAAABYc/K_yUBWpo60c5E9xe80Nmq4W_zOlII2bGwCLcBGAs/s400/Kinetis%2BDownload.PNG" width="400" /></a></div><br />So I next installed the "Kinetis SDK 1.3.0 Mainline - Windows.exe" - another 300MB compressed file that went... I don't know where. But no IDE icon, and no new apps immediately visible. The real install is&nbsp;kinetis-design-studio_3.2.0.exe - it really should simply have check boxes to install the other options, and the executable should be simply called something like kinetis-setup.exe There are install options for other things, why not for the SDK and "mainline" things?<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-g7fyp_1640k/WuYHDzxLnqI/AAAAAAAABY4/M_lAZeHkwG0mjkBh2EMs7oamiO1zZa1rQCLcBGAs/s1600/Kinetis%2BInstall%2BOptions.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="393" data-original-width="500" height="313" src="https://4.bp.blogspot.com/-g7fyp_1640k/WuYHDzxLnqI/AAAAAAAABY4/M_lAZeHkwG0mjkBh2EMs7oamiO1zZa1rQCLcBGAs/s400/Kinetis%2BInstall%2BOptions.PNG" width="400" /></a></div><br />This initial user experience makes me wonder if their software is also similarly, needlessly arduous.<br /><br />Even after install of the new software is complete, the walk-through instructions note that "Help - Check for Updates" is needed. Sure enough, even more downloads an more manual steps. In fact, it is even several steps needed to actually accept the (new?) terms and conditions, next, next, next to install.<br /><br />Go away and come back after install is complete? No, of course not:<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-b55U1AsJ30c/WuYOCeaTJ4I/AAAAAAAABZc/IRL-ziFM6EIrEIDTelBLFI3FZu3BiZthwCLcBGAs/s1600/Kinetis%2BUnsigned.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="477" data-original-width="639" height="297" src="https://3.bp.blogspot.com/-b55U1AsJ30c/WuYOCeaTJ4I/AAAAAAAABZc/IRL-ziFM6EIrEIDTelBLFI3FZu3BiZthwCLcBGAs/s400/Kinetis%2BUnsigned.PNG" width="400" /></a></div><div class="separator" style="clear: both; text-align: left;"></div><br />There's a warning about "unsigned content". Super. The funny thing is that in the online video, no sooner did my updates complete, but the video instructs to ONLY select the processor updates. Oops. too late.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-1vyHalCT3iA/WuYOuNgunqI/AAAAAAAABZo/DXCUL3uWyZU0VnhJS7Cg-2Gkps3iX5nfgCLcBGAs/s1600/Kiensis%2Blimited%2Bupdate.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="497" data-original-width="823" height="241" src="https://3.bp.blogspot.com/-1vyHalCT3iA/WuYOuNgunqI/AAAAAAAABZo/DXCUL3uWyZU0VnhJS7Cg-2Gkps3iX5nfgCLcBGAs/s400/Kiensis%2Blimited%2Bupdate.PNG" width="400" /></a></div><br />OMG - but we're not done! Seriously? There's Help - Install New Software<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://4.bp.blogspot.com/-G6Rg8plRPrQ/WuYPi2Lb3BI/AAAAAAAABZw/RpQoxoNfSd08hsClagZO36fJppNCUkOLQCLcBGAs/s1600/Kinesis%2BInstall%2BNew.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="493" data-original-width="823" height="238" src="https://4.bp.blogspot.com/-G6Rg8plRPrQ/WuYPi2Lb3BI/AAAAAAAABZw/RpQoxoNfSd08hsClagZO36fJppNCUkOLQCLcBGAs/s400/Kinesis%2BInstall%2BNew.PNG" width="400" /></a></div><br />The "Update" for me is from 2015.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://3.bp.blogspot.com/-RxnqsKU5cSw/WuYQGZppD6I/AAAAAAAABaE/31cwEo5CookeE5E88pVJxS6HeUKI2rZLACLcBGAs/s1600/Kinesis%2BInstall%2BNew%2B2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="664" data-original-width="846" height="313" src="https://3.bp.blogspot.com/-RxnqsKU5cSw/WuYQGZppD6I/AAAAAAAABaE/31cwEo5CookeE5E88pVJxS6HeUKI2rZLACLcBGAs/s400/Kinesis%2BInstall%2BNew%2B2.PNG" width="400" /></a></div><br /><br />The for importing a new project, you just need to know project import:<br /><br />C:\Freescale\KSDK_1.3.0\lib\ksdk_platform_lib\kds\KL25Z4<br /><br />and<br /><br />C:\Freescale\KSDK_1.3.0\examples\frdmkl25z\demo_apps\hello_world<br /><br />I gave up at this point..<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="https://2.bp.blogspot.com/-G6XLE7VFUPI/WuYUj-4ajbI/AAAAAAAABac/dwXHshBf1x4teD5g06ymOPd0iGfaJyElACLcBGAs/s1600/Kinesis%2BFail.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="615" data-original-width="1013" height="194" src="https://2.bp.blogspot.com/-G6XLE7VFUPI/WuYUj-4ajbI/AAAAAAAABac/dwXHshBf1x4teD5g06ymOPd0iGfaJyElACLcBGAs/s320/Kinesis%2BFail.PNG" width="320" /></a></div><br /><br /><br /><br /><br />
+I found an <a href="https://twitter.com/gojimmypi/status/988986125447454720">inexpensive C/TCP-IP, the Embedded Protocol Stack for the Kinetis Arm Cortex-M4 book on amazon</a>, somehow listed for sale at 90% off! ...&nbsp;along with a used&nbsp;<a href="https://www.ebay.com/itm/222322937786?ul_noapp=true">used NXP freescale FRDM-KL25Z on ebay similar to this one.</a>&nbsp;The initial Getting Started at <a href="http://freescale.com/FRDM-KL25Z">freescale.com/FRDM-KL25Z</a> was initially pretty impressive. But then I encountered the hassle of "<i><a href="https://twitter.com/gojimmypi/status/990623105214173185">you need to register and give up a bunch of PII just so you can download our software to see if you even want to use our product</a></i>
+".<br />
+<br />
+So ok, after a bit of anti-climactic download adventures, the download completed. Apparently the software have not been updated in the last couple of years. Either it is really good and stable, but free with no security issues... or is is not a high priority.
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Kinetis_Insight.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="535" data-original-width="800" height="214" src="../images/s320/Kinetis_Insight.PNG" width="320"></a>
+</div>
+<br />
+
+<div class="separator" style="clear: both; text-align: center;">
+</div>
+So another underwhelming "feature" of the software... once install is complete, there's a disappointment when there's no "new items" in Windows 10, nor under "F" for freescale, nor "K" for Kinetis, nor "N" for NXP. You'll need to remember that it was installed in&nbsp;C:\Freescale. Nothing obvious to get going on your own. No executable, no README. Well, that's apparently because there's yet ANOTHER download for the development environment. Why don't they just bundle all this into a single download?<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Kinetis_Download.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="378" data-original-width="785" height="192" src="../images/s400/Kinetis_Download.PNG" width="400"></a>
+</div>
+<br />
+So I next installed the "Kinetis SDK 1.3.0 Mainline - Windows.exe" - another 300MB compressed file that went... I don't know where. But no IDE icon, and no new apps immediately visible. The real install is&nbsp;kinetis-design-studio_3.2.0.exe - it really should simply have check boxes to install the other options, and the executable should be simply called something like kinetis-setup.exe There are install options for other things, why not for the SDK and "mainline" things?
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Kinetis_Install_Options.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="393" data-original-width="500" height="313" src="../images/s400/Kinetis_Install_Options.PNG" width="400"></a>
+</div>
+<br />
+This initial user experience makes me wonder if their software is also similarly, needlessly arduous.
+<br />
+<br />
+Even after install of the new software is complete, the walk-through instructions note that "Help - Check for Updates" is needed. Sure enough, even more downloads an more manual steps. In fact, it is even several steps needed to actually accept the (new?) terms and conditions, next, next, next to install.
+<br />
+<br />
+Go away and come back after install is complete? No, of course not:
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Kinetis_Unsigned.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="477" data-original-width="639" height="297" src="../images/s400/Kinetis_Unsigned.PNG" width="400"></a>
+</div>
+
+<div class="separator" style="clear: both; text-align: left;">
+</div>
+<br />
+There's a warning about "unsigned content". Super. The funny thing is that in the online video, no sooner did my updates complete, but the video instructs to ONLY select the processor updates. Oops. too late.
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Kiensis_limited_update.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="497" data-original-width="823" height="241" src="../images/s400/Kiensis_limited_update.PNG" width="400"></a>
+</div>
+<br />
+OMG - but we're not done! Seriously? There's Help - Install New Software
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Kinesis_Install_New.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="493" data-original-width="823" height="238" src="../images/s400/Kinesis_Install_New.PNG" width="400"></a>
+</div>
+<br />
+The "Update" for me is from 2015.
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Kinesis_Install_New_2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="664" data-original-width="846" height="313" src="../images/s400/Kinesis_Install_New_2.PNG" width="400"></a>
+</div>
+<br />
+<br />
+The for importing a new project, you just need to know project import:
+<br />
+<br />
+C:\Freescale\KSDK_1.3.0\lib\ksdk_platform_lib\kds\KL25Z4
+<br />
+<br />
+and
+<br />
+<br />
+C:\Freescale\KSDK_1.3.0\examples\frdmkl25z\demo_apps\hello_world
+<br />
+<br />
+I gave up at this point..
+<br />
+<br />
+
+<div class="separator" style="clear: both; text-align: left;">
+<a href="../images/s1600/Kinesis_Fail.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" data-original-height="615" data-original-width="1013" height="194" src="../images/s320/Kinesis_Fail.PNG" width="320"></a>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+ Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:53 PM
+<br />
+
+<!--   Copyright (c) gojimmypi all rights reserved.  -->
