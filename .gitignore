@@ -331,3 +331,6 @@ ASALocalRun/
 
 # Jekyll exclude
 _site/
+
+# This is in a separate repo, but appears as subdirectory:
+/gridster-jekyll-theme
