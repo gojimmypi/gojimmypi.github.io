@@ -4,7 +4,7 @@ description: "blog"
 domain: gojimmypi.github.io #If you want to force HTTPS, put down the domain without the http: e.g. example.com
 url: https://gojimmypi.github.io #place url
 baseurl: / #place folder name if site is served in subfolder
-github_baseurl: https://github.com/gojimmypi/ # required for the github-corner links
+github_baseurl: https://github.com/gojimmypi/gojimmypi.github.io/ # required for the github-corner links
 usefallback: false
 author: #For jekyll-feed
   name: gojimmypi
