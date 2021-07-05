@@ -1,0 +1,16 @@
+---
+layout: index
+sidebar: true
+sidebar_type: material
+sidebar_position: left
+title: Ooops!
+sitemap: false
+permalink: /404.html
+---
+<div class="error">
+    <p>Something seems to have gone wrong here. Sorry 'bout that. 404</p>
+</div>
+
+{% for post in site.posts limit:4 %}
+    {% include article_index.html %}
+{% endfor %}
