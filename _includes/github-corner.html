@@ -1,6 +1,6 @@
 {% assign this_github_root = site.github_baseurl  %}
 {% assign this_github_filename = page.path %}
-{% if this_github_root contains "github.io"  %}
+{% if site.domain contains "github.io"  %}
   {% assign this_github_page = this_github_root | append: 'tree/master/' | append: this_github_filename %}
 {% else %}
   {% assign this_github_page = this_github_root | append: 'tree/gh-pages/' | append: this_github_filename %}
@@ -8,6 +8,7 @@
 
 <!--
 jekyll.environment   = [{{ jekyll.environment }}]
+site.domain          = [{{ site.domain }}]
 site.github_baseurl  = [{{ site.github_baseurl }}]
 page.path            = [{{ page.path }}]
 this_github_root     = [{{ this_github_root }}]
