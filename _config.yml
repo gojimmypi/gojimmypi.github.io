@@ -1,3 +1,202 @@
-name: gojimmypi, blogger
+# Site Settings. Available in Liquid using the "site." prefix
+title: gojimmypi
+description: "blog"
+domain: gojimmypi.github.io #If you want to force HTTPS, put down the domain without the http: e.g. example.com
+url: https://gojimmypi.github.io #place url
+baseurl: /gridster-jekyll-theme #place folder name if site is served in subfolder
+github_baseurl: https://github.com/gojimmypi/gridster-jekyll-theme/ # required for the github-corner links
+usefallback: false
+author: #For jekyll-feed
+  name: gojimmypi
+  email: gojimmypi@gmail.com #Also used in nav
+  uri: https://gojimmypi.github.io/about/
+  twitter: "#" #name only. for jekyll-seo-tag, temporary fix to the incompatibility with site.data.authors
+# tumblr: "#"
+pinterest: "https://fi.pinterest.com/gojimmypi/"
+# instagram: "#"
+twitter: # for both nav & jekyll-seo-tag
+  username: "gojimmypi" #name only
+# facebook: # for both nav & jekyll-seo-tag
+#   publisher: "#" #full link
+youtube: "https://www.youtube.com/channel/UCR01egMbYgXQGJaocNEDEwg"
+# vimeo: "#"
+# soundcloud: "#"
+social: # for jekyll-seo-tag
+  links: # put all the social links excluding twitter and facebook here as an array: ["link1", "link2"]
+# google verification: https://support.google.com/webmasters/answer/9008080?hl=en
+# https://search.google.com/search-console/ownership
+# gojimmypi uses \google2135ab0ce8568db2.html
+# google_site_verification: "FdDTVMkMmUJFE1F3mACjcq7jWt3mwyEpb3E09WMctTA" # gojimmypi verified FdDT...
+# Site Setup Infos
+copyright: "2015-2021 gojimmypi" # put your copyright info here excluding the © sign. It will appears in the footer
+# disqus: gojimmypi # disqus id in the form of <<id>>.disqus.com... ID only!
+# analytics: "UA-33794695-2" # Google Analytics ID; UA-33794695-2 from Gridster
+# cse: "004435532597611518746:uxyjmivw31u" #Google Custom Search Engine id ("cx" variables) Gridster  is 004435532597611518746:uxyjmivw31u
+# typekitid see https://www.adobe.io/apis/creativecloud/adobe-fonts/docs.html#!typekit/fonts-api-docs/master/api-reference/web_font_preview_api.md
+# see _includes/footer.html  (does not seem to populate with this value?)
+typekitid: "" #Put your TypeKit Kit ID here. mit7aeg is the Gridster template
+# Site Setup
+# relative_permalinks: false # see https://stackoverflow.com/questions/18401297/jekyll-not-generating-pages-in-subfolders (trying to fix auto-generated tags)
+permalink: /:categories/:title/
+paginate: 8
+paginate_path: /page/:num/
+infinite_scroll: true #change to false if you want to use pagination
+sidebar_toc: true #true if you want the collapsible TOC appears in the sidebar. Once it is turned on site-wide, it can be setup per page. See defaults below.
+math: true #true if you want amsthm. Once it is turned on site-wide, it can be setup per page. See defaults below. See https://github.com/ickc/multimarkdown-amsthm-css
+tags_dir: /tags #All tags summary page
+tag_dir: /tag
+categories_dir: /categories  #All categories summary page
+category_dir: /category
+authors_dir: /about #ALl authors summary page, a.k.a. about
+author_dir: /author
+author_title_prefix: 'Posted by ' # only used my the author plugin. See README to see how to do it manually
+author_default_avatar: /profile-pic.jpg
+media_folder: /media
+rss: /feed.xml #For nav. The path is fixed by jekyll-feed; omitting this will result in no RSS icon in nav.
+# Jekyll Setup
+full_rebuild: true
+encoding: utf-8
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      sidebar: true #true for sidebar false for none
+      sidebar_type: "material" #"material" or "classic"
+      sidebar_position: "left" #"left" or "right"
+      sidebar_toc: false
+      type: "standard"
+      homedisplay: "featimg"
+      comments: false
+excerpt_separator: "<!-- more -->"
 markdown: kramdown
-permalink: /blog/:year/:month/:day/:title
+kramdown:
+  syntax_highlighter: rouge
+  input: GFM
+  hard_wrap: false
+exclude: [.git, .gitignore, .sass-cache, package.json, gruntfile.js, node_modules, README.md, jekyllbuild, Gemfile, Gemfile.lock, preview, img, LICENCE, Organizational Overview.*]
+
+# a list of supported GitHub plugins: https://pages.github.com/versions/
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-archives #gh-pages disabled this. See my README on how to do this manually.
+
+#experiment
+include: ['_site/tag/']
+#  permalink: "/tag/"
+tags:
+  tag:
+    output: true
+    permalink: /tag/:name/
+
+# Jekyll-archives plugin setup
+jekyll-archives:
+  enabled:
+    - categories
+    - tags
+    - year
+  layouts:
+    category: category_index
+    tag: tag_index
+    year: archive_index
+  permalinks:
+    category: '/category/:name/' #should be in tag_dir above
+    tag: '/tag/:name/'  #should be in category_dir above
+    year: '/archive/:year/'
+# Compress CSS and HTMLs
+sass:
+  style: compressed
+compress_html:
+  clippings: all
+  comments: ["<!-- ", " -->"]
+  endings: [html, head, body, dt, dd, p, rt, rp, optgroup, option, caption]
+  ignore:
+    envs: [development]
+  blanklines: false
+  profile: false
+  startings: [html, head, body]
+# prose.io configurations. Not updated since the original Gridster
+prose:
+  media: "img"
+  metadata:
+    _posts:
+      - name: "title"
+        field:
+          element: "text"
+          label: "title"
+      - name: "layout"
+        field:
+          element: "select"
+          label: "Layout"
+          help: "display post at full width or with sidebar"
+          options:
+            - name: "with sidebar"
+              value: "post"
+            - name: "full width"
+              value: "post-full"
+      - name: "author"
+        field:
+          element: "text"
+          label: "Author"
+          help: "author id as defined within _data/authors.yml"
+          type: "text"
+      - name: "featimg"
+        field:
+          element: "text"
+          label: "Featured Image"
+          help: "featured image within the img-folder"
+          type: "text"
+      - name: "type"
+        field:
+          element: "select"
+          label: "Post Type"
+          help: "each type has some special feature"
+          options:
+            - name: "Standard"
+              value: "standard"
+            - name: "Image"
+              value: "image"
+            - name: "Gallery"
+              value: "gallery"
+            - name: "Audio"
+              value: "audio"
+            - name: "YouTube"
+              value: "youtube"
+            - name: "Vimeo"
+              value: "vimeo"
+      - name: "homedisplay"
+        field:
+          element: "select"
+          label: "Home Display"
+          help: "decide whether to display embedded element (for post types: audio, youtube, vimeo) or Featured Image on home page"
+          options:
+            - name: "Featured Image"
+              value: "featimg"
+            - name: "Embedded Element"
+              value: "iframe"
+      - name: "vimeo-embed"
+        field:
+          element: "text"
+          label: "Vimeo Embedding Code"
+          help: "Set post type to vimeo in order for this to work"
+      - name: "gallery-id"
+        field:
+          element: "text"
+          label: "Gallery ID"
+          help: "ID of the gallery defined within _data/galleries.yml - use include in content to use"
+      - name: "audio-embed"
+        field:
+          element: "text"
+          label: "Audio Embedding Code"
+          help: "Set post type to audio in order for this to work"
+      - name: "yt-video-id"
+        field:
+          element: "text"
+          label: "YouTube Video ID"
+          help: "Set post type to youtube in order for this to work. Do not set featured image, as the youtube video thumbnail will be used"
+          type: "text"
