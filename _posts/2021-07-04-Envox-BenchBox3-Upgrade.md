@@ -9,11 +9,11 @@ tags:
 
 The Envos BenchBox 3 has some upgrades, and possible hardware modification due.
 
-If like me, you bought your [BB3 via the Crowd Supply campaign]()https://www.crowdsupply.com/envox/eez-bb3, 
-you may wish to review [my ground safety modification notes](./2020-10-18-envox-eez-bench-box-3-ground.html).
+If like me, you bought your [BB3 via the Crowd Supply campaign](https://www.crowdsupply.com/envox/eez-bb3), 
+you may wish to review [my ground safety modification notes](../2020-10-18-envox-eez-bench-box-3-ground.html).
 
 There's been a recent flurry of [BB3 news](https://www.crowdsupply.com/envox/eez-bb3/updates/latest-firmware-1-7-released-and-a-note-for-two-channel-bb3-users), 
-including an update to the firmware to [version 1.7]()https://github.com/eez-open/modular-psu-firmware/releases/tag/1.7, 
+including an update to the firmware to [version 1.7](https://github.com/eez-open/modular-psu-firmware/releases/tag/1.7), 
 as well as a potential [problem with R4 overheating](https://github.com/eez-open/modular-psu/issues/108).
 
 [Instructions for upgrading the firmware](https://www.envox.eu/eez-bench-box-3/bb3-user-manual/13-firmware-upgrade/) can be found in the online manual.
