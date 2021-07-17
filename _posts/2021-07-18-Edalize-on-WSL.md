@@ -35,8 +35,8 @@ The [Edalize install script is named setup.py](https://github.com/olofk/edalize/
 Here's what I did to install Edalize:
 
 {% include code_header.html %}
-```
-# on WSL, I keep all my stiff in C:\workspace
+```bash
+# on WSL, I keep all my stuff in C:\workspace
 mkdir -p /mnt/c/workspace
 
 cd /mnt/c/workspace/
@@ -59,9 +59,8 @@ Next, I created a Edalize_blinky directory.
 
 A matter of personal preference, I like to have samples files complete, rather than separate narrated sections.
 This is from the [How to use it](https://github.com/olofk/edalize#how-to-use-it):
-
 {% include code_header.html %}
-```python
+```
 # file name: myTest.py
 #
 # First we have to import Edalize objects:
@@ -122,9 +121,8 @@ backend.run(args)
 ```
 
 The [blinky.v](https://github.com/fusesoc/blinky/blob/master/blinky.v):
-
 {% include code_header.html %}
-```verilog
+```
 module blinky
   #(parameter clk_freq_hz = 0)
    (input  clk,
@@ -146,7 +144,7 @@ endmodule
 The [blinky_tb.v](https://github.com/fusesoc/blinky/blob/master/blinky_tb.v) file:
 
 {% include code_header.html %}
-```verilog
+```
 `timescale 1ns/1ns
 module blinky_tb;
 
