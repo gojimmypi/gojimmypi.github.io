@@ -53,9 +53,14 @@ python -m pip install -e .
 
 ```
 
-Next, I created a Edalize_blinky directory.
+Next, I created a Edalize_blinky directory with these files:
 
-
+```
+blinky.v
+blinky_tb.v
+myTest.py
+vlog_tb_utils.v
+```
 
 A matter of personal preference, I like to have samples files complete, rather than separate narrated sections.
 This is from the [How to use it](https://github.com/olofk/edalize#how-to-use-it):
@@ -142,7 +147,6 @@ endmodule
 ```
 
 The [blinky_tb.v](https://github.com/fusesoc/blinky/blob/master/blinky_tb.v) file:
-
 {% include code_header.html %}
 ```
 `timescale 1ns/1ns
