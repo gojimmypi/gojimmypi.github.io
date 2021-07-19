@@ -43,7 +43,7 @@
         transform: translate(0px, 0px);
         transition: .3s all ease;
         z-index: 108;
-        @include shadow(1-half);
+        @include shadow("1-half");
         background: white;
 
         @media (prefers-color-scheme: dark) {
