@@ -49,7 +49,7 @@ pip3 install -U Jinja2
 pip3 install -U MarkupSafe
 
 # install Edalize
-python -m pip install -e .
+python3 -m pip install -e .
 
 ```
 
