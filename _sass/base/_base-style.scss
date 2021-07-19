@@ -89,6 +89,8 @@ pre {
     @extend code;
     overflow-x: scroll;
     overflow-y: scroll;
+    // preformatted code segment decorations
+    margin-top: 0px !important; // ensure no space above code sample (typically copy button) 
     padding: 10px 16px;
     border-radius: 2px;
     border-top: 4px solid #00aeef;
