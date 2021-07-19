@@ -74,11 +74,14 @@ function ToggleDarkMode(forceDarkMode) {
 
 	ToggleDarkModeItem('code', forceDarkMode);
 	ToggleDarkModeItem('pre', forceDarkMode);
+	ToggleDarkModeItem('nav', forceDarkMode);
 
 	//ToggleDarkModeItem('.highlighter-rouge', forceDarkMode);
+	ToggleDarkModeItem('.color-change', forceDarkMode);
+	ToggleDarkModeItem('.dropdown-content', forceDarkMode);
 	ToggleDarkModeItem('.logo-container', forceDarkMode);
 	ToggleDarkModeItem('.sidebar', forceDarkMode);
-	ToggleDarkModeItem('.authorbox', forceDarkMode);
+	ToggleDarkModeItem('.authorbox', forceDarkMode); // class="authorbox"
 	// ToggleDarkModeItem('.active', forceDarkMode);
 
 	//const divClasses = document.querySelectorAll('logo-container');
