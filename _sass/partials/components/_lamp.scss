@@ -18,16 +18,24 @@ div.dark-theme {
     background: #2b2b2b !important;
 }
 
+/*ul.dark-theme,
 nav.dark-theme {
     background: #2b2b2b !important;
+    color: aliceblue !important;
 }
-
+*/
+/*.menu.dark-theme {
+    background: #2b2b2b !important;
+}*/
 
 // see _js/_dark_mode.js
+ul.dark-theme,
+nav.dark-theme,
 head.dark-theme,
 .sidebar.dark-theme,
+.color-change.dark-theme,
 body.dark-theme {
-    color: #eee;
+    color: #0ff !important;
     background: #121212 !important;
 
     a {
