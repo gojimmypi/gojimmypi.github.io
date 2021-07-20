@@ -3,6 +3,12 @@
     "web-recommended"
   ],
   "hints": {
+    "content-type": [
+      "error",
+      {
+        ".*\\.svg": "image/svg+xml; charset=utf-8"
+      }
+    ],
     "x-content-type-options": "error"
   }
 }
