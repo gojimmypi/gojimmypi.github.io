@@ -1,7 +1,7 @@
 ﻿<meta charset="UTF-8" />
     {% if (jekyll.environment == "development") %}
-		<!-- jekyll.environment: development -->
-		<!-- this page is from [{{ page.path }}] -->
+        <!-- jekyll.environment: development -->
+        <!-- this page is from [{{ page.path }}] -->
 	{% else %}<!-- jekyll.environment: production -->
 	{% endif %}
 
@@ -17,12 +17,12 @@
 
 {% if page.math %}
 <script type="text/x-mathjax-config">
-	{% include _mathjax-cdn-setup.min.js %}
+    {% include _mathjax-cdn-setup.min.js %}
 </script>{% endif %}
 
 {% if site.usefallback == null or site.usefallback == true %}
 <script type="text/javascript">
-	{% include _fallback.min.js %}
+    {% include _fallback.min.js %}
 </script>
 
 <script type="text/javascript">
@@ -85,14 +85,14 @@
 {% endif %}
 
 <script type="text/javascript">
-	{% if page.sidebar_toc %}
-	fallback.ready(function () {
-		$('#post-content').toc({
-			renderIn: '#renderTOC',
-			showCollapsed: true,
-			minItemsToShowToc: 0
-		});
-	});
+    {% if page.sidebar_toc %}
+    fallback.ready(function () {
+        $('#post-content').toc({
+            renderIn: '#renderTOC',
+            showCollapsed: true,
+            minItemsToShowToc: 0
+        });
+    });
 </script>
 <!-- CSS -->
 <style type="text/css">
@@ -119,7 +119,7 @@
 
 <!-- Load the user's last selected theme for the lamp -->
 <script>
-	{% include _dark_mode.js %}
+    {% include _dark_mode.js %}
 </script>
 
 <link rel="stylesheet" id="color-change">
