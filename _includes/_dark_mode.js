@@ -53,7 +53,12 @@ function ToggleDarkMode(forceDarkMode) {
 	//const userPrefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 	//const thisTheme = userPrefersDarkMode ? 'dark' : 'light';
 
-	const savedTheme = localStorage.getItem('theme');
+	if (forceDarkMode == null) {
+		forceDarkMode = true;
+	}
+
+	const savedTheme = (localStorage.getItem('theme') == 'dark') ? 'dark' : 'light';
+
 	var lightModeIcon = document.getElementById("lightModeIcon");
 	var darkModeIcon = document.getElementById("darkModeIcon");
 
