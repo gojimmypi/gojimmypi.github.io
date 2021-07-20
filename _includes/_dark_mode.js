@@ -62,15 +62,15 @@ function ToggleDarkMode(forceDarkMode) {
 	var lightModeIcon = document.getElementById("lightModeIcon");
 	var darkModeIcon = document.getElementById("darkModeIcon");
 
-	if (!forceDarkMode && savedTheme == 'dark') {
-		thisTheme = 'light';
-		lightModeIcon.style.setProperty("display", "inline");
-		darkModeIcon.style.setProperty("display", "none");
-	}
-	else {
+	if (forceDarkMode) {
 		thisTheme = 'dark'; // the default when never saved is dark
 		lightModeIcon.style.setProperty("display", "none");
 		darkModeIcon.style.setProperty("display", "inline");
+	}
+	else {
+		thisTheme = 'light';
+		lightModeIcon.style.setProperty("display", "inline");
+		darkModeIcon.style.setProperty("display", "none");
     }
 	document.documentElement.style.setProperty("color-scheme", thisTheme);
 	localStorage.setItem('theme', thisTheme);
