@@ -1,5 +1,8 @@
 {
-    "extends": [
-        "web-recommended"
-    ]
+  "extends": [
+    "web-recommended"
+  ],
+  "hints": {
+    "x-content-type-options": "error"
+  }
 }
