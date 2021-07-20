@@ -46,10 +46,6 @@
         @include shadow("1-half");
         background: white;
 
-        @media (prefers-color-scheme: dark) {
-            background: #121212;
-        }
-
         color: $primary-text;
         line-height: 44px;
 
