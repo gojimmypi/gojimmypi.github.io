@@ -22,7 +22,26 @@ It is best to find a device that has [WolfSSH hardware encryption support](https
 
 See [WolfSSL Manual](https://www.wolfssl.com/docs/wolfssl-manual/) specfically the [wolfSSL ESP32 Support](https://www.wolfssl.com/docs/espressif/)
 
-I downloaded the 758KB [wolfssh-1.4.6.zip](https://www.wolfssl.com/download/) and saved the WolfSSH zip file contents to my `C:\workspace\WolfSSL` directory
+I downloaded the 758KB [wolfssh-1.4.6.zip](https://www.wolfssl.com/download/) and saved the WolfSSH zip file contents to my `C:\workspace\WolfSSL` directory.
+
+Note that there are DIFFERENT files in the GitHub repo as compared to zip file. In particular the `autogen.sh` noted in the [Configuring the wolfSSH Lightweight SSH Library blog](https://www.wolfssl.com/configuring-wolfssh-lightweight-ssh-library/) is NOT included in the zip download. :/
+
+```
+cd /mnt/c/workspace/
+git clone https://github.com/wolfSSL/wolfssh.git --recursive
+cd wolfssh
+./autogen.sh
+./configure
+```
+
+yields this error:
+
+```
+checking for wolfCrypt_Init in -lwolfssl... no
+configure: error: libwolfssl is required for wolfssh. It can be obtained from https://www.wolfssl.com/download.html/ .
+```
+
+and of course there are no dowloads that reference `libwolfssl ` at https://www.wolfssl.com/download.html
 
 > In order to use wolfSSL with the Espressif ESP-IDF, a development framework for intended for rapidly developing Internet-of-Things (IoT), deploy wolfSSL source files into the IDE by running a script that can be found in the `wolfssl_root/wolfssl/IDE/Espressif/ESP-IDF/` directory.
 
@@ -75,3 +94,24 @@ make: *** [component-wolfssl-build] Error 2
 ```
 
 As I could not seem to find where to fix this, and a simple `#define HAVE_FFDHE_2048` did not work. 
+
+There's an [Espressif esp-wolfssl](https://github.com/espressif/esp-wolfssl) that's interesting. One comment to note:
+
+> Until March 2021, this repository contained binary distribution of wolfSSL libraries, which could be used royalty-free on all Espressif MCU products. This royalty-free binary distribution is not available anymore.
+
+So next
+
+```
+cd /mnt/c/workspace/
+git clone --recursive https://github.com/espressif/esp-wolfssl
+cd esp-wolfssl
+
+```
+
+See  
+
+[~/esp/esp-idf/components/wolfssl/wolfssl/wolfcrypt/settings.h](https://github.com/wolfSSL/wolfssl/blob/master/wolfssl/wolfcrypt/settings.h)
+
+[Problems compiling the tls_client example on ESP-IDF on ATECC608A #3988](https://github.com/wolfSSL/wolfssl/issues/3988)
+
+
