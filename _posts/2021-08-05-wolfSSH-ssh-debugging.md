@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "ESP32 SSH Server Part 2"
-date: '2021-08-04'
+title: "wolfSSH ssh debugging"
+date: '2021-08-05'
 author: gojimmypi
 tags:
 - ESP32
