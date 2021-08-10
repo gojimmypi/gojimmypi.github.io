@@ -108,10 +108,77 @@ cd esp-wolfssl
 
 ```
 
-See  
+Starting over with the instructions [here](https://github.com/wolfSSL/wolfssl/blob/master/IDE/Espressif/ESP-IDF/README.md):
+```
+cd /mnt/c/workspace/
+git clone https://github.com/wolfSSL/wolfssl.git --recursive
+cd wolfssl/IDE/Espressif/ESP-IDF/
+. $HOME/esp/esp-idf/export.sh
+./setup.sh
+
+echo "Ensure these are NOT commented out:"
+grep "#define WOLFSSL_ESPIDF"     /mnt/c/workspace/wolfssl/wolfssl/wolfcrypt/settings.h
+grep "#define WOLFSSL_ESPWROOM32" /mnt/c/workspace/wolfssl/wolfssl/wolfcrypt/settings.h
+
+cp -r $IDF_PATH/examples/protocols/wolfssl_test .
+cd wolfssl_test
+idf.py build
+```
+
+Is this `settings.h` file even used? Note that added stray text to this file does NOT cause an error:
+```
+/mnt/c/workspace/wolfssl/wolfssl/wolfcrypt/settings.h
+```
+
+There are `esp-idf` config files (`config.h` and `user_settings.h`) that DO seem to be used, as stray text will cause compiler error:
+```
+ls $IDF_PATH/components/wolfssl/include/ -al
+```
+
+Recall there's no native USB support in WSL1, so we'll call the Windows/DOS `python.exe`. 
+Here we are using `COM4` with Python 3.6 installed in `C:\python36`:
+```
+/mnt/c/Python36/python.exe ~/esp/esp-idf/components/esptool_py/esptool/esptool.py  -p com4 -b 460800 --before default_reset --after hard_reset --chip esp32  write_flash --flash_mode dio --flash_size detect --flash_freq 40m 0x1000 build/bootloader/bootloader.bin 0x8000 build/partition_table/partition-table.bin 0x10000 build/wolfssl_benchmark.bin
+```
+Connect with `Putty.exe` on Windows to see output.
+
+Reminder: make sure the COM port is not busy! If you see a permission error message like this, `sudo` likely won't help. This is typically
+the error message seen when something such as `Putty.exe` has a COM port open and you try to also program the device.
+
+
+```
+  File "C:\Python36\lib\site-packages\serial\serialwin32.py", line 62, in open
+    raise SerialException("could not open port {!r}: {!r}".format(self.portstr, ctypes.WinError()))
+serial.serialutil.SerialException: could not open port 'com4': PermissionError(13, 'Access is denied.', None, 5)
+```
+
+The
+
+## Include Files
+Despite initial appearances, there are MANY files. See `${IDF_PATH}/tools/cmake/project.cmake` included from `CMakeLists.txt`.
+
+```
+. $HOME/esp/esp-idf/export.sh
+nano ${IDF_PATH}/tools/cmake/project.cmake
+
+cd /mnt/c/workspace/wolfssl-demo/IDE/Espressif/ESP-IDF/examples/wolfssl_server
+make
+
+/mnt/c/Python36/python.exe ~/esp/esp-idf/components/esptool_py/esptool/esptool.py  -p com4 -b 460800 --before default_reset --after hard_reset --chip esp32  write_flash --flash_mode dio --flash_size detect --flash_freq 40m 0x1000 build/bootloader/bootloader.bin 0x8000 build/partition_table/partition-table.bin 0x10000 build/wolfssl_benchmark.bin
+
+# or
+
+/mnt/c/python36/python.exe c:\\workspace\\esp-build\\esptool.py                --chip esp32 --port COM5        --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 c:\\workspace\\wolfssl-demo\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\bootloader\\bootloader.bin 0x10000  c:\\workspace\\wolfssl-demo\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\tls_server.bin 0x8000  c:\\workspace\\wolfssl-demo\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\partitions_singleapp.bin
+```
+
+See also:
 
 [~/esp/esp-idf/components/wolfssl/wolfssl/wolfcrypt/settings.h](https://github.com/wolfSSL/wolfssl/blob/master/wolfssl/wolfcrypt/settings.h)
 
 [Problems compiling the tls_client example on ESP-IDF on ATECC608A #3988](https://github.com/wolfSSL/wolfssl/issues/3988)
 
+[TLS 1.3 with ESP8266 #4092](https://github.com/wolfSSL/wolfssl/issues/4092)
 
+[ESP-WOLFSSL](https://github.com/espressif/esp-wolfssl)
+
+[WolfSSL ESP-IDF port](https://github.com/wolfSSL/wolfssl/blob/master/IDE/Espressif/ESP-IDF/README.md)
