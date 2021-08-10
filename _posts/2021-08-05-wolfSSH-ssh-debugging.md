@@ -8,7 +8,8 @@ tags:
 - WolfSSL
 - SSH
 ---
-## Overview
+
+- ## Overview
 
 There are two Visual Studio solution files: a regular, 32-bit environment, and a 64-bit one. 
 Oddly, my Visual Studio 2019 did not seem to be happy with the 64 bit solution. Although the code would compile,
@@ -25,9 +26,9 @@ This is 5 packet init exchange that should include `hello`:
                       (ACCEPT_THIRD_T)client_len);
 ```
 
-## WSL SSH Server
+- ## WSL SSH Server
 
-### Configure WSL SSH Server Service
+- ### Configure WSL SSH Server Service
 
 See `/etc/ssh/sshd_config`:
 ```
@@ -35,13 +36,13 @@ Port 2211
 ListenAddress 192.168.1.25
 ```
 
-### Start the service
+- ### Start the service
 
 ```
 sudo service ssh start
 ```
 
-### Generate keys
+- ### Generate keys
 
 ```
 C:\workspace\wolfssl-demo>ssh-keygen
@@ -67,7 +68,7 @@ The key's randomart image is:
 +----[SHA256]-----+
 ```
 
-### Append the public key to the WSL ~/.ssh/authorized_keys
+- ### Append the public key to the WSL ~/.ssh/authorized_keys
 
 Note the server is running in WSL, so the keys are in `~/.ssh`. Adding this `authorized_key` allows us to connecte to 
 local ssh server from local host.
@@ -76,24 +77,26 @@ local ssh server from local host.
 cat /mnt/c/workspace/wolfssl-demo/cert/gojimmypi.pub >> ~/.ssh/authorized_keys
 ```
 
-### Connect to WSL SSH Server from DOS, specifying the private key file:
+- ### Connect to WSL SSH Server from DOS, specifying the private key file:
 
 ```
 ssh -p 2211 -vvvv -i c:\workspace\wolfssl-demo\cert\gojimmypi 192.168.1.25
 ```
 
-## Set WiFi
+- ## Set WiFi
 
 See: `sdkconfig.h`
 
+```
 #define CONFIG_EXAMPLE_WIFI_SSID "yourwifi"
 #define CONFIG_EXAMPLE_WIFI_PASSWORD "yourpassword"
-
+```
+in
 ```
 C:\workspace\wolfssl-demo\IDE\Espressif\ESP-IDF\examples\wolfssl_server\build\include\sdkconfig.h
 ```
 
-## Building 
+- ## Building 
 See [wolfSSH requires the wolfSSL library. The steps are:](https://github.com/wolfSSL/wolfssl/issues/4272#issuecomment-891199577)
 ```
 sudo echo "Here we go. If prompted for password, press ctrl-c"
@@ -149,7 +152,8 @@ DOS connect to local ssh server:
 ```
 ssh -p 2211 -vvvv -i c:\workspace\wolfssl-demo\cert\gojimmypi 192.168.1.25
 ```
-## Wireshark Settings
+
+- ## Wireshark Settings
 
 ```
 (ip.src == 127.0.0.1 || ip.dst == 127.0.0.1) && ip.dst != 239.255.255.250
@@ -179,7 +183,7 @@ int wolfSSL_CTX_use_certificate_file(WOLFSSL_CTX* ctx, const char* file,
 
 ```
 
-## Troubleshooting
+- ## Troubleshooting
 
 Load key invalid format / Permission denied (publickey)
 
@@ -201,7 +205,7 @@ Was the key file generated in Windows and being used in WSL/Linux? Replace CR/LF
 dos2unix ~/certs/gojimmypi
 ```
 
-### Identity File
+- ### Identity File
 
 See [Specifying an IdentityFile with SSH](https://unix.stackexchange.com/questions/494483/specifying-an-identityfile-with-ssh)
 > _ This can be problematic when using sites like github with multiple accounts. You'll need to include "IdentitiesOnly yes_
@@ -210,7 +214,7 @@ See [Specifying an IdentityFile with SSH](https://unix.stackexchange.com/questio
 ssh -p 11111 -vvvv -o IdentitiesOnly=yes -i c:\workspace\wolfssl-demo\cert\gojimmypi 192.168.1.31
 ```
 
-### Error Messages
+- ### Error Messages
 
 [What does “key_load_public: no such file or directory” mean?](https://superuser.com/questions/962888/what-does-key-load-public-no-such-file-or-directory-mean)
 
