@@ -233,7 +233,7 @@ see also:
 - [ESP-IDF Programming Guide: Getting Started with the ESP32](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html)
 - [wolfSSL ESP-IDF port](https://github.com/wolfSSL/wolfssl/tree/master/IDE/Espressif/ESP-IDF)
 - [wolfSSH testing notes](https://github.com/wolfSSL/wolfssh/blob/master/README.md#testing-notes); note `user` and `password` defaults
-
+- [wolfSSH Getting Started Client Example](https://github.com/wolfSSL/wolfssl/wiki/Getting-Started#33-client-example)
 - [How to SSH into WSL2 on Windows 10 from an external machine](https://www.hanselman.com/blog/how-to-ssh-into-wsl2-on-windows-10-from-an-external-machine)
 
 my GitHub issues:
