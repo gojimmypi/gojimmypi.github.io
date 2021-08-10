@@ -119,7 +119,7 @@ cd /mnt/c/workspace/wolfssl-demo/IDE/Espressif/ESP-IDF/examples/wolfssl_server
 
 ```
 
-- # Espressif ESP32
+- # Espressif ESP32GH missing fix 2
 ```
 cd ~/esp
 . $HOME/esp/esp-idf/export.sh
@@ -162,7 +162,8 @@ or
 ```
 (ip.src == 127.0.0.1 || ip.dst == 127.0.0.1 || tcp.dstport == 11111 || tcp.srcport == 11111 ) && ip.dst != 239.255.255.250
 ```
-## Certs
+
+- ## Certs
 
 In `ssl.c` this code section is using a value of `./certs/server-cert.pem` by default in Visual Studio:
 
