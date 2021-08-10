@@ -48,24 +48,7 @@ sudo service ssh start
 C:\workspace\wolfssl-demo>ssh-keygen
 Generating public/private rsa key pair.
 Enter file in which to save the key (C:\Users\gojimmypi/.ssh/id_rsa): c:\workspace\wolfssl-demo\cert\gojimmypi
-Enter passphrase (empty for no passphrase):
-Enter same passphrase again:
-Your identification has been saved in c:\workspace\wolfssl-demo\cert\gojimmypi.
-Your public key has been saved in c:\workspace\wolfssl-demo\cert\gojimmypi.pub.
-The key fingerprint is:
-SHA256:EL7FtOK/6zA3v17yZ1qGKa4o4MrGzf43D+FjGbCmUUk gojimmypi@NOTEBOOK
-The key's randomart image is:
-+---[RSA 3072]----+
-|     E. .        |
-|    ...+ .       |
-|     ++ +        |
-|    ..o=         |
-|   . oooS        |
-|  . + ..+    o   |
-|..oo  o*+ o + o  |
-|.o.o. .Bo= = oo  |
-|oo...oo.B==.o+   |
-+----[SHA256]-----+
+...etc
 ```
 
 - ### Append the public key to the WSL ~/.ssh/authorized_keys
