@@ -9,6 +9,8 @@ tags:
 - SSH
 ---
 
+NOTE: This page is retained only for historical / reference reasons only. GH Pages fails to render it, and worse: fails to indicate that there was an error.
+
 - ## Overview
 
 There are two Visual Studio solution files: a regular, 32-bit environment, and a 64-bit one. 
