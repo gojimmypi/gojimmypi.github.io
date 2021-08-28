@@ -9,10 +9,11 @@ tags:
 - SSH
 ---
 
-- ## Overview
-
 Some notes on setting up the wolfSSL SSH project. 
+
 This is a replacement update after odd GHPages problems were encountered trying to publish the 2021-08-05 version.
+
+- ## Overview
 
 There are two Visual Studio solution files: a regular, 32-bit environment, and a 64-bit one. 
 Oddly, my Visual Studio 2019 did not seem to be happy with the 64 bit solution. Although the code would compile,
