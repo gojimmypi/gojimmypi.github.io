@@ -49,6 +49,8 @@ Sadly I had no such directory. The only thing was a WolfSSH directory with some 
 
 I next downloaded the 2,339 file 11,559KB [wolfssl-4.8.1.zip](https://www.wolfssl.com/download/) and saved the contents of the zip to `C:\workspace\WolfSSL`
 
+
+{% include code_header.html %}
 ```
 . $HOME/esp/esp-idf/export.sh
 cd ~/esp
@@ -101,6 +103,7 @@ There's an [Espressif esp-wolfssl](https://github.com/espressif/esp-wolfssl) tha
 
 So next
 
+{% include code_header.html %}
 ```
 cd /mnt/c/workspace/
 git clone --recursive https://github.com/espressif/esp-wolfssl
@@ -109,6 +112,8 @@ cd esp-wolfssl
 ```
 
 Starting over with the instructions [here](https://github.com/wolfSSL/wolfssl/blob/master/IDE/Espressif/ESP-IDF/README.md):
+
+{% include code_header.html %}
 ```
 cd /mnt/c/workspace/
 git clone https://github.com/wolfSSL/wolfssl.git --recursive
@@ -131,12 +136,16 @@ Is this `settings.h` file even used? Note that added stray text to this file doe
 ```
 
 There are `esp-idf` config files (`config.h` and `user_settings.h`) that DO seem to be used, as stray text will cause compiler error:
+
+{% include code_header.html %}
 ```
 ls $IDF_PATH/components/wolfssl/include/ -al
 ```
 
 Recall there's no native USB support in WSL1, so we'll call the Windows/DOS `python.exe`. 
 Here we are using `COM4` with Python 3.6 installed in `C:\python36`:
+
+{% include code_header.html %}
 ```
 /mnt/c/Python36/python.exe ~/esp/esp-idf/components/esptool_py/esptool/esptool.py  -p com4 -b 460800 --before default_reset --after hard_reset --chip esp32  write_flash --flash_mode dio --flash_size detect --flash_freq 40m 0x1000 build/bootloader/bootloader.bin 0x8000 build/partition_table/partition-table.bin 0x10000 build/wolfssl_benchmark.bin
 ```
@@ -157,6 +166,7 @@ The
 ## Include Files
 Despite initial appearances, there are MANY files. See `${IDF_PATH}/tools/cmake/project.cmake` included from `CMakeLists.txt`.
 
+{% include code_header.html %}
 ```
 . $HOME/esp/esp-idf/export.sh
 nano ${IDF_PATH}/tools/cmake/project.cmake

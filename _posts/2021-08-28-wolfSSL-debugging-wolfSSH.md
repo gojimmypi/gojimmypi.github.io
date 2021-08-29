@@ -9,9 +9,10 @@ tags:
 - SSH
 ---
 
-Some notes on setting up the wolfSSL SSH project. 
+Some notes on setting up the wolfSSL SSH project. See also the [ESP32 SSH Server](https://gojimmypi.github.io/ESP32-SSH-server/) post.
 
 This is a replacement update after odd GHPages problems were encountered trying to publish the 2021-08-05 version.
+See the [GH Pages Fails to Publish Page](https://github.community/t/gh-pages-fails-to-publish-page-no-error-indicated/198203).
 
 - ## Overview
 
@@ -60,12 +61,14 @@ Enter file in which to save the key (C:\Users\gojimmypi/.ssh/id_rsa): c:\workspa
 Note the server is running in WSL, so the keys are in `~/.ssh`. Adding this `authorized_key` allows us to connecte to 
 local ssh server from local host.
 
+{% include code_header.html %}
 ```
 cat /mnt/c/workspace/wolfssl-demo/cert/gojimmypi.pub >> ~/.ssh/authorized_keys
 ```
 
 - ### Connect to WSL SSH Server from DOS, specifying the private key file:
 
+{% include code_header.html %}
 ```
 ssh -p 2211 -vvvv -i c:\workspace\wolfssl-demo\cert\gojimmypi 192.168.1.25
 ```
@@ -86,6 +89,7 @@ C:\workspace\wolfssl-demo\IDE\Espressif\ESP-IDF\examples\wolfssl_server\build\in
 - ## Building 
 See [wolfSSH requires the wolfSSL library. The steps are:](https://github.com/wolfSSL/wolfssl/issues/4272#issuecomment-891199577)
 
+{% include code_header.html %}
 ```
 sudo echo "Here we go. If prompted for password, press ctrl-c"
 git clone https://github.com/wolfssl/wolfssl.git wolfssl-demo
@@ -109,6 +113,7 @@ cd /mnt/c/workspace/wolfssl-demo/IDE/Espressif/ESP-IDF/examples/wolfssl_server
 
 - # Espressif ESP32GH missing fix 2
 
+{% include code_header.html %}
 ```
 cd ~/esp
 . $HOME/esp/esp-idf/export.sh
@@ -134,7 +139,7 @@ ssh -p 11111 -vvvvv -i /mnt/c/workspace/wolfssl-demo/certs/gojimmypi  gojimmypi@
 
 WSL attempt to connect to local ssh server
 ```
-
+# TODO
 ```
 
 DOS connect to local ssh server:
