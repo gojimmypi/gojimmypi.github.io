@@ -41,7 +41,9 @@ checking for wolfCrypt_Init in -lwolfssl... no
 configure: error: libwolfssl is required for wolfssh. It can be obtained from https://www.wolfssl.com/download.html/ .
 ```
 
-and of course there are no dowloads that reference `libwolfssl ` at https://www.wolfssl.com/download.html
+and of course there are no dowloads that reference `libwolfssl ` at [www.wolfssl.com/download/](https://www.wolfssl.com/download/)
+
+See [wolfssl.com/docs/espressif](https://www.wolfssl.com/docs/espressif/):
 
 > In order to use wolfSSL with the Espressif ESP-IDF, a development framework for intended for rapidly developing Internet-of-Things (IoT), deploy wolfSSL source files into the IDE by running a script that can be found in the `wolfssl_root/wolfssl/IDE/Espressif/ESP-IDF/` directory.
 
@@ -96,6 +98,14 @@ make: *** [component-wolfssl-build] Error 2
 ```
 
 As I could not seem to find where to fix this, and a simple `#define HAVE_FFDHE_2048` did not work. 
+
+Update: be sure to edit the proper `settings.h`; see [this issue](https://github.com/espressif/esp-wolfssl/issues/11). The one used
+by the IDE examples is *not* from the clone directory, rather:
+
+{% include code_header.html %}
+```c
+~/esp/esp-idf/components/wolfssl/wolfssl/wolfcrypt/settings.h
+```
 
 There's an [Espressif esp-wolfssl](https://github.com/espressif/esp-wolfssl) that's interesting. One comment to note:
 
