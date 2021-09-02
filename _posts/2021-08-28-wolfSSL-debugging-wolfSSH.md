@@ -87,27 +87,129 @@ C:\workspace\wolfssl-demo\IDE\Espressif\ESP-IDF\examples\wolfssl_server\build\in
 ```
 
 - ## Building 
-See [wolfSSH requires the wolfSSL library. The steps are:](https://github.com/wolfSSL/wolfssl/issues/4272#issuecomment-891199577)
+The [ESP-IDF install](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/#get-started-get-esp-idf) should be completed.
 
 {% include code_header.html %}
+```bash
+mkdir -p ~/esp
+cd ~/esp
+git clone --recursive https://github.com/espressif/esp-idf.git
+
+cd ~/esp/esp-idf
+./install.sh esp32,esp32s2
 ```
+
+See [wolfSSH requires the wolfSSL library](https://github.com/wolfSSL/wolfssl/issues/4272#issuecomment-891199577).  The steps are:
+
+
+{% include code_header.html %}
+```bash
+# edit the next lines as needed. I keep GitHub repos in C:\workspace\
+WORKSPACE=/mnt/c/workspace
+ESP32_COM=COM8
+PYTHON_EXE=/mnt/c/Users/$USER/AppData/Local/Programs/Python/Python38/python.exe 
+
 sudo echo "Here we go. If prompted for password, press ctrl-c"
-git clone https://github.com/wolfssl/wolfssl.git wolfssl-demo
+
+# optional Python 3.8 install in WSL/Linux
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install python3.8
+pip install pyserial
+
+
+cd $WORKSPACE
+
+# edit this next line if you want to you your own fork
+# note we are not pulling history with --depth 1 (MB vs MB)
+git clone --depth 1  https://github.com/wolfssl/wolfssl.git wolfssl-demo
+
 cd wolfssl-demo
 ./autogen.sh
-./configure --enable-openssh
+#./configure --enable-openssh --enable-ssh
+./configure --enable-ssh
 make
 sudo make install
+
+# create links and cache to recently added wolfSSH libraries
 sudo ldconfig
 
+# wolfSSL SSH
+cd $WORKSPACE
+git clone https://github.com/wolfSSL/wolfssh.git
+./autogen.sh
+./configure
+
+# make builds all of the examples (not including IDE)
+make
+make check
+
+# optionally run echoserver:
+# ./examples/echoserver/echoserver
+
+# Telnet will connect with no credentials:
+# telnet 192.168.1.104 22222
+
+# ssh is hard coded with username:passwords   jill:upthehill  and  jack:fetchapail
+# ssh jack@192.168.1.104 -p 22222
+# ssh jill@192.168.1.104 -p 22222
+
+
+cd ~/esp/esp-idf
+
 . $HOME/esp/esp-idf/export.sh
-cd /mnt/c/workspace/wolfssl-demo/IDE/Espressif/ESP-IDF/examples/wolfssl_server
+
+# edit ~/esp/esp-idf/components/wolfssl/wolfssl/wolfcrypt/settings.h
+
+echo "Ensure these are NOT commented out:"
+grep "#define WOLFSSL_ESPIDF"     /mnt/c/workspace/wolfssl-demo/wolfssl/wolfcrypt/settings.h
+grep "#define WOLFSSL_ESPWROOM32" /mnt/c/workspace/wolfssl-demo/wolfssl/wolfcrypt/settings.h
+
+
+
+# need to have some file copied
+cd $WORKSPACE/wolfssl-demo/IDE/Espressif/ESP-IDF/
+./setup.sh
+echo "Files should have been copied in to ~/esp/esp-idf/components/wolfssl/ ..."
+
+echo "Ensure these are NOT commented out for esp-idf/components:"
+grep "#define WOLFSSL_ESPIDF"     ~/esp/esp-idf/components/wolfssl/wolfssl/wolfcrypt/settings.h
+grep "#define WOLFSSL_ESPWROOM32" ~/esp/esp-idf/components/wolfssl/wolfssl/wolfcrypt/settings.h
+
+
+
+cd $WORKSPACE/wolfssl-demo/IDE/Espressif/ESP-IDF/examples/wolfssl_server
+idf.py set-target esp32
+
+# set example connection configuration SSID and password
+idf.py menuconfig
+idf.py build
+
+# the about ends with and error:
+# ../main/server-tls.c:34:10: fatal error: wolfssl/wolfcrypt/settings.h: No such file or directory
+#  #include <wolfssl/wolfcrypt/settings.h>
+#
+# but proceed with make (recall -j is the number of threads)
+make  -j4
 
 # For Linux:
-# python /home/gojimmypi/esp/esp-idf/components/esptool_py/esptool/esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 /mnt/c/workspace/wolfssl-demo/IDE/Espressif/ESP-IDF/examples/wolfssl_server/build/bootloader/bootloader.bin  0x10000  /mnt/c/workspace/wolfssl-demo/IDE/Espressif/ESP-IDF/examples/wolfssl_server/build/tls_server.bin 0x8000  /mnt/c/workspace/wolfssl-demo/IDE/Espressif/ESP-IDF/examples/wolfssl_server/build/partitions_singleapp.bin
+# python /home/$USER/esp/esp-idf/components/esptool_py/esptool/esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 /mnt/c/workspace/wolfssl-demo/IDE/Espressif/ESP-IDF/examples/wolfssl_server/build/bootloader/bootloader.bin  0x10000  /mnt/c/workspace/wolfssl-demo/IDE/Espressif/ESP-IDF/examples/wolfssl_server/build/tls_server.bin 0x8000  /mnt/c/workspace/wolfssl-demo/IDE/Espressif/ESP-IDF/examples/wolfssl_server/build/partitions_singleapp.bin
 
 # For WSL:
-/mnt/c/python36/python.exe c:\\workspace\\esp-build\\esptool.py                --chip esp32 --port COM4        --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 c:\\workspace\\wolfssl\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\bootloader\\bootloader.bin 0x10000  c:\\workspace\\wolfssl\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\tls_server.bin 0x8000  c:\\workspace\\wolfssl\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\partitions_singleapp.bin
+
+# find a copy of the esptool.py abnd copy it into the local workspace/esp-build directory (the DOS python command cannot "see" the WSL path)
+mkdir -p $WORKSPACE/esp-build/
+cp $HOME/esp/esp-idf/components/esptool_py/esptool/esptool.py /mnt/c/workspace/esp-build/esptool.py
+
+$PYTHON_EXE c:\\workspace\\esp-build\\esptool.py                --chip esp32 --port COM8        --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 c:\\workspace\\wolfssl\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\bootloader\\bootloader.bin 0x10000  c:\\workspace\\wolfssl\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\tls_server.bin 0x8000  c:\\workspace\\wolfssl\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\partitions_singleapp.bin
+
+# if you see an error: 
+# try:   pip install pyserial
+# WSL users should probably do that in DOS
+
+# or 
+
+# /mnt/c/python36/python.exe c:\\workspace\\esp-build\\esptool.py                --chip esp32 --port COM4        --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 c:\\workspace\\wolfssl\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\bootloader\\bootloader.bin 0x10000  c:\\workspace\\wolfssl\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\tls_server.bin 0x8000  c:\\workspace\\wolfssl\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\partitions_singleapp.bin
 
 ```
 
