@@ -12,7 +12,8 @@ tags:
 - WSL
 ---
 
-Some information on using Segger JLink to OpenOCD GDB debug an ESP32 project.
+Some information on using Segger JLink to OpenOCD GDB debug an ESP32 project, specifically 
+my WIP [wolfSSL SSH Server](https://github.com/gojimmypi/wolfssl-esp32/tree/main/wolfssl_ssh_server).
 
 ESP32 JTAG Pinout Wiring; Segger J-Link using WinUSB (v6.1.7600.16385)
 ```
@@ -673,6 +674,7 @@ Visual Micro
 - [VisualMicro Debugging Using Custom Hardware](https://www.visualmicro.com/page/Debugging-Using-Custom-Hardware.aspx)
 
 Other stuff
+- [Tom Verbeure VexRiscv, OpenOCD, and Traps](https://tomverbeure.github.io/2021/07/18/VexRiscv-OpenOCD-and-Traps.html)
 - [SasounTorossian/ESP32-TCP-Server](https://github.com/SasounTorossian/ESP32-TCP-Server/blob/master/main/tcp_server.c)
 - [How to step-into, step-over and step-out with GDB?](https://unix.stackexchange.com/questions/297982/how-to-step-into-step-over-and-step-out-with-gdb)
 - [visualgdb.com](https://visualgdb.com/)
