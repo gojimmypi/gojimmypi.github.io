@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "wolfSSL example project for ESP32"
+title: "wolfSSL ESP32 Project"
 date: '2021-08-01'
 author: gojimmypi
 tags:
@@ -13,8 +13,14 @@ tags:
 Some notes on a sample wolfSSL project for the ESP32.
 
 # the wolfssh include directory needs to be manually copied to the components/wolfssl
+
+As the Espressif IDE options is missing from [wolfssh/ide/](https://github.com/wolfSSL/wolfssh/tree/master/ide), 
+files need to be manually copied:
+
+```bash
 cd ~/esp/esp-idf/components/wolfssl/
 cp -r /usr/local/include/wolfssh/ .
+```
 
 
 ```
@@ -70,6 +76,10 @@ $PYTHON_EXE $DOS_WORKSPACE\\$THIS_PROJECT\\esptool.py  --chip esp32  --port $ESP
 
 ```
 
-> _"If you are trying to use a `user_settings.h` with the `configure` script I would not recommend that approach instead when using the configure script it will generate the file `<wolfssl/options.h>` which is the replacement for `user_settings.h` when building with `./configure.`"_
 
 From [Confusion about include path](https://www.wolfssl.com/forums/topic1517-solved-confusion-about-include-path.html)
+
+See also:
+
+[wolfssl Espressif ESP-IDF](https://github.com/wolfSSL/wolfssl/blob/master/IDE/Espressif/ESP-IDF/README.md)
+[esp-idf hello world](https://github.com/espressif/esp-idf/blob/master/examples/get-started/hello_world/main/hello_world_main.c)
