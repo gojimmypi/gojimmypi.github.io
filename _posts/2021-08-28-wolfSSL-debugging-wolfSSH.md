@@ -335,6 +335,8 @@ see also:
 - [wolfSSH testing notes](https://github.com/wolfSSL/wolfssh/blob/master/README.md#testing-notes); note `user` and `password` defaults
 - [wolfSSH Getting Started Client Example](https://github.com/wolfSSL/wolfssl/wiki/Getting-Started#33-client-example)
 - [How to SSH into WSL2 on Windows 10 from an external machine](https://www.hanselman.com/blog/how-to-ssh-into-wsl2-on-windows-10-from-an-external-machine)
+- [espressif/esp-wolfssl](https://github.com/espressif/esp-wolfssl)
+- [how to configure TLS 1.3 DH key size?](https://github.com/espressif/esp-wolfssl/issues/11)
 
 my GitHub issues:
 
