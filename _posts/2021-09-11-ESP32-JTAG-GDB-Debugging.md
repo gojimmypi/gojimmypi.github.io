@@ -14,7 +14,7 @@ tags:
 
 Some information on using Segger JLink to OpenOCD GDB debug an ESP32 project.
 
-ESP32 JTAG Wiring; Segger J-Link using WinUSB (v6.1.7600.16385)
+ESP32 JTAG Pinout Wiring; Segger J-Link using WinUSB (v6.1.7600.16385)
 ```
 TDI -> GPIO12
 TCK -> GPIO13
@@ -24,7 +24,7 @@ TRST -> EN / RST (Reset)
 GND -> GND
 ```
 
-See [Espressif](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/jtag-debugging/)
+See [Espressif JTAG Debugging](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/jtag-debugging/) docs.
 
 Install Espressif [Standard Setup of Toolchain for Windows](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/windows-setup.html).
 
@@ -103,7 +103,8 @@ SEGGER J-Link Programmer                yes (auto)
 ```
 
 Then `make` and `make install` (this may take a long time):
-```
+{% include code_header.html %}
+```bash
 cd /mnt/c/workspace/openocd-esp32
 make
 sudo make install
@@ -114,6 +115,7 @@ The reported `openocd` version should look something like `Open On-Chip Debugger
 
 In a DOS Window (recall WSL doesn't support native USB for Segger J-Link), run `openocd`:
 
+{% include code_header.html %}
 ```
 cd c:\workspace\openocd-esp32\tcl
 openocd -f interface/jlink.cfg -c "adapter_khz 4000" -f target/esp32.cfg
@@ -140,7 +142,8 @@ c
 
 In another Window, in this case WSL, run the `xtensa-esp32-elf-gdb`:
 
-```
+{% include code_header.html %}
+```bash
 # in case it is in a different locaion:
 # 
 # /home/gojimmypi/.espressif/tools/xtensa-esp32-elf/esp-2021r1-8.4.0/xtensa-esp32-elf/bin/
@@ -158,8 +161,10 @@ n
 # 
 ```
 
+# Config File Settings
 
-For reference, the ` interface/jlink.cfg` looks like [this](https://github.com/espressif/openocd-esp32/blob/master/tcl/interface/jlink.cfg):
+For reference, the `interface/jlink.cfg` looks like [this](https://github.com/espressif/openocd-esp32/blob/master/tcl/interface/jlink.cfg).
+Be sure to edit with the respective serial number of your device!
 
 ```
 #
@@ -176,10 +181,9 @@ interface jlink
 # Example: Select J-Link with serial number 123456789
 #
 jlink serial 123456789
-
 ```
 
-And the `target/esp32.cfg` looks like [this](https://github.com/espressif/openocd-esp32/blob/master/tcl/target/esp32.cfg):
+The `target/esp32.cfg` looks like [this](https://github.com/espressif/openocd-esp32/blob/master/tcl/target/esp32.cfg):
 
 ```
 # The ESP32 only supports JTAG.
