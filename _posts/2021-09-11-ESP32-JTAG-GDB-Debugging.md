@@ -14,7 +14,7 @@ tags:
 ---
 
 
-ESP32 JTAG Wiring
+ESP32 JTAG Wiring; Segger J-Link using WinUSB (v6.1.7600.16385)
 ```
 TDI -> GPIO12
 TCK -> GPIO13
@@ -127,7 +127,7 @@ If errors are encountered, try:
 - setting different `adapter_khz` speeds
 - repeated launch, try again.
 
-See [](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/jtag-debugging/using-debugger.html#jtag-debugging-using-debugger-command-line) for the `gdbinit` file:
+See [JTAG Debugging » Using Debugger](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/jtag-debugging/using-debugger.html#command-line) for the `gdbinit` file:
 
 ```
 target remote :3333
@@ -152,7 +152,10 @@ xtensa-esp32-elf-gdb wolfssl_ssh_server.elf -x gdbinit --tui
 in GDB:
 
 ```
-target remote localhost:3333
+# Next (step over)
+n
+
+# 
 ```
 
 
@@ -578,7 +581,69 @@ Info : esp32.cpu1: Target halted, PC=0x4014FD96, debug_reason=00000000
 Info : Listening on port 3333 for gdb connections
 ```
 
+## Visual Micro Debug Attach from Visual Studio
+
+Manually copy and rename the ESP-IDF build bin and elf files to the Visual Micro temp debug directory for the project name,
+In this case, a project name `GDB test`:
+
+```
+C:\Users\gojimmypi\AppData\Local\Temp\VMBuilds\GDB test\esp32_esp32\Debug
+```
+
+## Visual Micro OpenmOCD and GDB Notes
+
+Visual Micro has a very old version of ESP32 OpenOCD, and seems to be a hard coded location. Copy a fresh one to:
+
+```
+C:\ProgramData\VMicro\tools\openocd-espressif-esp32-10.0.1\bin
+```
+
+For example, a fresh install was found here for me:
+```
+C:\Users\gojimmypi\.espressif\tools\xtensa-esp32-elf\esp-2021r1-8.4.0\xtensa-esp32-elf\bin
+```
+
+## Segger JLink Notes
+
+When using a Segger JLink, be sure to edit the `jlink.cfg` files and enable the line with your device serial number.
+
+```
+#
+# SEGGER J-Link
+#
+# http://www.segger.com/jlink.html
+#
+
+interface jlink
+
+# The serial number can be used to select a specific device in case more than
+# one is connected to the host.
+#
+# Example: Select J-Link with serial number 123456789
+#
+jlink serial 123456789
+```
+
+Found in directories such as this one for VisualMicro:
+
+```
+C:\ProgramData\VMicro\tools\openocd-espressif-esp32-10.0.1\share\openocd\scripts\interface
+```
+
+And this one for the ESP-IDF:
+```
+C:\Users\gojimmypi\.espressif\tools\openocd-esp32\v0.10.0-esp32-20210401\openocd-esp32\share\openocd\scripts\interface
+```
 
 See also:
 
+- [openocd.org GDB and OpenOCD](https://openocd.org/doc/html/GDB-and-OpenOCD.html)
 - [Espressif  JTAG Debugging Tips and Quirks](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/jtag-debugging/tips-and-quirks.html#jtag-debugging-tip-openocd-configure-target)
+- [Help debugging ESP32 WROOM with jlink edu mini](https://www.esp32.com/viewtopic.php?t=13066)
+- [ESP32 ESP-IDF Fatal Errors](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/fatal-errors.html)
+- [wolfSSL - Embedded SSL Library wolfTcp_listen](https://www.wolfssl.com/forums/post5624.html#p5624)
+- [SasounTorossian/ESP32-TCP-Server](https://github.com/SasounTorossian/ESP32-TCP-Server/blob/master/main/tcp_server.c)
+- [Espressif Intel net test suite for LwIP network stack](https://github.com/espressif/esp-idf/tree/b63ec47238fd6aa6eaa59f7ad3942cbdff5fcc1f/examples/network/network_tests)
+- [How to step-into, step-over and step-out with GDB?](https://unix.stackexchange.com/questions/297982/how-to-step-into-step-over-and-step-out-with-gdb)
+- [Espressif Logging library](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/log.html)
+- [GDB - Commands](https://www.tutorialspoint.com/gnu_debugger/gdb_commands.htm)
