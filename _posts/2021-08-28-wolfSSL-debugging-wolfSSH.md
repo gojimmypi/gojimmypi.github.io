@@ -138,10 +138,12 @@ sudo ldconfig
 cd $WORKSPACE
 git clone https://github.com/wolfSSL/wolfssh.git
 ./autogen.sh
-./configure
+./configure --enable-ssh
 
 # make builds all of the examples (not including IDE)
 make
+sudo make install
+sudo ldconfig
 make check
 
 # optionally run echoserver:
@@ -181,7 +183,7 @@ grep "#define WOLFSSL_ESPWROOM32" ~/esp/esp-idf/components/wolfssl/wolfssl/wolfc
 cd $WORKSPACE/wolfssl-demo/IDE/Espressif/ESP-IDF/examples/wolfssl_server
 idf.py set-target esp32
 
-# set example connection configuration SSID and password
+# set example connection configuration SSID and password (See "Example Connection Congiration" menu item)
 idf.py menuconfig
 idf.py build
 
