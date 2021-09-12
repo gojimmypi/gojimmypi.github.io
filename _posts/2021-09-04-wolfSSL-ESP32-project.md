@@ -14,7 +14,7 @@ Some notes on a sample wolfSSL project for the ESP32.
 
 # the wolfssh include directory needs to be manually copied to the components/wolfssl
 
-As the Espressif IDE options is missing from [wolfssh/ide/](https://github.com/wolfSSL/wolfssh/tree/master/ide), 
+As the Espressif IDE options is missing from [wolfssh ide](https://github.com/wolfSSL/wolfssh/tree/master/ide), 
 files need to be manually copied:
 
 ```bash
@@ -81,5 +81,5 @@ From [Confusion about include path](https://www.wolfssl.com/forums/topic1517-sol
 
 See also:
 
-[wolfssl Espressif ESP-IDF](https://github.com/wolfSSL/wolfssl/blob/master/IDE/Espressif/ESP-IDF/README.md)
-[esp-idf hello world](https://github.com/espressif/esp-idf/blob/master/examples/get-started/hello_world/main/hello_world_main.c)
+[wolfssl Espressif ESP IDF](https://github.com/wolfSSL/wolfssl/blob/master/IDE/Espressif/ESP-IDF/README.md)
+[esp idf hello world](https://github.com/espressif/esp-idf/blob/master/examples/get-started/hello_world/main/hello_world_main.c)
