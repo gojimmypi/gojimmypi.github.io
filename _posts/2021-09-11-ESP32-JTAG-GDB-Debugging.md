@@ -13,6 +13,7 @@ tags:
 - WSL
 ---
 
+Some information on using Segger JLink to OpenOCD GDB debug an ESP32 project.
 
 ESP32 JTAG Wiring; Segger J-Link using WinUSB (v6.1.7600.16385)
 ```
@@ -127,7 +128,7 @@ If errors are encountered, try:
 - setting different `adapter_khz` speeds
 - repeated launch, try again.
 
-See [JTAG Debugging » Using Debugger](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/jtag-debugging/using-debugger.html#command-line) for the `gdbinit` file:
+See [JTAG Debugging Using Debugger](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/jtag-debugging/using-debugger.html#command-line) for the `gdbinit` file:
 
 ```
 target remote :3333
@@ -583,6 +584,8 @@ Info : Listening on port 3333 for gdb connections
 
 ## Visual Micro Debug Attach from Visual Studio
 
+If using the Visual Studio [Visual Micro](https://VisualMicro.com/)
+
 Manually copy and rename the ESP-IDF build bin and elf files to the Visual Micro temp debug directory for the project name,
 In this case, a project name `GDB test`:
 
@@ -603,7 +606,7 @@ For example, a fresh install was found here for me:
 C:\Users\gojimmypi\.espressif\tools\xtensa-esp32-elf\esp-2021r1-8.4.0\xtensa-esp32-elf\bin
 ```
 
-## Segger JLink Notes
+## Segger JLink Setup Notes
 
 When using a Segger JLink, be sure to edit the `jlink.cfg` files and enable the line with your device serial number.
 
@@ -637,13 +640,37 @@ C:\Users\gojimmypi\.espressif\tools\openocd-esp32\v0.10.0-esp32-20210401\openocd
 
 See also:
 
+OpenOCD
 - [openocd.org GDB and OpenOCD](https://openocd.org/doc/html/GDB-and-OpenOCD.html)
-- [Espressif  JTAG Debugging Tips and Quirks](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/jtag-debugging/tips-and-quirks.html#jtag-debugging-tip-openocd-configure-target)
+
+GDB
+- [GDB - Commands](https://www.tutorialspoint.com/gnu_debugger/gdb_commands.htm)
+- [tutorialspoint GDB - Debugging Example](https://www.tutorialspoint.com/gnu_debugger/gdb_debugging_example1.htm)
+
+Espressif
+- [TEchnical Documents](https://www.espressif.com/en/support/documents/technical-documents?keys=&field_type_tid%5B%5D=492)
+- [Get Started](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/#get-started-get-esp-idf)
+- [esp-idf hello world](https://github.com/espressif/esp-idf/blob/master/examples/get-started/hello_world/main/hello_world_main.c)
+- [esp-idf/examples/protocols/ examples](https://github.com/espressif/esp-idf/tree/master/examples/protocols)
+- [espressif/esp-wolfssl](https://github.com/espressif/esp-wolfssl)
+- [Using the Build System](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html#using-the-build-system)
+- [JTAG Debugging Tips and Quirks](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/jtag-debugging/tips-and-quirks.html#jtag-debugging-tip-openocd-configure-target)
 - [Help debugging ESP32 WROOM with jlink edu mini](https://www.esp32.com/viewtopic.php?t=13066)
 - [ESP32 ESP-IDF Fatal Errors](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/fatal-errors.html)
+- [Intel net test suite for LwIP network stack](https://github.com/espressif/esp-idf/tree/b63ec47238fd6aa6eaa59f7ad3942cbdff5fcc1f/examples/network/network_tests)
+- [Logging library](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/log.html)
+- [openocd-esp32/tcl/interface/ files](https://github.com/espressif/openocd-esp32/tree/master/tcl/interface)
+
+wolfSSL
 - [wolfSSL - Embedded SSL Library wolfTcp_listen](https://www.wolfssl.com/forums/post5624.html#p5624)
+- [Confusion about include path](https://www.wolfssl.com/forums/topic1517-solved-confusion-about-include-path.html)
+
+Visual Micro
+- [VisualMicro How to debug an ESP32 with an Arduino project and GDB](https://www.visualmicro.com/page/ESP32-Debugging.aspx)
+- [VisualMicro Debugging Using Custom Hardware](https://www.visualmicro.com/page/Debugging-Using-Custom-Hardware.aspx)
+
+Other stuff
 - [SasounTorossian/ESP32-TCP-Server](https://github.com/SasounTorossian/ESP32-TCP-Server/blob/master/main/tcp_server.c)
-- [Espressif Intel net test suite for LwIP network stack](https://github.com/espressif/esp-idf/tree/b63ec47238fd6aa6eaa59f7ad3942cbdff5fcc1f/examples/network/network_tests)
 - [How to step-into, step-over and step-out with GDB?](https://unix.stackexchange.com/questions/297982/how-to-step-into-step-over-and-step-out-with-gdb)
-- [Espressif Logging library](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/log.html)
-- [GDB - Commands](https://www.tutorialspoint.com/gnu_debugger/gdb_commands.htm)
+- [visualgdb.com](https://visualgdb.com/)
+- [Tigard Tools](https://github.com/tigard-tools/tigard)
