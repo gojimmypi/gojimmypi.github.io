@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: "ESP32 Segger JLink ESP32 OpenOCD GDB Debugging"
