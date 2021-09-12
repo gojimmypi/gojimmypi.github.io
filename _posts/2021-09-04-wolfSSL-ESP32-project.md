@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "wolfSSL ESP32 project"
-date: '2021-08-01'
+date: '2021-09-04'
 author: gojimmypi
 tags:
 - ESP32
@@ -12,7 +12,7 @@ tags:
 
 Some notes on a sample wolfSSL project for the ESP32.
 
-# the wolfssh include directory needs to be manually copied to the components/wolfssl
+the wolfssh include directory needs to be manually copied to the components/wolfssl
 
 As the Espressif IDE options is missing from [wolfssh/ide/](https://github.com/wolfSSL/wolfssh/tree/master/ide), 
 files need to be manually copied:
