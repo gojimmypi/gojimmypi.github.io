@@ -31,7 +31,7 @@ Install Espressif [Standard Setup of Toolchain for Windows](https://docs.espress
 
 Proceed to install WSL toolchain components:
 
-Apparently the `xtensa-esp32-elf` expects `python7` with `libpython2.7` installed:
+Apparently the `xtensa-esp32-elf` expects `python2.7` with `libpython2.7` installed:
 
 ```
 sudo apt-get install python
