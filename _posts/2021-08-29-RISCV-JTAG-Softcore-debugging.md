@@ -7,7 +7,7 @@ tags:
 - RISCV
 - JTAG
 - Debugging
-- FOGA
+- FPGA
 ---
 
 Some notes on RISC-V debugging.
