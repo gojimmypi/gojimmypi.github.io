@@ -202,7 +202,7 @@ ssh -p 11111 -vvvv -o IdentitiesOnly=yes -i c:\workspace\wolfssl-demo\cert\gojim
 
 - ### Error Messages
 
-[What does “key_load_public: no such file or directory” mean?](https://superuser.com/questions/962888/what-does-key-load-public-no-such-file-or-directory-mean)
+[What does 'key_load_public: no such file or directory' mean?](https://superuser.com/questions/962888/what-does-key-load-public-no-such-file-or-directory-mean)
 
 > _the file mentioned below, not above. You have just the regular public keys, but you do not have the SSH certificates for them (presumably because you just don't need them). OpenSSH however will always try to load the associated .pub-cert file for each identity key_
 
@@ -212,7 +212,7 @@ see also:
 - [wolfSSH Manual](https://www.wolfssl.com/docs/wolfssh-manual/)
 - [OpenSSH Manual Pages](https://www.openssh.com/manual.html)
 - [wolfSSL examples](https://github.com/wolfSSL/wolfssl/tree/master/examples)
-- [ssh — OpenSSH remote login client man page](https://man.openbsd.org/ssh)
+- [ssh - OpenSSH remote login client man page](https://man.openbsd.org/ssh)
 - [wolfSSL Espressif Support](https://www.wolfssl.com/docs/espressif/)
 - [wolfSSL Support for ESP-IDF and ESP32-WROOM-32](https://www.wolfssl.com/wolfssl-support-esp-idf-esp32-wroom-32/)
 - [ESP-IDF Programming Guide: Getting Started with the ESP32](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html)
