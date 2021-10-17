@@ -1,38 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" id="switch-style" href="/gridster-jekyll-theme/css/grid.css">
     <meta charset="UTF-8" />
-    
-		<!-- jekyll.environment: development -->
-		<!-- this page is from [tag/benchbox3/index.html] -->
+    <link rel="stylesheet" id="switch-style" href="/css/grid.css">
+        
+        <!-- jekyll.environment: development -->
+        <!-- this page is from [tag/benchbox3/index.html] -->
 	
 
-<meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport' />
+<meta content='width=device-width, initial-scale=1' name='viewport' />
 <!-- meta name="color-scheme" content="dark light" -->
 <!-- JS -->
 
-<script type="text/javascript" src="/gridster-jekyll-theme/js/jquery-2.2.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script>
 
 
 
 
 
 
-<link rel="stylesheet" href="/gridster-jekyll-theme/css/main.css">
-<link rel="stylesheet" href="/gridster-jekyll-theme/css/font-awesome.min.css">
-<!--script type="text/javascript" src="/gridster-jekyll-theme/js/jquery-2.2.2.min.js"></script -->
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<!--script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script moved to above -->
 
-<script type="text/javascript" src="/gridster-jekyll-theme/scripts/jquery.toc.js"></script>
-<script type="text/javascript" src="/gridster-jekyll-theme/scripts/infinite/1-jquery.jscroll.js"></script>
-<script type="text/javascript" src="/gridster-jekyll-theme/scripts/global/2-imagelightbox.js"></script>
-<script type="text/javascript" src="/gridster-jekyll-theme/scripts/global/scripts.js"></script>
-<script type="text/javascript" src="/gridster-jekyll-theme/js/materialize.min.js"></script>
-<script type="text/javascript" src="/gridster-jekyll-theme/scripts/infinite/init.js?forceversion=2"></script>
+<script type="text/javascript" src="/scripts/jquery.toc.js"></script>
+<script type="text/javascript" src="/scripts/infinite/1-jquery.jscroll.js"></script>
+<script type="text/javascript" src="/scripts/global/2-imagelightbox.js"></script>
+<script type="text/javascript" src="/scripts/global/scripts.js"></script>
+<script type="text/javascript" src="/js/materialize.min.js"></script>
+<script type="text/javascript" src="/scripts/infinite/init.js?forceversion=2"></script>
 
 
 <script type="text/javascript">
-	
+    
 </script>
 
 
@@ -40,8 +40,8 @@
 
 
 <!-- Load the user's last selected theme for the lamp -->
-<script>
-	// _dark_mode.js
+<script type="text/javascript">
+    // _dark_mode.js
 // typically included in the head.html.
 
 
@@ -96,12 +96,24 @@ function ToggleDarkMode(forceDarkMode) {
 	//const userPrefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 	//const thisTheme = userPrefersDarkMode ? 'dark' : 'light';
 
-	const savedTheme = localStorage.getItem('theme');
-	if (!forceDarkMode && savedTheme == 'dark') {
-		thisTheme = 'light'
+	if (forceDarkMode == null) {
+		forceDarkMode = true;
+	}
+
+	const savedTheme = (localStorage.getItem('theme') == 'dark') ? 'dark' : 'light';
+
+	var lightModeIcon = document.getElementById("lightModeIcon");
+	var darkModeIcon = document.getElementById("darkModeIcon");
+
+	if (forceDarkMode) {
+		thisTheme = 'dark'; // the default when never saved is dark
+		lightModeIcon.style.setProperty("display", "none");
+		darkModeIcon.style.setProperty("display", "inline");
 	}
 	else {
-		thisTheme = 'dark'; // the default when never saved is dark
+		thisTheme = 'light';
+		lightModeIcon.style.setProperty("display", "inline");
+		darkModeIcon.style.setProperty("display", "none");
     }
 	document.documentElement.style.setProperty("color-scheme", thisTheme);
 	localStorage.setItem('theme', thisTheme);
@@ -110,11 +122,15 @@ function ToggleDarkMode(forceDarkMode) {
 
 	ToggleDarkModeItem('code', forceDarkMode);
 	ToggleDarkModeItem('pre', forceDarkMode);
+	ToggleDarkModeItem('nav', forceDarkMode);
 
 	//ToggleDarkModeItem('.highlighter-rouge', forceDarkMode);
-	ToggleDarkModeItem('logo-container', forceDarkMode);
+	ToggleDarkModeItem('.color-change', forceDarkMode);
+	ToggleDarkModeItem('.dropdown-content', forceDarkMode);
+	ToggleDarkModeItem('.logo-container', forceDarkMode);
 	ToggleDarkModeItem('.sidebar', forceDarkMode);
-	ToggleDarkModeItem('.authorbox', forceDarkMode);
+	ToggleDarkModeItem('.authorbox', forceDarkMode); // class="authorbox"
+	// ToggleDarkModeItem('.active', forceDarkMode);
 
 	//const divClasses = document.querySelectorAll('logo-container');
 	//SafeToggleAll(divClasses, forceDarkMode);
@@ -179,38 +195,37 @@ if (_HideForChange == null || _HideForChange == "dark") {
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="blog" />
 <meta property="og:description" content="blog" />
-<link rel="canonical" href="http://localhost:4000/gridster-jekyll-theme/tag/benchbox3/" />
-<meta property="og:url" content="http://localhost:4000/gridster-jekyll-theme/tag/benchbox3/" />
+<link rel="canonical" href="https://gojimmypi.github.io/tag/benchbox3/" />
+<meta property="og:url" content="https://gojimmypi.github.io/tag/benchbox3/" />
 <meta property="og:site_name" content="gojimmypi" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="BenchBox3" />
 <meta name="twitter:site" content="@gojimmypi" />
 <meta name="twitter:creator" content="@#" />
 <script type="application/ld+json">
-{"url":"http://localhost:4000/gridster-jekyll-theme/tag/benchbox3/","@type":"WebPage","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","headline":"BenchBox3","@context":"https://schema.org"}</script>
+{"@type":"WebPage","headline":"BenchBox3","url":"https://gojimmypi.github.io/tag/benchbox3/","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/gridster-jekyll-theme/feed.xml" title="gojimmypi" />
 <!-- http:/realfavicongenerator.net -->
-<link rel="apple-touch-icon" sizes="57x57" href="/gridster-jekyll-theme/icons/apple-touch-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="60x60" href="/gridster-jekyll-theme/icons/apple-touch-icon-60x60.png">
-<link rel="apple-touch-icon" sizes="72x72" href="/gridster-jekyll-theme/icons/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76" href="/gridster-jekyll-theme/icons/apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="114x114" href="/gridster-jekyll-theme/icons/apple-touch-icon-114x114.png">
-<link rel="apple-touch-icon" sizes="120x120" href="/gridster-jekyll-theme/icons/apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144" href="/gridster-jekyll-theme/icons/apple-touch-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152" href="/gridster-jekyll-theme/icons/apple-touch-icon-152x152.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/gridster-jekyll-theme/icons/apple-touch-icon-180x180.png">
-<link rel="icon" type="image/png" href="/gridster-jekyll-theme/icons/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/gridster-jekyll-theme/icons/favicon-194x194.png" sizes="194x194">
-<link rel="icon" type="image/png" href="/gridster-jekyll-theme/icons/favicon-96x96.png" sizes="96x96">
-<link rel="icon" type="image/png" href="/gridster-jekyll-theme/icons/android-chrome-192x192.png" sizes="192x192">
-<link rel="icon" type="image/png" href="/gridster-jekyll-theme/favicon-16x16.png" sizes="16x16">
-<link rel="manifest" href="/gridster-jekyll-theme/manifest.json">
-<link rel="mask-icon" href="/gridster-jekyll-theme/safari-pinned-tab.svg" color="#c5cae9">
+<link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/icons/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180x180.png">
+<link rel="icon" type="image/png" href="/icons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/icons/favicon-194x194.png" sizes="194x194">
+<link rel="icon" type="image/png" href="/icons/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/icons/android-chrome-192x192.png" sizes="192x192">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#c5cae9">
 <meta name="msapplication-TileColor" content="#C5CAE9">
-<meta name="msapplication-TileImage" content="/gridster-jekyll-theme/mstile-144x144.png">
-<meta name="theme-color" content="#c5cae9">
+<meta name="msapplication-TileImage" content="/mstile-144x144.png">
+
 
 
 </head>
@@ -228,7 +243,7 @@ if (_HideForChange == null || _HideForChange == "dark") {
             <a class="toggle-link noline"><i class="fa fa-close fa-lg fa-fw"></i></a>
             <ul>
                 <li>
-                    <a class="homelink" href="/gridster-jekyll-theme/" title="Home" ><i class="fa fa-home fa-lg fa-fw"></i></a>
+                    <a class="homelink" href="/" title="Home"><i class="fa fa-home fa-lg fa-fw"></i></a>
                 </li>
                 <li>
                     <a class="dropdown-button" href="#" data-activates='drop-author'>About<i class="fa fa-caret-down fa-fw"></i></a>
@@ -236,59 +251,61 @@ if (_HideForChange == null || _HideForChange == "dark") {
                 <li>
                     <a class="dropdown-button" href="#" data-activates='drop-archive'>Archive<i class="fa fa-caret-down fa-fw"></i></a>
                 </li>
-                                <li><a class="dropdown-button" href="#" data-activates='drop-example'>Page Layouts<i class="fa fa-caret-down fa-fw"></i></a>
-                </li>
-                <ul id="drop-example" class="dropdown-content">
-	                <li>
-	                    <a href="/gridster-jekyll-theme/markdown">Markdown</a>
-	                </li>
-                    <li>
-                        <a href="/gridster-jekyll-theme/page-full">page-full</a>
-                    </li>
-                    <li>
-                        <a href="/gridster-jekyll-theme/page-classic-sidebar-right">page classic sidebar right</a>
-                    </li>
-                    <li>
-                        <a href="/gridster-jekyll-theme/page-classic-sidebar-left">page classic sidebar left</a>
-                    </li>
-                    <li>
-                        <a href="/gridster-jekyll-theme/page-material-sidebar-right">page material sidebar right</a>
-                    </li>
-                    <li>
-                        <a href="/gridster-jekyll-theme/page-material-sidebar-left">page material sidebar left</a>
-                    </li>
-                </ul>
+                <li>
+    <a class="dropdown-button" href="#" data-activates='drop-example'>Page Layouts<i class="fa fa-caret-down fa-fw"></i></a>
+</li>
+<li>
+    <ul id="drop-example" class="dropdown-content">
+        <li>
+            <a href="/markdown">Markdown</a>
+        </li>
+        <li>
+            <a href="/page-full">page-full</a>
+        </li>
+        <li>
+            <a href="/page-classic-sidebar-right">page classic sidebar right</a>
+        </li>
+        <li>
+            <a href="/page-classic-sidebar-left">page classic sidebar left</a>
+        </li>
+        <li>
+            <a href="/page-material-sidebar-right">page material sidebar right</a>
+        </li>
+        <li>
+            <a href="/page-material-sidebar-left">page material sidebar left</a>
+        </li>
+    </ul>
+</li>
+
                 <li>
                     <a href="#colorswitch" class="modal-trigger">Change Colors <i class="fa fa-cog"></i></a>
                 </li>
                 <li id="theme-toggle-container" class="lamp-navbar-item">
                     <button id="theme-toggle" class="lamp" aria-label="Toggle theme" type="button">
-                        <span class="lamp-base"></span>
-                        <span class="lamp-neck"></span>
-                        <span class="lamp-head"></span>
+                        <img id="lightModeIcon" src="/icons/light_mode_black_24dp.svg" style="display:inline;" title="Light Mode; Click to switch to Dark Mode" /><img id="darkModeIcon" src="/icons/dark_mode_white_24dp.svg" style="display:none;" title="Dark Mode; Click to swtich to Light Mode" />
                     </button>
                 </li>
 
             </ul>
             <ul id="drop-author" class="dropdown-content">
                 <li>
-                    <a href="/gridster-jekyll-theme/about">About</a>
+                    <a href="/about">About</a>
                 </li>
                 
                 <li>
-                    <a href="/gridster-jekyll-theme/author/gojimmypi">gojimmypi</a>
+                    <a href="/author/gojimmypi">gojimmypi</a>
                 </li>
                 
             </ul>
             <ul id="drop-archive" class="dropdown-content">
                 <li>
-                    <a href="/gridster-jekyll-theme/categories">Categories</a>
+                    <a href="/categories">Categories</a>
                 </li>
                 <li>
-                    <a href="/gridster-jekyll-theme/tags">Tags</a>
+                    <a href="/tags">Tags</a>
                 </li>
                 <li>
-                    <a href="/gridster-jekyll-theme/archive">Yearly</a>
+                    <a href="/archive">Yearly</a>
                 </li>
             </ul>
         </nav>
@@ -299,7 +316,7 @@ if (_HideForChange == null || _HideForChange == "dark") {
                 </li>
                 
                 <li class="social">
-                    <a href="/gridster-jekyll-theme/feed.xml" class="rss"><i class="fa fa-rss fa-lg fa-fw"></i></a>
+                    <a href="/feed.xml" class="rss"><i class="fa fa-rss fa-lg fa-fw"></i></a>
                 </li>
                   
                 <li class="social">
@@ -328,16 +345,18 @@ if (_HideForChange == null || _HideForChange == "dark") {
     
 
 
+
 <!--
 jekyll.environment   = [development]
-site.github_baseurl  = [https://github.com/gojimmypi/gridster-jekyll-theme/]
+site.domain          = [gojimmypi.github.io]
+site.github_baseurl  = [https://github.com/gojimmypi/gojimmypi.github.io/]
 page.path            = [tag/benchbox3/index.html]
-this_github_root     = [https://github.com/gojimmypi/gridster-jekyll-theme/]
+this_github_root     = [https://github.com/gojimmypi/gojimmypi.github.io/]
 this_github_filename = [tag/benchbox3/index.html]
-this_github_page     = [https://github.com/gojimmypi/gridster-jekyll-theme/tree/gh-pages/tag/benchbox3/index.html]
+this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/master/tag/benchbox3/index.html]
 -->
 
-<a href="https://github.com/gojimmypi/gridster-jekyll-theme/tree/gh-pages/tag/benchbox3/index.html"
+<a href="https://github.com/gojimmypi/gojimmypi.github.io/tree/master/tag/benchbox3/index.html"
    title="Click to view source on GitHub"
    class="github-corner"
    aria-label="View source on GitHub">
@@ -394,22 +413,22 @@ this_github_page     = [https://github.com/gojimmypi/gridster-jekyll-theme/tree/
 
 <div id="colorswitch" class="modal color-change">
     <div class="modal-content">
-      <h1>Change Color Palette</h1>
-      <p>
-      <img id="indigo" alt="color palette preview indigo" src="/gridster-jekyll-theme/media/indigo.svg">
-      <img id="brown" alt="color palette preview brown" src="/gridster-jekyll-theme/media/brown.svg">
-      <img id="green" alt="color palette preview green" src="/gridster-jekyll-theme/media/green.svg">
-      <img id="teal" alt="color palette preview teal" src="/gridster-jekyll-theme/media/teal.svg">
-      </p>
+        <h1>Change Color Palette</h1>
+        <p>
+            <img id="indigo" alt="color palette preview indigo" src="/media/indigo.svg">
+            <img id="brown" alt="color palette preview brown" src="/media/brown.svg">
+            <img id="green" alt="color palette preview green" src="/media/green.svg">
+            <img id="teal" alt="color palette preview teal" src="/media/teal.svg">
+        </p>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
     </div>
-  </div>
+</div>
 
         </header>
         <div id="search">
-	<form role="search" method="get" action="/gridster-jekyll-theme/search/" id="searchform">
+	<form role="search" method="get" action="/search/" id="searchform">
         <input id="query" name="query" type="search" placeholder="Enter here..."/>
 	</form>
 </div>
@@ -428,7 +447,7 @@ this_github_page     = [https://github.com/gojimmypi/gridster-jekyll-theme/tree/
         
     
     <span class="date">November 01, 2020</span>
-    <a href="/gridster-jekyll-theme/ea3500-openwrt-wifi-to-wifi-sta-routing/">
+    <a href="/ea3500-openwrt-wifi-to-wifi-sta-routing/">
         <h1>EA3500 OpenWRT WiFi to WiFi STA Routing </h1>
     </a>
     <p class="post-content">
@@ -437,7 +456,7 @@ this_github_page     = [https://github.com/gojimmypi/gridster-jekyll-theme/tree/
     
     </p>
     <p class="actions">
-        <a href="/gridster-jekyll-theme/ea3500-openwrt-wifi-to-wifi-sta-routing/">Read More</a>
+        <a href="/ea3500-openwrt-wifi-to-wifi-sta-routing/">Read More</a>
     </p>
 </article>
 
@@ -450,6 +469,7 @@ this_github_page     = [https://github.com/gojimmypi/gridster-jekyll-theme/tree/
         <footer>
     <div class="content">
         <span>&copy; 2015-2021 gojimmypi</span>
+        <span> <a href="/archive">Archive</a></span>
         <span class="backtotop">Back to Top</span>
     </div>
 </footer>
@@ -525,7 +545,7 @@ TypeKit -->
 
         syncAriaLabelWithStorage() {
             const nextTheme = themeMap[this.currentTheme];
-            this.toggleElement.setAttribute('aria-label', `Switch to ${nextTheme} mode theme`);
+            this.toggleElement.setAttribute('aria-label', 'Switch to ${nextTheme} mode theme');
         }
     }
 
