@@ -51,6 +51,7 @@ authors_dir: /about #ALl authors summary page, a.k.a. about
 author_dir: /author
 author_title_prefix: 'Posted by ' # only used my the author plugin. See README to see how to do it manually
 author_default_avatar: /profile-pic.jpg
+archive_dir: /archive
 media_folder: /media
 rss: /feed.xml #For nav. The path is fixed by jekyll-feed; omitting this will result in no RSS icon in nav.
 # Jekyll Setup
