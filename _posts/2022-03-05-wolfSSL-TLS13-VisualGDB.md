@@ -86,13 +86,6 @@ make: *** [Makefile:238: clean] Error 1
 ![wolfSSL-TLS13-default_binary_directory.png](../images/wolfSSL-TLS13-default_binary_directory.png)
 
 
-![![wolfSSL-TLS13-default_binary_directory.png](../images/wolfSSL-TLS13-default_binary_directory.png)](../images/wolfSSL-TLS13-client-server-wireshark.png)
-
-
-
-
-
-
 There are [some setup steps for our secure channel](https://github.com/wolfSSL/wolfssl-examples/blob/c85c7a115297f4ab60baab3ea56ea077d01dc1d9/tls/client-tls13.c#L168), but no packets sent.
 
 ```
@@ -169,6 +162,10 @@ After we have established an encrypted connection, we can [send data](https://gi
  Here are two instances of Visual Studio, side-by-side, single-step debugging each of the client (left) and server (middle) examples, with WireShark packets on the right:
 
  ![wolfSSL-TLS13-client-server-wireshark-preview.png](../images/wolfSSL-TLS13-client-server-wireshark-preview.png)
+
+ [![wolfSSL-TLS13-client-server-wireshark-preview.png](../images/wolfSSL-TLS13-client-server-wireshark-preview.png)](../images/wolfSSL-TLS13-client-server-wireshark.png)
+
+
 
 That's it!
 
