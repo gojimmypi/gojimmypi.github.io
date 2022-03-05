@@ -30,11 +30,15 @@ Next, the client is started, single stepping for this exercise. The default para
 
 When running WireShark, this filter could be useful to only look at interesting packets for this exercise:
 
-```
+
+{% include code_header.html %}
+```text
 (ip.src == 127.0.0.1 || ip.src == 127.0.0.2) && (ip.dst != 239.255.255.250)
 ```
 
 The first client operation is this [initial opening of a socket](https://github.com/wolfSSL/wolfssl-examples/blob/c85c7a115297f4ab60baab3ea56ea077d01dc1d9/tls/client-tls13.c#L155):
+
+{% include code_header.html %}
 ```c
     /* Connect to the server */
     if ((ret = connect(sockfd, (struct sockaddr*) &servAddr, sizeof(servAddr))) == -1) {
@@ -64,7 +68,8 @@ C:\workspace\wolfssl-examples>tree
 Note that when using `make` to build the examples in place for Linux, there are [hard-coded file references](https://github.com/wolfSSL/wolfssl-examples/blob/c85c7a115297f4ab60baab3ea56ea077d01dc1d9/tls/client-tls13.c#L41) to refer to the adjacent [certs directory](https://github.com/wolfSSL/wolfssl-examples/tree/master/certs)
 for some files. For example:
 
-```
+{% include code_header.html %}
+```c
 #define CERT_FILE "../certs/client-cert.pem"
 #define KEY_FILE  "../certs/client-key.pem"
 #define CA_FILE   "../certs/ca-cert.pem"
@@ -75,7 +80,7 @@ In order for VisualGDB to also build to that directory, we use `../../` for the 
 NOTE: The `../../` directory will likely change, as the `clean` process does not work so well. Fortunately the clever folks at sysprogs
 have a circuit breaker in place to help prevent shooting oneself in the foot. For more details, see the [wolfssl-examples PR 298 Comment](https://github.com/wolfSSL/wolfssl-examples/pull/298#issuecomment-1059811845).
 
-```
+```text
 make  CONFIG=Debug clean
 rm -rf ../../
 rm: refusing to remove '.' or '..' directory: skipping '../../'
@@ -88,7 +93,9 @@ make: *** [Makefile:238: clean] Error 1
 
 There are [some setup steps for our secure channel](https://github.com/wolfSSL/wolfssl-examples/blob/c85c7a115297f4ab60baab3ea56ea077d01dc1d9/tls/client-tls13.c#L168), but no packets sent.
 
-```
+
+{% include code_header.html %}
+```c
     /* Initialize wolfSSL */
     if ((ret = wolfSSL_Init()) != WOLFSSL_SUCCESS) {
         fprintf(stderr, "ERROR: Failed to initialize the library\n");
@@ -140,6 +147,8 @@ There are [some setup steps for our secure channel](https://github.com/wolfSSL/w
 
 Once everything is in order, we call `wolfSSL_connect()` to [connect to the server](https://github.com/wolfSSL/wolfssl-examples/blob/c85c7a115297f4ab60baab3ea56ea077d01dc1d9/tls/client-tls13.c#L226):
 
+
+{% include code_header.html %}
 ```c
     /* Connect to wolfSSL on the server side */
     if ((ret = wolfSSL_connect(ssl)) != WOLFSSL_SUCCESS))
@@ -152,6 +161,7 @@ And we see the following TLS 1.3 packets exchanged to initially establish a secu
 
 After we have established an encrypted connection, we can [send data](https://github.com/wolfSSL/wolfssl-examples/blob/c85c7a115297f4ab60baab3ea56ea077d01dc1d9/tls/client-tls13.c#L245) via `wolfSSL_write()`:
 
+{% include code_header.html %}
 ```c
     /* Send the message to the server */
     if ((ret = wolfSSL_write(ssl, buff, len)) != len)
@@ -168,6 +178,6 @@ After we have established an encrypted connection, we can [send data](https://gi
 
 That's it!
 
-Stay tunned, this is the first in the series of encryption blogs. Next up: connecting the linux
+Stay tuned, this is the first in the series of encryption blogs. Next up: connecting the linux
 client and server apps to embedded ESP32 devices.
 
