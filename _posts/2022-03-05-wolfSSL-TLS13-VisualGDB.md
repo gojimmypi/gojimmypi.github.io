@@ -73,7 +73,7 @@ for some files. For example:
 In order for VisualGDB to also build to that directory, we use `../../` for the `Binary Directory` setting instead of the default `Debug` or `Release` subdirectories.
 
 NOTE: The `../../` directory will likely change, as the `clean` process does not work so well. Fortunately the clever folks at sysprogs
-have a circuit breaker in place to help prevent shooting oneself in the foot. For more details, see the [PR Comment](https://github.com/wolfSSL/wolfssl-examples/pull/298).
+have a circuit breaker in place to help prevent shooting oneself in the foot. For more details, see the [wolfssl-examples PR 298 Comment](https://github.com/wolfSSL/wolfssl-examples/pull/298#issuecomment-1059811845).
 
 ```
 make  CONFIG=Debug clean
