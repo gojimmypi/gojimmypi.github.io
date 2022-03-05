@@ -161,10 +161,9 @@ After we have established an encrypted connection, we can [send data](https://gi
 
  Here are two instances of Visual Studio, side-by-side, single-step debugging each of the client (left) and server (middle) examples, with WireShark packets on the right:
 
- ![wolfSSL-TLS13-client-server-wireshark-preview.png](../images/wolfSSL-TLS13-client-server-wireshark-preview.png)
+(click for full size pic)
 
  [![wolfSSL-TLS13-client-server-wireshark-preview.png](../images/wolfSSL-TLS13-client-server-wireshark-preview.png)](../images/wolfSSL-TLS13-client-server-wireshark.png)
-
 
 
 That's it!
