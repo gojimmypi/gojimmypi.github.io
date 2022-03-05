@@ -72,7 +72,7 @@ for some files. For example:
 
 In order for VisualGDB to also build to that directory, we use `../../` for the `Binary Directory` setting instead of the default `Debug` or `Release` subdirectories.
 
-NOTE: The `../../` directory will likely change, as the `clean` process does not work so well. Fortunately the celver folks at sysprogs
+NOTE: The `../../` directory will likely change, as the `clean` process does not work so well. Fortunately the clever folks at sysprogs
 have a circuit breaker in place to help prevent shooting oneself in the foot. For more details, see the [PR Comment](https://github.com/wolfSSL/wolfssl-examples/pull/298).
 
 ```
@@ -143,11 +143,12 @@ Once everything is in order, we call `wolfSSL_connect()` to [connect to the serv
     if ((ret = wolfSSL_connect(ssl)) != WOLFSSL_SUCCESS))
 ```   
 
-And we see the following TLS 1.3 packets exchanged to initially establish a secure connection:
+And we see the following TLS 1.3 packets exchanged to initially establish a secure connection 
+(packets starting at 36920 timestamp):
 
 ![wolfSSL-TLS13-wolfSSL_connect.png](../images/wolfSSL-TLS13-wolfSSL_connect.png)
 
-After we have established an encrypted connection configured, we can [send data](https://github.com/wolfSSL/wolfssl-examples/blob/c85c7a115297f4ab60baab3ea56ea077d01dc1d9/tls/client-tls13.c#L245) via `wolfSSL_write()`:
+After we have established an encrypted connection, we can [send data](https://github.com/wolfSSL/wolfssl-examples/blob/c85c7a115297f4ab60baab3ea56ea077d01dc1d9/tls/client-tls13.c#L245) via `wolfSSL_write()`:
 
 ```c
     /* Send the message to the server */
@@ -159,3 +160,9 @@ After we have established an encrypted connection configured, we can [send data]
  Here are two instances of Visual Studio, side-by-side, single-step debugging each of the client (left) and server (middle) examples, with WireShark packets on the right:
 
  ![wolfSSL-TLS13-client-server-wireshark-preview.png](../images/wolfSSL-TLS13-client-server-wireshark-preview.png)
+
+That's it!
+
+Stay tunned, this is the first in the series of encryption blogs. Next up: connecting the linux
+client and server apps to embedded ESP32 devices.
+
