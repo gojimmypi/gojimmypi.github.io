@@ -12,17 +12,18 @@ tags:
 
 Some notes on a sample wolfSSL project for the ESP32.
 
-the wolfssh include directory needs to be manually copied to the components/wolfssl
+the wolfssh include directory needs to be manually copied to the `components/wolfssl`.
 
 As the Espressif IDE options is missing from [wolfssh/ide/](https://github.com/wolfSSL/wolfssh/tree/master/ide), 
 files need to be manually copied:
-
+{% include code_header.html %}
 ```bash
 cd ~/esp/esp-idf/components/wolfssl/
 cp -r /usr/local/include/wolfssh/ .
 ```
 
-
+Environment setup:
+{% include code_header.html %}
 ```
 # set the project name here; should match the PROJECT_NAME in Makefile, and project() parameter in CMakeLists.txt
 THIS_PROJECT=my_wolfssl2
