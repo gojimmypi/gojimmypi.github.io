@@ -82,7 +82,16 @@ rm: refusing to remove '.' or '..' directory: skipping '../../'
 make: *** [Makefile:238: clean] Error 1
 ```
 
+
 ![wolfSSL-TLS13-default_binary_directory.png](../images/wolfSSL-TLS13-default_binary_directory.png)
+
+
+![![wolfSSL-TLS13-default_binary_directory.png](../images/wolfSSL-TLS13-default_binary_directory.png)](../images/wolfSSL-TLS13-client-server-wireshark.png)
+
+
+
+
+
 
 There are [some setup steps for our secure channel](https://github.com/wolfSSL/wolfssl-examples/blob/c85c7a115297f4ab60baab3ea56ea077d01dc1d9/tls/client-tls13.c#L168), but no packets sent.
 
