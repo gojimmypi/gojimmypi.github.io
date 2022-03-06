@@ -15,6 +15,9 @@ gem "kramdown", "~> 2.3", ">= 2.3.1"
 
 gem "rexml", ">= 3.2.5"
 
+# https://github.com/github/cmark-gfm/security/advisories/GHSA-mc3g-88wq-6f4x
+gem "commonmarker", ">= 0.23.4"
+
 group :jekyll_plugins do
   gem 'jekyll-archives'
 #  gem 'jekyll-paginate'
