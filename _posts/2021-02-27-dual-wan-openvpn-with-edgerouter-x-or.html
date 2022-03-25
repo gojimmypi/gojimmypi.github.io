@@ -13,7 +13,7 @@ tags:
 - TTY
 - NordVPN
 - SSH
-modified_time: '2021-03-13T09:05:11.231-08:00'
+modified_time: '2022-03-18T09:05:11.231-08:00'
 thumbnail: https://1.bp.blogspot.com/-zEByI_xT4ac/YDqaButJMhI/AAAAAAAADGk/2c-ZTEdSX7U6TOvtlCn79_rU9MsDU255ACLcBGAsYHQ/s72-w248-c-h400/EdgeRouter%2BUART.jpg
 blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-4245945991805471848
 blogger_orig_url: https://gojimmypi.blogspot.com/2021/02/dual-wan-openvpn-with-edgerouter-x-or.html
@@ -21,61 +21,76 @@ blogger_orig_url: https://gojimmypi.blogspot.com/2021/02/dual-wan-openvpn-with-e
 
 
 <p>
-This a blog about&nbsp;<a href="https://nord-help.com/">NordVPN</a>&nbsp;(and networking setup in general) for the Ubiquiti&nbsp;<a href="https://www.ui.com/edgemax/edgerouter-x/">EdgeRouter X</a>. If you are interested in this topic, then you may also be interested in my notes on the <a href="{{ site.baseurl }}{% post_url 2020-02-23-raspberry-pi-pi-hole-setup-notes %}">Pi-Hole ad blocker</a>.
+    This a blog about&nbsp;<a href="https://nord-help.com/">NordVPN</a>&nbsp;(and networking setup in general) for the Ubiquiti&nbsp;<a href="https://www.ui.com/edgemax/edgerouter-x/">EdgeRouter X</a>. If you are interested in this topic, then you may also be interested in my notes on the <a href="{{ site.baseurl }}{% post_url 2020-02-23-raspberry-pi-pi-hole-setup-notes %}">Pi-Hole ad blocker</a>.
 </p>
 
 <p>
-WARNING: Before configuring your router, be sure to read until the end. TL;DR - config does not survive a reboot. This blog is a work in progress.
-</p>
- 
-<p>
-I have <a href="https://twitter.com/gojimmypi/status/1360274600542625794?s=20">poor internet</a>&nbsp;bandwidth even after load balancing&nbsp;<a href="https://twitter.com/gojimmypi/status/1360697111398944769?s=20">two different providers</a>. One problem I see is that once a connection is established with basic load balancing the connection is "stuck" on one ISP. So when available bandwidth drops to almost nothing, the same connection continues to be used.
-</p>
- 
-<p>
-I was hoping to perhaps setup a virtual tunnel using the dual WAN connections to an OpenVPN provider. That way the VPN server would aggregate the two channels and only appear to have a single public-facing IP address. Fortunately I had this idea while <a href="https://nordvpn.com/">NordVPN</a> was having a birthday party sale!
-</p>
- 
-<p>
-Download&nbsp;<a href="https://filezilla-project.org/download.php?show_all=1">Filezilla</a>,&nbsp;the&nbsp;<a href="https://dl.ubnt.com/guides/edgemax/EdgeOS_UG.pdf">EdgeOS OS User Guide</a>,&nbsp;the latest&nbsp;<a href="https://www.ui.com/download/edgemax/edgerouter-x">EdgeRouter X Firmware</a>, and of course <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">putty</a>. If things get dire, the&nbsp;<a href="http://tftpd32.jounin.net/tftpd32_download.html">Jounin Tftpd64</a>&nbsp;server works well. (See <a href="https://help.ui.com/hc/en-us/articles/360019289113">EdgeRouter - TFTP Recovery</a>)
+    WARNING: Before configuring your router, be sure to read until the end. TL;DR - config does not survive a reboot. This blog is a work in progress.
 </p>
 
 <p>
-It is probably best to start with the most recent firmware image. The version used here is&nbsp;<a href="https://www.ui.com/download/edgemax/edgerouter-x/er-x/edgerouter-er-xer-x-sfpep-r6er-10x-firmware-v209-hotfix1">v2.0.9-hotfix.1</a>. Other downloads can be found at the <a href="https://www.ui.com/download/edgemax/edgerouter-x/er-x">EdgeRouter-X download site</a>.
+    I have <a href="https://twitter.com/gojimmypi/status/1360274600542625794?s=20">poor internet</a>&nbsp;bandwidth even after load balancing&nbsp;<a href="https://twitter.com/gojimmypi/status/1360697111398944769?s=20">two different providers</a>. One problem I see is that once a connection is established with basic load balancing the connection is "stuck" on one ISP. So when available bandwidth drops to almost nothing, the same connection continues to be used.
 </p>
 
 <p>
-Note that for a freshly factory-reset EdgeRouter, no DHCP is available so a static IP address is needed; the web GUI can be found at <a href="http://192.168.1.1/">http://192.168.1.1/</a>&nbsp;on Eth0.
+    I was hoping to perhaps setup a virtual tunnel using the dual WAN connections to an OpenVPN provider. That way the VPN server would aggregate the two channels and only appear to have a single public-facing IP address. Fortunately I had this idea while <a href="https://nordvpn.com/">NordVPN</a> was having a birthday party sale!
+</p>
+
+<p>
+    Download&nbsp;<a href="https://filezilla-project.org/download.php?show_all=1">Filezilla</a>,&nbsp;the&nbsp;<a href="https://dl.ubnt.com/guides/edgemax/EdgeOS_UG.pdf">EdgeOS OS User Guide</a>,&nbsp;the latest&nbsp;<a href="https://www.ui.com/download/edgemax/edgerouter-x">EdgeRouter X Firmware</a>, and of course <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">putty</a>. If things get dire, the&nbsp;<a href="http://tftpd32.jounin.net/tftpd32_download.html">Jounin Tftpd64</a>&nbsp;server works well. (See <a href="https://help.ui.com/hc/en-us/articles/360019289113">EdgeRouter - TFTP Recovery</a>)
+</p>
+
+<p>
+    It is probably best to start with the most recent firmware image. The version used here is&nbsp;<a href="https://www.ui.com/download/edgemax/edgerouter-x/er-x/edgerouter-er-xer-x-sfpep-r6er-10x-firmware-v209-hotfix1">v2.0.9-hotfix.1</a>. Other downloads can be found at the <a href="https://www.ui.com/download/edgemax/edgerouter-x/er-x">EdgeRouter-X download site</a>.
+</p>
+
+To factory reset the router, there's either a [convoluted hardwasre method](https://help.ui.com/hc/en-us/articles/205202620-EdgeRouter-Reset-to-Factory-Defaults)
+holding down the reset button for 10 seconds _after_ port LEDs start lighting up in sequence and until the LED on port 1 lights up again... or:
+
+{% include code_header.html %}
+```bash
+sudo cp /opt/vyatta/etc/config.boot.default /config/config.boot
+reboot
+```
+
+The default address is https://192.168.1.1 user name `ubnt` and password `ubnt`.
+
+<p>
+    Note that for a freshly factory-reset EdgeRouter, no DHCP is available so a static IP address is needed; the web GUI can be found at <a href="http://192.168.1.1/">http://192.168.1.1/</a>&nbsp;on Eth0.
+    Plug the network cable from the computer into the _left-most port_ when viewed from behind. Don't forget to change your hard-coded IP address, if now the fresh factory default is a new DHCP server for a differenmt network.
+    If the basic setup was selected, the left-most port is now WAN, so connect to send-from-left. When changing IP address setting on Windows, be sure to `Close` the settings Window to ensure changes are applied.
 </p>
 
 <div>
-Thanks to&nbsp;<a href="https://youtu.be/t3ZEFBHx-ZI">Willie Howe's Ubiquiti EdgeRouter X Hidden Console Port</a>&nbsp;video, I was able to easily find and connect a serial port to the internal UART connector of the EdgeRouter-X:
+    Thanks to&nbsp;<a href="https://youtu.be/t3ZEFBHx-ZI">Willie Howe's Ubiquiti EdgeRouter X Hidden Console Port</a>&nbsp;video, I was able to easily find and connect a serial port to the internal UART connector of the EdgeRouter-X:
 </div>
- <br /> 
+<br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1199/EdgeRouter_UART.jpg" style="margin-left: 1em; margin-right: 1em;">  
-<img border="0" data-original-height="1199" data-original-width="743" height="400" src="../images/w248-h400/EdgeRouter_UART.jpg" width="248"></a>
+    <a href="../images/s1199/EdgeRouter_UART.jpg" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="1199" data-original-width="743" height="400" src="../images/w248-h400/EdgeRouter_UART.jpg" width="248">
+    </a>
 </div>
 <br />
 
 <p>
-Connect via putty to the serial port. 57600, 8N1:
+    Connect via putty to the serial port. 57600, 8N1:
 </p>
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1039/EdgeOS_Putty.PNG" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="294" data-original-width="1039" src="../images/s320/EdgeOS_Putty.PNG" width="320"></a>
+    <a href="../images/s1039/EdgeOS_Putty.PNG" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="294" data-original-width="1039" src="../images/s320/EdgeOS_Putty.PNG" width="320">
+    </a>
 </div>
 <br />
 
 <p>
-  <br />
+    <br />
 
 </p>
 
 <p>
-For a brief time, the UART TTY will allow the bootloader update from something other than flash. This is vastly simpler than the convoluted power / hold-the-reset button method:
+    For a brief time, the UART TTY will allow the bootloader update from something other than flash. This is vastly simpler than the convoluted power / hold-the-reset button method:
 </p>
 
 
@@ -91,7 +106,7 @@ Please choose the operation:
    9: Load Boot Loader code then write to Flash via TFTP.
    r: Start TFTP recovery.
 default: 3</code></pre>
-<br />This command will "soft" factory reset (actually just configuration reset) the router: 
+<br />This command will "soft" factory reset (actually just configuration reset) the router:
 
 {% include code_header.html %}
 
@@ -101,40 +116,43 @@ sudo cp /opt/vyatta/etc/config.boot.default /config/config.boot
 reboot</code></pre>
 
 <div>
-If you find yourself so desperate that a <a href="https://help.ui.com/hc/en-us/articles/360019289113-EdgeRouter-TFTP-Recovery">TFTP recovery</a> image restore is needed, here are the settings I used:
+    If you find yourself so desperate that a <a href="https://help.ui.com/hc/en-us/articles/360019289113-EdgeRouter-TFTP-Recovery">TFTP recovery</a> image restore is needed, here are the settings I used:
 </div>
 <br />
 
 <div class="separator" style="clear: both; text-align: center;">
-<a href="../images/s622/tftp_client.png" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="354" data-original-width="622" height="228" src="../images/w400-h228/tftp_client.png" width="400"></a>
-</div>
- <br /> 
-
-<div>
-(my PC, the client sending the <a href="https://www.ui.com/download/edgemax/edgerouter-x">TFTP image file</a>, was manually set to 192.168.1.23)
+    <a href="../images/s622/tftp_client.png" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="354" data-original-width="622" height="228" src="../images/w400-h228/tftp_client.png" width="400">
+    </a>
 </div>
 <br />
 
 <div>
-Once the router has been factory reset, the web GUI can be used for a basic config by visiting <a href="https://192.168.1.1/#Wizard/setup/Basic_Setup">your local https://192.168.1.1</a>:
+    (my PC, the client sending the <a href="https://www.ui.com/download/edgemax/edgerouter-x">TFTP image file</a>, was manually set to 192.168.1.23)
 </div>
 <br />
 
 <div>
-<div class="separator" style="clear: both; text-align: center;">
-<a href="../images/s312/basic_config.PNG" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="165" data-original-width="312" src="../images/s0/basic_config.PNG"></a>
+    Once the router has been factory reset, the web GUI can be used for a basic config by visiting <a href="https://192.168.1.1/#Wizard/setup/Basic_Setup">your local https://192.168.1.1</a>:
 </div>
 <br />
 
+<div>
+    <div class="separator" style="clear: both; text-align: center;">
+        <a href="../images/s312/basic_config.PNG" style="margin-left: 1em; margin-right: 1em;">
+            <img border="0" data-original-height="165" data-original-width="312" src="../images/s0/basic_config.PNG">
+        </a>
+    </div>
+    <br />
+
 </div>
-Reminder that if a new network was setup other than the default 192.168.1.0 with the wizard, you'll need to move the network cable from Eth0 to Eth2 and change the fixed IP address setting to DHCP.&nbsp;<br /> 
+Reminder that if a new network was setup other than the default 192.168.1.0 with the wizard, you'll need to move the network cable from Eth0 to Eth2 and change the fixed IP address setting to DHCP.&nbsp;
+<br />
 
 <div>
-The <code class="highlight">ip route</code> command after a fresh basic config looks like this:
+    The <code class="highlight">ip route</code> command after a fresh basic config looks like this:
 </div>
- <br />
+<br />
 
 {% include code_header.html %}
 
@@ -143,12 +161,14 @@ The <code class="highlight">ip route</code> command after a fresh basic config l
 default via 192.168.37.254 dev eth0 proto zebra
 192.168.37.0/24 dev eth0 proto kernel scope link src 192.168.37.81
 192.168.170.0/24 dev switch0 proto kernel scope link src 192.168.170.1  </code></pre>
- <br />  See the 
+<br />  See the
 <a href="https://support.nordvpn.com/Connectivity/Router/1047410702/EdgeRouter-and-Ubiquiti-setup-with-NordVPN.htm">detailed EdgeRouter and Ubiquiti setup with NordVPN</a>
-. <br />
-<br />The 
+.
+<br />
+<br />The
 <a href="https://dev.to/wietse/install-nano-on-edgeos-2-x-3e7j">nano editor can also be installed:</a>
-. <br />
+.
+<br />
 
 {% include code_header.html %}
 
@@ -171,7 +191,7 @@ sudo rm -R /var/cache/apt/archives
 sudo mkdir /var/lib/apt/lists/partial
 sudo echo "" | sudo tee /var/cache/apt/archives/lock
 sudo mkdir /var/cache/apt/archives/partial</code></pre>
-<br />  To configure the OpenVPN service, open an ssh connection or use the TTY described above: 
+<br />  To configure the OpenVPN service, open an ssh connection or use the TTY described above:
 
 {% include code_header.html %}
 
@@ -182,31 +202,33 @@ cd /config/
 mkdir -p openvpn
 chmod 770 openvpn</code></pre>
  Copy your nordvpn <a href="https://nordvpn.com/servers/tools/">ovpn</a>&nbsp;(the ca1098 example used here is <a href="https://downloads.nordcdn.com/configs/files/ovpn_udp/servers/ca1098.nordvpn.com.udp.ovpn">this file</a>) and <code class="highlight">nordvpnauth.txt</code> (service username on line 1, password on line 2) files to the <code class="highlight">/config/openvpn</code>
- with FileZilla.  Note that resetting your password on the ndaccount page will NOT close VPN connections. It should log you out of web sites, but I saw my VPN connection stay open after a password change.<br />
-<br /> If you are debugging and want to see VPN logs, add the this line to your ovpn file: 
+ with FileZilla.  Note that resetting your password on the ndaccount page will NOT close VPN connections. It should log you out of web sites, but I saw my VPN connection stay open after a password change.
+<br />
+<br /> If you are debugging and want to see VPN logs, add the this line to your ovpn file:
 
 {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
   log /config/openvpn/vpn.log                                              </code></pre>
- <br />You will now be generating connection logs which can be found in that directory, open them using this command through SSH:  
+<br />You will now be generating connection logs which can be found in that directory, open them using this command through SSH:
 
 {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
   cat /config/openvpn/vpn.log                                              </code></pre>
-  (That's one of the many tips I received from NordVPN support; they are awesome)  <br />
-  
+  (That's one of the many tips I received from NordVPN support; they are awesome)
 <br />
-     After copying the two files onto the EdgeRouter, apply proper permissions:    
+
+<br />
+     After copying the two files onto the EdgeRouter, apply proper permissions:
 <br />
 
 <div>
-<br />  
+    <br />
 
-{% include code_header.html %}
+    {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
@@ -214,18 +236,18 @@ sudo chmod 600  /config/openvpn/vpn.log
 sudo chmod 600  /config/openvpn/nordvpnauth.txt
 # edit for your specific file name:
 sudo chmod 600  /config/openvpn/ca1098.nordvpn.com.udp.ovpn</code></pre>
-<br />
-    
-<br />
-    Note that when doing a "soft" factory reset, step above such as the nano install, vpn directories, and copied files are retained.     
-<br />
-    
-<br />  
+    <br />
 
-<div>
-On a freshly factory reset EdgeRouter OS, establish connection via SFTP or UART, (be sure to edit the line with&nbsp;<code class="highlight">ca1098.nordvpn.com.udp.ovpn</code> for your own server for best performance, as well as your local desired network addresses) and configure as shown below: 
+    <br />
+    Note that when doing a "soft" factory reset, step above such as the nano install, vpn directories, and copied files are retained.
+    <br />
 
-{% include code_header.html %}
+    <br />
+
+    <div>
+        On a freshly factory reset EdgeRouter OS, establish connection via SFTP or UART, (be sure to edit the line with&nbsp;<code class="highlight">ca1098.nordvpn.com.udp.ovpn</code> for your own server for best performance, as well as your local desired network addresses) and configure as shown below:
+
+        {% include code_header.html %}
 <pre class="language highlighter-rouge">
 <code class="highlight">
 configure
@@ -262,24 +284,25 @@ set interfaces ethernet eth4 firewall in modify SOURCE_ROUTE
 # it will NOT be reachable. 
 commit
 save</code></pre>
-That's it! Right? Well sorta. Um, actually no. Visit&nbsp;<a href="https://nord-help.com/">https://nord-help.com/</a>&nbsp;and confirm the top of the page shows the text "Protected":
-</div>
-         <br />         
+        That's it! Right? Well sorta. Um, actually no. Visit&nbsp;<a href="https://nord-help.com/">https://nord-help.com/</a>&nbsp;and confirm the top of the page shows the text "Protected":
+    </div>
+    <br />
 
-<div class="separator" style="clear: both; text-align: center;">
-<a href="../images/s265/nord_vpn_protected.PNG" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="41" data-original-width="265" src="../images/s0/nord_vpn_protected.PNG"></a>
-</div>
-<br />  To see your actual ISP address on the EdgeRouter from commandline (thanks stackoverflow for 
-<a href="https://stackoverflow.com/questions/19878056/sed-remove-tags-from-html-file/19878198">sed tip</a>):    
+    <div class="separator" style="clear: both; text-align: center;">
+        <a href="../images/s265/nord_vpn_protected.PNG" style="margin-left: 1em; margin-right: 1em;">
+            <img border="0" data-original-height="41" data-original-width="265" src="../images/s0/nord_vpn_protected.PNG">
+        </a>
+    </div>
+    <br />  To see your actual ISP address on the EdgeRouter from commandline (thanks stackoverflow for
+    <a href="https://stackoverflow.com/questions/19878056/sed-remove-tags-from-html-file/19878198">sed tip</a>):
 
-{% include code_header.html %}
+    {% include code_header.html %}
 <pre class="language highlighter-rouge">
 <code class="highlight">
 curl -v --silent https://www.ipchicken.com 2&gt;&amp;1 | grep -A 1 "Address:" \
                    | sed -e 's/&lt;[^&gt;]*&gt;//g'</code></pre>
-     <br />         Another helpful tip is 
-<a href="https://community.ui.com/questions/configuration-to-set-commands-tool/cd38feec-f7af-4b74-aaf1-a72119cd58bf">converting the config file to commands</a>, like this: 
+    <br />         Another helpful tip is
+    <a href="https://community.ui.com/questions/configuration-to-set-commands-tool/cd38feec-f7af-4b74-aaf1-a72119cd58bf">converting the config file to commands</a>, like this:
 </div>
 
 
@@ -288,31 +311,31 @@ curl -v --silent https://www.ipchicken.com 2&gt;&amp;1 | grep -A 1 "Address:" \
 <pre class="language highlighter-rouge">
 <code class="highlight">
 cli-shell-api --show-commands --show-cfg1 /dev/null --show-cfg2 /config/config.boot showConfig</code></pre>
- 
-<div>
-<br />     
 
 <div>
-If it was only that easy; I would not have this blog. Now things get interesting. Reboot the EdgeRouter. You'll see that it ends up in a completely unhappy state: It appears there's no network connectivity at all! The first couple of times I did that, I had to factory reset the hard way.
-</div>
-<br />
+    <br />
 
-<div>
-Actually, with the TTY UART connection, we can see there <i>is </i>network connectivity but the VPN connection is not working. Worse, the problem after reboot seems to be with the routing/switching on the Eth1 .. Eth4 ports.
-</div>
-<br />
+    <div>
+        If it was only that easy; I would not have this blog. Now things get interesting. Reboot the EdgeRouter. You'll see that it ends up in a completely unhappy state: It appears there's no network connectivity at all! The first couple of times I did that, I had to factory reset the hard way.
+    </div>
+    <br />
 
-<div>
-It appears there's nothing immediately obviously wrong from the logs. The TTY connection is really quite insightful at boot time. Plus you don't have to see their wondering if it crashed, is still booting, or has some other problem.
-</div>
-<br />
+    <div>
+        Actually, with the TTY UART connection, we can see there <i>is </i>network connectivity but the VPN connection is not working. Worse, the problem after reboot seems to be with the routing/switching on the Eth1 .. Eth4 ports.
+    </div>
+    <br />
 
-<div>
-There's a <a href="https://community.ui.com/questions/Better-way-to-restart-OpenVPN/04b1c569-ed80-4771-9011-0b6fbc17d695?page=2">suggestion to restart the OpenVPN connection</a> like this:
-</div>
-   
+    <div>
+        It appears there's nothing immediately obviously wrong from the logs. The TTY connection is really quite insightful at boot time. Plus you don't have to see their wondering if it crashed, is still booting, or has some other problem.
+    </div>
+    <br />
 
-{% include code_header.html %}
+    <div>
+        There's a <a href="https://community.ui.com/questions/Better-way-to-restart-OpenVPN/04b1c569-ed80-4771-9011-0b6fbc17d695?page=2">suggestion to restart the OpenVPN connection</a> like this:
+    </div>
+
+
+    {% include code_header.html %}
 <pre class="language highlighter-rouge">
 <code class="highlight">
 #!/bin/vbash
@@ -328,36 +351,37 @@ sudo /usr/sbin/openvpn --daemon --verb 3 --writepid /var/run/openvpn-$VTUN.pid \
                        --dev-type tun --dev $VTUN
                        
 ls -l /var/run/openvpn*.pid</code></pre>
-<br />
+    <br />
 
-<div>
-<br />
-<a href="https://forums.openvpn.net/viewtopic.php?f=5&amp;t=28978#p87497">Use systemctl</a> not <code class="highlight">
-/etc/init.d/openvpn</code><br />
-<br />
+    <div>
+        <br />
+        <a href="https://forums.openvpn.net/viewtopic.php?f=5&amp;t=28978#p87497">Use systemctl</a> not <code class="highlight">
+            /etc/init.d/openvpn
+        </code><br />
+        <br />
 
-</div>
+    </div>
 
 
-<div>
-However I found this easier: 
+    <div>
+        However I found this easier:
 
-{% include code_header.html %}
+        {% include code_header.html %}
 <pre class="language highlighter-rouge">
 <code class="highlight">
 # To reset the VPN connection                                          
 sudo systemctl stop openvpn.service
 sudo systemctl start openvpn.service
 sudo systemctl status openvpn.service</code></pre>
-  <br />Simply resetting the VPN connection after reboot does not resolve the problem. It seems to still be a routing problem.
+        <br />Simply resetting the VPN connection after reboot does not resolve the problem. It seems to still be a routing problem.
 
-</div>
+    </div>
 
-<div>
-  <br />  The 
-<code class="highlight">ip address</code> command can be used to see what IP addresses are assigned, and which ports are active on the EdgeRouter. Using the <code class="highlight">ip route</code> command, you should see something like this. Here 192.168.2.x is the WAN network; 192.168.170.x is the EdgeRouter: 
+    <div>
+        <br />  The
+        <code class="highlight">ip address</code> command can be used to see what IP addresses are assigned, and which ports are active on the EdgeRouter. Using the <code class="highlight">ip route</code> command, you should see something like this. Here 192.168.2.x is the WAN network; 192.168.170.x is the EdgeRouter:
 
-{% include code_header.html %}
+        {% include code_header.html %}
 <pre class="language highlighter-rouge">
 <code class="highlight">
 0.0.0.0/24 dev vtun0 proto kernel scope link
@@ -365,22 +389,22 @@ default via 192.168.2.254 dev eth0 proto zebra
 10.8.3.0/24 dev vtun0 proto kernel scope link src 10.8.3.7
 192.168.2.0/24 dev eth0 proto kernel scope link src 192.168.2.81
 192.168.170.0/24 dev switch0 proto kernel scope link src 192.168.170.1</code></pre>
-     
-</div>
 
-<div>
-  Note that while it appeared the OpenVPN was working properly ("Protected" at NordVPN), I still saw <code class="highlight">Active: inactive (dead)</code> here: 
+    </div>
 
-{% include code_header.html %}
+    <div>
+        Note that while it appeared the OpenVPN was working properly ("Protected" at NordVPN), I still saw <code class="highlight">Active: inactive (dead)</code> here:
+
+        {% include code_header.html %}
 <pre class="language highlighter-rouge">
 <code class="highlight">
 ubnt@EdgeRouter-X-5-Port:~$ sudo systemctl status openvpn.service
 * openvpn.service - OpenVPN service
    Loaded: loaded (/lib/systemd/system/openvpn.service; disabled; vendor preset:
    Active: inactive (dead)</code></pre>
-  It seems that after a period of inactivity, perhaps the connection is closed, but once more internet activity is seen, the conection is re=established: 
+        It seems that after a period of inactivity, perhaps the connection is closed, but once more internet activity is seen, the conection is re=established:
 
-{% include code_header.html %}
+        {% include code_header.html %}
 <pre class="language highlighter-rouge">
 <code class="highlight">
 ubnt@EdgeRouter-X-5-Port:~$ sudo systemctl status openvpn.service
@@ -389,11 +413,11 @@ ubnt@EdgeRouter-X-5-Port:~$ sudo systemctl status openvpn.service
    Active: active (exited) since Sun 2021-02-28 20:06:13 UTC; 32s ago
   Process: 4709 ExecStart=/bin/true (code=exited, status=0/SUCCESS)
  Main PID: 4709 (code=exited, status=0/SUCCESS)</code></pre>
-<br />One method I found to re-establish a TCP/IP link to the EdgeRouter after the VPN config and reboot is to delete and recreate the interface as described 
-<a href="https://help.ui.com/hc/en-us/articles/204960104-EdgeRouter-How-to-Configure-an-Interface">here</a>
-: <br />     
+        <br />One method I found to re-establish a TCP/IP link to the EdgeRouter after the VPN config and reboot is to delete and recreate the interface as described
+        <a href="https://help.ui.com/hc/en-us/articles/204960104-EdgeRouter-How-to-Configure-an-Interface">here</a>
+        : <br />
 
-{% include code_header.html %}
+        {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
@@ -401,16 +425,16 @@ configure
 delete interfaces ethernet eth3
 set interfaces ethernet eth3 address 192.168.173.1/24
 commit ; save</code></pre>
-    <br />    The above configuration commands will setup a routed segment on 
-<code class="highlight">Eth3</code> (the second port from the right, next to the PoE one). Assign a manual IP address such as 192.168.173.23 to a PC with manual DNS, and now we are back to having an operational port! This also survives a reboot! Visit your local <a href="https://192.168.170.1">https://192.168.170.1</a> to see the EdgeOS web GUI.     
-</div>
-         <br />    There are some 
-<a href="https://help.ui.com/hc/en-us/articles/204952254-EdgeRouter-DHCP-Server">notes on setting up DHCP</a>
- like this:<br />
-    
-<br /> 
+        <br />    The above configuration commands will setup a routed segment on
+        <code class="highlight">Eth3</code> (the second port from the right, next to the PoE one). Assign a manual IP address such as 192.168.173.23 to a PC with manual DNS, and now we are back to having an operational port! This also survives a reboot! Visit your local <a href="https://192.168.170.1">https://192.168.170.1</a> to see the EdgeOS web GUI.
+    </div>
+    <br />    There are some
+    <a href="https://help.ui.com/hc/en-us/articles/204952254-EdgeRouter-DHCP-Server">notes on setting up DHCP</a>
+    like this:<br />
 
-{% include code_header.html %}
+    <br />
+
+    {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
@@ -422,235 +446,254 @@ set service dhcp-server shared-network-name LAN1 subnet 192.168.173.0/24 dns-ser
 set service dhcp-server shared-network-name LAN1 subnet 192.168.173.0/24 lease 86400
 set service dhcp-server shared-network-name LAN1 subnet 192.168.173.0/24 start 192.168.173.38 stop 192.168.173.243
 commit ; save </code></pre>
-             <br />
-          If you are no longer debugging and added the this line to your ovpn file, you may wish to remove it:
-<br />
+    <br />
+    If you are no longer debugging and added the this line to your ovpn file, you may wish to remove it:
+    <br />
 
-{% include code_header.html %}
+    {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
   log /config/openvpn/vpn.log                                              </code></pre>
-<br />     Note that if you are using a Raspberry Pi for ad-blocking DNS with the 
-<a href="https://pi-hole.net/">Pi-Hole</a>, (see also my <a href="{{ site.baseurl }}{% post_url 2020-02-23-raspberry-pi-pi-hole-setup-notes %}">prior blog</a>) then that RPi needs to be separately setup to use the VPN. See <a href="http://dnsleaktest.com/">
-http://dnsleaktest.com/ </a><br />
-    
-<br />         
+    <br />     Note that if you are using a Raspberry Pi for ad-blocking DNS with the
+    <a href="https://pi-hole.net/">Pi-Hole</a>, (see also my <a href="{{ site.baseurl }}{% post_url 2020-02-23-raspberry-pi-pi-hole-setup-notes %}">prior blog</a>) then that RPi needs to be separately setup to use the VPN. See <a href="http://dnsleaktest.com/">
+        http://dnsleaktest.com/
+    </a><br />
 
-<div>
-<b>Where I'm currently at:</b>
-</div>
-    <br />         
-
-<div>
-I'm thinking if I can configure Eth2 .. Eth4 like that, but as a switched segment on the 192.168.170.0 network, perhaps that will survive a reboot as well?       
-</div>
-    <br />         
-
-<p>
     <br />
 
-</p>
-         
-<p>
-The RT-AX86U:
-</p>
-         
-<p>
-With some of the problems I saw with the EdgeRouter, I thought I'd try a different router. There's an&nbsp;<a href="http://router.asus.com/index.asp">online Web GUI simulator</a>&nbsp;to test drive some of the Asus features in the firmware UI without actually having your own router.
-</p>
+    <div>
+        <b>Where I'm currently at:</b>
+    </div>
+    <br />
 
-<p>
-I tried&nbsp;<a href="https://www.amazon.com/dp/B08BJHS3X7/">ASUS AX5700 WiFi 6 Gaming Router (RT-AX86U)</a>&nbsp;as it supports dual WAN, however neither of my ISP devices is&nbsp;LACP-IEEE 802.3ad capable, which is&nbsp;<a href="https://www.asus.com/support/FAQ/1039053">required for ASUS WAN bonded aggregation</a>. Yes, I tried it anyhow, and the performance was unusably poor.&nbsp;
-</p>
+    <div>
+        I'm thinking if I can configure Eth2 .. Eth4 like that, but as a switched segment on the 192.168.170.0 network, perhaps that will survive a reboot as well?
+    </div>
+    <br />
 
-<p>
-Additionally, despite having a UI to setup OpenVPN and appearance of it being successfully connected to VPN server, it was <i>not actually being used</i>:&nbsp;
-</p>
-             
-<div class="separator" style="clear: both; text-align: center;">
-<a href="../images/s756/NordVPN.PNG" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="153" data-original-width="756" src="../images/s320/NordVPN.PNG" width="320"></a>
-</div>
-             
-<p>
-I tried contacting Asus support. My first email was bounced back "mailbox full".&nbsp;
-</p>
+    <p>
+        <br />
 
-<p>
-<a href="https://www.asus.com/support/Product/ContactUs/Services/questionform/?lang=en">Asus support</a>&nbsp;via a web form was not very helpful. In fact, their response claimed to be "<span face="Arial, Helvetica, sans-serif" style="background-color: white; color: #222222; font-size: small;">confidential and not for publication</span>". I did not agree to a non-disclosure agreement with them, nor does their web page indicate the support response is confidential:&nbsp;&nbsp;
-</p>
-             
-<div class="separator" style="clear: both; text-align: center;">
-<a href="../images/s992/asus_support.PNG" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="821" data-original-width="992" src="../images/s320/asus_support.PNG" width="320"></a>      
-</div>
-             
-<p>
-<br />      
+    </p>
 
-</p>
+    <p>
+        The RT-AX86U:
+    </p>
+
+    <p>
+        With some of the problems I saw with the EdgeRouter, I thought I'd try a different router. There's an&nbsp;<a href="http://router.asus.com/index.asp">online Web GUI simulator</a>&nbsp;to test drive some of the Asus features in the firmware UI without actually having your own router.
+    </p>
+
+    <p>
+        I tried&nbsp;<a href="https://www.amazon.com/dp/B08BJHS3X7/">ASUS AX5700 WiFi 6 Gaming Router (RT-AX86U)</a>&nbsp;as it supports dual WAN, however neither of my ISP devices is&nbsp;LACP-IEEE 802.3ad capable, which is&nbsp;<a href="https://www.asus.com/support/FAQ/1039053">required for ASUS WAN bonded aggregation</a>. Yes, I tried it anyhow, and the performance was unusably poor.&nbsp;
+    </p>
+
+    <p>
+        Additionally, despite having a UI to setup OpenVPN and appearance of it being successfully connected to VPN server, it was <i>not actually being used</i>:&nbsp;
+    </p>
+
+    <div class="separator" style="clear: both; text-align: center;">
+        <a href="../images/s756/NordVPN.PNG" style="margin-left: 1em; margin-right: 1em;">
+            <img border="0" data-original-height="153" data-original-width="756" src="../images/s320/NordVPN.PNG" width="320">
+        </a>
+    </div>
+
+    <p>
+        I tried contacting Asus support. My first email was bounced back "mailbox full".&nbsp;
+    </p>
+
+    <p>
+        <a href="https://www.asus.com/support/Product/ContactUs/Services/questionform/?lang=en">Asus support</a>&nbsp;via a web form was not very helpful. In fact, their response claimed to be "<span face="Arial, Helvetica, sans-serif" style="background-color: white; color: #222222; font-size: small;">confidential and not for publication</span>". I did not agree to a non-disclosure agreement with them, nor does their web page indicate the support response is confidential:&nbsp;&nbsp;
+    </p>
+
+    <div class="separator" style="clear: both; text-align: center;">
+        <a href="../images/s992/asus_support.PNG" style="margin-left: 1em; margin-right: 1em;">
+            <img border="0" data-original-height="821" data-original-width="992" src="../images/s320/asus_support.PNG" width="320">
+        </a>
+    </div>
+
+    <p>
+        <br />
+
+    </p>
 
 
-<p>
-The folks at NordVPN are considerably more helpful and cooperative. They did confirm that sometimes traffic is not routed though OpenVPN connection, even though it is up! This is completely unacceptable. I bought the RT-AX86U specifically as it was on the recommended list of NordVPN routers. I plan to return the router. Not worth $250 to me.&nbsp;
-</p>
+    <p>
+        The folks at NordVPN are considerably more helpful and cooperative. They did confirm that sometimes traffic is not routed though OpenVPN connection, even though it is up! This is completely unacceptable. I bought the RT-AX86U specifically as it was on the recommended list of NordVPN routers. I plan to return the router. Not worth $250 to me.&nbsp;
+    </p>
 
-<p>
-Unlike Asus, NordVPN has no such "confidentiality" in their tech support. So I will share this informative message from their helpful support staff:
-</p>
-      <br />
-<blockquote>    If you want a router that is an out-of-the-box solution for NordVPN provided security and anonymity, you should head over to our partners at <a href="https://nordvpn.com/flashrouters/">https://nordvpn.com/flashrouters/</a>
- . They will provide you with a preconfigured router that will deliver top-notch security and performance.<br />
-<br />
-You can also buy a router and configure it yourself. We usually recommend these routers for simple home usage and if you do not require much performance (up to 10-40Mbps respectively): Asus RT-N18U, Asus RT-AC66U, Asus RT-AC68U, Asus RT-AC87U, Asus RT-AC3200.
-<br />
-<br />
-Please note, that while you can get many different routers from other manufacturers, we strongly recommend getting an Asus router, as it has a built-in OpenVPN client on it default firmware and requires minimal effort to set up. Most other routers require firmware flashing, which might be a troublesome procedure and is not supported on all platforms.
-<br />
-<br />
-You can also acquire any router that supports custom firmware:
-<br />
-<br />DD-WRT: 
-<a href="https://www.dd-wrt.com/wiki/index.php/Supported_Devices">
-https://www.dd-wrt.com/wiki/index.php/Supported_Devices</a><br />Tomato: 
-<a href="http://tomato.groov.pl/?page_id=69">
-http://tomato.groov.pl/?page_id=69</a><br />Padavan: 
-<a href="https://wikidevi.com/wiki/List_of_Padavan_firmware_supported_devices">
-https://wikidevi.com/wiki/List_of_Padavan_firmware_supported_devices</a><br />OpenWRT: 
-<a href="https://wiki.openwrt.org/toh/start">
-https://wiki.openwrt.org/toh/start</a><br />Merlin: 
-<a href="https://github.com/RMerl/asuswrt-merlin/wiki/Supported-Devices">
-https://github.com/RMerl/asuswrt-merlin/wiki/Supported-Devices</a><br />
-<br />
-If you want a router that provides the best performance possible (in best case scenario up to 60Mbps), please look at these ones:
-<br />
-<br />
-Asus: RT-AC66U B1, RT-AC68U, RT-AC86U, RT-AX3000, RT-AX82U, RT-AX86U, RT-AX88U, RT-AC5300
-<br />
-D-Link (Would need to be flashed with DD-WRT): DIR-885L, DIR-895L
-<br />
-Linksys (Would need to be flashed with DD-WRT): EA8500, WRT1900ACS, WRT3200ACM
-<br />
-Netgear (Would need to be flashed with DD-WRT): R7500, R7800, R8500, R9000  
-</blockquote><br />
-<br />
-  
-<br />
-  
-<br />
-    
+    <p>
+        Unlike Asus, NordVPN has no such "confidentiality" in their tech support. So I will share this informative message from their helpful support staff:
+    </p>
+    <br />
+    <blockquote>
+        If you want a router that is an out-of-the-box solution for NordVPN provided security and anonymity, you should head over to our partners at <a href="https://nordvpn.com/flashrouters/">https://nordvpn.com/flashrouters/</a>
+        . They will provide you with a preconfigured router that will deliver top-notch security and performance.<br />
+        <br />
+        You can also buy a router and configure it yourself. We usually recommend these routers for simple home usage and if you do not require much performance (up to 10-40Mbps respectively): Asus RT-N18U, Asus RT-AC66U, Asus RT-AC68U, Asus RT-AC87U, Asus RT-AC3200.
+        <br />
+        <br />
+        Please note, that while you can get many different routers from other manufacturers, we strongly recommend getting an Asus router, as it has a built-in OpenVPN client on it default firmware and requires minimal effort to set up. Most other routers require firmware flashing, which might be a troublesome procedure and is not supported on all platforms.
+        <br />
+        <br />
+        You can also acquire any router that supports custom firmware:
+        <br />
+        <br />DD-WRT:
+        <a href="https://www.dd-wrt.com/wiki/index.php/Supported_Devices">
+            https://www.dd-wrt.com/wiki/index.php/Supported_Devices
+        </a><br />Tomato:
+        <a href="http://tomato.groov.pl/?page_id=69">
+            http://tomato.groov.pl/?page_id=69
+        </a><br />Padavan:
+        <a href="https://wikidevi.com/wiki/List_of_Padavan_firmware_supported_devices">
+            https://wikidevi.com/wiki/List_of_Padavan_firmware_supported_devices
+        </a><br />OpenWRT:
+        <a href="https://wiki.openwrt.org/toh/start">
+            https://wiki.openwrt.org/toh/start
+        </a><br />Merlin:
+        <a href="https://github.com/RMerl/asuswrt-merlin/wiki/Supported-Devices">
+            https://github.com/RMerl/asuswrt-merlin/wiki/Supported-Devices
+        </a><br />
+        <br />
+        If you want a router that provides the best performance possible (in best case scenario up to 60Mbps), please look at these ones:
+        <br />
+        <br />
+        Asus: RT-AC66U B1, RT-AC68U, RT-AC86U, RT-AX3000, RT-AX82U, RT-AX86U, RT-AX88U, RT-AC5300
+        <br />
+        D-Link (Would need to be flashed with DD-WRT): DIR-885L, DIR-895L
+        <br />
+        Linksys (Would need to be flashed with DD-WRT): EA8500, WRT1900ACS, WRT3200ACM
+        <br />
+        Netgear (Would need to be flashed with DD-WRT): R7500, R7800, R8500, R9000
+    </blockquote><br />
+    <br />
 
-<p>
-<br />
+    <br />
 
-</p>
-    
+    <br />
 
-<p>
-<br />
 
-</p>
-    
+    <p>
+        <br />
 
-<p>
-<br />
+    </p>
 
-</p>
-    
 
-<p>
-<br />
+    <p>
+        <br />
 
-</p>
-    
+    </p>
 
-<p>
-<br />
 
-</p>
-         
+    <p>
+        <br />
 
-<p>
-         See also:
-</p>
+    </p>
 
-<p>
-<a href="https://www.ipchicken.com/">
-www.ipchicken.com</a><br />
 
-</p>
+    <p>
+        <br />
 
-<p>
-<a href="https://www.dnsleaktest.com/">
-www.dnsleaktest.com</a><br />
+    </p>
 
-</p>
 
-<p>
-<a href="https://support.nordvpn.com/Connectivity/Router/1047410702/EdgeRouter-and-Ubiquiti-setup-with-NordVPN.htm">EdgeRouter and Ubiquiti setup with NordVPN</a>&nbsp;
-</p>
+    <p>
+        <br />
 
-<p>
-<a href="https://www.ovpn.com/en/guides/edgeos">Install OVPN on an Edgerouter (EdgeOS)</a>
-</p>
+    </p>
 
-<p>
-<a href="https://openvpn.net/community-resources/how-to/">OpenVPN 2.x client/server VPN</a>
-</p>
 
-<p>
-<a href="https://gist.github.com/mzpqnxow/3a1e3b814a0a7d6738a7c1040b565b45">Script</a>&nbsp;to periodically reset an OpenVPN tunnel for NordVPN to the fastest server on Ubiquiti EdgeRouters
-</p>
+    <p>
+        See also:
+    </p>
 
-<p>
-<a href="https://help.ui.com/hc/en-us/articles/205145990-EdgeRouter-Dual-WAN-Load-Balance-Feature">
-EdgeRouter - WAN Load-Balancing</a><br />
+    <p>
+        <a href="https://www.ipchicken.com/">
+            www.ipchicken.com
+        </a><br />
 
-</p>
+    </p>
 
-<p>
-<a href="https://help.ui.com/hc/en-us/articles/204975844-EdgeRouter-Interface-Bonding">
-EdgeRouter - Interface Bonding</a><br />
+    <p>
+        <a href="https://www.dnsleaktest.com/">
+            www.dnsleaktest.com
+        </a><br />
 
-</p>
+    </p>
 
-<p>
-<a href="https://support.nordvpn.com/Connectivity/Router/1625145462/How-to-check-the-version-of-OpenVPN-on-an-AsusWRT-running-router.htm">
-How to check the version of OpenVPN on an AsusWRT-running router</a><br />
+    <p>
+        <a href="https://support.nordvpn.com/Connectivity/Router/1047410702/EdgeRouter-and-Ubiquiti-setup-with-NordVPN.htm">EdgeRouter and Ubiquiti setup with NordVPN</a>&nbsp;
+    </p>
 
-</p>
+    <p>
+        <a href="https://www.ovpn.com/en/guides/edgeos">Install OVPN on an Edgerouter (EdgeOS)</a>
+    </p>
 
-<p>
-<a href="https://support.nordvpn.com/Connectivity/Router/1047410562/How-to-configure-your-Asus-router-running-original-firmware-AsusWRT.htm">
-How to Set Up VPN on Asus Router</a><br />
+    <p>
+        <a href="https://openvpn.net/community-resources/how-to/">OpenVPN 2.x client/server VPN</a>
+    </p>
 
-</p>
+    <p>
+        <a href="https://gist.github.com/mzpqnxow/3a1e3b814a0a7d6738a7c1040b565b45">Script</a>&nbsp;to periodically reset an OpenVPN tunnel for NordVPN to the fastest server on Ubiquiti EdgeRouters
+    </p>
 
-<p>
-<a href="https://www.asus.com/support/FAQ/1039053">
-[WAN] How to enable WAN Aggregation on ASUS Router?</a><br />
+    <p>
+        <a href="https://help.ui.com/hc/en-us/articles/205145990-EdgeRouter-Dual-WAN-Load-Balance-Feature">
+            EdgeRouter - WAN Load-Balancing
+        </a><br />
 
-</p>
+    </p>
 
-<p>
-<a href="https://www.asus.com/support/FAQ/1011719">
-[WAN] Dual WAN introduction and setup</a><br />
+    <p>
+        <a href="https://help.ui.com/hc/en-us/articles/204975844-EdgeRouter-Interface-Bonding">
+            EdgeRouter - Interface Bonding
+        </a><br />
 
-</p>
+    </p>
 
-<p>
-<a href="https://dev.to/wietse/force-reconnect-openvpn-client-connections-commandline-on-edgeos-5akc">
-Force Reconnect OpenVPN client connections (commandline) on EdgeOS</a><br />
+    <p>
+        <a href="https://support.nordvpn.com/Connectivity/Router/1625145462/How-to-check-the-version-of-OpenVPN-on-an-AsusWRT-running-router.htm">
+            How to check the version of OpenVPN on an AsusWRT-running router
+        </a><br />
 
-</p>
+    </p>
 
-<p>
-<a href="https://dev.to/wietse/install-nano-on-edgeos-2-x-3e7j">
-Install `nano` on EdgeOS (2.x)</a><br />    
+    <p>
+        <a href="https://support.nordvpn.com/Connectivity/Router/1047410562/How-to-configure-your-Asus-router-running-original-firmware-AsusWRT.htm">
+            How to Set Up VPN on Asus Router
+        </a><br />
 
-</p>
-         
+    </p>
+
+    <p>
+        <a href="https://www.asus.com/support/FAQ/1039053">
+            [WAN] How to enable WAN Aggregation on ASUS Router?
+        </a><br />
+
+    </p>
+
+    <p>
+        <a href="https://www.asus.com/support/FAQ/1011719">
+            [WAN] Dual WAN introduction and setup
+        </a><br />
+
+    </p>
+
+    <p>
+        <a href="https://dev.to/wietse/force-reconnect-openvpn-client-connections-commandline-on-edgeos-5akc">
+            Force Reconnect OpenVPN client connections (commandline) on EdgeOS
+        </a><br />
+
+    </p>
+
+    <p>
+        <a href="https://dev.to/wietse/install-nano-on-edgeos-2-x-3e7j">
+            Install `nano` on EdgeOS (2.x)
+        </a><br />
+
+    </p>
+
 </div>
 
 <br />
