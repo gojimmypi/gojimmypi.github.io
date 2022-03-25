@@ -30,10 +30,11 @@ TypeKit -->
     {
         copyCodeButtons.forEach((copyCodeButton, index) => {
             const code = codeBlocks[index].innerText;
+            // some older pages use HTML with a blank innerText, non-blank textContent
+            const codeAlt = codeBlocks[index].textContent;
+
             copyCodeButton.addEventListener('click', () => {
-                if (code == "") {
-                    // some older pages use HTML with a blank innerText, non-blank textContent
-                    const codeAlt = code = codeBlocks[index].textContent;
+                if (code == "" || code == null) {
                     window.navigator.clipboard.writeText(codeAlt);
                 }
                 else {
