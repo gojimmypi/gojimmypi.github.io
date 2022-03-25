@@ -44,8 +44,8 @@ blogger_orig_url: https://gojimmypi.blogspot.com/2021/02/dual-wan-openvpn-with-e
     It is probably best to start with the most recent firmware image. The version used here is&nbsp;<a href="https://www.ui.com/download/edgemax/edgerouter-x/er-x/edgerouter-er-xer-x-sfpep-r6er-10x-firmware-v209-hotfix1">v2.0.9-hotfix.1</a>. Other downloads can be found at the <a href="https://www.ui.com/download/edgemax/edgerouter-x/er-x">EdgeRouter-X download site</a>.
 </p>
 
-To factory reset the router, there's either a [convoluted hardwasre method](https://help.ui.com/hc/en-us/articles/205202620-EdgeRouter-Reset-to-Factory-Defaults)
-holding down the reset button for 10 seconds _after_ port LEDs start lighting up in sequence and until the LED on port 1 lights up again... or:
+To factory reset the router, there's either a <a href="https://help.ui.com/hc/en-us/articles/205202620-EdgeRouter-Reset-to-Factory-Defaults">convoluted hardware method</a>
+holding down the reset button for 10 seconds <i>after</i> port LEDs start lighting up in sequence and until the LED on port 1 lights up again... or:
 <br />
 
 {% include code_header.html %}
@@ -85,11 +85,6 @@ The default address is https://192.168.1.1 user name <code class="highlight">ubn
     </a>
 </div>
 <br />
-
-<p>
-    <br />
-
-</p>
 
 <p>
     For a brief time, the UART TTY will allow the bootloader update from something other than flash. This is vastly simpler than the convoluted power / hold-the-reset button method:
