@@ -47,18 +47,18 @@ blogger_orig_url: https://gojimmypi.blogspot.com/2021/02/dual-wan-openvpn-with-e
 To factory reset the router, there's either a [convoluted hardwasre method](https://help.ui.com/hc/en-us/articles/205202620-EdgeRouter-Reset-to-Factory-Defaults)
 holding down the reset button for 10 seconds _after_ port LEDs start lighting up in sequence and until the LED on port 1 lights up again... or:
 
-{% include code_header.html %}
-```bash
+<pre class="language highlighter-rouge">
+<code class="highlight">
 sudo cp /opt/vyatta/etc/config.boot.default /config/config.boot
 reboot
-```
+</code></pre>
 
-The default address is https://192.168.1.1 user name `ubnt` and password `ubnt`.
+The default address is https://192.168.1.1 user name <code class="highlight">ubnt</code> and password <code class="highlight">ubnt</code>.
 
 <p>
     Note that for a freshly factory-reset EdgeRouter, no DHCP is available so a static IP address is needed; the web GUI can be found at <a href="http://192.168.1.1/">http://192.168.1.1/</a>&nbsp;on Eth0.
     Plug the network cable from the computer into the _left-most port_ when viewed from behind. Don't forget to change your hard-coded IP address, if now the fresh factory default is a new DHCP server for a differenmt network.
-    If the basic setup was selected, the left-most port is now WAN, so connect to send-from-left. When changing IP address setting on Windows, be sure to `Close` the settings Window to ensure changes are applied.
+    If the basic setup was selected, the left-most port is now WAN, so connect to send-from-left. When changing IP address setting on Windows, be sure to <code class="highlight">Close</code> the settings Window to ensure changes are applied.
 </p>
 
 <div>
@@ -689,8 +689,8 @@ commit ; save </code></pre>
 
     <p>
         <a href="https://dev.to/wietse/install-nano-on-edgeos-2-x-3e7j">
-            Install `nano` on EdgeOS (2.x)
-        </a><br />
+            Install <code class="highlight">nano</code> on EdgeOS (2.x)
+</a><br />
 
     </p>
 
