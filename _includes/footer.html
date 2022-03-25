@@ -30,6 +30,10 @@ TypeKit -->
     {
         copyCodeButtons.forEach((copyCodeButton, index) => {
             const code = codeBlocks[index].innerText;
+            if (code == "") {
+                // some old pages are using HTML and not markdown
+                code = codeBlocks[index].textContent;
+            }
             copyCodeButton.addEventListener('click', () => {
                 window.navigator.clipboard.writeText(code);
                 copyCodeButton.classList.add('copied');
