@@ -35,9 +35,11 @@ TypeKit -->
 
             copyCodeButton.addEventListener('click', () => {
                 if (code == "" || code == null) {
+                    // use text from innerText
                     window.navigator.clipboard.writeText(codeAlt);
                 }
                 else {
+                    // use text from textContent
                     window.navigator.clipboard.writeText(code);
                 }
                 copyCodeButton.classList.add('copied');
