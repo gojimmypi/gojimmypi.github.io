@@ -64,7 +64,7 @@ environment. Of particular interest are the TLS1.3 apps:
 
 ## Tips and Troubleshooting
 
-You must have at least _some_ solfSSL-specific `#define` values *before* the includes.
+You must have at least _some_ wolfSSL-specific `#define` values *before* the includes.
 
 Make sure that `<wolfssl/wolfcrypt/settings.h>` is included *before* any other woldSSL includes.
 
