@@ -22,7 +22,10 @@ TL;DR:
 (see also my [updated version ](https://github.com/gojimmypi/wolfssl/blob/master/IDE/Espressif/ESP-IDF/setup_win.bat)) to copy selected files
 into your `{IDF_PATH}/components/` directory.
 * include some wolfSSL setthings and include files:
-```
+
+
+{% include code_header.html %}
+```C
 #define WOLFSSL_ESPIDF
 #define WOLFSSL_ESPWROOM32
 #define WOLFSSL_USER_SETTINGS
