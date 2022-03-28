@@ -75,3 +75,32 @@ If you are going to peek at packets, make sure you are using a hub and not a swi
 will suppress non-broadcast packets on your port). If you don't have a hub, then perhaps your switch can be configured for
 [post monitoring](https://en.wikipedia.org/wiki/Port_mirroring). See my [prior blog for doing this with a Ubiquiti Edgerouter-X](https://gojimmypi.github.io/Edgerouter-Port-Monitor/).
 
+
+`Error: Target not halted`, typically means there's a wiring problem.
+```
+VisualGDB_OpenOCD_Ready
+Info : Listening on port 6666 for tcl connections
+Info : Listening on port 61188 for telnet connections
+Info : J-Link V10 compiled Nov  2 2021 12:14:50
+Info : Hardware version: 10.10
+Info : VTarget = 3.361 V
+Info : clock speed 500 kHz
+Error: JTAG scan chain interrogation failed: all ones
+Error: Check JTAG interface, timings, target power, etc.
+Error: Trying to use configured scan chain anyway...
+Error: esp32.cpu0: IR capture error; saw 0x1f not 0x01
+Warn : Bypassing JTAG setup events due to errors
+Warn : target esp32.cpu0 examination failed
+Warn : target esp32.cpu1 examination failed
+Info : starting gdb server for esp32.cpu0 on 61190
+Info : Listening on port 61190 for gdb connections
+Info : accepting 'gdb' connection on tcp/61190
+Error: Target not examined yet
+Error executing event gdb-attach on target esp32.cpu0:
+
+Warn : No symbols for FreeRTOS!
+Error: Target not halted
+Error: auto_probe failed
+Error: Connect failed. Consider setting up a gdb-attach event for the target to prepare target for GDB connect, or use 'gdb_memory_map disable'.
+Error: attempted 'gdb' connection rejected
+```
