@@ -80,6 +80,7 @@ function ToggleDarkMode(forceDarkMode) {
 	ToggleDarkModeItem('code', forceDarkMode);
 	ToggleDarkModeItem('pre', forceDarkMode);
 	ToggleDarkModeItem('nav', forceDarkMode);
+	ToggleDarkModeItem('table', forceDarkMode);
 
 	//ToggleDarkModeItem('.highlighter-rouge', forceDarkMode);
 	ToggleDarkModeItem('.color-change', forceDarkMode);
