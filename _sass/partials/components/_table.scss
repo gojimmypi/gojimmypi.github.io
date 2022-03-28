@@ -14,6 +14,16 @@ table {
     padding: 2px;
     margin: 20px auto;
 }
+
+table.dark-theme {
+    border: solid azure;
+    border-width: 2px 0px;
+    empty-cells: hide;
+    border-spacing: 0px;
+    padding: 2px;
+    margin: 20px auto;
+}
+
 table caption {
     margin: 5px;
     text-align: center;
@@ -24,6 +34,13 @@ thead th {
     border-width: 0 0 2px 0;
     padding: 5px;
 }
+
+thead.dark-theme th.dark-theme {
+    border: solid azure;
+    border-width: 0 0 2px 0;
+    padding: 5px;
+}
+
 thead > tr:last-child > th {
     border-style: none;
 }
