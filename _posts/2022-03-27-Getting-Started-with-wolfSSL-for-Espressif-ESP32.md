@@ -34,7 +34,30 @@ into your `{IDF_PATH}/components/` directory.
 ```
 
 * Edit user setting file is found in `{IDF_PATH}/components/wolfssl/include/user_settings.h`
+* Plug in real certificates. See [DER to C](https://github.com/wolfSSL/wolfssl/blob/master/scripts/dertoc.pl).
 
+## Install wolfSSL component
+
+Start an EDP-IDF command prompt (or a regular DOS prompt if installing for VisualGDB)
+
+```batch
+# choose your workspace drive and directory:
+c:
+SET WORKSPACE=\workspace\
+
+# fetch wolfSSL code and install to ESP32 component directory
+if not exist %WORKSPACE% mkdir %WORKSPACE%
+cd %WORKSPACE%
+git clone https://github.com/wolfSSL/wolfssl.git
+git clone https://github.com/wolfSSL/wolfssl-examples.git
+cd wolfssl\IDE\Espressif\ESP-IDF
+
+# install for the current %IDF_PATH%
+.\setup_win.bat
+
+# Alternatively, pass a parameter for an alternate ESP-IDF path (e.g. VisualGDB)
+# .\setup_win.bat C:\SysGCC\esp32\esp-idf\v4.4
+```
 
 ## Examples
 
@@ -60,6 +83,8 @@ environment. Of particular interest are the TLS1.3 apps:
 
 - [Linux/WSL TLS1.3 Client](https://github.com/gojimmypi/wolfssl-examples/tree/ESP32_development/tls/VisualGDB-tls/client-tls13)
 - [Linux/WSL TLS1.3 Server](https://github.com/gojimmypi/wolfssl-examples/tree/ESP32_development/tls/VisualGDB-tls/server-tls13)
+
+
 
 
 ## Tips and Troubleshooting
