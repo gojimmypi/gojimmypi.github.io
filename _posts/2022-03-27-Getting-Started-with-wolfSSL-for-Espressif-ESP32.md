@@ -18,10 +18,31 @@ Like many things: _it's easy when you know how_. Here are some notes on getting 
 TL;DR:
 
 * Install the [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html).
-* Use the [setup_win](https://github.com/wolfSSL/wolfssl/blob/master/IDE/Espressif/ESP-IDF/setup_win.bat) 
-(see also my [updated version ](https://github.com/gojimmypi/wolfssl/blob/master/IDE/Espressif/ESP-IDF/setup_win.bat)) to copy selected files
+* Use the [setup_win](https://github.com/gojimmypi/wolfssl/blob/master/IDE/Espressif/ESP-IDF/setup_win.bat) to copy selected files
 into your `{IDF_PATH}/components/` directory.
 * Include some wolfSSL settings and headers:
+
+```
+
+git clone https://github.com/gojimmypi/wolfssl.git wolfssl-gojimmypi-ESP32 --depth 1
+cd wolfssl
+./autogen.sh
+./configure --enable-ssh
+make check
+
+# installs to /usr/local/lib
+sudo make install
+
+
+# install the SSH compoentents (wolfSSH)
+git clone https://github.com/gojimmypi/wolfssh.git wolfssh-gojimmypi-ESP32
+cd wolfssh-gojimmypi-ESP32
+./autogen.sh
+
+# the default shows /usr/local/ but it is actually in /usr/local/lib/ (why not default to wolfSSL?)
+./configure --with-wolfssl=/usr/local/
+make check
+```
 
 
 {% include code_header.html %}
@@ -35,6 +56,7 @@ into your `{IDF_PATH}/components/` directory.
 
 * Edit user setting file is found in `{IDF_PATH}/components/wolfssl/include/user_settings.h`
 * Plug in real certificates. See [DER to C](https://github.com/wolfSSL/wolfssl/blob/master/scripts/dertoc.pl).
+* Reminder embedded RTOS has limited space. Beware of printf, etc.
 
 ## Install wolfSSL component
 
