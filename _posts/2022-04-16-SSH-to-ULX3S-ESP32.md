@@ -14,7 +14,7 @@ tags:
 
 So you have a ULX3S and want to connect via SSH.
 
-The ULX3S is cool not only for being an impressively designed FPGA board with plent of onboard peripheraps, but also
+The ULX3S is cool not only for being an impressively designed FPGA board with plent of onboard peripherals, but also
 because one of the "peripherals" is an ESP32!
 
 I [first heard](https://gojimmypi.github.io/ulx3s-day-1/) about the ULX3S back in 2019. In fact, I have [several blogs about the ULX3S](https://gojimmypi.github.io/tag/ulx3s/).
@@ -27,6 +27,7 @@ avilable for download if you don't want to bake your own cake.
 
 Reminder we can call an Windows executable from WSL:
 
+{% include code_header.html %}
 ```bash
 wget https://github.com/kost/fujprog/releases/download/v4.8/fujprog-v48-win64.exe
 wget https://github.com/emard/ulx3s-bin/raw/master/fpga/passthru/passthru-v20-85f/ulx3s_85f_passthru.bit
@@ -47,7 +48,7 @@ Once the FPGA has been configured with the passthru code, the ESP32 can be acces
 
 I'm using the VisualGDB extension for Visual Studio, so I needed to change the `Program FLAS Using` setting to `esptool.py (via COM port)`
 
-![visualgdb_flah_programming.png](../images/visualgdb_flah_programming.png)
+![VisualGDB_flash_programming.png](../images/VisualGDB_flash_programming.png)
 
 Next, I have the [wolfSSL ESP32 SSH Server](https://github.com/gojimmypi/wolfssh/tree/ESP32_Development/examples/ESP32-SSH-Server) project in the works.
 
@@ -57,6 +58,8 @@ Just compile and upload. Connect to the ULX3S COM port to see diagnostic message
 
 Login from WSL. The default password for `jill` is `upthehill`:
 
+
+{% include code_header.html %}
 ```bash
 ssh jill@192.168.1.100 -p 22222
 ```
