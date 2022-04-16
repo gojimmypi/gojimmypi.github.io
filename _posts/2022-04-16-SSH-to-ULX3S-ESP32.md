@@ -58,13 +58,12 @@ Just compile and upload. Connect to the ULX3S COM port to see diagnostic message
 
 Login from WSL. The default password for `jill` is `upthehill`:
 
-
 {% include code_header.html %}
 ```bash
 ssh jill@192.168.1.100 -p 22222
 ```
 
-
+<br />
 
 ## Troubleshooting
 
@@ -81,7 +80,7 @@ Cannot find JTAG cable.
 
 This is what Zadig looks like with a happy ULX3S ready for FPGA bitstream upload:
 
-~[ulx3s_ftdi.png](../images/ulx3s_ftdi.png)
+![ulx3s_ftdi.png](../images/ulx3s_ftdi.png)
 
 
 
