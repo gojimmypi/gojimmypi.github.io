@@ -46,13 +46,26 @@ Completed in 10.97 seconds.
 ```
 Once the FPGA has been configured with the passthru code, the ESP32 can be accessed as if it were connected directly to the USB port.
 
-I'm using the VisualGDB extension for Visual Studio, so I needed to change the `Program FLAS Using` setting to `esptool.py (via COM port)`
+I'm using the [VisualGDB](https://visualgdb.com/) extension for Visual Studio, so I needed to change the `Program FLASH Using` setting to `esptool.py (via COM port)`.
 
 ![VisualGDB_flash_programming.png](../images/VisualGDB_flash_programming.png)
 
 Next, I have the [wolfSSL ESP32 SSH Server](https://github.com/gojimmypi/wolfssh/tree/ESP32_Development/examples/ESP32-SSH-Server) project in the works.
 
 Just compile and upload. Connect to the ULX3S COM port to see diagnostic messages (don't forget to close putty when programming!). 
+
+The [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html) also of course works (VisualGDB is a nice front end, but still used ESP-IDF).
+In my case, the ULX3S is on COM19
+
+```
+idf.py flash -p COM19
+```
+
+Programming from the ESP-IDF should looks something like this:
+
+![wolfssh_esp-idf_flash.png](../images/wolfssh_esp-idf_flash.png)
+
+Upon success, the diagnostic messages will be output to the COM port, and the SSH server can be accessed from anywhere on your nextwork:
 
 ![ulx3s_ssh_server.png](../images/ulx3s_ssh_server.png)
 
