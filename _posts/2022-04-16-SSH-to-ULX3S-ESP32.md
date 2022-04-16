@@ -23,7 +23,7 @@ This isn't your typical ESP32 though. It sits _behind_ the FPGA. To use it, the 
 that does just that. I have a [precompiled binary FPGA image](https://github.com/gojimmypi/ulx3s-examples/blob/master/bin/passthru.bit) for the 12F, 
 or there are [other specific versions available](https://github.com/ulx3s/ulx3s-bin/tree/master/fpga/passthru) depending on the ECP5 size. 
 The only other thing needed is an app such as [fujprog](https://github.com/kost/fujprog). There are [other releases](https://github.com/kost/fujprog/releases) 
-avilable for download if you don't want to bake your own cake.
+available for download if you don't want to bake your own cake.
 
 Reminder we can call an Windows executable from WSL:
 
