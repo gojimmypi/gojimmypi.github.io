@@ -76,6 +76,11 @@ Login from WSL. The default password for `jill` is `upthehill`:
 ssh jill@192.168.1.100 -p 22222
 ```
 
+## SSH to UART
+
+I next need to see which ESP32 GPIO pins are immediately accessible on the ULX3S. The the SSH server on the ULX3S will be able to 
+[connect to a UART via wolfSSH](https://twitter.com/gojimmypi/status/1514049174840360963?s=20&t=QBljwHfdYYIivb82zy9G7Q).
+
 <br />
 
 ## Troubleshooting
