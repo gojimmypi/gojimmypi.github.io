@@ -67,7 +67,7 @@ ssh jill@192.168.1.100 -p 22222
 
 ## Troubleshooting
 
-When uploading FPGA binary files, the FTDI drivers should make the device apepar as a COM port in Windows.
+When uploading FPGA binary files, the FTDI drivers should make the device appear as a COM port in Windows.
 If there's an error `Cannot find JTAG cable`: Make sure to use the USB cable connected to the FTDI (the connector opposite the SD card) 
 and [USING THE FTDI](https://github.com/gojimmypi/f32c_tools/tree/master/ujprog#change-ulx3s-driver-to-ftdi) Drivers, available for [download from ftdichip](https://www.ftdichip.com/Drivers/D2XX.htm). 
 
@@ -94,9 +94,9 @@ Zadig is your friend. See also [details for ICE40](https://gojimmypi.github.io/i
 
 Just replace the default drivers with `libusbK`:
 
-~[ulx3s_zadig.png](../images/ulx3s_zadig.png)
+![ulx3s_zadig.png](../images/ulx3s_zadig.png)
 
 Windows users make sure the ULX3S is listed under the `libusbK USB Devices` in Device Manager:
 
-~[](../images/ulx3s_libusbK.png)
+![ulx3s_libusbK](../images/ulx3s_libusbK.png)
 
