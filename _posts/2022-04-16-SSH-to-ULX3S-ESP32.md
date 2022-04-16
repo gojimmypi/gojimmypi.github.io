@@ -65,7 +65,7 @@ Programming from the ESP-IDF should looks something like this:
 
 ![wolfssh_esp-idf_flash.png](../images/wolfssh_esp-idf_flash.png)
 
-Upon success, the diagnostic messages will be output to the COM port, and the SSH server can be accessed from anywhere on your nextwork:
+Upon success, the diagnostic messages will be output to the COM port, and the SSH server can be accessed from anywhere on your network:
 
 ![ulx3s_ssh_server.png](../images/ulx3s_ssh_server.png)
 
