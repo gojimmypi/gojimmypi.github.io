@@ -5,7 +5,7 @@ date: '2021-09-04'
 author: gojimmypi
 tags:
 - ESP32
-- WolfSSL
+- wolfSSL
 - SSH
 - WSL
 ---
