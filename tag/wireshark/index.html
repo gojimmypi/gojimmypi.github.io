@@ -123,6 +123,7 @@ function ToggleDarkMode(forceDarkMode) {
 	ToggleDarkModeItem('code', forceDarkMode);
 	ToggleDarkModeItem('pre', forceDarkMode);
 	ToggleDarkModeItem('nav', forceDarkMode);
+	ToggleDarkModeItem('table', forceDarkMode);
 
 	//ToggleDarkModeItem('.highlighter-rouge', forceDarkMode);
 	ToggleDarkModeItem('.color-change', forceDarkMode);
@@ -187,10 +188,10 @@ if (_HideForChange == null || _HideForChange == "dark") {
 
 <link rel="stylesheet" id="color-change">
 <!-- Site Infos -->
-<!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>Wireshark | gojimmypi</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>WireShark | gojimmypi</title>
 <meta name="generator" content="Jekyll v3.9.0" />
-<meta property="og:title" content="Wireshark" />
+<meta property="og:title" content="WireShark" />
 <meta name="author" content="gojimmypi" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="blog" />
@@ -198,12 +199,13 @@ if (_HideForChange == null || _HideForChange == "dark") {
 <link rel="canonical" href="https://gojimmypi.github.io/tag/wireshark/" />
 <meta property="og:url" content="https://gojimmypi.github.io/tag/wireshark/" />
 <meta property="og:site_name" content="gojimmypi" />
+<meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Wireshark" />
+<meta property="twitter:title" content="WireShark" />
 <meta name="twitter:site" content="@gojimmypi" />
 <meta name="twitter:creator" content="@#" />
 <script type="application/ld+json">
-{"@type":"WebPage","headline":"Wireshark","url":"https://gojimmypi.github.io/tag/wireshark/","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","headline":"WireShark","url":"https://gojimmypi.github.io/tag/wireshark/"}</script>
 <!-- End Jekyll SEO tag -->
 
 <!-- http:/realfavicongenerator.net -->
@@ -438,7 +440,7 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
                     <div id="grid"><span></span></div>
                     <div id="classic"><span></span></div>
                 </div>
-                <h1 class="title">Wireshark</h1>
+                <h1 class="title">WireShark</h1>
                 <div class="articles">
                     
     <!-- each post has their own little article element. -->
@@ -446,17 +448,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     
         
     
-    <span class="date">September 12, 2021</span>
-    <a href="/Wireshark-SSH-Tips/">
-        <h1>Wireshark SSH Tips</h1>
+    <span class="date">March 19, 2022</span>
+    <a href="/Edgerouter-Port-Monitor/">
+        <h1>EdgeRouter-X Port Mirroring: Inspect ESP32 Network Packets</h1>
     </a>
     <p class="post-content">
     
-      Some tips for using Wireshark to debug SSH. (tcp.srcport == 22222 || tcp.dstport == 22222...
+      By default the Ubiquiti EdgeRouter-X acts as a swtich, meaning packets from other ports will...
     
     </p>
     <p class="actions">
-        <a href="/Wireshark-SSH-Tips/">Read More</a>
+        <a href="/Edgerouter-Port-Monitor/">Read More</a>
     </p>
 </article>
 
@@ -466,17 +468,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     
         
     
-    <span class="date">August 06, 2017</span>
-    <a href="/openwrt-remote-network-wireshark-packet/">
-        <h1>OpenWrt Remote Network WireShark Packet Feed</h1>
+    <span class="date">March 05, 2022</span>
+    <a href="/wolfSSL-TLS13-VisualGDB/">
+        <h1>wolfSSL Single Step TLS1.3 Inspection with WireShark</h1>
     </a>
     <p class="post-content">
     
-      After my last post on installing OpenWrt on a Cisco/LinkSys EA3500 to stream RTL-SDR data...
+      Understanding TLS 1.3 connections with wolfSSL. wolfSSL is an open source, widely-used encryption library used...
     
     </p>
     <p class="actions">
-        <a href="/openwrt-remote-network-wireshark-packet/">Read More</a>
+        <a href="/wolfSSL-TLS13-VisualGDB/">Read More</a>
     </p>
 </article>
 
@@ -515,8 +517,18 @@ TypeKit -->
     {
         copyCodeButtons.forEach((copyCodeButton, index) => {
             const code = codeBlocks[index].innerText;
+            // some older pages use HTML with a blank innerText, non-blank textContent
+            const codeAlt = codeBlocks[index].textContent;
+
             copyCodeButton.addEventListener('click', () => {
-                window.navigator.clipboard.writeText(code);
+                if (code == "" || code == null) {
+                    // use text from innerText
+                    window.navigator.clipboard.writeText(codeAlt);
+                }
+                else {
+                    // use text from textContent
+                    window.navigator.clipboard.writeText(code);
+                }
                 copyCodeButton.classList.add('copied');
 
                 setTimeout(() => {

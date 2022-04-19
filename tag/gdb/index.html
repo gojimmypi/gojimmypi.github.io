@@ -123,6 +123,7 @@ function ToggleDarkMode(forceDarkMode) {
 	ToggleDarkModeItem('code', forceDarkMode);
 	ToggleDarkModeItem('pre', forceDarkMode);
 	ToggleDarkModeItem('nav', forceDarkMode);
+	ToggleDarkModeItem('table', forceDarkMode);
 
 	//ToggleDarkModeItem('.highlighter-rouge', forceDarkMode);
 	ToggleDarkModeItem('.color-change', forceDarkMode);
@@ -187,7 +188,7 @@ if (_HideForChange == null || _HideForChange == "dark") {
 
 <link rel="stylesheet" id="color-change">
 <!-- Site Infos -->
-<!-- Begin Jekyll SEO tag v2.7.1 -->
+<!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>GDB | gojimmypi</title>
 <meta name="generator" content="Jekyll v3.9.0" />
 <meta property="og:title" content="GDB" />
@@ -198,12 +199,13 @@ if (_HideForChange == null || _HideForChange == "dark") {
 <link rel="canonical" href="https://gojimmypi.github.io/tag/gdb/" />
 <meta property="og:url" content="https://gojimmypi.github.io/tag/gdb/" />
 <meta property="og:site_name" content="gojimmypi" />
+<meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="GDB" />
 <meta name="twitter:site" content="@gojimmypi" />
 <meta name="twitter:creator" content="@#" />
 <script type="application/ld+json">
-{"@type":"WebPage","headline":"GDB","url":"https://gojimmypi.github.io/tag/gdb/","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","headline":"GDB","url":"https://gojimmypi.github.io/tag/gdb/"}</script>
 <!-- End Jekyll SEO tag -->
 
 <!-- http:/realfavicongenerator.net -->
@@ -446,6 +448,26 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     
         
     
+    <span class="date">March 05, 2022</span>
+    <a href="/wolfSSL-TLS13-VisualGDB/">
+        <h1>wolfSSL Single Step TLS1.3 Inspection with WireShark</h1>
+    </a>
+    <p class="post-content">
+    
+      Understanding TLS 1.3 connections with wolfSSL. wolfSSL is an open source, widely-used encryption library used...
+    
+    </p>
+    <p class="actions">
+        <a href="/wolfSSL-TLS13-VisualGDB/">Read More</a>
+    </p>
+</article>
+
+
+    <!-- each post has their own little article element. -->
+<article>
+    
+        
+    
     <span class="date">September 11, 2021</span>
     <a href="/ESP32-JTAG-GDB-Debugging/">
         <h1>ESP32 Segger JLink ESP32 OpenOCD GDB Debugging</h1>
@@ -595,8 +617,18 @@ TypeKit -->
     {
         copyCodeButtons.forEach((copyCodeButton, index) => {
             const code = codeBlocks[index].innerText;
+            // some older pages use HTML with a blank innerText, non-blank textContent
+            const codeAlt = codeBlocks[index].textContent;
+
             copyCodeButton.addEventListener('click', () => {
-                window.navigator.clipboard.writeText(code);
+                if (code == "" || code == null) {
+                    // use text from innerText
+                    window.navigator.clipboard.writeText(codeAlt);
+                }
+                else {
+                    // use text from textContent
+                    window.navigator.clipboard.writeText(code);
+                }
                 copyCodeButton.classList.add('copied');
 
                 setTimeout(() => {

@@ -123,6 +123,7 @@ function ToggleDarkMode(forceDarkMode) {
 	ToggleDarkModeItem('code', forceDarkMode);
 	ToggleDarkModeItem('pre', forceDarkMode);
 	ToggleDarkModeItem('nav', forceDarkMode);
+	ToggleDarkModeItem('table', forceDarkMode);
 
 	//ToggleDarkModeItem('.highlighter-rouge', forceDarkMode);
 	ToggleDarkModeItem('.color-change', forceDarkMode);
@@ -187,7 +188,7 @@ if (_HideForChange == null || _HideForChange == "dark") {
 
 <link rel="stylesheet" id="color-change">
 <!-- Site Infos -->
-<!-- Begin Jekyll SEO tag v2.7.1 -->
+<!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Blogger | gojimmypi</title>
 <meta name="generator" content="Jekyll v3.9.0" />
 <meta property="og:title" content="Blogger" />
@@ -198,12 +199,13 @@ if (_HideForChange == null || _HideForChange == "dark") {
 <link rel="canonical" href="https://gojimmypi.github.io/tag/blogger/" />
 <meta property="og:url" content="https://gojimmypi.github.io/tag/blogger/" />
 <meta property="og:site_name" content="gojimmypi" />
+<meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Blogger" />
 <meta name="twitter:site" content="@gojimmypi" />
 <meta name="twitter:creator" content="@#" />
 <script type="application/ld+json">
-{"@type":"WebPage","headline":"Blogger","url":"https://gojimmypi.github.io/tag/blogger/","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","headline":"Blogger","url":"https://gojimmypi.github.io/tag/blogger/"}</script>
 <!-- End Jekyll SEO tag -->
 
 <!-- http:/realfavicongenerator.net -->
@@ -495,8 +497,18 @@ TypeKit -->
     {
         copyCodeButtons.forEach((copyCodeButton, index) => {
             const code = codeBlocks[index].innerText;
+            // some older pages use HTML with a blank innerText, non-blank textContent
+            const codeAlt = codeBlocks[index].textContent;
+
             copyCodeButton.addEventListener('click', () => {
-                window.navigator.clipboard.writeText(code);
+                if (code == "" || code == null) {
+                    // use text from innerText
+                    window.navigator.clipboard.writeText(codeAlt);
+                }
+                else {
+                    // use text from textContent
+                    window.navigator.clipboard.writeText(code);
+                }
                 copyCodeButton.classList.add('copied');
 
                 setTimeout(() => {

@@ -123,6 +123,7 @@ function ToggleDarkMode(forceDarkMode) {
 	ToggleDarkModeItem('code', forceDarkMode);
 	ToggleDarkModeItem('pre', forceDarkMode);
 	ToggleDarkModeItem('nav', forceDarkMode);
+	ToggleDarkModeItem('table', forceDarkMode);
 
 	//ToggleDarkModeItem('.highlighter-rouge', forceDarkMode);
 	ToggleDarkModeItem('.color-change', forceDarkMode);
@@ -187,10 +188,10 @@ if (_HideForChange == null || _HideForChange == "dark") {
 
 <link rel="stylesheet" id="color-change">
 <!-- Site Infos -->
-<!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>WolfSSL | gojimmypi</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>wolfSSL | gojimmypi</title>
 <meta name="generator" content="Jekyll v3.9.0" />
-<meta property="og:title" content="WolfSSL" />
+<meta property="og:title" content="wolfSSL" />
 <meta name="author" content="gojimmypi" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="blog" />
@@ -198,12 +199,13 @@ if (_HideForChange == null || _HideForChange == "dark") {
 <link rel="canonical" href="https://gojimmypi.github.io/tag/wolfssl/" />
 <meta property="og:url" content="https://gojimmypi.github.io/tag/wolfssl/" />
 <meta property="og:site_name" content="gojimmypi" />
+<meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="WolfSSL" />
+<meta property="twitter:title" content="wolfSSL" />
 <meta name="twitter:site" content="@gojimmypi" />
 <meta name="twitter:creator" content="@#" />
 <script type="application/ld+json">
-{"@type":"WebPage","headline":"WolfSSL","url":"https://gojimmypi.github.io/tag/wolfssl/","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","headline":"wolfSSL","url":"https://gojimmypi.github.io/tag/wolfssl/"}</script>
 <!-- End Jekyll SEO tag -->
 
 <!-- http:/realfavicongenerator.net -->
@@ -438,9 +440,89 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
                     <div id="grid"><span></span></div>
                     <div id="classic"><span></span></div>
                 </div>
-                <h1 class="title">WolfSSL</h1>
+                <h1 class="title">wolfSSL</h1>
                 <div class="articles">
                     
+    <!-- each post has their own little article element. -->
+<article>
+    
+        
+    
+    <span class="date">April 10, 2022</span>
+    <a href="/SSH-to-ULX3S-ESP32/">
+        <h1>SSH to ULX3S Espressif ESP32 with wolfSSH</h1>
+    </a>
+    <p class="post-content">
+    
+      So you have a ULX3S and want to connect via SSH. The ULX3S is cool...
+    
+    </p>
+    <p class="actions">
+        <a href="/SSH-to-ULX3S-ESP32/">Read More</a>
+    </p>
+</article>
+
+
+    <!-- each post has their own little article element. -->
+<article>
+    
+        
+    
+    <span class="date">April 10, 2022</span>
+    <a href="/wolfSSH-ESP32-SSH/">
+        <h1>Getting Started with wolfSSH for Espressif ESP32</h1>
+    </a>
+    <p class="post-content">
+    
+      Some note on the development of the ESP32 SSH Server. TL;DR Don’t use WSL while...
+    
+    </p>
+    <p class="actions">
+        <a href="/wolfSSH-ESP32-SSH/">Read More</a>
+    </p>
+</article>
+
+
+    <!-- each post has their own little article element. -->
+<article>
+    
+        
+    
+    <span class="date">March 27, 2022</span>
+    <a href="/Getting-Started-with-wolfSSL-for-Espressif-ESP32/">
+        <h1>Getting Started with wolfSSL for Espressif ESP32</h1>
+    </a>
+    <p class="post-content">
+    
+      Some tips for using wolfSSL on the Espressif ESP32 Getting Started with wolfSSL for Espressif...
+    
+    </p>
+    <p class="actions">
+        <a href="/Getting-Started-with-wolfSSL-for-Espressif-ESP32/">Read More</a>
+    </p>
+</article>
+
+
+    <!-- each post has their own little article element. -->
+<article>
+    
+        
+    
+    <span class="date">March 05, 2022</span>
+    <a href="/wolfSSL-TLS13-VisualGDB/">
+        <h1>wolfSSL Single Step TLS1.3 Inspection with WireShark</h1>
+    </a>
+    <p class="post-content">
+    
+      Understanding TLS 1.3 connections with wolfSSL. wolfSSL is an open source, widely-used encryption library used...
+    
+    </p>
+    <p class="actions">
+        <a href="/wolfSSL-TLS13-VisualGDB/">Read More</a>
+    </p>
+</article>
+
+
     <!-- each post has their own little article element. -->
 <article>
     
@@ -555,8 +637,18 @@ TypeKit -->
     {
         copyCodeButtons.forEach((copyCodeButton, index) => {
             const code = codeBlocks[index].innerText;
+            // some older pages use HTML with a blank innerText, non-blank textContent
+            const codeAlt = codeBlocks[index].textContent;
+
             copyCodeButton.addEventListener('click', () => {
-                window.navigator.clipboard.writeText(code);
+                if (code == "" || code == null) {
+                    // use text from innerText
+                    window.navigator.clipboard.writeText(codeAlt);
+                }
+                else {
+                    // use text from textContent
+                    window.navigator.clipboard.writeText(code);
+                }
                 copyCodeButton.classList.add('copied');
 
                 setTimeout(() => {

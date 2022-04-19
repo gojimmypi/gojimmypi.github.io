@@ -123,6 +123,7 @@ function ToggleDarkMode(forceDarkMode) {
 	ToggleDarkModeItem('code', forceDarkMode);
 	ToggleDarkModeItem('pre', forceDarkMode);
 	ToggleDarkModeItem('nav', forceDarkMode);
+	ToggleDarkModeItem('table', forceDarkMode);
 
 	//ToggleDarkModeItem('.highlighter-rouge', forceDarkMode);
 	ToggleDarkModeItem('.color-change', forceDarkMode);
@@ -187,7 +188,7 @@ if (_HideForChange == null || _HideForChange == "dark") {
 
 <link rel="stylesheet" id="color-change">
 <!-- Site Infos -->
-<!-- Begin Jekyll SEO tag v2.7.1 -->
+<!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>WSL | gojimmypi</title>
 <meta name="generator" content="Jekyll v3.9.0" />
 <meta property="og:title" content="WSL" />
@@ -198,12 +199,13 @@ if (_HideForChange == null || _HideForChange == "dark") {
 <link rel="canonical" href="https://gojimmypi.github.io/tag/wsl/" />
 <meta property="og:url" content="https://gojimmypi.github.io/tag/wsl/" />
 <meta property="og:site_name" content="gojimmypi" />
+<meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="WSL" />
 <meta name="twitter:site" content="@gojimmypi" />
 <meta name="twitter:creator" content="@#" />
 <script type="application/ld+json">
-{"@type":"WebPage","headline":"WSL","url":"https://gojimmypi.github.io/tag/wsl/","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","headline":"WSL","url":"https://gojimmypi.github.io/tag/wsl/"}</script>
 <!-- End Jekyll SEO tag -->
 
 <!-- http:/realfavicongenerator.net -->
@@ -441,6 +443,66 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
                 <h1 class="title">WSL</h1>
                 <div class="articles">
                     
+    <!-- each post has their own little article element. -->
+<article>
+    
+        
+    
+    <span class="date">March 05, 2022</span>
+    <a href="/wolfSSL-TLS13-VisualGDB/">
+        <h1>wolfSSL Single Step TLS1.3 Inspection with WireShark</h1>
+    </a>
+    <p class="post-content">
+    
+      Understanding TLS 1.3 connections with wolfSSL. wolfSSL is an open source, widely-used encryption library used...
+    
+    </p>
+    <p class="actions">
+        <a href="/wolfSSL-TLS13-VisualGDB/">Read More</a>
+    </p>
+</article>
+
+
+    <!-- each post has their own little article element. -->
+<article>
+    
+        
+    
+    <span class="date">December 24, 2021</span>
+    <a href="/fusesoc/">
+        <h1>fusesoc Programming Tips</h1>
+    </a>
+    <p class="post-content">
+    
+      Here I have some notes on using the Award-Winning EDA tool called FuseSoC with WSL...
+    
+    </p>
+    <p class="actions">
+        <a href="/fusesoc/">Read More</a>
+    </p>
+</article>
+
+
+    <!-- each post has their own little article element. -->
+<article>
+    
+        
+    
+    <span class="date">November 06, 2021</span>
+    <a href="/ESP32-Tips/">
+        <h1>ESP32 Programming Tips</h1>
+    </a>
+    <p class="post-content">
+    
+      Various tips and reminders when developing for the ESP32. Problem: Forgot how to program with...
+    
+    </p>
+    <p class="actions">
+        <a href="/ESP32-Tips/">Read More</a>
+    </p>
+</article>
+
+
     <!-- each post has their own little article element. -->
 <article>
     
@@ -775,8 +837,18 @@ TypeKit -->
     {
         copyCodeButtons.forEach((copyCodeButton, index) => {
             const code = codeBlocks[index].innerText;
+            // some older pages use HTML with a blank innerText, non-blank textContent
+            const codeAlt = codeBlocks[index].textContent;
+
             copyCodeButton.addEventListener('click', () => {
-                window.navigator.clipboard.writeText(code);
+                if (code == "" || code == null) {
+                    // use text from innerText
+                    window.navigator.clipboard.writeText(codeAlt);
+                }
+                else {
+                    // use text from textContent
+                    window.navigator.clipboard.writeText(code);
+                }
                 copyCodeButton.classList.add('copied');
 
                 setTimeout(() => {

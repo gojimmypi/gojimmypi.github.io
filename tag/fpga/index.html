@@ -123,6 +123,7 @@ function ToggleDarkMode(forceDarkMode) {
 	ToggleDarkModeItem('code', forceDarkMode);
 	ToggleDarkModeItem('pre', forceDarkMode);
 	ToggleDarkModeItem('nav', forceDarkMode);
+	ToggleDarkModeItem('table', forceDarkMode);
 
 	//ToggleDarkModeItem('.highlighter-rouge', forceDarkMode);
 	ToggleDarkModeItem('.color-change', forceDarkMode);
@@ -187,7 +188,7 @@ if (_HideForChange == null || _HideForChange == "dark") {
 
 <link rel="stylesheet" id="color-change">
 <!-- Site Infos -->
-<!-- Begin Jekyll SEO tag v2.7.1 -->
+<!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>FPGA | gojimmypi</title>
 <meta name="generator" content="Jekyll v3.9.0" />
 <meta property="og:title" content="FPGA" />
@@ -198,12 +199,13 @@ if (_HideForChange == null || _HideForChange == "dark") {
 <link rel="canonical" href="https://gojimmypi.github.io/tag/fpga/" />
 <meta property="og:url" content="https://gojimmypi.github.io/tag/fpga/" />
 <meta property="og:site_name" content="gojimmypi" />
+<meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="FPGA" />
 <meta name="twitter:site" content="@gojimmypi" />
 <meta name="twitter:creator" content="@#" />
 <script type="application/ld+json">
-{"@type":"WebPage","headline":"FPGA","url":"https://gojimmypi.github.io/tag/fpga/","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","headline":"FPGA","url":"https://gojimmypi.github.io/tag/fpga/"}</script>
 <!-- End Jekyll SEO tag -->
 
 <!-- http:/realfavicongenerator.net -->
@@ -441,6 +443,26 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
                 <h1 class="title">FPGA</h1>
                 <div class="articles">
                     
+    <!-- each post has their own little article element. -->
+<article>
+    
+        
+    
+    <span class="date">February 16, 2022</span>
+    <a href="/JTAG-Single-Stepping-a-soft-RISC-V-FPGA/">
+        <h1>JTAG Single Stepping a soft RISC-V FPGA</h1>
+    </a>
+    <p class="post-content">
+    
+      JTAG Single Stepping a soft RISV-V FPGA. This weekend I’m following along Tom Verbeure’s blog...
+    
+    </p>
+    <p class="actions">
+        <a href="/JTAG-Single-Stepping-a-soft-RISC-V-FPGA/">Read More</a>
+    </p>
+</article>
+
+
     <!-- each post has their own little article element. -->
 <article>
     
@@ -955,8 +977,18 @@ TypeKit -->
     {
         copyCodeButtons.forEach((copyCodeButton, index) => {
             const code = codeBlocks[index].innerText;
+            // some older pages use HTML with a blank innerText, non-blank textContent
+            const codeAlt = codeBlocks[index].textContent;
+
             copyCodeButton.addEventListener('click', () => {
-                window.navigator.clipboard.writeText(code);
+                if (code == "" || code == null) {
+                    // use text from innerText
+                    window.navigator.clipboard.writeText(codeAlt);
+                }
+                else {
+                    // use text from textContent
+                    window.navigator.clipboard.writeText(code);
+                }
                 copyCodeButton.classList.add('copied');
 
                 setTimeout(() => {

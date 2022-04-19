@@ -123,6 +123,7 @@ function ToggleDarkMode(forceDarkMode) {
 	ToggleDarkModeItem('code', forceDarkMode);
 	ToggleDarkModeItem('pre', forceDarkMode);
 	ToggleDarkModeItem('nav', forceDarkMode);
+	ToggleDarkModeItem('table', forceDarkMode);
 
 	//ToggleDarkModeItem('.highlighter-rouge', forceDarkMode);
 	ToggleDarkModeItem('.color-change', forceDarkMode);
@@ -187,7 +188,7 @@ if (_HideForChange == null || _HideForChange == "dark") {
 
 <link rel="stylesheet" id="color-change">
 <!-- Site Infos -->
-<!-- Begin Jekyll SEO tag v2.7.1 -->
+<!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>SSH | gojimmypi</title>
 <meta name="generator" content="Jekyll v3.9.0" />
 <meta property="og:title" content="SSH" />
@@ -198,12 +199,13 @@ if (_HideForChange == null || _HideForChange == "dark") {
 <link rel="canonical" href="https://gojimmypi.github.io/tag/ssh/" />
 <meta property="og:url" content="https://gojimmypi.github.io/tag/ssh/" />
 <meta property="og:site_name" content="gojimmypi" />
+<meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="SSH" />
 <meta name="twitter:site" content="@gojimmypi" />
 <meta name="twitter:creator" content="@#" />
 <script type="application/ld+json">
-{"@type":"WebPage","headline":"SSH","url":"https://gojimmypi.github.io/tag/ssh/","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","headline":"SSH","url":"https://gojimmypi.github.io/tag/ssh/"}</script>
 <!-- End Jekyll SEO tag -->
 
 <!-- http:/realfavicongenerator.net -->
@@ -446,6 +448,46 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     
         
     
+    <span class="date">April 10, 2022</span>
+    <a href="/SSH-to-ULX3S-ESP32/">
+        <h1>SSH to ULX3S Espressif ESP32 with wolfSSH</h1>
+    </a>
+    <p class="post-content">
+    
+      So you have a ULX3S and want to connect via SSH. The ULX3S is cool...
+    
+    </p>
+    <p class="actions">
+        <a href="/SSH-to-ULX3S-ESP32/">Read More</a>
+    </p>
+</article>
+
+
+    <!-- each post has their own little article element. -->
+<article>
+    
+        
+    
+    <span class="date">April 10, 2022</span>
+    <a href="/wolfSSH-ESP32-SSH/">
+        <h1>Getting Started with wolfSSH for Espressif ESP32</h1>
+    </a>
+    <p class="post-content">
+    
+      Some note on the development of the ESP32 SSH Server. TL;DR Don’t use WSL while...
+    
+    </p>
+    <p class="actions">
+        <a href="/wolfSSH-ESP32-SSH/">Read More</a>
+    </p>
+</article>
+
+
+    <!-- each post has their own little article element. -->
+<article>
+    
+        
+    
     <span class="date">September 12, 2021</span>
     <a href="/Wireshark-SSH-Tips/">
         <h1>Wireshark SSH Tips</h1>
@@ -595,8 +637,18 @@ TypeKit -->
     {
         copyCodeButtons.forEach((copyCodeButton, index) => {
             const code = codeBlocks[index].innerText;
+            // some older pages use HTML with a blank innerText, non-blank textContent
+            const codeAlt = codeBlocks[index].textContent;
+
             copyCodeButton.addEventListener('click', () => {
-                window.navigator.clipboard.writeText(code);
+                if (code == "" || code == null) {
+                    // use text from innerText
+                    window.navigator.clipboard.writeText(codeAlt);
+                }
+                else {
+                    // use text from textContent
+                    window.navigator.clipboard.writeText(code);
+                }
                 copyCodeButton.classList.add('copied');
 
                 setTimeout(() => {
