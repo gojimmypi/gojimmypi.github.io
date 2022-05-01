@@ -16,6 +16,8 @@ TL;DR
 - Don't use the web "fetch upstream` button
 - BACKUP your local GitHub repo before doing enything presented here. 
 
+![git_train_wreck](../images/git_train_wreck.png)
+
 How I got into this mess: some time ago, I had forked a repo. No big deal. Occasionally I would keep my fork updated by clicking the `Fetch upstream`
 button on the GitHub web site:
 
@@ -57,7 +59,7 @@ MAKE A BACKUP BEFORE PROCEEDING
 Configure your `upstream` to point to the upstream repo where you forked from.
 
 ```
-# you should be starting with a frech git clone on the master branch
+# you should be starting with a fresh git clone on the master branch
 
 # checkout the upstream master
 git checkout upstream/master
@@ -80,13 +82,16 @@ git push -f origin master
 
 _Hopefully_ this will work for others. It did for me. I'll never again work on anything but my own branches. Lesson learned.
 
-References:
+In the end, I did finally create my [clean PR](https://github.com/wolfSSL/wolfssl/pull/5077).
+
+## Resources, Inspiration, Credits, and Other Links
 
 - [git rebase docs](https://git-scm.com/docs/git-rebase)
 - `git rebase` and `git reset` ideas: [Squash my last X commits together using Git](https://stackoverflow.com/questions/5189560/squash-my-last-x-commits-together-using-git)
 - more on  `git rebase` and `git reset`: [Delete commits from a branch in Git](https://stackoverflow.com/questions/1338728/delete-commits-from-a-branch-in-git)
 - still more `git rebase` and `git reset`: [How to permanently remove few commits from remote branch](https://stackoverflow.com/questions/3293531/how-to-permanently-remove-few-commits-from-remote-branch)
 - [Overwrite everything in master with another branch in git](https://stackoverflow.com/questions/29870328/overwrite-everything-in-master-with-another-branch-in-git)
-
+- [Clean up a fork and restart it from the upstream](https://stackoverflow.com/questions/9646167/clean-up-a-fork-and-restart-it-from-the-upstream)
+- 
 
 
