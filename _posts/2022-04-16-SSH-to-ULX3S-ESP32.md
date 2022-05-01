@@ -15,7 +15,7 @@ tags:
 So you have a ULX3S and want to connect via SSH.
 
 The [ULX3S](https://www.crowdsupply.com/radiona/ulx3s) is cool not only for being an impressively designed FPGA board with plenty of onboard peripherals, but also
-because one of the "peripherals" is an [ESP32](https://www.espressif.com/en/products/socs/esp32)!
+because one of the "peripherals" is an [ESP32](https://www.espressif.com/en/products/socs/esp32)! See also the [ESP32 SSH Server](../SSH-to-ESP8266/) project.
 
 I [first heard](https://gojimmypi.github.io/ulx3s-day-1/) about Radiona back in 2019. In fact, I have [several blogs about the ULX3S](https://gojimmypi.github.io/tag/ulx3s/).
 
