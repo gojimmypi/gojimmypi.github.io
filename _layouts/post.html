@@ -8,10 +8,10 @@
 </head>
 <!-- use logic to toggle sidebar layouts -->
 {% if page.sidebar %}
-<body class="has-{{page.sidebar_type}}-sidebar-{{page.sidebar_position}}">
-    {% else %}
+    <body class="has-{{page.sidebar_type}}-sidebar-{{page.sidebar_position}}">
+{% else %}
     <body>
-        {% endif %}
+{% endif %}
         <header class="head">
             <!-- use logic to toggle sidebar layouts -->
             {% if page.sidebar == false or page.sidebar_type == "classic" %}
@@ -92,6 +92,9 @@
                                 {% endif %}
                             </div>
                             {% endif %}
+                            <div>
+                                {% include github-contribute.html %}
+                            </div>
                         </article>
                         {% if page.comments and jekyll.environment != "development" %}
                         {% include comment.html %}
@@ -112,6 +115,6 @@
                 </div>
             </div>
             {% include footer.html %}
-
+        </div>
     </body>
 </html>

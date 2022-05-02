@@ -1,0 +1,20 @@
+{% assign this_github_root = site.github_baseurl  %}
+{% assign this_github_filename = page.path %}
+{% if site.domain contains "github.io"  %}
+  {% assign this_github_page = this_github_root | append: 'tree/master/' | append: this_github_filename %}
+{% else %}
+  {% assign this_github_page = this_github_root | append: 'tree/gh-pages/' | append: this_github_filename %}
+{% endif %}
+
+<table width="100%">
+    <tr>
+        <td align="center">
+            <a href="{{ this_github_page }}"
+               title="Click to view source on GitHub"
+               class="github-corner"
+               aria-label="View source on GitHub">
+                Contribute to this page.
+            </a>
+        </td>
+    </tr>
+</table>
