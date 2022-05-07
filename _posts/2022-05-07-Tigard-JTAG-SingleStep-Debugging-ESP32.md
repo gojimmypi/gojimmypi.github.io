@@ -15,6 +15,8 @@ Here are some notes on single-step JTAG debugging the Espressif ESP32 using the
 [Tigard from Crowd Supply](https://www.crowdsupply.com/securinghw/tigard) in Visual Studio
 with the [Sysprogs VisualGDB](https://visualgdb.com/) extension. 
 
+![Tigard](../images/Tigard.png)
+
 The Tigard will be used to aid in the development of the 
 [ESP32 SSH to UART](https://github.com/gojimmypi/wolfssh/tree/ESP32_Development/examples/ESP32-SSH-Server) project.
 
