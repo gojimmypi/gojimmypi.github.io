@@ -20,6 +20,20 @@ with the [Sysprogs VisualGDB](https://visualgdb.com/) extension.
 The Tigard will be used to aid in the development of the 
 [ESP32 SSH to UART](https://github.com/gojimmypi/wolfssh/tree/ESP32_Development/examples/ESP32-SSH-Server) project.
 
+ESP32 JTAG Pinout Wiring:
+```
+TDI -> GPIO12
+TCK -> GPIO13
+TMS -> GPIO14
+TDO -> GPIO15
+TRST -> EN / RST (Reset)
+GND -> GND
+```
+
+An adapter can be useful for quick-connect:
+
+![JTAG_adapter-Tigard.png](../images/JTAG_adapter-Tigard.png)
+
 To get started, the config is needed from the [tigard-tools](https://github.com/tigard-tools/tigard#jtag-debug-on-jtag-or-cortex-header).
 Paste this text into the `interface\tigard.cfg` file:
 
