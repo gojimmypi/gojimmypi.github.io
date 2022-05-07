@@ -21,7 +21,8 @@ The Tigard will be used to aid in the development of the
 To get started, the config is needed from the [tigard-tools](https://github.com/tigard-tools/tigard#jtag-debug-on-jtag-or-cortex-header).
 Paste this text into the `interface\tigard.cfg` file:
 
-```interface ftdi
+```
+interface ftdi
 ftdi_vid_pid 0x0403 0x6010
 ftdi_channel 1
 adapter_khz 2000
