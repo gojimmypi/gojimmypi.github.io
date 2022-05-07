@@ -37,9 +37,12 @@ The default install file for VisualGDB is typically here:
 ```
 C:\Users\%USERNAME%\AppData\Local\VisualGDB\EmbeddedDebugPackages\com.sysprogs.esp32.core\share\openocd\scripts\interface
 ```
+
+Here's the config file selection as viewed from Visual Studio:
+
 ![Tigard-JTAG-VisualGDB.png](../images/Tigard-JTAG-VisualGDB.png) 
 
-Out of the box, that did not go so well. The first test from VisualGDB gave this error:
+Out of the box, the intial JTAG test did not go so well. The first output from VisualGDB gave this error:
 
 ```
 C:\Users\gojimmypi\AppData\Local\VisualGDB\EmbeddedDebugPackages\com.sysprogs.esp32.core\bin\openocd.exe -c "gdb_port 51982" -c "telnet_port 51980" -f interface/tigard.cfg -c "adapter_khz 13500" -f target/esp32.cfg -c "echo VisualGDB_OpenOCD_Ready"
@@ -71,14 +74,13 @@ Error: Failed to clear OCDDCR_ENABLEOCD!
 ```
 
 As much as I want to like Windows, after all these years the USB drivers are still a pain. 
-Zadig to the rescue, once again (see also [Single Step JTAG Debugging ESP32](https://gojimmypi.github.io/single-step-jtag-debugging-esp32/)).
+[Zadig](https://zadig.akeo.ie/) to the rescue, once again (see also [Single Step JTAG Debugging ESP32](https://gojimmypi.github.io/single-step-jtag-debugging-esp32/)).
 
-Here's where it started:
+Here's where it started, Windows defaults:
 
 ![Tigard-Zadig-Interface0.png](../images/Tigard-Zadig-Interface0.png)
 
 ![Tigard-Zadig-Interface1.png](../images/Tigard-Zadig-Interface1.png)
-
 
 Here's after the drivers are replaced with `libusbK`:
 
@@ -86,6 +88,7 @@ Here's after the drivers are replaced with `libusbK`:
 
 ![Tigard-Zadig-Interface0.png](../images/Tigard-Zadig-Interface1_libusbK.png)
 
+Note Sysprogs also has a similar [UsbDriverTool](http://visualgdb.com/UsbDriverTool/).
 
 But even after replacing the drivers, I saw this error:
 
@@ -118,7 +121,7 @@ Error: Failed to clear OCDDCR_ENABLEOCD!
 
 A simple matter of unplugging the Tigard for a few moments, and plugging it back in was the soluton. 
 
-A successful Tigard JTAG test looks like this:
+A successful Tigard JTAG test then looks like this:
 
 ```
 C:\Users\gojimmypi\AppData\Local\VisualGDB\EmbeddedDebugPackages\com.sysprogs.esp32.core\bin\openocd.exe -c "gdb_port 52516" -c "telnet_port 52514" -f interface/tigard.cfg -c "adapter_khz 29500" -f target/esp32.cfg -c "echo VisualGDB_OpenOCD_Ready"
@@ -171,7 +174,7 @@ The `Error: libusb_open() failed with LIBUSB_ERROR_NOT_SUPPORTED` message seems 
 Although `adapter speed` is in the config file, it seems VisualGDB is the one sending the `adapter_khz`
 text.
 
-The deprectated warnings were easy enough to address. Here's the final Tigard confile file:
+The deprecated warnings were easy enough to address. Here's the final Tigard confile file:
 
 ```
 adapter driver ftdi
