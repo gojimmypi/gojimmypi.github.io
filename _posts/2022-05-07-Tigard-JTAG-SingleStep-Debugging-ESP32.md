@@ -13,12 +13,14 @@ tags:
 
 Here are some notes on single-step JTAG debugging the Espressif ESP32 using the 
 [Tigard from Crowd Supply](https://www.crowdsupply.com/securinghw/tigard) in Visual Studio
-with the [Sysprogs VisualGDB](https://visualgdb.com/) extension. 
+with the [Sysprogs VisualGDB](https://visualgdb.com/) extension.
 
 ![Tigard](../images/Tigard.png)
 
 The Tigard will be used to aid in the development of the 
-[ESP32 SSH to UART](https://github.com/gojimmypi/wolfssh/tree/ESP32_Development/examples/ESP32-SSH-Server) project.
+[ESP32 SSH to UART](https://github.com/gojimmypi/wolfssh/tree/ESP32_Development/examples/ESP32-SSH-Server) project
+running on [several ESP32 boards](https://twitter.com/gojimmypi/status/1517819633952120834?s=20) 
+as well as the [ESP8266](https://twitter.com/gojimmypi/status/1522390443345940481?s=20).
 
 ESP32 JTAG Pinout Wiring:
 ```
