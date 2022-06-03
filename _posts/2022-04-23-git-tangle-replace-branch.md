@@ -11,9 +11,9 @@ When things go really sideways and the GitHub master branch of a fork is so terr
 there's hope!
 
 TL;DR  
-- Keep the forked `master` (preferably named `main`) branch clean from incremental merge or update commits, to not need these instructions.
-- Create a separate branch for each commit to upstream
-- Don't use the web "fetch upstream` button
+- Keep the forked `master` (preferably named `main`) branch clean from incremental merge or update commits, so that these instructions are not needed.
+- Create a separate branch for each commit to upstream.
+- Don't use the web `fetch upstream` button.
 - BACKUP your local GitHub repo before doing enything presented here. 
 
 ![git_train_wreck](../images/git_train_wreck.png)
@@ -36,7 +36,7 @@ Now what?
 The first time this happened, I was able to reset the head and fetch from the upstream repo without _too_ much problem. Easily said, it actually took
 quite some time.
 
-So when I encountered what seemed to be the same problem, I tried the same solution. No joy. It was a much longer period of time with meges and commits, and
+So when I encountered what seemed to be the same problem, I tried the same solution. No joy. It was a much longer period of time with messages and commits, and
 a total of 15 commits that were simply impossible to squash. So I tried to fix it. Here's what I started with:
 
 ![github_merge_mess.png](../images/github_merge_mess.png)
@@ -52,7 +52,7 @@ The most radical `git --untangle-mess` I've ever done was to _replace_ the entir
 Once again, SO to the rescue: [How to replace master branch in Git, entirely, from another branch](https://stackoverflow.com/questions/2862590/how-to-replace-master-branch-in-git-entirely-from-another-branch) - the 
 second answer, using `git branch -m`, but checking out the upstream master:
 
-*DANGER*: This completely wipes out the master branch and doed a forced push. Use with caution!
+*DANGER*: This completely wipes out the master branch and does a forced push. Use with caution!
 
 MAKE A BACKUP BEFORE PROCEEDING
 
