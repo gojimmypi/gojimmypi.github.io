@@ -56,9 +56,15 @@ second answer, using `git branch -m`, but checking out the upstream master:
 
 MAKE A BACKUP BEFORE PROCEEDING
 
-Configure your `upstream` to point to the upstream repo where you forked from.
+Configure your `upstream` to point to the upstream repo where you forked from:
 
+```bash
+git remote add upstream https://github.com/user/upstream_repo.git
 ```
+
+*DANGER*: Replace the master branch from upstream:
+
+```bash
 # you should be starting with a fresh git clone on the master branch
 
 # checkout the upstream master
@@ -78,6 +84,14 @@ git branch -m newmaster master
 
 # force push these changes
 git push -f origin master
+```
+
+in the future, to refresh your fork with the upstream master
+
+```
+git fetch upstream
+git pull upstream master
+
 ```
 
 _Hopefully_ this will work for others. It did for me. I'll never again work on anything but my own branches. Lesson learned.
