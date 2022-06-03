@@ -16,7 +16,7 @@ TL;DR
 - Don't use the web `fetch upstream` button.
 - BACKUP your local GitHub repo before doing enything presented here. 
 
-![git_train_wreck](../images/git_train_wreck.png)
+![git train wreck image](../images/git_train_wreck.png)
 
 How I got into this mess: some time ago, I had forked a repo. No big deal. Occasionally I would keep my fork updated by clicking the `Fetch upstream`
 button on the GitHub web site:
