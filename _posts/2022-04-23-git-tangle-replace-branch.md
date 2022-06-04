@@ -58,6 +58,7 @@ MAKE A BACKUP BEFORE PROCEEDING
 
 Configure your `upstream` to point to the upstream repo where you forked from:
 
+{% include code_header.html %}
 ```bash
 git remote add upstream https://github.com/user/upstream_repo.git
 git fetch upstream
@@ -65,6 +66,7 @@ git fetch upstream
 
 *DANGER*: Replace the master branch from upstream:
 
+{% include code_header.html %}
 ```bash
 # you should be starting with a fresh git clone on the master branch
 
@@ -89,6 +91,7 @@ git push -f origin master
 
 in the future, to refresh your fork with the upstream master
 
+{% include code_header.html %}
 ```
 git fetch upstream
 git pull upstream master
@@ -107,3 +110,4 @@ In the end, I did finally create my [clean PR](https://github.com/wolfSSL/wolfss
 - still more `git rebase` and `git reset`: [How to permanently remove few commits from remote branch](https://stackoverflow.com/questions/3293531/how-to-permanently-remove-few-commits-from-remote-branch)
 - [Overwrite everything in master with another branch in git](https://stackoverflow.com/questions/29870328/overwrite-everything-in-master-with-another-branch-in-git)
 - [Clean up a fork and restart it from the upstream](https://stackoverflow.com/questions/9646167/clean-up-a-fork-and-restart-it-from-the-upstream)
+
