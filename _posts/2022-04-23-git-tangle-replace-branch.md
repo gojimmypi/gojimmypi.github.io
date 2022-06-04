@@ -60,6 +60,7 @@ Configure your `upstream` to point to the upstream repo where you forked from:
 
 ```bash
 git remote add upstream https://github.com/user/upstream_repo.git
+git fetch upstream
 ```
 
 *DANGER*: Replace the master branch from upstream:
