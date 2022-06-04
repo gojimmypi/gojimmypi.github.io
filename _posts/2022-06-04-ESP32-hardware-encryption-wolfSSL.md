@@ -13,15 +13,20 @@ tags:
 
 PREVIEW, WIP
 
+Here are some notes on the Espressif ESP32 Hardware Encryption Features for wolfSSL.
+
 Any discussion of ESP32 (or any other) hardware encryption should address the generally
 non-updatable nature of the implementation. For example, early versions of the ESP32
 were discovered by [limitedresults](https://limitedresults.com/) to have 
 [explotable hardware vulnerabilities](https://limitedresults.com/2019/08/pwn-the-esp32-crypto-core/).
+
 Clearly physical security is just as important as any software design. 
 
 Key to any security implementation is a prompt disclosure and response from the vendor. 
 Espressif announced [Security Advisory concerning fault injection and eFuse protections (CVE-2019-17391)](https://www.espressif.com/en/news/Security_Advisory_Concerning_Fault_Injection_and_eFuse_Protections%20)
-in the months after "_LimitedResults provided a proof of concept report demonstrating fault injection attack and analysis to recover keys stored in eFuse_".
+shortly after "_LimitedResults provided a proof of concept report demonstrating fault injection attack and analysis to recover keys stored in eFuse_".
+
+Note modern ESP32 chip have had a hardware revision to address the fault injection.
 
 > "_The ESP32-D0WD-V3 chip has checks in ROM which prevent fault injection attack_"
 
@@ -41,6 +46,7 @@ the [esp32-crypt.h](https://github.com/wolfSSL/wolfssl/tree/master/wolfssl/wolfc
 and [source files](https://github.com/wolfSSL/wolfssl/tree/master/wolfcrypt/src/port/Espressif):
 
 AES (FIPS PUB 197) [esp32_aes.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_aes.c)
+<br />
 
 ### wolfSSL ESP32 Hardware Encrpytion
 
@@ -56,7 +62,7 @@ Turn on with `-DWOLFSSL_ESP32WROOM32_CRYPT`. Enables:
 
 ### SHA Accelerator
 
-To disable just SHA acceleration, use `DNO_WOLFSSL_ESP32WROOM32_CRYPT_HASH`
+To disable just SHA acceleration, use `-DNO_WOLFSSL_ESP32WROOM32_CRYPT_HASH`
 
 Hash SHA-2 (FIPS PUB 180-4): [esp32_sha.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_sha.c)
 <br />
@@ -104,32 +110,35 @@ TWAI bus error in the form of an error code
 > The maximum operation length for RSA, ECC, Big Integer Multiply and Big Integer Modular Multiplication is 4096 bits
 
 - todo
+<br />
 
 ### RNG Random Number Generator 
 
 - todo
 
+Random number generator table:
+
 | Start Address | End Address | Size |
 | ------------- | ----------- | ---- |
 | 0x3FF7_5000   | 0x3FF7_5FFF |  4KB |
 
-utility:
+<br />
+
+### wolfSSL utility library
 
 [util](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_util.c)
+<br />
 
-
-`WOLFSSL_SUCCESS` and `WOLFSSL_FAILURE` values should only be used in the ssl layer, not in wolfCrypt.
-
-```
-git submodule add -b master https://github.com/gojimmypi/wolfssh wolfssh
-
-```
 
 ### Coding Convention
 
 In wolfCrypt those API's return 0 for success.
 
+`WOLFSSL_SUCCESS` and `WOLFSSL_FAILURE` values should only be used in the ssl layer, not in wolfCrypt.
+
 WOLFSSL_SUCCESS and WOLFSSL_FAILURE values should only be used in the ssl layer, not in wolfCrypt
+<br />
+
 
 ### Development
 
@@ -154,9 +163,9 @@ WSL TLS1.3 Server:
 cd /mnt/c/workspace/wolfssl-examples/tls
  ./server-tls13 -v 4
 ```
+<br />
 
-
-
+Resources, Inspiration, Credits, and Other Links:<br />
 
 - Espressif [ESP32 Datasheet](https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf)
 - Espressif [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf)
