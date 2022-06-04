@@ -34,6 +34,8 @@ From the [ESP32 Datasheet](https://www.espressif.com/sites/default/files/documen
 
 ![Espressif_Cryptographic_Hardware_Acceleration_Block_Diagram.png](../images/Espressif_Cryptographic_Hardware_Acceleration_Block_Diagram.png)
 
+![Espressif_Cryptographic_Hardware_Acceleration_Block_Diagram.png](../images/Espressif_Cryptographic_Hardware_Acceleration.png)
+
 The interesting files for the wolfSSL hardware encryption for the ESP32 are found in 
 the [esp32-crypt.h](https://github.com/wolfSSL/wolfssl/tree/master/wolfssl/wolfcrypt/port/Espressif) 
 and [source files](https://github.com/wolfSSL/wolfssl/tree/master/wolfcrypt/src/port/Espressif):
@@ -125,7 +127,7 @@ git submodule add -b master https://github.com/gojimmypi/wolfssh wolfssh
 
 ### Coding Convention
 
-In wolfCrypt those API’s return 0 for success.
+In wolfCrypt those API's return 0 for success.
 
 WOLFSSL_SUCCESS and WOLFSSL_FAILURE values should only be used in the ssl layer, not in wolfCrypt
 
