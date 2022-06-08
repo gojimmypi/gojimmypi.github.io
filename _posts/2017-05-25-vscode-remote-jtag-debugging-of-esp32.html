@@ -3,7 +3,8 @@ layout: post
 title: VSCode JTAG Debugging of ESP32 - Part 2
 date: '2017-05-25T17:41:00.000-07:00'
 author: gojimmypi
-tags: 
+tags:
+- Espressif
 modified_time: '2017-07-23T10:48:49.879-07:00'
 thumbnail: https://1.bp.blogspot.com/-GOPIqrj3p_4/WSgKAjubsSI/AAAAAAAAAa8/R96PJANO9Ocz5SE5rBe6-xM5V-ARg1FQwCLcB/s72-c/step1.png
 blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-7573745905922217730
@@ -11,16 +12,20 @@ blogger_orig_url: https://gojimmypi.blogspot.com/2017/05/vscode-remote-jtag-debu
 ---
 
 This in a continuation from&nbsp;<a href="{{ site.baseurl }}{% post_url 2017-05-25-vscode-jtag-debugging-of-esp32-part-1 %}">part 1</a>. If you need help connecting the ESP32 to JTAG, see <a href="{{ site.baseurl }}{% post_url 2017-03-17-jtag-debugging-for-esp32 %}">this post</a>
-.<br />
-<br />After setting up the ESP32 toolchain and confirming regular GDB debugging is working as described in my 
+.
+<br />
+<br />After setting up the ESP32 toolchain and confirming regular GDB debugging is working as described in my
 <a href="{{ site.baseurl }}{% post_url 2017-05-25-vscode-jtag-debugging-of-esp32-part-1 %}">previous post</a>
-, now it is time to configure VSCode for remote debugging of the ESP32.<br />
+, now it is time to configure VSCode for remote debugging of the ESP32.
+<br />
 <br />I've also added&nbsp;
 <a href="{{ site.baseurl }}{% post_url 2017-06-09-vscode-jtag-debugging-of-esp32-part-3 %}">Part 3 - using ESP WIP OpenOCD</a>
-.<br />
-<br />Everything is pretty straightforward here, well except for the details of actually debugging in VSCode. I had quite an ordeal with that, as described in 
+.
+<br />
+<br />Everything is pretty straightforward here, well except for the details of actually debugging in VSCode. I had quite an ordeal with that, as described in
 <a href="https://github.com/Microsoft/vscode-cpptools/issues/763">github issue &nbsp;#763: Remote Debugging of ESP32 causes EXCEPTION: System.ArgumentOutOfRangeException</a>
-.<br />
+.
+<br />
 <br />
 In the end, it seems that somehow VSCode was confused on the initial *state* of the ESP32 when debugging is first initiated. The first MI commands would get the ESP32 into some sort of weird state "internal to GDB":
 <br />
@@ -50,12 +55,14 @@ A problem internal to GDB has been detected,
 further debugging may prove unreliable.Quit this debugging session? </code></pre>
 <br />I opened an espressif issue on giuthub for this one:&nbsp;
 <a href="https://github.com/espressif/esp-idf/issues/645">[TW#12876] VSCode Debugging via MI causes internal GDB error &nbsp;#645</a>. Fortunately - with the help of <a href="https://github.com/pieandcakes">@pieandcakes</a>
- - I was able to determine a (yes, somewhat wonky) sequence of steps to persuade VSCode to debug the ESP32!<br />
+ - I was able to determine a (yes, somewhat wonky) sequence of steps to persuade VSCode to debug the ESP32!
+<br />
 <br />
 I have my openocd running on Ubuntu with samba, and have mapped my windows Z: drive to the root of the ubuntu file system. For that, my smb.conf looks like this:
 <br />
 <code class="highlight">
-    </code><br />
+</code>
+<br />
 
 {% include code_header.html %}
 
@@ -80,7 +87,7 @@ I have my openocd running on Ubuntu with samba, and have mapped my windows Z: dr
 [global]
 min protocol = SMB2</code></pre>
 <code class="highlight"></code>
- <br />
+<br />
 First, browse to the Hello World "Build" directory in Windows File Explorer. Right click and click "Open with Code". &nbsp;The select Debug - Open Configurations. This should create a file called launch.json - in my case, in:
 <br />
 <br />
@@ -91,7 +98,8 @@ Here's my launch.json for debugging the ESP32:
 <br />
 <br />
 <code class="highlight">
-    </code><br />
+</code>
+<br />
 
 {% include code_header.html %}
 
@@ -133,21 +141,24 @@ Here's my launch.json for debugging the ESP32:
     ]
 }</code></pre>
 <code class="highlight"></code>
-Note that you need to choose between <code class="highlight"></code><br />
+Note that you need to choose between <code class="highlight"></code>
+<br />
 
 {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">"miDebuggerServerAddress": "192.168.174.129:3333"</code></pre>
 <code class="highlight"></code>
- and <code class="highlight"></code><br />
+ and <code class="highlight"></code>
+<br />
 
 {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">"text": "target remote 192.168.174.129:3333"</code></pre>
 <code class="highlight"></code> - but not both! (see that first question in <a href="https://github.com/Microsoft/vscode-cpptools/issues/763">github issue 76</a>
-3). You will, of course - need to edit the IP address to point to your own OpenOCD server, otherwise you will see this error in VSCode:<br />
+3). You will, of course - need to edit the IP address to point to your own OpenOCD server, otherwise you will see this error in VSCode:
+<br />
 <br />
 
 {% include code_header.html %}
@@ -174,9 +185,10 @@ The line
 <br />
 is optional, but tremendously helpful in actually seeing what's going on between VSCode and the ESP32.
 <br />
-<br />I created a 
+<br />I created a
 <a href="https://gist.github.com/gojimmypi">few gists</a>
- that can either be put into script files, or copy/pasted for some basic operations. I run each of these in a separate putty shell connection. First, the compile &amp; flash: <br />
+ that can either be put into script files, or copy/pasted for some basic operations. I run each of these in a separate putty shell connection. First, the compile &amp; flash:
+<br />
 <br />
 
 {% include code_header.html %}
@@ -189,11 +201,13 @@ export IDF_PATH=~/esp/esp-idf
 sudo chmod 777 /dev/ttyUSB0
 cd ~/esp/hello_world
 make flash</code></pre>
-<code class="highlight"></code><br />
-In this same "compile window", it can be helpful to run the serial monitor. I like keeping it in the same window as make/building, so that I am sure to stop the monitor when reflashing. 
+<code class="highlight"></code>
+<br />
+In this same "compile window", it can be helpful to run the serial monitor. I like keeping it in the same window as make/building, so that I am sure to stop the monitor when reflashing.
 <br />
 <code class="highlight">
-    </code><br />
+</code>
+<br />
 
 {% include code_header.html %}
 
@@ -201,9 +215,11 @@ In this same "compile window", it can be helpful to run the serial monitor. I li
 <code class="highlight">
 make monitor</code></pre>
 <code class="highlight"></code>
-Next, run openocd server in yet another putty connection (when successful, the openocd will not exit, rather it continues running as a server for your VSCode GDB connection as a foreground task): <br />
+Next, run openocd server in yet another putty connection (when successful, the openocd will not exit, rather it continues running as a server for your VSCode GDB connection as a foreground task):
+<br />
 <code class="highlight">
-    </code><br />
+</code>
+<br />
 
 {% include code_header.html %}
 
@@ -214,11 +230,13 @@ export PATH=$PATH:$HOME/esp/xtensa-esp32-elf/bin
 export IDF_PATH=~/esp/esp-idf
 cd  ~/workspace/openocd-esp32/tcl
 sudo openocd -f interface/ftdi/olimex-arm-usb-ocd-h-1MHz.cfg -c "transport select jtag"  -f target/ESP32-RTOS-none.cfg</code></pre>
-<code class="highlight"></code><br />
-A successful launch of openocd will look something like this: 
+<code class="highlight"></code>
+<br />
+A successful launch of openocd will look something like this:
 <br />
 <code class="highlight">
-    </code><br />
+</code>
+<br />
 
 {% include code_header.html %}
 
@@ -238,9 +256,11 @@ Info : JTAG tap: esp32.cpu0 tap/device found: 0x120034e5 (mfg: 0x272 (Tensilica)
 Info : JTAG tap: esp32.cpu1 tap/device found: 0x120034e5 (mfg: 0x272 (Tensilica), part: 0x2003, ver: 0x1)
 Info : esp32.cpu0: Target halted, pc=0x400D1158</code></pre>
 <code class="highlight"></code>
-then the xtensa-esp32-elf-gdb debug client (the find is of course optional) this one with gdb commands in hello_world,gdb: <br />
+then the xtensa-esp32-elf-gdb debug client (the find is of course optional) this one with gdb commands in hello_world,gdb:
+<br />
 <code class="highlight">
-    </code><br />
+</code>
+<br />
 
 {% include code_header.html %}
 
@@ -252,24 +272,28 @@ export IDF_PATH=~/esp/esp-idf
 #find /. -name xtensa-esp32-elf-gdb 2&gt;/dev/null
 cd ~/esp/hello_world/build
 xtensa-esp32-elf-gdb -tui -x hello_world.gdb hello-world.elf</code></pre>
-<code class="highlight"></code><br />
+<code class="highlight"></code>
+<br />
 <br />
 Alternatively launch the xtensa gdb client simply like this (assume paths properly set as shown above):
 <br />
 <br />
 <code class="highlight">
-    </code><br />
+</code>
+<br />
 
 {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
 xtensa-esp32-elf-gdb  hello-world.elf</code></pre>
-<code class="highlight"></code><br />
-A successful launch of gdb will look something like this: 
+<code class="highlight"></code>
+<br />
+A successful launch of gdb will look something like this:
 <br />
 <code class="highlight">
-    </code><br />
+</code>
+<br />
 
 {% include code_header.html %}
 
@@ -292,20 +316,22 @@ Find the GDB manual and other documentation resources online at:
 For help, type "help".
 Type "apropos word" to search for commands related to "word"...
 Reading symbols from hello-world.elf...done.
-(gdb) 
+(gdb)
 target remote localhost:3333
 Remote debugging using localhost:3333
 0x400d1158 in esp_vApplicationIdleHook () at /home/gojimmypi/esp/esp-idf/components/esp32/./freertos_hooks.c:52
 52              asm("waiti 0");
 (gdb)</code></pre>
 <code class="highlight"></code>
- <br />
+<br />
 <br />
 We just wanted to confirm OpenOCD was working and that we could connect with linux GDB, so exit/quit.
 <br />
-<br />The Windows 10 executable gdb is needed to debug in VSCode on Windows, so as shown on:  
+<br />The Windows 10 executable gdb is needed to debug in VSCode on Windows, so as shown on:
 <a href="http://esp-idf.readthedocs.io/en/latest/get-started/windows-setup.html">http://esp-idf.readthedocs.io/en/latest/get-started/windows-setup.html</a>&nbsp;it can be downloaded from <a href="https://dl.espressif.com/dl/esp32_win32_msys2_environment_and_toolchain-20170330.zip">
-here</a><br />
+    here
+</a>
+<br />
 <br />
 (mine took HOURS to download)
 <br />
@@ -327,7 +353,7 @@ Note the line in the VSCode launch.json:
 "miDebuggerPath": "C:/msys32/opt/xtensa-esp32-elf/bin/xtensa-esp32-elf-gdb.exe",</code></pre>
 
 <div>
-<code class="highlight"></code>
+    <code class="highlight"></code>
 </div>
 
 <br />
@@ -335,10 +361,12 @@ That's the one that calls the Windows GDB client to talk to the Ubuntu OpenOCD s
 <br />
 <br />Pay attention to the forward and back-slashes in the launch.json file. See&nbsp;
 <a href="https://github.com/Microsoft/vscode-cpptools/issues/706">vscode-cpptools issue #706</a>
-.<br />
-<br />The details of these steps are shown in my 
+.
+<br />
+<br />The details of these steps are shown in my
 <a href="https://github.com/Microsoft/vscode-cpptools/issues/763">github issue</a>
-&nbsp;(in particular the 8th comment after the question) if you want to see more details, but in summary:<br />
+&nbsp;(in particular the 8th comment after the question) if you want to see more details, but in summary:
+<br />
 <br />
 Be sure the OpenOCD server is running as described above. Press F5 to start debugging. You should see "Exception has occurred.Trace/breakpoint trap." It appears we are debugging, but we are not. Target (appears to be) running. VSCode thinks it is paused.
 <br />
@@ -346,7 +374,7 @@ Be sure the OpenOCD server is running as described above. Press F5 to start debu
 If you try to single step here, all bets are off; xtensa GDB crashes, VSCode debugging stops. Game over.
 <br />
 <br />
-If instead VSCode immediately stops debugging and you see something in the debug log like: 
+If instead VSCode immediately stops debugging and you see something in the debug log like:
 <br />
 
 {% include code_header.html %}
@@ -354,17 +382,21 @@ If instead VSCode immediately stops debugging and you see something in the debug
 <pre class="language highlighter-rouge">
 <code class="highlight">
 E output: {"category":"stderr","output":"ERROR: Unable to start debugging. Failed to find thread 1 for break event\r\n","data":null,"type":"output"}ERROR: Unable to start debugging. Failed to find thread 1 for break event</code></pre>
-...then go back to part 1 and read about how I 
+...then go back to part 1 and read about how I
 <a href="{{ site.baseurl }}{% post_url 2017-05-25-vscode-jtag-debugging-of-esp32-part-1 %}">
-slightly modified my esp32.cfg</a><br />
-<br />Otherwise if all is still going according to plan: type 
+    slightly modified my esp32.cfg
+</a>
+<br />
+<br />Otherwise if all is still going according to plan: type
 <code class="highlight">-exec continue</code>
- at the VSCode &gt; prompt.<br />
+ at the VSCode &gt; prompt.
+<br />
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/step1.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="896" data-original-width="1134" height="504" src="../images/s640/step1.png" width="640"></a>
+    <a href="../images/s1600/step1.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="896" data-original-width="1134" height="504" src="../images/s640/step1.png" width="640">
+    </a>
 </div>
 <br />
 <br />
@@ -390,51 +422,61 @@ ERROR: Cannot execute this command while the selected thread is running.</code><
 <br />
 Only after the above steps are completed, now press the pause button. Observe output. There should be no errors.
 <br />
-<br />Press a code-stepping button, such as Shift-F11.... 
+<br />Press a code-stepping button, such as Shift-F11....
 <a href="https://twitter.com/gojimmypi/status/867864020623048704">tada</a>
-! Single step debugging!<br />
+! Single step debugging!
+<br />
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/mydebug.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="986" data-original-width="1159" height="337" src="../images/s400/mydebug.jpg" width="400"></a>
+    <a href="../images/s1600/mydebug.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="986" data-original-width="1159" height="337" src="../images/s400/mydebug.jpg" width="400">
+    </a>
 </div>
 <br />
-<br />For an even better experience - see 
+<br />For an even better experience - see
 <a href="https://github.com/FHFS">FHFS</a>&nbsp;comment on <a href="https://github.com/espressif/esp-idf/issues/303">espressif/esp-idf issue 303</a>
-,<br />
-<blockquote class="tr_bq">"<i>
-if esp-idf is in the project folder symbols get found automatically. for windows you can also add the msys2, mingw32 and xtensa-esp32-elf bin folders to the path in tasks.json. make monitor has some trouble starting a console, you can edit the idf_monitor.py to output to stderr(task output window), or make a .cmd file with the python command in it and run that command from tasks.</i><br />
-<i>You can see how I work with it <a href="https://github.com/FHFS/esp-idf-VSCode-template">esp-idf-VSCode-template</a></i>
-"</blockquote><br />
-<br />I'm still working on polishing these instructions. Hopefully you've found this useful. Feedback is welcome and appreciated. Send me a message on 
+,
+<br />
+<blockquote class="tr_bq">
+    "<i>
+        if esp-idf is in the project folder symbols get found automatically. for windows you can also add the msys2, mingw32 and xtensa-esp32-elf bin folders to the path in tasks.json. make monitor has some trouble starting a console, you can edit the idf_monitor.py to output to stderr(task output window), or make a .cmd file with the python command in it and run that command from tasks.
+    </i><br />
+    <i>You can see how I work with it <a href="https://github.com/FHFS/esp-idf-VSCode-template">esp-idf-VSCode-template</a></i>
+    "
+</blockquote>
+<br />
+<br />I'm still working on polishing these instructions. Hopefully you've found this useful. Feedback is welcome and appreciated. Send me a message on
 <a href="https://twitter.com/gojimmypi">twitter</a>, <a href="https://github.com/gojimmypi">github</a>
-&nbsp;pull request &nbsp;or gmail.<br />
+&nbsp;pull request &nbsp;or gmail.
+<br />
 <br />
 <br />
 <h3>
-    Various tips: </h3><br />
+    Various tips:
+</h3>
+<br />
 GDB tip: Ctrl-x Ctrl-a in gdb to enter TUI mode.
 <br />
 <br />
-You can press the EN button on the ESP32; it acts like reset and resolves many problems without having to power cycle (which will likely also need permissions re-applied,etc) 
+You can press the EN button on the ESP32; it acts like reset and resolves many problems without having to power cycle (which will likely also need permissions re-applied,etc)
 <br />
 <br />
 
 <div>
-Note that as of May 2017, there's an issue in VSCode regarding the direction and quantity of path slashes as note in&nbsp;<a href="https://github.com/Microsoft/vscode-cpptools/issues/706">gitbub vscode-cpptools issue #706</a>. 
+    Note that as of May 2017, there's an issue in VSCode regarding the direction and quantity of path slashes as note in&nbsp;<a href="https://github.com/Microsoft/vscode-cpptools/issues/706">gitbub vscode-cpptools issue #706</a>.
 </div>
 <br />
 
 <div>
-When unplugging usb devices such as your debugger and the ESP32 itself, be sure to note the order when re-inserting. Sometimes there's an unexpected recognition delay on the VM; you'll want to be consistent (e.g. having ESP32 on /dev/ttyUSB0). Trust me, you'll wait all day long trying to flash ESP32 firmware onto your JTAG debugger if it somehow ends up as /dev/ttyUSB0<br />
-<br />
-If you see something like this there's a good change the JTAG adapter ended up on the default ttyUSB0 port. Edit the config or change the plug order.     
-<br />
-&gt;
-<br />
+    When unplugging usb devices such as your debugger and the ESP32 itself, be sure to note the order when re-inserting. Sometimes there's an unexpected recognition delay on the VM; you'll want to be consistent (e.g. having ESP32 on /dev/ttyUSB0). Trust me, you'll wait all day long trying to flash ESP32 firmware onto your JTAG debugger if it somehow ends up as /dev/ttyUSB0<br />
+    <br />
+    If you see something like this there's a good change the JTAG adapter ended up on the default ttyUSB0 port. Edit the config or change the plug order.
+    <br />
+    &gt;
+    <br />
 
-{% include code_header.html %}
+    {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
@@ -455,7 +497,7 @@ make: *** [flash] Error 2</code></pre>
 <br />
 
 <div>
-Debugging the ESP32 can be rather finicky; I spent a ton of time on the thread problem&nbsp;<a href="https://github.com/espressif/openocd-esp32/issues/10">https://github.com/espressif/openocd-esp32/issues/10</a>
+    Debugging the ESP32 can be rather finicky; I spent a ton of time on the thread problem&nbsp;<a href="https://github.com/espressif/openocd-esp32/issues/10">https://github.com/espressif/openocd-esp32/issues/10</a>
 </div>
 <br />
 If you don't see the debug console in VSCode: see View - Debug Console (Ctryl-Shift-Y)
@@ -490,16 +532,46 @@ gojimmypi@ubuntu : ~/esp</code></pre>
 
 <br />
 <br />
-<h3>Resources, Inspiration, and Other Links:&nbsp;</h3><ul><li><a href="https://github.com/Microsoft/vscode-cpptools/issues/763">github Remote Debugging of ESP32 causes EXCEPTION: System.ArgumentOutOfRangeException #763</a>&nbsp;(many thanks to <a href="https://github.com/pieandcakes">pieandcakes</a>
- for help!) <br />
-</li><li><a href="https://www.cyberciti.biz/faq/kill-process-in-linux-or-terminate-a-process-in-unix-or-linux-systems/">https://www.cyberciti.biz/faq/kill-process-in-linux-or-terminate-a-process-in-unix-or-linux-systems/</a></li><li><a href="{{ site.baseurl }}{% post_url 2017-05-09-vscode-remote-debugging-of-embedded %}">https://gojimmypi.blogspot.com/2017/05/vscode-remote-debugging-of-embedded.html</a></li><li><a href="https://github.com/espressif/esp-idf/issues/303">https://github.com/espressif/esp-idf/issues/303</a></li><li><a href="https://github.com/FHFS/esp-idf-VSCode-template">https://github.com/FHFS/esp-idf-VSCode-template</a></li><li><a href="https://www.olimex.com/forum/index.php?topic=5676.0">Olimex Support Forum »  ARM »  JTAG »  Olimex ARM-USB-OCD-H with OpenOCD - libusb_open() failed with LIBUSB_ERROR_NOT_S </a></li><li><a href="http://stackoverflow.com/questions/29121050/openocd-debugging-multiple-devices-at-once">stackoverflow - OpenOCD debugging multiple devices at once</a></li><li><a href="https://www.allaboutcircuits.com/technical-articles/getting-started-with-openocd-using-ft2232h-adapter-for-swd-debugging/">allaboutcircuits - Getting Started with OPENOCD Using FT2232H Adapter for SWD Debugging</a></li><li><a href="https://github.com/Microsoft/vscode-cpptools/issues/706">Issues with slashes in VSCode config files</a></li><li><a href="http://www.yolinux.com/TUTORIALS/GDB-Commands.html">yolinux.com GDB Commands</a></li><li><a href="http://openocd.org/doc/html/General-Commands.html">openocd.org General Commands</a></li><li><a href="https://stackify.com/top-visual-studio-code-extensions/?utm_source=ReviveOldPost&amp;utm_medium=social&amp;utm_campaign=ReviveOldPost">stackify.com Top Visual Studio Code Extensions: 50 Powerful Tools to Make Visual Studio Even More Useful</a></li><li><a href="https://github.com/Microsoft/vscode-tips-and-tricks#keyboard-reference-sheets">Microsoft vscode tips and-tricks</a></li><li><a href="https://github.com/FHFS/esp-idf-VSCode-template">FHFS esp-idf-VSCode-template</a></li><li><a href="https://code.visualstudio.com/docs/editor/integrated-terminal">VSCode Integrated Terminal</a></li><li><a href="https://github.com/espressif/esp-idf/issues/589">Building toolchain on Raspberry Pi fails</a></li><li><a href="https://esp32.com/viewtopic.php?f=17&amp;t=256&amp;hilit=raspberry+pi">
-Using Raspberry Pi as ESP32 development platform</a></li></ul><br />
+<h3>Resources, Inspiration, and Other Links:&nbsp;</h3>
+<ul>
+    <li>
+        <a href="https://github.com/Microsoft/vscode-cpptools/issues/763">github Remote Debugging of ESP32 causes EXCEPTION: System.ArgumentOutOfRangeException #763</a>&nbsp;(many thanks to <a href="https://github.com/pieandcakes">pieandcakes</a>
+        for help!) <br />
+    </li>
+    <li><a href="https://www.cyberciti.biz/faq/kill-process-in-linux-or-terminate-a-process-in-unix-or-linux-systems/">https://www.cyberciti.biz/faq/kill-process-in-linux-or-terminate-a-process-in-unix-or-linux-systems/</a></li>
+    <li><a href="{{ site.baseurl }}{% post_url 2017-05-09-vscode-remote-debugging-of-embedded %}">https://gojimmypi.blogspot.com/2017/05/vscode-remote-debugging-of-embedded.html</a></li>
+    <li><a href="https://github.com/espressif/esp-idf/issues/303">https://github.com/espressif/esp-idf/issues/303</a></li>
+    <li><a href="https://github.com/FHFS/esp-idf-VSCode-template">https://github.com/FHFS/esp-idf-VSCode-template</a></li>
+    <li><a href="https://www.olimex.com/forum/index.php?topic=5676.0">Olimex Support Forum »  ARM »  JTAG »  Olimex ARM-USB-OCD-H with OpenOCD - libusb_open() failed with LIBUSB_ERROR_NOT_S </a></li>
+    <li><a href="http://stackoverflow.com/questions/29121050/openocd-debugging-multiple-devices-at-once">stackoverflow - OpenOCD debugging multiple devices at once</a></li>
+    <li><a href="https://www.allaboutcircuits.com/technical-articles/getting-started-with-openocd-using-ft2232h-adapter-for-swd-debugging/">allaboutcircuits - Getting Started with OPENOCD Using FT2232H Adapter for SWD Debugging</a></li>
+    <li><a href="https://github.com/Microsoft/vscode-cpptools/issues/706">Issues with slashes in VSCode config files</a></li>
+    <li><a href="http://www.yolinux.com/TUTORIALS/GDB-Commands.html">yolinux.com GDB Commands</a></li>
+    <li><a href="http://openocd.org/doc/html/General-Commands.html">openocd.org General Commands</a></li>
+    <li><a href="https://stackify.com/top-visual-studio-code-extensions/?utm_source=ReviveOldPost&amp;utm_medium=social&amp;utm_campaign=ReviveOldPost">stackify.com Top Visual Studio Code Extensions: 50 Powerful Tools to Make Visual Studio Even More Useful</a></li>
+    <li><a href="https://github.com/Microsoft/vscode-tips-and-tricks#keyboard-reference-sheets">Microsoft vscode tips and-tricks</a></li>
+    <li><a href="https://github.com/FHFS/esp-idf-VSCode-template">FHFS esp-idf-VSCode-template</a></li>
+    <li><a href="https://code.visualstudio.com/docs/editor/integrated-terminal">VSCode Integrated Terminal</a></li>
+    <li><a href="https://github.com/espressif/esp-idf/issues/589">Building toolchain on Raspberry Pi fails</a></li>
+    <li>
+        <a href="https://esp32.com/viewtopic.php?f=17&amp;t=256&amp;hilit=raspberry+pi">
+            Using Raspberry Pi as ESP32 development platform
+        </a>
+    </li>
+</ul>
+<br />
 Completely unrelated, but cool:
 <br />
 <br />
 <br />
-<ul><li><a href="http://siliconexposed.blogspot.com/2017/02/starshipraider-input-buffer-rev-01.html">
-starshipraider project</a></li></ul><br />
+<ul>
+    <li>
+        <a href="http://siliconexposed.blogspot.com/2017/02/starshipraider-input-buffer-rev-01.html">
+            starshipraider project
+        </a>
+    </li>
+</ul>
+<br />
 <br />
 <br />
 <br />

@@ -3,37 +3,43 @@ layout: post
 title: 'VSCode JTAG Debugging of ESP32 - Part 1 '
 date: '2017-05-25T17:40:00.003-07:00'
 author: gojimmypi
-tags: 
+tags:
+- Espressif
 modified_time: '2017-06-09T17:24:02.725-07:00'
 blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-4275580232239081572
 blogger_orig_url: https://gojimmypi.blogspot.com/2017/05/vscode-jtag-debugging-of-esp32-part-1.html
 ---
 
 (last edited June 2, 2017 - added WSL/Ubuntu info, but not working: JTAG device not recognized in WSL "Error: libusb_init() failed with LIBUSB_ERROR_OTHER"). I opened&nbsp;<a href="https://github.com/Microsoft/BashOnWindows/issues/2185">Bash On Windows github issue #2185</a>
-&nbsp;for this.<br />
+&nbsp;for this.
+<br />
 <br />
 These instructions are only for Ubuntu in stand-alone (or VM) machine; not (yet) for WSL/Ubuntu on Windows.
 <br />
 <br />To debug in VSCode, I am using the&nbsp;
 <a href="https://code.visualstudio.com/docs/languages/cpp">C/C++ for VSCode Extension</a> along with an Olimex ARM-USB-OCD-H JTAG debugger. There are 2 mains parts: installing (covered here) and debug setup (covered in part 2). I also show the wiring connections <a href="{{ site.baseurl }}{% post_url 2017-03-17-jtag-debugging-for-esp32 %}">here</a>
-.<br />
-
-<div>
-<br />If you already have the toolchain installed and 
-<a href="{{ site.baseurl }}{% post_url 2017-05-25-vscode-remote-jtag-debugging-of-esp32 %}">want to simply debug, see step 2</a>
-!<br />
-<br />I've also added a&nbsp;
-<a href="{{ site.baseurl }}{% post_url 2017-06-09-vscode-jtag-debugging-of-esp32-part-3 %}">step 3 using ESP WIP OpenOCD</a>
-.<br />
+.
 <br />
 
+<div>
+    <br />If you already have the toolchain installed and
+    <a href="{{ site.baseurl }}{% post_url 2017-05-25-vscode-remote-jtag-debugging-of-esp32 %}">want to simply debug, see step 2</a>
+    !<br />
+    <br />I've also added a&nbsp;
+    <a href="{{ site.baseurl }}{% post_url 2017-06-09-vscode-jtag-debugging-of-esp32-part-3 %}">step 3 using ESP WIP OpenOCD</a>
+    .<br />
+    <br />
+
 </div>
-In order to get VSCode debugging the ESP32, it is probably a good idea to first get regular gdb debugging working. Although I'd like to do this fully in Windows, I start with an Ubuntu VM and use 
+In order to get VSCode debugging the ESP32, it is probably a good idea to first get regular gdb debugging working. Although I'd like to do this fully in Windows, I start with an Ubuntu VM and use
 <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/">PuTTY SSH and Telnet Client</a>
- to connect. (see tip below on CR vs CRLF in VSCode)<br />
+ to connect. (see tip below on CR vs CRLF in VSCode)
+<br />
 <br />I started with the esp-idf instructions&nbsp;
 <a href="http://esp-idf.readthedocs.io/en/latest/get-started/linux-setup.html">http://esp-idf.readthedocs.io/en/latest/get-started/linux-setup.html</a>&nbsp;with release 2.1 from <a href="https://github.com/espressif/esp-idf">https://github.com/espressif/esp-idf</a>. Once the toolchain is installed, there's also a special version of OpenOCD here:&nbsp;<a href="https://github.com/espressif/openocd-esp32">
-https://github.com/espressif/openocd-esp32</a><br />
+    https://github.com/espressif/openocd-esp32
+</a>
+<br />
 <br />
 <br />
 Nothing new here not presented in espressif instructions; so in brief... basically for the esp-idf:
@@ -69,12 +75,12 @@ if installing on WSL (Ubuntu on Windows), I needed to also install:
 <pre class="language highlighter-rouge">
 <code class="highlight">
 sudo apt-get install libtool
-sudo apt-get install autotools-dev  
+sudo apt-get install autotools-dev
 sudo apt-get install automake # needed for aclocal
 sudo apt-get install pkg-config # needed to solve error: configure.ac:12: error: possibly undefined macro: AC_MSG_WARN
 sudo apt-get install libusb-1.0 # otherwise No package 'libusb-1.0' found</code></pre>
 <br />
-then for the openocd-32; make sure you do not have a regular distro version of openocd installed, if you do:  
+then for the openocd-32; make sure you do not have a regular distro version of openocd installed, if you do:
 <br />
 
 {% include code_header.html %}
@@ -84,7 +90,8 @@ then for the openocd-32; make sure you do not have a regular distro version of o
 sudo apt-get remove openocd</code></pre>
 <br />Here too, just restating the instructions from&nbsp;
 <a href="https://github.com/espressif/openocd-esp32">https://github.com/espressif/openocd-esp32</a>
-:<br />
+:
+<br />
 
 {% include code_header.html %}
 
@@ -130,7 +137,7 @@ Raisonance RLink JTAG Programmer        no
 Olimex ARM-JTAG-EW Programmer           no
 CMSIS-DAP Compliant Debugger            no</code></pre>
 <br />
-if installing in WSL, the only difference I saw: 
+if installing in WSL, the only difference I saw:
 <br />
 
 {% include code_header.html %}
@@ -142,7 +149,7 @@ if installing in WSL, the only difference I saw:
 
 
 <div>
-continue with:
+    continue with:
 </div>
 
 
@@ -152,7 +159,7 @@ continue with:
 make
 sudo make install
 openocd</code></pre>
-The make takes a rather long time. I did observe a couple of errors/warnings on WSL (didn't notice on linux). Seems to be only related to docs. Note the "makeinfo missing": 
+The make takes a rather long time. I did observe a couple of errors/warnings on WSL (didn't notice on linux). Seems to be only related to docs. Note the "makeinfo missing":
 <br />
 
 {% include code_header.html %}
@@ -212,7 +219,8 @@ See the man page for ginstall-info for command line arguments
 install-info: No such file or directory for /usr/local/share/info/openocd.info
  /bin/mkdir -p '/usr/local/share/man/man1'</code></pre>
 As we did not previously have <code class="highlight">apt-get install openocd</code>
-, we should now see version 0.10 when running it.  Open On-Chip Debugger 0.10.0-dev-g372bb59 (2017-05-25-16:24) <br />
+, we should now see version 0.10 when running it.  Open On-Chip Debugger 0.10.0-dev-g372bb59 (2017-05-25-16:24)
+<br />
 copy the hello_world app:
 <br />
 
@@ -227,14 +235,16 @@ cd ~/esp/hello_world
 make menuconfig</code></pre>
 
 <br />
-if you have a hard time with the config window on WSL, try resizing the [Bash on Ubuntu] Winbdows size (typically smaller). Hit arrows up &amp; down to screen refresh. If you see the problem you'll understand. If not - then there's no problem! :) 
+if you have a hard time with the config window on WSL, try resizing the [Bash on Ubuntu] Winbdows size (typically smaller). Hit arrows up &amp; down to screen refresh. If you see the problem you'll understand. If not - then there's no problem! :)
 <br />
-<br />next, edit 
+<br />next, edit
 <code class="highlight">
-~/workspace/openocd-esp32/tcl/interface/ftdi/olimex-arm-usb-ocd-h.cfg</code><br />
+    ~/workspace/openocd-esp32/tcl/interface/ftdi/olimex-arm-usb-ocd-h.cfg
+</code>
+<br />
 
 <div>
-to add the <code class="highlight">adapter_khz 1000</code> line (I saved mine to a file called <code class="highlight">olimex-arm-usb-ocd-h-1MHz.cfg</code>):&nbsp;
+    to add the <code class="highlight">adapter_khz 1000</code> line (I saved mine to a file called <code class="highlight">olimex-arm-usb-ocd-h-1MHz.cfg</code>):&nbsp;
 </div>
 
 
@@ -261,19 +271,21 @@ ftdi_vid_pid 0x15ba 0x002b
 ftdi_layout_init 0x0908 0x0b1b
 ftdi_layout_signal nSRST -oe 0x0200
 ftdi_layout_signal nTRST -data 0x0100
-ftdi_layout_signal LED -data 0x0800 
+ftdi_layout_signal LED -data 0x0800
 adapter_khz 1000</code></pre>
 I also slightly modified my esp32.cfg file (thanks @ba0sh1 <a href="http://ba0sh1.com/">http://ba0sh1.com/</a>
-)   <br />
+)
+<br />
 
 {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
 cd ~/workspace/openocd-esp32/tcl/target/cp esp32.cfg ESP32-RTOS-none.cfg</code></pre>
-just one change needed to set ESP32_RTOS none, but the whole file shown for reference.<br />
+just one change needed to set ESP32_RTOS none, but the whole file shown for reference.
 <br />
-As a reminder, don't try to uncomment a setting and leave a comment at the end of the same line. I saved mine to: ~/workspace/openocd-esp32/tcl/target/ESP32-RTOS-none.cfg  
+<br />
+As a reminder, don't try to uncomment a setting and leave a comment at the end of the same line. I saved mine to: ~/workspace/openocd-esp32/tcl/target/ESP32-RTOS-none.cfg
 <br />
 
 {% include code_header.html %}
@@ -285,7 +297,7 @@ As a reminder, don't try to uncomment a setting and leave a comment at the end o
 #set ESP32_ONLYCPU 1        # Only configure the PRO CPU
 #set ESP32_ONLYCPU 2        # Only configure the APP CPU
 # Disable RTOS support
-set ESP32_RTOS none        
+set ESP32_RTOS none
 #set ESP32_RTOS freertos    # Force RTOS to be FreeRTOS
 if { [info exists CHIPNAME] } {
  set _CHIPNAME $CHIPNAME
@@ -361,12 +373,16 @@ gdb_breakpoint_override hard</code></pre>
 
 <br />
 <h3>
-Tips and Suggestions:</h3><br />Note that when moving between Windows and Linux... if you use VSCode to create bash script files from Windows, there's a&nbsp;
+    Tips and Suggestions:
+</h3>
+<br />Note that when moving between Windows and Linux... if you use VSCode to create bash script files from Windows, there's a&nbsp;
 <a href="https://github.com/Microsoft/vscode/issues/26626">little issue with the LF vs CRLF settings</a>. (note the little LF in the status bar at the bottom of the screen). You really only want to save files with LF on Linux, not CRLF like on Windows. If you ignore this, you'll may see an err like&nbsp;<a href="https://askubuntu.com/questions/304999/not-able-to-execute-a-sh-file-bin-bashm-bad-interpreter">Not able to execute a .sh file: /bin/bash^M: bad interpreter</a>
-. The CRLF's are to blame. The linux dosa2unix utility might also be helpful.<br />
+. The CRLF's are to blame. The linux dosa2unix utility might also be helpful.
+<br />
 <br />
 <h3>Is it working?&nbsp;</h3>See my <a href="https://gist.github.com/gojimmypi/c2f65d468573028908c3ad87ff1aca9c">gist</a>
- or use this set of commands:<br />
+ or use this set of commands:
+<br />
 
 {% include code_header.html %}
 
@@ -378,19 +394,30 @@ cd  ~/workspace/openocd-esp32/tcl
 sudo openocd -f interface/ftdi/olimex-arm-usb-ocd-h-1MHz.cfg -c "transport select jtag"  -f target/ESP32-RTOS-none.cfg</code></pre>
 <br />
 <a href="{{ site.baseurl }}{% post_url 2017-05-25-vscode-remote-jtag-debugging-of-esp32 %}">
-Continued in step 2...</a><br />
-<h3>Resources and Inspiration: </h3><ul><li><a href="http://esp-idf.readthedocs.io/en/latest/get-started/windows-setup.html">esp-idf - Standard Setup of Toolchain for Windows</a></li><li><a href="http://esp-idf.readthedocs.io/en/latest/get-started/index.html">esp-idf - Getting Started</a></li><li><a href="https://sourceware.org/gdb/onlinedocs/gdb/GDB_002fMI.html">The GDB/MI Interface</a></li><li><a href="https://github.com/FHFS/esp-idf-VSCode-template">https://github.com/FHFS/esp-idf-VSCode-template</a></li><li><a href="https://www.allaboutcircuits.com/technical-articles/getting-started-with-openocd-using-ft2232h-adapter-for-swd-debugging/">https://www.allaboutcircuits.com/technical-articles/getting-started-with-openocd-using-ft2232h-adapter-for-swd-debugging/</a></li><li><a href="http://openocd.org/doc-release/doxygen/FreeRTOS_8c_source.html">OpenOCD FreeRTOS source</a></li><li><a href="https://stackoverflow.com/questions/2420813/using-gdb-to-single-step-assembly-code-outside-specified-executable-causes-error">https://stackoverflow.com/questions/2420813/using-gdb-to-single-step-assembly-code-outside-specified-executable-causes-error</a></li><li><a href="https://forum.sparkfun.com/viewtopic.php?f=18&amp;t=35579">sparkfun forum - OpenOCD with Olimex ARM-USB-OCD-H</a></li><li><a href="https://github.com/espressif/openocd-esp32">https://github.com/espressif/openocd-esp32</a></li><li><a href="http://openocd.org/doc/html/Server-Configuration.html">http://openocd.org/doc/html/Server-Configuration.html</a></li><li><a href="https://www.olimex.com/forum/index.php?topic=5676.0">olimex forum - Olimex ARM-USB-OCD-H with OpenOCD - libusb_open() failed with LIBUSB_ERROR_NOT_S</a></li><li><a href="https://github.com/espressif/esp-idf/issues/303">[TW#12206] VSCode works really well. Worth adding setup instructions in to the docs?  #303 </a></li><li><a href="https://www.allaboutcircuits.com/technical-articles/getting-started-with-openocd-using-ft2232h-adapter-for-swd-debugging/">allaboutcircuits - Getting Started with OPENOCD Using FT2232H Adapter for SWD Debugging</a></li><li><a href="http://vedder.se/2012/12/debugging-the-stm32f4-using-openocd-gdb-and-eclipse/">Benjamin's robotics - Debugging the STM32F4 using openocd, gdb and Eclipse</a></li><li><a href="https://github.com/geomatsi/stm32-tests/blob/master/boards/stm32f103-mini/scripts/openocd-jlink-swd.cfg">custom board script example (JLINK SWD)</a></li></ul>
-<div>
-<h3>Interesting but not really related:</h3>
-</div>
-<ul><li><a href="https://gist.github.com/brainstorm/24e843ae0295ee1e41dff47c5b43a02c">
-https://gist.github.com/brainstorm/esp32_promisc.c </a></li></ul><br />
+    Continued in step 2...
+</a>
 <br />
-(this is still a work in progress, sorry for spelling / formatting / content)  
+<h3>Resources and Inspiration: </h3>
+<ul><li><a href="http://esp-idf.readthedocs.io/en/latest/get-started/windows-setup.html">esp-idf - Standard Setup of Toolchain for Windows</a></li><li><a href="http://esp-idf.readthedocs.io/en/latest/get-started/index.html">esp-idf - Getting Started</a></li><li><a href="https://sourceware.org/gdb/onlinedocs/gdb/GDB_002fMI.html">The GDB/MI Interface</a></li><li><a href="https://github.com/FHFS/esp-idf-VSCode-template">https://github.com/FHFS/esp-idf-VSCode-template</a></li><li><a href="https://www.allaboutcircuits.com/technical-articles/getting-started-with-openocd-using-ft2232h-adapter-for-swd-debugging/">https://www.allaboutcircuits.com/technical-articles/getting-started-with-openocd-using-ft2232h-adapter-for-swd-debugging/</a></li><li><a href="http://openocd.org/doc-release/doxygen/FreeRTOS_8c_source.html">OpenOCD FreeRTOS source</a></li><li><a href="https://stackoverflow.com/questions/2420813/using-gdb-to-single-step-assembly-code-outside-specified-executable-causes-error">https://stackoverflow.com/questions/2420813/using-gdb-to-single-step-assembly-code-outside-specified-executable-causes-error</a></li><li><a href="https://forum.sparkfun.com/viewtopic.php?f=18&amp;t=35579">sparkfun forum - OpenOCD with Olimex ARM-USB-OCD-H</a></li><li><a href="https://github.com/espressif/openocd-esp32">https://github.com/espressif/openocd-esp32</a></li><li><a href="http://openocd.org/doc/html/Server-Configuration.html">http://openocd.org/doc/html/Server-Configuration.html</a></li><li><a href="https://www.olimex.com/forum/index.php?topic=5676.0">olimex forum - Olimex ARM-USB-OCD-H with OpenOCD - libusb_open() failed with LIBUSB_ERROR_NOT_S</a></li><li><a href="https://github.com/espressif/esp-idf/issues/303">[TW#12206] VSCode works really well. Worth adding setup instructions in to the docs?  #303 </a></li><li><a href="https://www.allaboutcircuits.com/technical-articles/getting-started-with-openocd-using-ft2232h-adapter-for-swd-debugging/">allaboutcircuits - Getting Started with OPENOCD Using FT2232H Adapter for SWD Debugging</a></li><li><a href="http://vedder.se/2012/12/debugging-the-stm32f4-using-openocd-gdb-and-eclipse/">Benjamin's robotics - Debugging the STM32F4 using openocd, gdb and Eclipse</a></li><li><a href="https://github.com/geomatsi/stm32-tests/blob/master/boards/stm32f103-mini/scripts/openocd-jlink-swd.cfg">custom board script example (JLINK SWD)</a></li></ul>
+<div>
+    <h3>Interesting but not really related:</h3>
+</div>
+<ul>
+    <li>
+        <a href="https://gist.github.com/brainstorm/24e843ae0295ee1e41dff47c5b43a02c">
+            https://gist.github.com/brainstorm/esp32_promisc.c
+        </a>
+    </li>
+</ul>
+<br />
+<br />
+(this is still a work in progress, sorry for spelling / formatting / content)
 <br />
 <br />
 <a href="{{ site.baseurl }}{% post_url 2017-05-25-vscode-remote-jtag-debugging-of-esp32 %}">
-Continued in step 2....</a><br />
+    Continued in step 2....
+</a>
+<br />
  Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:52 PM
 <br />
 

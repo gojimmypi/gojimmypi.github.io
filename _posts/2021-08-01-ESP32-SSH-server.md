@@ -7,6 +7,7 @@ tags:
 - ESP32
 - wolfSSL
 - SSH
+- Espressif
 ---
 
 (draft / WIP v2)

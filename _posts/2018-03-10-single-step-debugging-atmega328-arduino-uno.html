@@ -15,6 +15,7 @@ tags:
 - ISP
 - Debug
 - Embedded Debugging
+- Espressif
 modified_time: '2018-03-12T10:08:10.766-07:00'
 thumbnail: https://4.bp.blogspot.com/-3Ms885AV0DI/WqQXMNKTLGI/AAAAAAAAA7o/UFFziDa2Xe043k2hYXmdVoJ1SJT-wM6fwCLcBGAs/s72-c/LoRa%2BV2.PNG
 blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-936036907833975522
@@ -22,15 +23,18 @@ blogger_orig_url: https://gojimmypi.blogspot.com/2018/03/single-step-debugging-a
 ---
 
 Today I revisit my old friend, the <a href="http://www.microchip.com/wwwproducts/en/ATmega328p">Microchip Atmel ATMEGA328P</a>
- (aka Arduino Uno), although this is unlike any Arduino I've had before!<br />
-<br />This is a continuation of my 
+ (aka Arduino Uno), although this is unlike any Arduino I've had before!
+<br />
+<br />This is a continuation of my
 <a href="{{ site.baseurl }}{% post_url 2018-03-04-m5stack-lora-range-improvement %}">previous blog</a>, where I am working on improving the range of LoRa on the <a href="https://www.espressif.com/en/products/hardware/esp32/overview">ESP32</a>-based <a href="http://m5stack.com/">M5Stack</a>
- module. Many thanks to Jimmy Lai that sent me a prototype of the next version of LoRa module!<br />
+ module. Many thanks to Jimmy Lai that sent me a prototype of the next version of LoRa module!
+<br />
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/LoRa_V2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="638" data-original-width="681" height="373" src="../images/s400/LoRa_V2.PNG" width="400"></a>
+    <a href="../images/s1600/LoRa_V2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="638" data-original-width="681" height="373" src="../images/s400/LoRa_V2.PNG" width="400">
+    </a>
 </div>
 <br />
 <br />
@@ -39,8 +43,9 @@ Note my LoRa board arrived with no headers soldered on. There's not really room 
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/LoRa_reverse.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="404" data-original-width="641" height="201" src="../images/s320/LoRa_reverse.PNG" width="320"></a>
+    <a href="../images/s1600/LoRa_reverse.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="404" data-original-width="641" height="201" src="../images/s320/LoRa_reverse.PNG" width="320">
+    </a>
 </div>
 <br />
 <br />
@@ -49,15 +54,17 @@ I soldered from above. I can't remember the last time I did this - if ever. One 
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Pin_Closeup.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="481" data-original-width="642" height="239" src="../images/s320/Pin_Closeup.PNG" width="320"></a>
+    <a href="../images/s1600/Pin_Closeup.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="481" data-original-width="642" height="239" src="../images/s320/Pin_Closeup.PNG" width="320">
+    </a>
 </div>
 <br />
 Ready to proceed with the fun stuff...
 <br />
-<br />Upon close inspection of this new LoRa board, there's a tiny ATMEGA328P sitting there! (yes, the same micro-controller in the famous 
+<br />Upon close inspection of this new LoRa board, there's a tiny ATMEGA328P sitting there! (yes, the same micro-controller in the famous
 <a href="https://store.arduino.cc/usa/arduino-uno-rev3">Arduino</a> Uno (see typical&nbsp;<a href="https://www.arduino.cc/en/uploads/Main/arduino-uno-schematic.pdf">Uno schematic</a>
-).<br />
+).
+<br />
 <br />
 Unlike a "regular" Arduino, there's no need to cut the trace for "Reset EN". (regular Arduinos programmed with the serial port have DTR connected to reset with a capacitor that otherwise interferes with ISP).
 <br />
@@ -68,36 +75,43 @@ This Mega328 has the 28 pin, MLF form factor:
 <br />
 
 <div class="separator" style="clear: both;">
-<a href="../images/s1600/ATMEGA328P.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="787" data-original-width="820" height="383" src="../images/s400/ATMEGA328P.PNG" width="400"></a>
+    <a href="../images/s1600/ATMEGA328P.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="787" data-original-width="820" height="383" src="../images/s400/ATMEGA328P.PNG" width="400">
+    </a>
 </div>
 <br />See the full&nbsp;
 <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-42735-8-bit-AVR-Microcontroller-ATmega328-328P_Datasheet.pdf">ATMega328 spec sheet here</a>
-. This Mega 328 LoRa board is connected like this:<br />
+. This Mega 328 LoRa board is connected like this:
+<br />
 <br />
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/LoraMegaConnections.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="503" data-original-width="949" height="211" src="../images/s400/LoraMegaConnections.PNG" width="400"></a>
+    <a href="../images/s1600/LoraMegaConnections.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="503" data-original-width="949" height="211" src="../images/s400/LoraMegaConnections.PNG" width="400">
+    </a>
 </div>
 <br />
 As shown, the Mega328&nbsp;sits between the ESP32 core and the LoRa RA-02 transceiver. So the plan is interrupt driven LoRa that the Mega328 handles, while I2C will be used to exchange data from the ESP32 core and the Mega328. So before doing anything, this sounds complex enough to need a serious debugger.
 <br />
-<br />Fortunately I already had an 
+<br />Fortunately I already had an
 <a href="http://www.microchip.com/Developmenttools/ProductDetails.aspx?PartNO=ATATMEL-ICE">Atmel ICE debugger</a> and <a href="https://www.microchip.com/avr-support/atmel-studio-7">Atmel Studio 7</a>
- installed. As a reminder, here are the instructions:<br />
-<br />First: ensure the latest version of Atmel Studio is installed via Help - Check for Updates (I am using Version 7.0.1645). It may also prompt you to update the firmware in the ICE Debugger. (1.27 in my case). See 
+ installed. As a reminder, here are the instructions:
+<br />
+<br />First: ensure the latest version of Atmel Studio is installed via Help - Check for Updates (I am using Version 7.0.1645). It may also prompt you to update the firmware in the ICE Debugger. (1.27 in my case). See
 <a href="https://www.avrfreaks.net/forum/atmel-ice-firmware-version-how-find-out">Tools - Device Programming</a>
-.<br />
-<br />The most difficult thing is figuring out the pins to connect. Unfortunately the LoRa module has the ISP connections in a line rather than the standard connection. Adding to the frustration is the fact that the DuPont pins on the octopus cable have taped-on numbers. Although it is handy having the connections labeled, the thickness of the tape makes having 6 of them in a row a 
+.
+<br />
+<br />The most difficult thing is figuring out the pins to connect. Unfortunately the LoRa module has the ISP connections in a line rather than the standard connection. Adding to the frustration is the fact that the DuPont pins on the octopus cable have taped-on numbers. Although it is handy having the connections labeled, the thickness of the tape makes having 6 of them in a row a
 <i>very </i>
-tight fit:<br />
+tight fit:
+<br />
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Connection.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="391" data-original-width="695" height="225" src="../images/s400/Connection.PNG" width="400"></a>
+    <a href="../images/s1600/Connection.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="391" data-original-width="695" height="225" src="../images/s400/Connection.PNG" width="400">
+    </a>
 </div>
 <br />
 As a feature request, I hope the M5Stack folks consider implementing a standard SPI / ICSP connector:
@@ -105,11 +119,13 @@ As a feature request, I hope the M5Stack folks consider implementing a standard 
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/icsp_6pin.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="221" data-original-width="300" src="../images/s1600/icsp_6pin.png"></a>
+    <a href="../images/s1600/icsp_6pin.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="221" data-original-width="300" src="../images/s1600/icsp_6pin.png">
+    </a>
 </div>
 In the meantime, it would probably be worthwhile to create a custom inline Dupont header using a <a href="https://www.amazon.com/dp/B074M3J85X/">kit such as this</a>&nbsp;and this <a href="https://www.amazon.com/dp/B00OMM4YUY/">crimping tool</a>
-. (this is incredibly handy to have)<br />
+. (this is incredibly handy to have)
+<br />
 <br />
 The single most important thing is that: MO = MOSI = TDI (I wasted a bunch of time when I had assumed MO = MisO = TDO; which is not correct!). Also note that nTRST != nSRST.&nbsp; (yes, I made that mistake, too; my original screen clip did not include the SPI column which makes this more obvious).
 <br />
@@ -119,20 +135,23 @@ These are the correct connections for debugWIRE, aka SPI, aka ISP programming of
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/LoRa_ISP_Pinout.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="415" data-original-width="891" height="296" src="../images/s640/LoRa_ISP_Pinout.png" width="640"></a>
+    <a href="../images/s1600/LoRa_ISP_Pinout.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="415" data-original-width="891" height="296" src="../images/s640/LoRa_ISP_Pinout.png" width="640">
+    </a>
 </div>
 <br />
 Note that VTG is not suited to power a remote device. This is a power sensor to determine logic voltage levels. Devices being debugged, including this LoRa module most be self powered!
 <br />
-<br />For more information on the ICE Debugger, 
+<br />For more information on the ICE Debugger,
 <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-42735-8-bit-AVR-Microcontroller-ATmega328-328P_Datasheet.pdf">read the fine manual</a>
-.<br />
+.
+<br />
 <br />
 I started with a simple Uno sketch file:
 <br />
 <br />
-<code class="highlight"></code><br />
+<code class="highlight"></code>
+<br />
 
 {% include code_header.html %}
 
@@ -154,8 +173,9 @@ Then in Atmel Studio: File - New - Project:
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/new_project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="656" data-original-width="944" height="277" src="../images/s400/new_project.PNG" width="400"></a>
+    <a href="../images/s1600/new_project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="656" data-original-width="944" height="277" src="../images/s400/new_project.PNG" width="400">
+    </a>
 </div>
 <br />
 Select "Create project from Arduino sketch", edit directories as needed, then press ok.&nbsp; Next select the file location of the Arduino sketch. Be sure to select Arduino/Genuino Uno for Board:
@@ -163,8 +183,9 @@ Select "Create project from Arduino sketch", edit directories as needed, then pr
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Create_Arduino_Project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="316" data-original-width="594" height="170" src="../images/s320/Create_Arduino_Project.PNG" width="320"></a>
+    <a href="../images/s1600/Create_Arduino_Project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="316" data-original-width="594" height="170" src="../images/s320/Create_Arduino_Project.PNG" width="320">
+    </a>
 </div>
 <br />
 It may take a short while to create a project.
@@ -172,22 +193,25 @@ It may take a short while to create a project.
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Creating_Core.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="147" data-original-width="478" height="98" src="../images/s320/Creating_Core.PNG" width="320"></a>
+    <a href="../images/s1600/Creating_Core.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="147" data-original-width="478" height="98" src="../images/s320/Creating_Core.PNG" width="320">
+    </a>
 </div>
 
 <div class="separator" style="clear: both; text-align: center;">
-<br />
+    <br />
 
 </div>
 Once the project is created, click Project - {
 <i>name</i>
-} Properties (Alt-F7). Select Atmel ICE Debugger and ensure Debug Wire is selected for interface:<br />
+} Properties (Alt-F7). Select Atmel ICE Debugger and ensure Debug Wire is selected for interface:
+<br />
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Debug_Wire.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="403" data-original-width="952" height="270" src="../images/s640/Debug_Wire.PNG" width="640"></a>
+    <a href="../images/s1600/Debug_Wire.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="403" data-original-width="952" height="270" src="../images/s640/Debug_Wire.PNG" width="640">
+    </a>
 </div>
 <br />
 <br />
@@ -196,8 +220,9 @@ Next - click Debug - Step Into. The first time, there will likely be a warning a
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/DWEN_Fuse.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="183" data-original-width="549" src="../images/s1600/DWEN_Fuse.PNG"></a>
+    <a href="../images/s1600/DWEN_Fuse.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="183" data-original-width="549" src="../images/s1600/DWEN_Fuse.PNG">
+    </a>
 </div>
 <br />
 Press Yes to set the fuses appropriately. If you get any other errors, check the wiring. Then recheck the wiring.
@@ -208,8 +233,9 @@ If successful, there will be a message that debugWIRE is enabled. BE SURE TO REA
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Power_Cycle.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="169" data-original-width="408" src="../images/s1600/Power_Cycle.PNG"></a>
+    <a href="../images/s1600/Power_Cycle.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="169" data-original-width="408" src="../images/s1600/Power_Cycle.PNG">
+    </a>
 </div>
 <br />
 Note that you MUST power cycle the Mega328 (in our case the M5Stack &amp; LoRa). Do not power cycle the Atmel ICE debugger.
@@ -220,8 +246,9 @@ Press ok, and VOILA!
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Debug_Step_Into.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="751" data-original-width="665" height="640" src="../images/s640/Debug_Step_Into.PNG" width="564"></a>
+    <a href="../images/s1600/Debug_Step_Into.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="751" data-original-width="665" height="640" src="../images/s640/Debug_Step_Into.PNG" width="564">
+    </a>
 </div>
 <br />
 I recall reading that the ATMega328 *must* have debugging properly disabled upon completion or Really Bad Things might happen (really?). I still do this, although I've never actually tested it to be sure. While paused at a breakpoint, click Disable debugWIRE and Close.
@@ -229,19 +256,38 @@ I recall reading that the ATMega328 *must* have debugging properly disabled upon
 <br />
 
 <div class="separator" style="clear: both; text-align: center;">
-<a href="../images/s1600/DisableDebug.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="676" data-original-width="681" height="635" src="../images/s640/DisableDebug.PNG" width="640"></a>
+    <a href="../images/s1600/DisableDebug.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="676" data-original-width="681" height="635" src="../images/s640/DisableDebug.PNG" width="640">
+    </a>
 </div>
-<br />So the next step will be seeing if I can get the RadioHead drivers working on this new LoRa module... but first I'd like to get the LoRa 
+<br />So the next step will be seeing if I can get the RadioHead drivers working on this new LoRa module... but first I'd like to get the LoRa
 <a href="{{ site.baseurl }}{% post_url 2018-03-11-serial-port-debugging %}">AVR serial port working</a>
-.<br />
+.
+<br />
 <br />
 <br />
 Resources, Inspiration, Credits, and Other Links:
 <br />
-<ul><li><a href="https://www.microchip.com/webdoc/GUID-DDB0017E-84E3-4E77-AAE9-7AC4290E5E8B/index.html?GUID-00C512FA-7D81-461E-9BD2-70B2FBAB5D4A">HTML Version of Atmel ICE Documentation</a></li><li><a href="http://www.ladyada.net/learn/avr/avrdude.html">AVR Tutorial</a></li><li><a href="http://www.engbedded.com/fusecalc/">Engbedded Atmel AVR® Fuse Calculator</a></li><li><a href="http://www.rogerclark.net/updating-firmware-on-usbasp-bought-from-ebay/">Updating firmware on USBASP bought from eBay</a></li><li><a href="http://www.fischl.de/usbasp/">USBasp - USB programmer for Atmel AVR controllers</a></li><li><a href="http://www.microchip.com/Developmenttools/ProductDetails.aspx?PartNO=ATATMEL-ICE">Atmel ICE</a></li><li><a href="http://www.visualmicro.com/page/Debugging-for-Arduino.aspx">Visual Micro Debugging</a></li><li><a href="http://forum.arduino.cc/index.php?topic=390155.0">Atmel ICE in Arduino IDE</a></li><li><a href="https://www.blogger.com/"><span id="goog_1455766016"></span>Atmel ICE User Guide<span id="goog_1455766017"></span></a></li><li><a href="https://www.avrfreaks.net/forum/resolved-atmel-ice-unable-start-debugwire-session">
-AVR Freaks: Atmel-ICE unable to start a debugWire session</a></li><li><br />
-</li></ul><br />
+<ul>
+    <li><a href="https://www.microchip.com/webdoc/GUID-DDB0017E-84E3-4E77-AAE9-7AC4290E5E8B/index.html?GUID-00C512FA-7D81-461E-9BD2-70B2FBAB5D4A">HTML Version of Atmel ICE Documentation</a></li>
+    <li><a href="http://www.ladyada.net/learn/avr/avrdude.html">AVR Tutorial</a></li>
+    <li><a href="http://www.engbedded.com/fusecalc/">Engbedded Atmel AVR® Fuse Calculator</a></li>
+    <li><a href="http://www.rogerclark.net/updating-firmware-on-usbasp-bought-from-ebay/">Updating firmware on USBASP bought from eBay</a></li>
+    <li><a href="http://www.fischl.de/usbasp/">USBasp - USB programmer for Atmel AVR controllers</a></li>
+    <li><a href="http://www.microchip.com/Developmenttools/ProductDetails.aspx?PartNO=ATATMEL-ICE">Atmel ICE</a></li>
+    <li><a href="http://www.visualmicro.com/page/Debugging-for-Arduino.aspx">Visual Micro Debugging</a></li>
+    <li><a href="http://forum.arduino.cc/index.php?topic=390155.0">Atmel ICE in Arduino IDE</a></li>
+    <li><a href="https://www.blogger.com/"><span id="goog_1455766016"></span>Atmel ICE User Guide<span id="goog_1455766017"></span></a></li>
+    <li>
+        <a href="https://www.avrfreaks.net/forum/resolved-atmel-ice-unable-start-debugwire-session">
+            AVR Freaks: Atmel-ICE unable to start a debugWire session
+        </a>
+    </li>
+    <li>
+        <br />
+    </li>
+</ul>
+<br />
 <br />
 <br />
 <br />

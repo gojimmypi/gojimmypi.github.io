@@ -10,6 +10,7 @@ tags:
 - Segger
 - JLink
 - WSL
+- Espressif
 ---
 
 Some information on using Segger JLink to OpenOCD GDB debug an ESP32 project, specifically 

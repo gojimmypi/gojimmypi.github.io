@@ -3,7 +3,8 @@ layout: post
 title: VSCode JTAG Debugging of ESP32 - Part 3
 date: '2017-06-09T13:28:00.001-07:00'
 author: gojimmypi
-tags: 
+tags:
+- Espressif
 modified_time: '2017-06-09T17:24:41.135-07:00'
 thumbnail: https://3.bp.blogspot.com/-qaRW6jDNFHY/WTr_wv0xXqI/AAAAAAAAAcA/Wzq1uv8uO9cjq7ixJFcCzSwwXnAY3x7PQCLcB/s72-c/menu_config_FreeRTOS.PNG
 blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-7553493991623549327
@@ -11,12 +12,15 @@ blogger_orig_url: https://gojimmypi.blogspot.com/2017/06/vscode-jtag-debugging-o
 ---
 
 (see also&nbsp;<a href="{{ site.baseurl }}{% post_url 2017-03-17-jtag-debugging-for-esp32 %}">hardware setup</a>,&nbsp;<a href="{{ site.baseurl }}{% post_url 2017-05-25-vscode-jtag-debugging-of-esp32-part-1 %}">part 1</a>, and&nbsp;<a href="{{ site.baseurl }}{% post_url 2017-05-25-vscode-remote-jtag-debugging-of-esp32 %}">part 2</a>
-)<br />
+)
+<br />
 <br />Test drive of OpenOCD WIP branch with VSCode. See:&nbsp;
 <a href="https://github.com/espressif/openocd-esp32/wiki/Work-in-progress-ESP32-dual-core-target">
-https://github.com/espressif/openocd-esp32/wiki/Work-in-progress-ESP32-dual-core-target</a><br />
+    https://github.com/espressif/openocd-esp32/wiki/Work-in-progress-ESP32-dual-core-target
+</a>
 <br />
-If there's already an openocd-esp32 checked out, save it: 
+<br />
+If there's already an openocd-esp32 checked out, save it:
 <br />
 
 {% include code_header.html %}
@@ -38,18 +42,20 @@ git clone -b feature/esp32_dualcore  --recursive https://github.com/espressif/op
 cd openocd-esp32
 git status</code></pre>
 then follow instructions&nbsp;<a href="https://github.com/espressif/openocd-esp32">
-https://github.com/espressif/openocd-esp32</a><br />
+    https://github.com/espressif/openocd-esp32
+</a>
+<br />
 
 {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
-./bootstrap 
-./configure 
+./bootstrap
+./configure
 make
 sudo make install</code></pre>
 <br />
-Modified esp32_dc.cfg to esp32_dcx.cfg  
+Modified esp32_dc.cfg to esp32_dcx.cfg
 <br />
 
 {% include code_header.html %}
@@ -57,7 +63,7 @@ Modified esp32_dc.cfg to esp32_dcx.cfg
 <pre class="language highlighter-rouge">
 <code class="highlight">
 cp  /./home/gojimmypi/workspace/openocd-esp32/esp32_dc.cfg /./home/gojimmypi/workspace/openocd-esp32/esp32_dcx.cfg</code></pre>
-Mine looks like this: 
+Mine looks like this:
 <br />
 
 {% include code_header.html %}
@@ -97,9 +103,14 @@ esp32 flashbootstrap 3.3</code></pre>
 
 <br />Note there's a discussion for&nbsp;
 <a href="https://github.com/espressif/openocd-esp32/issues/6">openocd-esp32/issues/6</a>
-&nbsp;that mentions the flash voltage in config file:<br />
-<blockquote class="tr_bq"><i>
-That depends on the module which is used on the dev board. Most WROOM modules use 3.3V flash, while WROVER modules use 1.8V flash.</i></blockquote><br />
+&nbsp;that mentions the flash voltage in config file:
+<br />
+<blockquote class="tr_bq">
+    <i>
+        That depends on the module which is used on the dev board. Most WROOM modules use 3.3V flash, while WROVER modules use 1.8V flash.
+    </i>
+</blockquote>
+<br />
 For a JTAG debugger, I'm using the Olimex (default file, see esp32 config for some settings). I could not get the default 20MHz to work, so lower this setting if there are problems. Sample above is using 1MHz, but I have been able to get 10MHz to work reliably. Actual max speed will depend on JTAG cable type characteristics (length, capacitance, shielding, etc)
 <br />
 
@@ -116,7 +127,8 @@ interface ft2232
 ft2232_device_desc "Olimex OpenOCD JTAG ARM-USB-OCD-H"
 ft2232_layout olimex-jtagft2232_vid_pid 0x15ba 0x002b</code></pre>
 Modified launch.json in VSCode (different from prior blog). Note changes as specified&nbsp;<a href="https://github.com/espressif/openocd-esp32/wiki/Work-in-progress-ESP32-dual-core-target">here</a>
-. But I omitted last line with single "c". <br />
+. But I omitted last line with single "c".
+<br />
 
 {% include code_header.html %}
 
@@ -163,7 +175,8 @@ Modified launch.json in VSCode (different from prior blog). Note changes as spec
         }
     ]
 }</code></pre>
-then launch OpenOCD <br />
+then launch OpenOCD
+<br />
 
 {% include code_header.html %}
 
@@ -171,7 +184,8 @@ then launch OpenOCD <br />
 <code class="highlight">
 cd ~/workspace/openocd-esp32/tcl
 sudo openocd -f interface/ftdi/olimex-arm-usb-ocd-h.cfg  -f ~/workspace/openocd-esp32/esp32_dcx.cfg</code></pre>
-Output looks like this:  <br />
+Output looks like this:
+<br />
 
 {% include code_header.html %}
 
@@ -201,11 +215,12 @@ export IDF_PATH=~/esp/esp-idf
 make menuconfig</code></pre>
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/menu_config_FreeRTOS.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="302" data-original-width="707" height="272" src="../images/s640/menu_config_FreeRTOS.PNG" width="640"></a>
+    <a href="../images/s1600/menu_config_FreeRTOS.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="302" data-original-width="707" height="272" src="../images/s640/menu_config_FreeRTOS.PNG" width="640">
+    </a>
 </div>
 <br />
-Rebuild and flash. Note I edited my Hello World to loop and not reset. 
+Rebuild and flash. Note I edited my Hello World to loop and not reset.
 <br />
 
 {% include code_header.html %}
@@ -215,14 +230,15 @@ Rebuild and flash. Note I edited my Hello World to loop and not reset.
 make clean
 make
 make flash</code></pre>
-Ensure it is working: <br />
+Ensure it is working:
+<br />
 
 {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
 make monitor</code></pre>
-Output like this: 
+Output like this:
 <br />
 
 {% include code_header.html %}
@@ -294,7 +310,7 @@ Looping in 6 seconds...</code></pre>
 
 <br />
 <br />
-On Windows machine, my Y: drive is mapped to the root of the Ubuntu machine (using samba): 
+On Windows machine, my Y: drive is mapped to the root of the Ubuntu machine (using samba):
 <br />
 
 {% include code_header.html %}
@@ -302,7 +318,7 @@ On Windows machine, my Y: drive is mapped to the root of the Ubuntu machine (usi
 <pre class="language highlighter-rouge">
 <code class="highlight">
 net use y: \\192.168.174.130\c$</code></pre>
-Then in Windows Explorer, open VSCode from 
+Then in Windows Explorer, open VSCode from
 <br />
 
 {% include code_header.html %}
@@ -315,8 +331,9 @@ Press F5 to debug! Tada!
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/VSCode_ESP32_Debug.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="852" data-original-width="1064" height="508" src="../images/s640/VSCode_ESP32_Debug.PNG" width="640"></a>
+    <a href="../images/s1600/VSCode_ESP32_Debug.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="852" data-original-width="1064" height="508" src="../images/s640/VSCode_ESP32_Debug.PNG" width="640">
+    </a>
 </div>
 <br />
 <br />
@@ -326,8 +343,9 @@ VSCode immediately fails with this error if the last line is included in launch.
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/gdbinit.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="185" data-original-width="716" height="164" src="../images/s640/gdbinit.PNG" width="640"></a>
+    <a href="../images/s1600/gdbinit.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="185" data-original-width="716" height="164" src="../images/s640/gdbinit.PNG" width="640">
+    </a>
 </div>
 <br />
 <br />
@@ -346,23 +364,23 @@ Unable to start debugging. Unexpected GDB output from command "-interpreter-exec
 <pre class="language highlighter-rouge">
 <code class="highlight">
 1: (138) LaunchOptions<locallaunchoptions 1:="" exearguments="" exepath="Y:\home\gojimmypi\esp\hello_world\build\hello-world.elf" launchoptions="" midebuggerpath="C:/msys32/opt/xtensa-esp32-elf/bin/xtensa-esp32-elf-gdb.exe" waitdynamiclibload="false" workingdirectory="Y:\home\gojimmypi\esp\hello_world\build\" xmlns="http://schemas.microsoft.com/vstudio/MDDDebuggerOptions/2014"><br />
-1: (143) LaunchOptions    
-<setupcommands><br />1: (143) LaunchOptions        
+1: (143) LaunchOptions
+<setupcommands><br />1: (143) LaunchOptions
 <command description="Enable pretty-printing for gdb" ignorefailures="true"></command>
--enable-pretty-printing<br />1: (144) LaunchOptions        
+-enable-pretty-printing<br />1: (144) LaunchOptions
 <command description="" ignorefailures="false"></command>
-file 'Y:/home/gojimmypi/esp/hello_world/build/hello-world.elf'<br />1: (144) LaunchOptions        
+file 'Y:/home/gojimmypi/esp/hello_world/build/hello-world.elf'<br />1: (144) LaunchOptions
 <command description="" ignorefailures="false"></command>
-target remote 192.168.174.130:3333<br />1: (144) LaunchOptions        
+target remote 192.168.174.130:3333<br />1: (144) LaunchOptions
 <command description="" ignorefailures="false"></command>
-monitor reset halt<br />1: (144) LaunchOptions        
+monitor reset halt<br />1: (144) LaunchOptions
 <command description="" ignorefailures="false"></command>
-thb app_main<br />1: (144) LaunchOptions        
+thb app_main<br />1: (144) LaunchOptions
 <command description="" ignorefailures="false"></command>
-x $a1=0<br />1: (144) LaunchOptions        
+x $a1=0<br />1: (144) LaunchOptions
 <command description="" ignorefailures="false"></command>
 c<br />
-1: (144) LaunchOptions    
+1: (144) LaunchOptions
 </setupcommands><br />
 1: (144) LaunchOptions
 </locallaunchoptions>
@@ -450,7 +468,7 @@ c<br />
 <br />
 </http:></http:></http:></code></pre>
 <br />
-Even when things seem to be going well, eventually some errors are encountered. If you try to debug and nothing happens, it may be because there are too many breakpoints. The limit is TWO! But perhaps you don't know / remember you even have breakpoints, but see this in the View - Debug Console 
+Even when things seem to be going well, eventually some errors are encountered. If you try to debug and nothing happens, it may be because there are too many breakpoints. The limit is TWO! But perhaps you don't know / remember you even have breakpoints, but see this in the View - Debug Console
 <br />
 
 {% include code_header.html %}

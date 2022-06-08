@@ -8,6 +8,7 @@ tags:
 - RFM95
 - RadioHead
 - LoRa
+- Espressif
 modified_time: '2018-03-13T13:30:47.825-07:00'
 thumbnail: https://3.bp.blogspot.com/-VFT64drwub8/WpsBTId5LUI/AAAAAAAAA5w/tHp1N-wa6wQO9hBymOoixXyWbvo9_VvGgCLcBGAs/s72-c/M5LoraModule.PNG
 blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-5596790795401780105
@@ -15,34 +16,58 @@ blogger_orig_url: https://gojimmypi.blogspot.com/2018/02/lora-range-issues.html
 ---
 
 This is a continuation of my <a href="{{ site.baseurl }}{% post_url 2018-02-12-m5stack-lora-range-issues %}">previous blog:&nbsp;M5Stack LoRa Range Issues</a>
-.<br />
+.
+<br />
 <br />
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/M5LoraModule.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="295" data-original-width="294" src="../images/s1600/M5LoraModule.PNG"></a>
+    <a href="../images/s1600/M5LoraModule.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="295" data-original-width="294" src="../images/s1600/M5LoraModule.PNG">
+    </a>
 </div>
 <br />
 TL;DR
 <br />
-<ul><li>The M5Stack LoRa is using Sandeep drivers (polling) whereas RadioHead drivers use interrupts.</li><li>The M5Stack LoRa board has IRQ/RST&nbsp;<a href="https://twitter.com/gojimmypi/status/967045656681447424">reversed</a>! IRQ DIO0 is actually connected to GPIO26. RST is actually connected to GPIO36, but is useless since GPIO36 is input only.</li><li>The M5Stack display shares NSS on GPIO5; LoRa needs to be put to sleep when updating display. (Mutex likely needed in FreeRTOS)</li><li><a href="https://www.semtech.com/uploads/documents/sx1276.pdf">SemTech SX1276/77/78/79</a>&nbsp;==&nbsp;<a href="http://www.hoperf.com/upload/rf/RFM95_96_97_98W.pdf">HopeRF RFM95/96/97/98</a>&nbsp;(almost exactly the same pages!)</li><li>
-Various links on Lora, installing libraries, etc</li></ul><br />When considering performance, be sure to check out 
+<ul>
+    <li>The M5Stack LoRa is using Sandeep drivers (polling) whereas RadioHead drivers use interrupts.</li>
+    <li>The M5Stack LoRa board has IRQ/RST&nbsp;<a href="https://twitter.com/gojimmypi/status/967045656681447424">reversed</a>! IRQ DIO0 is actually connected to GPIO26. RST is actually connected to GPIO36, but is useless since GPIO36 is input only.</li>
+    <li>The M5Stack display shares NSS on GPIO5; LoRa needs to be put to sleep when updating display. (Mutex likely needed in FreeRTOS)</li>
+    <li><a href="https://www.semtech.com/uploads/documents/sx1276.pdf">SemTech SX1276/77/78/79</a>&nbsp;==&nbsp;<a href="http://www.hoperf.com/upload/rf/RFM95_96_97_98W.pdf">HopeRF RFM95/96/97/98</a>&nbsp;(almost exactly the same pages!)</li>
+    <li>
+        Various links on Lora, installing libraries, etc
+    </li>
+</ul>
+<br />When considering performance, be sure to check out
 <a href="https://www.youtube.com/watch?v=CJNq2I_PDHQ">this excellent YouTube video: #182 ESP32 Lora Boards: What you need to know before you buy (incl. Antenna knowledge)</a>&nbsp;- thanks&nbsp;<a href="https://twitter.com/theflyingzephyr">Mark West @TheFlyingZephy</a>
-&nbsp;for pointing this out)<br />
+&nbsp;for pointing this out)
+<br />
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<iframe allowfullscreen="" class="YOUTUBE-iframe-video" data-thumbnail-src="https://i.ytimg.com/vi/CJNq2I_PDHQ/0.jpg" frameborder="0" height="266" src="https://www.youtube.com/embed/CJNq2I_PDHQ?feature=player_embedded" width="320"></iframe>
+    <iframe allowfullscreen="" class="YOUTUBE-iframe-video" data-thumbnail-src="https://i.ytimg.com/vi/CJNq2I_PDHQ/0.jpg" frameborder="0" height="266" src="https://www.youtube.com/embed/CJNq2I_PDHQ?feature=player_embedded" width="320"></iframe>
 </div>
 <br />
 There are a variety of LoRa libraries:
-<a href="https://github.com/sandeepmistry/arduino-LoRa"><br />
-</a><br />
-<ul><li><a href="https://github.com/sandeepmistry/arduino-LoRa">Sandeep Mistry</a> similar to that used in <a href="https://github.com/m5stack/M5Stack">M5Stack</a>&nbsp;fork&nbsp;(specifically <a href="https://github.com/m5stack/M5Stack/blob/master/src/M5LoRa.h">here</a>)</li><li><a href="http://www.airspayce.com/mikem/arduino/RadioHead/">RadioHead: RadioHead Packet Radio library for embedded microprocessors</a>&nbsp;specifically <a href="http://www.airspayce.com/mikem/arduino/RadioHead/classRH__RF95.html">RH_RF95</a></li><li><a href="https://github.com/hallard/ESP-1ch-Gateway/blob/master/ESP-sc-gway/ESP-sc-gway.ino">Hallard</a></li><li><a href="https://github.com/matthijskooijman/arduino-lmic">
-Matthijs Kooijman IBM LMIC (LoraMAC-in-C) library, adapted to run under the Arduino environment</a></li></ul><br />Plus this interesting&nbsp;&nbsp;
+<a href="https://github.com/sandeepmistry/arduino-LoRa">
+    <br />
+</a>
+<br />
+<ul>
+    <li><a href="https://github.com/sandeepmistry/arduino-LoRa">Sandeep Mistry</a> similar to that used in <a href="https://github.com/m5stack/M5Stack">M5Stack</a>&nbsp;fork&nbsp;(specifically <a href="https://github.com/m5stack/M5Stack/blob/master/src/M5LoRa.h">here</a>)</li>
+    <li><a href="http://www.airspayce.com/mikem/arduino/RadioHead/">RadioHead: RadioHead Packet Radio library for embedded microprocessors</a>&nbsp;specifically <a href="http://www.airspayce.com/mikem/arduino/RadioHead/classRH__RF95.html">RH_RF95</a></li>
+    <li><a href="https://github.com/hallard/ESP-1ch-Gateway/blob/master/ESP-sc-gway/ESP-sc-gway.ino">Hallard</a></li>
+    <li>
+        <a href="https://github.com/matthijskooijman/arduino-lmic">
+            Matthijs Kooijman IBM LMIC (LoraMAC-in-C) library, adapted to run under the Arduino environment
+        </a>
+    </li>
+</ul>
+<br />Plus this interesting&nbsp;&nbsp;
 <a href="https://gist.github.com/daveake/86f7ba32fa8018acd5e5359674a737e5">
-LoRa.py gist</a><br />
+    LoRa.py gist
+</a>
+<br />
 <br />
 My LoRa32u4 is using the RadioHead libraries; The M5Stack uses a slightly modified Sandeep library. A pair of LoRa32u4 units work great. A LoRa32u4 sending to M5Stack - not so great. So I'm attempting to use the RadioHead library with the M5Stack.
 <br />
@@ -78,16 +103,19 @@ In my case, after the fork from Adafruit, I deleted everything (except hidden .g
 <br />
 <br />See&nbsp;
 <a href="https://github.com/gojimmypi/RadioHead/tree/M5Stack">https://github.com/gojimmypi/RadioHead/tree/M5Stack</a>
-&nbsp;(this is the branch with my active edits for M5Stack LoRa)<br />
-<br />I've created a 
-<a href="https://github.com/gojimmypi/RadioHead/tree/AirSpayce">branch to submit changes back to the RadioHead</a> master. Note that for contributions, <a href="https://github.com/gojimmypi/RadioHead/blob/AirSpayce/CONTRIBUTING.md">special instructions are needed</a> since they are not using GitHub. I also have a <a href="https://github.com/adafruit/RadioHead/pull/5">PR</a>
- back to Adafruit.<br />
+&nbsp;(this is the branch with my active edits for M5Stack LoRa)
 <br />
-Visual Studio users will be happy to know there's a feature to use File Explorer; right click on the directory and select "open in Visual Studio". With the GitHub extension installed, there's a very nice GUI for GitHub. 
+<br />I've created a
+<a href="https://github.com/gojimmypi/RadioHead/tree/AirSpayce">branch to submit changes back to the RadioHead</a> master. Note that for contributions, <a href="https://github.com/gojimmypi/RadioHead/blob/AirSpayce/CONTRIBUTING.md">special instructions are needed</a> since they are not using GitHub. I also have a <a href="https://github.com/adafruit/RadioHead/pull/5">PR</a>
+ back to Adafruit.
+<br />
+<br />
+Visual Studio users will be happy to know there's a feature to use File Explorer; right click on the directory and select "open in Visual Studio". With the GitHub extension installed, there's a very nice GUI for GitHub.
 <br />
 <br />I have yet to figure out
 <a href="https://github.com/gojimmypi/CompareCheck"> branch-to-branch compares</a>&nbsp;on GitHub and have <a href="https://github.com/github/hub/issues/1691">opened this issue</a>
-.<br />
+.
+<br />
 <br />
 To add the RadioHead libraries to an M5 Stack project: vMicro - Add Library - User - RadioHead:
 <br />
@@ -95,8 +123,9 @@ To add the RadioHead libraries to an M5 Stack project: vMicro - Add Library - Us
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/RadioHead_add.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="600" data-original-width="602" height="397" src="../images/s400/RadioHead_add.PNG" width="400"></a>
+    <a href="../images/s1600/RadioHead_add.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="600" data-original-width="602" height="397" src="../images/s400/RadioHead_add.PNG" width="400">
+    </a>
 </div>
 <br />
 After spending a ton of time trying to get the RadioHead drivers working, first I found that that M5Stack base I was using had completely inoperable GPIO35 and GPIO36 pins. After swapping that out for a new one... and even more time spent trying to get RadioHead drivers working - I discovered another WIRING problem. &lt;sigh&gt; Connections to GPIO26 and GPIO36 are reversed! Not all coding problems are based solely in software.
@@ -107,8 +136,9 @@ Here's the corrected M5Stack LoRa pinout diagram:
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/LoRa_correction.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="376" data-original-width="421" height="285" src="../images/s320/LoRa_correction.PNG" width="320"></a>
+    <a href="../images/s1600/LoRa_correction.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="376" data-original-width="421" height="285" src="../images/s320/LoRa_correction.PNG" width="320">
+    </a>
 </div>
 <br />
 Note that the RST (reset) input to the RA-02 LoRa device won't actually reset, as GPIO36 is input only!
@@ -116,15 +146,34 @@ Note that the RST (reset) input to the RA-02 LoRa device won't actually reset, a
 <br />
 Many thanks to Jimmy Lai at M5Stack for sending me a prototype of their next version of LoRa. Looking forward to my next gizmo in the mail :)
 <br />
-<br />So now that I actually have the RadioHead drivers working with the M5Stack... now on to 
+<br />So now that I actually have the RadioHead drivers working with the M5Stack... now on to
 <a href="{{ site.baseurl }}{% post_url 2018-03-04-m5stack-lora-range-improvement %}">actual performance testing in my next blog</a>
-.<br />
+.
+<br />
 <br />
 <br />
 Resources, Inspiration, Credits, and Other Links:
 <br />
-<ul><li><a href="https://www.youtube.com/watch?v=hMOwbNUpDQA&amp;list=PL3XBzmAj53Rkkogh-lti58h_GkhzU1n7U">#112 LoRa / LoRaWAN De-Mystified / Tutorial</a></li><li><a href="https://hackaday.io/project/27791-esp32-lora-oled-module">ESP32 - LoRa - OLED Module | Hackaday.io</a></li><li><a href="https://de.aliexpress.com/wholesale?catId=0&amp;initiative_id=SB_20180205100724&amp;SearchText=ttgo+lora+v2.0&amp;aff_platform=link-c-tool&amp;cpt=1518889984427&amp;sk=vB2rnmu&amp;aff_trace_key=1430b97012bf474080257b5aeda81138-1518889984427-00687-vB2rnmu&amp;terminal_id=4a7576f4fc014287a81bc5abc751ad13">TTGO V2 LoRa</a></li><li><a href="http://cpham.perso.univ-pau.fr/LORA/RPIgateway.html">Low Cost LoRa gateway</a></li><li><a href="https://pcbs.io/share/4Q1Z4">WeMos Lora RFM9x Gateway Shield</a>&nbsp;(see&nbsp;<a href="https://www.youtube.com/watch?v=ZV_ZY-0Q1lo">LoRa Gateway with ESP8266 and a RFM95</a>)</li><li><a href="https://www.youtube.com/watch?v=WV_VumvI-0A">#169 LoRa one-to-one Connection for a Mailbox Notifier with an Arduino and a Wemos Shield</a></li><li><a href="https://github.com/PaulStoffregen/Time">Time Library&nbsp;https://github.com/PaulStoffregen/Time</a></li><li><a href="http://siglent%20ssa3021x%20spectrum%20analyzer%209%20khz%20to%202.1%20ghz/">Siglent SSA3021X Spectrum Analyzer 9 kHz to 2.1 GHz</a></li><li><a href="https://www.semtech.com/uploads/documents/an120014-xo-guidance-lora-modulation.pdf">Application Note: LoRa® Modulation Crystal Oscillator Guidance</a></li><li><a href="https://www.minicircuits.com/app/DG03-111.pdf">return loss vs. VSWR </a></li><li><a href="https://learn.adafruit.com/adafruit-feather-32u4-radio-with-lora-radio-module/using-the-rfm-9x-radio">Adafruit Feather 32u4 with LoRa Radio Module</a></li><li><a href="https://www.metageek.com/training/resources/understanding-rssi.html">Understanding RSSI</a></li><li><a href="https://www.semtech.com/uploads/documents/sx1272.pdf">
-SX1272</a></li></ul><br />
+<ul>
+    <li><a href="https://www.youtube.com/watch?v=hMOwbNUpDQA&amp;list=PL3XBzmAj53Rkkogh-lti58h_GkhzU1n7U">#112 LoRa / LoRaWAN De-Mystified / Tutorial</a></li>
+    <li><a href="https://hackaday.io/project/27791-esp32-lora-oled-module">ESP32 - LoRa - OLED Module | Hackaday.io</a></li>
+    <li><a href="https://de.aliexpress.com/wholesale?catId=0&amp;initiative_id=SB_20180205100724&amp;SearchText=ttgo+lora+v2.0&amp;aff_platform=link-c-tool&amp;cpt=1518889984427&amp;sk=vB2rnmu&amp;aff_trace_key=1430b97012bf474080257b5aeda81138-1518889984427-00687-vB2rnmu&amp;terminal_id=4a7576f4fc014287a81bc5abc751ad13">TTGO V2 LoRa</a></li>
+    <li><a href="http://cpham.perso.univ-pau.fr/LORA/RPIgateway.html">Low Cost LoRa gateway</a></li>
+    <li><a href="https://pcbs.io/share/4Q1Z4">WeMos Lora RFM9x Gateway Shield</a>&nbsp;(see&nbsp;<a href="https://www.youtube.com/watch?v=ZV_ZY-0Q1lo">LoRa Gateway with ESP8266 and a RFM95</a>)</li>
+    <li><a href="https://www.youtube.com/watch?v=WV_VumvI-0A">#169 LoRa one-to-one Connection for a Mailbox Notifier with an Arduino and a Wemos Shield</a></li>
+    <li><a href="https://github.com/PaulStoffregen/Time">Time Library&nbsp;https://github.com/PaulStoffregen/Time</a></li>
+    <li><a href="http://siglent%20ssa3021x%20spectrum%20analyzer%209%20khz%20to%202.1%20ghz/">Siglent SSA3021X Spectrum Analyzer 9 kHz to 2.1 GHz</a></li>
+    <li><a href="https://www.semtech.com/uploads/documents/an120014-xo-guidance-lora-modulation.pdf">Application Note: LoRa® Modulation Crystal Oscillator Guidance</a></li>
+    <li><a href="https://www.minicircuits.com/app/DG03-111.pdf">return loss vs. VSWR </a></li>
+    <li><a href="https://learn.adafruit.com/adafruit-feather-32u4-radio-with-lora-radio-module/using-the-rfm-9x-radio">Adafruit Feather 32u4 with LoRa Radio Module</a></li>
+    <li><a href="https://www.metageek.com/training/resources/understanding-rssi.html">Understanding RSSI</a></li>
+    <li>
+        <a href="https://www.semtech.com/uploads/documents/sx1272.pdf">
+            SX1272
+        </a>
+    </li>
+</ul>
+<br />
  Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:53 PM
 <br />
 

@@ -7,6 +7,7 @@ tags:
 - ESP32
 - wolfSSL
 - SSH
+- Espressif
 ---
 
 Some notes on setting up the wolfSSL SSH project. See also the [ESP32 SSH Server](https://gojimmypi.github.io/ESP32-SSH-server/) post.

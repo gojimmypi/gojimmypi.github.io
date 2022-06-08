@@ -3,7 +3,8 @@ layout: post
 title: Single Step JTAG debugging an ESP32 Arduino Sketch with VisualGDB
 date: '2018-04-15T18:00:00.001-07:00'
 author: gojimmypi
-tags: 
+tags:
+- Espressif
 modified_time: '2018-07-09T09:03:17.829-07:00'
 thumbnail: https://1.bp.blogspot.com/-sFq2SJuaA14/Ws4x0Bgz4fI/AAAAAAAABQY/eRFUfKZTDVAA-ZMvQYU9iiyepEv3a67XgCLcBGAs/s72-c/ArduinoConversion.PNG
 blogger_id: tag:blogger.com,1999:blog-4109066286647243251.post-2224027445487449351
@@ -11,7 +12,8 @@ blogger_orig_url: https://gojimmypi.blogspot.com/2018/04/single-step-jtag-debugg
 ---
 
 In my <a href="{{ site.baseurl }}{% post_url 2018-03-31-visualgdb-54-preview-1-ESP-IDF %}">last post</a>, I took the latest Preview 1 version of <a href="http://visualgdb.com/download/">VisualGDB</a>
- for a test drive. This time around, I am looking at the next increment: Preview 2. Spoiler from the the blog title: it is pretty cool.<br />
+ for a test drive. This time around, I am looking at the next increment: Preview 2. Spoiler from the the blog title: it is pretty cool.
+<br />
 <br />
 TLDR; This is for JTAG debug ESP32 VisualGDB 5.4 Preview 2. This will not work with Preview 1. Preview 3 is now available.
 <br />
@@ -34,7 +36,9 @@ This Visual Studio / VisualGDB Arduino project can be downloaded here:
 <br />
 <br />
 <a href="https://github.com/gojimmypi/MyArduinoConversion">
-https://github.com/gojimmypi/MyArduinoConversion</a><br />
+    https://github.com/gojimmypi/MyArduinoConversion
+</a>
+<br />
 <br />
 (Update 4/28: some final editing still in progress)
 <br />
@@ -55,20 +59,23 @@ void loop() {
 <br />
 The big drawback in the Arduino IDE is there's no debug. (besides - it is really just a text editor, not really an Integrated Development Environment, in my opinion).
 <br />
-<br />Debugging a sketch in Visual Studio takes a few steps. The first part here is based on the 
+<br />Debugging a sketch in Visual Studio takes a few steps. The first part here is based on the
 <a href="https://visualgdb.com/tutorials/esp32/esp-idf/multiple/">Switching Advanced ESP-IDF Projects Between Different IDF Versions</a>&nbsp;and&nbsp;<a href="https://visualgdb.com/tutorials/esp32/esp-idf/">Creating Advanced ESP32 Projects with ESP-IDF</a>
-&nbsp;tutorials. I should also add that Arduino debugging is not yet officially by VisualGDB.<br />
-<br />Note that I am using the 
-<a href="http://sysprogs.com/files/visualgdb/VisualGDB-5.4-preview2.msi">PREVIEW 2 version of VisualGDB 5.4</a>
-&nbsp;with Visual Studio 2017..<br />
+&nbsp;tutorials. I should also add that Arduino debugging is not yet officially by VisualGDB.
 <br />
-First, we'll need to create a project in Visual Studio with VisualGDB. This example is called myArduinoConversion: 
+<br />Note that I am using the
+<a href="http://sysprogs.com/files/visualgdb/VisualGDB-5.4-preview2.msi">PREVIEW 2 version of VisualGDB 5.4</a>
+&nbsp;with Visual Studio 2017..
+<br />
+<br />
+First, we'll need to create a project in Visual Studio with VisualGDB. This example is called myArduinoConversion:
 <br />
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/ArduinoConversion.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="497" data-original-width="909" height="218" src="../images/s400/ArduinoConversion.PNG" width="400"></a>
+    <a href="../images/s1600/ArduinoConversion.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="497" data-original-width="909" height="218" src="../images/s400/ArduinoConversion.PNG" width="400">
+    </a>
 </div>
 <br />
 Leave default at "Create a new project based on a sample project". (hopefully the sysprogs folks will fix the black-on-dark-gray color scheme for those of of that choose the dark theme in Visual Studio):
@@ -79,8 +86,9 @@ Leave default at "Create a new project based on a sample project". (hopefully th
 </div>
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/ArduinoConversion_New_ESP-IDF.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="597" data-original-width="809" height="295" src="../images/s400/ArduinoConversion_New_ESP-IDF.PNG" width="400"></a>
+    <a href="../images/s1600/ArduinoConversion_New_ESP-IDF.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="597" data-original-width="809" height="295" src="../images/s400/ArduinoConversion_New_ESP-IDF.PNG" width="400">
+    </a>
 </div>
 <br />
 If you don't have the ESP-IDF installed, there will be a prompt:
@@ -88,20 +96,23 @@ If you don't have the ESP-IDF installed, there will be a prompt:
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/VisualGDB_ESP-IDF_Download.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="698" data-original-width="861" height="324" src="../images/s400/VisualGDB_ESP-IDF_Download.PNG" width="400"></a>
+    <a href="../images/s1600/VisualGDB_ESP-IDF_Download.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="698" data-original-width="861" height="324" src="../images/s400/VisualGDB_ESP-IDF_Download.PNG" width="400">
+    </a>
 </div>
 <br />
 In my case, there was a version error. (despite the version warning, my C:\SysGCC\esp32\esp-idf\master-VisualGDB didn't even exist!
 <br />
-<br />Click Clone an 
+<br />Click Clone an
 <a href="https://github.com/espressif/esp-idf">ESP-IDF from GitHub</a>
- link to download:<br />
+ link to download:
+<br />
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Latest_EDP-IDF.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="208" data-original-width="529" height="156" src="../images/s400/Latest_EDP-IDF.PNG" width="400"></a>
+    <a href="../images/s1600/Latest_EDP-IDF.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="208" data-original-width="529" height="156" src="../images/s400/Latest_EDP-IDF.PNG" width="400">
+    </a>
 </div>
 <br />
 VisualGDB may give an error:
@@ -109,8 +120,9 @@ VisualGDB may give an error:
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/ESP-IDF_error.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="252" data-original-width="667" height="150" src="../images/s400/ESP-IDF_error.PNG" width="400"></a>
+    <a href="../images/s1600/ESP-IDF_error.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="252" data-original-width="667" height="150" src="../images/s400/ESP-IDF_error.PNG" width="400">
+    </a>
 </div>
 <br />
 So I manually downloaded the toolchain. Unfortunately the error message does now show the actual command being attempted:
@@ -118,8 +130,9 @@ So I manually downloaded the toolchain. Unfortunately the error message does now
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/clone_ESP-IDF_error.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="177" data-original-width="477" height="118" src="../images/s320/clone_ESP-IDF_error.PNG" width="320"></a>
+    <a href="../images/s1600/clone_ESP-IDF_error.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="177" data-original-width="477" height="118" src="../images/s320/clone_ESP-IDF_error.PNG" width="320">
+    </a>
 </div>
 <br />
 <br />
@@ -131,14 +144,16 @@ So I manually downloaded the toolchain. Unfortunately the error message does now
 mkdir C:\SysGCC\esp32\esp-idf\master
 cd C:\SysGCC\esp32\esp-idf\master
 git clone --recursive https://github.com/espressif/esp-idf.git</code></pre>
-If you had to download your own manually, VisualGDB will not find it, even if in the specified directory. Choose the option on the right "Locate and existing ESP-IDF checkout. I purposely keep the VisualGDB stuff in this directory, as I have another ESP-IDF in my: <br />
+If you had to download your own manually, VisualGDB will not find it, even if in the specified directory. Choose the option on the right "Locate and existing ESP-IDF checkout. I purposely keep the VisualGDB stuff in this directory, as I have another ESP-IDF in my:
+<br />
 
 {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">Documents\Arduino\hardware\espressif\esp32</code></pre>
 ... that is used for other Arduino / <a href="http://www.visualmicro.com/">VisualMicro</a>
- projects. Visual GDB will me looking for the README.md file in the root of the clone project. with the above command, I would need to use the ESP-IDF checkout here:<br />
+ projects. Visual GDB will me looking for the README.md file in the root of the clone project. with the above command, I would need to use the ESP-IDF checkout here:
+<br />
 <br />
 
 {% include code_header.html %}
@@ -152,8 +167,9 @@ Next, ensure the proper ESP32 toolchain is selected:
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/ArduinoConversion_Toolchain.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="597" data-original-width="790" height="301" src="../images/s400/ArduinoConversion_Toolchain.PNG" width="400"></a>
+    <a href="../images/s1600/ArduinoConversion_Toolchain.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="597" data-original-width="790" height="301" src="../images/s400/ArduinoConversion_Toolchain.PNG" width="400">
+    </a>
 </div>
 <br />
 <br />
@@ -162,8 +178,9 @@ Next, choose a sample project. Here we use the get-started / blink template:
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Arduino_GDB_sample.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="597" data-original-width="792" height="301" src="../images/s400/Arduino_GDB_sample.PNG" width="400"></a>
+    <a href="../images/s1600/Arduino_GDB_sample.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="597" data-original-width="792" height="301" src="../images/s400/Arduino_GDB_sample.PNG" width="400">
+    </a>
 </div>
 <br />
 Next is the JTAG driver. In my case, I am using the ESP32-WROVER-KIT V3, and I chose the interface/ftdi/esp32-devkitj_v1,cfg file:
@@ -171,8 +188,9 @@ Next is the JTAG driver. In my case, I am using the ESP32-WROVER-KIT V3, and I c
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/ArduinoConversion_JTAG.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="598" data-original-width="792" height="241" src="../images/s320/ArduinoConversion_JTAG.PNG" width="320"></a>
+    <a href="../images/s1600/ArduinoConversion_JTAG.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="598" data-original-width="792" height="241" src="../images/s320/ArduinoConversion_JTAG.PNG" width="320">
+    </a>
 </div>
 <br />
 Here we can optionally press the "test" button, for a result like this if everything is working properly:
@@ -180,8 +198,9 @@ Here we can optionally press the "test" button, for a result like this if everyt
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/ArduinoConversion_JTAG_test.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="563" data-original-width="843" height="213" src="../images/s320/ArduinoConversion_JTAG_test.PNG" width="320"></a>
+    <a href="../images/s1600/ArduinoConversion_JTAG_test.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="563" data-original-width="843" height="213" src="../images/s320/ArduinoConversion_JTAG_test.PNG" width="320">
+    </a>
 </div>
 <br />
 <br />
@@ -238,12 +257,14 @@ void app_main()
 }</code></pre>
 
 <br />
-<br />The first thing we'll need to do is take that 
+<br />The first thing we'll need to do is take that
 <b>sketch_mmmdd.ino</b>
- file and rename it to something like main.cpp and make a few other changes.&nbsp; (hopefully in a future release, sysprogs will give the option of using C or C++ sample templates).<br />
-<br />In the case of this blink app,&nbsp;BLINK_GPIO is simply defined as "2" with no type. The 
+ file and rename it to something like main.cpp and make a few other changes.&nbsp; (hopefully in a future release, sysprogs will give the option of using C or C++ sample templates).
+<br />
+<br />In the case of this blink app,&nbsp;BLINK_GPIO is simply defined as "2" with no type. The
 <code class="highlight">gpio_set_level</code> expects a <code class="highlight">gpio_num_t</code>
- like this:<br />
+ like this:
+<br />
 
 {% include code_header.html %}
 
@@ -252,16 +273,17 @@ void app_main()
 <br />
 The blink.c will also need to be renamed blink.cpp (apparently to ensure the compiler knows we are doing C++ and not just C). Preview 2 does not support right-click to rename, but you can click on the file in Solution Explorer and press F2 to enable the rename.
 <br />
-<br />Only other minor tweak is needed; add 
+<br />Only other minor tweak is needed; add
 <code class="highlight">extern "C"</code> before the <code class="highlight">void main()</code>
- like this: <br />
+ like this:
+<br />
 
 {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">extern "C" void app_main()</code></pre>
 <br />
-The revised code now looks like this: 
+The revised code now looks like this:
 <br />
 
 {% include code_header.html %}
@@ -311,9 +333,10 @@ extern "C" void app_main()
 <br />
 So that all is your basic VisualGDB project. Not a whole lot new. Yet.
 <br />
-<br />I've been 
+<br />I've been
 <a href="{{ site.baseurl }}{% post_url 2018-03-04-m5stack-lora-range-improvement %}">tinkering with LoRa</a> stuff, and being able to single-step debug the code will be helpful. I'm using the <a href="https://github.com/gojimmypi/RadioHead">RadioHead library</a> and my local copy is git-cloned into&nbsp;\Documents\libraries\RadioHead. The interesting thing here is that the library is what I call "Arduino-style". I've never been able to get VisualGDB to play well with them, so I do a lot of development with VisualMicro instead. It is less expensive and fully supports the Arduino libraries. Alas I have a tons of "if debugging serial print" statements, as the JTAGsupport is weak. (there is however a <a href="http://www.visualmicro.com/page/User-Guide.aspx?doc=Arduino-gdb-Tutorial.html">VisualMicro GDB tutorial</a>
- I've been meaning to check out). The reality is the sysprogs VisualGDB is simply a more extensive and robust implementation with JTAG support (with a price to show for it). The problem with the sysprogs folks however, is they never had much of an interest in Arduino.&nbsp; (Yes, I want my cake and JTAG it too!)<br />
+ I've been meaning to check out). The reality is the sysprogs VisualGDB is simply a more extensive and robust implementation with JTAG support (with a price to show for it). The problem with the sysprogs folks however, is they never had much of an interest in Arduino.&nbsp; (Yes, I want my cake and JTAG it too!)
+<br />
 <br />
 So a single include statement turns out project into something considerably more interesting.
 <br />
@@ -344,8 +367,9 @@ After adding the code, the IDE will complain:
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/No_RF95.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="82" data-original-width="289" src="../images/s1600/No_RF95.PNG"></a>
+    <a href="../images/s1600/No_RF95.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="82" data-original-width="289" src="../images/s1600/No_RF95.PNG">
+    </a>
 </div>
 <br />
 So simply go into Project-Properties and add the path the the "Additional Include Directories". In my case that's:
@@ -359,8 +383,9 @@ NOTE: If your cursor is in the source code panel when you click Project-Properti
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Not_These_Properties.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="564" data-original-width="826" height="272" src="../images/s400/Not_These_Properties.PNG" width="400"></a>
+    <a href="../images/s1600/Not_These_Properties.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="564" data-original-width="826" height="272" src="../images/s400/Not_These_Properties.PNG" width="400">
+    </a>
 </div>
 <br />
 Be sure to click on the project name in the solution explorer, and THEN click Project - Properties:
@@ -368,8 +393,9 @@ Be sure to click on the project name in the solution explorer, and THEN click Pr
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Project_Properties_Select.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="357" data-original-width="443" height="321" src="../images/s400/Project_Properties_Select.PNG" width="400"></a>
+    <a href="../images/s1600/Project_Properties_Select.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="357" data-original-width="443" height="321" src="../images/s400/Project_Properties_Select.PNG" width="400">
+    </a>
 </div>
 <br />
 ...for this dialog box to enter the Additional Include File Directory paths:
@@ -377,8 +403,9 @@ Be sure to click on the project name in the solution explorer, and THEN click Pr
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Project_Properties.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="549" data-original-width="829" height="263" src="../images/s400/Project_Properties.PNG" width="400"></a>
+    <a href="../images/s1600/Project_Properties.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="549" data-original-width="829" height="263" src="../images/s400/Project_Properties.PNG" width="400">
+    </a>
 </div>
 <br />
 (note I like to make a habit of always pressing "Apply" before pressing ok, anytime that option is available)
@@ -389,8 +416,9 @@ That will take care of finding the code, but trying to compile will give an erro
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Platform_Not_Defined.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="112" data-original-width="437" height="82" src="../images/s320/Platform_Not_Defined.PNG" width="320"></a>
+    <a href="../images/s1600/Platform_Not_Defined.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="112" data-original-width="437" height="82" src="../images/s320/Platform_Not_Defined.PNG" width="320">
+    </a>
 </div>
 <br />
 The first compile will take some time. There's a shockingly large amount of code that gets compiled for such a tiny target. If when building/cleaning/rebuilding, nothing happens, simply exit Visual Studio and relaunch (see below).
@@ -442,13 +470,14 @@ This is another one of those Arduino-style nuances. You'll notice this code in R
 #if defined(__AVR_ATtiny84__) || defined(__AVR_ATtiny85__) || defined(__AVR_ATtiny24__) || defined(__AVR_ATtiny44__) || defined(__AVR_ATtiny45__) || defined(__AVR_ATtinyX4__) || defined(__AVR_ATtinyX5__) || defined(__AVR_ATtiny2313__) || defined(__AVR_ATtiny4313__) || defined(__AVR_ATtinyX313__)
  #define RH_PLATFORM_ATTINY#endif</code></pre>
 <br />
-To fix, simply add "ESP32" as a Preprocessor definition: 
+To fix, simply add "ESP32" as a Preprocessor definition:
 <br />
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/ESP32_Preprocessor.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="367" data-original-width="758" height="192" src="../images/s400/ESP32_Preprocessor.PNG" width="400"></a>
+    <a href="../images/s1600/ESP32_Preprocessor.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="367" data-original-width="758" height="192" src="../images/s400/ESP32_Preprocessor.PNG" width="400">
+    </a>
 </div>
 <br />
 Rebuild again. There's a subtle change in the error message:
@@ -456,8 +485,9 @@ Rebuild again. There's a subtle change in the error message:
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/arduino-h-missing.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="134" data-original-width="490" height="108" src="../images/s400/arduino-h-missing.PNG" width="400"></a>
+    <a href="../images/s1600/arduino-h-missing.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="134" data-original-width="490" height="108" src="../images/s400/arduino-h-missing.PNG" width="400">
+    </a>
 </div>
 <br />
 So this starts looking a bit more intimidating: Arduino.h missing for our ESP32 project. I took the brute-force approach and searched from the root of my C:\ drive:
@@ -473,9 +503,10 @@ C:
 cd\
 dir Arduino.h /s</code></pre>
 
-<br />I had a 32 matches in various locations. Some are obviously not of interest if found in an .\Arduino\ directory. In my case, I have the 
+<br />I had a 32 matches in various locations. Some are obviously not of interest if found in an .\Arduino\ directory. In my case, I have the
 <a href="https://github.com/espressif/arduino-esp32">Espressif Arduino Core</a>
- git-cloned in my .\Documents\Hardware\Espressif directory. It can be installed like this: <br />
+ git-cloned in my .\Documents\Hardware\Espressif directory. It can be installed like this:
+<br />
 <br />
 <br />
 
@@ -494,13 +525,14 @@ dir pins_arduino.h /s</code></pre>
 <br />
 <br />
 <br />
-Put that directory in the include file list. Compile again and find another missing header file. Repeat. Note the pins_arduino.h is found in multiple directories. I chose the generic ESP32 one. After doing this a few times, VisualGDB often will complain the the settings are corrupt:      
+Put that directory in the include file list. Compile again and find another missing header file. Repeat. Note the pins_arduino.h is found in multiple directories. I chose the generic ESP32 one. After doing this a few times, VisualGDB often will complain the the settings are corrupt:
 <br />
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/corrupt_settings.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="124" data-original-width="644" height="76" src="../images/s400/corrupt_settings.PNG" width="400"></a>
+    <a href="../images/s1600/corrupt_settings.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="124" data-original-width="644" height="76" src="../images/s400/corrupt_settings.PNG" width="400">
+    </a>
 </div>
 <br />
 I simply exited Visual Studio and restarted. Upon restart, it complained out "line endings not being consistent". VisualGDB probably did this to itself; simple answer yes to fix:
@@ -508,8 +540,9 @@ I simply exited Visual Studio and restarted. Upon restart, it complained out "li
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/inconsistent_endings.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="250" data-original-width="448" height="222" src="../images/s400/inconsistent_endings.PNG" width="400"></a>
+    <a href="../images/s1600/inconsistent_endings.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="250" data-original-width="448" height="222" src="../images/s400/inconsistent_endings.PNG" width="400">
+    </a>
 </div>
 <br />
 Upon doing a rebuild, I found more files missing. Repeat the procedure for finding files.
@@ -531,8 +564,9 @@ C:\Users\gojimmypi\Documents\Arduino\hardware\espressif\esp32\variants\esp32
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Additional_Include_Directories.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="547" data-original-width="829" height="263" src="../images/s400/Additional_Include_Directories.PNG" width="400"></a>
+    <a href="../images/s1600/Additional_Include_Directories.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="547" data-original-width="829" height="263" src="../images/s400/Additional_Include_Directories.PNG" width="400">
+    </a>
 </div>
 <br />
 May also need:
@@ -542,18 +576,19 @@ C:\Users\gojimmypi\Documents\Arduino\hardware\espressif\esp32\variants\doitESP32
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-Note that the include file locations is not the only place for this fix; The intellisense will be happy, however the compiler does not seem to "find" there files. There is where things get a little wonky. Those same include files paths need to be added to the project. Right-click on the project, add, existing item (for each of the directories listed above).
+    Note that the include file locations is not the only place for this fix; The intellisense will be happy, however the compiler does not seem to "find" there files. There is where things get a little wonky. Those same include files paths need to be added to the project. Right-click on the project, add, existing item (for each of the directories listed above).
 </div>
 
 <div class="separator" style="clear: both; text-align: left;">
-<br />
+    <br />
 
 </div>
 
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/add_files_to_VisualGDB.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="509" data-original-width="676" height="300" src="../images/s400/add_files_to_VisualGDB.PNG" width="400"></a>
+    <a href="../images/s1600/add_files_to_VisualGDB.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="509" data-original-width="676" height="300" src="../images/s400/add_files_to_VisualGDB.PNG" width="400">
+    </a>
 </div>
 <br />
 Paste one of those include file paths into the File Name box. I choose to select header files (some directories have only headers!). Pick one of them. VisualGDB will recognize that there are others and prompt you to add them all. Click ok.
@@ -564,8 +599,9 @@ If multiple files are found, there will be a prompt asking if they all should be
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Adding_source_files.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="298" data-original-width="591" height="201" src="../images/s400/Adding_source_files.PNG" width="400"></a>
+    <a href="../images/s1600/Adding_source_files.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="298" data-original-width="591" height="201" src="../images/s400/Adding_source_files.PNG" width="400">
+    </a>
 </div>
 <br />
 <br />
@@ -577,8 +613,9 @@ Tada! A fully compiled Arduino-style library with VisualGDB. For me - this was r
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/P1_Success_Build.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="348" data-original-width="768" height="181" src="../images/s400/P1_Success_Build.PNG" width="400"></a>
+    <a href="../images/s1600/P1_Success_Build.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="348" data-original-width="768" height="181" src="../images/s400/P1_Success_Build.PNG" width="400">
+    </a>
 </div>
 <br />
 <br />
@@ -587,8 +624,9 @@ There are still a few weird things. The include files are presented in the Solut
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Step_into.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="596" data-original-width="1363" height="139" src="../images/s320/Step_into.PNG" width="320"></a>
+    <a href="../images/s1600/Step_into.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="596" data-original-width="1363" height="139" src="../images/s320/Step_into.PNG" width="320">
+    </a>
 </div>
 <br />
 <br />
@@ -600,8 +638,9 @@ The Solution Explorer also looks a bit odd:
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Soluition_Explorer_Oddity.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="590" data-original-width="458" height="400" src="../images/s400/Soluition_Explorer_Oddity.PNG" width="310"></a>
+    <a href="../images/s1600/Soluition_Explorer_Oddity.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="590" data-original-width="458" height="400" src="../images/s400/Soluition_Explorer_Oddity.PNG" width="310">
+    </a>
 </div>
 <br />
 <br />
@@ -610,20 +649,23 @@ There's also some wonkiness with OpenOCD when code is paused too long. I think t
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/Pause_Timeout.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="432" data-original-width="615" height="280" src="../images/s400/Pause_Timeout.PNG" width="400"></a>
+    <a href="../images/s1600/Pause_Timeout.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="432" data-original-width="615" height="280" src="../images/s400/Pause_Timeout.PNG" width="400">
+    </a>
 </div>
 <br />
-<br />And no sooner do I polish this Preview 2 blog... the 
+<br />And no sooner do I polish this Preview 2 blog... the
 <a href="http://sysprogs.com/files/visualgdb/VisualGDB-5.4-preview3.msi">sysprogs folks have already released Preview 3</a>
-! (And yes, it DOES appear to work in Preview 3 as well!)<br />
+! (And yes, it DOES appear to work in Preview 3 as well!)
+<br />
 <br />
 * July 2018 edit:
 <br />
 <br />
 Over the course of time, my Windows 10 drivers were changed, resulting in the dreaded message:
 <br />
-<code class="highlight"></code><br />
+<code class="highlight"></code>
+<br />
 
 {% include code_header.html %}
 
@@ -632,31 +674,34 @@ Over the course of time, my Windows 10 drivers were changed, resulting in the dr
 Error: libusb_open() failed with LIBUSB_ERROR_ACCESS
 Error: no device found
 Error: unable to open ftdi device with vid 0403, pid 6010, description '*', serial '*' at bus location '*'</code></pre>
-<code class="highlight"></code><br />
+<code class="highlight"></code>
+<br />
 <br />
 
 <div>
-Zadig to the rescue once again! Change both drivers on <code class="highlight">Interface 0</code> and <code class="highlight">Interface 1</code> to <code class="highlight">libusbk</code>
-.<br />
-<br />
+    Zadig to the rescue once again! Change both drivers on <code class="highlight">Interface 0</code> and <code class="highlight">Interface 1</code> to <code class="highlight">libusbk</code>
+    .<br />
+    <br />
 
-<div class="separator" style="clear: both; text-align: left;">
-<a href="../images/s1600/DEVC-libusbk.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="261" data-original-width="581" height="178" src="../images/s400/DEVC-libusbk.PNG" width="400"></a>
-</div>
-<br />
-I am using the config file found in:
-<br />
-<br />
-<code class="highlight">
-C:\sysgcc\esp32\esp32-bsp\OpenOCD\share\openocd\scripts\interface\ftdi\esp32_devkitj_v1.cfg</code><br />
-<br />
-That specifically looks like this:
-<br />
-<br />
-<code class="highlight"></code><br />
+    <div class="separator" style="clear: both; text-align: left;">
+        <a href="../images/s1600/DEVC-libusbk.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+            <img border="0" data-original-height="261" data-original-width="581" height="178" src="../images/s400/DEVC-libusbk.PNG" width="400">
+        </a>
+    </div>
+    <br />
+    I am using the config file found in:
+    <br />
+    <br />
+    <code class="highlight">
+        C:\sysgcc\esp32\esp32-bsp\OpenOCD\share\openocd\scripts\interface\ftdi\esp32_devkitj_v1.cfg
+    </code><br />
+    <br />
+    That specifically looks like this:
+    <br />
+    <br />
+    <code class="highlight"></code><br />
 
-{% include code_header.html %}
+    {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
@@ -671,12 +716,24 @@ ftdi_channel 0
 # just TCK TDI TDO TMS, no reset
 ftdi_layout_init 0x0008 0x000b
 reset_config none</code></pre>
-<code class="highlight"></code><br />
-<br />
-<br />
-<ul><li><a href="https://sysprogs.com/w/forums/topic/import-arduino-projects-andor-libraries/">Import ESP8266 Arduino Projects and/or Libraries</a></li><li><a href="https://dl.espressif.com/doc/esp-idf/latest/get-started/get-started-wrover-kit.html">ESP-WROVER-KIT V3 Getting Started Guide</a></li><li><a href="https://dl.espressif.com/dl/schematics/ESP-WROVER-KIT_SCH-3.pdf">ESP-WROVER-KIT V3 Schematic</a></li><li><a href="https://dl.espressif.com/doc/esp-idf/latest/get-started/add-idf_path-to-profile.html#add-idf-path-to-profile-windows">Add IDF_PATH to User Profile</a></li><li><a href="https://www.espressif.com/sites/default/files/documentation/esp32-wrover_datasheet_en.pdf">ESP32 WROVER Datasheet</a></li><li><a href="https://sysprogs.com/w/forums/topic/feedback-for-visualgdb-5-4-preview-1-with-support-for-advanced-esp-idf/">
-Feedback for VisualGDB 5.4 preview 1 with support for advanced-esp-idf</a></li><li><br />
-</li></ul>
+    <code class="highlight"></code><br />
+    <br />
+    <br />
+    <ul>
+        <li><a href="https://sysprogs.com/w/forums/topic/import-arduino-projects-andor-libraries/">Import ESP8266 Arduino Projects and/or Libraries</a></li>
+        <li><a href="https://dl.espressif.com/doc/esp-idf/latest/get-started/get-started-wrover-kit.html">ESP-WROVER-KIT V3 Getting Started Guide</a></li>
+        <li><a href="https://dl.espressif.com/dl/schematics/ESP-WROVER-KIT_SCH-3.pdf">ESP-WROVER-KIT V3 Schematic</a></li>
+        <li><a href="https://dl.espressif.com/doc/esp-idf/latest/get-started/add-idf_path-to-profile.html#add-idf-path-to-profile-windows">Add IDF_PATH to User Profile</a></li>
+        <li><a href="https://www.espressif.com/sites/default/files/documentation/esp32-wrover_datasheet_en.pdf">ESP32 WROVER Datasheet</a></li>
+        <li>
+            <a href="https://sysprogs.com/w/forums/topic/feedback-for-visualgdb-5-4-preview-1-with-support-for-advanced-esp-idf/">
+                Feedback for VisualGDB 5.4 preview 1 with support for advanced-esp-idf
+            </a>
+        </li>
+        <li>
+            <br />
+        </li>
+    </ul>
 </div>
 <br />
  Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:53 PM

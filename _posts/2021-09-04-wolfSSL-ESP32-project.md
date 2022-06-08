@@ -8,6 +8,7 @@ tags:
 - wolfSSL
 - SSH
 - WSL
+- Espressif
 ---
 
 Some notes on a sample wolfSSL project for the ESP32.
