@@ -233,7 +233,7 @@ There are some interesting notes about the SHA encryption registers on the ESP32
 
 ![FIPS180-4_Message_Preprocessing.png](../images/wolfssl/FIPS180-4_Message_Preprocessing.png)
 
-Reminder: The ESP32 SHA encryption is the accelerator _does not do final padding_.
+Reminder: The ESP32 SHA encryption accelerator _does not do final padding_. The `0x80` and 64-bit message length need to be manually added! 
 
 Each block of data is hashed into digest for wolfSSL:
 
@@ -368,3 +368,4 @@ Resources, Inspiration, Credits, and Other Links:<br />
 - [Xtensa Instruction Set Architecture (ISA) Reference Manual](http://0x04.net/~mwk/doc/xtensa.pdf)
 
 
+- [David's comments](https://github.com/wolfSSL/wolfssl/compare/master...dgarske:esp32_sha?expand=1)
