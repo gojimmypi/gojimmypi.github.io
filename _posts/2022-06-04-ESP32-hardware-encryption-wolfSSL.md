@@ -23,6 +23,11 @@ non-updatable nature of the implementation. For example, early versions of the E
 were discovered by [limitedresults](https://limitedresults.com/) to have 
 [explotable hardware vulnerabilities](https://limitedresults.com/2019/08/pwn-the-esp32-crypto-core/).
 
+Hardware vulnerabilities exist across the board, for pretty much all platforms: 
+[hertzbleed](https://www.tomshardware.com/news/intel-amd-hertzbleed-cpu-vulnerability-boost-clock-speed-steal-crypto-keys),
+[heartbleed](https://www.tomshardware.com/news/stagefright-vulnerability-drm-android-heartbleed,29682.html),
+[Spectre](https://www.tomshardware.com/news/intel-amd-spectre-v2-vulnerability-mitigation-bug-fix-patch-cpu-security), etc.
+
 Clearly physical security is just as important as any software design. 
 
 Key to any security implementation is a prompt disclosure and response from the vendor. 
@@ -33,12 +38,20 @@ Note modern ESP32 chip have had a hardware revision to address the fault injecti
 
 > "_The ESP32-D0WD-V3 chip has checks in ROM which prevent fault injection attack_"
 
+
 ## Getting Started
 
 Ensure the user settings header is enabled: define `WOLFSSL_USER_SETTINGS` via `-DWOLFSSL_USER_SETTINGS` in the CMake file at compile time.
 
 wolfssl libraries are typically found in the [components](https://github.com/espressif/esp-idf/tree/master/components) directory 
 of either the local project `${CMAKE_HOME_DIRECTORY}` or the ESP-IDF `$ENV{IDF_PATH}` directory.
+
+## Terminology
+
+- `ctx` - context object.
+- `HW` hardware encryption method
+- `SW` software encryption method
+
 
 ## Hardware Acceleration Overview
 
@@ -208,16 +221,15 @@ namespace mySHA256_calculator
 
 There are some interesting notes about the SHA encryption registers on the ESP32:
 
-- The output is found the the same registers used for input, both starting at `SHA_TEST_0_REG` at `0x3FF03000`.
+- The hash _output_ is found the the same registers used for _input_, both starting at `SHA_TEST_0_REG` at `0x3FF03000`.
 - There's only 1 register set for all hash functions: SHA1, SHA256, SHA384, SHA512.
-- The intial hash values, (see [SHA-2 pseudcode](https://en.wikipedia.org/wiki/SHA-2), e.g. h0 := 0x6a09e667) _do not_ need to be loaded.
+- The intial hash values, (see [SHA-2 pseudcode](https://en.wikipedia.org/wiki/SHA-2), e.g. h0 := 0x6a09e667 in [wolfcrypt sha256.c](https://github.com/wolfSSL/wolfssl/blob/390908bccc5fbe678e3dd0ea43526aca430b27cb/wolfcrypt/src/sha256.c#L710)) _do not_ need to be loaded.
 - Once a hash process is started, the interim result is hidden and cannot be stashed to start on a different computation.
 - At least one `asm volatile("memw");`  "_should be executed in between every load or store to a volatile variable_" (See Xtensa ISA Reference Manual)
 - Repeated calls to `periph_module_enable(PERIPH_SHA_MODULE)` are tracked for recursion. Call to `periph_module_disable` is only effective after [all enables are unwrapped](https://github.com/espressif/esp-idf/blob/5e6cffbb14fa78e6e8475550c1606b29ec1aa7f0/components/driver/periph_ctrl.c#L31).
 - A call to `periph_module_reset` will reset the device regardless of how many times `periph_module_enable` was called, and the [call-counter is not reset](https://github.com/espressif/esp-idf/blob/5e6cffbb14fa78e6e8475550c1606b29ec1aa7f0/components/driver/periph_ctrl.c#L37).
 - Data must be processed in 512 bit chunks for SHA256 (64 bytes stored in sixteen 4-byte words, starting at `SHA_TEST_0_REG` at `0x3FF03000`)
-- The trailing bit "1" _does_ need to be manually applied to the last block as noted on page 18 of [FIPS PUB 180-4](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf) :
-
+- The trailing bit "1" _and_ 64-bit has word count _does_ need to be manually applied to the last block as noted on page 18 of [FIPS PUB 180-4](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf) :
 
 ![FIPS180-4_Message_Preprocessing.png](../images/wolfssl/FIPS180-4_Message_Preprocessing.png)
 
@@ -226,6 +238,12 @@ Reminder: The ESP32 SHA encryption is the accelerator _does not do final padding
 Each block of data is hashed into digest for wolfSSL:
 
 ![sha_digest_quickwatch.png](../images/wolfssl/sha_digest_quickwatch.png)
+
+Given the single-computation nature of the hardware acclerated hash content registers, not that even in a single-thread RTOS, multiple 
+hashes may need to be computed concurrently. This will cause the second one to fall back to software calculations.
+
+For example, in the ESP32 SSH to UART example, the non-blocking call to [wolfSSH_accept](https://github.com/gojimmypi/wolfssh/blob/713c7358501b9107d2e85a2a3f0e296a89a180ad/examples/ESP32-SSH-Server/main/ssh_server.c#L174)
+that is [started upon connection](https://github.com/gojimmypi/wolfssh/blob/713c7358501b9107d2e85a2a3f0e296a89a180ad/examples/ESP32-SSH-Server/main/ssh_server.c#L235)
 
 
 <br />
@@ -333,6 +351,7 @@ Resources, Inspiration, Credits, and Other Links:<br />
 - wolfSSL [Espressif](https://www.wolfssl.com/Espressif/)
 - wolfSSL [docs/Espressif](https://www.wolfssl.com/docs/espressif/)
 - wolfSSL [wolfSSL ESP32 Hardware Acceleration Support](https://www.wolfssl.com/wolfssl-esp32-hardware-acceleration-support/)
+- wolfSSL [Porting Guide](https://www.wolfssl.com/docs/porting-guide/)
 - Espressif [ESP32 Datasheet](https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf)
 - Espressif [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf)
 - Espressif Blog [Understanding ESP32's Security Features](https://blog.espressif.com/understanding-esp32s-security-features-14483e465724)
@@ -347,3 +366,6 @@ Resources, Inspiration, Credits, and Other Links:<br />
 - OpenOCD [Open On-Chip Debugger User Guide](https://openocd.sourceforge.io/doc/pdf/openocd.pdf)
 - Stackoverflow [How to debug "cannot open shared object file: No such file or directory"?](https://stackoverflow.com/questions/67753007/how-to-debug-cannot-open-shared-object-file-no-such-file-or-directory/67753144#67753144)
 - [Xtensa Instruction Set Architecture (ISA) Reference Manual](http://0x04.net/~mwk/doc/xtensa.pdf)
+
+
+- [David's comments](https://github.com/wolfSSL/wolfssl/compare/master...dgarske:esp32_sha?expand=1)
