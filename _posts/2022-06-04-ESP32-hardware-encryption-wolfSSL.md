@@ -103,7 +103,7 @@ The following documents are directly applicable to the cryto-acceleration functi
 
 ### wolfSSL Fine Tuning
 
-If size is more important the speed, the `USE_SLOW_SHA` can be defined. 
+If size is more important the speed for software computation, the `USE_SLOW_SHA` can be defined. 
 See [sha.c](https://github.com/wolfSSL/wolfssl/blob/8f7db87f01739d51e4b0b3af904ea3a94dff2584/wolfcrypt/src/sha.c#L482) 
 
 > "_nearly 1 K bigger in code size but 25% faster_". 
