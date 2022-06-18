@@ -368,4 +368,3 @@ Resources, Inspiration, Credits, and Other Links:<br />
 - [Xtensa Instruction Set Architecture (ISA) Reference Manual](http://0x04.net/~mwk/doc/xtensa.pdf)
 
 
-- [David's comments](https://github.com/wolfSSL/wolfssl/compare/master...dgarske:esp32_sha?expand=1)
