@@ -102,6 +102,11 @@ _Hopefully_ this will work for others. It did for me. I'll never again work on a
 
 In the end, I did finally create my [clean PR](https://github.com/wolfSSL/wolfssl/pull/5077).
 
+```
+git commit --amend --author="gojimmypi <jim@wolfssl.com>"
+```
+
+
 ## Resources, Inspiration, Credits, and Other Links
 
 - [git rebase docs](https://git-scm.com/docs/git-rebase)
@@ -110,4 +115,5 @@ In the end, I did finally create my [clean PR](https://github.com/wolfSSL/wolfss
 - still more `git rebase` and `git reset`: [How to permanently remove few commits from remote branch](https://stackoverflow.com/questions/3293531/how-to-permanently-remove-few-commits-from-remote-branch)
 - [Overwrite everything in master with another branch in git](https://stackoverflow.com/questions/29870328/overwrite-everything-in-master-with-another-branch-in-git)
 - [Clean up a fork and restart it from the upstream](https://stackoverflow.com/questions/9646167/clean-up-a-fork-and-restart-it-from-the-upstream)
-
+- [Change author of commit](https://www.git-tower.com/learn/git/faq/change-author-name-email)
+- gojimmypi [Keeping a fork up to date](https://gist.github.com/gojimmypi/b281469dcbe9e6d8efd00be7ce18d222)
