@@ -12,6 +12,11 @@ tags:
 
 (draft / WIP v2)
 
+UPDATE: See 
+my [ESP32 to UART SSH Server](https://github.com/gojimmypi/wolfssh/tree/ESP32_Development/examples/ESP32-SSH-Server) 
+and [ESP8266 to UART SSH Server](https://github.com/gojimmypi/wolfssh/tree/ESP8266_Development/examples/ESP8266-SSH-Server)
+and my [other blogs about wolfSSH](https://gojimmypi.github.io/tag/wolfssh/).
+
 I was inspired by a tweet from [Andrew Zonenberg](https://twitter.com/azonenberg/status/1418651252007706625?s=20):
 
 >  what is the simplest, lowest cost, lowest power way to implement an embedded SSH-to-UART bridge?
