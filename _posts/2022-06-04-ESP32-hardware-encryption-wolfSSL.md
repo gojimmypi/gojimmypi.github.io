@@ -71,7 +71,7 @@ the [esp32-crypt.h](https://github.com/wolfSSL/wolfssl/tree/master/wolfssl/wolfc
 and [source files](https://github.com/wolfSSL/wolfssl/tree/master/wolfcrypt/src/port/Espressif):
 
 Of particular interest and importance: the Espressif hardware acceleration implementation is NOT RTOS friendly. ONLY ONE hash can be generated at a time.
-There is NO mechansim to save an in-porgress computation to let somethine else use the hardware on an interim basis.
+There is NO mechansim to save an in-progress computation to let somethine else use the hardware on an interim basis.
 
 One of the concerns might be the encryption used by WiFi. At this time, at least in [ESP-IDF the WiFi crypto functions](https://github.com/espressif/esp-idf/tree/master/components/wpa_supplicant/src/crypto)
 are performed in software, such as the [hmac_sha256_vector()](https://github.com/espressif/esp-idf/blob/20f5e180eecccfaff815d707e1fcbba2f4d6a391/components/wpa_supplicant/src/crypto/sha256.c#L26).
@@ -348,16 +348,21 @@ cd /mnt/c/workspace/wolfssl-examples/tls
 
 Resources, Inspiration, Credits, and Other Links:<br />
 
+- wolfSSL [wolfcrypt sha256.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/sha256.c)
+= wolfSSL [wolfcrypt esp32_sha.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_sha.c)
 - wolfSSL [Espressif](https://www.wolfssl.com/Espressif/)
 - wolfSSL [docs/Espressif](https://www.wolfssl.com/docs/espressif/)
 - wolfSSL [wolfSSL ESP32 Hardware Acceleration Support](https://www.wolfssl.com/wolfssl-esp32-hardware-acceleration-support/)
 - wolfSSL [Porting Guide](https://www.wolfssl.com/docs/porting-guide/)
+- wolfSSL [wolfcrypt stm32](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/st/stm32.c)
+- wolfSSL [Building wolfSSL](https://www.wolfssl.com/documentation/wolfssl-manual/chapter02.html)
 - Espressif [ESP32 Datasheet](https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf)
 - Espressif [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf)
 - Espressif Blog [Understanding ESP32's Security Features](https://blog.espressif.com/understanding-esp32s-security-features-14483e465724)
 - Espressif Blog [ESP32: TLS (Transport Layer Security) And IoT Devices](https://blog.espressif.com/esp32-tls-transport-layer-security-and-iot-devices-3ac93511f6d8)
 - Espressif Blog [ESP32-S2: Digital Signature Peripheral](https://blog.espressif.com/esp32-s2-digital-signature-peripheral-7e70bf6dde88)
 - Espressif GitHub Example [ESP-MQTT SSL Mutual Authentication with Digital Signature](https://github.com/espressif/esp-idf/blob/master/examples/protocols/mqtt/ssl_ds/README.md)
+- Espressif [Logging Library](https://docs.espressif.com/projects/esp-idf/en/v4.2/esp32/api-reference/system/log.html)
 - LimitedResults [Pwn the ESP32 Forever: Flash Encryption and Sec. Boot Keys Extraction](https://limitedresults.com/2019/11/pwn-the-esp32-forever-flash-encryption-and-sec-boot-keys-extraction/)
 - wolfSSL [ESP32 Hardware Acceleration Support](https://www.wolfssl.com/wolfssl-esp32-hardware-acceleration-support/)
 - wolfSSL [Install](https://github.com/wolfSSL/wolfssl/blob/master/INSTALL)
@@ -365,7 +370,10 @@ Resources, Inspiration, Credits, and Other Links:<br />
 - Adafruit [ESP32uesday: The ESP32-S3 is More Than a Fancy S2](https://blog.adafruit.com/2022/05/31/esp32uesday-the-esp32-s3-is-more-than-a-fancy-s2/)
 - OpenOCD [Open On-Chip Debugger User Guide](https://openocd.sourceforge.io/doc/pdf/openocd.pdf)
 - Stackoverflow [How to debug "cannot open shared object file: No such file or directory"?](https://stackoverflow.com/questions/67753007/how-to-debug-cannot-open-shared-object-file-no-such-file-or-directory/67753144#67753144)
-- [Xtensa Instruction Set Architecture (ISA) Reference Manual](http://0x04.net/~mwk/doc/xtensa.pdf)
-
-
-- [David's comments](https://github.com/wolfSSL/wolfssl/compare/master...dgarske:esp32_sha?expand=1)
+- Xtensa [Instruction Set Architecture (ISA) Reference Manual](http://0x04.net/~mwk/doc/xtensa.pdf)
+- Michael Driscoll's [The Animated Elliptic Curve](https://curves.ulfheim.net/)
+- Michael Driscoll's [The Illustrated TLS 1.3 Connection](https://tls13.xargs.org/)
+- Microsoft [Cipher Suites in TLS/SSL (Schannel SSP)](https://docs.microsoft.com/en-us/windows/win32/secauthn/cipher-suites-in-schannel)
+- Wikipedia [SHA-2](https://en.wikipedia.org/wiki/SHA-2)
+- NIST [FIPS PUB 180-4](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf)
+- NIST [SP 800-90A Deterministic Random Bit Generator Validation System (DRBGVS)](https://csrc.nist.gov/csrc/media/projects/cryptographic-algorithm-validation-program/documents/drbg/drbgvs.pdf)
