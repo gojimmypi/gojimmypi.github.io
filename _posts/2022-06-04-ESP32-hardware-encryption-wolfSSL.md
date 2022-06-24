@@ -131,7 +131,7 @@ Turn on with `-DWOLFSSL_ESP32WROOM32_CRYPT`. This is enabled by defalt for the E
 
 ### SHA Accelerator
 
-See Chapter 23, page 573 of the [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf)
+See Chapter 23, page 573 of the [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf#23%20SHA%20Accelerator%20(SHA))
 and [Section 5 of FIPS PUB 180-4 Secure Hash Standard](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf), "SHS".
 
 To disable just SHA acceleration, use `-DNO_WOLFSSL_ESP32WROOM32_CRYPT_HASH`
@@ -276,7 +276,7 @@ Extra care should be taken when computing hardware-accelerated hashes in a multi
 The RSA Accerlator is for math functions. 
 See [Espressif/esp32_mp.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_mp.c)
 and Chapter 24, page 582 of the 
-[ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf).
+[ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf#24%20RSA%20Accelerator%20(RSA)).
 
 NOTE:
 > The maximum operation length for RSA, ECC, Big Integer Multiply and Big Integer Modular Multiplication is 4096 bits
@@ -291,7 +291,7 @@ The operation is based on Montgomery multiplication. Aside from the
 arguments X, Y , and M, two additional ones are needed -r and M'
 These arguments are calculated in advance by software.
 
-See Chapter 24.3.2, page 584 of the [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf):
+See Chapter 24.3.2, page 584 of the [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf#24.3.2%20Large%20Number%20Modular%20Exponentiation):
 
 - `Z = (X ^ Y) mod M`  (sometimes in DH context referred to as `Y = (G ^ X) mod P`)
 
@@ -306,7 +306,7 @@ See Chapter 24.3.2, page 584 of the [ESP32 Technical Reference Manual](https://w
 
 ##### Large Number Modular Multiplication
 
-See Chapter 24.3.3, page 584 of the [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf):
+See Chapter 24.3.3, page 584 of the [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf#24.3.3%20Large%20Number%20Modular%20Multiplication):
 
 
 - `Z = X * Y (mod M)`
@@ -322,7 +322,7 @@ See Chapter 24.3.3, page 584 of the [ESP32 Technical Reference Manual](https://w
 
 Support for large-number multiplication:
 
-- esp_mp_mul(); `Z = X * Y`
+- `Z = X * Y`
 
 {% include code_header.html %}
 ```c
@@ -337,7 +337,7 @@ Support for various lengths of operands:
 
 ### AES Accelerator
 
-See chapter 22 of [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf).
+See chapter 22 of [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf#22%20AES%20Accelerator%20(AES)).
 
 > The AES Accelerator supports six algorithms of FIPS PUB 197, specifically AES-128, AES-192 and AES-256 encryption and decryption.
 
@@ -354,10 +354,10 @@ See chapter 22 of [ESP32 Technical Reference Manual](https://www.espressif.com/s
 *Not* to be confused with the Error Code Capture feature:
 
 > Error Code Capture (ECC) feature allows the TWAI controller to record the error type and bit position of a
-TWAI bus error in the form of an error code
+TWAI bus error in the form of an error code -- [Technical Reference Manual 21.5.8 ](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf)
 
 
-> The maximum operation length for RSA, ECC, Big Integer Multiply and Big Integer Modular Multiplication is 4096 bits
+> The maximum operation length for RSA, ECC, Big Integer Multiply and Big Integer Modular Multiplication is 4096 bits -- [4.1.19 Acclerator of ESP32 Datasheet](https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf)
 
 - todo
 <br />
@@ -394,11 +394,21 @@ WOLFSSL_SUCCESS and WOLFSSL_FAILURE values should only be used in the ssl layer,
 
 Install wolfSSL for WSL:
 
+{% include code_header.html %}
 ```bash
 cd  /mnt/c/workspace/wolfssl
 ./configure  --enable-tls13 --prefix=/usr/ && make && sudo make install
 # or
 ./configure --enable-dtls --enable-tls13 --prefix=/usr/ && make && sudo make install
+```
+
+Setup ESP-IDF
+
+{% include code_header.html %}
+```bash
+cd ~/esp/esp-idf
+ . $HOME/esp/esp-idf/export.sh
+idf.py -p /dev/ttyS9 -b 230400 flash monitor
 ```
 
 DTLS compile:
