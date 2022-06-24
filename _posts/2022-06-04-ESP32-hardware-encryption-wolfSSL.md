@@ -48,9 +48,10 @@ of either the local project `${CMAKE_HOME_DIRECTORY}` or the ESP-IDF `$ENV{IDF_P
 
 ## Terminology
 
-- `ctx` - context object.
-- `HW` hardware encryption method
-- `SW` software encryption method
+- `ctx`:  context object.
+- `DH`: diffie hellman
+- `HW`: hardware encryption method
+- `SW`: software encryption method
 
 
 ## Hardware Acceleration Overview
@@ -63,6 +64,8 @@ in the [eFuse non-volatile memory](https://www.espressif.com/sites/default/files
 From the [ESP32 Datasheet](https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf), page 12:
 
 ![Espressif_Cryptographic_Hardware_Acceleration_Block_Diagram.png](../images/Espressif_Cryptographic_Hardware_Acceleration_Block_Diagram.png)
+
+Here's the summary from page 38:
 
 ![Espressif_Cryptographic_Hardware_Acceleration_Block_Diagram.png](../images/Espressif_Cryptographic_Hardware_Acceleration.png)
 
@@ -96,8 +99,8 @@ Note that on multicore ESP32 devices, there's a concurrency [warning](https://gi
 
 The following documents are directly applicable to the cryto-acceleration functions:
 
-- AES (FIPS PUB 197) [esp32_aes.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_aes.c)
-
+- AES (FIPS PUB 197) [Advanced Encryption Standard (AES)](https://csrc.nist.gov/publications/detail/fips/197/final)
+- Hash SHA-2 (FIPS PUB 180-4) [Secure Hash Standard (SHS)](https://csrc.nist.gov/publications/detail/fips/180/4/final)
 
 <br />
 
@@ -130,7 +133,7 @@ To disable just SHA acceleration, use `-DNO_WOLFSSL_ESP32WROOM32_CRYPT_HASH`
 
 see [esp32_sha.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_sha.c)
 
-Hash SHA-2 (FIPS PUB 180-4): [esp32_sha.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_sha.c)
+[esp32_sha.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_sha.c)
 
 given `const byte* V`
 
@@ -239,46 +242,100 @@ Each block of data is hashed into digest for wolfSSL:
 
 ![sha_digest_quickwatch.png](../images/wolfssl/sha_digest_quickwatch.png)
 
-Given the single-computation nature of the hardware acclerated hash content registers, not that even in a single-thread RTOS, multiple 
+Given the single-computation nature of the hardware acclerated hash content registers, note that even in a single-thread RTOS, multiple 
 hashes may need to be computed concurrently. This will cause the second one to fall back to software calculations.
 
 For example, in the ESP32 SSH to UART example, the non-blocking call to [wolfSSH_accept](https://github.com/gojimmypi/wolfssh/blob/713c7358501b9107d2e85a2a3f0e296a89a180ad/examples/ESP32-SSH-Server/main/ssh_server.c#L174)
 that is [started upon connection](https://github.com/gojimmypi/wolfssh/blob/713c7358501b9107d2e85a2a3f0e296a89a180ad/examples/ESP32-SSH-Server/main/ssh_server.c#L235)
 
+The `SendKexDhReply()` (Send Key Exchange Diffe-Hellman Key) hashes together multiple different items all in one big SHA256 hash result:
+
+![SendKexDhReply_hash_increments.png](../images/wolfssl/SendKexDhReply_hash_increments.png)
+
+However, after about 30 increments to the hash calculation, _another_ call is made to `wc_ecc_make_key_ex()` which _also_ will need a few small hashes:
+
+![wc_ecc_make_key_ex_hash_detour.png](../images/wolfssl/wc_ecc_make_key_ex_hash_detour.png)
+
+As there can be only one hardware hash in progress at a given time, the code _should_ detect this and fall back to software hashes, as seen here with verbose debugging turned on:
+
+![wc_ecc_make_key_ex_hash_detour_sw_hash.png](../images/wolfssl/wc_ecc_make_key_ex_hash_detour_sw_hash.png)
+
+Extra care should be taken when computing hardware-accelerated hashes in a multi-thread RTOS environment.
 
 <br />
 
 
 ### RSA Accelerator
 
-See Chapter 24, page 582 of the [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf)
+The RSA Accerlator is for math functions. 
+See [Espressif/esp32_mp.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_mp.c)
+and Chapter 24, page 582 of the 
+[ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf).
 
-multiplication: [esp32_mp.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_mp.c)
-
+NOTE:
+> The maximum operation length for RSA, ECC, Big Integer Multiply and Big Integer Modular Multiplication is 4096 bits
 
 
 Turn on with `-DWOLFSSL_ESP32WROOM32_CRYPT_RSA_PRI`. Enables:
 
-> The maximum operation length for RSA, ECC, Big Integer Multiply and Big Integer Modular Multiplication is 4096 bits
 
-Support for large-number modular exponentiation:
+##### Large Number Modular Exponentiation
 
-- TODO
+The operation is based on Montgomery multiplication. Aside from the
+arguments X, Y , and M, two additional ones are needed -r and M'
+These arguments are calculated in advance by software.
+
+See Chapter 24.3.2, page 584 of the [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf):
+
+- `Z = (X ^ Y) mod M`  (sometimes in DH context referred to as `Y = (G ^ X) mod P`)
+```
+    int esp_mp_exptmod(struct fp_int* X, /* G */
+                       struct fp_int* Y, /* X */
+                              word32 Xbits,
+                       struct fp_int* M, /* P */
+                       struct fp_int* Z) /* Y */
+```
+
+##### Large Number Modular Multiplication
+
+See Chapter 24.3.3, page 584 of the [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf):
 
 
-Support for large-number modular multiplication:
-
-- `int esp_mp_mulmod(fp_int* X, fp_int* Y, fp_int* M, fp_int* Z)`: `Z = X * Y (mod M)` 
+- `Z = X * Y (mod M)`
+```
+    int esp_mp_mulmod(fp_int* X, 
+                      fp_int* Y, 
+                      fp_int* M, 
+                      fp_int* Z)
+``` 
 
 
 Support for large-number multiplication:
 
-- `int esp_mp_mul(fp_int* X, fp_int* Y, fp_int* Z)` 
+- esp_mp_mul(); `Z = X * Y`
+``` 
+int esp_mp_mul(fp_int* X, 
+               fp_int* Y, 
+               fp_int* Z)
+```
 
 
 Support for various lengths of operands:
 <br />
 
+### AES Accelerator
+
+See chapter 22 of [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf).
+
+> The AES Accelerator supports six algorithms of FIPS PUB 197, specifically AES-128, AES-192 and AES-256 encryption and decryption.
+
+
+- `int wc_esp32AesCbcEncrypt(struct Aes* aes, byte* out, const byte* in, word32 sz);`
+- `int wc_esp32AesCbcDecrypt(struct Aes* aes, byte* out, const byte* in, word32 sz);`
+- `int wc_esp32AesEncrypt(struct Aes *aes, const byte* in, byte* out);`
+- `int wc_esp32AesDecrypt(struct Aes *aes, const byte* in, byte* out);`
+
+[esp32_aes.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_aes.c)
 
 ### ECC 
 
@@ -363,6 +420,7 @@ Resources, Inspiration, Credits, and Other Links:<br />
 - Espressif Blog [ESP32-S2: Digital Signature Peripheral](https://blog.espressif.com/esp32-s2-digital-signature-peripheral-7e70bf6dde88)
 - Espressif GitHub Example [ESP-MQTT SSL Mutual Authentication with Digital Signature](https://github.com/espressif/esp-idf/blob/master/examples/protocols/mqtt/ssl_ds/README.md)
 - Espressif [Logging Library](https://docs.espressif.com/projects/esp-idf/en/v4.2/esp32/api-reference/system/log.html)
+- Espressif [ESP-TLS](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/protocols/esp_tls.html)
 - LimitedResults [Pwn the ESP32 Forever: Flash Encryption and Sec. Boot Keys Extraction](https://limitedresults.com/2019/11/pwn-the-esp32-forever-flash-encryption-and-sec-boot-keys-extraction/)
 - wolfSSL [ESP32 Hardware Acceleration Support](https://www.wolfssl.com/wolfssl-esp32-hardware-acceleration-support/)
 - wolfSSL [Install](https://github.com/wolfSSL/wolfssl/blob/master/INSTALL)
