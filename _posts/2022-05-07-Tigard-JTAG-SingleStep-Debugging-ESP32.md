@@ -23,7 +23,8 @@ running on [several ESP32 boards](https://twitter.com/gojimmypi/status/151781963
 as well as the [ESP8266](https://twitter.com/gojimmypi/status/1522390443345940481?s=20).
 
 ESP32 JTAG Pinout Wiring:
-```
+{% include code_header.html %}
+```text
 TDI -> GPIO12
 TCK -> GPIO13
 TMS -> GPIO14
@@ -39,7 +40,8 @@ An adapter can be useful for quick-connect:
 To get started, the config is needed from the [tigard-tools](https://github.com/tigard-tools/tigard#jtag-debug-on-jtag-or-cortex-header).
 Paste this text into the `interface\tigard.cfg` file:
 
-```
+{% include code_header.html %}
+```text
 interface ftdi
 ftdi_vid_pid 0x0403 0x6010
 ftdi_channel 1
@@ -194,7 +196,8 @@ text.
 
 The deprecated warnings were easy enough to address. Here's the final Tigard confile file:
 
-```
+{% include code_header.html %}
+```text
 adapter driver ftdi
 ftdi_vid_pid 0x0403 0x6010
 ftdi_channel 1

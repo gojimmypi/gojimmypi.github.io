@@ -34,9 +34,9 @@ Key to any security implementation is a prompt disclosure and response from the 
 Espressif announced [Security Advisory concerning fault injection and eFuse protections (CVE-2019-17391)](https://www.espressif.com/en/news/Security_Advisory_Concerning_Fault_Injection_and_eFuse_Protections%20)
 shortly after "_LimitedResults provided a proof of concept report demonstrating fault injection attack and analysis to recover keys stored in eFuse_".
 
-Note modern ESP32 chip have had a hardware revision to address the fault injection.
+Note modern ESP32 devices have had a hardware revision to address the fault injection.
 
-> "_The ESP32-D0WD-V3 chip has checks in ROM which prevent fault injection attack_"
+> "_The ESP32-D0WD-V3 chip has checks in ROM which prevent fault injection attack_" -- [Espressif Security Advistory](https://www.espressif.com/en/news/Security_Advisory_Concerning_Fault_Injection_and_eFuse_Protections)
 
 
 ## Getting Started
@@ -72,6 +72,11 @@ Here's the summary from page 38:
 The interesting files for the wolfSSL hardware encryption for the ESP32 are found in 
 the [esp32-crypt.h](https://github.com/wolfSSL/wolfssl/tree/master/wolfssl/wolfcrypt/port/Espressif) 
 and [source files](https://github.com/wolfSSL/wolfssl/tree/master/wolfcrypt/src/port/Espressif):
+
+- [sp32_aes.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_aes.c)
+- [esp32_mp.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_mp.c)
+- [esp32_sha.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_sha.c)
+- [esp32_util.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_util.c)
 
 Of particular interest and importance: the Espressif hardware acceleration implementation is NOT RTOS friendly. ONLY ONE hash can be generated at a time.
 There is NO mechansim to save an in-progress computation to let somethine else use the hardware on an interim basis.
@@ -131,13 +136,13 @@ and [Section 5 of FIPS PUB 180-4 Secure Hash Standard](https://nvlpubs.nist.gov/
 
 To disable just SHA acceleration, use `-DNO_WOLFSSL_ESP32WROOM32_CRYPT_HASH`
 
-see [esp32_sha.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_sha.c)
+See wolfSSL [esp32_sha.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_sha.c)
 
-[esp32_sha.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_sha.c)
 
-given `const byte* V`
+Given `const byte* V`, a SHA-256 is calculated:
 
-```
+{% include code_header.html %}
+```c
     byte data[DRBG_SEED_LEN];
     len = (outSz / OUTPUT_BLOCK_LEN) + ((outSz % OUTPUT_BLOCK_LEN) ? 1 : 0);
     XMEMCPY(data, V, sizeof(data));
@@ -157,7 +162,8 @@ given `const byte* V`
 To aid in development, it can be helpful to have a [web hash converter](https://hash.online-convert.com/) or desktop SHA-256 calculator.
 See [system.security.cryptography.sha256](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256?view=net-6.0):
 
-```
+{% include code_header.html %}
+```c#
 using System;
 using System.Security.Cryptography;
 
@@ -288,7 +294,9 @@ These arguments are calculated in advance by software.
 See Chapter 24.3.2, page 584 of the [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf):
 
 - `Z = (X ^ Y) mod M`  (sometimes in DH context referred to as `Y = (G ^ X) mod P`)
-```
+
+{% include code_header.html %}
+```c
     int esp_mp_exptmod(struct fp_int* X, /* G */
                        struct fp_int* Y, /* X */
                               word32 Xbits,
@@ -302,7 +310,9 @@ See Chapter 24.3.3, page 584 of the [ESP32 Technical Reference Manual](https://w
 
 
 - `Z = X * Y (mod M)`
-```
+
+{% include code_header.html %}
+```c
     int esp_mp_mulmod(fp_int* X, 
                       fp_int* Y, 
                       fp_int* M, 
@@ -313,7 +323,9 @@ See Chapter 24.3.3, page 584 of the [ESP32 Technical Reference Manual](https://w
 Support for large-number multiplication:
 
 - esp_mp_mul(); `Z = X * Y`
-``` 
+
+{% include code_header.html %}
+```c
 int esp_mp_mul(fp_int* X, 
                fp_int* Y, 
                fp_int* Z)
