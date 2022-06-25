@@ -21,7 +21,7 @@ Here are some notes on the Espressif ESP32 Hardware Encryption Features for wolf
 Any discussion of ESP32 (or any other) hardware encryption should address the generally
 non-updatable nature of the implementation. For example, early versions of the ESP32
 were discovered by [limitedresults](https://limitedresults.com/) to have 
-[explotable hardware vulnerabilities](https://limitedresults.com/2019/08/pwn-the-esp32-crypto-core/).
+[exploitable hardware vulnerabilities](https://limitedresults.com/2019/08/pwn-the-esp32-crypto-core/).
 
 Hardware vulnerabilities exist across the board, for pretty much all platforms: 
 [hertzbleed](https://www.tomshardware.com/news/intel-amd-hertzbleed-cpu-vulnerability-boost-clock-speed-steal-crypto-keys),
@@ -36,7 +36,7 @@ shortly after "_LimitedResults provided a proof of concept report demonstrating 
 
 Note modern ESP32 devices have had a hardware revision to address the fault injection.
 
-> "_The ESP32-D0WD-V3 chip has checks in ROM which prevent fault injection attack_" -- [Espressif Security Advistory](https://www.espressif.com/en/news/Security_Advisory_Concerning_Fault_Injection_and_eFuse_Protections)
+> "_The ESP32-D0WD-V3 chip has checks in ROM which prevent fault injection attack_" -- [Espressif Security Advisory](https://www.espressif.com/en/news/Security_Advisory_Concerning_Fault_Injection_and_eFuse_Protections)
 
 
 ## Getting Started
@@ -79,7 +79,7 @@ and [source files](https://github.com/wolfSSL/wolfssl/tree/master/wolfcrypt/src/
 - [esp32_util.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_util.c)
 
 Of particular interest and importance: the Espressif hardware acceleration implementation is NOT RTOS friendly. ONLY ONE hash can be generated at a time.
-There is NO mechansim to save an in-progress computation to let somethine else use the hardware on an interim basis.
+There is NO mechanism to save an in-progress computation to let something else use the hardware on an interim basis.
 
 One of the concerns might be the encryption used by WiFi. At this time, at least in [ESP-IDF the WiFi crypto functions](https://github.com/espressif/esp-idf/tree/master/components/wpa_supplicant/src/crypto)
 are performed in software, such as the [hmac_sha256_vector()](https://github.com/espressif/esp-idf/blob/20f5e180eecccfaff815d707e1fcbba2f4d6a391/components/wpa_supplicant/src/crypto/sha256.c#L26).
@@ -117,7 +117,7 @@ See [sha.c](https://github.com/wolfSSL/wolfssl/blob/8f7db87f01739d51e4b0b3af904e
 > "_nearly 1 K bigger in code size but 25% faster_". 
 
 
-### wolfSSL ESP32 Hardware Encrpytion
+### wolfSSL ESP32 Hardware Encryption
 
 Turn on with `-DWOLFSSL_ESP32WROOM32_CRYPT`. This is enabled by defalt for the ESP32-WROOM. Enables:
 
@@ -134,12 +134,13 @@ Turn on with `-DWOLFSSL_ESP32WROOM32_CRYPT`. This is enabled by defalt for the E
 See Chapter 23, page 573 of the [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf#23%20SHA%20Accelerator%20(SHA))
 and [Section 5 of FIPS PUB 180-4 Secure Hash Standard](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf), "SHS".
 
-To disable just SHA acceleration, use `-DNO_WOLFSSL_ESP32WROOM32_CRYPT_HASH`
+By default, SHA accerlation is enabled with `WOLFSSL_ESP32WROOM32_CRYPT`.
+To disable just SHA acceleration, use `NO_WOLFSSL_ESP32WROOM32_CRYPT_HASH`.
 
 See wolfSSL [esp32_sha.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_sha.c)
 
 
-Given `const byte* V`, a SHA-256 is calculated:
+Given `const byte* V`, a SHA-256 is calculated in wolfSSL:
 
 {% include code_header.html %}
 ```c
@@ -158,6 +159,9 @@ Given `const byte* V`, a SHA-256 is calculated:
         wc_Sha256Free(sha);
      }
 ```
+
+Note that from a typical code implementation perspective, we don't even know if the accerlation features are being used.
+The exact same API interface is used with the actual implementation being controlled with the compiler `#define`s.
 
 To aid in development, it can be helpful to have a [web hash converter](https://hash.online-convert.com/) or desktop SHA-256 calculator.
 See [system.security.cryptography.sha256](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256?view=net-6.0):
@@ -232,7 +236,7 @@ There are some interesting notes about the SHA encryption registers on the ESP32
 
 - The hash _output_ is found the the same registers used for _input_, both starting at `SHA_TEST_0_REG` at `0x3FF03000`.
 - There's only 1 register set for all hash functions: SHA1, SHA256, SHA384, SHA512.
-- The intial hash values, (see [SHA-2 pseudcode](https://en.wikipedia.org/wiki/SHA-2), e.g. h0 := 0x6a09e667 in [wolfcrypt sha256.c](https://github.com/wolfSSL/wolfssl/blob/390908bccc5fbe678e3dd0ea43526aca430b27cb/wolfcrypt/src/sha256.c#L710)) _do not_ need to be loaded.
+- The initial hash values, (see [SHA-2 pseudcode](https://en.wikipedia.org/wiki/SHA-2), e.g. h0 := 0x6a09e667 in [wolfcrypt sha256.c](https://github.com/wolfSSL/wolfssl/blob/390908bccc5fbe678e3dd0ea43526aca430b27cb/wolfcrypt/src/sha256.c#L710)) _do not_ need to be loaded.
 - Once a hash process is started, the interim result is hidden and cannot be stashed to start on a different computation.
 - At least one `asm volatile("memw");`  "_should be executed in between every load or store to a volatile variable_" (See Xtensa ISA Reference Manual)
 - Repeated calls to `periph_module_enable(PERIPH_SHA_MODULE)` are tracked for recursion. Call to `periph_module_disable` is only effective after [all enables are unwrapped](https://github.com/espressif/esp-idf/blob/5e6cffbb14fa78e6e8475550c1606b29ec1aa7f0/components/driver/periph_ctrl.c#L31).
@@ -273,7 +277,7 @@ Extra care should be taken when computing hardware-accelerated hashes in a multi
 
 ### RSA Accelerator
 
-The RSA Accerlator is for math functions. 
+The RSA Accelerator is for math functions. 
 See [Espressif/esp32_mp.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_mp.c)
 and Chapter 24, page 582 of the 
 [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf#24%20RSA%20Accelerator%20(RSA)).
