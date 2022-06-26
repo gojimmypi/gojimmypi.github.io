@@ -96,13 +96,13 @@ Another place of interest regarding the hardware crypto is found in the [esp_rom
 Unfortunately, the implementation seems to be proprietary, as there are only `ld` linker files with [functions assignments to addresses](https://github.com/espressif/esp-idf/blob/20f5e180eecccfaff815d707e1fcbba2f4d6a391/components/esp_rom/esp32/ld/esp32.rom.ld#L1568).
 It is assumed the functions in question are _not_ using the hardware acceleration. TODO how to confirm this?
 
-Note that on multicore ESP32 devices, there's a concurrency [warning](https://github.com/espressif/esp-idf/blob/20f5e180eecccfaff815d707e1fcbba2f4d6a391/components/esp_rom/include/esp32/rom/sha.h#L48):
+Note that on multi-core ESP32 devices, there's a concurrency [warning](https://github.com/espressif/esp-idf/blob/20f5e180eecccfaff815d707e1fcbba2f4d6a391/components/esp_rom/include/esp32/rom/sha.h#L48):
 
 > Do not use these function in multi core mode due to inside they have no safe implementation (without DPORT workaround).
 
 # Reference Documents
 
-The following documents are directly applicable to the cryto-acceleration functions:
+The following documents are directly applicable to the crypto-acceleration functions:
 
 - AES (FIPS PUB 197) [Advanced Encryption Standard (AES)](https://csrc.nist.gov/publications/detail/fips/197/final)
 - Hash SHA-2 (FIPS PUB 180-4) [Secure Hash Standard (SHS)](https://csrc.nist.gov/publications/detail/fips/180/4/final)
@@ -119,7 +119,7 @@ See [sha.c](https://github.com/wolfSSL/wolfssl/blob/8f7db87f01739d51e4b0b3af904e
 
 ### wolfSSL ESP32 Hardware Encryption
 
-Turn on with `-DWOLFSSL_ESP32WROOM32_CRYPT`. This is enabled by defalt for the ESP32-WROOM. Enables:
+Turn on with `-DWOLFSSL_ESP32WROOM32_CRYPT`. This is enabled by default for the ESP32-WROOM. Enables:
 
 - `int esp_sha_process(struct wc_Sha* sha, const byte* data)`
 - `int esp_sha_digest_process(struct wc_Sha* sha, byte blockproc)`
@@ -134,7 +134,7 @@ Turn on with `-DWOLFSSL_ESP32WROOM32_CRYPT`. This is enabled by defalt for the E
 See Chapter 23, page 573 of the [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf#23%20SHA%20Accelerator%20(SHA))
 and [Section 5 of FIPS PUB 180-4 Secure Hash Standard](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf), "SHS".
 
-By default, SHA accerlation is enabled with `WOLFSSL_ESP32WROOM32_CRYPT`.
+By default, SHA acceleration is enabled with `WOLFSSL_ESP32WROOM32_CRYPT`.
 To disable just SHA acceleration, use `NO_WOLFSSL_ESP32WROOM32_CRYPT_HASH`.
 
 See wolfSSL [esp32_sha.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_sha.c)
@@ -160,7 +160,7 @@ Given `const byte* V`, a SHA-256 is calculated in wolfSSL:
      }
 ```
 
-Note that from a typical code implementation perspective, we don't even know if the accerlation features are being used.
+Note that from a typical code implementation perspective, we don't even know if the acceleration features are being used.
 The exact same API interface is used with the actual implementation being controlled with the compiler `#define`s.
 
 To aid in development, it can be helpful to have a [web hash converter](https://hash.online-convert.com/) or desktop SHA-256 calculator.
@@ -234,9 +234,9 @@ namespace mySHA256_calculator
 
 There are some interesting notes about the SHA encryption registers on the ESP32:
 
-- The hash _output_ is found the the same registers used for _input_, both starting at `SHA_TEST_0_REG` at `0x3FF03000`.
+- The hash _output_ is found in the same registers used for _input_, both starting at `SHA_TEST_0_REG` at `0x3FF03000`.
 - There's only 1 register set for all hash functions: SHA1, SHA256, SHA384, SHA512.
-- The initial hash values, (see [SHA-2 pseudcode](https://en.wikipedia.org/wiki/SHA-2), e.g. h0 := 0x6a09e667 in [wolfcrypt sha256.c](https://github.com/wolfSSL/wolfssl/blob/390908bccc5fbe678e3dd0ea43526aca430b27cb/wolfcrypt/src/sha256.c#L710)) _do not_ need to be loaded.
+- The initial hash values, (see [SHA-2 pseudo-code](https://en.wikipedia.org/wiki/SHA-2), e.g. h0 := 0x6a09e667 in [wolfcrypt sha256.c](https://github.com/wolfSSL/wolfssl/blob/390908bccc5fbe678e3dd0ea43526aca430b27cb/wolfcrypt/src/sha256.c#L710)) _do not_ need to be loaded.
 - Once a hash process is started, the interim result is hidden and cannot be stashed to start on a different computation.
 - At least one `asm volatile("memw");`  "_should be executed in between every load or store to a volatile variable_" (See Xtensa ISA Reference Manual)
 - Repeated calls to `periph_module_enable(PERIPH_SHA_MODULE)` are tracked for recursion. Call to `periph_module_disable` is only effective after [all enables are unwrapped](https://github.com/espressif/esp-idf/blob/5e6cffbb14fa78e6e8475550c1606b29ec1aa7f0/components/driver/periph_ctrl.c#L31).
@@ -252,13 +252,13 @@ Each block of data is hashed into digest for wolfSSL:
 
 ![sha_digest_quickwatch.png](../images/wolfssl/sha_digest_quickwatch.png)
 
-Given the single-computation nature of the hardware acclerated hash content registers, note that even in a single-thread RTOS, multiple 
+Given the single-computation nature of the hardware accelerated hash content registers, note that even in a single-thread RTOS, multiple 
 hashes may need to be computed concurrently. This will cause the second one to fall back to software calculations.
 
 For example, in the ESP32 SSH to UART example, the non-blocking call to [wolfSSH_accept](https://github.com/gojimmypi/wolfssh/blob/713c7358501b9107d2e85a2a3f0e296a89a180ad/examples/ESP32-SSH-Server/main/ssh_server.c#L174)
 that is [started upon connection](https://github.com/gojimmypi/wolfssh/blob/713c7358501b9107d2e85a2a3f0e296a89a180ad/examples/ESP32-SSH-Server/main/ssh_server.c#L235)
 
-The `SendKexDhReply()` (Send Key Exchange Diffe-Hellman Key) hashes together multiple different items all in one big SHA256 hash result:
+The `SendKexDhReply()` (Send Key Exchange Diffie-Hellman Key) hashes together multiple different items all in one big SHA256 hash result:
 
 ![SendKexDhReply_hash_increments.png](../images/wolfssl/SendKexDhReply_hash_increments.png)
 
