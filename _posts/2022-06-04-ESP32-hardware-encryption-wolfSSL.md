@@ -38,6 +38,7 @@ Note modern ESP32 devices have had a hardware revision to address the fault inje
 
 > "_The ESP32-D0WD-V3 chip has checks in ROM which prevent fault injection attack_" -- [Espressif Security Advisory](https://www.espressif.com/en/news/Security_Advisory_Concerning_Fault_Injection_and_eFuse_Protections)
 
+Of equal importance is proper software implementation. See the [wolfSSL blog on TLS Glitch Resistance](https://www.wolfssl.com/tls-glitch-resistance-encrypt/).
 
 ## Getting Started
 
