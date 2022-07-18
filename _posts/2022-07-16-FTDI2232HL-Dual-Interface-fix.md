@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Fixing FTDI2232HL Dual Interface that appears as only one device"
+title: "Fixing FTDI 2232HL Dual Interface / Single Device."
 date: '2022-07-16'
 author: gojimmypi
 tags:
@@ -8,8 +8,6 @@ tags:
 - 2232HL
 - FTDI2232HL
 ---
-
-Fixing FTDI 2232HL Dual Interface / Single Device.
 
 The FTDI 2232, such as the one found on the [Espressif ESP32-Ethernet-Kit V1.2](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-ethernet-kit.html#) 
 is _normally_ a 2-interface device. But sometimes Microsoft Windows... well, you know.
@@ -58,6 +56,7 @@ There should also be a COM port:
 
 
 
+## Resources, Inspiration, Credits, and Other Links
 
-[](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-ethernet-kit.html#get-started-esp32-ethernet-kit-v1-2)
-[ft2232hl](https://ftdichip.com/products/ft2232hl/)
+- Espressif [ESP32-Ethernet-Kit V1.2 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-ethernet-kit.html#get-started-esp32-ethernet-kit-v1-2)
+- FTDI [FT2232HL](https://ftdichip.com/products/ft2232hl/)
