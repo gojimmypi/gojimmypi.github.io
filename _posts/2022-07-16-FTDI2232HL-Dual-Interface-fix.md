@@ -17,7 +17,9 @@ If for some reason Windows just insists that there's only one device, there's ho
 ![single-FTDI2232HL.png](../images/esp32-devkit/single-FTDI2232HL.png)
 
 Although the board will technically work with only once device, a decision will need to be made as to whether
-that the respective interface is used for JTAG _or_ Serial. During development _and_ an interface for COM-port 
+that the respective interface is used for JTAG _or_ Serial. 
+
+During development one typically wants JTAG _and_ an interface for COM-port 
 serial output.
 
 To resolve this situation, first ensure the board is plugged in and manually update
@@ -29,7 +31,7 @@ Select the "USB Composite Device":
 
 ![pick_composite_device.png](../images/esp32-devkit/pick_composite_device.png)
 
-The FTDI 2232 should not appear as two separate interfaces: 
+The FTDI 2232 should now appear as two separate interfaces: 
 
 - `Dual RS232-HS (Interface 0)`
 - `Dual RS232-HS (Interface 1)`
