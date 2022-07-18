@@ -48,13 +48,13 @@ The `Interface 1` should be configured as `FTDI Bus` for the JTAG interface:
 
 ![interface_1_FTDIBUS.png](../images/esp32-devkit/interface_1_FTDIBUS.png)
 
+Device Manager should show both devices:
+
+![interface_0_WinUSB.png](../images/esp32-devkit/device_manager_multiple_interface_devices.png)
+
 If everything is working properly, the VisualGDB JTAG test should show success:
 
 ![JTAG_success.png](../images/esp32-devkit/JTAG_success.png)
-
-There should also be a COM port:
-
-![interface_0_WinUSB.png](../images/esp32-devkit/interface_0_WinUSB.png)
 
 
 
