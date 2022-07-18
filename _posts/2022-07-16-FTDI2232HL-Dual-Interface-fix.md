@@ -9,29 +9,55 @@ tags:
 - FTDI2232HL
 ---
 
-Fixing FTDI2232HL Dual Interface that appears as only one device.
+Fixing FTDI 2232HL Dual Interface / Single Device.
 
 The FTDI 2232, such as the one found on the [Espressif ESP32-Ethernet-Kit V1.2](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-ethernet-kit.html#) 
 is _normally_ a 2-interface device. But sometimes Microsoft Windows... well, you know.
 
 If for some reason Windows just insists that there's only one device, there's hope! As reported in Zadig:
 
-![single-FTDI2232HL.png](../images/single-FTDI2232HL.png)
+![single-FTDI2232HL.png](../images/esp32-devkit/single-FTDI2232HL.png)
 
 Although the board will technically work with only once device, a decision will need to be made as to whether
 that the respective interface is used for JTAG _or_ Serial. During development _and_ an interface for COM-port 
 serial output.
 
-To resolve this situation, first ensure the board is plugged in and manually install the "Compoosite Device" driver. 
+To resolve this situation, first ensure the board is plugged in and manually update
+the driver from Device Manager "Driver Tab". 
 
 ![pick_new_driver.png](../images/esp32-devkit/pick_new_driver.png)
+
+Select the "USB Composite Device":
+
 ![pick_composite_device.png](../images/esp32-devkit/pick_composite_device.png)
+
+The FTDI 2232 should not appear as two separate interfaces: 
+
+- `Dual RS232-HS (Interface 0)`
+- `Dual RS232-HS (Interface 1)`
+
 ![newly_dual_RS232-HS_devices.png](../images/esp32-devkit/newly_dual_RS232-HS_devices.png)
+
+In the typical Windows style, the appropriate drivers are likely _not_ installed.
+
+The `Interface 0` should be configured as `WinUSB` for the COM port:
+
 ![interface_0_WinUSB.png](../images/esp32-devkit/interface_0_WinUSB.png)
+
+The `Interface 1` should be configured as `FTDI Bus` for the JTAG interface:
+
 ![interface_1_FTDIBUS.png](../images/esp32-devkit/interface_1_FTDIBUS.png)
+
+If everything is working properly, the VisualGDB JTAG test should show success:
+
 ![JTAG_success.png](../images/esp32-devkit/JTAG_success.png)
 
-![interface_0_WinUSB.png](../images/interface_0_WinUSB.png)
-![](../images)
+There should also be a COM port:
+
+![interface_0_WinUSB.png](../images/esp32-devkit/interface_0_WinUSB.png)
+
+
+
+
 [](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-ethernet-kit.html#get-started-esp32-ethernet-kit-v1-2)
 [ft2232hl](https://ftdichip.com/products/ft2232hl/)
