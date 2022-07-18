@@ -27,7 +27,7 @@ the driver from Device Manager "Driver Tab".
 
 ![pick_new_driver.png](../images/esp32-devkit/pick_new_driver.png)
 
-Select the "USB Composite Device":
+Pick from a list of drivers on computer and select the "USB Composite Device":
 
 ![pick_composite_device.png](../images/esp32-devkit/pick_composite_device.png)
 
@@ -35,6 +35,9 @@ The FTDI 2232 should now appear as two separate interfaces:
 
 - `Dual RS232-HS (Interface 0)`
 - `Dual RS232-HS (Interface 1)`
+
+If the driver was installed successfully, try unplugging the USB device and plugging it
+in again. Repeat above steps if needed.
 
 ![newly_dual_RS232-HS_devices.png](../images/esp32-devkit/newly_dual_RS232-HS_devices.png)
 
@@ -56,7 +59,12 @@ If everything is working properly, the VisualGDB JTAG test should show success:
 
 ![JTAG_success.png](../images/esp32-devkit/JTAG_success.png)
 
+This behavior was observed on only 1 of 2 Windows 10 computers using the exact
+same device. The problematic computer was one that does not meet the requirements
+for Windows 11, but otherwise had all currently available Windows Updates applied.
 
+In the usual Windows style, the drivers may revert to an undesired state after future
+Windows updates and the above steps may need to be repeated. ymmv.
 
 ## Resources, Inspiration, Credits, and Other Links
 
