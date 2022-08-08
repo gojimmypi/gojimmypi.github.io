@@ -158,7 +158,36 @@ So if you're using the -f option you're not immediately seeing the latest bitstr
 
 -- emeb from discord
 
+### Fusesoc Blinky
 
+I've added ICE-V Wireless support in my [gojimmypi/fusesoc-blinky](https://github.com/gojimmypi/fusesoc-blinky)
+in my [fusesoc/blinky](https://github.com/fusesoc/blinky)
+
+In a new, empty fusesoc project directory
+
+{% include code_header.html %}
+```
+
+cd /mnt/c/workspace
+
+#fetch ICE-V Wireless, if not already there:
+git clone https://github.com/gojimmypi/ICE-V-Wireless.git
+
+mkdir myfusesocblinky
+cd myfusesocblinky
+
+fusesoc library add fusesoc_cores https://github.com/gojimmypi/fusesoc-cores
+fusesoc library add serv https://github.com/gojimmypi/serv
+fusesoc library add blinky https://github.com/gojimmypi/fusesoc-blinky
+
+# similation
+fusesoc run --target=sim fusesoc:utils:blinky
+
+# build for ICE-V Wireless
+fusesoc run --target=icev_wireless fusesoc:utils:blinky
+
+python3 ../ICE-V-Wireless/python/send_c3sock.py -a 192.168.1.28 ./build/fusesoc_utils_blinky_1.1.1/icev_wireless-icestorm/fusesoc_utils_blinky_1.1.1.bin
+```
 
 ### Usage
 
