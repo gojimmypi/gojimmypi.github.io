@@ -131,34 +131,48 @@ make</code></pre>
 
 
 <div>
-<br />
+    <br />
 
-{% include code_header.html %}
+    {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
 dfu-util.exe -a 0 -D blink_count_shift.bin</code></pre>
-<br />
-Beyond blinky, a pinout is useful:&nbsp;
+    <br />
+    Beyond blinky, a pinout is useful:&nbsp; (There may be variations depending on the specific [board version](https://github.com/icebreaker-fpga/icebreaker/tree/master/hardware))
 
-<div>
-<br />
-<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;"><tbody><tr><td style="text-align: center;"><a href="../images/s576/bitsy_pinout.png" style="margin-left: auto; margin-right: auto;">
-<img border="0" data-original-height="576" data-original-width="384" src="../images/d/bitsy_pinout.png" title="iCEBreaker Bitsy Pinout by 0xdec"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">iCEBreaker Bitsy Pinout by <a href="https://twitter.com/0xdec">
-0xdec</a><br />
-</td></tr></tbody></table><br />
+    <div>
+        <br />
+        <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
+            <tbody>
+                <tr>
+                    <td style="text-align: center;">
+                        <a href="../images/s576/bitsy_pinout.png" style="margin-left: auto; margin-right: auto;">
+                            <img border="0" data-original-height="576" data-original-width="384" src="../images/d/bitsy_pinout.png" title="iCEBreaker Bitsy Pinout by 0xdec">
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tr-caption" style="text-align: center;">
+                        iCEBreaker Bitsy Pinout by <a href="https://twitter.com/0xdec">
+                            0xdec
+                        </a><br />
+                    </td>
+                </tr>
+            </tbody>
+        </table><br />
 
-<div>
-There's a main repo:&nbsp;<a href="https://github.com/icebreaker-fpga/icebreaker-examples">https://github.com/icebreaker-fpga/icebreaker-examples</a>&nbsp;but I learned on the discord channel that the code for the Bitsy has not yet been pushed there.
-</div>
-<br />
+        <div>
+            There's a main repo:&nbsp;<a href="https://github.com/icebreaker-fpga/icebreaker-examples">https://github.com/icebreaker-fpga/icebreaker-examples</a>&nbsp;but I learned on the discord channel that the code for the Bitsy has not yet been pushed there.
+        </div>
+        <br />
 
-<div>
-   That repo will likely at some point have all the latest code. For now it is still in&nbsp;<a href="https://github.com/esden/icebreaker-examples">esden/icebreaker-examples</a>
-</div>
+        <div>
+            That repo will likely at some point have all the latest code. For now it is still in&nbsp;<a href="https://github.com/esden/icebreaker-examples">esden/icebreaker-examples</a>
+        </div>
 
 
-{% include code_header.html %}
+        {% include code_header.html %}
 <pre class="language highlighter-rouge">
 <code class="highlight">
 git clone https://github.com/esden/icebreaker-examples.git esden-icebreaker-examples
@@ -169,47 +183,47 @@ cd blink_count_shift
 make clean
 make BOARD=bitsy1  </code></pre>
 
-<div>
-Note the `make` will be expecting parameters:
-</div>
-<br />
+        <div>
+            Note the `make` will be expecting parameters:
+        </div>
+        <br />
 
-{% include code_header.html %}
+        {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
 $ make
 ../board.mk:18: *** Please specify BOARD, options are "icebreaker", "bitsy0" or "bitsy1".  Stop.</code></pre>
 
-<div>
-   <br />
+        <div>
+            <br />
 
-</div>
-<br />then upload:
+        </div>
+        <br />then upload:
 
-{% include code_header.html %}
+        {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
 dfu-util.exe -a 0 -D C:\workspace\esden-icebreaker-examples\blink_count_shift\blink_count_shift.bin</code></pre>
-      <br />
+        <br />
 
-<div>
-Here we should be able to press the Bitsy button to get the green LED to illuminate.
-</div>
-<br />
+        <div>
+            Here we should be able to press the Bitsy button to get the green LED to illuminate.
+        </div>
+        <br />
 
-<div>
-Beyond blinky, I learned there's a DFU UART on FPGA pin 44 (aka IOB_4a, aka P2).
-</div>
-<br />
+        <div>
+            Beyond blinky, I learned there's a DFU UART on FPGA pin 44 (aka IOB_4a, aka P2).
+        </div>
+        <br />
 
-<div>
-Hookup a USB Serial Port and at DFU boot time at 1000000 baud, a message is displayed:
-</div>
+        <div>
+            Hookup a USB Serial Port and at DFU boot time at 1000000 baud, a message is displayed:
+        </div>
 
 
-{% include code_header.html %}
+        {% include code_header.html %}
 <pre class="language highlighter-rouge">
 <code class="highlight">
 
@@ -217,55 +231,57 @@ Booting DFU image..
 Flash Manufacturer : ef 40 18
 Flash Unique ID    : e4 69 98 d2 43 59 15 2f
 Command&gt;  </code></pre>
-     <br />
-I also learned on discord that USB signals-D/+D are actually 3.3V, even though the supply voltage is 5V
-<br />
+        <br />
+        I also learned on discord that USB signals-D/+D are actually 3.3V, even though the supply voltage is 5V
+        <br />
 
-<div>
-There's this interesting&nbsp;<a href="https://github.com/smunaut/iua">iua: ice40 USB Analyzer</a>&nbsp;that is meant to run on an&nbsp;<a href="https://1bitsquared.com/products/icebreaker">iCEBreaker FPGA</a>&nbsp;that can apparently be used to "<i>dump all the USB traffic</i>". Note there's an minor problem building, but I have a <a href="https://github.com/smunaut/iua/pull/1">PR</a> to fix that. (thanks to @tnt on discord for the info). Basically just needed to add a magic parameter <code class="highlight">--placer sa</code> to run nextpnr like this:
-</div>
-<br />
+        <div>
+            There's this interesting&nbsp;<a href="https://github.com/smunaut/iua">iua: ice40 USB Analyzer</a>&nbsp;that is meant to run on an&nbsp;<a href="https://1bitsquared.com/products/icebreaker">iCEBreaker FPGA</a>&nbsp;that can apparently be used to "<i>dump all the USB traffic</i>". Note there's an minor problem building, but I have a <a href="https://github.com/smunaut/iua/pull/1">PR</a> to fix that. (thanks to @tnt on discord for the info). Basically just needed to add a magic parameter <code class="highlight">--placer sa</code> to run nextpnr like this:
+        </div>
+        <br />
 
-{% include code_header.html %}
+        {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
 nextpnr-ice40 --placer sa  --up5k --package sg48 --json iua_icebreaker_top.json --pcf ../impl/iua_icebreaker_pins.pcf --asc iua_icebreaker_top.asc --freq 50  </code></pre>
-<br />
+        <br />
 
-<div>
-This will happen during make.
-</div>
-<br />
-   Also from @tnt on discord:
-<br />
-<blockquote><i>
-There are debug pads on the bity bottom where you can easily solder a header.</i><br />
+        <div>
+            This will happen during make.
+        </div>
+        <br />
+        Also from @tnt on discord:
+        <br />
+        <blockquote>
+            <i>
+                There are debug pads on the bity bottom where you can easily solder a header.
+            </i><br />
 
-{% include code_header.html %}
+            {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
 set_io -nowarn usb_dp_pad 31
 set_io -nowarn usb_dn_pad 34</code></pre>
-  </blockquote><blockquote>
-<p>
-&nbsp;<i>Those are the fpga pins where to connect on the icebreaker side</i>.
-</p>
-</blockquote><br />
+        </blockquote><blockquote>
+            <p>
+                &nbsp;<i>Those are the fpga pins where to connect on the icebreaker side</i>.
+            </p>
+        </blockquote><br />
 
-<div>
-To be continued in my next post...&nbsp;<a href="{{ site.baseurl }}{% post_url 2020-08-09-sigrok-on-wsl-for-iua-ice40-usb-analyzer %}">Sigrok on WSL for iua: ice40 USB Analyzer</a>
-</div>
+        <div>
+            To be continued in my next post...&nbsp;<a href="{{ site.baseurl }}{% post_url 2020-08-09-sigrok-on-wsl-for-iua-ice40-usb-analyzer %}">Sigrok on WSL for iua: ice40 USB Analyzer</a>
+        </div>
 
-<div>
-&nbsp;
-</div>
-<br />
-<br />
-<br />
+        <div>
+            &nbsp;
+        </div>
+        <br />
+        <br />
+        <br />
 
-</div>
+    </div>
 
 
 </div>
