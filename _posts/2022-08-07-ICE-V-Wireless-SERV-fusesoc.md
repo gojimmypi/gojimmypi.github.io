@@ -161,9 +161,22 @@ So if you're using the -f option you're not immediately seeing the latest bitstr
 ### Fusesoc Blinky
 
 I've added ICE-V Wireless support in my [gojimmypi/fusesoc-blinky](https://github.com/gojimmypi/fusesoc-blinky)
-in my [fusesoc/blinky](https://github.com/fusesoc/blinky)
+in my [fusesoc/blinky](https://github.com/fusesoc/blinky).
 
-In a new, empty fusesoc project directory
+*NOTE*: 
+
+- FuseSoC FPGA core does not currently start when first loaded.
+
+- Core only starts after reset.
+
+- Unless `--flash` is used, prior FPGA binary image load is lost at reset.
+
+This means that FuseSoC blinky *requires* the `--flash` parameter, and
+the board must be reset or power cycles to actually start the blinky.
+
+See the [Discord chat for a discussion on Power-On-Reset (POR) timing](https://discord.com/channels/728101453071384647/977434078221598811/1006190449746260060).
+
+In a new, empty fusesoc project directory:
 
 {% include code_header.html %}
 ```
@@ -186,7 +199,7 @@ fusesoc run --target=sim fusesoc:utils:blinky
 # build for ICE-V Wireless
 fusesoc run --target=icev_wireless fusesoc:utils:blinky
 
-python3 ../ICE-V-Wireless/python/send_c3sock.py -a 192.168.1.28 ./build/fusesoc_utils_blinky_1.1.1/icev_wireless-icestorm/fusesoc_utils_blinky_1.1.1.bin
+python3 ../ICE-V-Wireless/python/send_c3sock.py -a 192.168.1.28 --flash ./build/fusesoc_utils_blinky_1.1.1/icev_wireless-icestorm/fusesoc_utils_blinky_1.1.1.bin
 ```
 
 ### Usage
