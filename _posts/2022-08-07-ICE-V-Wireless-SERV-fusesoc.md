@@ -11,12 +11,12 @@ tags:
 - FPGA
 ---
 
-Here are some notes for setting up the ICE-V Wireless ESP32-C3 RISC-V and iCE40 FPGA 
+Setting up the ICE-V Wireless ESP32-C3 RISC-V and iCE40 FPGA 
 with the Award Winning SERV RISC-V Core.
 
 ![ICEV-Wireless.png](../images/ICEV-Wireless/ICEV-Wireless.png)
 
-What's a SERV Core? It's an Award Winning tiny RISC-V soft CPU on an FPGA by Olaf Kindgren.
+What's a SERV Core? It's an Award Winning tiny RISC-V soft CPU on an FPGA that was designed by Olaf Kindgren.
 See [github.com/olofk/serv](https://github.com/olofk/serv) for more info.
 
 See also my [micro-blog thread](https://twitter.com/gojimmypi/status/1544479903843696640?s=20&t=hZ9f8mrLQiTFg3PKvoIp2w) 
@@ -29,17 +29,18 @@ It is available on a [GroupGets campaign](https://groupgets.com/campaigns/1036-i
 ### Requirements
 
 [Espressif ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html) 
-and/or [VisualGDB](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html) is required.
+and/or [VisualGDB](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html) is used to build 
+and flash the ESP32 software.
 
-SERV Core [github.com/olofk/serv](https://github.com/olofk/serv)  (see below regarding PR for ICE-V board)
+SERV Core [github.com/olofk/serv](https://github.com/olofk/serv)  (see below regarding pending PR for ICE-V board)
 
 FuseSoC Cores [github.com/fusesoc/fusesoc-cores/](https://github.com/fusesoc/fusesoc-cores/) (see below regarding PR for ICE-V board)
 
-Write to FPGA with [send_c3sock.py](https://github.com/ICE-V-Wireless/ICE-V-Wireless/blob/main/python/send_c3sock.py) 
+Write to FPGA with [send_c3sock.py](https://github.com/ICE-V-Wireless/ICE-V-Wireless/blob/main/python/send_c3sock.py). 
 See [SENDBIT](https://github.com/ICE-V-Wireless/ICE-V-Wireless/blob/39f334b97ca3921e535368eb6db6014119025b38/Gateware/icestorm/Makefile#L34)
-setting in the [icestrorm Makefile](https://github.com/ICE-V-Wireless/ICE-V-Wireless/blob/main/Gateware/icestorm/Makefile)
+setting in the [icestorm Makefile](https://github.com/ICE-V-Wireless/ICE-V-Wireless/blob/main/Gateware/icestorm/Makefile).
 
-FPGA [pcf file](https://github.com/ICE-V-Wireless/ICE-V-Wireless/blob/main/Gateware/src/bitstream.pcf)
+ICE-V Wireless FPGA [pcf file](https://github.com/ICE-V-Wireless/ICE-V-Wireless/blob/main/Gateware/src/bitstream.pcf).
 
 ### USB Configuration
 
@@ -86,11 +87,14 @@ with working code to receive the FPGA binary and write to the local iCE40.
 Note this is currently based on an older branch, as I had encountered some problems with both my local ESP-IDE 4.4.1 as well 
 as my ESP-IDF 5.0 that are as of yet, unresolved.
 
+There's a stable release of [ESP-IDF v4.4.2](https://docs.espressif.com/projects/esp-idf/en/v4.4.2/esp32/) available
+on [GitHub](https://github.com/espressif/esp-idf/releases/tag/v4.4.2).
+
 The [ICE-V-Wireless](https://github.com/ICE-V-Wireless/ICE-V-Wireless) is currently my `upstream`. 
 Fetching my ICE-V-Wireless fork.
 
 As a Windows/WSL user, I'm venturing into somewhat new territory for SERV & FuseSoC.
-Fortunately Olaf, Michael, Eric,  and others are patient and kind in helping newbies like me. Thank you.
+Fortunately Olaf, Michael, Eric, and others are patient and kind in helping newbies like me. Thank you.
 
 
 ### Potential Challenges
@@ -117,6 +121,8 @@ my forks will be needed.
 
 Stay tuned for [SERV PR #88](https://github.com/olofk/serv/pull/88) 
 and [FuseSoC Cores PR #15](https://github.com/fusesoc/fusesoc-cores/pull/15) merge that each that adds ICE-V Support.
+Additionally there's a [FuseSoc Blinky PR #89](https://github.com/fusesoc/blinky/pull/89) which also
+adds ICE-V Support.
 
 ### Key Technical Details
 
@@ -129,34 +135,34 @@ and [FuseSoC Cores PR #15](https://github.com/fusesoc/fusesoc-cores/pull/15) mer
 
 ##### Technical Notes
 
->The PicoRV32 core that's used in this design doesn't have JTAG debugging capabilities. 
-There may be others out there that do, but this one is very bare-bones to keep the resource use down.
+>_The PicoRV32 core that's used in this design doesn't have JTAG debugging capabilities. 
+There may be others out there that do, but this one is very bare-bones to keep the resource use down._
 
->Upside is that the firmware is stored in EBR that's loaded with the bitstream and the ice40 
+>_Upside is that the firmware is stored in EBR that's loaded with the bitstream and the ice40 
 tools allow changing the RAM contents w/o fully rebuilding, so the firmware development cycle
 is pretty fast. Look in the Makefile - there's a target called recode that will recompile 
 firmware, update the bitstream and reload it to hardware in a blink.
-There's also a 115200kbps UART in there that you can printf() to.
+There's also a 115200kbps UART in there that you can printf() to._
 
-> Currently there's 64kB of RAM and 8kB of ROM in the soft MCU system  on the FPGA. That can be expanded somewhat if needed. 
+>_Currently there's 64kB of RAM and 8kB of ROM in the soft MCU system  on the FPGA. That can be expanded somewhat if needed._
 
-> The PSRAM is not mapped into the addressable space in this system, but there are examples of how to do that out there.
+>_The PSRAM is not mapped into the addressable space in this system, but there are examples of how to do that out there._
 
-> The LY68L6400 is 64Mb - equal to 8MB.
+>_The LY68L6400 is 64Mb - equal to 8MB._
 
-> The FPGA image and all the ESP32C3 code is stored in a 4MB flash that's integrated into the Mini module. That's entirely separate from what happens w/ the FPGA. 
+>_The FPGA image and all the ESP32C3 code is stored in a 4MB flash that's integrated into the Mini module. That's entirely separate from what happens w/ the FPGA._
 
-> The UP5k can load itself at reset from an external SPI flash chip, but on the ICE-V-Wireless we don't let it do that - the bitstreams come exclusively from the C3 over it's SPI port.
-The PSRAM is not at all involved in this. 
+>_The UP5k can load itself at reset from an external SPI flash chip, but on the ICE-V-Wireless we don't let it do that - the bitstreams come exclusively from the C3 over it's SPI port.
+The PSRAM is not at all involved in this._
 
->  when you're sending a bitstream to the board with the send_c3sock.py script there are two different options:
+> _when you're sending a bitstream to the board with the send_c3sock.py script there are two different options:
 > * if you don't specify -f then the bitstream is immediately loaded into the FPGA
 > * if you do specify -f then the bitstream is saved in SPIFFS and loaded upon reboot. 
-So if you're using the -f option you're not immediately seeing the latest bitstream you sent.
+So if you're using the -f option you're not immediately seeing the latest bitstream you sent._
 
-> ATM the only non-WiFi way to put bitstreams on is by building them into the SPIFFS filesystem at compile / flash time.
+>_ATM the only non-WiFi way to put bitstreams on is by building them into the SPIFFS filesystem at compile / flash time._
 
--- emeb from discord
+  -- emeb from discord
 
 ### Fusesoc Blinky
 
@@ -172,15 +178,14 @@ in my [fusesoc/blinky](https://github.com/fusesoc/blinky).
 - Unless `--flash` is used, prior FPGA binary image load is lost at reset.
 
 This means that FuseSoC blinky *requires* the `--flash` parameter, and
-the board must be reset or power cycles to actually start the blinky.
+the board must be reset or power cycled to actually start the blinky.
 
 See the [Discord chat for a discussion on Power-On-Reset (POR) timing](https://discord.com/channels/728101453071384647/977434078221598811/1006190449746260060).
 
-In a new, empty fusesoc project directory:
+To use the FuseSoc Blinky: In a new, empty fusesoc project directory:
 
 {% include code_header.html %}
 ```
-
 cd /mnt/c/workspace
 
 #fetch ICE-V Wireless, if not already there:
@@ -239,6 +244,8 @@ fusesoc run --target=icev_wireless servant
 ../ICE-V-Wireless/python/send_c3sock.py --flash ./build/servant_1.1.0/icev_wireless-icestorm/servant_1.1.0.bin
 ```
 
+SERVANT Hello (not currently fully operational; Seems to be POR timing issue)
+
 ```
 
 # with no --memfil parameter,  zephyr_hello.hex is used. 
@@ -255,6 +262,8 @@ In my case, once installed, is found here:
 C:\workspace\mynewfusesoc\fusesoc_libraries\servant\data\icev_wireless.pcf
 ```
 
+With just a couple of lines of FPGA pin definitions:
+
 ```
 # 12 MHz clock
 set_io i_clk        35
@@ -267,6 +276,9 @@ set_io q 9
 
 
 ### GitHub maintenance
+
+A reminder for 
+
 {% include code_header.html %}
 ```bash
 cd /mnt/c/workspace/fusesoc-cores
@@ -416,6 +428,7 @@ gojimmypi:/mnt/c/workspace/mywslfusesoc
 
 
 See also:
+
 - [ICE-V Wireless Discord Channel](https://discord.com/channels/728101453071384647/977434078221598811)
 - [gitter librecores/fusesoc Channel](https://gitter.im/librecores/fusesoc?utm_source=notification&utm_medium=email&utm_campaign=unread-notifications)
 - [Zephyr RTOS Support for ICE-V Wireless](https://github.com/zephyrproject-rtos/zephyr/tree/main/boards/riscv/icev_wireless)
