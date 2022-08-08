@@ -7,12 +7,15 @@ tags:
 - ESP32
 - 2232HL
 - FTDI2232HL
+- FTDI
 ---
 
 The FTDI 2232, such as the one found on the [Espressif ESP32-Ethernet-Kit V1.2](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-ethernet-kit.html#) 
 is _normally_ a 2-interface device. But sometimes Microsoft Windows... well, you know.
 
-If for some reason Windows just insists that there's only one device, there's hope! As reported in Zadig:
+If for some reason Windows just insists that there's only one device, there's hope! 
+
+The problem condition as reported in Zadig:
 
 ![single-FTDI2232HL.png](../images/esp32-devkit/single-FTDI2232HL.png)
 
