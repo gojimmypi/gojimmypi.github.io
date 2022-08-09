@@ -22,7 +22,7 @@ See [github.com/olofk/serv](https://github.com/olofk/serv) for more info.
 See also my [micro-blog thread](https://twitter.com/gojimmypi/status/1544479903843696640?s=20&t=hZ9f8mrLQiTFg3PKvoIp2w) 
 on Twitter related to the ICE-V board. Hopefully I'll capture all of the key details here as well.
 
-Disclaimer: I received a free ICE-V Wireless board as described in my [prior blog](https://gojimmypi.github.io/ICE-V-Wireless-FPGA-ESP32-C3/).
+Disclaimer: I received a free ICE-V Wireless board as described in my [prior blog](./2022-07-10-ICE-V-Wireless-FPGA-ESP32-C3.md).
 I have not been compensated in any other way. Opinions expressed are my own. That said, it is a pretty cool board.
 It is available on a [GroupGets campaign](https://groupgets.com/campaigns/1036-ice-v-wireless) that ends Tue, 16 Aug 2022 16:42:49 PDT.
 
@@ -49,8 +49,8 @@ is essential for Windows users. After all these years, Microsoft still hasn't fi
 getting a device working, a reboot later (typically after a Windows update) and Zadig will likely be needed again to assign
 the proper drivers.
 
-See my prior blogs such as [iCE40 FPGA Programming with WSL](https://gojimmypi.github.io/ice40-fpga-programming-with-wsl-and/)
-and [Programming FPGA Devices from WSL](https://gojimmypi.github.io/programming-fpga-devices-from-wsl/). 
+See my prior blogs such as [iCE40 FPGA Programming with WSL](./2020-12-20-ice40-fpga-programming-with-wsl-and.html)
+and [Programming FPGA Devices from WSL](./2020-06-06-programming-fpga-devices-from-wsl.html). 
 
 In the case of the ICE-V Wireless, here's what my driver list looks like:
 
@@ -274,6 +274,16 @@ set_io q 9
 # use q 39 for red, q 40 for green, q 41 for blue LED
 ```
 
+### FuseSoC Zephyr
+
+There's some discussion on the Discord channel [regarding the blinky hex](https://discord.com/channels/728101453071384647/977434078221598811/1006323363637121194), 
+but the `zephyr_hello.hex` is confirmed to work with the ICE-V Wireless:
+
+```bash
+# from your fusesoc project directory:
+fusesoc run --target=icev_wireless servant --memfile=fusesoc_libraries/serv/sw/zephyr_hello.hex
+python3 ../ICE-V-Wireless/python/send_c3sock.py -a 192.168.1.28 --flash ./build/servant_1.1.0/icev_wireless-icestorm/servant_1.1.0.bin
+```
 
 ### GitHub maintenance
 
