@@ -442,4 +442,10 @@ See also:
 - [ICE-V Wireless Discord Channel](https://discord.com/channels/728101453071384647/977434078221598811)
 - [gitter librecores/fusesoc Channel](https://gitter.im/librecores/fusesoc?utm_source=notification&utm_medium=email&utm_campaign=unread-notifications)
 - [Zephyr RTOS Support for ICE-V Wireless](https://github.com/zephyrproject-rtos/zephyr/tree/main/boards/riscv/icev_wireless)
-
+- hackster.io [QWERTY's ICE-V Wireless Packs RISC-V, FPGA, Bluetooth, and Wi-Fi Into a Single Handy Board](https://www.hackster.io/news/qwerty-s-ice-v-wireless-packs-risc-v-fpga-bluetooth-and-wi-fi-into-a-single-handy-board-8938f830a0ce)
+- linuxgizmos [RISC-V based ICE-V Wireless board includes a Lattice ICE40 UltraPlus FPGA](https://linuxgizmos.com/risc-v-based-ice-v-wireless-board-includes-a-lattice-ice40-ultraplus-fpga/)
+- electronics-lab [QWERTY Embedded Design Crowdfunding ICE-V Wireless FPGA Development Board at $75.00](https://www.electronics-lab.com/qwerty-embedded-design-crowdfunding-ice-v-wireless-fpga-development-board-at-75-00/)
+- cnx-software [ICE-V Wireless FPGA board combines Lattice Semi iCE40 UltraPlus with WiFi & BLE module](https://www.cnx-software.com/2022/06/27/ice-v-wireless-fpga-board-lattice-semi-ice40-fpga-wifi-ble-module/)
+- mwelling [ICE-V-Wireless fork](https://github.com/mwelling/ICE-V-Wireless)
+- emeb [ESP32C3_FPGA](https://github.com/emeb/ESP32C3_FPGA)
+- 
