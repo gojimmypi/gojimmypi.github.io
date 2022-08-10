@@ -22,7 +22,7 @@ See [github.com/olofk/serv](https://github.com/olofk/serv) for more info.
 See also my [micro-blog thread](https://twitter.com/gojimmypi/status/1544479903843696640?s=20&t=hZ9f8mrLQiTFg3PKvoIp2w) 
 on Twitter related to the ICE-V board. Hopefully I'll capture all of the key details here as well.
 
-Disclaimer: I received a free ICE-V Wireless board as described in my [prior blog](./2022-07-10-ICE-V-Wireless-FPGA-ESP32-C3.md).
+Disclaimer: I received a free ICE-V Wireless board as described in my [prior blog](https://gojimmypi.github.io/ICE-V-Wireless-FPGA-ESP32-C3/).
 I have not been compensated in any other way. Opinions expressed are my own. That said, it is a pretty cool board.
 It is available on a [GroupGets campaign](https://groupgets.com/campaigns/1036-ice-v-wireless) that ends Tue, 16 Aug 2022 16:42:49 PDT.
 
