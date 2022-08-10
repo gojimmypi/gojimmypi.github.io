@@ -432,10 +432,9 @@ simplesat.errors.InvalidConstraint: 'tool=modelsim >= 0-0'(distribution name: 't
 gojimmypi:/mnt/c/workspace/mywslfusesoc
 ```
 
- 1993  fusesoc library add servant https://github.com/gojimmypi/serv
- 1994  fusesoc library add fusesoc-cores https://github.com/gojimmypi/fusesoc-cores
- 1995  fusesoc run --target=icev_wireless servant
 
+
+<br />
 
 See also:
 
