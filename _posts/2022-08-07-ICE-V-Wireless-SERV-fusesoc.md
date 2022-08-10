@@ -26,6 +26,8 @@ Disclaimer: I received a free ICE-V Wireless board as described in my [prior blo
 I have not been compensated in any other way. Opinions expressed are my own. That said, it is a pretty cool board.
 It is available on a [GroupGets campaign](https://groupgets.com/campaigns/1036-ice-v-wireless) that ends Tue, 16 Aug 2022 16:42:49 PDT.
 
+This blog is still WIP and needs a bit of cleanup.
+
 ### Requirements
 
 [Espressif ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html) 
