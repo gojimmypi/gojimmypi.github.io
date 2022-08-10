@@ -11,8 +11,8 @@ tags:
 - FPGA
 ---
 
-Setting up the ICE-V Wireless ESP32-C3 RISC-V and iCE40 FPGA 
-with the Award Winning SERV RISC-V Core.
+Setting up the ICE-V Wireless ESP32-C3 RISC-V + iCE40 FPGA 
+development board with the Award Winning SERV RISC-V Core.
 
 ![ICEV-Wireless.png](../images/ICEV-Wireless/ICEV-Wireless.png)
 
