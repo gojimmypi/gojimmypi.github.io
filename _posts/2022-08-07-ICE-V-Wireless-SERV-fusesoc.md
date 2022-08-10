@@ -66,9 +66,10 @@ The devices looks like this in Windows Device Manager:
 
 ### Install
 
-Reminder that unlike the Radiona [ULX3S](https://radiona.org/ulx3s/) that has an FPGA that sits IN FRONT from the ESP32 
+Reminder that unlike the Radiona [ULX3S](https://radiona.org/ulx3s/) 
+that has an FPGA that sits IN FRONT of the ESP32 
 (requiring a special [FPGA passthru](https://github.com/gojimmypi/ulx3s-examples/tree/master/passthru) 
-to program the ESP32) - the ICE-V Wireless has the FPGA sitting
+to program the ESP32) - in contrast, the ICE-V Wireless has the FPGA sitting
 BEHIND the ESP32-C3, requiring a [special app on the ESP32](https://github.com/ICE-V-Wireless/ICE-V-Wireless/tree/main/Firmware) to program the FPGA:
 
 ```
@@ -84,7 +85,7 @@ idf.py build
 
 I have an interim [VisualGDB project for the ESP32-C3 Firmware app](https://github.com/gojimmypi/ICE-V-Wireless/tree/my_last_working_branch/VisualGDB)
 with working code to receive the FPGA binary and write to the local iCE40.
-Note this is currently based on an older branch, as I had encountered some problems with both my local ESP-IDE 4.4.1 as well 
+Note this is currently based on an older branch, as I had encountered some problems with both my local ESP-IDF 4.4.1 as well 
 as my ESP-IDF 5.0 that are as of yet, unresolved.
 
 There's a stable release of [ESP-IDF v4.4.2](https://docs.espressif.com/projects/esp-idf/en/v4.4.2/esp32/) available
@@ -122,9 +123,16 @@ my forks will be needed.
 Stay tuned for [SERV PR #88](https://github.com/olofk/serv/pull/88) 
 and [FuseSoC Cores PR #15](https://github.com/fusesoc/fusesoc-cores/pull/15) merge that each that adds ICE-V Support.
 Additionally there's a [FuseSoc Blinky PR #89](https://github.com/fusesoc/blinky/pull/89) which also
-adds ICE-V Support.
+adds ICE-V Support. Most recently emeb submitted [PR #90](https://github.com/olofk/serv/pull/90)
+as [discussed on Discord channel](https://discord.com/channels/728101453071384647/977434078221598811/1006243287381844018)
+regarding the POR (Power On Reset) timing.
+
+Note that I manually added the POR `initial` condition locally; 
+it is not in my fork nor PR.
 
 ### Key Technical Details
+
+Here are some key documents for reference:
 
 - ICE-V Wireless [Schematic](https://github.com/ICE-V-Wireless/ICE-V-Wireless/blob/main/docs/esp32c3_fpga_schematic.pdf)
 - ICE-V Wireless [bitstream.pcf](https://github.com/ICE-V-Wireless/ICE-V-Wireless/blob/main/Gateware/src/bitstream.pcf)
@@ -134,6 +142,8 @@ adds ICE-V Support.
 - Lattice [Pin Out For iCE40 Ultra (iCE5LP4k)](https://www.latticesemi.com/view_document?document_id=50697), See SG48 column; those are pcf numbers. (copy [here](../docs/FPGA-SC-02027-4-0-iCE5LP-4K-Pinout.ods))
 
 ##### Technical Notes
+
+Here are some gems gleaned during the [Discord](https://discord.com/channels/728101453071384647/977434078221598811) chat:
 
 >_The PicoRV32 core that's used in this design doesn't have JTAG debugging capabilities. 
 There may be others out there that do, but this one is very bare-bones to keep the resource use down._
