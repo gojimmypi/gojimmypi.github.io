@@ -6,8 +6,9 @@ author: gojimmypi
 tags:
 - ICE40
 - FPGA
-- ESP32
+- ESP32C3
 - Espressif
+- ICEV-Wireless
 - RISCV
 ---
 
