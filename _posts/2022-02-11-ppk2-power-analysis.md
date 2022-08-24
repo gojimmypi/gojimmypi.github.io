@@ -15,8 +15,6 @@ for the [Making Embedded Systems class](https://classpert.com/classpertx/courses
 here are some of my notes on measuring the power consumption of my 
 [B-L475E-IOT01A Discovery Board](https://www.st.com/resource/en/user_manual/um2153-discovery-kit-for-iot-node-multichannel-communication-with-stm32l4-stmicroelectronics.pdf).
 
-I still have a $100 coupon for the class to give away! It is only good until Feb 14th, so send me a DM on Twitter or email via gmail (gojimmypi) if you want it!
-
 The [Nordic Power Profile Kit](https://www.nordicsemi.com/Products/Development-hardware/Power-Profiler-Kit-2)
 works in one of two modes: either [Measuring current in Source Meter mode](https://infocenter.nordicsemi.com/index.jsp?topic=%2Fug_ppk2%2FUG%2Fppk%2Fmeasure_current_source_meter.html&cp=10_8_5_1)
 or [Measuring current in Ampere Meter mode](https://infocenter.nordicsemi.com/index.jsp?topic=%2Fug_ppk2%2FUG%2Fppk%2Fmeasure_current_source_meter.html&anchor=concept_kkn_bwn_lnb__fig_yny_jn4_lnb).
