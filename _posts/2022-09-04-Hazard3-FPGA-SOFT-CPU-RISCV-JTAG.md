@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Hazard3-FPGA-SOFT-CPU-RISCV-JTAG"
+title: "Notes for Hazard3 RISC-V with JTAG"
 date: '2022-09-04'
 author: gojimmypi
 tags:
@@ -100,6 +100,6 @@ xserver:
 	fi
 ```
 
-I ended up running into an error I could not resolve. Update coming hopefully soon here.
+I ended up running into an [error I could not resolve](https://github.com/Wren6991/Hazard3/issues/4). Update coming hopefully soon here.
 
 
