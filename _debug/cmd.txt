@@ -1,1 +1,1 @@
-./configure --enable-trackmemory --enable-stacksize --enable-wpas=small --disable-dh --disable-filesystem --disable-dependency-tracking --disable-tls13 --disable-dtls --enable-rsa  --enable-memtest --disable-oldtls
+./configure --enable-trackmemory --enable-stacksize --enable-wpas=small --disable-dh --disable-filesystem --disable-dependency-tracking --disable-tls13 --disable-dtls --enable-rsa  --enable-memtest --disable-oldtls --disable-chacha
