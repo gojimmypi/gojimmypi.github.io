@@ -27,6 +27,9 @@
    * NULL Cipher:                no
    * MD2:                        no
    * RIPEMD:                     no
+   * SHA:                        no
+   * SHA-224:                    no
+   * SHA-384:                    no
    * SHA-512:                    no
    * SHA3:                       no
    * SHAKE256:                   no

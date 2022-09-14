@@ -95,12 +95,6 @@ extern "C" {
 #undef  WOLFSSL_USE_ALIGN
 #define WOLFSSL_USE_ALIGN
 
-#undef  WOLFSSL_SHA224
-#define WOLFSSL_SHA224
-
-#undef  WOLFSSL_SHA384
-#define WOLFSSL_SHA384
-
 #undef  NO_DSA
 #define NO_DSA
 
@@ -127,6 +121,12 @@ extern "C" {
 
 #undef  WOLFSSL_BASE64_ENCODE
 #define WOLFSSL_BASE64_ENCODE
+
+#undef  NO_SHA
+#define NO_SHA
+
+#undef  NO_OLD_TLS
+#define NO_OLD_TLS
 
 #undef  WOLFSSL_CMAC
 #define WOLFSSL_CMAC

@@ -10,9 +10,6 @@
    * DES3:                       yes
    * MD4:                        yes
    * MD5:                        yes
-   * SHA:                        yes
-   * SHA-224:                    yes
-   * SHA-384:                    yes
    * CMAC:                       yes
    * Hash DRBG:                  yes
    * PWDBASED:                   yes

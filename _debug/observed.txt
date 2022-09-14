@@ -1,18 +1,17 @@
 Heap summary for capabilities 0x00001000:
-  At 0x3ffb2730 len 15448 free 0 allocated 15252 min_free 0
-    largest_free_block 0 alloc_blocks 41 free_blocks 0 total_blocks 41
+  At 0x3ffb2730 len 15448 free 0 allocated 15288 min_free 0
+    largest_free_block 0 alloc_blocks 32 free_blocks 0 total_blocks 32
   At 0x3ff80064 len 8092 free 0 allocated 7916 min_free 0
     largest_free_block 0 alloc_blocks 36 free_blocks 0 total_blocks 36
   At 0x3ffaff10 len 240 free 0 allocated 184 min_free 0
     largest_free_block 0 alloc_blocks 6 free_blocks 0 total_blocks 6
-  At 0x3ffb6388 len 7288 free 0 allocated 7064 min_free 0
-    largest_free_block 0 alloc_blocks 48 free_blocks 0 total_blocks 48
-  At 0x3ffb9a20 len 16648 free 40 allocated 16100 min_free 0
-    largest_free_block 12 alloc_blocks 113 free_blocks 6 total_blocks 119
-  At 0x3ffcfe40 len 65984 free 100 allocated 62536 min_free 0
-    largest_free_block 44 alloc_blocks 822 free_blocks 7 total_blocks 829
-  At 0x3ffe0440 len 129984 free 27180 allocated 100344 min_free 13248
-    largest_free_block 12500 alloc_blocks 566 free_blocks 41 total_blocks 607
+  At 0x3ffb6388 len 7288 free 0 allocated 7076 min_free 0
+    largest_free_block 0 alloc_blocks 45 free_blocks 0 total_blocks 45
+  At 0x3ffb9a20 len 16648 free 468 allocated 15716 min_free 0
+    largest_free_block 364 alloc_blocks 105 free_blocks 3 total_blocks 108
+  At 0x3ffcfe40 len 65984 free 36 allocated 62612 min_free 0
+    largest_free_block 16 alloc_blocks 822 free_blocks 4 total_blocks 826
+  At 0x3ffe0440 len 129984 free 27084 allocated 100384 min_free 14012
+    largest_free_block 13596 alloc_blocks 585 free_blocks 36 total_blocks 621
   Totals:
-    free 27320 allocated 209396 min_free 13248 largest_free_block 12500
-
+    free 27588 allocated 209176 min_free 14012 largest_free_block 13596
