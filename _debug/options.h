@@ -98,9 +98,6 @@ extern "C" {
 #undef  WOLFSSL_SHA224
 #define WOLFSSL_SHA224
 
-#undef  WOLFSSL_SHA512
-#define WOLFSSL_SHA512
-
 #undef  WOLFSSL_SHA384
 #define WOLFSSL_SHA384
 

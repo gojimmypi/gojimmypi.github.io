@@ -13,7 +13,6 @@
    * SHA:                        yes
    * SHA-224:                    yes
    * SHA-384:                    yes
-   * SHA-512:                    yes
    * CMAC:                       yes
    * Hash DRBG:                  yes
    * PWDBASED:                   yes

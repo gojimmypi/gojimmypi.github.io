@@ -290,7 +290,7 @@ Configuration summary for wolfssl version 5.5.0
    * SHA:                        yes
    * SHA-224:                    yes
    * SHA-384:                    yes
-   * SHA-512:                    yes
+   * SHA-512:                    no
    * SHA3:                       no
    * SHAKE256:                   no
    * BLAKE2:                     no
