@@ -1,0 +1,443 @@
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking whether gcc understands -c and -o together... yes
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking target system type... x86_64-pc-linux-gnu
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports the include directive... yes (GNU style)
+checking whether make supports nested variables... yes
+checking whether UID '1000' is supported by ustar format... yes
+checking whether GID '1000' is supported by ustar format... yes
+checking how to create a ustar tar archive... gnutar
+checking dependency style of gcc... none
+checking whether make supports nested variables... (cached) yes
+checking how to print strings... printf
+checking for a sed that does not truncate output... /usr/bin/sed
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for fgrep... /usr/bin/grep -F
+checking for ld used by gcc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+checking the name lister (/usr/bin/nm -B) interface... BSD nm
+checking whether ln -s works... yes
+checking the maximum length of command line arguments... 1572864
+checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format... func_convert_file_noop
+checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
+checking for /usr/bin/ld option to reload object files... -r
+checking for objdump... objdump
+checking how to recognize dependent libraries... pass_all
+checking for dlltool... no
+checking how to associate runtime and link libraries... printf %s\n
+checking for ar... ar
+checking for archiver @FILE support... @
+checking for strip... strip
+checking for ranlib... ranlib
+checking command to parse /usr/bin/nm -B output from gcc object... ok
+checking for sysroot... no
+checking for a working dd... /usr/bin/dd
+checking how to truncate binary pipes... /usr/bin/dd bs=4096 count=1
+checking for mt... mt
+checking if mt is a manifest tool... no
+checking how to run the C preprocessor... gcc -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if gcc supports -fno-rtti -fno-exceptions... no
+checking for gcc option to produce PIC... -fPIC -DPIC
+checking if gcc PIC flag -fPIC -DPIC works... yes
+checking if gcc static flag -static works... yes
+checking if gcc supports -c -o file.o... yes
+checking if gcc supports -c -o file.o... (cached) yes
+checking whether the gcc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+checking whether the -Werror option is usable... yes
+checking for simple visibility declarations... yes
+checking size of long long... 8
+checking size of long... 8
+checking size of time_t... 8
+checking for __uint128_t... yes
+checking arpa/inet.h usability... yes
+checking arpa/inet.h presence... yes
+checking for arpa/inet.h... yes
+checking fcntl.h usability... yes
+checking fcntl.h presence... yes
+checking for fcntl.h... yes
+checking limits.h usability... yes
+checking limits.h presence... yes
+checking for limits.h... yes
+checking netdb.h usability... yes
+checking netdb.h presence... yes
+checking for netdb.h... yes
+checking netinet/in.h usability... yes
+checking netinet/in.h presence... yes
+checking for netinet/in.h... yes
+checking stddef.h usability... yes
+checking stddef.h presence... yes
+checking for stddef.h... yes
+checking time.h usability... yes
+checking time.h presence... yes
+checking for time.h... yes
+checking sys/ioctl.h usability... yes
+checking sys/ioctl.h presence... yes
+checking for sys/ioctl.h... yes
+checking sys/socket.h usability... yes
+checking sys/socket.h presence... yes
+checking for sys/socket.h... yes
+checking sys/time.h usability... yes
+checking sys/time.h presence... yes
+checking for sys/time.h... yes
+checking errno.h usability... yes
+checking errno.h presence... yes
+checking for errno.h... yes
+checking sys/un.h usability... yes
+checking sys/un.h presence... yes
+checking for sys/un.h... yes
+checking for socket in -lnetwork... no
+checking whether byte ordering is bigendian... no
+checking for gethostbyname... yes
+checking for getaddrinfo... yes
+checking for gettimeofday... yes
+checking for gmtime_r... yes
+checking for gmtime_s... no
+checking for inet_ntoa... yes
+checking for memset... yes
+checking for socket... yes
+checking for strftime... yes
+checking for atexit... yes
+checking whether gethostbyname is declared... yes
+checking whether getaddrinfo is declared... yes
+checking whether gettimeofday is declared... yes
+checking whether gmtime_r is declared... yes
+checking whether gmtime_s is declared... no
+checking whether inet_ntoa is declared... yes
+checking whether memset is declared... yes
+checking whether socket is declared... yes
+checking whether strftime is declared... yes
+checking for size_t... yes
+checking for uint8_t... yes
+checking for uintptr_t... yes
+checking dependency style of gcc... none
+checking for thread local storage (TLS) class... _Thread_local
+checking for debug... no
+checking whether gcc is Clang... no
+checking whether pthreads work with "-pthread" and "-lpthread"... yes
+checking for joinable pthread attribute... PTHREAD_CREATE_JOINABLE
+checking whether more special flags are required for pthreads... no
+checking for PTHREAD_PRIO_INHERIT... yes
+checking for posix_memalign... yes
+checking whether posix_memalign is declared... yes
+checking for pthread_attr_setstack... yes
+checking whether pthread_attr_setstack is declared... yes
+checking for fast RSA... no
+checking for library containing gethostbyname... none required
+checking for library containing socket... none required
+checking for vcs system... git
+checking for vcs checkout... yes
+checking whether the linker accepts -Werror... yes
+checking whether the linker accepts -z relro -z now... yes
+checking whether the linker accepts -pie... yes
+checking whether C compiler accepts -Werror... yes
+checking whether C compiler accepts -Wno-pragmas... yes
+checking whether C compiler accepts -Wall... yes
+checking whether C compiler accepts -Wextra... yes
+checking whether C compiler accepts -Wunknown-pragmas... yes
+checking whether C compiler accepts -Wthis-test-should-fail... no
+checking whether C compiler accepts --param=ssp-buffer-size=1... yes
+checking whether C compiler accepts -Waddress... yes
+checking whether C compiler accepts -Warray-bounds... yes
+checking whether C compiler accepts -Wbad-function-cast... yes
+checking whether C compiler accepts -Wchar-subscripts... yes
+checking whether C compiler accepts -Wcomment... yes
+checking whether C compiler accepts -Wfloat-equal... yes
+checking whether C compiler accepts -Wformat-security... yes
+checking whether C compiler accepts -Wformat=2... yes
+checking whether C compiler accepts -Wmaybe-uninitialized... yes
+checking whether C compiler accepts -Wmissing-field-initializers... yes
+checking whether C compiler accepts -Wmissing-noreturn... yes
+checking whether C compiler accepts -Wmissing-prototypes... yes
+checking whether C compiler accepts -Wnested-externs... yes
+checking whether C compiler accepts -Wnormalized=id... yes
+checking whether C compiler accepts -Woverride-init... yes
+checking whether C compiler accepts -Wpointer-arith... yes
+checking whether C compiler accepts -Wpointer-sign... yes
+checking whether C compiler accepts -Wredundant-decls... yes
+checking whether C compiler accepts -Wshadow... yes
+checking whether C compiler accepts -Wshorten-64-to-32... no
+checking whether C compiler accepts -Wsign-compare... yes
+checking whether C compiler accepts -Wstrict-overflow=1... yes
+checking whether C compiler accepts -Wstrict-prototypes... no
+checking whether C compiler accepts -Wswitch-enum... yes
+checking whether C compiler accepts -Wundef... yes
+checking whether C compiler accepts -Wunused... yes
+checking whether C compiler accepts -Wunused-result... yes
+checking whether C compiler accepts -Wunused-variable... yes
+checking whether C compiler accepts -Wwrite-strings... yes
+checking whether C compiler accepts -fwrapv... yes
+creating wolfssl-config - generic 5.5.0 for -lwolfssl -lpthread
+checking the number of available CPUs... 8
+configure: adding automake macro support
+configure: creating aminclude.am
+configure: added jobserver support to make for 9 jobs
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating stamp-h
+config.status: creating Makefile
+config.status: creating wolfssl/version.h
+config.status: creating wolfssl/options.h
+config.status: creating cyassl/options.h
+config.status: creating support/wolfssl.pc
+config.status: creating rpm/spec
+config.status: creating wolfcrypt/test/test_paths.h
+config.status: creating scripts/unit.test
+config.status: creating config.h
+config.status: config.h is unchanged
+config.status: executing depfiles commands
+config.status: executing libtool commands
+config.status: executing wolfssl/wolfcrypt/async.h commands
+config.status: executing wolfssl/wolfcrypt/fips.h commands
+config.status: executing wolfssl/wolfcrypt/port/cavium/cavium_nitrox.h commands
+config.status: executing wolfssl/wolfcrypt/port/intel/quickassist.h commands
+config.status: executing wolfssl/wolfcrypt/port/intel/quickassist_mem.h commands
+configure: ---
+configure: Running make clean...
+configure: ---
+configure: Generating user options header...
+---
+Configuration summary for wolfssl version 5.5.0
+
+   * Installation prefix:        /usr/local
+   * System type:                pc-linux-gnu
+   * Host CPU:                   x86_64
+   * C Compiler:                 gcc
+   * C Flags:                       -Werror -Wno-pragmas -Wall -Wextra -Wunknown-pragmas --param=ssp-buffer-size=1 -Waddress -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wundef -Wunused -Wunused-result -Wunused-variable -Wwrite-strings -fwrapv
+   * C++ Compiler:               
+   * C++ Flags:                  
+   * CPP Flags:                  
+   * CCAS Flags:                   
+   * LIB Flags:                   -pie -z relro -z now -Werror 
+   * Debug enabled:              no
+   * Coverage enabled:           
+   * Warnings as failure:        yes
+   * make -j:                    9
+   * VCS checkout:               yes
+
+   Features 
+   * FIPS:                       no
+   * Single threaded:            no
+   * Filesystem:                 no
+   * OpenSSH Build:              no
+   * OpenSSL Extra API:          yes
+   * OpenSSL Coexist:            no
+   * Old Names:                  yes
+   * Max Strength Build:         no
+   * Distro Build:               no
+   * Reproducible Build:         no
+   * Side-channel Hardening:     yes
+   * Single Precision Math:      no
+   * SP implementation:          all
+   * Fast Math:                  no
+   * Heap Math:                  no
+   * Assembly Allowed:           yes
+   * sniffer:                    no
+   * snifftest:                  no
+   * ARC4:                       no
+   * AES:                        yes
+   * AES-NI:                     no
+   * AES-CBC:                    yes
+   * AES-CBC length checks:      no
+   * AES-GCM:                    yes
+   * AES-GCM streaming:          no
+   * AES-CCM:                    no
+   * AES-CTR:                    no
+   * AES-CFB:                    no
+   * AES-OFB:                    no
+   * AES-SIV:                    no
+   * DES3:                       yes
+   * Camellia:                   no
+   * NULL Cipher:                no
+   * MD2:                        no
+   * MD4:                        yes
+   * MD5:                        yes
+   * RIPEMD:                     no
+   * SHA:                        yes
+   * SHA-224:                    yes
+   * SHA-384:                    yes
+   * SHA-512:                    yes
+   * SHA3:                       yes
+   * SHAKE256:                   no
+   * BLAKE2:                     no
+   * BLAKE2S:                    no
+   * SipHash:                    no
+   * CMAC:                       yes
+   * keygen:                     no
+   * certgen:                    no
+   * certreq:                    no
+   * certext:                    no
+   * certgencache:               no
+   * CHACHA:                     no
+   * XCHACHA:                    no
+   * Hash DRBG:                  yes
+   * PWDBASED:                   yes
+   * scrypt:                     no
+   * wolfCrypt Only:             no
+   * HKDF:                       no
+   * X9.63 KDF:                  no
+   * MD4:                        yes
+   * PSK:                        no
+   * Poly1305:                   yes
+   * LEANPSK:                    no
+   * LEANTLS:                    no
+   * RSA:                        yes
+   * RSA-PSS:                    no
+   * DSA:                        no
+   * DH:                         no
+   * DH Default Parameters:      yes
+   * ECC:                        yes
+   * ECC Custom Curves:          no
+   * ECC Minimum Bits:           224
+   * CURVE25519:                 no
+   * ED25519:                    no
+   * ED25519 streaming:          no
+   * CURVE448:                   no
+   * ED448:                      no
+   * ED448 streaming:            no
+   * FPECC:                      no
+   * ECC_ENCRYPT:                no
+   * ECCSI                       no
+   * SAKKE                       no
+   * ASN:                        yes
+   * Anonymous cipher:           no
+   * CODING:                     yes
+   * MEMORY:                     yes
+   * I/O POOL:                   no
+   * wolfSentry:                 no
+   * LIGHTY:                     no
+   * WPA Supplicant:             small
+   * HAPROXY:                    no
+   * STUNNEL:                    no
+   * tcpdump:                    no
+   * libssh2:                    no
+   * ntp:                        no
+   * rsyslog:                    no
+   * Apache httpd:               no
+   * NGINX:                      no
+   * OpenResty:                  no
+   * ASIO:                       no
+   * LIBWEBSOCKETS:              no
+   * Qt:                         no
+   * Qt Unit Testing:            no
+   * SIGNAL:                     no
+   * chrony:                     no
+   * strongSwan:                 no
+   * OpenLDAP:                   no
+   * ERROR_STRINGS:              yes
+   * DTLS:                       no
+   * DTLS v1.3:                  no
+   * SCTP:                       no
+   * SRTP:                       no
+   * Indefinite Length:          no
+   * Multicast:                  no
+   * SSL v3.0 (Old):             no
+   * TLS v1.0 (Old):             no
+   * TLS v1.1 (Old):             no
+   * TLS v1.2:                   yes
+   * TLS v1.3:                   no
+   * Post-handshake Auth:        no
+   * Early Data:                 no
+   * QUIC:                       no
+   * Send State in HRR Cookie:   no
+   * OCSP:                       no
+   * OCSP Stapling:              no
+   * OCSP Stapling v2:           no
+   * CRL:                        yes
+   * CRL-MONITOR:                no
+   * Persistent session cache:   no
+   * Persistent cert    cache:   no
+   * Atomic User Record Layer:   no
+   * Public Key Callbacks:       no
+   * liboqs:                     no
+   * Whitewood netRandom:        no
+   * Server Name Indication:     no
+   * ALPN:                       no
+   * Maximum Fragment Length:    no
+   * Trusted CA Indication:      no
+   * Truncated HMAC:             no
+   * Supported Elliptic Curves:  yes
+   * FFDHE only in client:       no
+   * Session Ticket:             no
+   * Extended Master Secret:     yes
+   * Renegotiation Indication:   no
+   * Secure Renegotiation:       no
+   * Fallback SCSV:              no
+   * Keying Material Exporter:   no
+   * All TLS Extensions:         no
+   * PKCS#7:                     no
+   * S/MIME:                     no
+   * wolfSSH:                    no
+   * wolfEngine:                 no
+   * wolfTPM:                    no
+   * wolfCLU:                    no
+   * wolfSCEP:                   no
+   * Secure Remote Password:     no
+   * Small Stack:                no
+   * Linux Kernel Module:        no
+   * valgrind unit tests:        no
+   * LIBZ:                       no
+   * Examples:                   no
+   * Crypt tests:                yes
+   * Stack sizes in tests:       yes
+   * Heap stats in tests:        yes
+   * User Crypto:                no
+   * Fast RSA:                   no
+   * Async Crypto:               no
+   * PKCS#8:                     yes
+   * PKCS#11:                    no
+   * PKCS#12:                    yes
+   * Cavium Nitrox:              no
+   * Cavium Octeon (Sync):       no
+   * Intel Quick Assist:         no
+   * ARM ASM:                    no
+   * ARM ASM SHA512/SHA3 Crypto  no
+   * AES Key Wrap:               yes
+   * Write duplicate:            no
+   * Xilinx Hardware Acc.:       no
+   * Inline Code:                yes
+   * Linux AF_ALG:               no
+   * Linux KCAPI:                no
+   * Linux devcrypto:            no
+   * Crypto callbacks:           no
+   * i.MX CAAM:                  no
+   * IoT-Safe:                   no
+   * IoT-Safe HWRNG:             no
+   * NXP SE050:                  no
+   * PSA:                        no
+
+---

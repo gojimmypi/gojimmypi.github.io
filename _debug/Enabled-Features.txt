@@ -1,0 +1,40 @@
+   * Warnings as failure:        yes
+   * VCS checkout:               yes
+   * OpenSSL Extra API:          yes
+   * Old Names:                  yes
+   * Side-channel Hardening:     yes
+   * Assembly Allowed:           yes
+   * AES:                        yes
+   * AES-CBC:                    yes
+   * AES-GCM:                    yes
+   * DES3:                       yes
+   * MD4:                        yes
+   * MD5:                        yes
+   * SHA:                        yes
+   * SHA-224:                    yes
+   * SHA-384:                    yes
+   * SHA-512:                    yes
+   * SHA3:                       yes
+   * CMAC:                       yes
+   * Hash DRBG:                  yes
+   * PWDBASED:                   yes
+   * MD4:                        yes
+   * Poly1305:                   yes
+   * RSA:                        yes
+   * DH Default Parameters:      yes
+   * ECC:                        yes
+   * ASN:                        yes
+   * CODING:                     yes
+   * MEMORY:                     yes
+   * ERROR_STRINGS:              yes
+   * TLS v1.2:                   yes
+   * CRL:                        yes
+   * Supported Elliptic Curves:  yes
+   * Extended Master Secret:     yes
+   * Crypt tests:                yes
+   * Stack sizes in tests:       yes
+   * Heap stats in tests:        yes
+   * PKCS#8:                     yes
+   * PKCS#12:                    yes
+   * AES Key Wrap:               yes
+   * Inline Code:                yes
