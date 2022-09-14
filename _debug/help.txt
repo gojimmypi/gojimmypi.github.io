@@ -395,7 +395,7 @@ Optional Features:
   --enable-enckeys        Enable PEM encrypted private key support (default:
                           disabled)
   --enable-pkcs12         Enable pkcs12 (default: enabled)
-  --enable-pwdbased       Enable PWDBASED (default: disabled)
+  --enable-pwdbased       Enable PWDBASED (default: disabled) (actually not)
   --enable-scrypt         Enable SCRYPT (default: disabled)
   --enable-examples       Enable Examples (default: enabled)
   --enable-crypttests     Enable Crypt Bench/Test (default: enabled)
