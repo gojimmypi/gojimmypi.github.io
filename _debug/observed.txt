@@ -1,0 +1,19 @@
+Heap summary for capabilities 0x00001000:
+  At 0x3ffb2730 len 15448 free 0 allocated 15256 min_free 0
+    largest_free_block 0 alloc_blocks 40 free_blocks 0 total_blocks 40
+  At 0x3ff80064 len 8092 free 0 allocated 7916 min_free 0
+    largest_free_block 0 alloc_blocks 36 free_blocks 0 total_blocks 36
+D (366961) MQTT_CLIENT: Sent PING successful
+D (366961) MQTT_CLIENT: PING sent
+  At 0x3ffaff10 len 240 free 0 allocated 184 min_free 0
+    largest_free_block 0 alloc_blocks 6 free_blocks 0 total_blocks 6
+  At 0x3ffb6388 len 7288 free 0 allocated 7060 min_free 0
+    largest_free_block 0 alloc_blocks 49 free_blocks 0 total_blocks 49
+  At 0x3ffb9a20 len 16648 free 56 allocated 16164 min_free 0
+    largest_free_block 32 alloc_blocks 94 free_blocks 5 total_blocks 99
+  At 0x3ffcfec0 len 65856 free 120 allocated 62292 min_free 0
+    largest_free_block 32 alloc_blocks 844 free_blocks 9 total_blocks 853
+  At 0x3ffe0440 len 129984 free 25528 allocated 101964 min_free 13452
+    largest_free_block 12664 alloc_blocks 570 free_blocks 45 total_blocks 615
+  Totals:
+    free 25704 allocated 210836 min_free 13452 largest_free_block 12664
