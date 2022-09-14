@@ -7,11 +7,12 @@ Heap summary for capabilities 0x00001000:
     largest_free_block 0 alloc_blocks 6 free_blocks 0 total_blocks 6
   At 0x3ffb6388 len 7288 free 0 allocated 7064 min_free 0
     largest_free_block 0 alloc_blocks 48 free_blocks 0 total_blocks 48
-  At 0x3ffb9a20 len 16648 free 0 allocated 16296 min_free 0
-    largest_free_block 0 alloc_blocks 80 free_blocks 0 total_blocks 80
-  At 0x3ffcfe40 len 65984 free 48 allocated 62540 min_free 0
-    largest_free_block 12 alloc_blocks 834 free_blocks 7 total_blocks 841
-  At 0x3ffe0440 len 129984 free 37816 allocated 90008 min_free 24368
-    largest_free_block 24020 alloc_blocks 501 free_blocks 31 total_blocks 532
+  At 0x3ffb9a20 len 16648 free 40 allocated 16100 min_free 0
+    largest_free_block 12 alloc_blocks 113 free_blocks 6 total_blocks 119
+  At 0x3ffcfe40 len 65984 free 100 allocated 62536 min_free 0
+    largest_free_block 44 alloc_blocks 822 free_blocks 7 total_blocks 829
+  At 0x3ffe0440 len 129984 free 27180 allocated 100344 min_free 13248
+    largest_free_block 12500 alloc_blocks 566 free_blocks 41 total_blocks 607
   Totals:
-    free 37864 allocated 199260 min_free 24368 largest_free_block 24020
+    free 27320 allocated 209396 min_free 13248 largest_free_block 12500
+

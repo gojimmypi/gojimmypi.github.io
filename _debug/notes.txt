@@ -1,1 +1,3 @@
 --disable-crl doesn't
+
+--enable-supportedcurves is required for TLS 1.2
