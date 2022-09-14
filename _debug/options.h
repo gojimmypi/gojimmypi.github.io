@@ -137,9 +137,6 @@ extern "C" {
 #undef  WOLFSSL_AES_DIRECT
 #define WOLFSSL_AES_DIRECT
 
-#undef  WOLFSSL_SHA3
-#define WOLFSSL_SHA3
-
 #undef  WOLFSSL_NO_SHAKE256
 #define WOLFSSL_NO_SHAKE256
 
