@@ -19,7 +19,6 @@
    * Hash DRBG:                  yes
    * PWDBASED:                   yes
    * MD4:                        yes
-   * Poly1305:                   yes
    * RSA:                        yes
    * DH Default Parameters:      yes
    * ECC:                        yes

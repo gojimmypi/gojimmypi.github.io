@@ -143,9 +143,6 @@ extern "C" {
 #undef  WOLFSSL_NO_SHAKE256
 #define WOLFSSL_NO_SHAKE256
 
-#undef  HAVE_POLY1305
-#define HAVE_POLY1305
-
 #undef  HAVE_HASHDRBG
 #define HAVE_HASHDRBG
 

@@ -312,7 +312,7 @@ Configuration summary for wolfssl version 5.5.0
    * X9.63 KDF:                  no
    * MD4:                        yes
    * PSK:                        no
-   * Poly1305:                   yes
+   * Poly1305:                   no
    * LEANPSK:                    no
    * LEANTLS:                    no
    * RSA:                        yes

@@ -43,6 +43,7 @@
    * HKDF:                       no
    * X9.63 KDF:                  no
    * PSK:                        no
+   * Poly1305:                   no
    * LEANPSK:                    no
    * LEANTLS:                    no
    * RSA-PSS:                    no
