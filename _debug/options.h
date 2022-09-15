@@ -98,6 +98,9 @@ extern "C" {
 #undef  OPENSSL_EXTRA
 #define OPENSSL_EXTRA
 
+#undef  NO_AES_CBC
+#define NO_AES_CBC
+
 #undef  WOLFSSL_USE_ALIGN
 #define WOLFSSL_USE_ALIGN
 

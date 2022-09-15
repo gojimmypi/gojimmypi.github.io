@@ -4,7 +4,6 @@
    * Old Names:                  yes
    * Side-channel Hardening:     yes
    * AES:                        yes
-   * AES-CBC:                    yes
    * AES-GCM:                    yes
    * DES3:                       yes
    * MD4:                        yes

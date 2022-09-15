@@ -12,6 +12,8 @@
   --enable-sha                  # SHA required for TLS1.2 connect, beware of side-effect enable (e.g. old TLS)
   --enable-sp-math              # no change to options.h with this
   --enable-supportedcurves      # required for TLS 1.2
+  --enable-aesgcm               # AES-GCM support (default: enabled)
+
   ##
   ## disabled features:
   ##
@@ -20,13 +22,15 @@
   --disable-crypttests-libs     # no change in options.h for this
   --disable-dh
   --disable-filesystem
-  --disable-dependency-tracking
+  --disable-dependency-tracking #
   --disable-tls13
   --disable-dtls
   --disable-oldtls
   --disable-chacha
   --disable-rsapub
-  --disable-md4                 # !! this does not actually disable MD4 !!
+  --disable-aescbc              # CBC isn't as parallelizable and lacks built-in authentication. Due to this, CBC is only really practical for encrypting local files that don't need random access. (security.stackexchange 184305)
+  --disable-aesgcm-stream       # AES-GCM support with streaming APIs (default: disabled)
+  --disable-md4                 # !! this does not actually disable MD4 !! use NO_MD4
   --disable-poly1305
   --disable-pwdbased
   --disable-sp-math-all         # no change to options.h with this
@@ -36,11 +40,11 @@
   --disable-sha224
   --disable-sha512
   --disable-sha384
-  --disable-oldtls               # disable old TLS versions < 1.2 (default: enabled)
-  --disable-tlsv10               # disabled above, her e for clarity only
+  --disable-oldtls              # disable old TLS versions < 1.2 (default: enabled)
+  --disable-tlsv10              # disabled above, her e for clarity only
   --disable-sslv3
   ##
   ## Debugging
   ##
-  --disable-trackmemory          # memory heap stats: WOLFSSL_TRACK_MEMORY (not active unless defined)
-  --disable-memtest              # memory testing: WOLFSSL_DEBUG_MEMORY    (not active unless defined)
+  --disable-trackmemory         # memory heap stats: WOLFSSL_TRACK_MEMORY (not active unless defined)
+  --disable-memtest             # memory testing: WOLFSSL_DEBUG_MEMORY    (not active unless defined)

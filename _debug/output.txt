@@ -271,7 +271,7 @@ Configuration summary for wolfssl version 5.5.0
    * ARC4:                       no
    * AES:                        yes
    * AES-NI:                     no
-   * AES-CBC:                    yes
+   * AES-CBC:                    no
    * AES-CBC length checks:      no
    * AES-GCM:                    yes
    * AES-GCM streaming:          no

@@ -18,6 +18,7 @@
    * snifftest:                  no
    * ARC4:                       no
    * AES-NI:                     no
+   * AES-CBC:                    no
    * AES-CBC length checks:      no
    * AES-GCM streaming:          no
    * AES-CCM:                    no
