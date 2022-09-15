@@ -287,7 +287,7 @@ Configuration summary for wolfssl version 5.5.0
    * MD4:                        yes
    * MD5:                        yes
    * RIPEMD:                     no
-   * SHA:                        no
+   * SHA:                        yes
    * SHA-224:                    no
    * SHA-384:                    no
    * SHA-512:                    no
