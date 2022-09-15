@@ -113,9 +113,6 @@ extern "C" {
 #undef  TFM_ECC256
 #define TFM_ECC256
 
-#undef  ECC_SHAMIR
-#define ECC_SHAMIR
-
 #undef  NO_OLD_TLS
 #define NO_OLD_TLS
 

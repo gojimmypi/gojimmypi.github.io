@@ -13,6 +13,7 @@
   --enable-sp-math              # no change to options.h with this
   --enable-supportedcurves      # required for TLS 1.2
   --enable-aesgcm               # AES-GCM support (default: enabled)
+  --enable-eccshamir            # enabled by default
 
   ##
   ## disabled features:
