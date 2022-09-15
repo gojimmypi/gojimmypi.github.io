@@ -135,6 +135,7 @@
    * valgrind unit tests:        no
    * LIBZ:                       no
    * Examples:                   no
+   * Crypt tests:                no
    * User Crypto:                no
    * Fast RSA:                   no
    * Async Crypto:               no

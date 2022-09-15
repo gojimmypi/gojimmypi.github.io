@@ -25,7 +25,6 @@
    * CRL:                        yes
    * Supported Elliptic Curves:  yes
    * Extended Master Secret:     yes
-   * Crypt tests:                yes
    * Stack sizes in tests:       yes
    * Heap stats in tests:        yes
    * PKCS#8:                     yes

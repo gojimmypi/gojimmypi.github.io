@@ -412,7 +412,7 @@ Configuration summary for wolfssl version 5.5.0
    * valgrind unit tests:        no
    * LIBZ:                       no
    * Examples:                   no
-   * Crypt tests:                yes
+   * Crypt tests:                no
    * Stack sizes in tests:       yes
    * Heap stats in tests:        yes
    * User Crypto:                no

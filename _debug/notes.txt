@@ -1,3 +1,8 @@
 --disable-crl doesn't
 
 --enable-supportedcurves is required for TLS 1.2
+
+no change in options.h for these:
+  --disable-crypttests
+  --disable-crypttests-libs
+

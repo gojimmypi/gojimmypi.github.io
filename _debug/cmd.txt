@@ -5,6 +5,8 @@
   --enable-rsa
   --enable-memtest
   --enable-supportedcurves
+  --disable-crypttests
+  --disable-crypttests-libs
   --disable-dh
   --disable-filesystem
   --disable-dependency-tracking
