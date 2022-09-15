@@ -3,7 +3,6 @@
    * OpenSSL Extra API:          yes
    * Old Names:                  yes
    * Side-channel Hardening:     yes
-   * Assembly Allowed:           yes
    * AES:                        yes
    * AES-CBC:                    yes
    * AES-GCM:                    yes

@@ -5,6 +5,7 @@
   --enable-rsa
   --enable-memtest
   --enable-supportedcurves
+  --disable-asm
   --disable-crypttests
   --disable-crypttests-libs
   --disable-dh

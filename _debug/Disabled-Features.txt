@@ -12,6 +12,7 @@
    * Single Precision Math:      no
    * Fast Math:                  no
    * Heap Math:                  no
+   * Assembly Allowed:           no
    * sniffer:                    no
    * snifftest:                  no
    * ARC4:                       no

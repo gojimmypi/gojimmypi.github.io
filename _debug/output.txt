@@ -265,7 +265,7 @@ Configuration summary for wolfssl version 5.5.0
    * SP implementation:          all
    * Fast Math:                  no
    * Heap Math:                  no
-   * Assembly Allowed:           yes
+   * Assembly Allowed:           no
    * sniffer:                    no
    * snifftest:                  no
    * ARC4:                       no
