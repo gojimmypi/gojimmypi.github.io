@@ -1,10 +1,20 @@
+# command script for refresh.sh
+#
+# comments must be removed in calling script (e.g. cut -d'#' -f1)
+#
 ./configure
-  --enable-trackmemory
+  ##
+  ## enabled features:
+  ##
+  --enable-trackmemory            # this is a comment
   --enable-stacksize
   --enable-wpas=small
   --enable-rsa
   --enable-memtest
   --enable-supportedcurves
+  ##
+  ## disabled features:
+  ##
   --disable-asm
   --disable-crypttests
   --disable-crypttests-libs
