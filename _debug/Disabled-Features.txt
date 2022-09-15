@@ -5,6 +5,7 @@
    * Single threaded:            no
    * Filesystem:                 no
    * OpenSSH Build:              no
+   * OpenSSL Extra API:          no
    * OpenSSL Coexist:            no
    * Max Strength Build:         no
    * Distro Build:               no
@@ -26,9 +27,11 @@
    * AES-CFB:                    no
    * AES-OFB:                    no
    * AES-SIV:                    no
+   * DES3:                       no
    * Camellia:                   no
    * NULL Cipher:                no
    * MD2:                        no
+   * MD4:                        no
    * RIPEMD:                     no
    * SHA-224:                    no
    * SHA-384:                    no
@@ -38,6 +41,7 @@
    * BLAKE2:                     no
    * BLAKE2S:                    no
    * SipHash:                    no
+   * CMAC:                       no
    * keygen:                     no
    * certgen:                    no
    * certreq:                    no
@@ -49,6 +53,7 @@
    * wolfCrypt Only:             no
    * HKDF:                       no
    * X9.63 KDF:                  no
+   * MD4:                        no
    * PSK:                        no
    * Poly1305:                   no
    * LEANPSK:                    no
@@ -71,6 +76,7 @@
    * I/O POOL:                   no
    * wolfSentry:                 no
    * LIGHTY:                     no
+   * WPA Supplicant:             no
    * HAPROXY:                    no
    * STUNNEL:                    no
    * tcpdump:                    no
@@ -105,6 +111,7 @@
    * OCSP:                       no
    * OCSP Stapling:              no
    * OCSP Stapling v2:           no
+   * CRL:                        no
    * CRL-MONITOR:                no
    * Persistent session cache:   no
    * Persistent cert    cache:   no
@@ -148,6 +155,7 @@
    * Intel Quick Assist:         no
    * ARM ASM:                    no
    * ARM ASM SHA512/SHA3 Crypto  no
+   * AES Key Wrap:               no
    * Write duplicate:            no
    * Xilinx Hardware Acc.:       no
    * Linux AF_ALG:               no

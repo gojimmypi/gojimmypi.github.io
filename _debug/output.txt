@@ -254,7 +254,7 @@ Configuration summary for wolfssl version 5.5.0
    * Single threaded:            no
    * Filesystem:                 no
    * OpenSSH Build:              no
-   * OpenSSL Extra API:          yes
+   * OpenSSL Extra API:          no
    * OpenSSL Coexist:            no
    * Old Names:                  yes
    * Max Strength Build:         no
@@ -280,11 +280,11 @@ Configuration summary for wolfssl version 5.5.0
    * AES-CFB:                    no
    * AES-OFB:                    no
    * AES-SIV:                    no
-   * DES3:                       yes
+   * DES3:                       no
    * Camellia:                   no
    * NULL Cipher:                no
    * MD2:                        no
-   * MD4:                        yes
+   * MD4:                        no
    * MD5:                        yes
    * RIPEMD:                     no
    * SHA:                        yes
@@ -296,7 +296,7 @@ Configuration summary for wolfssl version 5.5.0
    * BLAKE2:                     no
    * BLAKE2S:                    no
    * SipHash:                    no
-   * CMAC:                       yes
+   * CMAC:                       no
    * keygen:                     no
    * certgen:                    no
    * certreq:                    no
@@ -310,7 +310,7 @@ Configuration summary for wolfssl version 5.5.0
    * wolfCrypt Only:             no
    * HKDF:                       no
    * X9.63 KDF:                  no
-   * MD4:                        yes
+   * MD4:                        no
    * PSK:                        no
    * Poly1305:                   no
    * LEANPSK:                    no
@@ -340,7 +340,7 @@ Configuration summary for wolfssl version 5.5.0
    * I/O POOL:                   no
    * wolfSentry:                 no
    * LIGHTY:                     no
-   * WPA Supplicant:             small
+   * WPA Supplicant:             no
    * HAPROXY:                    no
    * STUNNEL:                    no
    * tcpdump:                    no
@@ -377,7 +377,7 @@ Configuration summary for wolfssl version 5.5.0
    * OCSP:                       no
    * OCSP Stapling:              no
    * OCSP Stapling v2:           no
-   * CRL:                        yes
+   * CRL:                        no
    * CRL-MONITOR:                no
    * Persistent session cache:   no
    * Persistent cert    cache:   no
@@ -426,7 +426,7 @@ Configuration summary for wolfssl version 5.5.0
    * Intel Quick Assist:         no
    * ARM ASM:                    no
    * ARM ASM SHA512/SHA3 Crypto  no
-   * AES Key Wrap:               yes
+   * AES Key Wrap:               no
    * Write duplicate:            no
    * Xilinx Hardware Acc.:       no
    * Inline Code:                yes
