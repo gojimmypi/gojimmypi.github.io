@@ -6,5 +6,5 @@ no change in options.h for these:
   --disable-crypttests
   --disable-crypttests-libs
 
-no output.h change for (default is disabled)
+no output.h change for md4 (default is disabled) but still reported as * MD4: yes
     --disable-md4
