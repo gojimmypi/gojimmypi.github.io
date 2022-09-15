@@ -10,6 +10,7 @@
    * Distro Build:               no
    * Reproducible Build:         no
    * Single Precision Math:      no
+   * SP implementation:          no
    * Fast Math:                  no
    * Heap Math:                  no
    * Assembly Allowed:           no

@@ -6,11 +6,12 @@
   ##
   ## enabled features:
   ##
-  --enable-trackmemory            # this is a comment
+  --enable-trackmemory          # this is a comment
   --enable-stacksize
   --enable-wpas=small
   --enable-rsa
   --enable-memtest
+  --enable-sp-math              # no change to options.h with this
   --enable-supportedcurves
   ##
   ## disabled features:
@@ -29,6 +30,7 @@
   --disable-md4
   --disable-poly1305
   --disable-pwdbased
+  --disable-sp-math-all         # no change to options.h with this
   --disable-crl
   --disable-sha3
   --disable-sha512

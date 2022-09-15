@@ -262,7 +262,7 @@ Configuration summary for wolfssl version 5.5.0
    * Reproducible Build:         no
    * Side-channel Hardening:     yes
    * Single Precision Math:      no
-   * SP implementation:          all
+   * SP implementation:          no
    * Fast Math:                  no
    * Heap Math:                  no
    * Assembly Allowed:           no
