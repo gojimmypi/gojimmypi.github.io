@@ -15,6 +15,7 @@
   --disable-oldtls
   --disable-chacha
   --disable-rsapub
+  --disable-md4
   --disable-poly1305
   --disable-pwdbased
   --disable-crl

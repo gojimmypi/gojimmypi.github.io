@@ -6,3 +6,5 @@ no change in options.h for these:
   --disable-crypttests
   --disable-crypttests-libs
 
+no output.h change for (default is disabled)
+    --disable-md4
