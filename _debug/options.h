@@ -119,9 +119,6 @@ extern "C" {
 #undef  HAVE_STACK_SIZE
 #define HAVE_STACK_SIZE
 
-#undef  WOLFSSL_TRACK_MEMORY
-#define WOLFSSL_TRACK_MEMORY
-
 #undef  NO_DH
 #define NO_DH
 

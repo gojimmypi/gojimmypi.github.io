@@ -25,7 +25,6 @@
    * Supported Elliptic Curves:  yes
    * Extended Master Secret:     yes
    * Stack sizes in tests:       yes
-   * Heap stats in tests:        yes
    * PKCS#8:                     yes
    * PKCS#12:                    yes
    * AES Key Wrap:               yes

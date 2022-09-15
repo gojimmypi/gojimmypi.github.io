@@ -414,7 +414,7 @@ Configuration summary for wolfssl version 5.5.0
    * Examples:                   no
    * Crypt tests:                no
    * Stack sizes in tests:       yes
-   * Heap stats in tests:        yes
+   * Heap stats in tests:        no
    * User Crypto:                no
    * Fast RSA:                   no
    * Async Crypto:               no
