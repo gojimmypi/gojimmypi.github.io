@@ -9,15 +9,14 @@
   --enable-stacksize
   --enable-wpas=small
   --enable-rsa
-  --enable-memtest
   --enable-sp-math              # no change to options.h with this
-  --enable-supportedcurves
+  --enable-supportedcurves      # required for TLS 1.2
   ##
   ## disabled features:
   ##
   --disable-asm
-  --disable-crypttests
-  --disable-crypttests-libs
+  --disable-crypttests          # no change in options.h for this
+  --disable-crypttests-libs     # no change in options.h for this
   --disable-dh
   --disable-filesystem
   --disable-dependency-tracking
@@ -26,7 +25,7 @@
   --disable-oldtls
   --disable-chacha
   --disable-rsapub
-  --disable-md4
+  --disable-md4                 # !! this does not actually disable MD4 !!
   --disable-poly1305
   --disable-pwdbased
   --disable-sp-math-all         # no change to options.h with this
@@ -40,4 +39,5 @@
   ##
   ## Debugging
   ##
-  --disable-trackmemory          # memory heap stats: WOLFSSL_TRACK_MEMORY
+  --disable-trackmemory          # memory heap stats: WOLFSSL_TRACK_MEMORY (not active unless defined)
+  --disable-memtest              # memory testing: WOLFSSL_DEBUG_MEMORY    (not active unless defined)
