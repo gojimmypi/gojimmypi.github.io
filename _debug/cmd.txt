@@ -1,1 +1,24 @@
-./configure --enable-trackmemory --enable-stacksize --enable-wpas=small --disable-dh --disable-filesystem --disable-dependency-tracking --disable-tls13 --disable-dtls --enable-rsa  --enable-memtest --disable-oldtls --disable-chacha --disable-rsapub --disable-poly1305 --disable-pwdbased --disable-crl --disable-sha3 --disable-sha512 --enable-supportedcurves --disable-sha --disable-sha224 --disable-sha512 --disable-sha384
+./configure
+  --enable-trackmemory
+  --enable-stacksize
+  --enable-wpas=small
+  --enable-rsa
+  --enable-memtest
+  --enable-supportedcurves
+  --disable-dh
+  --disable-filesystem
+  --disable-dependency-tracking
+  --disable-tls13
+  --disable-dtls
+  --disable-oldtls
+  --disable-chacha
+  --disable-rsapub
+  --disable-poly1305
+  --disable-pwdbased
+  --disable-crl
+  --disable-sha3
+  --disable-sha512
+  --disable-sha
+  --disable-sha224
+  --disable-sha512
+  --disable-sha384
