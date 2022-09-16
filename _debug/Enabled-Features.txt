@@ -14,6 +14,7 @@
    * ASN:                        yes
    * CODING:                     yes
    * MEMORY:                     yes
+   * ERROR_STRINGS:              yes
    * TLS v1.2:                   yes
    * Supported Elliptic Curves:  yes
    * Extended Master Secret:     yes

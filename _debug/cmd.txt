@@ -56,4 +56,4 @@
   ##
   --disable-trackmemory         # memory heap stats: WOLFSSL_TRACK_MEMORY (not active unless defined)
   --disable-memtest             # memory testing: WOLFSSL_DEBUG_MEMORY    (not active unless defined)
-  --disable-errorstrings
+  --enable-errorstrings         # relatively little benefit to RAM either way
