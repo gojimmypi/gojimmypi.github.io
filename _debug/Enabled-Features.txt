@@ -18,7 +18,6 @@
    * TLS v1.2:                   yes
    * Supported Elliptic Curves:  yes
    * Extended Master Secret:     yes
-   * Stack sizes in tests:       yes
    * PKCS#8:                     yes
    * PKCS#12:                    yes
    * Inline Code:                yes

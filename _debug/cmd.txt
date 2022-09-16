@@ -6,7 +6,6 @@
   ##
   ## enabled features:
   ##
-  --enable-stacksize
   --enable-rsa
   --enable-sha                  # SHA required for TLS1.2 connect, beware of side-effect enable (e.g. old TLS)
   --enable-sp-math              # no change to options.h with this
@@ -43,6 +42,8 @@
   --disable-oldtls              # disable old TLS versions < 1.2 (default: enabled)
   --disable-tlsv10              # disabled above, her e for clarity only
   --disable-sslv3
+
+  --disable-stacksize           # enable this for HAVE_STACK_SIZE; causes problem with test & benchmark types
 
   ##
   ## WPA

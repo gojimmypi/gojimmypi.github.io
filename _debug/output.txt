@@ -152,10 +152,6 @@ checking whether pthreads work with "-pthread" and "-lpthread"... yes
 checking for joinable pthread attribute... PTHREAD_CREATE_JOINABLE
 checking whether more special flags are required for pthreads... no
 checking for PTHREAD_PRIO_INHERIT... yes
-checking for posix_memalign... yes
-checking whether posix_memalign is declared... yes
-checking for pthread_attr_setstack... yes
-checking whether pthread_attr_setstack is declared... yes
 checking for fast RSA... no
 checking for library containing gethostbyname... none required
 checking for library containing socket... none required
@@ -413,7 +409,7 @@ Configuration summary for wolfssl version 5.5.0
    * LIBZ:                       no
    * Examples:                   no
    * Crypt tests:                no
-   * Stack sizes in tests:       yes
+   * Stack sizes in tests:       no
    * Heap stats in tests:        no
    * User Crypto:                no
    * Fast RSA:                   no
