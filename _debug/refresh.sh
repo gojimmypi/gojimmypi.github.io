@@ -1,13 +1,22 @@
 #!/bin/bash
 
+# the location of wolfSSL where the ./configure script should run
+WOLFSSL_REPO="/mnt/c/workspace/wolfssl"
+
+# the directory where output files go (a github repo is helpful for tracking changes)
+WOLFSSL_FILE_ROOT="/mnt/c/workspace/gojimmypi.github.io/_debug"
+
 # set a variable for the input command
-WOLFSSL_CMD_FILE="/mnt/c/workspace/gojimmypi.github.io/_debug/cmd.txt"
+WOLFSSL_CMD_FILE="$WOLFSSL_FILE_ROOT/cmd.txt"
 
 # setup some variables for output files
-WOLFSSL_OUTPUT="/mnt/c/workspace/gojimmypi.github.io/_debug/output.txt"
-WOLFSSL_OPTIONS="/mnt/c/workspace/gojimmypi.github.io/_debug/options.h"
-WOLFSSL_YES="/mnt/c/workspace/gojimmypi.github.io/_debug/Enabled-Features.txt"
-WOLFSSL_NO="/mnt/c/workspace/gojimmypi.github.io/_debug/Disabled-Features.txt"
+WOLFSSL_OUTPUT="$WOLFSSL_FILE_ROOT/output.txt"
+WOLFSSL_OPTIONS="$WOLFSSL_FILE_ROOT/options.h"
+WOLFSSL_YES="$WOLFSSL_FILE_ROOT/Enabled-Features.txt"
+WOLFSSL_NO="$WOLFSSL_FILE_ROOT/Disabled-Features.txt"
+
+
+cd "$WOLFSSL_REPO"
 
 # show the command text found
 echo "CMD File= $WOLFSSL_CMD_FILE"
