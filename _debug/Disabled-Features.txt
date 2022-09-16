@@ -94,6 +94,7 @@
    * chrony:                     no
    * strongSwan:                 no
    * OpenLDAP:                   no
+   * ERROR_STRINGS:              no
    * DTLS:                       no
    * DTLS v1.3:                  no
    * SCTP:                       no

@@ -59,6 +59,9 @@ extern "C" {
 #undef  ECC_SHAMIR
 #define ECC_SHAMIR
 
+#undef  NO_ERROR_STRINGS
+#define NO_ERROR_STRINGS
+
 #undef  NO_OLD_TLS
 #define NO_OLD_TLS
 
