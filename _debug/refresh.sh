@@ -28,7 +28,7 @@ echo "CMD = $WOLFSSL_CMD"
 echo ""
 
 # Execute the command:
-bash -c $WOLFSSL_CMD
+# bash -c $WOLFSSL_CMD
 $(echo $WOLFSSL_CMD)  | tee "$WOLFSSL_OUTPUT"
 
 # save the generated options.h
