@@ -56,7 +56,12 @@ WOLFSSL_YES="$WOLFSSL_FILE_ROOT/Enabled-Features.txt"
 WOLFSSL_NO="$WOLFSSL_FILE_ROOT/Disabled-Features.txt"
 ```
 
-Outer resources:
+#### Usage
+
+Run the [refresh.sh](./refresh.sh) script and observe output files.
+
+
+#### Other Resources
 
 Kaleb's [wolfSoFT - wolf Suite of Frameworks and Tools](https://github.com/kaleb-himes/wolfSoFT)
 
