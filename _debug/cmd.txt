@@ -16,6 +16,7 @@
   ##
   ## disabled features:
   ##
+  --disable-inline              # NO_INLINE, needs wolfcrypt/src/misc.c
   --disable-asm
   --disable-crypttests          # no change in options.h for this
   --disable-crypttests-libs     # no change in options.h for this

@@ -425,7 +425,7 @@ Configuration summary for wolfssl version 5.5.0
    * AES Key Wrap:               no
    * Write duplicate:            no
    * Xilinx Hardware Acc.:       no
-   * Inline Code:                yes
+   * Inline Code:                no
    * Linux AF_ALG:               no
    * Linux KCAPI:                no
    * Linux devcrypto:            no

@@ -80,6 +80,9 @@ extern "C" {
 #undef  NO_FILESYSTEM
 #define NO_FILESYSTEM
 
+#undef  NO_INLINE
+#define NO_INLINE
+
 #undef  HAVE_TLS_EXTENSIONS
 #define HAVE_TLS_EXTENSIONS
 

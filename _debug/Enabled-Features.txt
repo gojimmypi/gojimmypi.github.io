@@ -20,4 +20,3 @@
    * Extended Master Secret:     yes
    * PKCS#8:                     yes
    * PKCS#12:                    yes
-   * Inline Code:                yes

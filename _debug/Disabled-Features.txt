@@ -159,6 +159,7 @@
    * AES Key Wrap:               no
    * Write duplicate:            no
    * Xilinx Hardware Acc.:       no
+   * Inline Code:                no
    * Linux AF_ALG:               no
    * Linux KCAPI:                no
    * Linux devcrypto:            no
