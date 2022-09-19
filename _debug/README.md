@@ -27,21 +27,22 @@ See the variables in the [refresh.sh](./refresh.sh) script:
 
 #### `WOLFSSL_REPO` 
 
-This the location of wolfSSL where the `./configure script` should run and is typically the location of your wolfSSL `git clone`. 
+This the location of wolfSSL where the `./configure` script should run and is typically the location of your wolfSSL `git clone`. 
 For example in WSL for a clone in the `C:\workspace` directory, this value would be:
 
 `WOLFSSL_REPO="/mnt/c/workspace/wolfssl"`
 
 #### `WOLFSSL_FILE_ROOT`
 
-The directory where output files go (a github repo is helpful for tracking changes). For example:
+The directory where `./configure` console output will be saved in various files (a github repo is helpful for tracking changes). For example:
 
 `WOLFSSL_FILE_ROOT="/mnt/c/workspace/gojimmypi.github.io/_debug"`
 
 
 #### `WOLFSSL_CMD_FILE`
 
-This the `.configure` command to edit.
+This the `.configure` command to edit. This is typically the location of the [cmd.txt](./cmd.txt) file
+located in the same `WOLFSSL_FILE_ROOT` directory.
 
 `WOLFSSL_CMD_FILE="$WOLFSSL_FILE_ROOT/cmd.txt"`
 
