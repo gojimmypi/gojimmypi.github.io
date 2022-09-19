@@ -56,7 +56,7 @@ WOLFSSL_YES="$WOLFSSL_FILE_ROOT/Enabled-Features.txt"
 WOLFSSL_NO="$WOLFSSL_FILE_ROOT/Disabled-Features.txt"
 ```
 
-#### Usage
+## Usage
 
 Run the [refresh.sh](./refresh.sh) script and observe output files.
 
