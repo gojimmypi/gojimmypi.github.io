@@ -51,3 +51,9 @@ WOLFSSL_OPTIONS="$WOLFSSL_FILE_ROOT/options.h"
 WOLFSSL_YES="$WOLFSSL_FILE_ROOT/Enabled-Features.txt"
 WOLFSSL_NO="$WOLFSSL_FILE_ROOT/Disabled-Features.txt"
 ```
+
+Outer resources:
+
+Kaleb's [wolfSoFT - wolf Suite of Frameworks and Tools](https://github.com/kaleb-himes/wolfSoFT)
+
+* Note Kaleb is working on a "user settings to configure file" feature to create a wolfSSL `.configure` command with the parameters used to create the provided header file.
