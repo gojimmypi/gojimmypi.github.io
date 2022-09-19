@@ -28,7 +28,18 @@ This blog documents the network configuration used in an ESP32 test environment 
 For a simpler version of port sniffing the ESP32 with a wired connection, see the prior blog
 [EdgeRouter-X Port Mirroring: Inspect ESP32 Network Packets](https://gojimmypi.github.io/Edgerouter-Port-Monitor/).
 
-To add wired ethernet to an ESP32, see prior blog: [ENC28J60 ESP32](https://gojimmypi.github.io/ENC28J60-ESP32/)
+Reminder for EsdgeRouter-X settings, lost at reboot time:
+
+```bash
+# we'll monitor from eth4. (ports start at 0, left-most when facing)
+sudo /sbin/switch mirror monitor 4
+
+# start mirroring packets from eth2 onto eth4; a value of 3 means all packets
+sudo /sbin/switch mirror target 2 3
+```
+
+
+To add wired Ethernet to an ESP32, see prior blog: [ENC28J60 ESP32](https://gojimmypi.github.io/ENC28J60-ESP32/)
 
 ## Equipment Used
 
