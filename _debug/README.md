@@ -3,7 +3,7 @@
 This directory contains an assistance script called [refresh.sh](./refresh.sh) that reads a bash-like command in [cmd.txt](./cmd.txt) 
 and runs it. 
 
-The command expected is the wolfSSL `./configure` that expects a potentially _large_ number of parameters. (see [the --help](./help.txt)).
+The command expected is the wolfSSL `./configure` that expects a potentially _large_ number of parameters. (see the [--help](./help.txt)).
 
 The multi-line command is stripped of comments and everything placed on a single line statement when executed.
 
@@ -26,7 +26,7 @@ See the variables in the [refresh.sh](./refresh.sh) script:
 This the location of wolfSSL where the `./configure script` should run and is typically the location of your wolfSSL `git clone`. 
 For example in WSL for a clone in the `C:\workspace` directory, this value would be:
 
-WOLFSSL_REPO="/mnt/c/workspace/wolfssl"
+`WOLFSSL_REPO="/mnt/c/workspace/wolfssl"`
 
 #### `WOLFSSL_FILE_ROOT`
 
@@ -39,13 +39,15 @@ The directory where output files go (a github repo is helpful for tracking chang
 
 This the `.configure` command to edit.
 
-WOLFSSL_CMD_FILE="$WOLFSSL_FILE_ROOT/cmd.txt"
+`WOLFSSL_CMD_FILE="$WOLFSSL_FILE_ROOT/cmd.txt"`
 
 #### Output files
 
 The output files currently all go to the `$WOLFSSL_FILE_ROOT` but can be adjusted as needed:
 
+```
 WOLFSSL_OUTPUT="$WOLFSSL_FILE_ROOT/output.txt"
 WOLFSSL_OPTIONS="$WOLFSSL_FILE_ROOT/options.h"
 WOLFSSL_YES="$WOLFSSL_FILE_ROOT/Enabled-Features.txt"
 WOLFSSL_NO="$WOLFSSL_FILE_ROOT/Disabled-Features.txt"
+```
