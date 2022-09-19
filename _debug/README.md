@@ -5,7 +5,11 @@ and runs it.
 
 The command expected is the wolfSSL `./configure` that expects a potentially _large_ number of parameters. (see the [--help](./help.txt)).
 
-The multi-line command is stripped of comments and everything placed on a single line statement when executed.
+Unlike normal bash commands spanning multiple lines, comments are allowed. Use the same `#` on a line for everything afterwards to be ignored. 
+
+Line continuation characters `\` should not be used.
+
+The multi-line `./configure` command with all parameters on subsequent lines is stripped of comments and everything placed on a single line statement when executed.
 
 Upon execution, the entire output is set to a file called [output.txt](./output.txt). Additionally, the enabled/disabled features (those items with an asterisk in the output and the word "yes" or "no") 
 are separated and stored in the respective [Enabled-Features.txt](Enabled-Features.txt) and [Enabled-Features.txt](Enabled-Features.txt) files.
