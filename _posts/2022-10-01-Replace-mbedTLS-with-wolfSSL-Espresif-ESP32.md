@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: "Using wolfSSL with the Espressif ESP32"
@@ -11,6 +10,7 @@ tags:
 - Espressif
 - MbedTLS
 ---
+
 
 Here are some notes on removing the mbedTLS and using the commercial-grade wolfSSL encryption libraries with the Espressif ESP32.
 
