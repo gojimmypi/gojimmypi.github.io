@@ -241,7 +241,7 @@ Put them into: https://github.com/espressif/esp-idf/tree/master/components/wpa_s
 ## Additional Resources
 
 - Espressif [Heap Memory Allocation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/mem_alloc.html
-- Espressif [ESP32 Memory Analysis — Case Study](https://blog.espressif.com/esp32-memory-analysis-case-study-eacc75fe5431)
+- Espressif [ESP32 Memory Analysis - Case Study](https://blog.espressif.com/esp32-memory-analysis-case-study-eacc75fe5431)
 - esp32.com [Where's the rest of the internal memory?](https://esp32.com/viewtopic.php?t=3802)
 - visualgdb [toolchain documentation](https://visualgdb.com/documentation/toolchains/)
 - w1.fi [hostapd/wpa_supplicant](https://w1.fi/cgit/hostap/)
@@ -254,13 +254,13 @@ Put them into: https://github.com/espressif/esp-idf/tree/master/components/wpa_s
 - Espressif [esp-idf wpa_supplicant crypto.h](https://github.com/espressif/esp-idf/blob/master/components/wpa_supplicant/src/crypto/crypto.h)
 - Espressif [esp-idf components/esp-tls/esp_tls.c](https://github.com/espressif/esp-idf/blob/master/components/esp-tls/esp_tls.c)
 - Espressif [Request to provide source code of EspressIf's hostap fork (IDFGH-592) #3003](https://github.com/espressif/esp-idf/issues/3003)
-- Espressif [ESP32 Memory Analysis — Case Study](https://blog.espressif.com/esp32-memory-analysis-case-study-eacc75fe5431)
+- Espressif [ESP32 Memory Analysis - Case Study](https://blog.espressif.com/esp32-memory-analysis-case-study-eacc75fe5431)
 - GitHub [dgarske/hostap](https://github.com/dgarske/hostap/blob/wolfssl/src/crypto/tls_wolfssl.c) 
 - stackoverflow [CMake: Print out all accessible variables in a script](https://stackoverflow.com/questions/9298278/cmake-print-out-all-accessible-variables-in-a-script)  
 - wolfSSL [hostap/wpa_supplicant](https://github.com/wolfSSL/hostap/tree/master/wpa_supplicant)
 - wolfSSL [SSL/TLS Tutorial](https://www.wolfssl.com/documentation/manuals/wolfssl/chapter11.html)
 - wolfSSL [wolfSSL_CTX_UseSNI #1900 ](https://github.com/wolfSSL/wolfssl/issues/1900) Server Name Indicator (SNI)
-- wolfSSL [Azure Sphere – WolfSSL API](https://docs.microsoft.com/en-us/samples/azure/azure-sphere-samples/wolfssl/)
+- wolfSSL [Azure Sphere - WolfSSL API](https://docs.microsoft.com/en-us/samples/azure/azure-sphere-samples/wolfssl/)
 - wolfSSL [Building wolfSSL](https://www.wolfssl.com/documentation/manuals/wolfssl/chapter02.html)
 - wolfSSL [wolfMQTT/examples/aws/awsiot.c](https://github.com/wolfSSL/wolfMQTT/blob/master/examples/aws/awsiot.c)
 - gojimmypi [ESP32 RISC-V wolfSSL Benchmark](https://github.com/gojimmypi/wolfssl-examples/blob/ESP32_RISCV/ESP32/benchmark/main/main.c)
