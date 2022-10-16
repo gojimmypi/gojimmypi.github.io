@@ -140,13 +140,17 @@ topologies may not need this.
  DUT <<-- WiFi -->> Test Router <<-- Wired -->> EdgeRouter-X <<-- Wired -->> RE220 Bridge <<-- WiFi -->> StarLink ISP -->> Internet
 ```
 
-The RE220 home screen has this, but in reverse order:
+The RE220 home screen has this, but in reverse order (right to left):
 
 ![RE220-overview](../images/ESP32-DUT/RE220-overview.png)
 
 Here are the basic RE220 settings:
 
 ![RE220-overview](../images/ESP32-DUT/RE220-settings.png)
+
+There are LED indicators on the TP-Link AC750 (aka RE220) from page 4 of the [manual](../docs/AC750-RE220.pdf):
+
+![RE220 LEDs](../images/ESP32-DUT/RE220-Indicator-LED.png)
 
 
 The ESP32 Device Under Test (DUT) connects to a Linksys Test Router (RT1) over WiFi. SSID = `dut-test`.
