@@ -38,6 +38,21 @@ sudo /sbin/switch mirror monitor 4
 sudo /sbin/switch mirror target 2 3
 ```
 
+Other helpful tidbits found at [community.ui: "Stale DNS issue"](https://community.ui.com/questions/Stale-DNS-issue-with-several-USG-/805ebe02-e976-420a-801c-138d03a93d23):
+
+```bash
+# To see current DNS stats:
+show dns forwarding statistics
+
+# To clean DNS cache:
+clear dns forwarding cache
+
+# To show the leases on a given network:
+show dhcp leases pool net_LAN_192.168.1.0-24
+
+# To clear the stale record for ip 192.168.1.44:
+clear dhcp lease ip 192.168.1.44
+```
 
 To add wired Ethernet to an ESP32, see prior blog: [ENC28J60 ESP32](https://gojimmypi.github.io/ENC28J60-ESP32/)
 
