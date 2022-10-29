@@ -8,9 +8,15 @@ tags:
 - Supercon
 - Badge
 - SAO
+- SSH
+- UART
 ---
 
-Supercon is back!! Here's a little Badge SAO idea: Wireless SSH Access!
+Hackaday Supercon is back!! Here's a little Badge SAO idea: Wireless SSH Access!
 
 ![HackadaySuperconChallenge](../images/HackadaySupercon2022/HackadaySuperconChallenge.png)
+
+This is a placeholder page, with more content coming soon.
+
+I'll have a little giveaway this time!
 
