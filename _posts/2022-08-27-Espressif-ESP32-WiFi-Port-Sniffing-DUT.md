@@ -47,6 +47,9 @@ show dns forwarding statistics
 # To clean DNS cache:
 clear dns forwarding cache
 
+# Show dns nameservers
+show dns forwarding nameservers
+
 # To show the leases on a given network:
 show dhcp leases pool net_LAN_192.168.1.0-24
 
