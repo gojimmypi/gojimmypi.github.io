@@ -209,19 +209,7 @@ cd libusb-1.0.21
 
 ./bootstrap.sh
 
-# ./autogen.sh --host=i686-w64-mingw32
-# ./autogen.sh --build=i686-pc-linux-gnu --host=i686-w64-mingw32
-
 ./autogen.sh
-
-# ./configure --enable-debug-log --enable-examples-build --host=i686-w64-mingw32
-# ./configure  --enable-examples-build --host=i686-w64-mingw32
-
-# ./configure --enable-shared=no --enable-static=yes --enable-examples-build  --host=i686-w64-mingw32 --build=i686-pc-linux-gnu
-
-# causee error: libtool:   error: Continuing, but uninstalled executables may not work.
-# ./configure --enable-shared=yes --enable-static=yes --enable-examples-build  --host=i686-w64-mingw32 --build=i686-pc-linux-gnu
-
 
 ./configure --enable-shared=no --enable-static=yes --enable-examples-build  --host=i686-w64-mingw32 --build=i686-pc-linux-gnu
 make clean
@@ -286,82 +274,11 @@ i686-w64-mingw32-gcc -Wall -Wstrict-prototypes -Wformat-security -Wshadow -Wextr
 
 next test with libusb
 
-configure: error: libusb-1.x is required for the MPSSE mode of FTDI based devices, needs:
+The message: configure: error: libusb-1.x is required for the MPSSE mode of FTDI based devices, means this is needed:
+
 ```
 export LIBUSB1_LIBS=-L/mnt/c/workspace/riscv-openocd/libusb-1.0.21/libusb/.libs
 export LIBUSB1_CFLAGS="-lusb -lusb-1.0 -isystem /mnt/c/workspace/riscv-openocd/libusb-1.0.21/libusb"
-```
-
-```
-cd libusb-1.0.21
-./bootstrap.sh
-
-# ./autogen.sh --build=i686-pc-linux-gnu --host=i686-w64-mingw32
-./autogen.sh --host=x86_64-pc-mingw32 --build=i686-pc-linux-gnu
-
-# ./configure --enable-debug-log --enable-examples-build --build=i686-pc-linux-gnu --host=i686-w64-mingw32
-# ./configure --enable-shared=no --enable-static=yes --enable-debug-log --enable-examples-build --build=i686-pc-linux-gnu --host=i686-w64-mingw32
-# ./configure --enable-shared=no --enable-static=yes --enable-examples-build --host=i686-w64-mingw32
-./configure --enable-shared=no --enable-static=yes --enable-examples-build  --host=x86_64-pc-mingw32 --build=i686-pc-linux-gnu
-
-make clean
-make
-```
-
-This one is working:
-
-```
-# ./configure --enable-maintainer-mode --build=i686-pc-linux-gnu --host=i686-w64-mingw32 --libdir=/mnt/c/workspace/riscv-openocd/libusb-1.0.21/libusb  --disable-werror   --with-ftd2xx-win32-zipdir="/mnt/c/download/FTDI/CDM v2.12.24 WHQL Certified/i386"  --with-ftd2xx-lib=static  --enable-ft2232_ftd2xx   --disable-at91rm9200  --enable-remote-bitbang --enable-ftdi --program-prefix=riscv- --enable-debug-log 
-
-# Nov 27 2:15pm
-#./configure --enable-maintainer-mode --build=i686-pc-linux-gnu --host=i686-w64-mingw32 --libdir=/mnt/c/temp/riscv-openocd/libusb-1.0.21/libusb/  --disable-werror   --with-ftd2xx-win32-zipdir="/mnt/c/download/FTDI/CDM v2.12.24 WHQL Certified/i386"  --with-ftd2xx-lib=static  --enable-ft2232_ftd2xx   --disable-at91rm9200  --enable-remote-bitbang --enable-ftdi --program-prefix=riscv-  
-
-# Nov 27 2:35pm (make doesn't find libusb .a files)
-./configure --enable-maintainer-mode --build=i686-pc-linux-gnu --host=i686-w64-mingw32 --libdir=/mnt/c/temp/riscv-openocd/libusb-1.0.21/libusb/.libs  --disable-werror   --with-ftd2xx-win32-zipdir="/mnt/c/download/FTDI/CDM v2.12.24 WHQL Certified/i386"  --with-ftd2xx-lib=static  --enable-ft2232_ftd2xx   --disable-at91rm9200  --enable-remote-bitbang --enable-ftdi --program-prefix=riscv-  
-
-# Nov 27 2:55pm (make doesn't find libusb .a files)
-./configure --enable-maintainer-mode --build=i686-pc-linux-gnu --host=i686-w64-mingw32 --with-sysroot=/mnt/c/temp/riscv-openocd/libusb-1.0.21/libusb/.libs  --disable-werror   --with-ftd2xx-win32-zipdir="/mnt/c/download/FTDI/CDM v2.12.24 WHQL Certified/i386"  --with-ftd2xx-lib=static  --enable-ft2232_ftd2xx   --disable-at91rm9200  --enable-remote-bitbang --enable-ftdi --program-prefix=riscv-  
-
-# Nov 27 3:05pm (make doesn't find libusb .a files)
-# export LT_SYS_LIBRARY_PATH=/mnt/c/temp/riscv-openocd/libusb-1.0.21/libusb/.libs
-
-# Nov 27 3:45pm (make doesn't find libusb .a files)
-# export LIBUSB1_LIBS="./libusb-1.0.26/libusb/libusb"
-
-# not a shared library, cannot use archive
-# LIBUSB1_LIBS      = ./libusb-1.0.26/libusb/.libs/libusb-1.0.a
-
-# Nov 27 4:30pm 
-# error: cannot build libtool library 'src/jtag/drivers/libocdjtagdrivers.la' from non-libtool objects on this host: ./libusb-1.0.26/libusb/libusb-1.0.o
-# export LIBUSB1_LIBS="./libusb-1.0.26/libusb/libusb-1.0.o"
-./configure --enable-maintainer-mode --build=i686-pc-linux-gnu --host=i686-w64-mingw32 --disable-werror   --with-ftd2xx-win32-zipdir="/mnt/c/download/FTDI/CDM v2.12.24 WHQL Certified/i386"  --with-ftd2xx-lib=static  --enable-ft2232_ftd2xx   --disable-at91rm9200  --enable-remote-bitbang --enable-ftdi --program-prefix=riscv-  
-
-
-# fails in configure
-# export LIBS="-l/mnt/c/workspace/riscv-openocd/libusb-1.0.21/libusb/.LIBS"
-
-# export PKG_CONFIG_PATH="/mnt/c/temp/riscv-openocd/libusb-1.0.26/libusb/.libs"
-
-export LIBUSB1_LIBS="-lusb-1.0 -L/mnt/c/temp/riscv-openocd/libusb-1.0.26/libusb"
-./configure --enable-maintainer-mode --build=i686-pc-linux-gnu --host=i686-w64-mingw32 --disable-werror   --with-ftd2xx-win32-zipdir="/mnt/c/download/FTDI/CDM v2.12.24 WHQL Certified/i386"  --with-ftd2xx-lib=static  --enable-ft2232_ftd2xx   --disable-at91rm9200  --enable-remote-bitbang --enable-ftdi --program-prefix=riscv-  
-
-
-# but needs fix:
-i686-w64-mingw32-gcc -Wall -Wstrict-prototypes -Wformat-security -Wshadow -Wextra -Wno-unused-parameter -Wbad-function-cast -Wcast-align -Wredundant-decls -Wpointer-arith -Wundef -Wno-error=deprecated-declarations -DFD_SETSIZE=128 -I/mnt/c/temp/riscv-openocd/libusb-1.0.26/libusb -o src/openocd.exe src/main.o  -L/mnt/c/temp/riscv-openocd/libusb-1.0.26/libusb/.libs src/.libs/libopenocd.a libusb-1.0.26/libusb/.libs/libusb-1.0.a   -L/mnt/c/temp/riscv-openocd/libusb-1.0.26/libusb -lws2_32 ./jimtcl/libjim.a
-
-# as generated, broken:
-i686-w64-mingw32-gcc -Wall -Wstrict-prototypes -Wformat-security -Wshadow -Wextra -Wno-unused-parameter -Wbad-function-cast -Wcast-align -Wredundant-decls -Wpointer-arith -Wundef -Wno-error=deprecated-declarations -DFD_SETSIZE=128 -g -O2 -o src/openocd.exe src/main.o  src/.libs/libopenocd.a -L/mnt/c/workspace/riscv-openocd/libusb-1.0.21/libusb/.libs -lws2_32 ./jimtcl/libjim.a
-
-# revised, working Nov 27, 2:31pm
-i686-w64-mingw32-gcc -Wall -Wstrict-prototypes -Wformat-security -Wshadow -Wextra -Wno-unused-parameter -Wbad-function-cast -Wcast-align -Wredundant-decls -Wpointer-arith -Wundef -Wno-error=deprecated-declarations -DFD_SETSIZE=128 -g -O2 -o src/openocd.exe src/main.o  src/.libs/libopenocd.a  libusb-1.0.26/libusb/.libs/libusb-1.0.a   -lws2_32 ./jimtcl/libjim.a
-
-
-make clean
-make -j $(nproc)
-```
-
-```
-./configure --enable-maintainer-mode --host=i686-w64-mingw32  --disable-werror   --with-ftd2xx-win32-zipdir="/mnt/c/download/FTDI/CDM v2.12.24 WHQL Certified/i386"  --with-ftd2xx-lib=static  --enable-ft2232_ftd2xx   --disable-at91rm9200  
 ```
 
 
@@ -376,7 +293,13 @@ export LIBUSB_VER=libusb-1.0.26
 
 
 # export LIBUSB1_LIBS="-lusb-1.0 -L/mnt/c/temp/riscv-openocd/libusb-1.0.26/libusb"
+
+# -lusb-1.0 -L/mnt/c/temp/riscv-openocd/libusb-1.0.26/libusb
 export LIBUSB1_LIBS="-lusb-1.0 -L$PWD/$LIBUSB_VER/libusb"
+
+# LIBUSB1_CFLAGS, for example:
+#    -lusb -lusb-1.0 -isystem /mnt/c/temp/riscv-openocd/libusb-1.0.26/libusb
+#
 export LIBUSB1_CFLAGS="-lusb -lusb-1.0 -isystem $PWD/$LIBUSB_VER/libusb"
 
 echo $LIBUSB_VER
