@@ -90,4 +90,10 @@ This is almost certainly an issue easily resolved with Zadig, but I've been unab
 problem and I don't know which drives to use for all the different devices. I've reached out on [Discord](https://discord.gg/P7FYThy) 
 and will update here soon.
 
+I had a reply from [zyp] almost immediately:
+
+> you might want to start by loading a newer gateware on it, WCID descriptors were added in v1.1 and should make the windows experience more pleasant
+
+I'll do that, and update here upon completion.
+
 I know, I know: why do I still use Windows? I ask myself that on a regular basis. ;)
