@@ -13,7 +13,7 @@ tags:
 
 I first learned about the [orbtrace-mini](https://orbcode.org/orbtrace-mini/) 
 on [Hackaday](https://hackaday.com/2022/07/26/orbtrace-effort-open-tool-for-professional-debugging/). 
-Upon reading that article, I immediately sent them an email expressing my interest. I recieved a 
+Upon reading that article, I immediately sent [zyp] an email expressing my interest. I received a 
 prompt reply and was instructed to add myself to the [waiting list](https://github.com/orbcode/orbtrace/issues/11).
 It recently arrived!
 
