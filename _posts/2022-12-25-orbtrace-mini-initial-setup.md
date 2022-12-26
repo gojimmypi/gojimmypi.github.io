@@ -165,4 +165,49 @@ make
 
 ![dfu_util_orbtrace_ubuntu_vm_not_detected.png](../images/orbcode/dfu_util_orbtrace_ubuntu_vm_not_detected.png)
 
-I know, I know: why do I still use Windows? I ask myself that on a regular basis. ;)
+## Milestone
+
+After all of the above, I realized I was confusing the bootloader (aka gateware) with the application, and
+the. I ended up completing my upgrade steps in an Ubuntu VM, not Windows.
+
+`Bootloader mode` is when the purple light is on. Key here: HOLD DOWN the button while powering the device up UNTIL the light turns purple.
+
+When in bootloader mode, the USB Device ID is `1209:3442`. That last digit is a TWO!
+
+When NOT in bootloader mode, he USB Device ID is `1209:3443`. That last digit is a THREE!
+
+Be sure to specify a slot for `dfu-util` (the `-a` parameter); Slot 0 is not used.
+
+The application gets loaded into SLOT 1 with the `dfu-util` parameter `-a 1`.
+
+The bootloader gets loaded into SLOT 2 with the `dfu-util` parameter `-a 2`.
+
+BE SURE to not mix up the slot numbers with application vs bootloader. If you do, well, don't power cycle until you load the correct one in the proper slot.
+
+When in bootloader mode, power cycle to return to operational mode. The device ID will change from `1209:3442` to `1209:3443`.
+
+Note there are [build instructions](https://github.com/orbcode/orbtrace#building) and slightly different instructions
+on the [release page](https://github.com/orbcode/orbtrace/releases). The release instructions are a bit more clear at the time of this blog.
+
+BOTH the application AND bootloader need to have the purple light on to load.
+
+```
+# application in slot 1
+dfu-util -d 1209:3442 -a 1 -D orbtrace_mini_application_1.2.0.bit
+
+# bootloader (aka gateware) in slot 2
+dfu-util -d 1209:3442 -a 2 -D orbtrace_mini_bootloader_1.2.0.bit
+```
+
+A successful orbtrace application update looks like this:
+![dfu_util_orbtrace_application_success.png](../images/orbcode/dfu_util_orbtrace_application_success.png)
+
+A successful orbtrace bootloader update looks like this:
+![dfu_util_orbtrace_bootloader_success.png](../images/orbcode/dfu_util_orbtrace_bootloader_success.png)
+
+A successful bootloader update looks like this:
+
+Huge thanks to [mubes] and [zyp] on the [1bitsquared orbuculum discord channel](https://discord.com/channels/613131135903596547/614885210395508738/1057034002487320717)
+for helping me get my board upgraded and working.
+
+
