@@ -174,8 +174,8 @@ make
 
 ## Milestone
 
-After all of the above, I realized I was confusing the bootloader (aka gateware) with the application, and
-the. I ended up completing my upgrade steps in an Ubuntu VM, not Windows.
+After all of the above, I realized I was confusing the bootloader (aka gateware) with the application. 
+I ended up completing my upgrade steps in an Ubuntu VM, not Windows.
 
 `Bootloader mode` is when the purple light is on. Key here: HOLD DOWN the button while powering the device up UNTIL the light turns purple.
 
@@ -251,3 +251,4 @@ Huge thanks to [mubes] and [zyp] on the [1bitsquared orbuculum discord channel](
 for helping me get my board upgraded and working.
 
 
+* [blackmagic/driver/99-blackmagic-plugdev.rules](https://github.com/blackmagic-debug/blackmagic/blob/main/driver/99-blackmagic-plugdev.rules)
