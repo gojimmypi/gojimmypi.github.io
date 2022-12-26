@@ -116,24 +116,31 @@ Tried running the command from the MingW prompt:
 This is not really a surprise, as Windows still lists "none" for most of the drivers:
 
 Interface 0:
+
 ![zadig_orbtrace_interface_0.png](../images/orbcode/zadig_orbtrace_interface_0.png)
 
 Interface 1:
+
 ![zadig_orbtrace_interface_1.png](../images/orbcode/zadig_orbtrace_interface_1.png)
 
 Interface 2:
+
 ![zadig_orbtrace_interface_2.png](../images/orbcode/zadig_orbtrace_interface_2.png)
 
 Interface 3:
+
 ![zadig_orbtrace_interface_3.png](../images/orbcode/zadig_orbtrace_interface_3.png)
 
 Interface 4:
+
 ![zadig_orbtrace_interface_4.png](../images/orbcode/zadig_orbtrace_interface_4.png)
 
 Interface 5:
+
 ![zadig_orbtrace_interface_5.png](../images/orbcode/zadig_orbtrace_interface_5.png)
 
 Interface 6:
+
 ![zadig_orbtrace_interface_6.png](../images/orbcode/zadig_orbtrace_interface_6.png)
 
 I also tried using the [dfu_util](https://github.com/ulx3s/dfu-util/tree/master/bin-win64) 
@@ -205,7 +212,40 @@ A successful orbtrace application update looks like this:
 A successful orbtrace bootloader update looks like this:
 ![dfu_util_orbtrace_bootloader_success.png](../images/orbcode/dfu_util_orbtrace_bootloader_success.png)
 
-A successful bootloader update looks like this:
+For reference, after the upgrade to v1.2.1 (and not usins Zadig to force device drivers), I see these:
+
+Interface 0:
+
+![zadig_orbtrace_1.2.1_interface_0.png](../images/orbcode/zadig_orbtrace_1.2.1_interface_0.png)
+
+Note that I do *not* see Interface 1:
+
+![zadig_orbtrace_1.2.1_interface_1.png](../images/orbcode/zadig_orbtrace_1.2.1_interface_1.png)
+
+Interface 2:
+
+![zadig_orbtrace_1.2.1_interface_2.png](../images/orbcode/zadig_orbtrace_1.2.1_interface_2.png)
+
+Interface 3:
+
+![zadig_orbtrace_1.2.1_interface_3.png](../images/orbcode/zadig_orbtrace_1.2.1_interface_3.png)
+
+Interface 4:
+
+![zadig_orbtrace_1.2.1_interface_4.png](../images/orbcode/zadig_orbtrace_1.2.1_interface_4.png)
+
+Interface 5:
+
+![zadig_orbtrace_1.2.1_interface_5.png](../images/orbcode/zadig_orbtrace_1.2.1_interface_5.png)
+
+Interface 6:
+
+![zadig_orbtrace_1.2.1_interface_6.png](../images/orbcode/zadig_orbtrace_1.2.1_interface_6.png)
+
+There's a new Interface 7:
+
+![zadig_orbtrace_1.2.1_interface_7.png](../images/orbcode/zadig_orbtrace_1.2.1_interface_7.png)
+
 
 Huge thanks to [mubes] and [zyp] on the [1bitsquared orbuculum discord channel](https://discord.com/channels/613131135903596547/614885210395508738/1057034002487320717)
 for helping me get my board upgraded and working.
