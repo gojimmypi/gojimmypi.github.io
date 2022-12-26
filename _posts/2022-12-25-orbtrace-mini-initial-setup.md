@@ -144,6 +144,23 @@ that's worked for my ULX3S, but saw the same results:
 I noticed there's a discrepancy on USB Device ID between the Build Instructions and my board.
 So I opened [orbtrace #12](https://github.com/orbcode/orbtrace/issues/12).
 
+I tried to use Zadig to set a variety of drivers on `Interface 0` without success.
 
+Having no luck on Windows, I tried `dfu-util` on my Ubuntu VM. 
+I already had 0.9 installed, but it could not see any devices.
+Next I tried the latest version from as described on [dfu-util.sourceforge.net](https://dfu-util.sourceforge.net/build.html).
+Still no joy.
+
+```
+sudo apt-get install libusb-1.0-0-dev autoconf
+
+git clone git://git.code.sf.net/p/dfu-util/dfu-util
+cd dfu-util
+
+
+./autogen.sh
+./configure  # on most systems
+make
+```
 
 I know, I know: why do I still use Windows? I ask myself that on a regular basis. ;)
