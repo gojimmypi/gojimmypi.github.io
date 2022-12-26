@@ -163,4 +163,6 @@ cd dfu-util
 make
 ```
 
+![dfu_util_orbtrace_ubuntu_vm_not_detected.png](../images/orbcode/dfu_util_orbtrace_ubuntu_vm_not_detected.png)
+
 I know, I know: why do I still use Windows? I ask myself that on a regular basis. ;)
