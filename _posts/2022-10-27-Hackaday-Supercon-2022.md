@@ -23,7 +23,8 @@ I had ever attended.
 What was really great was the kindness and generosity of all those folks there. One of the first people
 I met was [@mithro](https://twitter.com/gojimmypi/status/1196172438934941697?s=20&t=6Q3FA9_6EQsM7wUW1sJ_kQ) who 
 gave my a pair of [fomu](https://tomu.im/fomu.html). There was also [@ZxSpectROM](https://twitter.com/gojimmypi/status/1195480147362631680?s=20&t=6Q3FA9_6EQsM7wUW1sJ_kQ)
-that ensured I had a RC2014 board. But me, I just showed up with a ticket in hand. There were many others.
+that ensured I had a RC2014 board. But me, I just showed up with a ticket in hand. There were many others that were kind
+and generous.
 
 So this year, I've remedied that! First, I've made my [first ever stickers](https://twitter.com/gojimmypi/status/1586452536722001921?s=20&t=6Q3FA9_6EQsM7wUW1sJ_kQ):
 
@@ -91,7 +92,6 @@ and [wolfSSH](https://github.com/wolfSSL/wolfssh/tree/master/ide/Espressif/ESP-I
 Note that my SSH-to-UART project does _not_ use the Espressif [esp-tls](https://github.com/espressif/esp-idf/tree/master/components/esp-tls) 
 layer SSH.
 
-
 Thanks [@LinuxJedi](https://twitter.com/gojimmypi/status/1522390635948351488?s=20&t=6Q3FA9_6EQsM7wUW1sJ_kQ) 
 that pointed out only RSA is implemented at this time. So if you have your SSH shell locked down, you may need to do:
 
@@ -99,6 +99,11 @@ that pointed out only RSA is implemented at this time. So if you have your SSH s
 -o"PubkeyAcceptedAlgorithms +ssh-rsa" 
 -o"HostkeyAlgorithms +ssh-rsa"
 ```
+
+Now, getting even a UART to echo characters with a bare-metal, 4-bit processor is not an easy task. In fact, I learned that
+the Hackaday Discord chat that the [UART is not even an example](https://discord.com/channels/879434765390975007/1001636192149835867/1036387704004423771).
+
+But then that's the point of a *challenge*. No fun if it's too easy.
 
 (this blog page is still a work in progress)
 
