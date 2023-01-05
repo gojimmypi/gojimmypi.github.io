@@ -106,6 +106,15 @@ In the end, I did finally create my [clean PR](https://github.com/wolfSSL/wolfss
 git commit --amend --author="gojimmypi <jim@wolfssl.com>"
 ```
 
+Other  useful tidbits:
+
+Ensure the execute bit is set for `myfile`:
+
+```bash
+git add myfile --chmod=+x
+```
+
+I created a [script for squashing commits](https://gist.github.com/gojimmypi/669a726595b9b0272874f6132279d95b); refresh main/master from upstream, refresh current branch to upstream, squash commits then push force
 
 ## Resources, Inspiration, Credits, and Other Links
 
@@ -117,3 +126,4 @@ git commit --amend --author="gojimmypi <jim@wolfssl.com>"
 - [Clean up a fork and restart it from the upstream](https://stackoverflow.com/questions/9646167/clean-up-a-fork-and-restart-it-from-the-upstream)
 - [Change author of commit](https://www.git-tower.com/learn/git/faq/change-author-name-email)
 - gojimmypi [Keeping a fork up to date](https://gist.github.com/gojimmypi/b281469dcbe9e6d8efd00be7ce18d222)
+- stackoverflow [How can I keep the execution permissions when cloning a repository in windows?](https://stackoverflow.com/questions/68281828/how-can-i-keep-the-execution-permissions-when-cloning-a-repository-in-windows)
