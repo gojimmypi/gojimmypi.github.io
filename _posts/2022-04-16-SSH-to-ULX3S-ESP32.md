@@ -12,7 +12,7 @@ tags:
 - SSH
 ---
 
-So you have a ULX3S and want to connect via SSH.
+So you have a ULX3S and want to connect via SSH. Yes! This is quite easy to do with open source software.
 
 The [ULX3S](https://www.crowdsupply.com/radiona/ulx3s) is cool not only for being an impressively designed FPGA board with plenty of onboard peripherals, but also
 because one of the "peripherals" is an [ESP32](https://www.espressif.com/en/products/socs/esp32)! See also the [ESP32 SSH Server](../SSH-to-ESP8266/) project.
