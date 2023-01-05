@@ -11,7 +11,6 @@ tags:
 - MbedTLS
 ---
 
-
 Here are some notes on removing the mbedTLS and using the commercial-grade wolfSSL encryption libraries with the Espressif ESP32.
 
 This blog is still a work-in progress.
