@@ -19,6 +19,9 @@ See the [YosysHQ OSS CAD Suite Installation](https://github.com/YosysHQ/oss-cad-
 
 Be sure to use the `-L` with `curl`. See [Dealing with HTTP 301 redirected file](https://www.cyberciti.biz/faq/download-a-file-with-curl-on-linux-unix-command-line/).
 
+Reminder that the ULX3S needs to have FTDI drivers to program the FPGA, but libusbK drivers to use OpenOCD
+on Windows. Zadig is your friend. See [prior blog](https://gojimmypi.github.io/SSH-to-ULX3S-ESP32/).
+
 First install the [YosysHQ OSS CAD Suite](https://github.com/YosysHQ/oss-cad-suite-build)
 {% include code_header.html %}
 ```
@@ -34,17 +37,44 @@ tar -zxvf oss-cad-suite-linux-x64-20220904.tgz
 source $MYOSSCADSUITE/oss-cad-suite/environment
 ```
 
-Fetch [Luke's Hazard3](https://github.com/Wren6991/Hazard3) repo:
-{% include code_header.html %}
 ```
-git clone --recursive https://github.com/Wren6991/Hazard3.git hazard3
-cd hazard3
+export MY_GITHUB_NAME=gojimmypi
+export WORKSPACE="/mnt/c/workspace"
+export MY_HAZARD3_NAME="hazard3-$MY_GITHUB_NAME" 
+export MY_HAZARD3_PATH="$WORKSPACE/$MY_HAZARD3_NAME"
+
+cd $WORKSPACE
+
+git clone --recursive https://github.com/$MY_GITHUB_NAME/Hazard3.git "$MY_HAZARD3_NAME"
+
+cd "$MY_HAZARD3_NAME"
+
+# if the above is your fork, then add upstream
+git remote add upstream https://github.com/Wren6991/Hazard3.git
+
+# fetch upstream master
+git fetch upstream
+git pull upstream master
+```
+
+or
+
+Fetch [Luke's Hazard3](https://github.com/Wren6991/Hazard3) repo:
+```
+git clone --recursive https://github.com/$MY_GITHUB_NAME/Hazard3.git 
+```
+
+Perform the install steps:
+{% include code_header.html %}
+```bash
+
 # Set up some paths, add RISC-V toolchain to PATH
 . sourceme
 
 cd test/sim/tb_cxxrtl
-make
 
+# yes, make can be slow on some systems. patience:
+make
 ```
 
 Later, once installed, revisit with:
@@ -56,6 +86,7 @@ git pull
 # edit for your own download:
 export MYOSSCADSUITE=/mnt/c/download/yosyshq
 source $MYOSSCADSUITE/oss-cad-suite/environment
+
 export DISPLAY=:0
 /mnt/c/cygwin64/bin/run.exe --quote /usr/bin/bash.exe -l -c " exec /usr/bin/startxwin -- -listen tcp -nowgl"
 ```
@@ -110,6 +141,10 @@ https://x410.dev/cookbook/hyperv/using-x410-with-hyper-v-linux-virtual-machines-
 
 For more tips and usage examples, please visit https://x410.dev/.
 
+####
+
+sudo apt-get install gdb-multiarch
+gdb-multiarch
 
 #### CygwinX X-Server
 
@@ -200,7 +235,7 @@ make -j $(nproc)
 
 
 First build libusb
-install from https://github.com/libusb/libusb/releases/tag/v1.0.26
+install from https://github.com/libusb/libusb/releases/tag/v1.0.26 see [other releases](https://github.com/libusb/libusb/releases)
 
 ```
 sudo apt install libudev-dev 
@@ -311,18 +346,37 @@ make clean
 make -j $(nproc)
 ```
 
-
+- riscv-openocd [source code](https://github.com/riscv/riscv-openocd)
+- OpenOCD [CPU Configuration](https://openocd.org/doc/html/CPU-Configuration.html)
+- GDB [Specifying a Debug Target](https://ftp.gnu.org/old-gnu/Manuals/gdb/html_chapter/gdb_15.html)
+- RISC-V OpenOCD [Can't compile #571](https://github.com/riscv/riscv-openocd/issues/571)
+- sifive/freedom-tools [unable to build openocd #5](https://github.com/sifive/freedom-tools/issues/5)
+- gcc gnu [Host/Target specific installation notes for GCC](https://gcc.gnu.org/install/specific.html)
 - Espressif [Instructions for building OpenOCD on windows are incorrect / incomplete (OCD-545) #221](https://github.com/espressif/openocd-esp32/issues/221)
 - libusb [github.com/libusb](https://github.com/libusb/libusb)
-- Dangerousprototypes [Cross compiling OpenOCD for Windows](http://dangerousprototypes.com/docs/Compile_OpenOCD_for_Windows)
 - libusb [Windows wiki](https://github.com/libusb/libusb/wiki/Windows)
+- libusb [FAQ](https://github.com/libusb/libusb/wiki/FAQ)
+- stackoverflow [libusb-1.0 debug information](https://stackoverflow.com/questions/8480388/libusb-1-0-debug-informations)
+- stackoverflow [Libusb undefined reference to](https://stackoverflow.com/questions/7050482/libusb-undefined-reference-to)
+- mcuee archive [libusb-win32](https://github.com/mcuee/libusb-win32)
+- Dangerousprototypes [Cross compiling OpenOCD for Windows](http://dangerousprototypes.com/docs/Compile_OpenOCD_for_Windows)
 - [Undefined reference to libusb functions](https://stackoverflow.com/questions/41026957/undefined-reference-to-libusb-functions)
 - [How to add a path to LDFLAGS](https://stackoverflow.com/questions/6254245/how-to-add-a-path-to-ldflags)
 - FTDI [driver installation](https://ftdichip.com/document/installation-guides/)
 - stackoverflow [How to install and use "make" in Windows?](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows) - [chocolatey](https://chocolatey.org/install)
+- stackoverflow [Installing libusb-1.0 on Windows 7](https://stackoverflow.com/questions/20315797/installing-libusb-1-0-on-windows-7)
 - gnu [cross compilation](https://www.gnu.org/software/automake/manual/html_node/Cross_002dCompilation.html)  
 - gnu [Specifying target triplets](https://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-2.71/html_node/Specifying-Target-Triplets.html#Specifying-Names)
 - sourceforce forum [[Libusb-devel] MinGW-W64 build of libusb-1.0 Windows Backend](https://sourceforge.net/p/libusb/mailman/message/25200713/)
-- stack exchange [`openocd` configure script cannot find `libusb`](https://unix.stackexchange.com/questions/493785/openocd-configure-script-cannot-find-libusb)
+- stack exchange [`openocd` configure script cannot find `libusb`](https://unix.stackexchange.com/questions/493785/openocd-configure-script-cannot-find-libusb): see `LIBUSB1_CFLAGS="-isystem /usr/include/libusb-1.0"`
 - sifive/freedom-tools [unable to build openocd](https://github.com/sifive/freedom-tools/issues/5)
-- bluecmd [Building OpenOCD 64-bit on Windows 10 with MSYS2 for ULX3S FTDI JTAG](https://gist.github.com/bluecmd/917e63d30e57e8be90ffd32d4b4f5549)
+- bluecmd gist [Building OpenOCD 64-bit on Windows 10 with MSYS2 for ULX3S FTDI JTAG](https://gist.github.com/bluecmd/917e63d30e57e8be90ffd32d4b4f5549)
+- Espressif [openocd-esp32/contrib/cross-build.sh](https://github.com/espressif/openocd-esp32/blob/master/contrib/cross-build.sh)
+- gojimmypi [Fixing FTDI 2232HL Dual Interface / Single Device](https://gojimmypi.github.io/FTDI2232HL-Dual-Interface-fix/)
+- stackoverflow [How to add a path to LDFLAGS](https://stackoverflow.com/questions/6254245/how-to-add-a-path-to-ldflags)
+- stackoverflow [Undefined reference to libusb functions](https://stackoverflow.com/questions/41026957/undefined-reference-to-libusb-functions/)
+- Espressif [Instructions for building OpenOCD on windows are incorrect / incomplete](https://github.com/espressif/openocd-esp32/issues/221)
+- riscv-collab/riscv-gnu-toolchain [fails to build newlib with -march=rv32im_zba_zbb_zbc_zbs](https://github.com/riscv-collab/riscv-gnu-toolchain/issues/1105)
+- [internal compiler error: in extract_insn](https://github.com/riscv-collab/riscv-gnu-toolchain/issues/199)
+- gojimmypi [riscv-gnu-toolchain/issues/1105 comment](https://github.com/riscv-collab/riscv-gnu-toolchain/issues/1105#issuecomment-1333026702)
+
