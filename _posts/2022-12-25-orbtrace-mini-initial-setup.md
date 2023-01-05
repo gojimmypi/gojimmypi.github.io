@@ -55,6 +55,9 @@ I tried to [update](https://www.msys2.org/docs/updating/):
 pacman -Suy
 ```
 
+Actually, I ended up running `pacman -Sy` and `pacman -Su` several times until they reported there was nothing to do.
+
+
 ming64 claimed it needed to exit, so I allowed it... gave it some time, and tried again. New error:
 
 ![ming32_setup_error_database](../images/orbcode/ming32_setup_error_database.png)
@@ -198,6 +201,8 @@ on the [release page](https://github.com/orbcode/orbtrace/releases). The release
 
 BOTH the application AND bootloader need to have the purple light on to load.
 
+Version [1.2.0](https://github.com/orbcode/orbtrace/releases/tag/v1.2.0) being installed here:
+
 ```
 # application in slot 1
 dfu-util -d 1209:3442 -a 1 -D orbtrace_mini_application_1.2.0.bit
@@ -250,5 +255,11 @@ There's a new Interface 7:
 Huge thanks to [mubes] and [zyp] on the [1bitsquared orbuculum discord channel](https://discord.com/channels/613131135903596547/614885210395508738/1057034002487320717)
 for helping me get my board upgraded and working.
 
-
-* [blackmagic/driver/99-blackmagic-plugdev.rules](https://github.com/blackmagic-debug/blackmagic/blob/main/driver/99-blackmagic-plugdev.rules)
+* orbcode.org [ORBTrace mini](https://orbcode.org/orbtrace-mini/)
+* orbcode.org Getting Started [ORBTrace for Debugging with openocd](https://orbcode.org/orbtrace/getting-started-with-orbtrace-for-debugging/)
+* blackmagic-debug [blackmagic/driver/99-blackmagic-plugdev.rules](https://github.com/blackmagic-debug/blackmagic/blob/main/driver/99-blackmagic-plugdev.rules)
+* orbcode [orbtrace building](https://github.com/orbcode/orbtrace#building)
+* orbcode [orbuculum](https://github.com/orbcode/orbuculum)
+* trabucayre [First steps with openFPGALoader](https://trabucayre.github.io/openFPGALoader/guide/first-steps.html)
+* sourceforge [dfu-util](https://dfu-util.sourceforge.net/) See [build instructions](https://dfu-util.sourceforge.net/build.html)
+* orbcode [orbtrace/releases](https://github.com/orbcode/orbtrace/releases) (be sure to see the installation instructions there)
