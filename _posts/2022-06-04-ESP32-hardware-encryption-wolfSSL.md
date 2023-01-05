@@ -462,3 +462,4 @@ Resources, Inspiration, Credits, and Other Links:<br />
 - Wikipedia [SHA-2](https://en.wikipedia.org/wiki/SHA-2)
 - NIST [FIPS PUB 180-4](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf)
 - NIST [SP 800-90A Deterministic Random Bit Generator Validation System (DRBGVS)](https://csrc.nist.gov/csrc/media/projects/cryptographic-algorithm-validation-program/documents/drbg/drbgvs.pdf)
+- Olimex [ESP32 with ECC](https://www.olimex.com/Products/IoT/ESP32/ESP32-PRO/open-source-hardware)
