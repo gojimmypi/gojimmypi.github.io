@@ -23,3 +23,16 @@ You can find the source code for Jekyll at GitHub:
 
 
 [jekyll-organization]: https://github.com/jekyll
+
+There's a [sitemap here](https://gojimmypi.github.io/sitemap.xml)
+
+There is only one domain registered at this time:  [gojimmypi.com](https://gojimmypi.com)
+
+Issues that need to be addressed:
+
+* Page load times are rather long. See [pagespeed.web.dev](https://pagespeed.web.dev/report?url=https%3A%2F%2Fgojimmypi.github.io&utm_source=google_domains&utm_medium=product&utm_campaign=website_card&hl=en-US)
+* jQuery needs to be updated.
+* There's an annoying flash of white before the site initially loads in dark mode.
+* Is `/js/materialize.min.js` actually needed? Can it be removed?
+
+This is the `docs/about.markdown` page.
