@@ -49,47 +49,51 @@
         <nav class="iconnav">
             <ul>
                 <li class="sicon">
-                    <a href='#search'><i class="fa fa-search fa-lg fa-fw"></i></a>
+                    <a name="nav_search" id="nav_search" href='#search'><i title="search" class="fa fa-search fa-lg fa-fw"></i></a>
                 </li>
                 {% if site.rss %}
                 <li class="social">
-                    <a href="{{ site.baseurl }}{{ site.rss }}" class="rss"><i class="fa fa-rss fa-lg fa-fw"></i></a>
+                    <a name="nav_rss" id="nav_rss" href="{{ site.baseurl }}{{ site.rss }}" class="rss"><i title="RSS" class="fa fa-rss fa-lg fa-fw"></i></a>
                 </li>
                 {% endif %} {% if site.tumblr %}
                 <li class="social">
-                    <a href="{{ site.tumblr }}" class="tumblr"><i class="fa fa-tumblr fa-lg fa-fw"></i></a>
+                    <a name="nav_tumblr" id="nav_tumblr" href="{{ site.tumblr }}" class="tumblr"><i class="fa fa-tumblr fa-lg fa-fw"></i></a>
                 </li>
                 {% endif %} {% if site.pinterest %}
                 <li class="social">
-                    <a href="{{ site.pinterest }}" class="pinterest"><i class="fa fa-pinterest fa-lg fa-fw"></i></a>
+                    <a name="nav_pinterest" id="nav_pinterest" href="{{ site.pinterest }}" class="pinterest"><i title="pinterest" class="fa fa-pinterest fa-lg fa-fw"></i></a>
                 </li>
                 {% endif %} {% if site.youtube %}
                 <li class="social">
-                    <a href="{{ site.youtube }}" class="youtube" title="View {{ site.author.name  }} YouTube Channel"><i class="fa fa-youtube fa-lg fa-fw"></i></a>
+                    <a name="nav_youtube" id="nav_youtube" href="{{ site.youtube }}" class="youtube" title="View {{ site.author.name  }} YouTube Channel"><img src="/icons/youtube.svg" style="height:34px;width:34px;" /></a>
                 </li>
                 {% endif %} {% if site.vimeo %}
                 <li class="social">
-                    <a href="{{ site.vimeo }}" class="vimeo"><i class="fa fa-vimeo-square fa-lg fa-fw"></i></a>
+                    <a name="nav_vimeo" id="nav_vimeo" href="{{ site.vimeo }}" class="vimeo"><i class="fa fa-vimeo-square fa-lg fa-fw"></i></a>
                 </li>
                 {% endif %} {% if site.soundcloud %}
                 <li class="social">
-                    <a href="{{ site.soundcloud }}" class="soundcloud"><i class="fa fa-soundcloud fa-lg fa-fw"></i></a>
+                    <a name="nav_soundcloud" id="nav_soundcloud" href="{{ site.soundcloud }}" class="soundcloud"><i class="fa fa-soundcloud fa-lg fa-fw"></i></a>
                 </li>
                 {% endif %} {% if site.instagram %}
                 <li class="social">
-                    <a href="{{ site.instagram }}" class="instagram"><i class="fa fa-instagram fa-lg fa-fw"></i></a>
+                    <a name="nav_instagram" id="nav_instagram" href="{{ site.instagram }}" class="instagram"><i class="fa fa-instagram fa-lg fa-fw"></i></a>
                 </li>
                 {% endif %} {% if site.facebook.publisher %}
                 <li class="social">
-                    <a href="{{ site.facebook.publisher }}" class="facebook"><i class="fa fa-facebook fa-lg fa-fw"></i></a>
+                    <a name="nav_facebook" id="nav_facebook" href="{{ site.facebook.publisher }}" class="facebook"><i class="fa fa-facebook fa-lg fa-fw"></i></a>
                 </li>
                 {% endif %} {% if site.twitter.username %}
                 <li class="social">
-                    <a href="https://twitter.com/{{ site.twitter.username }}" class="twitter" title="Visit {{ site.author.name  }} on Twitter"><i class="fa fa-twitter fa-lg fa-fw"></i></a>
+                    <a name="nav_twitter" id="nav_twitter" href="https://twitter.com/{{ site.twitter.username }}" class="twitter" title="Visit {{ site.author.name  }} on Twitter"><img src="/icons/twitter.svg" style="height:34px;width:34px;" /></i></a>
+                </li>
+                {% endif %} {% if site.mastodon.username %}
+                <li class="social">
+                    <a name="nav_mastodon" id="nav_mastodon" href="https://hackaday.social/@{{ site.mastodon.username }}" class="mastodon" title="Visit {{ site.author.name  }} on Mastodon"><img src="/icons/mastodon.svg" style="height:34px;width:34px;" /></a>
                 </li>
                 {% endif %} {% if site.author.email %}
                 <li class="social">
-                    <a href="mailto:{{ site.author.email }}" class="noline" title="Send an email to {{ site.author.name  }}"><i class="fa fa-envelope fa-lg fa-fw"></i></a>
+                    <a name="nav_mailto" id="nav_mailto" href="mailto:{{ site.author.email }}" class="noline" title="Send an email to {{ site.author.name  }}"><i class="fa fa-envelope fa-lg fa-fw"></i></a>
                 </li>
                 {% endif %}
             </ul>
