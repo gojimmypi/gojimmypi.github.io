@@ -29,8 +29,13 @@
         }
     </style>
     <div class="logo-container">
-        <a href="{{ site.baseurl | replace: '//', '/' }}/" class="logo noline">
+        <a name="home_gojimmypi_logo" id="home_gojimmypi_logo" href="{{ site.baseurl | replace: '//', '/' }}/" class="logo noline">
             <img src="/images/gojimmypi.svg" class="jimmy_logo" alt="gojimmypi logo">
         </a>
+        <div id="installContainer" class="hidden" style="visibility:hidden">
+            <button id="btnInstall" type="button">
+                Install Test
+            </button>
+        </div>
     </div>
 </div>
