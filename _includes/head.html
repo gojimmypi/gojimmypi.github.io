@@ -1,12 +1,14 @@
 ﻿    {% if (jekyll.environment == "development") %}
-        <!-- jekyll.environment: development -->
-        <!-- this page is from [{{ page.path }}] -->
-	{% else %}<!-- jekyll.environment: production -->
-	{% endif %}
+<!-- jekyll.environment: development -->
+<!-- this page is from [{{ page.path }}] -->
+    {% else %}<!-- jekyll.environment: production -->
+    {% endif %}
 
 <meta content='width=device-width, initial-scale=1' name='viewport' />
 <!-- meta name="color-scheme" content="dark light" -->
 <!-- JS -->
+<!-- see https://developer.chrome.com/docs/lighthouse/pwa/themed-omnibox/?utm_source=lighthouse&utm_medium=devtools -->
+<meta name="theme-color" content="#333333" />
 
 <script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script>
 
@@ -25,25 +27,25 @@
 </script>
 
 <script type="text/javascript">
-	fallback.load({
+    fallback.load({
 
-		main: "{{ site.baseurl | replace: '//', '/' }}/css/main.css",
+        main: "{{ site.baseurl | replace: '//', '/' }}/css/main.css",
 
-		fontawesome: [
-			{% if jekyll.environment != "development" %}"https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css",
-			"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css",{% endif %}
-			"{{ site.baseurl | replace: '//', '/' }}/css/font-awesome.min.css"
-		],
-
-		jQuery: [
-			{% if jekyll.environment != "development" %}"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js",
-      "https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js",{% endif %}
-			"{{ site.baseurl | replace: '//', '/' }}/js/jquery-2.2.2.min.js"
+        fontawesome: [
+            {% if jekyll.environment != "development" %}"https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css",
+            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css",{% endif %}
+            "{{ site.baseurl | replace: '//', '/' }}/css/font-awesome.min.css"
         ],
-		Materialize: [
-			{% if jekyll.environment != "development" %}"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js",{% endif %}
-			"{{ site.baseurl | replace: '//', '/' }}/js/materialize.min.js"
-		],
+
+        jQuery: [
+            {% if jekyll.environment != "development" %}"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js",
+      "https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js",{% endif %}
+            "{{ site.baseurl | replace: '//', '/' }}/js/jquery-2.2.2.min.js"
+        ],
+        Materialize: [
+            {% if jekyll.environment != "development" %}"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js",{% endif %}
+            "{{ site.baseurl | replace: '//', '/' }}/js/materialize.min.js"
+        ],
     cssTransitionSupport: [
       {% if site.infinite_scroll == true %}
         {% if site.sidebar_toc == true %}
@@ -57,12 +59,12 @@
         {% else %}
           "{{ site.baseurl | replace: '//', '/' }}/js/global.min.js"
         {% endif %}
-		  {% endif %}
+          {% endif %}
     ]{% if page.math %},
-		MathJax: [
-			{% if jekyll.environment != "development" %}"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full",{% endif %}
-			"{{ site.baseurl | replace: '//', '/' }}/MathJax/MathJax.js?config=TeX-AMS_CHTML-full"
-		]{% endif %}
+        MathJax: [
+            {% if jekyll.environment != "development" %}"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full",{% endif %}
+            "{{ site.baseurl | replace: '//', '/' }}/MathJax/MathJax.js?config=TeX-AMS_CHTML-full"
+        ]{% endif %}
     }, {
     shim: {
       'Materialize': ['jQuery'],
@@ -95,25 +97,25 @@
 </script>
 <!-- CSS -->
 <style type="text/css">
-	{% capture include_to_scssify %}
-		{% include _heading.scss %}
-	{% endcapture %}
-	{{ include_to_scssify | scssify }}
+    {% capture include_to_scssify %}
+        {% include _heading.scss %}
+    {% endcapture %}
+    {{ include_to_scssify | scssify }}
 </style>
 {% else %}
 </script>
 {% endif %}
 {% if page.amsthm %}
 <style type="text/css">
-	{% capture include_to_scssify %}
-		{% include _amsthm.scss %}
-	{% endcapture %}
-	{{ include_to_scssify | scssify }}
+    {% capture include_to_scssify %}
+        {% include _amsthm.scss %}
+    {% endcapture %}
+    {{ include_to_scssify | scssify }}
 </style>
 {% endif %}
 <!-- Google Analytics. Put the ID in _config.yml -->
 {% if jekyll.environment != "development" %}
-<script  type="text/javascript">
+<script type="text/javascript">
 </script>{% endif %}
 
 <!-- Load the user's last selected theme for the lamp -->
