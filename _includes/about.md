@@ -30,3 +30,5 @@ this_github_page     = [{{ this_github_page }}]
 -->
 
 [//]: # (this is a comment)
+
+This is the `_includes/about.md` file
