@@ -35,7 +35,7 @@ $(document).ready(function () {
             $('body').removeClass('overflow');
         }
     });
-    
+
     var cookieLayout = getCookie("switch-style");
     if (cookieLayout != "") {
         $("#switch-style").attr("href", "{{site.baseurl}}/css/" + cookieLayout + ".css");
@@ -77,17 +77,17 @@ $(window).scroll(function () {
 
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+d.toUTCString();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + "; " + expires;
 }
 
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
+    for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
+        while (c.charAt(0) == ' ') c = c.substring(1);
         if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
     }
     return "";
@@ -105,7 +105,7 @@ function checkCookie(cname) {
 // lightbox stuff
 $(function () {
     var activityIndicatorOn = function () {
-            $('<div id="imagelightbox-loading"><div></div></div>').appendTo('body');
+        $('<div id="imagelightbox-loading"><div></div></div>').appendTo('body');
         },
         activityIndicatorOff = function () {
             $('#imagelightbox-loading').remove();
@@ -154,13 +154,13 @@ $(function () {
                 });
                 var navItems = nav.find('button');
                 navItems.on('click touchend', function () {
-                        var $this = $(this);
-                        if (images.eq($this.index()).attr('href') != $('#imagelightbox').attr('src'))
-                            instance.switchImageLightbox($this.index());
-                        navItems.removeClass('active');
-                        navItems.eq($this.index()).addClass('active');
-                        return false;
-                    })
+                    var $this = $(this);
+                    if (images.eq($this.index()).attr('href') != $('#imagelightbox').attr('src'))
+                        instance.switchImageLightbox($this.index());
+                    navItems.removeClass('active');
+                    navItems.eq($this.index()).addClass('active');
+                    return false;
+                })
                     .on('touchend', function () {
                         return false;
                     });
