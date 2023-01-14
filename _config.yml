@@ -16,6 +16,8 @@ pinterest: "https://fi.pinterest.com/gojimmypi/"
 # instagram: "#"
 twitter: # for both nav & jekyll-seo-tag
   username: "gojimmypi" #name only
+mastodon: # for both nav & jekyll-seo-tag
+  username: "gojimmypi" #name only
 # facebook: # for both nav & jekyll-seo-tag
 #   publisher: "#" #full link
 youtube: "https://www.youtube.com/channel/UCR01egMbYgXQGJaocNEDEwg"
