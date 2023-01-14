@@ -125,8 +125,8 @@ TypeKit -->
         divInstall.classList.toggle('hidden', false);
     });
 
-    butInstall.addEventListener('click', async () => {
-        console.log('ok', 'butInstall-clicked');
+    btnInstall.addEventListener('click', async () => {
+        console.log('ok', 'btnInstall-clicked');
         const promptEvent = window.deferredPrompt;
         if (!promptEvent) {
             // The deferred prompt isn't available.
