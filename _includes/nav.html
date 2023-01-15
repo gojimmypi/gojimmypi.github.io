@@ -8,10 +8,7 @@
                     <a class="homelink" href="{{ site.baseurl | replace: '//', '/' }}/" title="Home"><i class="fa fa-home fa-lg fa-fw"></i></a>
                 </li>
                 <li>
-                    <a class="dropdown-button" href="#" data-activates='drop-author'>About<i class="fa fa-caret-down fa-fw"></i></a>
-                </li>
-                <li>
-                    <a class="dropdown-button" href="#" data-activates='drop-archive'>Archive<i class="fa fa-caret-down fa-fw"></i></a>
+                    <a href="{{ site.authors_dir | prepend: site.baseurl | replace: '//', '/' }}">About</a>
                 </li>
                 <li id="theme-toggle-container" class="lamp-navbar-item">
                     <button id="theme-toggle" class="lamp" aria-label="Toggle theme" type="button">
@@ -19,16 +16,6 @@
                     </button>
                 </li>
 
-            </ul>
-            <ul id="drop-author" class="dropdown-content">
-                <li>
-                    <a href="{{ site.authors_dir | prepend: site.baseurl | replace: '//', '/' }}">About</a>
-                </li>
-                {% for siteauthor in site.data.authors %}
-                <li>
-                    <a href="{{ site.baseurl }}{{ site.author_dir }}/{{ siteauthor.id }}">{{ siteauthor.name }}</a>
-                </li>
-                {% endfor %}
             </ul>
             <ul id="drop-archive" class="dropdown-content">
                 <li>
