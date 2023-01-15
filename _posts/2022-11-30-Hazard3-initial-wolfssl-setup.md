@@ -8,6 +8,8 @@ tags:
 ---
 
 This is some info for Hazard3. Currently messy and WIP.
+The notes are for setting up a real app (wolfSSL benchmark) on 
+the soft RISC-V for the ULX3S ECP5 FPGA.
 
 ```
 export MYOSSCADSUITE=/mnt/c/download/yosyshq
