@@ -4,13 +4,15 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" id="switch-style" href="/css/grid.css">
         
-        <!-- jekyll.environment: development -->
-        <!-- this page is from [tag/rfm95/index.html] -->
-	
+<!-- jekyll.environment: development -->
+<!-- this page is from [tag/rfm95/index.html] -->
+    
 
 <meta content='width=device-width, initial-scale=1' name='viewport' />
 <!-- meta name="color-scheme" content="dark light" -->
 <!-- JS -->
+<!-- see https://developer.chrome.com/docs/lighthouse/pwa/themed-omnibox/?utm_source=lighthouse&utm_medium=devtools -->
+<meta name="theme-color" content="#333333" />
 
 <script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script>
 
@@ -190,7 +192,7 @@ if (_HideForChange == null || _HideForChange == "dark") {
 <!-- Site Infos -->
 <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>RFM95 | gojimmypi</title>
-<meta name="generator" content="Jekyll v3.9.0" />
+<meta name="generator" content="Jekyll v3.9.3" />
 <meta property="og:title" content="RFM95" />
 <meta name="author" content="gojimmypi" />
 <meta property="og:locale" content="en_US" />
@@ -248,56 +250,14 @@ if (_HideForChange == null || _HideForChange == "dark") {
                     <a class="homelink" href="/" title="Home"><i class="fa fa-home fa-lg fa-fw"></i></a>
                 </li>
                 <li>
-                    <a class="dropdown-button" href="#" data-activates='drop-author'>About<i class="fa fa-caret-down fa-fw"></i></a>
-                </li>
-                <li>
-                    <a class="dropdown-button" href="#" data-activates='drop-archive'>Archive<i class="fa fa-caret-down fa-fw"></i></a>
-                </li>
-                <li>
-    <a class="dropdown-button" href="#" data-activates='drop-example'>Page Layouts<i class="fa fa-caret-down fa-fw"></i></a>
-</li>
-<li>
-    <ul id="drop-example" class="dropdown-content">
-        <li>
-            <a href="/markdown">Markdown</a>
-        </li>
-        <li>
-            <a href="/page-full">page-full</a>
-        </li>
-        <li>
-            <a href="/page-classic-sidebar-right">page classic sidebar right</a>
-        </li>
-        <li>
-            <a href="/page-classic-sidebar-left">page classic sidebar left</a>
-        </li>
-        <li>
-            <a href="/page-material-sidebar-right">page material sidebar right</a>
-        </li>
-        <li>
-            <a href="/page-material-sidebar-left">page material sidebar left</a>
-        </li>
-    </ul>
-</li>
-
-                <li>
-                    <a href="#colorswitch" class="modal-trigger">Change Colors <i class="fa fa-cog"></i></a>
+                    <a href="/about">About</a>
                 </li>
                 <li id="theme-toggle-container" class="lamp-navbar-item">
                     <button id="theme-toggle" class="lamp" aria-label="Toggle theme" type="button">
-                        <img id="lightModeIcon" src="/icons/light_mode_black_24dp.svg" style="display:inline;" title="Light Mode; Click to switch to Dark Mode" /><img id="darkModeIcon" src="/icons/dark_mode_white_24dp.svg" style="display:none;" title="Dark Mode; Click to swtich to Light Mode" />
+                        <img id="lightModeIcon" src="/icons/light_mode_black_24dp.svg" style="display: inline; height: 34px; width: 34px" title="Light Mode; Click to switch to Dark Mode" /><img id="darkModeIcon" src="/icons/dark_mode_white_24dp.svg" style="display: none; height: 34px; width: 34px " title="Dark Mode; Click to switch to Light Mode" />
                     </button>
                 </li>
 
-            </ul>
-            <ul id="drop-author" class="dropdown-content">
-                <li>
-                    <a href="/about">About</a>
-                </li>
-                
-                <li>
-                    <a href="/author/gojimmypi">gojimmypi</a>
-                </li>
-                
             </ul>
             <ul id="drop-archive" class="dropdown-content">
                 <li>
@@ -314,27 +274,30 @@ if (_HideForChange == null || _HideForChange == "dark") {
         <nav class="iconnav">
             <ul>
                 <li class="sicon">
-                    <a href='#search'><i class="fa fa-search fa-lg fa-fw"></i></a>
+                    <a name="nav_search" id="nav_search" href='#search'>search</i></a>
                 </li>
                 
                 <li class="social">
-                    <a href="/feed.xml" class="rss"><i class="fa fa-rss fa-lg fa-fw"></i></a>
                 </li>
                   
                 <li class="social">
-                    <a href="https://fi.pinterest.com/gojimmypi/" class="pinterest"><i class="fa fa-pinterest fa-lg fa-fw"></i></a>
+                    <a name="nav_pinterest" id="nav_pinterest" href="https://fi.pinterest.com/gojimmypi/" class="pinterest"><i title="pinterest" class="fa fa-pinterest fa-lg fa-fw"></i></a>
                 </li>
                  
                 <li class="social">
-                    <a href="https://www.youtube.com/channel/UCR01egMbYgXQGJaocNEDEwg" class="youtube" title="View gojimmypi YouTube Channel"><i class="fa fa-youtube fa-lg fa-fw"></i></a>
+                    <a name="nav_youtube" id="nav_youtube" href="https://www.youtube.com/channel/UCR01egMbYgXQGJaocNEDEwg" class="youtube" title="View gojimmypi YouTube Channel"><img src="/icons/youtube.svg" style="height:34px;width:34px;" /></a>
                 </li>
                      
                 <li class="social">
-                    <a href="https://twitter.com/gojimmypi" class="twitter" title="Visit gojimmypi on Twitter"><i class="fa fa-twitter fa-lg fa-fw"></i></a>
+                    <a name="nav_twitter" id="nav_twitter" href="https://twitter.com/gojimmypi" class="twitter" title="Visit gojimmypi on Twitter"><img src="/icons/twitter.svg" style="height:34px;width:34px;" /></i></a>
                 </li>
                  
                 <li class="social">
-                    <a href="mailto:gojimmypi@gmail.com" class="noline" title="Send an email to gojimmypi"><i class="fa fa-envelope fa-lg fa-fw"></i></a>
+                    <a name="nav_mastodon" id="nav_mastodon" href="https://hackaday.social/@gojimmypi" class="mastodon" title="Visit gojimmypi on Mastodon"><img src="/icons/mastodon.svg" style="height:34px;width:34px;" /></a>
+                </li>
+                 
+                <li class="social">
+                    <a name="nav_mailto" id="nav_mailto" href="mailto:gojimmypi@gmail.com" class="noline" title="Send an email to gojimmypi"><img src="/icons/mail.svg" style="height:34px;width:34px;" /></i></a>
                 </li>
                 
             </ul>
@@ -529,12 +492,11 @@ TypeKit -->
 
 
     if ((codeBlocks.length == 0) && (copyCodeButtons.length > 0)) {
-         
+        
         alert("Warning: code block missing. Is your language spec missing or not lower case? Copy icons disabled.");
-         
+        
     }
-    else
-    {
+    else {
         copyCodeButtons.forEach((copyCodeButton, index) => {
             const code = codeBlocks[index].innerText;
             // some older pages use HTML with a blank innerText, non-blank textContent
@@ -620,5 +582,48 @@ TypeKit -->
     });
 
 </script>
+
+<!-- https://web.dev/codelab-make-installable/ -->
+<script type="text/javascript">
+    window.addEventListener('beforeinstallprompt', (event) => {
+        // Prevent the mini-infobar from appearing on mobile.
+        event.preventDefault();
+        console.log('ok', 'beforeinstallprompt', event);
+        // Stash the event so it can be triggered later.
+        window.deferredPrompt = event;
+        // Remove the 'hidden' class from the install button container.
+        divInstall.classList.toggle('hidden', false);
+    });
+
+    btnInstall.addEventListener('click', async () => {
+        console.log('ok', 'btnInstall-clicked');
+        const promptEvent = window.deferredPrompt;
+        if (!promptEvent) {
+            // The deferred prompt isn't available.
+            return;
+        }
+        // Show the install prompt.
+        promptEvent.prompt();
+        // Log the result
+        const result = await promptEvent.userChoice;
+        console.log('ok', 'userChoice', result);
+        // Reset the deferred prompt variable, since
+        // prompt() can only be called once.
+        window.deferredPrompt = null;
+        // Hide the install button.
+        divInstall.classList.toggle('hidden', true);
+    });
+
+    window.addEventListener('appinstalled', (event) => {
+        console.log('ok', 'appinstalled', event);
+        // Clear the deferredPrompt so it can be garbage collected
+        window.deferredPrompt = null;
+    });
+</script>
+
+<!-- see
+https://github.com/GoogleChrome/lighthouse/blob/main/core/audits/service-worker.js"
+-->
+
     </body>
 </html>
