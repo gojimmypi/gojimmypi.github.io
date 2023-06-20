@@ -20,3 +20,5 @@ group :jekyll_plugins do
 #  gem 'jekyll-paginate'
 end
 # gem "jekyll", "~> 3.9"
+
+gem "webrick", "~> 1.8"
