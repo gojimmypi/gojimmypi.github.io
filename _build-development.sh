@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 echo "$1"
 
-
+# for GH Pages / GitHub Pages and Jekyll install, see:
+# https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll
 if command -v bundle &> /dev/null ; then
-  echo "Confirmed bundle is installed"
+  echo "Confirmed bundler is installed"
 else
-  echo "ERROR: It appears bundle is not installed."
+  echo "ERROR: It appears bundler is not installed." >&2
+  echo "see https://jekyllrb.com/docs/installation/ubuntu/"
   exit 1
 fi
 
@@ -13,7 +15,9 @@ bundle exec jekyll --help &> /dev/null
 if [ $? -eq 0 ]; then
   echo "Confirmed jekyll bundle is installed"
 else
+  bundle exec jekyll --help
   echo 'Error: bundle exec jekyll is not installed or returned an error.' >&2
+  echo "see https://jekyllrb.com/docs/installation/ubuntu/"
   exit 1
 fi
 
@@ -69,10 +73,10 @@ fi
 if [ "$1" == "--assume-yes" ]; then
   # we have a chicken-and-egg problem with the tag directory: it needs to get copied FROM the _site directory, AFTER generation, but it gets copied before - so we need to wipe it out
   echo "Removing files in  $TAG_DIR ..."
-  rm -Rf $TAG_DIR  
+  rm -Rf $TAG_DIR
 
   echo "Removing files in  $SITE_DIR ..."
-  rm -Rf $SITE_DIR  
+  rm -Rf $SITE_DIR
 else
   read -p "Delete files in $SITE_DIR? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] &&  if [ -d "$SITE_DIR" ]; then rm -Rf $SITE_DIR;  rm -Rf $TAG_DIR;  fi
 fi
