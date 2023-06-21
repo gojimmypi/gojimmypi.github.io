@@ -10,6 +10,36 @@ Tutorial: [jmcglone](http://jmcglone.com/guides/github-pages/)
 
 hosted by [pages.github.com/](https://pages.github.com/)
 
-[Shared OSHPARK Projects](https://oshpark.com/profiles/gojimmypi)
+## gojimmypi on the web:
 
-test
+* [github](https://github.com/gojimmypi)
+* [Shared OSHPARK Projects](https://oshpark.com/profiles/gojimmypi)
+* [stackoverflow](https://stackoverflow.com/users/5432351/gojimmypi)
+* [crowdsupply](https://www.crowdsupply.com/people/gojimmypi)
+* [twitter](https://twitter.com/gojimmypi)
+* [sysprogs forum](https://sysprogs.com/w/forums/users/gojimmypi/)
+
+## Site feedback & TODO list
+
+There are pros and cons of this web site architecture.
+
+At the moment, most seem to be cons. The original example used a bunch of cute add-ins, that over
+time have turned out to be more of a liability.
+
+Things I like:
+
+* Create a new post & have all the infrastructure updated automatically: tags, contents, etc.
+* My implementation of the "infinite scroll" that pops new items into view as needed
+* My implementation of the "light/dark" mode button
+* Left panel contents by keyword automatically generated.
+* Jump directly to GitHub source from each page via octocat in upper right.
+
+Things that need attention:
+
+* Search not working.
+* The fonts used are complex and can be improved.
+* There's an undesired white flash when first visiting each page when in dark mode.
+* Some of the bloat features need to be removed, e.g. [Ruby Sass has reached end-of-life and should no longer be used](https://twitter.com/gojimmypi/status/1670903518700638209?s=20).
+* The "categories" is not working properly.
+* The menu bar layout and spacing at the top of the screen needs to be improved.
+* It would be nice to have a mini image of the first image of each post on the main page.
