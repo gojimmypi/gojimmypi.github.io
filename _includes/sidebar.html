@@ -1,48 +1,6 @@
 <div id="renderTOC"></div>
 <div class="widget">
-    <h1 class="title"><a href="{{ site.categories_dir | prepend: site.baseurl | replace: '//', '/' }}/">Categories</a></h1>
-	{% assign category_list = site.categories | sort %}
-	<!-- level 0 -->
-	<ol class="category-list">
-	{% for category0 in category_list %} <!-- change level here -->
-		{% assign printed0 = false %} <!-- change level here -->
-		{% for post in site.posts %}
-			{% if post.categories[0] == category0[0] and printed0 == false %} <!-- change level here -->
-				<li><a href="{{ site.category_dir | prepend: site.baseurl}}/{{ category0[0] | slugify }}">{{ category0[0] }}</a></li> <!-- change level here -->
-				{% assign printed0 = true %} <!-- change level here -->
-	<!-- level 1 -->
-				<ol>
-				{% for category1 in category_list %} <!-- change level here -->
-					{% assign printed1 = false %} <!-- change level here -->
-					{% for post in site.posts %}
-						{% if post.categories[0] == category0[0] and post.categories[1] == category1[0] and printed1 == false %} <!-- change level here -->
-							<li><a href="{{ site.category_dir | prepend: site.baseurl}}/{{ category1[0] | slugify }}">{{ category1[0] }}</a></li> <!-- change level here -->
-							{% assign printed1 = true %} <!-- change level here -->
-				<!-- level 2 -->
-					<ol>
-					{% for category2 in category_list %} <!-- change level here -->
-						{% assign printed2 = false %} <!-- change level here -->
-						{% for post in site.posts %}
-							{% if post.categories[0] == category0[0] and post.categories[1] == category1[0] and post.categories[2] == category2[0] and printed2 == false %} <!-- change level here -->
-								<li><a href="{{ site.category_dir | prepend: site.baseurl}}/{{ category2[0] | slugify }}">{{ category2[0] }}</a></li> <!-- change level here -->
-								{% assign printed2 = true %} <!-- change level here -->
-					<!-- level 3 -->
-					<!-- end of level 3 -->
-							{% endif %}
-						{% endfor %}
-					{% endfor %}
-					</ol>
-				<!-- end of level 2 -->
-						{% endif %}
-					{% endfor %}
-				{% endfor %}
-				</ol>
-	<!-- end of level 1 -->
-			{% endif %}
-		{% endfor %}
-	{% endfor %}
-	</ol>
-	<!-- end of level 0 -->
+    <h1 class="title"><a href="{{ site.categories_dir | prepend: site.baseurl | replace: '//', '/' }}/"><!-- categories disabled --></a></h1>
 </div>
 <div class="widget">
     <h1 class="title"><a href="{{ site.tags_dir | prepend: site.baseurl | replace: '//', '/' }}/">Tags</a></h1>

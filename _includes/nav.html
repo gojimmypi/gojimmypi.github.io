@@ -19,9 +19,6 @@
             </ul>
             <ul id="drop-archive" class="dropdown-content">
                 <li>
-                    <a href="{{ site.categories_dir | prepend: site.baseurl | replace: '//', '/' }}">Categories</a>
-                </li>
-                <li>
                     <a href="{{ site.tags_dir | prepend: site.baseurl | replace: '//', '/' }}">Tags</a>
                 </li>
                 <li>
@@ -31,9 +28,6 @@
         </nav>
         <nav class="iconnav">
             <ul>
-                <li class="sicon">
-                    <a name="nav_search" id="nav_search" href='#search'>search</i></a>
-                </li>
                 {% if site.rss %}
                 <li class="social">
                 </li>
