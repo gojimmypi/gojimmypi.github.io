@@ -14,3 +14,8 @@ tags:
 I'll be giving a presentation at [Hackaday Supercon 2024](https://hackaday.com/tag/2024-hackaday-supercon/) in Pasadena, CA.
 
 Slides and other resources will be here afterwards.
+
+* [Event Schedule](https://hackaday.io/superconference/schedule.html)
+* [Speaker Schedule](https://hackaday.io/superconference/speakers.html)
+* [Workshops](https://hackaday.io/superconference/workshops.html)
+
