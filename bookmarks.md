@@ -1,3 +1,8 @@
+---
+layout: default
+title: Bookmarks
+---
+
 # Bookmarks
 
 These are my various bookmarks.
@@ -72,6 +77,10 @@ https://github.com/marketplace/sourcery-ai/
 ## Events
 
 * [Embedded World](https://www.embedded-world.de/en)
+
+## wolfSSL Partners
+
+* [Analog Devices ADI Engineer Zone: Securing IoT and Embedded Systems: Integrate MAXQ1065 with wolfSSL](https://ez.analog.com/ez-blogs/b/engineerzone-spotlight/posts/securing-iot-and-embedded-systems-integrate-maxq1065-with-wolfssl)
 
 ## wolfSSL - Production/Release
 
