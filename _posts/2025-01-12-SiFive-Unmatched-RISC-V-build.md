@@ -15,7 +15,7 @@ Components used:
 * [HiFive Unmatched Rev B Freedom HF105-001, Mouser 115-HF105-001](https://www.mouser.com/ProductDetail/SiFive/HF105-001?qs=Imq1NPwxi75JBw6ulD0quQ%3D%3D).
 * [Intel Wi-Fi 6 Multiprotocol Modules Wi-Fi 6 AX201 (Gig+), 2230, 2x2 AX+BT, vPro](https://www.mouser.com/ProductDetail/607-AX201.NGWG), [datasheet](https://www.mouser.com/datasheet/2/612/wi_fi_6_ax201_module_brief-1661650.pdf).
 * [Fractal Design Ridge Black - PCIe 4.0 Riser Card Included - 2X 140mm PWM Aspect Fans Included - Type C USB - m-ITX PC Gaming Case](https://www.amazon.com/dp/B0C2CKPDG4).
-* [Corsair SF850L Fully Modular Low-Noise SFX Power Supply - ATX 3.0 & PCIe 5.0 Compliant - Quiet 120mm PWM Fan - 80 Plus Gold Efficiency - Zero RPM Mode - 105°C-Rated Capacitors - Black](https://www.amazon.com/dp/B0DBWF6WMR).
+* [Corsair SF850L Fully Modular Low-Noise SFX Power Supply - ATX 3.0 & PCIe 5.0 Compliant - Quiet 120mm PWM Fan - 80 Plus Gold Efficiency - Zero RPM Mode - 105 C-Rated Capacitors - Black](https://www.amazon.com/dp/B0DBWF6WMR).
 * [XFX Radeon RX 580 GTS XXX Edition 1386MHz OC+, 8GB GDDR5, VR Ready, Dual BIOS, 3xDP HDMI DVI, AMD Graphics Card (RX-580P8DFD6)](https://www.amazon.com/gp/product/B06Y66K3XD/) (optional).
 * [Samsung MZ-V7S500B/AM 500GB 970 EVO Plus M.2 (2280)](https://www.amazon.com/dp/B07M7Q21N7).
 * [SanDisk 32GB Ultra microSDHC UHS-I Memory Card with Adapter - 98MB/s, C10, U1, Full HD, A1, Micro SD Card - SDSQUAR-032G-GN6MA](https://www.amazon.com/gp/product/B073JWXGNT/).
