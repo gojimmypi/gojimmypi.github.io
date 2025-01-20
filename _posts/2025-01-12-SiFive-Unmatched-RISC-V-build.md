@@ -47,6 +47,108 @@ Ensure the dip switches are set for the MSEL for Unmatched.
 The fan shipped with the board is impressively and undesirably loud. Consider buying a [DC 25mm Fan 12V 2510 Hydraulic Bearing Brushless Cooling 25mmx10mm](https://www.amazon.com/gp/product/B07KS36L66/).
 Make extra note that it is a 12v fan.
 
+NOTE: ssh is _enabled_ by default. See [docs](https://github.com/sifive/freedom-u-sdk?tab=readme-ov-file#connecting-using-ssh) to disable:
+
+```
+systemctl disable sshd.socket
+systemctl stop sshd.socket
+```
+
+Change the default password and setup user login:
+
+```bash
+THIS_USER=gojimmypi
+
+echo "Setting up usder: $THIS_USER with sudo permissions..."
+sudo useradd -m -s /bin/bash $THIS_USER
+sudo usermod -aG sudo $THIS_USER
+groups $THIS_USER
+sudo passwd $THIS_USER
+
+# change password from default for root user
+sudo passwd root
+```
+
+Manually edit `/etc/sudoers`:
+
+```
+nano /etc/sudoers
+```
+
+Ensure the `/etc/sudoers` file contains this text:
+
+```
+##
+## User privilege specification
+##
+root ALL=(ALL:ALL) ALL
+gojimmypi ALL=(ALL:ALL) ALL
+```
+
+
+Note the `$PATH` value for the `root` user. Set this as needed for new users.
+
+```
+echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+```
+
+View the release:
+
+```text
+root@unmatched:~# cat /etc/*-release
+ID=freedom-u-sdk
+NAME="FreedomUSDK (SiFive Freedom Unleashed SDK)"
+VERSION="2024.10.00 (2024November)"
+VERSION_ID=2024.10.00
+VERSION_CODENAME="2024November"
+PRETTY_NAME="FreedomUSDK (SiFive Freedom Unleashed SDK) 2024.10.00 (2024November)"
+CPE_NAME="cpe:/o:openembedded:freedom-u-sdk:2024.10.00"
+```
+
+There's a fairly minimal Linux. There's no `apt-get`, no `dpkg`, no `opkg`. The wired Ethernet is called `end0` and NOT `eth0`.
+
+Setup network:
+
+```bash
+sudo ip addr add 192.168.1.105/24 dev end0
+sudo ip route add default via 192.168.1.1
+echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+ping -c 4 8.8.8.8
+```
+
+There are however, all the essentials to bake your own cake: `gcc`, `make`, `git`:
+
+```text
+root@unmatched:~# which gcc
+/usr/bin/gcc
+
+root@unmatched:~# gcc --version
+gcc (GCC) 14.2.0
+Copyright (C) 2024 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+root@unmatched:~# which make
+/usr/bin/make
+
+root@unmatched:~# make --version
+GNU Make 4.4.1
+Built for riscv64-freedomusdk-linux-gnu
+Copyright (C) 1988-2023 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+root@unmatched:~#  which git
+/usr/bin/git
+
+root@unmatched:~# git --version
+git version 2.47.0
+```
+
+
+
 I wrote a 5-part blog on using wolfSSL with RISC-V systems:
 
 * [Part 1: Ready for Integration: wolfSSL and RISC-V](https://www.wolfssl.com/part-1-ready-for-integration-wolfssl-and-risc-v/)
@@ -57,3 +159,9 @@ I wrote a 5-part blog on using wolfSSL with RISC-V systems:
 
 
 demo-coreip-cli-unmatched.rootfs.wic.xz
+
+Other links:
+
+- https://www.sifive.com/boards/hifive-unmatched
+- https://forums.sifive.com/t/installing-ubuntu-21-04-on-the-hifive-unmatched/4710/12
+*
