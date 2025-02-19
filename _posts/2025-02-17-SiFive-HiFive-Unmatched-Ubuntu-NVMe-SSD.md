@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "SiFive Unmatched RISC-V Build"
+title: "SiFive Unmatched RISC-V NVMe SSD"
 date: '2025-1-12'
 author: gojimmypi
 tags:
@@ -12,7 +12,9 @@ tags:
 - Ubuntu
 ---
 
-See the [blogjawn.stufftoread.com/install-ubuntu-on-hifive-unmatched.html on wayback](https://web.archive.org/web/20220117214034/https://blogjawn.stufftoread.com/install-ubuntu-on-hifive-unmatched.html).
+Some notes on setting up the SiFive Unmatched RISC-V to boot from an NNVme SSD.
+
+# Download Ubuntu Image
 
 Download [cdimage.ubuntu.com/releases/24.10/release/ubuntu-24.10-preinstalled-server-riscv64+unmatched.img.xz](https://cdimage.ubuntu.com/releases/24.10/release/ubuntu-24.10-preinstalled-server-riscv64+unmatched.img.xz)
 from [cdimage.ubuntu.com/releases/](https://cdimage.ubuntu.com/releases/).  Serch for `preinstalled-server-riscv64+unmatched.img.xz` in other latest releases.
@@ -21,7 +23,7 @@ The `.xz` is a compressed file, and Windows 11 will recognize it as such. Extrac
 
 Use the [Raspberry Pi Imager](https://www.raspberrypi.com/software/).
 
-
+# Config Steps
 
 ext4load mmc 0:1 0x80200000 /boot/vmlinuz-6.11.0-8-generic
 ext4load mmc 0:1 0x84000000 /boot/uInitrd
@@ -30,7 +32,7 @@ ext4load mmc 0:1 0x88000000 /boot/dtb-6.11.0-8-generic
 booti 0x80200000 0x84000000 0x88000000
 
 
-Boot HiFive from SD:
+## Boot HiFive from SD
 
 ```
 load mmc 0:3 ${kernel_addr_r} Image.gz;
@@ -42,7 +44,7 @@ cat /etc/os-release
 ```
 
 
-Ubuntu from SD Card:
+## Ubuntu from SD Card
 ```
 ext4load mmc 0:1 0x80200000 /boot/vmlinuz-6.11.0-8-generic
 ext4load mmc 0:1 0x88000000 /boot/initrd.img-6.11.0-8-generic
@@ -67,7 +69,7 @@ booti 0x80200000 0x88000000 0x8C000000
 
 ```
 
-Boot from NVMe:
+## Boot from NVMe
 
 ```
 setenv fdtfile "/boot/dtb-6.11.0-8-generic"
@@ -119,7 +121,7 @@ booti 0x80200000 0x88000000 0x8C000000
 
 
 
-Image Fresh Disk and Mount NVMe
+## Image Fresh Disk and Mount NVMe
 
 Ubuntu 24.10 pre-installed server riscv64 unmatched.
 
@@ -147,33 +149,92 @@ sudo dd if=./ubuntu-24.10-preinstalled-server-riscv64+unmatched.img of=/dev/nvme
 # Probably needed if not enough free disk space:
 xz -dc ./ubuntu-24.10-preinstalled-server-riscv64+unmatched.img.xz | sudo dd  of=/dev/nvme0n1 bs=1M status=progress
 
+# growpart is typically not installed
+# sudo growpart /dev/nvme0n1 1
 
+sync
+
+sudo umount /mnt
+sudo umount /run/media/CIDATA-nvme0n1p12
+sudo umount /run/media/UEFI-nvme0n1p15
+
+# Ensure all drives unmounted
+lsblk
+
+# resize disk. Enter "w" at the prompt
+sudo fdisk /dev/nvme0n1
+
+# reboot to mmc again. See Boot HiFive from SD:
+reboot
+
+
+sudo fdisk /dev/nvme0n1
+# p to print partitions  (make note of nvme0n1p1 starting sector, in this case 235520)
+# d to delete partition 1
+# 1 for partition #1
+# n to create a new partition
+# 1 for partition #1
+# confirm 23550 (should be the default)
+# Enter for defaults
+# N do not remove signature
+# w to write
+# (should automatically exit)
+
+sync
+# Reboot to mms again. See Boot HiFive from SD:
+reboot
+
+lsblk
+
+# Confirm typie is ext4
+sudo blkid /dev/nvme0n1p1
+
+# Resize the drive
+sudo resize2fs /dev/nvme0n1p1
+
+# done
 
 sudo mount /dev/nvme0n1p1 /mnt
 sudo chroot /mnt
 cat /etc/os-release
 ```
 
-make uInitrd
+# Create uInitrd
+
 ```
 echo "nvme" | sudo tee -a /etc/initramfs-tools/modules
 echo "nvme-core" | sudo tee -a /etc/initramfs-tools/modules
 
-sudo update-initramfs -u -k 6.11.0-8-generic
+# sudo update-initramfs -u -k 6.11.0-8-generic
 
-sudo mkimage -A riscv -T ramdisk -C gzip -d /boot/initrd.img-6.11.0-8-generic /boot/uInitrd
+# sudo mkimage -A riscv -T ramdisk -C gzip -d /boot/initrd.img-6.11.0-8-generic /boot/uInitrd
+sudo mkimage -A riscv -O linux -T ramdisk -C none -n "Ubuntu Initrd" -d /run/media/cloudimg-rootfs-nvme0n1p1/boot/initrd.img-6.11.0-8-generic /run/media/cloudimg-rootfs-nvme0n1p1/boot/uInitrd
 
-
+# no longer copy
 # Copy to mmc SD
-sudo cp /mnt/boot/uInitrd /boot/
-sudo cp /mnt/boot/vmlinuz-6.11.0-8-generic /boot/
-sync
+# sudo cp /mnt/boot/uInitrd /boot/
+# sudo cp /mnt/boot/vmlinuz-6.11.0-8-generic /boot/
+# sync
 
-mount | grep "on / type"
+# mount | grep "on / type"
 
 ```
 
-Some NVMe possible fixes:
+## UBoot NVMe with uInitrd ramdisk
+
+
+```
+setenv devnum 0
+setenv bootargs "root=/dev/nvme0n1p1 rootfstype=ext4 rootwait console=ttySIF0,115200 earlycon"
+
+load nvme ${devnum}:1 ${kernel_addr_r} /boot/vmlinuz-6.11.0-8-generic
+load nvme ${devnum}:1 ${ramdisk_addr_r} /boot/uInitrd
+load nvme ${devnum}:1 ${fdt_addr_r} /boot/dtbs/6.11.0-8-generic/hifive-unmatched-a00.dtb
+booti ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}
+```
+
+
+# Some NVMe possible fixes
 ```
 sudo mkdir -p /mnt/nvme
 sudo mount /dev/nvme0n1p1 /mnt/nvme
@@ -190,12 +251,16 @@ u-boot-update
 ```
 
 
+## TODO review
+
+```
 setenv bootcmd 'mmc dev 0; ext4load mmc 0:1 0x80200000 /boot/vmlinuz-6.11.0-8-generic; ext4load mmc 0:1 0x88000000 /boot/initrd.img-6.11.0-8-generic; ext4load mmc 0:1 0x8C000000 /boot/dtb-6.11.0-8-generic; '
+```
 
+## NVMe Boot WIP TODO review
 
+Reminder: no trailing `;` in bootargs:
 
-
-# no trailing ; in bootargs:
 ```
 setenv bootargs 'root=/dev/nvme0n1p1 rootfstype=ext4 rw console=ttyS0,115200 earlycon debug loglevel=7'
 
@@ -208,7 +273,7 @@ ext4load nvme 0:1 0x8C000000 /boot/dtbs/6.11.0-8-generic/sifive/hifive-unmatched
 saveenv
 ```
 
-SD Boot:
+## SD Boot
 
 ```
 setenv root "/dev/mmcblk0p4"
@@ -237,7 +302,7 @@ bootargs=root=/dev/nvme0n1p1 rootfstype=ext4 rw console=ttyS0,115200 earlycon de
 bootcmd=bootflow scan
 bootdelay=2
 cpu=fu740
-ethaddr=70:b3:d5:92:fd:83
+ethaddr=[omit]
 fdt_addr=ff730cf0
 fdt_addr_r=0x8c000000
 fdtaddr=ff730cf0
@@ -254,7 +319,7 @@ preboot=setenv fdt_addr ${fdtcontroladdr};fdt addr ${fdtcontroladdr};
 pxefile_addr_r=0x8c200000
 ramdisk_addr_r=0x90000000
 scriptaddr=0x8c100000
-serial#=SF105SZ233800527
+serial#=[omit]
 stderr=serial@10010000
 stdin=serial@10010000
 stdout=serial@10010000
@@ -301,3 +366,9 @@ root@unmatched:~# ls -lh /mnt/boot/uInitrd
 -rw-r--r-- 1 root root 60M Feb 18 00:56 /mnt/boot/uInitrd
 
 ```
+
+
+Links:
+
+- [blogjawn.stufftoread.com/install-ubuntu-on-hifive-unmatched.html on wayback](https://web.archive.org/web/20220117214034/https://blogjawn.stufftoread.com/install-ubuntu-on-hifive-unmatched.html).
+
