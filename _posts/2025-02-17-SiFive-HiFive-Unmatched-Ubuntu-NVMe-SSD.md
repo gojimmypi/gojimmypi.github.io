@@ -147,7 +147,50 @@ sudo dd if=./ubuntu-24.10-preinstalled-server-riscv64+unmatched.img of=/dev/nvme
 # Probably needed if not enough free disk space:
 xz -dc ./ubuntu-24.10-preinstalled-server-riscv64+unmatched.img.xz | sudo dd  of=/dev/nvme0n1 bs=1M status=progress
 
+# growpart is typically not installed
+# sudo growpart /dev/nvme0n1 1
 
+sync
+
+sudo umount /mnt
+sudo umount /run/media/CIDATA-nvme0n1p12
+sudo umount /run/media/UEFI-nvme0n1p15
+
+# Ensure all drives unmounted
+lsblk
+
+# resize disk. Enter "w" at the prompt
+sudo fdisk /dev/nvme0n1
+
+# reboot to mmc again. See Boot HiFive from SD:
+reboot
+
+
+sudo fdisk /dev/nvme0n1
+# p to print partitions  (make note of nvme0n1p1 starting sector, in this case 235520)
+# d to delete partition 1
+# 1 for partition #1
+# n to create a new partition
+# 1 for partition #1
+# confirm 23550 (should be the default)
+# Enter for defaults
+# N do not remove signature
+# w to write
+# (should automatically exit)
+
+sync
+# Reboot to mms again. See Boot HiFive from SD:
+reboot
+
+lsblk
+
+# Confirm typie is ext4
+sudo blkid /dev/nvme0n1p1
+
+# Resize the drive
+sudo resize2fs /dev/nvme0n1p1
+
+# done
 
 sudo mount /dev/nvme0n1p1 /mnt
 sudo chroot /mnt
@@ -159,19 +202,35 @@ make uInitrd
 echo "nvme" | sudo tee -a /etc/initramfs-tools/modules
 echo "nvme-core" | sudo tee -a /etc/initramfs-tools/modules
 
-sudo update-initramfs -u -k 6.11.0-8-generic
+# sudo update-initramfs -u -k 6.11.0-8-generic
 
-sudo mkimage -A riscv -T ramdisk -C gzip -d /boot/initrd.img-6.11.0-8-generic /boot/uInitrd
+# sudo mkimage -A riscv -T ramdisk -C gzip -d /boot/initrd.img-6.11.0-8-generic /boot/uInitrd
+sudo mkimage -A riscv -O linux -T ramdisk -C none -n "Ubuntu Initrd" -d /run/media/cloudimg-rootfs-nvme0n1p1/boot/initrd.img-6.11.0-8-generic /run/media/cloudimg-rootfs-nvme0n1p1/boot/uInitrd
 
-
+# no longer copy
 # Copy to mmc SD
-sudo cp /mnt/boot/uInitrd /boot/
-sudo cp /mnt/boot/vmlinuz-6.11.0-8-generic /boot/
-sync
+# sudo cp /mnt/boot/uInitrd /boot/
+# sudo cp /mnt/boot/vmlinuz-6.11.0-8-generic /boot/
+# sync
 
-mount | grep "on / type"
+# mount | grep "on / type"
 
 ```
+
+UBoot
+
+
+```
+setenv devnum 0
+setenv bootargs "root=/dev/nvme0n1p1 rootfstype=ext4 rootwait console=ttySIF0,115200 earlycon"
+
+load nvme ${devnum}:1 ${kernel_addr_r} /boot/vmlinuz-6.11.0-8-generic
+load nvme ${devnum}:1 ${ramdisk_addr_r} /boot/uInitrd
+load nvme ${devnum}:1 ${fdt_addr_r} /boot/dtbs/6.11.0-8-generic/hifive-unmatched-a00.dtb
+booti ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}
+
+```
+
 
 Some NVMe possible fixes:
 ```
