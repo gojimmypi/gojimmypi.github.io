@@ -307,6 +307,10 @@ sudo parted /dev/nvme0n1
 
 ```
 
+
+Log:
+
+```
 root@unmatched:~# sudo gdisk /dev/nvme0n1
 GPT fdisk (gdisk) version 1.0.10
 
@@ -385,11 +389,11 @@ root@unmatched:~#
  210  parted /dev/nvme0n1 set 4 msftdata off
   211  parted /dev/nvme0n1 set 4 boot off
   212  parted /dev/nvme0n1 set 4 esp off
+```
 
 
 
-
-  sudo mkdir -p /mnt/source /mnt/destination
+sudo mkdir -p /mnt/source /mnt/destination
 
 sudo mount /dev/mmcblk0p4 /mnt/source
 sudo mount /dev/nvme0n1p4 /mnt/destination
