@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "SiFive Unmatched RISC-V Build"
+title: "SiFive HiFice Unmatched SSD Boot"
 date: '2025-02-15'
 author: gojimmypi
 tags:

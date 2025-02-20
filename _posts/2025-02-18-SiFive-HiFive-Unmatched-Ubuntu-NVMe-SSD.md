@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "SiFive Unmatched RISC-V NVMe SSD"
+title: "SiFive HiFive Unmatched Ubuntu NVMe SSD Boot"
 date: '2025-02-17'
 author: gojimmypi
 tags:
