@@ -21,8 +21,12 @@ Components used:
 * [XFX Radeon RX 580 GTS XXX Edition 1386MHz OC+, 8GB GDDR5, VR Ready, Dual BIOS, 3xDP HDMI DVI, AMD Graphics Card (RX-580P8DFD6)](https://www.amazon.com/gp/product/B06Y66K3XD/) (optional).
 * [Samsung MZ-V7S500B/AM 500GB 970 EVO Plus M.2 (2280)](https://www.amazon.com/dp/B07M7Q21N7).
 * [SanDisk 32GB Ultra microSDHC UHS-I Memory Card with Adapter - 98MB/s, C10, U1, Full HD, A1, Micro SD Card - SDSQUAR-032G-GN6MA](https://www.amazon.com/gp/product/B073JWXGNT/).
+* [Bingfu M.2 WiFi Antenna 2.4GHz 5GHz 5.8GHz 3dBi MIMO RP-SMA Male (2-Pack) + 2 x 12 inch Ngff Ipex4 to Rp-SMA Cable for M.2 NGFF Intel Wireless Network Card](https://www.amazon.com/dp/B099R4V7HL)
 * [Energizer 1220 3V Batteries, 3 Volt Battery Lithium Coin](https://www.amazon.com/gp/product/B00004YK0L).
-
+* [M.2 Heatsink Cooler 2280 SSD Double-Sided Heat Sink with Thermal Silicone pad for PS5/PCPCIE NVME M2 SSD (red)](https://www.amazon.com/gp/product/B09DBDRYNP/)
+* [Sabrent USB 3.2 Type-C Tool-Free Enclosure for M.2 PCIe NVMe and SATA SSDs (EC-SNVE)](https://www.amazon.com/gp/product/B08RVC6F9Y/)
+* [WINSINN DC 25mm Fan 12V 2510 Hydraulic Bearing Brushless Cooling 25mmx10mm 2PIN](https://www.amazon.com/dp/B07KS36L66)
+* [Coffee Pods Hazelnut Flavored-54 Pods Single Cup Use for Senseo Coffee Machine ](https://www.amazon.com/dp/B01BOLYH8E/?th=1) (optional, but highly desired)
 
 See [Running on Hardware](https://github.com/sifive/freedom-u-sdk#running-on-hardware):
 
@@ -387,113 +391,6 @@ reset
 
 Saving Environment to SPIFlash... Erasing SPI flash...Writing to SPI flash...done
 OK
-
-```
-setenv loadaddr 0x80200000
-
-mw.b 0x80200000 61 1  # 'a'
-mw.b 0x80200001 70 1  # 'p'
-mw.b 0x80200002 70 1  # 'p'
-mw.b 0x80200003 65 1  # 'e'
-mw.b 0x80200004 6e 1  # 'n'
-
-mw.b 0x80200005 64 1  # 'd'
-mw.b 0x80200006 20 1  # ' '
-mw.b 0x80200007 72 1  # 'r'
-mw.b 0x80200008 6f 1  # 'o'
-mw.b 0x80200009 6f 1  # 'o'
-
-mw.b 0x8020000a 74 1  # 't'
-mw.b 0x8020000b 3d 1  # '='
-mw.b 0x8020000c 2f 1  # '/'
-mw.b 0x8020000d 64 1  # 'd'
-mw.b 0x8020000e 65 1  # 'e'
-
-mw.b 0x8020000f 76 1  # 'v'
-mw.b 0x80200010 2f 1  # '/'
-mw.b 0x80200011 6e 1  # 'n'
-mw.b 0x80200012 76 1  # 'v'
-mw.b 0x80200013 6d 1  # 'm'
-
-mw.b 0x80200014 65 1  # 'e'
-mw.b 0x80200015 30 1  # '0'
-mw.b 0x80200016 6e 1  # 'n'
-mw.b 0x80200017 31 1  # '1'
-mw.b 0x80200018 70 1  # 'p'
-
-mw.b 0x80200019 34 1  # '4'
-mw.b 0x8020001a 20 1  # ' '
-mw.b 0x8020001b 72 1  # 'r'
-mw.b 0x8020001c 6f 1  # 'o'
-mw.b 0x8020001d 6f 1  # 'o'
-
-mw.b 0x8020001e 74 1  # 't'
-mw.b 0x8020001f 66 1  # 'f'
-mw.b 0x80200020 73 1  # 's'
-mw.b 0x80200021 74 1  # 't'
-mw.b 0x80200022 79 1  # 'y'
-
-mw.b 0x80200023 70 1  # 'p'
-mw.b 0x80200024 65 1  # 'e'
-mw.b 0x80200025 3d 1  # '='
-mw.b 0x80200026 65 1  # 'e'
-mw.b 0x80200027 78 1  # 'x'
-
-mw.b 0x80200028 74 1  # 't'
-mw.b 0x80200029 34 1  # '4'
-mw.b 0x8020002a 20 1  # ' '
-mw.b 0x8020002b 72 1  # 'r'
-mw.b 0x8020002c 6f 1  # 'o'
-
-mw.b 0x8020002d 6f 1  # 'o'
-mw.b 0x8020002e 74 1  # 't'
-mw.b 0x8020002f 77 1  # 'w'
-mw.b 0x80200030 61 1  # 'a'
-mw.b 0x80200031 69 1  # 'i'
-
-mw.b 0x80200032 74 1  # 't'
-mw.b 0x80200033 20 1  # ' '
-mw.b 0x80200034 63 1  # 'c'
-mw.b 0x80200035 6f 1  # 'o'
-mw.b 0x80200036 6e 1  # 'n'
-
-mw.b 0x80200037 73 1  # 's'
-mw.b 0x80200038 6f 1  # 'o'
-mw.b 0x80200039 6c 1  # 'l'
-mw.b 0x8020003a 65 1  # 'e'
-mw.b 0x8020003b 3d 1  # '='
-
-mw.b 0x8020003c 74 1  # 't'
-mw.b 0x8020003d 74 1  # 't'
-mw.b 0x8020003e 79 1  # 'y'
-mw.b 0x8020003f 53 1  # 'S'
-mw.b 0x80200040 49 1  # 'I'
-
-mw.b 0x80200041 46 1  # 'F'
-mw.b 0x80200042 30 1  # '0'
-mw.b 0x80200043 2c 1  # ','
-mw.b 0x80200044 31 1  # '1'
-mw.b 0x80200045 31 1  # '1'
-
-mw.b 0x80200046 35 1  # '5'
-mw.b 0x80200047 32 1  # '2'
-mw.b 0x80200048 30 1  # '0'
-mw.b 0x80200049 30 1  # '0'
-mw.b 0x8020004a 20 1  # ' '
-
-mw.b 0x8020004b 65 1  # 'e'
-mw.b 0x8020004c 61 1  # 'a'
-mw.b 0x8020004d 72 1  # 'r'
-mw.b 0x8020004e 6c 1  # 'l'
-mw.b 0x8020004f 79 1  # 'y'
-
-mw.b 0x80200050 63 1  # 'c'
-mw.b 0x80200051 6f 1  # 'o'
-mw.b 0x80200052 6e 1  # 'n'
-mw.b 0x80200053 0a 1  # newline
-
-fatwrite nvme 0:3 ${loadaddr} /extlinux/extlinux.conf 84
-```
 
 
 ```
