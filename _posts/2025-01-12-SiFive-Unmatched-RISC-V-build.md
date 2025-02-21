@@ -507,3 +507,8 @@ booti 0x80200000 - 0x82000000
 
 ```
 
+## Links
+
+- [Unmatched desktop builds - HiFive Unmatched - SiFive Forums](https://forums.sifive.com/t/unmatched-desktop-builds/4791 )
+- [SiFive's HiFive Premier P550 is a strange, powerful RISC-V board | Jeff Geerling](https://www.jeffgeerling.com/blog/2025/sifives-hifive-premier-p550-strange-powerful-risc-v-board )
+- 

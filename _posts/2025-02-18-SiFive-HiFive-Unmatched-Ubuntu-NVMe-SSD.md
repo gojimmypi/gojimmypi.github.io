@@ -368,7 +368,37 @@ root@unmatched:~# ls -lh /mnt/boot/uInitrd
 ```
 
 
-Links:
+## Links:
 
+
+
+### SiFive
+- [sifive.com/boards/hifive-unmatched-revb](https://www.sifive.com/boards/hifive-unmatched-revb)
+- [sifive/freedom-u-sdk](https://github.com/sifive/freedom-u-sdk)
+- [HiFive Unmatched Software Reference Manual Version 1.0 pdf - CN starfivetech](https://www.starfivetech.com/uploads/hifive-unmatched-sw-reference-manual-v1p0.pdf)
+- [2023 Unmatched Rev B boot from NVME - HiFive Unmatched - SiFive Forums](https://forums.sifive.com/t/2023-unmatched-rev-b-boot-from-nvme/6373/3)
+- [Building the SiFive Unmatched RISC-V board boot requirements - carlosedp riscv-bringup](https://github.com/carlosedp/riscv-bringup/blob/master/unmatched%2FReadme.md)
+- [github.com/sifive/freedom-u-sdk/releases](https://github.com/sifive/freedom-u-sdk/releases)
+- [Stuck loading device tree - forums.sifive.com](https://forums.sifive.com/t/stuck-loading-device-tree/5022)
+
+### U-Boot
+- [github/u-boot HiFive Unmatched FU740-C000 RISC-V SoC](https://github.com/u-boot/u-boot/blob/master/doc/board/sifive/unmatched.rst)
 - [blogjawn.stufftoread.com/install-ubuntu-on-hifive-unmatched.html on wayback](https://web.archive.org/web/20220117214034/https://blogjawn.stufftoread.com/install-ubuntu-on-hifive-unmatched.html).
+- [U-Boot for HiFive Unmatched - docs.u-boot.org](https://docs.u-boot.org/en/latest/board/sifive/unmatched.html)
+
+### Ubuntu
+
+- [Installing Ubuntu 21.04 on the HiFive Unmatched - HiFive Unmatched - SiFive Forums](https://forums.sifive.com/t/installing-ubuntu-21-04-on-the-hifive-unmatched/4710?page=4)
+- [Ubuntu 24.10 (Oracular Oriole) Releases](http://cdimage.ubuntu.com/ubuntu/releases/24.10/release/)
+
+### Debian
+[Installing Debian On SiFive HiFive Unmatched](https://wiki.debian.org/InstallingDebianOn/SiFive/%20HiFiveUnmatched#Boot_from_onboard_SPI_Flash_.2B-_NVMe_drive)
+
+
+### NMVe
+- [NVME not functioning - forums.sifive.com](https://forums.sifive.com/t/nvme-not-functioning/4762)
+- [nvme-cli - Linux.org](https://www.linux.org/threads/nvme-cli.47099/)
+
+### Misc
+- [linux - How to change filesystem UUID (2 same UUID)? - Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/12858/how-to-change-filesystem-uuid-2-same-uuid)
 
