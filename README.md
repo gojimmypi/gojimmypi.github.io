@@ -1,6 +1,17 @@
 # gojimmypi.github.io
 
+remove
+
+https://gojimmypi.github.io/gridster-jekyll-theme/video/youtube/
+
+
 [https://gojimmypi.github.io](https://gojimmypi.github.io/)
+
+See issues:
+
+https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fgojimmypi.github.io%2F&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en
+
+
 
 See [Setting up a GitHub Pages site with Jekyll](https://docs.github.com/en/github/working-with-github-pages/setting-up-a-github-pages-site-with-jekyll)
 Although Jekyll is not officially supported for Windows, there's WSL.
