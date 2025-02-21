@@ -11,9 +11,19 @@ tags:
 
 I'm applying to speak at [Arduino Days 2025](https://days.arduino.cc/)!
 
+# Securing Arduino Projects with Industrial Grade wolfSSL Encryption Software
+
 "Getting Started with wolfSSL on Arduino"
 
-Arduino is a key ecosystem not only the makers and hobbyists, but professionals that use the Arduino platform for rapid prototyping of concepts before making custom hardware.
+Included in presentation:
+
+- Show to install the wolfSSL library
+- Demonstrate how to use the sample applications
+- Explain why industrial-grade encryption software is important
+- Configure wolfSSL features
+- Solve common problems
+
+Arduino is a key ecosystem not only for makers and hobbyists, but also for professionals that use the Arduino platform for rapid prototyping of concepts before making custom hardware.
 
 The [wolfSSL embedded SSL library](https://www.wolfssl.com/products/wolfssl/)
 (formerly CyaSSL) is a lightweight SSL/TLS library written in ANSI C and
