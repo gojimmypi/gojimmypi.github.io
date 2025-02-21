@@ -35,25 +35,23 @@ or contact fips@wolfssl.com.
 
 ## Related Links
 
-- https://github.com/wolfSSL/wolfssl
-- https://github.com/wolfSSL/arduino-wolfSSL/
-- https://downloads.arduino.cc/libraries/logs/github.com/wolfSSL/Arduino-wolfSSL/
-- https://www.arduinolibraries.info/libraries/wolfssl
--
+- [https://github.com/wolfSSL/wolfssl](https://github.com/wolfSSL/wolfssl)
+- [https://github.com/wolfSSL/arduino-wolfSSL/](https://github.com/wolfSSL/arduino-wolfSSL/)
+- [https://downloads.arduino.cc/libraries/logs/github.com/wolfSSL/Arduino-wolfSSL/](https://downloads.arduino.cc/libraries/logs/github.com/wolfSSL/Arduino-wolfSSL/)
+- [https://www.arduinolibraries.info/libraries/wolfssl](https://www.arduinolibraries.info/libraries/wolfssl)
 
-## Blogs
+## My Prior Blogs
 
 - [Getting Started with wolfSSL on Arduino](https://www.wolfssl.com/getting-started-with-wolfssl-on-arduino/)
 - [Rapid prototyping with Arduino and wolfSSL](https://www.wolfssl.com/rapid-prototyping-with-arduino-and-wolfssl/)
 - [Getting Started with wolfSSL using Visual Studio 2022](https://www.wolfssl.com/getting-started-with-wolfssl-using-visual-studio-2022/)
 - [Microblog on X/Twitter: TLS working with as little as 32KB RAM on the Arduino Nano 33 IoT SAMD21](https://x.com/gojimmypi/status/1765449044669923814)
-
 - [Arduino MKR WiFI 1010 Burning Bootloader from Visual Studio with Atmel Ice](https://gojimmypi.github.io/arduino-mkr-wifi-1010-bootloader/)
 - [SWD Debugging the Arduino MKR-WiFi-1010 with Atmel ICE](https://gojimmypi.github.io/swd-debugging-arduino-mkr-wifi-1010/)
 
-## Prior Presentations
+## My Prior Presentations
 
-- [Hackaday Supercon 2024](https://hackaday.io/superconference/speakers.html); Recording not yet online See also: [2024 Hackaday Superconference Speakers, Round One](https://hackaday.com/2024/09/17/2024-hackaday-superconference-speakers-round-one/)
+- [Hackaday Supercon 2024](https://hackaday.io/superconference/speakers.html); [2024 Hackaday Superconference Speakers, Round One](https://hackaday.com/2024/09/17/2024-hackaday-superconference-speakers-round-one/). Recording not yet online.
 - [Espressif Devcon24 Getting Started with wolfSSL](https://www.youtube.com/watch?v=04DGXkZ1IC4)
 - [Getting Started with wolfSSL on the Espressif ESP32](https://www.youtube.com/watch?v=CzwA3ZBZBZ8)
 - [Getting Started with wolfSSL using Visual Studio 2022](https://www.youtube.com/watch?v=xD3AWFmg-Vo)
