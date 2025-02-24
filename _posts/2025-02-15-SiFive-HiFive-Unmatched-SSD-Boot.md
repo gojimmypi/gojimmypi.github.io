@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "SiFive HiFice Unmatched SSD Boot"
+title: "SiFive HiFive Unmatched SSD Boot"
 date: '2025-02-15'
 author: gojimmypi
 tags:
