@@ -12,7 +12,7 @@ tags:
 - Ubuntu
 ---
 
-Some notes on setting up the SiFive Unmatched RISC-V to boot from an NNVme SSD.
+Some notes on setting up the SiFive Unmatched RISC-V to boot from an NVMe SSD.
 
 # Download Ubuntu Image
 
@@ -370,7 +370,7 @@ root@unmatched:~# ls -lh /mnt/boot/uInitrd
 
 ## Links:
 
-
+Some links for reference.
 
 ### SiFive
 - [sifive.com/boards/hifive-unmatched-revb](https://www.sifive.com/boards/hifive-unmatched-revb)
