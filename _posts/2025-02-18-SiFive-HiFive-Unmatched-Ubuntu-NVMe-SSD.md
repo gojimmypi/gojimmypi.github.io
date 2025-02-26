@@ -25,14 +25,18 @@ Use the [Raspberry Pi Imager](https://www.raspberrypi.com/software/).
 
 # Config Steps
 
+The basic Ubuntu boot, using revised `uInitrd`.
+
+```
 ext4load mmc 0:1 0x80200000 /boot/vmlinuz-6.11.0-8-generic
 ext4load mmc 0:1 0x84000000 /boot/uInitrd
 ext4load mmc 0:1 0x88000000 /boot/dtb-6.11.0-8-generic
-
 booti 0x80200000 0x84000000 0x88000000
-
+```
 
 ## Boot HiFive from SD
+
+Original boot from SD card.
 
 ```
 load mmc 0:3 ${kernel_addr_r} Image.gz;
