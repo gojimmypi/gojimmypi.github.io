@@ -9,6 +9,10 @@ tags:
 - Toolchain
 ---
 
+Here are some tips and reminders of where to find ESP32 toolchains for the Sysprogs VisualGDB extension for Visual Studio.
+
+
+# Registry settings
 
 ```
 Computer\HKEY_CURRENT_USER\Software\Free Software Foundation
@@ -67,7 +71,7 @@ Windows Registry Editor Version 5.00
 "GCC"="C:\\SysGCC\\esp8266"
 ```
 
-User Registry Location
+# User Registry Location
 
 ```
 Computer\HKEY_USERS\S-1-5-21-[user guid]\Software\Free Software Foundation
@@ -124,10 +128,9 @@ Windows Registry Editor Version 5.00
 "BINUTILS"="C:\\SysGCC\\esp8266"
 "G++"="C:\\SysGCC\\esp8266"
 "GCC"="C:\\SysGCC\\esp8266"
-
-
 ```
 
+# Sysprogs GNUToolchains
 
 ```
 Computer\HKEY_CURRENT_USER\Software\Sysprogs\GNUToolchains
@@ -137,6 +140,30 @@ Computer\HKEY_CURRENT_USER\Software\Sysprogs\GNUToolchains
 Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Sysprogs\GNUToolchains]
+"SysGCC-xtensa-esp32-elf-11.2.0"="C:\\SysGCC\\esp32-11.2"
+"SysGCC-xtensa-lx106-elf-8.4.0"="C:\\SysGCC\\esp8266"
+"SysGCC-xtensa-esp32-elf-8.4.0"="C:\\SysGCC\\esp32-8.4"
+"SysGCC-arm-eabi-10.3.1"="c:\\sysgcc\\arm-eabi"
+"SysGCC-arm-eabi-12.3.1"="c:\\sysgcc\\arm-eabi"
+"SysGCC-xtensa-esp32-elf-12.4.0"="C:\\SysGCC\\esp32-12.4"
+"SysGCC-xtensa-esp32-elf-master"="C:\\SysGCC\\esp32-master"
+"SysGCC-arm-eabi-13.3.1"="c:\\sysgcc\\arm-eabi"
+"SysGCC-xtensa-esp32-elf-13.2.0"="C:\\SysGCC\\esp32-14.2"
+"SysGCC-arm-eabi-14.2.1"="c:\\sysgcc\\arm-eabi"
+```
+
+# User Toolchains
+
+```
+Computer\HKEY_USERS\S-1-5-21-[user guid]\Software\Sysprogs\GNUToolchains
+```
+
+Values:
+
+```
+Windows Registry Editor Version 5.00
+
+[HKEY_USERS\S-1-5-21-186964195-3530471707-4236117787-1002\Software\Sysprogs\GNUToolchains]
 "SysGCC-xtensa-esp32-elf-11.2.0"="C:\\SysGCC\\esp32-11.2"
 "SysGCC-xtensa-lx106-elf-8.4.0"="C:\\SysGCC\\esp8266"
 "SysGCC-xtensa-esp32-elf-8.4.0"="C:\\SysGCC\\esp32-8.4"
