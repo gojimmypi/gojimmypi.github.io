@@ -253,7 +253,7 @@ The configurations MUST MATCH.
 
 Go back to the `wolfSSL-TLS-Client` project configuration and select `x64` to match the DLL:
 
-![select_build_configuration](../images/wolfssl/select_build_configuration.png.png)
+![select_build_configuration](../images/wolfssl/select_build_configuration.png)
 
 The project will _still_ fail to run. Recall the `wolfssl.*` files were copied to the `C:\test\wolfSSL-TLS-Client\Debug\AnyCPU` directory.
 They need to be instead copied to the x64 directory (or wherever the `wolfSSL-TLS-Client.exe` is created when building):
