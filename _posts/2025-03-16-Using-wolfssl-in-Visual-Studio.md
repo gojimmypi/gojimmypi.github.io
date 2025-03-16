@@ -4,9 +4,13 @@ title: "Using wolfssl in Visual Studio"
 date: '2025-03-16'
 author: gojimmypi
 tags:
-- VisualGDB
-- Espressif
+- wolfssl
+- Visual Studio
 - Toolchain
+- DLL
+- Certificates
+- C#
+- CSharp
 ---
 
 Some notes on using wolfSSL in Visual Studio.
@@ -17,7 +21,7 @@ The [wolfSSL source code](https://github.com/wolfSSL/wolfssl) is written in C an
 Some features will utilize the operating system as appropriate, such as networking.
 
 The Visual Studio `wolfssl.vcxproj` for the [C# Examples](https://github.com/wolfSSL/wolfssl/tree/master/wrapper/CSharp) is a Visual C project file.
-To use wolfSSL for a typical Windows application, the DLL will need to be compiled with the `WOLFSSL_DLL`. See new details in [my dev branch](https://github.com/gojimmypi/wolfssl/blob/dev-35/wrapper/CSharp/README.md)
+To use wolfSSL for a typical Windows application, the DLL will need to be compiled with the `WOLFSSL_DLL` preprocessor macro. See new details in [my dev branch](https://github.com/gojimmypi/wolfssl/blob/dev-35/wrapper/CSharp/README.md)
 coming soon to the upstream repository in [wolfssl PR #8562](https://github.com/wolfSSL/wolfssl/pull/8562).
 
 The `wolfSSL_CSharp.csproj` [C# Wrapper for wolfssl](https://github.com/wolfSSL/wolfssl/tree/master/wrapper/CSharp/wolfSSL_CSharp) is  optional for C# developers.
@@ -36,7 +40,7 @@ It creates a convenient `wolfSSL.CSharp` namespace to use the native C wolfssl l
 But what if an application is not in the wolfssl directory structure? For example, let's take the [wolfSSL-TLS-Client](https://github.com/wolfSSL/wolfssl/tree/master/wrapper/CSharp/wolfSSL-TLS-Client)
 example and put it in `c:\test\wolfSSL-TLS-Client`.
 
-IF you try to compile it, this error will likely be encountered:
+If you try to compile it, this error will likely be encountered:
 
 ```
 The type or namespace name 'wolfSSL' could not be found (are you missing a using directive or an assembly reference?)
