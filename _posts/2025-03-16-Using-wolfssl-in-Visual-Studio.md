@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "VisualGDB Notes for Toolchain and Registry Settings"
-date: '2025-02-27'
+title: "Using wolfssl in Visual Studio"
+date: '2025-03-16'
 author: gojimmypi
 tags:
 - VisualGDB
