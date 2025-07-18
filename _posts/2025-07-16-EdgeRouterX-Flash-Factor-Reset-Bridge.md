@@ -5,6 +5,7 @@ date: '2025-07-16'
 author: gojimmypi
 tags:
 - EdgeRouter
+- Ubiquiti
 - Bridge
 - Factory Reset
 - Networking
@@ -13,12 +14,14 @@ tags:
 - SSH
 ---
 
-This blog details the steps needed to reflash an EdgeRouterX and upgrade firmware.
+This blog details the steps needed to reflash an EdgeRouterX and upgrade [firmware](https://www.ui.com/download/software/er-x).
 
-The scp copy method was used after the existing firmware was found to be corrupted and did not accept web upload nor TFTP.
+The scp copy method was used after the existing firmware was found to be corrupted and did not accept web upload nor [TFTP](https://pjo2.github.io/tftpd64/).
 
 There are two different EdgeRouter-X device models, nearly identical ER-X and the ERX-SFP. The SFP has a fiber port.
 
+
+{% include code_header.html %}
 ```bash
 cat /tmp/device_model
 ```
@@ -54,6 +57,7 @@ Factory reset via [convoluted hardware method](https://help.uisp.com/hc/en-us/ar
 holding down the reset button for 10 seconds after port LEDs start lighting up in sequence and until the LED on port 1 lights up again...
 or:
 
+{% include code_header.html %}
 ```bash
 sudo cp /opt/vyatta/etc/config.boot.default /config/config.boot
 reboot
@@ -73,12 +77,14 @@ The default IP address of the router after factor reset is `192.168.1.1`
 
 Use scp to copy the latest firmware to the EdgeRouter-X:
 
+{% include code_header.html %}
 ```
 scp ER-e50.v2.0.9-hotfix.7.5622731.tar  ubnt@192.168.1.1:/tmp/
 ```
 
 The output should look something like this:
 
+{% include code_header.html %}
 ```text
 gojimmypi:~
 $ cd /mnt/c/download/edgerouter
@@ -121,6 +127,7 @@ The default username and password after factor reset is `ubnt`, `ubnt`.
 
 Config the file is in `/tmp`:
 
+{% include code_header.html %}
 ```
 ubnt@EdgeRouter-X-5-Port:~$ ls /tmp
 ER-e50.v2.0.9-hotfix.7.5622731.tar
@@ -136,12 +143,14 @@ ubnt@EdgeRouter-X-5-Port:~$
 
 Add the new system image:
 
+{% include code_header.html %}
 ```
 add system image /tmp/ER-e50.v2.0.9-hotfix.7.5622731.tar
 ```
 
 Output should look like this:
 
+{% include code_header.html %}
 ```
 ubnt@EdgeRouter-X-5-Port:~$ add system image ER-e50.v2.0.9-hotfix.7.5622731.tar
 Version [v2.0.8-hotfix.1.5278088.200305.1641] is about to be replaced
@@ -166,12 +175,14 @@ Upgrade completed
 
 For completeness, reboot and set to factory defaults a second time
 
+{% include code_header.html %}
 ```
 reboot
 ```
 
 Factory rest:
 
+{% include code_header.html %}
 ```bash
 sudo cp /opt/vyatta/etc/config.boot.default /config/config.boot
 reboot
@@ -180,12 +191,16 @@ reboot
 
 Enter configuration mode:
 
+{% include code_header.html %}
 ```bash
 configure
 ```
 
 Ensure all ethernet cables are from the EdgeRouter-X!
 
+Enter new configuration:
+
+{% include code_header.html %}
 ```
 delete interfaces ethernet eth0 address
 commit
@@ -207,12 +222,14 @@ exit
 
 Reboot from bash prompt.
 
+{% include code_header.html %}
 ```bash
 reboot
 ```
 
 The final `boot.config` file looks like this with the `show configuration` command:
 
+{% include code_header.html %}
 ```
 interfaces {
     bridge br0 {
@@ -311,6 +328,7 @@ system {
 
 The bad blocks should be reported during boot, but not during Linux initialization:
 
+{% include code_header.html %}
 ```
 [NAND]select ecc bit:4, sparesize :64 spare_per_sector=16
 nand: device found, Manufacturer ID: 0xc2, Chip ID: 0xda
@@ -336,7 +354,25 @@ Creating 8 MTD partitions on "MT7621-NAND":
 
 See prior related blogs:
 
-- [Espressif ESP32 WiFi Port Sniffing](./Espressif-ESP32-WiFi-Port-Sniffing-DUT/)
-- [EdgeRouter-X Port Mirroring: Inspect ESP32 Network Packets](./Edgerouter-Port-Monitor/)
-- [Dual WAN OpenVPN with EdgeRouter X or RT-AX86U](./dual-wan-openvpn-with-edgerouter-x-or/)
+- [Espressif ESP32 WiFi Port Sniffing](../Espressif-ESP32-WiFi-Port-Sniffing-DUT/)
+- [EdgeRouter-X Port Mirroring: Inspect ESP32 Network Packets](../Edgerouter-Port-Monitor/)
+- [Dual WAN OpenVPN with EdgeRouter X or RT-AX86U](../dual-wan-openvpn-with-edgerouter-x-or/)
+
+Other links of interest:
+
+- [Tftpd64](https://pjo2.github.io/tftpd64/)
+- [EdgeRouter X, ER-X Firmware](https://www.ui.com/download/software/er-x)
+- [EdgeRouter X Getting Started](https://dl.ubnt.com/guides/edgemax/EdgeRouter_ER-X_QSG.pdf)
+- [EdgeRouter X User Guide](https://dl.ubnt.com/guides/edgemax/EdgeOS_UG.pdf)
+- [EdgeRouter X Data Sheet](https://dl.ubnt.com/datasheets/edgemax/EdgeRouter_X_DS.pdf)
+
+Certificate-related links
+
+- [GlobalSign Root Certificates](https://support.globalsign.com/ca-certificates/root-certificates/globalsign-root-certificates)
+- [LetsEncrypt isrgrootx1 PEM](https://letsencrypt.org/certs/isrgrootx1.pem.txt)
+-
+
+Special links:
+
+- [ExpressVpnRouter](https://expressvpnrouter.com/ui/dashboard) (must have local ExpressVPN router)
 
