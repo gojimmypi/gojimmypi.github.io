@@ -6,7 +6,7 @@ author: gojimmypi
 tags:
 - WireShark
 - port monitor
-- por mirror
+- port mirror
 - port span
 - switch
 - ESP32

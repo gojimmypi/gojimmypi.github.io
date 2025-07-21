@@ -16,7 +16,7 @@ tags:
 
 This blog details the steps needed to reflash an EdgeRouterX and upgrade [firmware](https://www.ui.com/download/software/er-x).
 
-The scp copy method was used after the existing firmware was found to be corrupted and did not accept web upload nor [TFTP](https://pjo2.github.io/tftpd64/).
+The `scp` copy method was needed after the existing firmware was found to be corrupted and did not accept web upload nor [TFTP](https://pjo2.github.io/tftpd64/).
 
 There are two different EdgeRouter-X device models, nearly identical ER-X and the ERX-SFP. The SFP has a fiber port.
 
@@ -63,22 +63,22 @@ sudo cp /opt/vyatta/etc/config.boot.default /config/config.boot
 reboot
 ```
 
-Optionally re-flash from scp-copied image on device:
+Optionally re-flash using `scp` to copy and image to the device:
 
 From another computer with _wired Ethernet_, make note of current config. Manually set the local IP address to `192.168.1.2`. Turn off WiFi if needed.
 
 On Windows, this is in Control Panel: Network and Internet - Network Connections, right-click, properties, "Internet Protocol Version 5 (TCP/IPv4) Properties".
 
-The default gateway is `192.168.1.1` (The EdgeRouter-X), subnet mask 255.255.255.0. No DNS needed.
+The default gateway is `192.168.1.1` (The EdgeRouter-X), subnet mask `255.255.255.0`. No DNS needed during setup.
 
-Plug the Ethernet from other computer into `Eth0`. Yes, it *MUST* be `Eth0` if factory reset.
+Plug the Ethernet from other computer into `eth0`. Yes, it *MUST* be `eth0` if factory reset.
 
-The default IP address of the router after factor reset is `192.168.1.1`
+The default IP address of the router after factor reset is `192.168.1.1` and should be accessed from `eth0`.
 
-Use scp to copy the latest firmware to the EdgeRouter-X:
+Use `scp` to copy the latest firmware to the EdgeRouter-X:
 
 {% include code_header.html %}
-```
+```bash
 scp ER-e50.v2.0.9-hotfix.7.5622731.tar  ubnt@192.168.1.1:/tmp/
 ```
 
@@ -173,14 +173,14 @@ Finishing upgrade...Done
 Upgrade completed
 ```
 
-For completeness, reboot and set to factory defaults a second time
+For completeness, reboot and set to factory defaults a second time:
 
 {% include code_header.html %}
 ```
 reboot
 ```
 
-Factory rest:
+Factory reset:
 
 {% include code_header.html %}
 ```bash
@@ -196,9 +196,9 @@ Enter configuration mode:
 configure
 ```
 
-Ensure all ethernet cables are from the EdgeRouter-X!
+Ensure all ethernet cables are removed from the EdgeRouter-X!
 
-Enter new configuration:
+Enter new configuration, first delete `eth0` and `eth1` that are part of factor reset.
 
 {% include code_header.html %}
 ```
@@ -212,6 +212,7 @@ set interfaces bridge br0 address 192.168.142.203/24
 
 set interfaces ethernet eth0 bridge-group bridge br0
 set interfaces ethernet eth1 bridge-group bridge br0
+set interfaces ethernet eth2 bridge-group bridge br0
 
 set service gui listen-address 192.168.142.203
 
@@ -227,10 +228,10 @@ Reboot from bash prompt.
 reboot
 ```
 
-The final `boot.config` file looks like this with the `show configuration` command:
+The final Vyatta-format `boot.config` file looks like this with the `show configuration` command:
 
 {% include code_header.html %}
-```
+```bash
 interfaces {
     bridge br0 {
         address 192.168.142.203/24
@@ -370,7 +371,6 @@ Certificate-related links
 
 - [GlobalSign Root Certificates](https://support.globalsign.com/ca-certificates/root-certificates/globalsign-root-certificates)
 - [LetsEncrypt isrgrootx1 PEM](https://letsencrypt.org/certs/isrgrootx1.pem.txt)
--
 
 Special links:
 
