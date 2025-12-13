@@ -3,56 +3,58 @@ layout: index
 sidebar: false
 sitemap: false
 ---
+
 {% for post in paginator.posts %}
     {% include article_index.html %}
 {% endfor %}
 
 {% if paginator.total_pages > 1 %}
     <div class="pagination">
+        {% assign start = paginator.page | minus: 3 %}
+        {% if start < 0 %}
+            {% assign start = 0 %}
+        {% endif %}
+
         <!-- link to first page -->
         {% if paginator.total_pages > 3 %}
             {% if paginator.page == 1 %}
-                <span class="btn disabled"><i class="fa fa-angle-double-left"></i></span>
+                <span class="btn disabled">{{ site.global_html.double_left_arrow }}</span>
             {% else %}
-                <a class="btn" href="{{ '/' | prepend: site.baseurl | replace: '//', '/' }}"><i class="fa fa-angle-double-left"></i></a>
+                <a class="btn" href="{{ '/' | prepend: site.baseurl | replace: '//', '/' }}">{{ site.global_html.double_left_arrow }}</a>
             {% endif %}
         {% endif %}
 
         <!-- previous link -->
         {% if paginator.previous_page %}
-            <a class="btn prev" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}"><i class="fa fa-angle-left"></i></a>
+            <a class="btn prev" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">{{ site.global_html.single_left_arrow }}</a>
         {% else %}
-            <span class="btn disabled"><i class="fa fa-angle-left"></i></span>
+            <span class="btn disabled">{{ site.global_html.single_left_arrow }}</span>
         {% endif %}
 
         <!-- number links -->
-        {% capture start %}
-            {{ paginator.page | minus: 3 }}
-        {% endcapture %}
-
         {% for i in (1..paginator.total_pages) limit: 5 offset: start %}
             {% if i == paginator.page %}
                 <span class="btn disabled">{{ i }}</span>
             {% elsif i == 1 %}
-                <a class="btn" href="{{ site.baseurl }}/">{{ i }}</a>
+                <a class="btn" href="{{ '/' | prepend: site.baseurl | replace: '//', '/' }}">{{ i }}</a>
             {% else %}
-                <a class="btn" href="{{ site.baseurl }}/page/{{ i }}">{{ i }}</a>
+                <a class="btn" href="{{ '/page/' | append: i | prepend: site.baseurl | replace: '//', '/' }}">{{ i }}</a>
             {% endif %}
         {% endfor %}
 
         <!-- next link -->
         {% if paginator.next_page %}
-            <a class="btn next" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}"><i class="fa fa-angle-right"></i></a>
+            <a class="btn next" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">{{ site.global_html.single_right_arrow }}</a>
         {% else %}
-            <span class="btn disabled"><i class="fa fa-angle-right"></i></span>
+            <span class="btn disabled">{{ site.global_html.single_right_arrow }}</span>
         {% endif %}
 
         <!-- last page link -->
         {% if paginator.total_pages > 3 %}
             {% if paginator.page == paginator.total_pages %}
-                <span class="btn disabled"><i class="fa fa-angle-double-right"></i></span>
+                <span class="btn disabled">{{ site.global_html.double_right_arrow }}</span>
             {% else %}
-                <a class="btn" href="{{ site.baseurl | replace: '//', '/' }}/page/{{paginator.total_pages}}"><i class="fa fa-angle-double-right"></i></a>
+                <a class="btn" href="{{ '/page/' | append: paginator.total_pages | prepend: site.baseurl | replace: '//', '/' }}">{{ site.global_html.double_right_arrow }}</a>
             {% endif %}
         {% endif %}
     </div>

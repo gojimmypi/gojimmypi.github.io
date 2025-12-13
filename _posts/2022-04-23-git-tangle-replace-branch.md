@@ -5,6 +5,10 @@ date: '2022-04-23'
 author: gojimmypi
 tags:
 - git
+- git tangle
+- rebase
+- fetch
+- upstream
 ---
 
 When things go really sideways and the GitHub master branch of a fork is so terribly messed up and the changes are not even desired,
@@ -118,6 +122,7 @@ I created a [script for squashing commits](https://gist.github.com/gojimmypi/669
 
 ## Resources, Inspiration, Credits, and Other Links
 
+- blog.carbonfive [Always Squash and Rebase your Git Commits](https://blog.carbonfive.com/always-squash-and-rebase-your-git-commits/)
 - [git rebase docs](https://git-scm.com/docs/git-rebase)
 - `git rebase` and `git reset` ideas: [Squash my last X commits together using Git](https://stackoverflow.com/questions/5189560/squash-my-last-x-commits-together-using-git)
 - more on  `git rebase` and `git reset`: [Delete commits from a branch in Git](https://stackoverflow.com/questions/1338728/delete-commits-from-a-branch-in-git)
@@ -127,3 +132,8 @@ I created a [script for squashing commits](https://gist.github.com/gojimmypi/669
 - [Change author of commit](https://www.git-tower.com/learn/git/faq/change-author-name-email)
 - gojimmypi [Keeping a fork up to date](https://gist.github.com/gojimmypi/b281469dcbe9e6d8efd00be7ce18d222)
 - stackoverflow [How can I keep the execution permissions when cloning a repository in windows?](https://stackoverflow.com/questions/68281828/how-can-i-keep-the-execution-permissions-when-cloning-a-repository-in-windows)
+
+- stackoverflow [Git: How to squash all commits on branch](https://stackoverflow.com/questions/25356810/git-how-to-squash-all-commits-on-branch)
+
+- stackoverflow [How to download a single commit-diff from GitHub?](https://stackoverflow.com/questions/21903805/how-to-download-a-single-commit-diff-from-github)
+- 

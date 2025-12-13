@@ -44,7 +44,7 @@ function ToggleDarkModeItem(name, forceDarkMode) {
 
 //
 // ToggleDarkMode; forceDarkMode=true to froce into dark mode
-// 
+//
 function ToggleDarkMode(forceDarkMode) {
 	//     if (forceDarkMode === null || forceDarkMode === undefined) {
 	//forceDarkMode = false;
@@ -121,7 +121,7 @@ function ToggleDarkMode(forceDarkMode) {
 	// const sidebarClasses = document.querySelectorAll('sidebar')
 
 
-	// page should be in dark mode now		
+	// page should be in dark mode now
 }
 
 var _HideForChange = localStorage.getItem('theme');

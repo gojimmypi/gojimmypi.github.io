@@ -1,11 +1,11 @@
 {
-	"short_name": "gojimmypi",
-	"name": "gojimmypi blog",
+    "short_name": "gojimmypi",
+    "name": "gojimmypi blog",
     "icons": [
         {
-            "src": "/icons/favicon-194x194.png",
+            "src": "/icons/favicon-320x320.png",
             "type": "image/png",
-            "sizes": "194x194",
+            "sizes": "320x320",
             "purpose": "any maskable"
         },
         {
@@ -26,7 +26,7 @@
         {
             "src": "/icons/android-chrome-36x36.png",
             "sizes": "36x36",
-            "type": "image\/png",
+            "type": "image/png",
             "density": 0.75
         },
         {
@@ -59,52 +59,48 @@
             "type": "image/png",
             "density": 4
         }
-
     ],
-	"id": "/?source=pwa",
-	"start_url": "/?source=pwa",
-	"background_color": "#3367D6",
-	"display": "standalone",
-	"scope": "/",
-	"theme_color": "#3367D6",
-	"shortcuts": [
+    "id": "/?source=pwa",
+    "start_url": "/?source=pwa",
+    "background_color": "#1e1e1e",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#d4d4d4",
+    "shortcuts": [
         {
-            "name": "gojimmypi",
-            "short_name": "gojimmypi",
-            "description": "about gojimmypi",
+            "name": "About gojimmypi",
+            "short_name": "About",
+            "description": "About the author of the gojimmypi blog",
             "url": "/about?source=pwa",
             "icons": [
                 {
-                    "src": "/icons/favicon-194x194.png",
-                    "sizes": "194x194"
+                    "src": "/icons/favicon-320x320.png",
+                    "sizes": "320x320",
+                    "type": "image/png"
                 }
             ]
         },
-		{
-			"name": "How's weather tomorrow?",
-			"short_name": "Tomorrow",
-			"description": "View weather information for tomorrow",
-			"url": "/tomorrow?source=pwa",
-			"icons": [
-				{
-					"src": "/images/tomorrow.png",
-					"sizes": "192x192"
-				}
-			]
-		}
-	],
-	"description": "Weather forecast information",
-	"screenshots": [
         {
-            "src": "/icons/favicon-194x194.png",
-            "type": "image/png",
-            "sizes": "194x194",
-            "form_factor": "narrow"
-        },
-        {
-            "src": "/icons/favicon-194x194.png",
-            "type": "image/jpg",
-            "sizes": "194x194"
+            "name": "Recent posts",
+            "short_name": "Posts",
+            "description": "View the most recent blog posts",
+            "url": "/?source=pwa",
+            "icons": [
+                {
+                    "src": "/icons/favicon-320x320.png",
+                    "sizes": "320x320",
+                    "type": "image/png"
+                }
+            ]
         }
-	]
+    ],
+    "description": "Personal blog of gojimmypi: notes on embedded systems, development, hardware, and related projects.",
+    "screenshots": [
+        {
+            "src": "/icons/favicon-320x320.png",
+            "type": "image/png",
+            "sizes": "320x320",
+            "form_factor": "narrow"
+        }
+    ]
 }

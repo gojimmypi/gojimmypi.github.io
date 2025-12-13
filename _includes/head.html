@@ -1,10 +1,52 @@
-﻿    {% if (jekyll.environment == "development") %}
+﻿<!-- file: /_includes/head.html -->
+{% if (jekyll.environment == "development") %}
 <!-- jekyll.environment: development -->
 <!-- this page is from [{{ page.path }}] -->
-    {% else %}<!-- jekyll.environment: production -->
-    {% endif %}
+{% else %}
+<!-- jekyll.environment: production -->
+{% endif %}
 
-<meta content='width=device-width, initial-scale=1' name='viewport' />
+<!-- helper to avoid page-load flash -->
+<style>
+    html, body {
+        background: #111111;
+    }
+
+        html.theme-preload * {
+            transition: none !important;
+        }
+</style>
+
+<script>
+    (function () {
+        var key = "theme";
+        var saved = null;
+
+        try {
+            saved = localStorage.getItem(key);
+        } catch (e) {
+            saved = null;
+        }
+
+        var wantsDark = false;
+
+        if (saved === "dark") {
+            wantsDark = true;
+        } else if (saved === "light") {
+            wantsDark = false;
+        } else if (window.matchMedia) {
+            wantsDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        }
+
+        var root = document.documentElement;
+        root.classList.add("theme-preload");
+        root.setAttribute("data-theme", wantsDark ? "dark" : "light");
+    })();
+</script>
+<!-- /helper to avoid page-load flash -->
+
+
+<meta content="width=device-width, initial-scale=1" name="viewport" />
 <!-- meta name="color-scheme" content="dark light" -->
 <!-- JS -->
 <!-- see https://developer.chrome.com/docs/lighthouse/pwa/themed-omnibox/?utm_source=lighthouse&utm_medium=devtools -->
@@ -14,12 +56,14 @@
 
 {% if jekyll.environment != "development" %}
 <script type="text/javascript">
-</script>{% endif %}
+</script>
+{% endif %}
 
 {% if page.math %}
 <script type="text/x-mathjax-config">
     {% include _mathjax-cdn-setup.min.js %}
-</script>{% endif %}
+</script>
+{% endif %}
 
 {% if site.usefallback == null or site.usefallback == true %}
 <script type="text/javascript">
@@ -27,54 +71,60 @@
 </script>
 
 <script type="text/javascript">
-    fallback.load({
+fallback.load({
 
-        main: "{{ site.baseurl | replace: '//', '/' }}/css/main.css",
+    main: "{{ site.baseurl | replace: '//', '/' }}/css/main.css",
 
-        fontawesome: [
-            {% if jekyll.environment != "development" %}"https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css",
-            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css",{% endif %}
-            "{{ site.baseurl | replace: '//', '/' }}/css/font-awesome.min.css"
-        ],
+    jQuery: [
+        {% if jekyll.environment != "development" %}
+        "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js",
+        "https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js",
+        {% endif %}
+        "{{ site.baseurl | replace: '//', '/' }}/js/jquery-2.2.2.min.js"
+    ],
 
-        jQuery: [
-            {% if jekyll.environment != "development" %}"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js",
-      "https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js",{% endif %}
-            "{{ site.baseurl | replace: '//', '/' }}/js/jquery-2.2.2.min.js"
-        ],
-        Materialize: [
-            {% if jekyll.environment != "development" %}"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js",{% endif %}
-            "{{ site.baseurl | replace: '//', '/' }}/js/materialize.min.js"
-        ],
+    Materialize: [
+        {% if jekyll.environment != "development" %}
+        "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js",
+        {% endif %}
+        "{{ site.baseurl | replace: '//', '/' }}/js/materialize.min.js"
+    ],
+
     cssTransitionSupport: [
-      {% if site.infinite_scroll == true %}
-        {% if site.sidebar_toc == true %}
-          "{{ site.baseurl | replace: '//', '/' }}/js/global.infinite.toc.min.js"
+        {% if site.infinite_scroll == true %}
+            {% if site.sidebar_toc == true %}
+                "{{ site.baseurl | replace: '//', '/' }}/js/global.infinite.toc.min.js"
+            {% else %}
+                "{{ site.baseurl | replace: '//', '/' }}/js/global.infinite.min.js"
+            {% endif %}
         {% else %}
-          "{{ site.baseurl | replace: '//', '/' }}/js/global.infinite.min.js"
+            {% if site.sidebar_toc == true %}
+                "{{ site.baseurl | replace: '//', '/' }}/js/global.toc.min.js"
+            {% else %}
+                "{{ site.baseurl | replace: '//', '/' }}/js/global.min.js"
+            {% endif %}
         {% endif %}
-      {% else %}
-        {% if site.sidebar_toc == true %}
-          "{{ site.baseurl | replace: '//', '/' }}/js/global.toc.min.js"
-        {% else %}
-          "{{ site.baseurl | replace: '//', '/' }}/js/global.min.js"
+    ]
+    {% if page.math %},
+    MathJax: [
+        {% if jekyll.environment != "development" %}
+        "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full",
         {% endif %}
-          {% endif %}
-    ]{% if page.math %},
-        MathJax: [
-            {% if jekyll.environment != "development" %}"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full",{% endif %}
-            "{{ site.baseurl | replace: '//', '/' }}/MathJax/MathJax.js?config=TeX-AMS_CHTML-full"
-        ]{% endif %}
-    }, {
+        "{{ site.baseurl | replace: '//', '/' }}/MathJax/MathJax.js?config=TeX-AMS_CHTML-full"
+    ]
+    {% endif %}
+
+}, {
     shim: {
-      'Materialize': ['jQuery'],
-      'cssTransitionSupport': ['Materialize']
+        "Materialize": ["jQuery"],
+        "cssTransitionSupport": ["Materialize"]
     }
-  });
+});
 </script>
+
 {% else %}
 <link rel="stylesheet" href="/css/main.css">
-<link rel="stylesheet" href="/css/font-awesome.min.css">
+
 <!--script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script moved to above -->
 
 <script type="text/javascript" src="/scripts/jquery.toc.js"></script>
@@ -85,8 +135,8 @@
 <script type="text/javascript" src="/scripts/infinite/init.js?forceversion=2"></script>
 {% endif %}
 
+{% if page.sidebar_toc %}
 <script type="text/javascript">
-    {% if page.sidebar_toc %}
     fallback.ready(function () {
         $('#post-content').toc({
             renderIn: '#renderTOC',
@@ -95,6 +145,7 @@
         });
     });
 </script>
+
 <!-- CSS -->
 <style type="text/css">
     {% capture include_to_scssify %}
@@ -102,9 +153,8 @@
     {% endcapture %}
     {{ include_to_scssify | scssify }}
 </style>
-{% else %}
-</script>
 {% endif %}
+
 {% if page.amsthm %}
 <style type="text/css">
     {% capture include_to_scssify %}
@@ -113,10 +163,12 @@
     {{ include_to_scssify | scssify }}
 </style>
 {% endif %}
+
 <!-- Google Analytics. Put the ID in _config.yml -->
 {% if jekyll.environment != "development" %}
 <script type="text/javascript">
-</script>{% endif %}
+</script>
+{% endif %}
 
 <!-- Load the user's last selected theme for the lamp -->
 <script type="text/javascript">
@@ -124,7 +176,7 @@
 </script>
 
 <link rel="stylesheet" id="color-change">
+
 <!-- Site Infos -->
 {% seo %}
 {% include favicon.html %}
-

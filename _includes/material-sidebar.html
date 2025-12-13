@@ -1,8 +1,17 @@
 <div class="sidebar material-sidebar">
     <!-- toggle link for responsive version -->
-    <span class="sidebar-toggle">
-        <i class="fa fa-plus"></i>
+    <span class="sidebar-toggle" aria-label="Toggle sidebar" role="button">
+        <!-- Menu (hamburger) icon when sidebar is closed -->
+        <svg class="icon-menu" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M4 7h16v2H4zM4 11h16v2H4zM4 15h16v2H4z"></path>
+        </svg>
+
+        <!-- Close (X) icon when sidebar is open -->
+        <svg class="icon-close" width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M6 6l12 12M18 6l-12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+        </svg>
     </span>
+
     {% include header.html %}
     {% include sidebar.html %}
 </div>

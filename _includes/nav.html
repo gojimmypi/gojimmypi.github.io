@@ -1,22 +1,77 @@
-<!-- menu, we did go with a static one, you can build a dynamic one, just google a little around -->
+<!-- _includes/nav.html -->
 <div class="main-menu">
     <div class="content">
+
+        <!-- First, the burger button on the right (toggle for full menu)  -->
+        <a href="#menu" class="toggle-link noline" aria-label="Open menu">
+            <svg class="icon-menu" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                <rect x="3" y="6" width="18" height="2"></rect>
+                <rect x="3" y="11" width="18" height="2"></rect>
+                <rect x="3" y="16" width="18" height="2"></rect>
+            </svg>
+        </a>
+
+        <!-- If there is enough room, then entire horizontal menu -->
         <nav id="menu">
-            <a class="toggle-link noline"><i class="fa fa-close fa-lg fa-fw"></i></a>
+            <a href="#" class="toggle-link noline" aria-label="Close menu">
+                <!-- a little X to close the menu: -->
+                <svg class="icon-close" viewBox="0 0 24 24" width="42" height="42" aria-hidden="true">
+                    <path d="M6 6l12 12M18 6l-12 12"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                </svg>
+            </a>
+
             <ul>
                 <li>
-                    <a class="homelink" href="{{ site.baseurl | replace: '//', '/' }}/" title="Home"><i class="fa fa-home fa-lg fa-fw"></i></a>
-                </li>
-                <li>
-                    <a href="{{ site.authors_dir | prepend: site.baseurl | replace: '//', '/' }}">About</a>
-                </li>
-                <li id="theme-toggle-container" class="lamp-navbar-item">
-                    <button id="theme-toggle" class="lamp" aria-label="Toggle theme" type="button">
-                        <img id="lightModeIcon" src="{{ site.baseurl | replace: '//', '/' }}/icons/light_mode_black_24dp.svg" style="display: inline; height: 34px; width: 34px" title="Light Mode; Click to switch to Dark Mode" /><img id="darkModeIcon" src="{{ site.baseurl | replace: '//', '/' }}/icons/dark_mode_white_24dp.svg" style="display: none; height: 34px; width: 34px " title="Dark Mode; Click to switch to Light Mode" />
-                    </button>
+                    <!-- Home -->
+                    <a class="homelink"
+                       href="{{ site.baseurl | replace: '//', '/' }}/"
+                       title="Home"
+                       aria-label="Home">
+                        <svg class="icon-home" viewBox="0 0 24 24" width="42" height="42" aria-hidden="true">
+                            <path d="M3 11.5L12 4l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-9.5z"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linejoin="round" />
+                        </svg>
+                    </a>
                 </li>
 
+                <li>
+                    <!-- About -->
+                    <a href="{{ site.authors_dir | prepend: site.baseurl | replace: '//', '/' }}"
+                       title="About"
+                       aria-label="About">
+                        <!-- Info-circle (common About icon) -->
+                        <svg class="icon-about" viewBox="0 0 24 24" width="42" height="42" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2" />
+                            <line x1="12" y1="10" x2="12" y2="16"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round" />
+                            <circle cx="12" cy="7" r="1" fill="currentColor" />
+                        </svg>
+                    </a>
+                </li>
+
+                <li id="theme-toggle-container" class="lamp-navbar-item">
+                    <button id="theme-toggle" class="lamp" aria-label="Toggle theme" type="button">
+                        <img id="lightModeIcon"
+                             src="{{ site.baseurl | replace: '//', '/' }}/icons/light_mode_black_24dp.svg"
+                             style="display: inline; height: 39px; width: 39px"
+                             title="Light Mode; Click to switch to Dark Mode" />
+                        <img id="darkModeIcon"
+                             src="{{ site.baseurl | replace: '//', '/' }}/icons/dark_mode_white_24dp.svg"
+                             style="display: none; height: 39px; width: 39px"
+                             title="Dark Mode; Click to switch to Light Mode" />
+                    </button>
+                </li>
             </ul>
+
             <ul id="drop-archive" class="dropdown-content">
                 <li>
                     <a href="{{ site.tags_dir | prepend: site.baseurl | replace: '//', '/' }}">Tags</a>
@@ -26,10 +81,13 @@
                 </li>
             </ul>
         </nav>
+
+        <!-- on the right, social media links. -->
         <nav class="iconnav">
             <ul>
                 {% if site.rss %}
                 <li class="social">
+                    <!-- nothing -->
                 </li>
                 {% endif %} {% if site.tumblr %}
                 <li class="social">
@@ -75,14 +133,11 @@
             </ul>
         </nav>
 
-        <a href='#menu' class="toggle-link noline">
-            <i class="fa fa-navicon"></i>
-        </a>
     </div>
+
+    <!-- on every page in upper right corner: the octocat link to source code -->
     {% include github-corner.html %}
 </div>
-
-
 
 
 <div id="colorswitch" class="modal color-change">

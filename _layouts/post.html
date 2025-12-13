@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- post.html -->
     {% include head.html %}
 </head>
 <!-- use logic to toggle sidebar layouts -->
@@ -82,6 +83,7 @@
                                 {% if page.categories and page.tags %}
                                 <br>
                                 {% endif %}
+
                                 {% if page.tags %}
                                 <span class="tags">
                                     <span class="name">Tags:</span>
@@ -100,19 +102,29 @@
                         {% include comment.html %}
                         {% endif %}
                         <div class="post-nav">
-                            {% if page.previous.url %}
-                            <a class="btn prev" href="{{ page.previous.url | prepend: site.baseurl | replace: '//', '/' }}"><i class="fa fa-angle-left"></i><span class="short"> Prev</span><span class="long">ious Post</span></a>
-                            {% endif %}
-                            {% if page.next.url %}
-                            <a class="btn next" href="{{ page.next.url | prepend: site.baseurl | replace: '//', '/' }}"><span class="short">Next </span><span class="long">Post </span><i class="fa fa-angle-right"></i></a>
+                            <div class="post-nav">
+                                {% if page.previous.url %}
+                                <a class="btn prev" href="{{ page.previous.url | prepend: site.baseurl | replace: '//', '/' }}">
+                                    {{ site.global_html.single_left_arrow }}
+                                    <span class="short"> Prev</span>
+                                    <span class="long"> Previous Post</span>
+                                </a>
+                                {% endif %}
+
+                                {% if page.next.url %}
+                                <a class="btn next" href="{{ page.next.url | prepend: site.baseurl | replace: '//', '/' }}">
+                                    <span class="short">Next </span>
+                                    <span class="long">Next Post </span>
+                                    {{ site.global_html.single_right_arrow }}
+                                </a>
+                                {% endif %}
+                            </div>
+
+                            <!-- use logic to toggle sidebar layouts -->
+                            {% if page.sidebar %}
+                            {% include {{page.sidebar_type}}-sidebar.html %}
                             {% endif %}
                         </div>
-                    </div>
-                    <!-- use logic to toggle sidebar layouts -->
-                    {% if page.sidebar %}
-                    {% include {{page.sidebar_type}}-sidebar.html %}
-                    {% endif %}
-                </div>
             </div>
             {% include footer.html %}
         </div>

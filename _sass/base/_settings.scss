@@ -53,7 +53,7 @@ $link-color: $dark-primary-color;
 // String Variables (use strings as values | for Font Variables: Don't forget to include the fonts)
 //------------------------------------------
 
-$main-font: "Gill Sans", "Gill Sans MT", Calibri, "PingFang HK", "蘋方-港", "PingFang TC", "蘋方-繁", "PingFang SC", "蘋方-簡", "PingFang", "source-han-sans-traditional", "Microsoft YaHei New", "Microsoft Yahei", "微软雅黑", SimSun, 宋体, STXihei, "华文细黑", sans-serif;
+$main-font: sans-serif;
 
 // set to $main-font if you don't want your headings to use another font
 $headings-font: $main-font;
@@ -133,7 +133,7 @@ $so-bg: rgba(white, .8);
 $so-color: black;
 
 // Menu
-$mainnav-collapse: 1068px;
+$mainnav-collapse: 600px;
 $mainnav-responsive-text-align: center;
 
 // Post Pages

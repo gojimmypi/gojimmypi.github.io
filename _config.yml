@@ -1,3 +1,5 @@
+# Updates: this file is loaded only once when running  ./_build-development.sh
+#
 # Site Settings. Available in Liquid using the "site." prefix
 title: gojimmypi
 description: "blog"
@@ -12,7 +14,7 @@ author: #For jekyll-feed
   uri: https://gojimmypi.github.io/about/
   twitter: "#" #name only. for jekyll-seo-tag, temporary fix to the incompatibility with site.data.authors
 # tumblr: "#"
-pinterest: "https://fi.pinterest.com/gojimmypi/"
+# pinterest: "https://fi.pinterest.com/gojimmypi/"
 # instagram: "#"
 twitter: # for both nav & jekyll-seo-tag
   username: "gojimmypi" #name only
@@ -30,7 +32,7 @@ social: # for jekyll-seo-tag
 # gojimmypi uses \google2135ab0ce8568db2.html
 # google_site_verification: "FdDTVMkMmUJFE1F3mACjcq7jWt3mwyEpb3E09WMctTA" # gojimmypi verified FdDT...
 # Site Setup Infos
-copyright: "2015-2021 gojimmypi" # put your copyright info here excluding the © sign. It will appears in the footer
+copyright: "2015-2025 gojimmypi" # put your copyright info here excluding the © sign. It will appears in the footer
 # disqus: gojimmypi # disqus id in the form of <<id>>.disqus.com... ID only!
 # analytics: "UA-33794695-2" # Google Analytics ID; UA-33794695-2 from Gridster
 # cse: "004435532597611518746:uxyjmivw31u" #Google Custom Search Engine id ("cx" variables) Gridster  is 004435532597611518746:uxyjmivw31u
@@ -59,6 +61,12 @@ rss: /feed.xml #For nav. The path is fixed by jekyll-feed; omitting this will re
 # Jekyll Setup
 full_rebuild: true
 encoding: utf-8
+# HTML TEXT
+global_html:
+    single_right_arrow: ">"
+    double_right_arrow: ">>"
+    single_left_arrow:  "<"
+    double_left_arrow:  "<<"
 defaults:
   -
     scope:

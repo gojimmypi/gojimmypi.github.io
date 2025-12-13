@@ -1,3 +1,5 @@
+/* file: _sass/_temporary.scss */
+
 #drop-example{
     min-width: 250px;
 }
@@ -10,3 +12,139 @@
         @include shadow(2);
     }
 }
+
+
+/* Fix overlapping excerpt text and Read More link */
+article {
+
+    .post-content {
+        margin: 0 0 0.75em 0;
+        line-height: 1.4;
+        float: none !important;
+        position: static !important;
+    }
+
+    .actions {
+        display: block;
+        clear: both;
+        margin: 0;
+        padding: 0;
+        position: static !important;
+
+        a {
+            display: inline-block;
+            margin-top: 0.25em;
+        }
+    }
+}
+
+/* Sidebar toggle icon behavior */
+.sidebar-toggle {
+    cursor: pointer;
+    display: inline-block;
+}
+
+    .sidebar-toggle svg {
+        vertical-align: middle;
+    }
+
+    /* Default: show menu icon, hide close icon */
+    .sidebar-toggle .icon-menu {
+        display: inline-block;
+    }
+
+    .sidebar-toggle .icon-close {
+        display: none;
+    }
+
+/* When sidebar is open, swap icons */
+.sidebar.open .sidebar-toggle .icon-menu {
+    display: none;
+}
+
+.sidebar.open .sidebar-toggle .icon-close {
+    display: inline-block;
+}
+
+/* By default: show long labels, hide short ones */
+.post-nav .short {
+    display: none;
+}
+
+.post-nav .long {
+    display: inline;
+}
+
+/* On small screens: hide long labels, show short ones */
+@media (max-width: 600px) {
+    .post-nav .short {
+        display: inline;
+    }
+
+    .post-nav .long {
+        display: none;
+    }
+}
+
+/* Basic spacing between the buttons */
+.post-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Generic menu toggle button
+.toggle-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+
+    .toggle-link svg {
+        width: 22px;
+        height: 22px;
+    }
+*/
+
+/* Top-right social/nav bar layout if needed */
+.main-menu .content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Ensure menu toggle icons are visible */
+.main-menu .toggle-link {
+    color: #000000; /* or some strong contrasting color */
+}
+
+.main-menu .toggle-link svg {
+    display: block;
+    width: 32px;
+    height: 32px;
+    fill: currentColor;
+    stroke: currentColor;
+}
+    /* Force SVG menu icons to render visibly */
+    .main-menu .toggle-link svg {
+        display: block;
+        width: 32px;
+        height: 32px;
+    }
+
+    /* Burger bars */
+    .main-menu .toggle-link .icon-menu rect {
+        fill: currentColor;
+    }
+
+    /* Close icon */
+    .main-menu .toggle-link .icon-close path {
+        stroke: currentColor;
+        fill: none;
+    }
+
+

@@ -4,7 +4,23 @@ title: About
 permalink: /about/
 ---
 
-This is the blog site for [gojimmypi](./author/gojimmypi/), moved to github after several years at [https://gojimmypi.blogspot.com/](https://gojimmypi.blogspot.com/).
+This is the blog site for [gojimmypi](/author/gojimmypi/), moved to github after several years at [https://gojimmypi.blogspot.com/](https://gojimmypi.blogspot.com/).
+
+There's a [gojimmypi.com domain](https://gojimmypi.com) that just forwards to [gojimmypi.github.com](https://gojimmypi.github.com).
+
+
+Have an RSS Reader? See the <a name="nav_rss" id="nav_rss" href="{{ site.baseurl }}{{ site.rss }}" class="rss">gojimmypi RSS feed</a>
+
+
+
+Various sites to find gojimmypi:
+
+* marketplace.visualstudio.com [Verilog Syntax Highlighter](https://marketplace.visualstudio.com/items?itemName=gojimmypi.gojimmypi-verilog-language-extension)
+* marketplace.visualstudio.com [GCode Language Extension](https://marketplace.visualstudio.com/items?itemName=gojimmypi.gojimmypi-gcode-language-extension)
+* [crowdsupply.com/people/gojimmypi](https://www.crowdsupply.com/people/gojimmypi)
+* [oshpark.com/profiles/gojimmypi](https://oshpark.com/profiles/gojimmypi)
+* [github.com/gojimmypi](https://github.com/gojimmypi)
+* [instagram.com/gojimmypi](https://www.instagram.com/gojimmypi/)
 
 The [source code for this web site](https://github.com/gojimmypi/gojimmypi.github.io) is based on a [fork](https://github.com/gojimmypi/gridster-jekyll-theme) 
 of the [ickc fork](https://github.com/ickc/gridster-jekyll-theme),
@@ -34,5 +50,8 @@ Issues that need to be addressed:
 * jQuery needs to be updated.
 * There's an annoying flash of white before the site initially loads in dark mode.
 * Is `/js/materialize.min.js` actually needed? Can it be removed?
+* Tags should not be case sensitive for sort & search
+* Categories needs to be either implemented or removed from the sidebar
+* 
 
 This is the `docs/about.markdown` page.

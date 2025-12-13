@@ -1,11 +1,15 @@
+// file:  /_sass/partials/components/_iconnav.scss
 // social media and search icon container within main menu
 .iconnav {
-    position: absolute; 
-    right:0;
-
-    height: inherit;
+    position: static;
+    right: auto;
     background-color: $primary-color;
     border-radius: 10px;
+    /* Make it match the #menu pill feel */
+    height: auto;
+    padding: 10px 8px;
+    display: flex;
+    align-items: center;
     // hide some of the icons once there is not enough space
     @media screen and (max-width: 368px) {
         .tumblr,
@@ -18,13 +22,26 @@
 
     ul {
         list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
 
         li {
             list-style: none;
-            display: inline-block;
+            display: flex;
+            align-items: center;
 
             a {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
                 padding: 0 3px;
+                line-height: 1;
+            }
+
+            &:last-child {
+                margin-right: 8px; // distance of last icon to right inset frame
             }
         }
     }

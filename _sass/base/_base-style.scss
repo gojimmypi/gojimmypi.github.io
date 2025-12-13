@@ -1,4 +1,21 @@
-﻿@charset "utf-8";
+﻿// file: _sass/base/_base_style.scss
+
+@charset "utf-8";
+
+// Ensure there's no background flash at loas time
+html[data-theme="dark"] body {
+    background: #111111;
+    color: #eeeeee;
+}
+
+html[data-theme="light"] body {
+    background: #ffffff;
+    color: #111111;
+}
+
+html.theme-preload * {
+    transition: none !important;
+}
 
 *{
     box-sizing: border-box;
@@ -15,10 +32,6 @@ html{
 body{
     @extend html;
     line-height: $basic-line-height;
-
-    @if $background-color-setting == yes{
-        background-color: $background-color;
-    }
 }
 
 // Headings
@@ -90,7 +103,7 @@ pre {
     overflow-x: scroll;
     overflow-y: scroll;
     // preformatted code segment decorations
-    margin-top: 0px !important; // ensure no space above code sample (typically copy button) 
+    margin-top: 0px !important; // ensure no space above code sample (typically copy button)
     padding: 10px 16px;
     border-radius: 2px;
     border-top: 4px solid #00aeef;

@@ -1,10 +1,15 @@
-// Main Nav
+// file: _includes/_menu.scss
+// Main Nav (Home - About - Dark Mode)
 #menu {
     font-family: $sc-font;
     letter-spacing: $sc-letter-spacing;
     z-index: 105;
     background: $primary-color;
     color: $primary-text-icon-color;
+    border-radius: 10px;
+
+    /* inner spacing so content does not touch rounded corners */
+    padding: 5px 6px;
 
     .toggle-link {
         display: none;
@@ -14,28 +19,57 @@
         text-align: right;
         margin: 0;
         padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
     }
 
     li {
         display: inline-block;
         transition: .3s all linear;
 
-        &:hover, &.active {
+        &:hover,
+        &.active {
             background-color: rgba(0, 0, 0, .1);
         }
 
         > a {
-            width: 100%;
-            display: block;
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 44px;
+            line-height: 1;
             font-size: 1em;
         }
     }
+    /* Desktop: override the link display so icons can be centered */
+    > ul > li {
+        display: flex;
+        align-items: center;
+        height: 44px;
+    }
+
+        > ul > li > a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 44px;
+            line-height: 1;
+            padding-top: 0;
+            padding-bottom: 0;
+            width: auto;
+        }
+
+            > ul > li > a svg {
+                display: block;
+            }
     // Responsive Version (Off-Canvas)
     @media screen and (max-width: $mainnav-collapse) {
         padding: 0;
         width: 320px;
         height: 100%;
-        overflow-y: sroll;
+        overflow-y: scroll;
         overflow-x: hidden;
         position: fixed;
         top: 0px;
@@ -45,7 +79,6 @@
         z-index: 108;
         @include shadow("1-half");
         background: white;
-
         color: $primary-text;
         line-height: 44px;
 
@@ -56,7 +89,12 @@
                 color: $accent-color;
             }
         }
-
+        /* OPEN menu when link targets #menu */
+        &:target {
+            transform: translate(-320px, 0);
+            transition: .3s all ease;
+        }
+        /* Keep support for JS-driven .active if you ever use it */
         &.active {
             transform: translate(-320px, 0);
             transition: .3s all ease;
@@ -76,6 +114,7 @@
             text-align: $mainnav-responsive-text-align;
             width: 100%;
             position: relative;
+            display: block;
         }
 
         li {
@@ -89,6 +128,20 @@
                 transition: .3s all linear;
                 background-color: rgba(0, 0, 0, .1);
             }
+
+            > a {
+                width: 100%;
+                display: block;
+                height: auto;
+                line-height: inherit;
+            }
+        }
+        /* Mobile: restore normal full-width links */
+        > ul > li > a {
+            display: block;
+            height: auto;
+            line-height: inherit;
+            width: 100%;
         }
     }
 }
@@ -97,7 +150,6 @@
     background: $primary-color;
     color: $primary-text-icon-color;
     height: 64px;
-    // line-height: 64px;
     position: fixed;
     top: 0px;
     width: 100%;
@@ -105,21 +157,23 @@
     font-weight: normal;
     @include shadow(1);
     z-index: 2;
-    
+
     a {
         font-size: 1rem;
         padding: 0 15px;
         color: $primary-text-icon-color;
+
         &:hover {
             color: $primary-text-icon-color;
         }
     }
-    
+
     .content {
         @include flexbox(row, wrap, space-between, center);
         height: inherit;
-        line-height: inherit;            
-        
+        line-height: inherit;
+        /* Reserve space for GitHub corner (octocat) */
+        padding-right: 40px;
     }
 }
 
@@ -144,7 +198,7 @@
     z-index: 110;
     will-change: width, height;
     padding: 0;
-    
+
     li {
         display: block !important;
         clear: both;
@@ -156,9 +210,11 @@
         text-transform: none;
         padding: 0 !important;
 
-        &:hover, &.active {
+        &:hover,
+        &.active {
             background-color: #eee;
         }
+
         & > a,
         & > span {
             box-sizing: border-box;
@@ -169,3 +225,4 @@
         }
     }
 }
+

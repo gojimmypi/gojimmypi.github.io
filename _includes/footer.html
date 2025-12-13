@@ -154,3 +154,10 @@ TypeKit -->
 <!-- see
 https://github.com/GoogleChrome/lighthouse/blob/main/core/audits/service-worker.js"
 -->
+
+<!-- helper to avoid page-load flash -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.documentElement.classList.remove("theme-preload");
+    });
+</script>
