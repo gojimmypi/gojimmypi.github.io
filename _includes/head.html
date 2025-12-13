@@ -8,13 +8,9 @@
 
 <!-- helper to avoid page-load flash -->
 <style>
-    html, body {
-        background: #111111;
+    html.theme-preload * {
+        transition: none !important;
     }
-
-        html.theme-preload * {
-            transition: none !important;
-        }
 </style>
 
 <script>
@@ -28,22 +24,32 @@
             saved = null;
         }
 
-        var wantsDark = false;
+        var theme = "dark";
 
-        if (saved === "dark") {
-            wantsDark = true;
-        } else if (saved === "light") {
-            wantsDark = false;
+        if (saved === "dark" || saved === "light") {
+            theme = saved;
         } else if (window.matchMedia) {
-            wantsDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
         }
 
         var root = document.documentElement;
+
         root.classList.add("theme-preload");
-        root.setAttribute("data-theme", wantsDark ? "dark" : "light");
+
+        /* One source of truth for CSS */
+        root.setAttribute("data-theme", theme);
+
+        /* Back-compat for existing JS/CSS that expects html.dark or html.light */
+        root.classList.remove("dark");
+        root.classList.remove("light");
+        root.classList.add(theme);
+
+        /* Let browser UI follow */
+        root.style.setProperty("color-scheme", theme);
     })();
 </script>
 <!-- /helper to avoid page-load flash -->
+
 
 
 <meta content="width=device-width, initial-scale=1" name="viewport" />

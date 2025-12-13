@@ -2,20 +2,83 @@
 
 @charset "utf-8";
 
-// Ensure there's no background flash at loas time
-html[data-theme="dark"] body {
-    background: #111111;
-    color: #eeeeee;
+/* ------------------------------------------------------------------
+   Centralized theme tokens (light/dark)
+   ------------------------------------------------------------------ */
+
+:root {
+    /* core */
+    --bg: #ffffff;
+    --text: #111111;
+    --muted: #444444;
+    /* surfaces (required for header/logo backgrounds) */
+    --surface: #f0f1f3;
+    --surface-2: #ffffff;
+    /* borders */
+    --border: rgba(0, 0, 0, 0.12);
+    /* links */
+    --link: #0b63ce;
+    --link-hover: #084a9c;
+    /* code */
+    --code-accent: #00aeef;
+    --code-shadow: rgba(0, 0, 0, 0.50);
+    --code-linenum-border: #dddddd;
+    /* focus */
+    --focus-ring: rgba(11, 99, 206, 0.55);
 }
 
-html[data-theme="light"] body {
-    background: #ffffff;
-    color: #111111;
+/* Primary theme switch */
+html[data-theme="dark"] {
+    --bg: #0f1115;
+    --text: #e7eaf0;
+    --muted: #a6adbb;
+    /* surfaces */
+    --surface: #2b2b2b;
+    --surface-2: #151515;
+    --border: rgba(255, 255, 255, 0.14);
+    --link: #6ab0ff;
+    --link-hover: #9acbff;
+    --code-accent: #22c3ff;
+    --code-shadow: rgba(0, 0, 0, 0.70);
+    --code-linenum-border: rgba(255, 255, 255, 0.18);
+    --focus-ring: rgba(106, 176, 255, 0.55);
 }
 
-html.theme-preload * {
-    transition: none !important;
+/* Back-compat with existing JS */
+html.dark,
+body.dark-theme {
+    --bg: #0f1115;
+    --text: #e7eaf0;
+    --muted: #a6adbb;
+    --surface: #2b2b2b;
+    --surface-2: #151515;
+    --border: rgba(255, 255, 255, 0.14);
+    --link: #6ab0ff;
+    --link-hover: #9acbff;
+    --code-accent: #22c3ff;
+    --code-shadow: rgba(0, 0, 0, 0.70);
+    --code-linenum-border: rgba(255, 255, 255, 0.18);
+    --focus-ring: rgba(106, 176, 255, 0.55);
 }
+
+/* Apply tokens globally */
+html,
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* Allow browser widgets to follow theme */
+html {
+    color-scheme: light dark;
+}
+
+    /* Prevent transitions during preload */
+    html.theme-preload * {
+        transition: none !important;
+    }
+
+/* ------------------------------------------------------------------ */
 
 * {
     box-sizing: border-box;
@@ -65,11 +128,11 @@ a {
         text-decoration: underline;
     }
 
-    color: $link-color;
+    color: var(--link);
 
     &:hover {
         cursor: pointer;
-        color: $link-hover-color;
+        color: var(--link-hover);
 
         @if $link-line-default == yes and $link-line-hover == no {
             text-decoration: none;
@@ -103,25 +166,21 @@ pre {
     @extend code;
     overflow-x: scroll;
     overflow-y: scroll;
-    // preformatted code segment decorations
-    margin-top: 0px !important; // ensure no space above code sample (typically copy button)
+    margin-top: 0px !important;
     padding: 10px 16px;
     border-radius: 2px;
-    border-top: 4px solid #00aeef;
-    -moz-box-shadow: inset 0 0 10px #000;
-    box-shadow: inset 0 0 10px #000;
+    border-top: 4px solid var(--code-accent);
+    -moz-box-shadow: inset 0 0 10px var(--code-shadow);
+    box-shadow: inset 0 0 10px var(--code-shadow);
 }
-
 
     pre span {
         counter-increment: line;
     }
 
         pre span:before {
-            /*    counter-reset: line;
-    content: counter(line);
-*/ display: inline-block;
-            border-right: 1px solid #ddd;
+            display: inline-block;
+            border-right: 1px solid var(--code-linenum-border);
             padding: 0 .5em;
             margin-right: .5em;
         }
@@ -202,7 +261,7 @@ pre {
     }
 }
 
-// Defintion List
+// Definition List
 @if $include-definition-list-style == yes {
     dl {
         width: 100%;

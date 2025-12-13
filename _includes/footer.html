@@ -79,6 +79,10 @@ TypeKit -->
 
             this.themeOwner.classList.remove(oldTheme);
             this.themeOwner.classList.add(newTheme);
+
+            /* Keep CSS selectors in sync with the current theme */
+            this.themeOwner.setAttribute("data-theme", newTheme);
+
             const forceDarkMode = (newTheme == 'dark') ? true : false;
             ToggleDarkMode(forceDarkMode);
 
@@ -159,5 +163,6 @@ https://github.com/GoogleChrome/lighthouse/blob/main/core/audits/service-worker.
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.documentElement.classList.remove("theme-preload");
+        document.documentElement.style.setProperty("visibility", "visible");
     });
 </script>

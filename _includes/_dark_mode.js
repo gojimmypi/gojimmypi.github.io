@@ -1,142 +1,117 @@
 // _dark_mode.js
 // typically included in the head.html.
 
-
-//
-// runs once at page load time; determines if a theme was saved, and if not, if the user has a preference
-//
 (function () {
-	const savedTheme = localStorage.getItem('theme');
-	// alert(savedTheme);
-	if (savedTheme) {
-		document.documentElement.className = savedTheme;
-	} else {
-		const userPrefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-		const preferredTheme = userPrefersDarkMode ? 'dark' : 'light';
-		document.documentElement.className = preferredTheme;
-		localStorage.setItem('theme', preferredTheme);
-	}
-	// alert('Saved theme = ' + savedTheme);
+    var key = "theme";
+    var savedTheme = null;
+    var theme = "dark";
+
+    try {
+        savedTheme = localStorage.getItem(key);
+    } catch (e) {
+        savedTheme = null;
+    }
+    // alert('Saved theme = ' + savedTheme);
+    if (savedTheme === "dark" || savedTheme === "light") {
+        theme = savedTheme;
+    } else if (window.matchMedia) {
+        theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        try {
+            localStorage.setItem(key, theme);
+        } catch (e2) {
+        }
+    }
+
+    document.documentElement.className = theme;
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.style.setProperty("color-scheme", theme);
 })();
 
-//
-// given a list of elements in [obj], toggle each of their respective darkmode
-//
 function SafeToggleAll(obj, forceDarkMode) {
-	if (!obj || obj === null || obj === undefined) {
+    if (!obj || obj === null || obj === undefined) {
+        return;
+    }
 
-	}
-	else {
-		obj.forEach(element => {
-			element.classList.toggle("dark-theme", forceDarkMode);
-		});
-	}
+    obj.forEach(function (element) {
+        element.classList.toggle("dark-theme", forceDarkMode);
+    });
 }
-
 //
 // get a list of elements for a given .ClassName or ElementName
 //
 function ToggleDarkModeItem(name, forceDarkMode) {
-	// reminder: stati, not live NodeList, see https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
-	const thisElements = document.querySelectorAll(name);
-	SafeToggleAll(thisElements, forceDarkMode);
+    var thisElements = document.querySelectorAll(name);
+    SafeToggleAll(thisElements, forceDarkMode);
 }
-
 //
 // ToggleDarkMode; forceDarkMode=true to froce into dark mode
 //
 function ToggleDarkMode(forceDarkMode) {
-	//     if (forceDarkMode === null || forceDarkMode === undefined) {
-	//forceDarkMode = false;
-	//     }
+    var thisTheme = "dark";
 
-	//const userPrefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-	//const thisTheme = userPrefersDarkMode ? 'dark' : 'light';
-
-	if (forceDarkMode == null) {
-		forceDarkMode = true;
-	}
-
-	const savedTheme = (localStorage.getItem('theme') == 'dark') ? 'dark' : 'light';
-
-	var lightModeIcon = document.getElementById("lightModeIcon");
-	var darkModeIcon = document.getElementById("darkModeIcon");
-
-	if (forceDarkMode) {
-		thisTheme = 'dark'; // the default when never saved is dark
-		lightModeIcon.style.setProperty("display", "none");
-		darkModeIcon.style.setProperty("display", "inline");
-	}
-	else {
-		thisTheme = 'light';
-		lightModeIcon.style.setProperty("display", "inline");
-		darkModeIcon.style.setProperty("display", "none");
+    if (forceDarkMode == null) {
+        forceDarkMode = true;
     }
-	document.documentElement.style.setProperty("color-scheme", thisTheme);
-	localStorage.setItem('theme', thisTheme);
 
-	document.body.classList.toggle("dark-theme", forceDarkMode);
+    if (forceDarkMode) {
+        thisTheme = "dark";
+    } else {
+        thisTheme = "light";
+    }
 
-	ToggleDarkModeItem('code', forceDarkMode);
-	ToggleDarkModeItem('pre', forceDarkMode);
-	ToggleDarkModeItem('nav', forceDarkMode);
-	ToggleDarkModeItem('table', forceDarkMode);
+    var lightModeIcon = document.getElementById("lightModeIcon");
+    var darkModeIcon = document.getElementById("darkModeIcon");
 
-	//ToggleDarkModeItem('.highlighter-rouge', forceDarkMode);
-	ToggleDarkModeItem('.color-change', forceDarkMode);
-	ToggleDarkModeItem('.dropdown-content', forceDarkMode);
-	ToggleDarkModeItem('.logo-container', forceDarkMode);
-	ToggleDarkModeItem('.sidebar', forceDarkMode);
-	ToggleDarkModeItem('.authorbox', forceDarkMode); // class="authorbox"
-	// ToggleDarkModeItem('.active', forceDarkMode);
+    if (lightModeIcon && darkModeIcon) {
+        if (forceDarkMode) {
+            lightModeIcon.style.setProperty("display", "none");
+            darkModeIcon.style.setProperty("display", "inline");
+        } else {
+            lightModeIcon.style.setProperty("display", "inline");
+            darkModeIcon.style.setProperty("display", "none");
+        }
+    }
 
-	//const divClasses = document.querySelectorAll('logo-container');
-	//SafeToggleAll(divClasses, forceDarkMode);
+    document.documentElement.setAttribute("data-theme", thisTheme);
+    document.documentElement.style.setProperty("color-scheme", thisTheme);
 
-	//if (!divClasses || divClasses === null || divClasses === undefined) {
-	//	// alert("No divClasses found! ");
-	//}
-	//else {
-	//	divClasses.forEach(element => {
-	//		divClasses.classList.toggle("dark-theme", forceDarkMode);
-	//	});
-	//}
-	// set all custom <element> tages to dark mode
-	// since the article element is customer (but does not have a dash in the name), we iterate all <element> tags:
-	// see https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define (not used)
-	//const articleClasses = document.querySelectorAll('article');
-	//SafeToggleAll(articleClasses, forceDarkMode);
+    try {
+        localStorage.setItem("theme", thisTheme);
+    } catch (e) {
+    }
 
-	ToggleDarkModeItem('article', forceDarkMode);
+    document.body.classList.toggle("dark-theme", forceDarkMode);
 
-	//if (!articleClasses || articleClasses === null || articleClasses === undefined) {
+    ToggleDarkModeItem("code", forceDarkMode);
+    ToggleDarkModeItem("pre", forceDarkMode);
+    ToggleDarkModeItem("nav", forceDarkMode);
+    ToggleDarkModeItem("table", forceDarkMode);
+    ToggleDarkModeItem(".color-change", forceDarkMode);
+    ToggleDarkModeItem(".dropdown-content", forceDarkMode);
+    ToggleDarkModeItem(".logo-container", forceDarkMode);
+    ToggleDarkModeItem(".sidebar", forceDarkMode);
+    ToggleDarkModeItem(".authorbox", forceDarkMode);
+    ToggleDarkModeItem("article", forceDarkMode);
 
-	//}
-	//else {
-	//	articleClasses.forEach(element => {
-	//		element.classList.toggle("dark-theme", forceDarkMode);
-	//	});
-	//}
-
-	// const sidebarClasses = document.querySelectorAll('sidebar')
-
-
-	// page should be in dark mode now
+    /* Critical: never leave the page hidden after a toggle */
+    document.documentElement.style.setProperty("visibility", "visible");
 }
 
-var _HideForChange = localStorage.getItem('theme');
-if (_HideForChange == null || _HideForChange == "dark") {
-	// while we toggle dark mode, hide the page to avoid blinking / flashing
-	document.documentElement.style.setProperty("visibility", "hidden");
-}
+/* Hide only until DOMContentLoaded to prevent a flash, then always show */
+(function () {
+    var hideForChange = null;
 
+    try {
+        hideForChange = localStorage.getItem("theme");
+    } catch (e) {
+        hideForChange = null;
+    }
 
-//$(window).on('load', function () {
-//	// alert(1);
-//	var _TheActiveTheme = localStorage.getItem('theme');
-//	/* alert(_TheActiveTheme); */
-//	if (_TheActiveTheme == null || _TheActiveTheme == "dark") {
-//		ToggleDarkMode(true)
-//	}
-//	// document.documentElement.style.setProperty("visibility", "visible");
-//});
+    if (hideForChange == null || hideForChange === "dark") {
+        document.documentElement.style.setProperty("visibility", "hidden");
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.documentElement.style.setProperty("visibility", "visible");
+    });
+})();

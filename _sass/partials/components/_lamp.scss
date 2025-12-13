@@ -1,9 +1,11 @@
+// file: /_sass/partials/components/_lamp.scss
 //@import 'mixins';
 //@import 'fonts';
 
 .navbar-item {
     text-align: center;
 }
+
 #theme-toggle {
     outline-color: var(--color-white);
 }
@@ -11,55 +13,77 @@
 .lamp-navbar-item {
     vertical-align: super;
     background-color: transparent;
-    padding:5px;
+    padding: 5px;
 }
 
+/* Keep the darker surface feel, but tie it to theme tokens where possible */
 div.dark-theme {
-    background: #2b2b2b !important;
+    background: var(--surface) !important;
 }
 
-/*ul.dark-theme,
-nav.dark-theme {
-    background: #2b2b2b !important;
-    color: aliceblue !important;
-}
+/*
+    CRITICAL FIX:
+    Do NOT style all nav elements globally in dark-theme.
+    That was overriding #menu (burger slide-out panel) and icon alignment.
 */
-/*.menu.dark-theme {
-    background: #2b2b2b !important;
-}*/
-
-// see _js/_dark_mode.js
 ul.dark-theme,
-nav.dark-theme,
 head.dark-theme,
 .sidebar.dark-theme,
 .color-change.dark-theme,
 body.dark-theme {
-    color: #0ff !important;
-    background: #121212 !important;
+    color: #00ffff !important;
+    background: var(--code-bg) !important;
 
     a {
-        color: lightskyblue;
+        color: var(--link);
     }
 
-    a:hover {
-        color: dodgerblue;
-        text-decoration-color: white;
-        text-decoration: underline;
+        a:hover {
+            color: var(--link-hover);
+            text-decoration-color: currentColor;
+            text-decoration: underline;
+        }
+}
+
+/* If you still want navs (in general) to follow dark styling, exclude the header navs */
+nav.dark-theme:not(#menu):not(.iconnav) {
+    color: #00ffff !important;
+    background: var(--code-bg) !important;
+}
+
+/*
+    Burger menu alignment fix (mobile/off-canvas):
+    When #menu is opened via :target (click burger), center the icons and links.
+*/
+@media screen and (max-width: 900px) {
+    #menu:target > ul {
+        text-align: center !important;
+    }
+
+    #menu:target > ul > li {
+        text-align: center !important;
+    }
+
+    #menu:target > ul > li > a {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    /* Also center the close "X" link area */
+    #menu:target .toggle-link {
+        text-align: right;
     }
 }
 
 code.dark-theme,
 pre.dark-theme {
-    color: #eee;
-    background: #121212 !important;
+    color: var(--code-fg);
+    background: var(--code-bg) !important;
 
-    // this next section was generated with:
-    //   rougify style base16.dark > mydarkmode.dark.css
-    // then replaced ".highlight " with a blank and pasted here:
     .w {
         color: #d0d0d0;
-        background-color: #151515;
+        background-color: var(--code-bg-2);
     }
 
     .err {
@@ -72,7 +96,7 @@ pre.dark-theme {
     }
 
     .n {
-        color: papayawhip;
+        color: #ffefd5;
     }
 
     .cp {
@@ -101,7 +125,7 @@ pre.dark-theme {
 
     .gh {
         color: #6a9fb5;
-        background-color: #151515;
+        background-color: var(--code-bg-2);
         font-weight: bold;
     }
 
@@ -122,7 +146,7 @@ pre.dark-theme {
     }
 
     .s, .sb, .sc, .dl, .sd, .s2, .sh, .sx, .s1 {
-        color: tan;
+        color: #d2b48c;
     }
 
     .sa {
@@ -167,11 +191,11 @@ pre.dark-theme {
 }
 
 .snoopy {
-
 }
 
+/* Theme-aware logo container background */
 .logo-container {
-    background-color: aliceblue;
+    background-color: var(--surface);
 }
 
 .authorbox.dark-theme,
@@ -180,25 +204,22 @@ article.dark-theme {
     background: #2b2b2b;
 
     a {
-        color: lightskyblue;
+        color: var(--link);
 
         h1 {
             color: cornflowerblue !important;
         }
     }
 
-    a:hover {
-        color: dodgerblue;
-        text-decoration-color: white;
-        text-decoration: underline;
-    }
+        a:hover {
+            color: var(--link-hover);
+            text-decoration-color: currentColor;
+            text-decoration: underline;
+        }
 }
-
-
 
 #theme-toggle-container {
     display: flex;
-//    height: 4.8rem;
     justify-content: center;
 }
 
@@ -207,7 +228,7 @@ article.dark-theme {
     background-color: var(--navbar-bg-color);
     box-shadow: var(--navbar-box-shadow);
     height: 100%;
-    // Mobile only
+
     &.opened {
         .navbar-menu {
             background-color: rgba(0, 0, 0, 0.4);
@@ -261,14 +282,12 @@ article.dark-theme {
     width: var(--navbar-toggle-size);
     flex-shrink: 0;
     outline-offset: 0.4rem;
-    //@include font-size(0);
 
     .icon-bar {
         display: block;
         width: 100%;
         height: 33%;
         background: var(--navbar-text-color);
-        //@include transition(transform, opacity);
     }
 
     &:focus,
@@ -278,7 +297,6 @@ article.dark-theme {
         }
     }
 }
-
 
 .lamp {
     cursor: pointer;
