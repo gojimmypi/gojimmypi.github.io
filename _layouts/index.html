@@ -6,7 +6,7 @@
 <head>
     <!-- index.html -->
     <meta charset="UTF-8" />
-    <link rel="stylesheet" id="switch-style" href="{{ site.baseurl | replace: '//', '/' }}/css/grid.css">
+    <link rel="stylesheet" id="switch-style" href="{{ site.baseurl | replace: '//', '/' }}/css/grid.css?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}">
     {% include head.html %}
 </head>
 <!-- use logic to toggle sidebar layouts -->
