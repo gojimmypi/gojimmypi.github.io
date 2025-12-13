@@ -1,4 +1,4 @@
-// file:  /_sass/partials/components/_iconnav.scss
+// file: /_sass/partials/components/_iconnav.scss
 // social media and search icon container within main menu
 
 .iconnav {
@@ -6,7 +6,6 @@
     right: auto;
     background-color: $primary-color;
     border-radius: 10px;
-    /* Make it match the #menu pill feel */
     height: auto;
     padding: 10px 8px;
     display: flex;
@@ -39,29 +38,49 @@
                 justify-content: center;
                 padding: 0 3px;
                 line-height: 1;
-                /* Make hover/focus visible in both themes */
                 border-radius: 8px;
+                color: inherit;
 
                 &:hover {
-                    background-color: var(--nav-hover);
+                    filter: brightness(1.08);
                 }
 
                 &:active {
-                    background-color: var(--nav-active);
+                    filter: brightness(0.96);
                 }
 
                 &:focus-visible {
                     outline: 2px solid var(--focus-ring);
                     outline-offset: 2px;
-                    background-color: var(--nav-hover);
                 }
-                /* Ensure icons inherit expected color (SVGs and img containers) */
-                color: inherit;
             }
 
             &:last-child {
                 margin-right: 8px; // distance of last icon to right inset frame
             }
         }
+    }
+    /*
+        Desktop-only: inner pill styling for each icon link,
+        matching the visual language used on the #menu items.
+        Does not affect the mobile slide-out menu.
+    */
+    @media screen and (min-width: ($mainnav-collapse + 1px)) {
+        ul li {
+            margin-left: 4px;
+        }
+
+            ul li a {
+                padding: 4px 6px;
+                background: linear-gradient( to bottom, rgba(255, 255, 255, 0.18), rgba(0, 0, 0, 0.18) );
+                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.20), inset 0 -6px 10px rgba(0, 0, 0, 0.22);
+                transition: background 0.2s ease, box-shadow 0.2s ease;
+            }
+
+                ul li a:hover,
+                ul li a:focus {
+                    background: linear-gradient( to bottom, rgba(255, 255, 255, 0.26), rgba(0, 0, 0, 0.26) );
+                    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), inset 0 -6px 12px rgba(0, 0, 0, 0.28);
+                }
     }
 }
