@@ -17,11 +17,11 @@ html.theme-preload * {
     transition: none !important;
 }
 
-*{
+* {
     box-sizing: border-box;
 }
 
-html{
+html {
     font: {
         family: $main-font;
         size: $root-font-size;
@@ -29,52 +29,53 @@ html{
     }
 }
 
-body{
+body {
     @extend html;
     line-height: $basic-line-height;
 }
 
 // Headings
-h1, h2, h3, h4, h5, h6{
+h1, h2, h3, h4, h5, h6 {
     line-height: 1;
-	margin-bottom: $heading-margin;
+    margin-bottom: $heading-margin;
 
-    @if $headings-text-transform != none{
+    @if $headings-text-transform != none {
         text-transform: $headings-text-transform;
     }
 
-    @if $headings-font != $main-font{
+    @if $headings-font != $main-font {
         font-family: $headings-font;
     }
 
-    @if $headings-font-weight != $main-font-weight{
+    @if $headings-font-weight != $main-font-weight {
         font-weight: $headings-font-weight;
     }
 }
 
 // Links
-a{
+a {
     @if $link-transition == yes {
         transition: .3s all;
     }
 
-    @if $link-line-default == no{
+    @if $link-line-default == no {
         text-decoration: none;
     }
-    @else{
+    @else {
         text-decoration: underline;
     }
 
     color: $link-color;
 
-    &:hover{
+    &:hover {
         cursor: pointer;
         color: $link-hover-color;
 
-        @if $link-line-default == yes and $link-line-hover == no{
+        @if $link-line-default == yes and $link-line-hover == no {
             text-decoration: none;
         }
-        @if $link-line-default == no and $link-line-hover == yes{
+
+        @if $link-line-default == no and $link-line-hover == yes {
             text-decoration: underline;
         }
     }
@@ -82,12 +83,12 @@ a{
 
 // Defaults
 
-img{
+img {
     max-width: 100%;
     height: auto;
 }
 
-iframe{
+iframe {
     width: 100%;
     // height: auto;
 }
@@ -112,28 +113,28 @@ pre {
 }
 
 
-pre span {
-    counter-increment: line;
-}
+    pre span {
+        counter-increment: line;
+    }
 
-pre span:before {
-/*    counter-reset: line;
+        pre span:before {
+            /*    counter-reset: line;
     content: counter(line);
-*/    display: inline-block;
-    border-right: 1px solid #ddd;
-    padding: 0 .5em;
-    margin-right: .5em;
-}
+*/ display: inline-block;
+            border-right: 1px solid #ddd;
+            padding: 0 .5em;
+            margin-right: .5em;
+        }
 
-@if $paragraph-gap == yes{
+@if $paragraph-gap == yes {
     p {
         margin-bottom: $paragraph-gap-size;
     }
 }
 
 // Container
-@if $container-settings == yes{
-    .#{$container-class-name}{
+@if $container-settings == yes {
+    .#{$container-class-name} {
         max-width: $container-max-width;
         width: $container-width;
         background: $container-background-color;
@@ -251,7 +252,7 @@ pre span:before {
     }
 
     .alignright {
-        float:right;
+        float: right;
         margin: 10px 15px !important;
     }
 
@@ -281,9 +282,9 @@ pre span:before {
         height: auto;
     }
 
-    .wp-caption p.wp-caption-text {
-        font-size: 0.9em;
-    }
+        .wp-caption p.wp-caption-text {
+            font-size: 0.9em;
+        }
 
     .sticky {
         position: fixed;
