@@ -1,54 +1,400 @@
 <div>
     <style>
+        /* Header container */
         .logo-container {
             background: var(--surface);
             border: 1px solid var(--border);
-            display: block !important;
-            width: 100% !important;
-            height: auto !important;
-            align-self: flex-start !important;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            height: auto;
+            padding: 8px;
+            position: relative;
         }
 
-            .logo-container a {
-                display: inline-block !important;
-                margin: auto !important;
-                width: 7rem !important;
-                max-width: 96% !important;
+            /* Logo link and image */
+            .logo-container a.logo {
+                flex: 0 0 auto;
+                width: 7rem;
+                max-width: 96%;
+                margin-left: auto;
+                display: inline-block;
             }
 
         img.jimmy_logo {
-            margin: 5px;
-            display: block !important;
-            width: 100% !important;
-            height: auto !important;
+            margin: 0;
+            display: block;
+            width: 100%;
+            height: auto;
         }
 
-        @media screen and (max-width:900px) {
-            img.jimmy_logo {
-                /* some specific CSS for lower than 900px screens and windows */
+        /* Optional nav list in header (if you want it visible) */
+        .logo-container > ul {
+            flex: 0 0 auto;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: inline-flex;
+            gap: 8px;
+        }
+
+            .logo-container > ul li {
+                margin: 0;
+                padding: 0;
             }
+
+                .logo-container > ul li a {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 6px 10px;
+                    border-radius: 10px;
+                    text-decoration: none;
+                    color: inherit;
+                }
+
+                    .logo-container > ul li a:hover {
+                        background: var(--nav-hover);
+                    }
+
+                    .logo-container > ul li a:focus-visible {
+                        outline: 2px solid var(--focus-ring);
+                        outline-offset: 2px;
+                        background: var(--nav-hover);
+                    }
+
+        /* Search area sits to the left of the logo */
+        .logo-container .search {
+            flex: 1 1 520px;
+            min-width: 240px;
+            padding: 0;
+            margin: 0;
+        }
+
+            .logo-container .search label {
+                display: block;
+                font-size: 0.9em;
+                margin: 0 0 4px 0;
+            }
+
+            .logo-container .search input[type="search"] {
+                width: 100%;
+                padding: 9px 10px;
+                border-radius: 10px;
+                border: 1px solid var(--border);
+                background: var(--surface);
+                color: inherit;
+            }
+
+                .logo-container .search input[type="search"]:focus-visible {
+                    outline: 2px solid var(--focus-ring);
+                    outline-offset: 2px;
+                }
+
+        /* Results panel spans the entire header width */
+        .logo-container .search-results-wrap {
+            flex: 0 0 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        #searchStatus {
+            margin-top: 6px;
+            font-size: 0.9em;
+            opacity: 0.85;
+        }
+
+        /* Dropdown-style results */
+        #searchResults {
+            margin: 8px 0 0 0;
+            padding: 0;
+            list-style: none;
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+            max-height: 320px;
+            overflow: auto;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+            display: none;
+        }
+
+        /* When open, show results */
+        .search-open #searchResults {
+            display: block;
+        }
+
+        #searchResults li {
+            margin: 0;
+            padding: 0;
+            border-top: 1px solid var(--border);
+        }
+
+            #searchResults li:first-child {
+                border-top: 0;
+            }
+
+            #searchResults li a {
+                display: block;
+                padding: 10px 12px;
+                text-decoration: none;
+                color: inherit;
+            }
+
+                #searchResults li a:hover {
+                    background: var(--nav-hover);
+                }
+
+            /* Active item for keyboard navigation */
+            #searchResults li.is-active a {
+                background: var(--nav-hover);
+                outline: 2px solid var(--focus-ring);
+                outline-offset: -2px;
+            }
+
+        /* Install button container */
+        #installContainer {
+            flex: 0 0 auto;
+        }
+
+        /* Mobile: stack search above logo */
+        @media screen and (max-width: 700px) {
+            .logo-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+                .logo-container a.logo {
+                    margin-left: 0;
+                    margin-right: auto;
+                }
+
+                .logo-container > ul {
+                    justify-content: flex-start;
+                    flex-wrap: wrap;
+                }
         }
     </style>
 
-    <div class="logo-container">
-        <a name="home_gojimmypi_logo" id="home_gojimmypi_logo" href="{{ site.baseurl | replace: '//', '/' }}/" class="logo noline">
+    <div class="logo-container" id="headerSearchContainer">
+        <a name="home_gojimmypi_logo"
+           id="home_gojimmypi_logo"
+           href="{{ site.baseurl | replace: '//', '/' }}/"
+           class="logo noline">
             <img src="/images/gojimmypi.svg" class="jimmy_logo" alt="gojimmypi logo">
         </a>
-        <div class="search">
+
+        <div class="search" id="headerSearch">
             <label for="searchBox">Search posts</label>
-            <input id="searchBox" type="search" placeholder="Type to search..." autocomplete="off">
-            <div id="searchStatus" aria-live="polite"></div>
-            <ul id="searchResults"></ul>
+            <input id="searchBox"
+                   type="search"
+                   placeholder="Type to search..."
+                   autocomplete="off"
+                   aria-controls="searchResults"
+                   aria-expanded="false"
+                   aria-autocomplete="list">
+            <div class="search-results-wrap">
+                <div id="searchStatus" aria-live="polite"></div>
+                <ul id="searchResults" role="listbox"></ul>
+            </div>
         </div>
+
+
+        <ul>
+            <li><a href="{{ "/search/" | relative_url }}">Search</a></li>
+        </ul>
+
+        <div id="installContainer" class="hidden" style="visibility:hidden">
+            <button id="btnInstall" type="button">Install Test</button>
+        </div>
+
         <script>
             window.SITE_BASEURL = "{{ site.baseurl }}";
         </script>
         <script src="/js/search.js" defer></script>
 
-        <div id="installContainer" class="hidden" style="visibility:hidden">
-            <button id="btnInstall" type="button">
-                Install Test
-            </button>
-        </div>
+        <script defer>
+            (function () {
+                var container = document.getElementById("headerSearchContainer");
+                var box = document.getElementById("searchBox");
+                var results = document.getElementById("searchResults");
+
+                if (!container || !box || !results) {
+                    return;
+                }
+
+                function setOpen(isOpen) {
+                    if (isOpen) {
+                        container.classList.add("search-open");
+                        box.setAttribute("aria-expanded", "true");
+                    } else {
+                        container.classList.remove("search-open");
+                        box.setAttribute("aria-expanded", "false");
+                        clearActive();
+                    }
+                }
+
+                function hasResults() {
+                    return results && results.children && results.children.length > 0;
+                }
+
+                function clearActive() {
+                    var active = results.querySelector("li.is-active");
+                    if (active) {
+                        active.classList.remove("is-active");
+                    }
+                }
+
+                function setActiveIndex(idx) {
+                    var items = results.querySelectorAll("li");
+                    if (!items || items.length === 0) {
+                        return;
+                    }
+
+                    if (idx < 0) {
+                        idx = items.length - 1;
+                    }
+                    if (idx >= items.length) {
+                        idx = 0;
+                    }
+
+                    clearActive();
+                    items[idx].classList.add("is-active");
+
+                    var link = items[idx].querySelector("a");
+                    if (link && link.scrollIntoView) {
+                        link.scrollIntoView({ block: "nearest" });
+                    }
+                }
+
+                function getActiveIndex() {
+                    var items = results.querySelectorAll("li");
+                    var i;
+                    for (i = 0; i < items.length; i += 1) {
+                        if (items[i].classList.contains("is-active")) {
+                            return i;
+                        }
+                    }
+                    return -1;
+                }
+
+                function clickOutsideHandler(ev) {
+                    if (!container.contains(ev.target)) {
+                        setOpen(false);
+                    }
+                }
+
+                function escapeHandler(ev) {
+                    if (ev.key === "Escape") {
+                        setOpen(false);
+                        box.blur();
+                    }
+                }
+
+                function focusSlashHandler(ev) {
+                    /* Optional: press "/" to focus search (ignore if typing in a field) */
+                    if (ev.key !== "/") {
+                        return;
+                    }
+
+                    var tag = (ev.target && ev.target.tagName) ? ev.target.tagName.toLowerCase() : "";
+                    var isEditable =
+                        tag === "input" ||
+                        tag === "textarea" ||
+                        (ev.target && ev.target.isContentEditable);
+
+                    if (isEditable) {
+                        return;
+                    }
+
+                    ev.preventDefault();
+                    box.focus();
+                }
+
+                function updateOpenStateSoon() {
+                    window.setTimeout(function () {
+                        setOpen(hasResults() && (box.value || "").trim().length >= 2);
+                    }, 0);
+                }
+
+                box.addEventListener("input", function () {
+                    updateOpenStateSoon();
+                });
+
+                box.addEventListener("focus", function () {
+                    updateOpenStateSoon();
+                });
+
+                box.addEventListener("keydown", function (ev) {
+                    if (!container.classList.contains("search-open")) {
+                        return;
+                    }
+
+                    if (ev.key === "ArrowDown") {
+                        ev.preventDefault();
+                        setActiveIndex(getActiveIndex() + 1);
+                        return;
+                    }
+
+                    if (ev.key === "ArrowUp") {
+                        ev.preventDefault();
+                        setActiveIndex(getActiveIndex() - 1);
+                        return;
+                    }
+
+                    if (ev.key === "Enter") {
+                        var active = results.querySelector("li.is-active a");
+                        if (active) {
+                            ev.preventDefault();
+                            window.location.href = active.getAttribute("href");
+                        }
+                        return;
+                    }
+                });
+
+                document.addEventListener("click", clickOutsideHandler);
+                document.addEventListener("keydown", escapeHandler);
+                document.addEventListener("keydown", focusSlashHandler);
+
+                /* Open results when they are populated by search.js */
+                var observer = new MutationObserver(function () {
+                    updateOpenStateSoon();
+                });
+                observer.observe(results, { childList: true });
+
+                /* Support /search/?q=... to prefill */
+                (function prefillFromQueryString() {
+                    var qs = window.location.search || "";
+                    if (qs.indexOf("?") !== 0) {
+                        return;
+                    }
+
+                    var params = new URLSearchParams(qs);
+                    var q = params.get("q");
+                    if (!q) {
+                        q = params.get("query");
+                    }
+                    if (!q) {
+                        return;
+                    }
+
+                    q = String(q);
+                    if (q.length < 1) {
+                        return;
+                    }
+
+                    box.value = q;
+
+                    /* Trigger search.js listener */
+                    var evt = document.createEvent("Event");
+                    evt.initEvent("input", true, true);
+                    box.dispatchEvent(evt);
+
+                    box.focus();
+                }());
+            }());
+        </script>
     </div>
 </div>
