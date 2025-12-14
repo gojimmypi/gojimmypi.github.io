@@ -11,7 +11,7 @@
     --bg: #ffffff;
     --text: #111111;
     --muted: #444444;
-    /* surfaces (required for header/logo backgrounds) */
+    /* surfaces */
     --surface: #f0f1f3;
     --surface-2: #ffffff;
     /* borders */
@@ -32,29 +32,8 @@
     --nav-active: rgba(0, 0, 0, 0.10);
 }
 
-/* Primary theme switch */
-html[data-theme="dark"] {
-    --bg: #0f1115;
-    --text: #e7eaf0;
-    --muted: #a6adbb;
-    /* surfaces */
-    --surface: #2b2b2b;
-    --surface-2: #151515;
-    --border: rgba(255, 255, 255, 0.14);
-    --link: #6ab0ff;
-    --link-hover: #9acbff;
-    --code-accent: #22c3ff;
-    --code-shadow: rgba(0, 0, 0, 0.70);
-    --code-linenum-border: rgba(255, 255, 255, 0.18);
-    --focus-ring: rgba(106, 176, 255, 0.55);
-    /* nav */
-    --nav-pill-bg: rgba(255, 255, 255, 0.06);
-    --nav-pill-border: rgba(255, 255, 255, 0.16);
-    --nav-hover: rgba(255, 255, 255, 0.08);
-    --nav-active: rgba(255, 255, 255, 0.12);
-}
-
-/* Back-compat with existing JS */
+/* Dark theme */
+html[data-theme="dark"],
 html.dark,
 body.dark-theme {
     --bg: #0f1115;
@@ -69,26 +48,23 @@ body.dark-theme {
     --code-shadow: rgba(0, 0, 0, 0.70);
     --code-linenum-border: rgba(255, 255, 255, 0.18);
     --focus-ring: rgba(106, 176, 255, 0.55);
-    /* nav */
     --nav-pill-bg: rgba(255, 255, 255, 0.06);
     --nav-pill-border: rgba(255, 255, 255, 0.16);
     --nav-hover: rgba(255, 255, 255, 0.08);
     --nav-active: rgba(255, 255, 255, 0.12);
 }
 
-/* Apply tokens globally */
+/* Apply tokens */
 html,
 body {
     background: var(--bg);
     color: var(--text);
 }
 
-/* Allow browser widgets to follow theme */
 html {
     color-scheme: light dark;
 }
 
-    /* Prevent transitions during preload */
     html.theme-preload * {
         transition: none !important;
     }
@@ -100,19 +76,16 @@ html {
 }
 
 html {
-    font: {
-        family: $main-font;
-        size: $root-font-size;
-        weight: $main-font-weight;
-    }
+    font-family: $main-font;
+    font-size: $root-font-size;
+    font-weight: $main-font-weight;
 }
 
 body {
-    @extend html;
     line-height: $basic-line-height;
 }
 
-// Headings
+/* Headings */
 h1, h2, h3, h4, h5, h6 {
     line-height: 1;
     margin-bottom: $heading-margin;
@@ -130,10 +103,12 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-// Links
+/* Links */
 a {
+    color: var(--link);
+
     @if $link-transition == yes {
-        transition: .3s all;
+        transition: 0.3s all;
     }
 
     @if $link-line-default == no {
@@ -143,10 +118,7 @@ a {
         text-decoration: underline;
     }
 
-    color: var(--link);
-
     &:hover {
-        cursor: pointer;
         color: var(--link-hover);
 
         @if $link-line-default == yes and $link-line-hover == no {
@@ -159,8 +131,7 @@ a {
     }
 }
 
-// Defaults
-
+/* Media defaults */
 img {
     max-width: 100%;
     height: auto;
@@ -170,34 +141,82 @@ iframe {
     width: 100%;
 }
 
+/* ------------------------------------------------------------------
+   CODE — single authoritative implementation
+   ------------------------------------------------------------------ */
+
 code {
     font-family: $code-font;
-    display: inline;
 }
 
-kbd,
-pre {
-    @extend code;
-    overflow-x: scroll;
-    overflow-y: scroll;
-    margin-top: 0px !important;
-    padding: 10px 16px;
-    border-radius: 2px;
-    border-top: 4px solid var(--code-accent);
-    -moz-box-shadow: inset 0 0 10px var(--code-shadow);
-    box-shadow: inset 0 0 10px var(--code-shadow);
-}
-
-    pre span {
-        counter-increment: line;
+    /* Inline Rouge code */
+    code.highlighter-rouge {
+        background: #070a10;
+        color: #c9d1d9;
+        padding: 0.15em 0.4em;
+        border-radius: 6px;
+        font-size: 0.95em;
+        white-space: nowrap;
     }
 
-        pre span:before {
-            display: inline-block;
-            border-right: 1px solid var(--code-linenum-border);
-            padding: 0 .5em;
-            margin-right: .5em;
+/* Rouge block containers */
+.highlighter-rouge,
+.highlight {
+    background: #070a10;
+    color: #c9d1d9;
+    border-radius: 8px;
+}
+
+    /* Rouge block <pre> */
+    .highlight pre,
+    pre.highlight {
+        margin: 10px 0;
+        padding: 12px 16px;
+        overflow-x: auto;
+        overflow-y: auto;
+        background: transparent;
+        border-top: 4px solid var(--code-accent);
+        box-shadow: inset 0 0 10px var(--code-shadow);
+    }
+
+        /* Rouge block <code> */
+        .highlight code,
+        pre.highlight code {
+            display: block;
+            font-family: $code-font;
+            font-size: 0.95em;
+            line-height: 1.5;
+            color: inherit;
+            background: none;
         }
+
+        /* Line numbering (Rouge only) */
+        .highlight pre span {
+            counter-increment: line;
+        }
+
+            .highlight pre span:before {
+                content: counter(line);
+                display: inline-block;
+                width: 3em;
+                margin-right: 0.75em;
+                padding-right: 0.75em;
+                text-align: right;
+                color: var(--muted);
+                border-right: 1px solid var(--code-linenum-border);
+            }
+
+/* Keyboard input */
+kbd {
+    font-family: $code-font;
+    background: #070a10;
+    color: #c9d1d9;
+    padding: 0.15em 0.4em;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+
+/* ------------------------------------------------------------------ */
 
 @if $paragraph-gap == yes {
     p {
@@ -205,7 +224,7 @@ pre {
     }
 }
 
-// Container
+/* Container */
 @if $container-settings == yes {
     .#{$container-class-name} {
         max-width: $container-max-width;
@@ -215,88 +234,47 @@ pre {
     }
 }
 
-// Extended Defaults
+/* Extended defaults (non-code only) */
 @if $extended-defaults == yes {
     input,
     textarea {
-        position: relative;
-        border: 1px solid white;
-        transition: 0.3 all ease;
         padding: 9px 13px;
-        box-sizing: border-box;
-        border-color: darken(white, 10%);
+        border: 1px solid darken(white, 10%);
+        transition: 0.3s ease;
 
         &:focus {
             border-color: darken(white, 15%);
         }
     }
 
-    cite {
-        font-style: italic;
-        font-size: 1em;
-    }
-
+    cite,
     address,
     var {
         font-style: italic;
     }
 
-    pre:not(.highlight) {
-        background: rgba(black, 0.02);
-        padding: 10px;
-        margin: 10px 0;
-        width: 100%;
-        box-sizing: border-box;
-        overflow-x: auto;
+    q:before {
+        content: "“";
     }
 
-    q {
-        display: inline;
-
-        &:before {
-            content: "“";
-        }
-
-        &:after {
-            content: "”";
-        }
+    q:after {
+        content: "”";
     }
 }
 
-/* Rouge / Jekyll code blocks */
-.highlight pre,
-pre.highlight {
-    border-top: 4px solid var(--code-accent);
-    box-shadow: inset 0 0 10px var(--code-shadow);
-    margin-top: 0px !important;
-    padding: 10px 16px;
-    overflow-x: auto;
-    overflow-y: auto;
-}
-
-    .highlight code,
-    pre.highlight code {
-        display: block;
-        font-family: $code-font;
-    }
-
-// Blockquotes
+/* Blockquotes */
 @if $include-blockquote-style == yes {
     blockquote {
-        width: calc(100% - 10px);
-        box-sizing: border-box;
         padding: 10px 20px;
-        border-left: $blockquote-border;
         margin: 15px 0 0 10px;
+        border-left: $blockquote-border;
         font-size: 1.1em;
     }
 }
 
-// Definition List
+/* Definition lists */
 @if $include-definition-list-style == yes {
     dl {
-        width: 100%;
-        text-align: left;
         @include flexbox(row, wrap, space-between, stretch);
 
         dt {
@@ -304,157 +282,16 @@ pre.highlight {
             width: 20%;
             min-width: 130px;
             border-bottom: $definition-list-border;
-            padding: 3px 0;
 
             &:after {
                 content: ":";
             }
-
-            &:last-of-type {
-                border-bottom: $noborder;
-            }
         }
 
         dd {
-            padding: 3px 0;
             width: 80%;
             max-width: calc(100% - 130px);
             border-bottom: $definition-list-border;
-
-            &:last-of-type {
-                border-bottom: $noborder;
-            }
         }
     }
 }
-
-// WordPress default classes
-@if $inlcude-WordPress-kit == yes {
-    .alignnone {
-        float: none;
-        margin: 0;
-    }
-
-    .aligncenter,
-    div.aligncenter {
-        display: block;
-        margin: 0 auto;
-    }
-
-    .alignright {
-        float: right;
-        margin: 10px 15px !important;
-    }
-
-    .alignleft {
-        float: left;
-        margin: 10px 15px !important;
-    }
-
-    .gallery-caption {
-        font-size: 0.9em;
-    }
-
-    .bypostauthor {
-        > div {
-            p {
-                font-weight: bold;
-            }
-        }
-    }
-
-    .wp-caption {
-        border: 1px solid rgba($almost-black, 0.05);
-        text-align: center;
-        margin-top: 10px !important;
-        margin-bottom: 10px !important;
-        max-width: 100%;
-        height: auto;
-    }
-
-        .wp-caption p.wp-caption-text {
-            font-size: 0.9em;
-        }
-
-    .sticky {
-        position: fixed;
-    }
-}
-
-/* ------------------------------------------------------------------
-   Rouge code blocks (baseline, no theme assumptions)
-   ------------------------------------------------------------------ */
-
-.highlight,
-.highlighter-rouge {
-    background: #0d1117;
-    color: #c9d1d9;
-    border-radius: 4px;
-}
-
-    .highlight pre,
-    pre.highlight {
-        background: transparent;
-        margin: 0;
-        padding: 12px 16px;
-        overflow-x: auto;
-        overflow-y: auto;
-        border-top: 4px solid var(--code-accent);
-        box-shadow: inset 0 0 10px var(--code-shadow);
-    }
-
-        .highlight code,
-        pre.highlight code {
-            display: block;
-            font-family: $code-font;
-            font-size: 0.95em;
-            line-height: 1.5;
-            color: inherit;
-            background: none;
-        }
-
-/* ------------------------------------------------------------------
-   Rouge inline + block code (final authority)
-   ------------------------------------------------------------------ */
-
-/* Inline code */
-code.highlighter-rouge {
-    background: #0d1117;
-    color: #c9d1d9;
-    padding: 0.15em 0.4em;
-    border-radius: 4px;
-    font-family: $code-font;
-    font-size: 0.95em;
-    white-space: nowrap;
-}
-
-/* Block containers */
-.highlighter-rouge,
-.highlight {
-    background: #0d1117;
-    color: #c9d1d9;
-    border-radius: 4px;
-}
-
-    /* Block pre */
-    .highlight pre,
-    pre.highlight {
-        background: transparent;
-        margin: 0;
-        padding: 12px 16px;
-        overflow-x: auto;
-        overflow-y: auto;
-        border-top: 4px solid var(--code-accent);
-        box-shadow: inset 0 0 10px var(--code-shadow);
-    }
-
-        /* Block code */
-        .highlight code,
-        pre.highlight code {
-            display: block;
-            font-family: $code-font;
-            font-size: 0.95em;
-            line-height: 1.5;
-            color: inherit;
-            background: none;
-        }
