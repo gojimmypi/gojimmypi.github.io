@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "VisualGDB Notes for Toolchain and Registry Settings"
-date: '2025-02-27'
+title: "wolfSSL DTLS PSK"
+date: '2025-03-07'
 author: gojimmypi
 tags:
-- VisualGDB
-- Espressif
-- Toolchain
+- wolfSSL
+- DTLS
+- PSK
 ---
 
 Some notes on using PSK.
