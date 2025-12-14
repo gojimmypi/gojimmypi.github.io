@@ -23,13 +23,12 @@
     --code-accent: #00aeef;
     --code-shadow: rgba(0, 0, 0, 0.50);
     --code-linenum-border: rgba(255, 255, 255, 0.18);
-    /* dark code surface (use in both themes) */
-    --code-bg: #0b0f14;
-    --code-fg: #e7eaf0;
-    /* inline code */
-    --inline-code-bg: #0b0f14;
-    --inline-code-fg: #e7eaf0;
-    --inline-code-border: rgba(255, 255, 255, 0.10);
+    /* code (light theme) */
+    --code-bg: #f6f8fa;
+    --code-fg: #24292f;
+    --inline-code-bg: #f6f8fa;
+    --inline-code-fg: #24292f;
+    --inline-code-border: rgba(27, 31, 36, 0.15);
     /* focus */
     --focus-ring: rgba(11, 99, 206, 0.55);
     /* nav */
