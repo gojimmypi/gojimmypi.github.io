@@ -1,0 +1,18 @@
+---
+layout: page
+title: Search
+permalink: /search/
+---
+
+<!-- This is the /search/index.html file -->
+<div class="search">
+    <label for="searchBox">Search posts</label>
+    <input id="searchBox" type="search" placeholder="Type to search..." autocomplete="off">
+    <div id="searchStatus" aria-live="polite"></div>
+    <ul id="searchResults"></ul>
+</div>
+
+<script>
+    window.SITE_BASEURL = "{{ site.baseurl }}";
+</script>
+<script src="/js/search.js"></script>

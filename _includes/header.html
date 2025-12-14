@@ -29,10 +29,22 @@
             }
         }
     </style>
+
     <div class="logo-container">
         <a name="home_gojimmypi_logo" id="home_gojimmypi_logo" href="{{ site.baseurl | replace: '//', '/' }}/" class="logo noline">
             <img src="/images/gojimmypi.svg" class="jimmy_logo" alt="gojimmypi logo">
         </a>
+        <div class="search">
+            <label for="searchBox">Search posts</label>
+            <input id="searchBox" type="search" placeholder="Type to search..." autocomplete="off">
+            <div id="searchStatus" aria-live="polite"></div>
+            <ul id="searchResults"></ul>
+        </div>
+        <script>
+            window.SITE_BASEURL = "{{ site.baseurl }}";
+        </script>
+        <script src="/js/search.js" defer></script>
+
         <div id="installContainer" class="hidden" style="visibility:hidden">
             <button id="btnInstall" type="button">
                 Install Test
