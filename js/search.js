@@ -80,17 +80,19 @@
             var it = scored[j].item;
 
             var li = document.createElement("li");
+
+            if (it.date) {
+                var meta = document.createElement("span");
+                meta.className = "header-search__result-date";
+                meta.textContent = it.date;
+                li.appendChild(meta);
+            }
+
             var a = document.createElement("a");
             a.href = it.url;
             a.textContent = it.title;
 
             li.appendChild(a);
-
-            if (it.date) {
-                var meta = document.createElement("div");
-                meta.textContent = it.date;
-                li.appendChild(meta);
-            }
 
             results.appendChild(li);
         }

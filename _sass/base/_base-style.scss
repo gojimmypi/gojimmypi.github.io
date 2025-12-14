@@ -35,6 +35,17 @@
     --nav-pill-border: rgba(0, 0, 0, 0.14);
     --nav-hover: rgba(0, 0, 0, 0.06);
     --nav-active: rgba(0, 0, 0, 0.10);
+    /* Added for search */
+    --hs-label: var(--link, var(--accent, inherit));
+    --hs-title: var(--link, var(--accent, inherit));
+    --hs-text: var(--text, var(--fg, inherit));
+    --hs-muted: var(--muted, rgba(160, 160, 160, 0.9));
+    --hs-input-bg: var(--surface);
+    --hs-input-border: var(--border);
+    --hs-panel-bg: var(--surface);
+    --hs-panel-border: var(--border);
+    --hs-hover: var(--nav-hover);
+    --hs-focus: var(--focus-ring);
 }
 
 /* DARK MODE overrides */

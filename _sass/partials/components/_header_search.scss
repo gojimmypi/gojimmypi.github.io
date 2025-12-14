@@ -1,0 +1,156 @@
+/* _sass/partials/components/header_search.scss */
+@charset "utf-8";
+
+/*
+    Header search styling
+    Uses existing palette/settings variables for consistency.
+*/
+
+.logo-container.header-search {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    height: auto;
+    padding: 8px;
+    position: relative;
+}
+
+/* Put search on the left, logo on the right */
+.header-search__search {
+    flex: 1 1 520px;
+    min-width: 240px;
+    margin: 0;
+    padding: 0;
+}
+
+.header-search__logo {
+    flex: 0 0 auto;
+    margin-left: auto;
+    /* Padding around the SVG (your request) */
+    padding: 6px;
+    border-radius: 12px;
+}
+
+/* Keep logo sized like before */
+.logo-container.header-search a.logo {
+    width: 7rem;
+    max-width: 96%;
+    display: inline-block;
+}
+
+img.jimmy_logo {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+}
+
+/* Use theme-consistent colors from settings/palette */
+.header-search__label {
+    display: block;
+    font-size: 0.9em;
+    margin: 0 0 4px 0;
+    /* "Search" label should be blue-ish (use link color) */
+    color: var(--hs-label);
+}
+
+.header-search__input {
+    width: 100%;
+    padding: 9px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    /* "Yellow-ish" text: use the main text color */
+    color: var(--hs-text);
+    caret-color: var(--hs-text);
+}
+
+    .header-search__input:focus-visible {
+        outline: 2px solid var(--focus-ring);
+        outline-offset: 2px;
+    }
+
+.header-search__results-wrap {
+    flex: 0 0 100%;
+    width: 100%;
+    position: relative;
+}
+
+.header-search__status {
+    margin-top: 6px;
+    font-size: 0.9em;
+    opacity: 0.85;
+    color: $main-color;
+}
+
+.header-search__results {
+    margin: 8px 0 0 0;
+    padding: 0;
+    list-style: none;
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    max-height: 320px;
+    overflow: auto;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    display: none;
+}
+
+.search-open .header-search__results {
+    display: block;
+}
+
+.header-search__results li {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+}
+
+    .header-search__results li:first-child {
+        border-top: 0;
+    }
+
+    .header-search__results li a {
+        display: block;
+        padding: 10px 12px;
+        text-decoration: none;
+        /* Result title: use link color (blue-ish) */
+        color: var(--hs-title);
+    }
+
+        .header-search__results li a:hover {
+            background: var(--nav-hover);
+        }
+
+    .header-search__results li.is-active a {
+        background: var(--nav-hover);
+        outline: 2px solid var(--focus-ring);
+        outline-offset: -2px;
+    }
+
+/* Date line (we will add this class from search.js below) */
+.header-search__result-date {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.9em;
+    /* Gray-ish: derive from main color */
+    color: var(--hs-muted);
+}
+
+/* Mobile: stack search above logo */
+@media screen and (max-width: 700px) {
+    .logo-container.header-search {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .header-search__logo {
+        margin-left: 0;
+        margin-right: auto;
+    }
+}
