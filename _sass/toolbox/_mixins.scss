@@ -1,3 +1,4 @@
+// file: /_sass/toolbox/mixins.scss
 // PROJECT MIXINS
 //---------------------------------------------------------------------
 // button
@@ -12,7 +13,7 @@
     font-family: $sc-font;
     letter-spacing: $sc-letter-spacing;
     vertical-align: middle;
-    
+
     @if $prop == btn{
         text-decoration:none;
         color: white;
@@ -27,7 +28,7 @@
             color: white;
             @include shadow("1-half");
         }
-      
+
         &.disabled{
           background-color: #DFDFDF;
           box-shadow: none;
@@ -36,29 +37,29 @@
             * {
                 pointer-events: none;
             }
-            
+
             &:hover {
                 background-color: #DFDFDF;
                 color: #9F9F9F;
             }
         }
     }
-    
+
     @if $prop == flat{
         box-shadow: none;
         background-color: transparent;
         color: $color;
         cursor: pointer;
-        
+
         &.disabled {
             color: lighten(#999, 10%) !important;
             cursor: default;
-          
+
           &:hover{
             color: lighten(#999, 10%) !important;
             cursor: default;
           }
-        }    
+        }
     }
 }
 
