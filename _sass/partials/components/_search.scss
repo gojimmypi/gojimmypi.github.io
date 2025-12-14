@@ -1,4 +1,3 @@
-// file: /_scss/partials/components/_search.scss
 /* ================================
    SEARCH OVERLAY (legacy)
    ================================ */
@@ -24,7 +23,7 @@ body.overflow {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        color: $so-color;
+        color: var(--text);
         background: transparent;
         font-size: 3em;
         font-weight: $main-font-weight;
@@ -47,17 +46,28 @@ body.overflow {
 
 .search {
     label {
-        color: var(--link);
+        color: var(--text-muted);
     }
 
     input[type="search"] {
-        color: var(--link);
+        color: var(--text);
         background: var(--surface);
         border: 1px solid var(--border);
+        padding: 0.6em 0.7em;
+        border-radius: 6px;
+        /* smooth but subtle */
+        transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
     }
 
         input[type="search"]::placeholder {
-            color: var(--link);
-            opacity: 0.75;
+            color: var(--text-muted);
+            opacity: 0.8;
+        }
+
+        input[type="search"]:focus,
+        input[type="search"]:focus-visible {
+            border-color: var(--focus-ring);
+            outline: none;
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--focus-ring) 40%, transparent);
         }
 }
