@@ -2,9 +2,23 @@
 
 (function () {
     var baseUrl = window.SITE_BASEURL || "";
-    var box = document.getElementById("searchBox");
-    var results = document.getElementById("searchResults");
-    var status = document.getElementById("searchStatus");
+
+    var boxPage = document.getElementById("searchBoxPage");
+    var resultsPage = document.getElementById("searchResultsPage");
+    var statusPage = document.getElementById("searchStatusPage");
+
+    var boxHeader = document.getElementById("searchBox");
+    var resultsHeader = document.getElementById("searchResults");
+    var statusHeader = document.getElementById("searchStatus");
+
+    /* Prefer the /search/ page widgets if they exist */
+    var box = boxPage || boxHeader;
+    var results = resultsPage || resultsHeader;
+    var status = statusPage || statusHeader;
+
+    if (!box || !results || !status) {
+        return;
+    }
 
     function setStatus(text) {
         if (status) {
@@ -113,7 +127,10 @@
         }
 
         box.addEventListener("input", onInput);
-        onInput();
+        if ((box.value || "").trim().length >= 2) {
+            onInput();
+        }
+
     }
 
     function fail(err) {

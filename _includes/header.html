@@ -1,26 +1,49 @@
 <div class="logo-container header-search" id="headerSearchContainer">
-    <a name="home_gojimmypi_logo"
-       id="home_gojimmypi_logo"
-       href="{{ site.baseurl | replace: '//', '/' }}/"
-       class="logo noline header-search__logo">
-        <img src="/images/gojimmypi.svg" class="jimmy_logo" alt="gojimmypi logo">
-    </a>
-    <div class="header-search__search" id="headerSearch">
-        <label class="header-search__label" for="searchBox">Search posts</label>
-        <input class="header-search__input"
-               id="searchBox"
-               type="search"
-               placeholder="Type to search..."
-               autocomplete="off"
-               aria-controls="searchResults"
-               aria-expanded="false"
-               aria-autocomplete="list">
-        <div class="header-search__results-wrap">
-            <div class="header-search__status" id="searchStatus" aria-live="polite"></div>
-            <ul class="header-search__results" id="searchResults" role="listbox"></ul>
-        </div>
-    </div>
-
+    <table width="99%" style="border-top:none; border-bottom:none">
+        <tr  style="border-top:none; border-bottom:none">
+            <td  style="border-top:none; border-bottom:none; vertical-align:middle">
+                <a name="home_gojimmypi_logo"
+                   id="home_gojimmypi_logo"
+                   href="{{ site.baseurl | replace: '//', '/' }}/"
+                   class="noline header-search__logo">
+                    <img src="/images/gojimmypi.svg" class="jimmy_logo" alt="gojimmypi logo">
+                </a>
+            </td>
+            <td align="left" width="80%" style="vertical-align: middle; border-top: none; border-bottom: none">
+                <table width="99%" style="border-top:none; border-bottom:none; vertical-align:top">
+                    <tr>
+                        <td width="99%" style="border-top:none; border-bottom:none">
+                            Welcome and thanks for visiting! <br />
+                            <hr />
+                            This site contains various technical details and notes-to-self that perhaps otherws will find useful. <br />
+                            <hr />
+                            There are no ads here, no sponsored content.
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="99%" style="border-top:none; border-bottom:none">
+                            <div class="header-search__search" id="headerSearch" style="position:relative; text-wrap:nowrap">
+                                <label class="header-search__label" for="searchBox">Search posts:</label>
+                                <input class="header-search__input"
+                                       id="searchBox"
+                                       type="search"
+                                       placeholder="Type to search..."
+                                       autocomplete="off"
+                                       aria-controls="searchResults"
+                                       aria-expanded="false"
+                                       aria-autocomplete="list">
+                                <div class="header-search__results-wrap">
+                                    <div class="header-search__status" id="searchStatus" aria-live="polite"></div>
+                                    <ul class="header-search__results" id="searchResults" role="listbox"></ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 
     <script>
         window.SITE_BASEURL = "{{ site.baseurl }}";
