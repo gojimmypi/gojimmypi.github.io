@@ -1,17 +1,21 @@
-body.overflow{
+// file: /_scss/partials/components/_search.scss
+/* ================================
+   SEARCH OVERLAY (legacy)
+   ================================ */
+
+body.overflow {
     overflow: hidden;
 }
 
-// search overlay style
 #search {
     position: fixed;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background-color: $so-bg;
     transition: 0.5s ease-in-out;
-    transform: translate(0px, -100%) scale(0,0);
+    transform: translate(0, -100%) scale(0, 0);
     opacity: 0;
     display: none;
 
@@ -25,15 +29,35 @@ body.overflow{
         font-size: 3em;
         font-weight: $main-font-weight;
         text-align: center;
-        border: 0px;
+        border: 0;
         outline: none;
     }
 }
 
-#search.open {
-    transition: 0.5s ease-in-out;
-    transform: translate(0px, 0px) scale(1, 1);
-    opacity: 1;
-    z-index: 106;
-    display: block;
+    #search.open {
+        transform: translate(0, 0) scale(1, 1);
+        opacity: 1;
+        z-index: 106;
+        display: block;
+    }
+
+/* ================================
+   SEARCH PAGE ( /search/ )
+   ================================ */
+
+.search {
+    label {
+        color: var(--link);
+    }
+
+    input[type="search"] {
+        color: var(--link);
+        background: var(--surface);
+        border: 1px solid var(--border);
+    }
+
+        input[type="search"]::placeholder {
+            color: var(--link);
+            opacity: 0.75;
+        }
 }
