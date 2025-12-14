@@ -172,7 +172,7 @@ iframe {
 
 code {
     font-family: $code-font;
-    display: inline-block;
+    display: inline;
 }
 
 kbd,
@@ -241,7 +241,7 @@ pre {
         font-style: italic;
     }
 
-    pre {
+    pre:not(.highlight) {
         background: rgba(black, 0.02);
         padding: 10px;
         margin: 10px 0;
@@ -262,6 +262,23 @@ pre {
         }
     }
 }
+
+/* Rouge / Jekyll code blocks */
+.highlight pre,
+pre.highlight {
+    border-top: 4px solid var(--code-accent);
+    box-shadow: inset 0 0 10px var(--code-shadow);
+    margin-top: 0px !important;
+    padding: 10px 16px;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+    .highlight code,
+    pre.highlight code {
+        display: block;
+        font-family: $code-font;
+    }
 
 // Blockquotes
 @if $include-blockquote-style == yes {
@@ -363,3 +380,81 @@ pre {
         position: fixed;
     }
 }
+
+/* ------------------------------------------------------------------
+   Rouge code blocks (baseline, no theme assumptions)
+   ------------------------------------------------------------------ */
+
+.highlight,
+.highlighter-rouge {
+    background: #0d1117;
+    color: #c9d1d9;
+    border-radius: 4px;
+}
+
+    .highlight pre,
+    pre.highlight {
+        background: transparent;
+        margin: 0;
+        padding: 12px 16px;
+        overflow-x: auto;
+        overflow-y: auto;
+        border-top: 4px solid var(--code-accent);
+        box-shadow: inset 0 0 10px var(--code-shadow);
+    }
+
+        .highlight code,
+        pre.highlight code {
+            display: block;
+            font-family: $code-font;
+            font-size: 0.95em;
+            line-height: 1.5;
+            color: inherit;
+            background: none;
+        }
+
+/* ------------------------------------------------------------------
+   Rouge inline + block code (final authority)
+   ------------------------------------------------------------------ */
+
+/* Inline code */
+code.highlighter-rouge {
+    background: #0d1117;
+    color: #c9d1d9;
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-family: $code-font;
+    font-size: 0.95em;
+    white-space: nowrap;
+}
+
+/* Block containers */
+.highlighter-rouge,
+.highlight {
+    background: #0d1117;
+    color: #c9d1d9;
+    border-radius: 4px;
+}
+
+    /* Block pre */
+    .highlight pre,
+    pre.highlight {
+        background: transparent;
+        margin: 0;
+        padding: 12px 16px;
+        overflow-x: auto;
+        overflow-y: auto;
+        border-top: 4px solid var(--code-accent);
+        box-shadow: inset 0 0 10px var(--code-shadow);
+    }
+
+        /* Block code */
+        .highlight code,
+        pre.highlight code {
+            display: block;
+            font-family: $code-font;
+            font-size: 0.95em;
+            line-height: 1.5;
+            color: inherit;
+            background: none;
+        }
