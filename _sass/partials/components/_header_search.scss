@@ -104,10 +104,47 @@
     caret-color: var(--hs-text);
 }
 
-    .header-search__input:focus-visible {
-        outline: 2px solid var(--focus-ring);
-        outline-offset: 2px;
-    }
+.header-search__input:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------
+   Header search: inline focus icon
+   ------------------------------------------------------------ */
+
+#headerSearchContainer .header-search__search {
+    gap: 6px;
+}
+
+/* Icon button next to input */
+#headerSearchContainer .header-search__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border: 0;
+    background: transparent;
+    color: var(--hs-muted);
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+#headerSearchContainer .header-search__icon:hover {
+    color: var(--hs-text);
+    background: var(--nav-hover);
+}
+
+#headerSearchContainer .header-search__icon:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+}
+
+/* Prevent SVG from affecting line height */
+#headerSearchContainer .header-search__icon svg {
+    display: block;
+}
+
 
 /*
     Overlay behavior:
@@ -167,32 +204,32 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
 
-    .header-search__results li {
-        margin: 0;
-        padding: 0;
-        border-top: 1px solid var(--border);
-    }
+.header-search__results li {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+}
 
-        .header-search__results li:first-child {
-            border-top: 0;
-        }
+.header-search__results li:first-child {
+    border-top: 0;
+}
 
-        .header-search__results li a {
-            display: block;
-            padding: 10px 12px;
-            text-decoration: none;
-            color: var(--hs-title);
-        }
+.header-search__results li a {
+    display: block;
+    padding: 10px 12px;
+    text-decoration: none;
+    color: var(--hs-title);
+}
 
-            .header-search__results li a:hover {
-                background: var(--nav-hover);
-            }
+.header-search__results li a:hover {
+    background: var(--nav-hover);
+}
 
-        .header-search__results li.is-active a {
-            background: var(--nav-hover);
-            outline: 2px solid var(--focus-ring);
-            outline-offset: -2px;
-        }
+.header-search__results li.is-active a {
+    background: var(--nav-hover);
+    outline: 2px solid var(--focus-ring);
+    outline-offset: -2px;
+}
 
 .header-search__result-date {
     display: block;
