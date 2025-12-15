@@ -1,4 +1,4 @@
-<!-- each post has their own little article element. -->
+<!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     {% if post.homedisplay == "iframe" %}
     {% if post.type == "vimeo" %}
@@ -52,7 +52,6 @@
         <h1>{{ post.title }}</h1>
     </a>
 
-    <p class="post-content">
     <p class="post-content">
         {% if post.excerpt %}
         {% assign preview_html = post.excerpt %}

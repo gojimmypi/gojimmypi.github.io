@@ -1,4 +1,5 @@
-article{
+// file:  /_sass/partials/components/article.scss
+article {
     @include shadow(1);
     border-radius: 2px;
     box-sizing: border-box;
@@ -6,57 +7,62 @@ article{
     margin-bottom: 20px;
     position: relative;
     min-height: 300px;
+    /* Sequential list mode: do not force tall cards */
+    .index & {
+        min-height: 0;
+        height: auto;
+    }
 
-    .content-container &{
+    .content-container & {
         padding: 20px;
 
-        p{
+        p {
             padding: 0;
         }
     }
 
     .index & h1,
     .index & p,
-    .index & span{
+    .index & span {
         padding: 0 20px;
     }
 
-    img{
+    img {
         transition: .3s all ease;
     }
 
-    a:hover{
-        img{
+    a:hover {
+        img {
             opacity: .5;
         }
     }
 
     .category,
     .tags {
-        .index &{
+        .index & {
             font-size: .7em;
             opacity: .6;
         }
     }
 
-    .date{
-        .index &{
+    .date {
+        .index & {
             font-size: .7em;
             opacity: .6;
         }
     }
 
     ul,
-    ol{
+    ol {
         list-style: circle;
         padding: 0 35px;
 
-        li{
+        li {
             padding-left: 0px;
         }
     }
 
-    ol{
+    ol {
         list-style: decimal;
     }
 }
