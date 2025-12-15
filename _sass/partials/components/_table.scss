@@ -1,62 +1,121 @@
-th {
-    padding: 1px;
-}
-td {
-    padding: 5px;
+// file:  /_sass/partials/components/_table.scss
+/* Table styling (light + dark)
+   Drop-in replacement for the current table rules.
+   Keeps captions, improves borders, spacing, zebra, hover, and readability.
+*/
+
+/* Theme tokens (works with data-theme, and also falls back to prefers-color-scheme) */
+:root {
+    --table-bg: transparent;
+    --table-text: inherit;
+    --table-border: rgba(0, 0, 0, 0.18);
+    --table-border-strong: rgba(0, 0, 0, 0.28);
+    --table-head-bg: rgba(0, 0, 0, 0.04);
+    --table-zebra: rgba(0, 0, 0, 0.03);
+    --table-hover: rgba(0, 0, 0, 0.06);
+    --table-caption: rgba(0, 0, 0, 0.65);
 }
 
-// From MultiMarkdown Composer 3
+html[data-theme="dark"] {
+    --table-border: rgba(255, 255, 255, 0.18);
+    --table-border-strong: rgba(255, 255, 255, 0.28);
+    --table-head-bg: rgba(255, 255, 255, 0.06);
+    --table-zebra: rgba(255, 255, 255, 0.04);
+    --table-hover: rgba(255, 255, 255, 0.08);
+    --table-caption: rgba(255, 255, 255, 0.70);
+}
+
+/* Optional: if you do not use data-theme, this still looks good */
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+        --table-border: rgba(255, 255, 255, 0.18);
+        --table-border-strong: rgba(255, 255, 255, 0.28);
+        --table-head-bg: rgba(255, 255, 255, 0.06);
+        --table-zebra: rgba(255, 255, 255, 0.04);
+        --table-hover: rgba(255, 255, 255, 0.08);
+        --table-caption: rgba(255, 255, 255, 0.70);
+    }
+}
+
+/* Core table */
 table {
-    border: solid black;
-    border-width: 2px 0px;
-    empty-cells: hide;
-    border-spacing: 0px;
-    padding: 2px;
+    width: 100%;
+    max-width: 100%;
     margin: 20px auto;
+    padding: 0; /* padding on table causes weird outer spacing */
+    border-collapse: collapse;
+    border-spacing: 0;
+    empty-cells: hide;
+    background: var(--table-bg);
+    color: var(--table-text);
+    /* "2px 0px" look, but theme-aware */
+    border-top: 2px solid var(--table-border-strong);
+    border-bottom: 2px solid var(--table-border-strong);
+    /* If tables overflow, do not explode the layout */
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
-table.dark-theme {
-    border: solid azure;
-    border-width: 2px 0px;
-    empty-cells: hide;
-    border-spacing: 0px;
-    padding: 2px;
-    margin: 20px auto;
+    /* Caption */
+    table caption {
+        margin: 8px 0 0 0;
+        text-align: center;
+        caption-side: bottom;
+        color: var(--table-caption);
+        font-size: 0.95em;
+        line-height: 1.3;
+    }
+
+/* Cells */
+th,
+td {
+    padding: 8px 10px;
+    vertical-align: top;
+    text-align: left;
+    border-bottom: 1px solid var(--table-border);
 }
 
-table caption {
-    margin: 5px;
-    text-align: center;
-    caption-side: bottom;
-}
+/* Header row */
 thead th {
-    border: solid gray;
-    border-width: 0 0 2px 0;
-    padding: 5px;
+    background: var(--table-head-bg);
+    border-bottom: 2px solid var(--table-border-strong);
+    font-weight: 600;
+    white-space: nowrap; /* helps narrow tables */
 }
 
-thead.dark-theme th.dark-theme {
-    border: solid azure;
-    border-width: 0 0 2px 0;
-    padding: 5px;
-}
-
+/* Remove the old "kill last header border" behavior; it causes gaps */
 thead > tr:last-child > th {
-    border-style: none;
+    border-bottom: 2px solid var(--table-border-strong);
 }
-tbody > tr:first-child > td {
-    border: solid gray;
-    border-width: 1px 0 0 0;
+
+/* Zebra striping */
+tbody tr:nth-child(even) td,
+tbody tr:nth-child(even) th {
+    background: var(--table-zebra);
 }
-tbody > tr:first-child > th {
-    border: solid gray;
-    border-width: 1px 0 0 0;
+
+/* Hover highlight (nice for wide tables) */
+tbody tr:hover td,
+tbody tr:hover th {
+    background: var(--table-hover);
 }
-thead + tbody > tr:first-child > td {
-    border: solid black;
-    border-width: 1px 0 0 0;
+
+/* Avoid double line at bottom */
+tbody tr:last-child td,
+tbody tr:last-child th {
+    border-bottom: 0;
 }
-thead + tbody > tr:first-child > th {
-    border: solid black;
-    border-width: 1px 0 0 0;
+
+/* Optional: a little tighter header cell padding than body, if desired */
+thead th {
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
+
+/* Optional: keep numeric columns aligned (add class="num" to cells/ths) */
+td.num,
+th.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
 }
