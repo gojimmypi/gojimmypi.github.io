@@ -1,51 +1,20 @@
-/* Markdown tables only (keeps header/layout tables untouched)
-   - Clear outer border
-   - Clear grid lines
-   - Strong header band
-   - Zebra striping
-   - No hover
-*/
-
-:root {
-    --tbl-border: rgba(0, 0, 0, 0.30);
-    --tbl-border-strong: rgba(0, 0, 0, 0.45);
-    --tbl-head-bg: rgba(0, 0, 0, 0.10);
-    --tbl-row-alt: rgba(0, 0, 0, 0.04);
-    --tbl-caption: rgba(0, 0, 0, 0.70);
-}
-
-html[data-theme="dark"] {
-    --tbl-border: rgba(255, 255, 255, 0.28);
-    --tbl-border-strong: rgba(255, 255, 255, 0.42);
-    --tbl-head-bg: rgba(255, 255, 255, 0.12);
-    --tbl-row-alt: rgba(255, 255, 255, 0.06);
-    --tbl-caption: rgba(255, 255, 255, 0.75);
-}
-
+/* Markdown tables only (do not affect header/layout tables) */
 .post-content table {
     width: 100%;
-    margin: 20px 0;
-    border-collapse: separate;
-    border-spacing: 0;
-    empty-cells: hide;
+    margin: 18px 0;
+    /* Make it look like a real table box */
     border: 1px solid var(--tbl-border-strong);
     border-radius: 8px;
     overflow: hidden;
-    display: block;
-    max-width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    /* Key fix: fill width and distribute columns */
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    /* Do NOT use display:block here, it causes the "dangling right side" feel */
+    display: table;
 }
 
-    .post-content table caption {
-        margin-top: 8px;
-        text-align: center;
-        caption-side: bottom;
-        color: var(--tbl-caption);
-        font-size: 0.95em;
-        line-height: 1.3;
-    }
-
+/* Cells */
 .post-content th,
 .post-content td {
     padding: 10px 12px;
@@ -53,10 +22,11 @@ html[data-theme="dark"] {
     text-align: left;
     border-right: 1px solid var(--tbl-border);
     border-bottom: 1px solid var(--tbl-border);
-    word-break: normal;
+    /* With table-layout: fixed, this prevents overflow ruining layout */
     overflow-wrap: anywhere;
 }
 
+/* Last column and last row cleanup */
 .post-content tr > th:last-child,
 .post-content tr > td:last-child {
     border-right: 0;
@@ -67,19 +37,47 @@ html[data-theme="dark"] {
     border-bottom: 0;
 }
 
+/* Header band */
 .post-content thead th {
     background: var(--tbl-head-bg);
     font-weight: 700;
     border-bottom: 2px solid var(--tbl-border-strong);
-    white-space: nowrap;
 }
 
+/* Zebra striping (no hover) */
 .post-content tbody tr:nth-child(even) > th,
 .post-content tbody tr:nth-child(even) > td {
     background: var(--tbl-row-alt);
 }
 
-/* Extra safety: never affect the header-search layout table */
+/* Caption */
+.post-content table caption {
+    margin-top: 8px;
+    text-align: center;
+    caption-side: bottom;
+    color: var(--tbl-caption);
+    font-size: 0.95em;
+    line-height: 1.3;
+}
+
+/* Theme variables */
+:root {
+    --tbl-border: rgba(0, 0, 0, 0.28);
+    --tbl-border-strong: rgba(0, 0, 0, 0.45);
+    --tbl-head-bg: rgba(0, 0, 0, 0.10);
+    --tbl-row-alt: rgba(0, 0, 0, 0.04);
+    --tbl-caption: rgba(0, 0, 0, 0.70);
+}
+
+html[data-theme="dark"] {
+    --tbl-border: rgba(255, 255, 255, 0.24);
+    --tbl-border-strong: rgba(255, 255, 255, 0.40);
+    --tbl-head-bg: rgba(255, 255, 255, 0.12);
+    --tbl-row-alt: rgba(255, 255, 255, 0.06);
+    --tbl-caption: rgba(255, 255, 255, 0.75);
+}
+
+/* Explicit guard: never style the header search table */
 .logo-container.header-search table,
 .logo-container.header-search th,
 .logo-container.header-search td {
