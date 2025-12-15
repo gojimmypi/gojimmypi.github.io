@@ -14,36 +14,7 @@
 }
 
 
-/* Fix overlapping excerpt text and Read More link */
-/* Fix excerpt + Read More spacing (sequential list view) */
-article {
-    /* Normalize paragraph spacing inside each article */
-    p {
-        margin: 0;
-    }
 
-    .post-content {
-        margin: 0 0 0.75em 0;
-        line-height: 1.4;
-        float: none !important;
-        position: static !important;
-    }
-
-    .actions {
-        display: block;
-        clear: both;
-        margin: 0;
-        padding: 0;
-        position: static !important;
-    }
-        /* No extra bottom space after Read More */
-        .actions a {
-            display: inline-block;
-            margin: 0;
-            padding: 0;
-            line-height: 1.2;
-        }
-}
 
 /* Sidebar toggle icon behavior */
 .sidebar-toggle {

@@ -1,4 +1,5 @@
 // file:  /_sass/partials/components/article.scss
+// file:  /_sass/partials/components/article.scss
 article {
     @include shadow(1);
     border-radius: 2px;
@@ -12,6 +13,34 @@ article {
         min-height: 0;
         height: auto;
     }
+    /* Fix overlapping excerpt text and Read More link */
+    /* Fix excerpt + Read More spacing (sequential list view) */
+    /* Normalize paragraph spacing inside each article */
+    p {
+        margin: 0;
+    }
+
+    .post-content {
+        margin: 0 0 0.75em 0;
+        line-height: 1.4;
+        float: none !important;
+        position: static !important;
+    }
+
+    .actions {
+        display: block;
+        clear: both;
+        margin: 0;
+        padding: 0;
+        position: static !important;
+    }
+        /* No extra bottom space after Read More */
+        .actions a {
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+            line-height: 1.2;
+        }
 
     .content-container & {
         padding: 20px;
@@ -64,6 +93,30 @@ article {
 
     ol {
         list-style: decimal;
+    }
+}
+
+.wrapper {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+}
+
+.short {
+    width: 100%;
+
+    a {
+        display: block;
+        width: 100%;
+        padding: 10px;
+
+        .shortdate {
+            font-size: .8em;
+            opacity: .8;
+            padding-right: 10px;
+            margin-right: 10px;
+            border-right: $line;
+        }
     }
 }
 
