@@ -1,7 +1,9 @@
 <div class="logo-container header-search" id="headerSearchContainer">
-    <table width="99%" style="border-top:none; border-bottom:none">
-        <tr  style="border-top:none; border-bottom:none">
-            <td  style="border-top:none; border-bottom:none; vertical-align:middle">
+    <div class="header-search__backdrop" aria-hidden="true"></div>
+
+    <table width="99%" cellpadding="0" cellspacing="0" style="border-top:none; border-bottom:none">
+        <tr style="border-top:none; border-bottom:none">
+            <td style="border-top:none; border-bottom:none; vertical-align:middle">
                 <a name="home_gojimmypi_logo"
                    id="home_gojimmypi_logo"
                    href="{{ site.baseurl | replace: '//', '/' }}/"
@@ -10,15 +12,17 @@
                 </a>
             </td>
             <td align="left" width="80%" style="vertical-align: middle; border-top: none; border-bottom: none">
-                <table width="99%" style="border-top:none; border-bottom:none; vertical-align:top">
+                <table width="99%" cellpadding="0" cellspacing="0" style="border-top:none; border-bottom:none; vertical-align:top">
                     <tr>
                         <td width="99%" style="border-top:none; border-bottom:none">
-                            Welcome and thanks for visiting! <br />
-                            <hr />
-                            This site contains various technical details and notes-to-self that perhaps otherws will find useful. <br />
-                            <hr />
-                            There are no ads here, no sponsored content.
-                            <br />
+                            <div class="header-search__blurb">
+                                Welcome and thanks for visiting! <br />
+                                <hr style="opacity: 0.25"/>
+                                This site contains various technical details and notes-to-self that perhaps others will find useful. <br />
+                                <hr style="opacity: 0.25"/>
+                                There are no ads here, no sponsored content.
+                                <hr style="opacity: 0.25"/>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -121,6 +125,12 @@
                 }
             }
 
+            function backdropHandler(ev) {
+                if (ev.target && ev.target.classList && ev.target.classList.contains("header-search__backdrop")) {
+                    setOpen(false);
+                }
+            }
+
             function escapeHandler(ev) {
                 if (ev.key === "Escape") {
                     setOpen(false);
@@ -189,6 +199,7 @@
             });
 
             document.addEventListener("click", clickOutsideHandler);
+            document.addEventListener("click", backdropHandler);
             document.addEventListener("keydown", escapeHandler);
             document.addEventListener("keydown", focusSlashHandler);
 
@@ -198,4 +209,5 @@
             observer.observe(results, { childList: true });
         }());
     </script>
+
 </div>

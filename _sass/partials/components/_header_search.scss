@@ -3,19 +3,37 @@
 
 /*
     Header search (table layout in header.html)
-    Minimal, avoids flex/layout conflicts.
+
+    Goal:
+    - Remove extra vertical whitespace above/below the whole block
+    - Do NOT change the layout strategy (still table-based)
+    - Keep results behavior (dropdown overlay, full width)
+    - Keep changes scoped to this component
 */
 
-/* Container: just the surface/border/padding */
+/* Container surface */
 .logo-container.header-search {
     background: var(--surface);
     border: 1px solid var(--border);
-    padding: 8px;
     position: relative;
+    padding: 6px 8px;
+    line-height: 1.2;
 }
 
-    /* Keep the header logo from inheriting the big `.head .row .logo` rules */
-    .logo-container.header-search a.logo.header-search__logo {
+    /* Hard-scope table defaults (theme CSS often adds padding/line-height) */
+    .logo-container.header-search table,
+    .logo-container.header-search tr,
+    .logo-container.header-search td {
+        border-collapse: collapse;
+        border-spacing: 0;
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1.2 !important;
+        vertical-align: top !important;
+    }
+
+    /* Logo anchor: do not contribute extra line box height */
+    .logo-container.header-search a.header-search__logo {
         position: static;
         top: auto;
         left: auto;
@@ -24,14 +42,15 @@
         display: inline-block;
         width: auto;
         height: auto;
-        padding: 6px;
+        padding: 4px 6px;
         margin: 0;
         border-radius: 12px;
+        line-height: 0;
     }
 
         /* Kill any paddinghack pseudo-elements on `.logo` inside this header block */
-        .logo-container.header-search a.logo.header-search__logo::before,
-        .logo-container.header-search a.logo.header-search__logo::after {
+        .logo-container.header-search a.header-search__logo::before,
+        .logo-container.header-search a.header-search__logo::after {
             content: none;
             display: none;
         }
@@ -44,11 +63,24 @@
         margin: 0;
     }
 
-/* Make the search cell the positioning anchor for the dropdown */
+    /* Blurb: tighten but keep readable */
+    .logo-container.header-search .header-search__blurb {
+        margin: 0;
+        padding: 0;
+        line-height: 1.25;
+    }
+
+        /* HR default margins are usually the biggest "mystery gap" */
+        .logo-container.header-search .header-search__blurb hr {
+            margin: 6px 0;
+        }
+
+/* Search cell (dropdown anchors here) */
 .header-search__search {
     position: relative;
     margin: 0;
     padding: 0;
+    line-height: 1.2;
 }
 
 .header-search__label {
@@ -59,7 +91,7 @@
 
 .header-search__input {
     width: 70%;
-    max-width: 520px; /* adjust as desired */
+    max-width: 520px;
     padding: 9px 10px;
     border-radius: 6px;
     border: 1px solid var(--border);
@@ -73,14 +105,35 @@
         outline-offset: 2px;
     }
 
-/* Results dropdown: hidden unless open; does not create header height */
+/*
+    Overlay behavior:
+    - Backdrop hides the page behind results
+    - Results dropdown spans full width of the header container
+*/
+
+/* Backdrop to hide page content while results are open */
+.header-search__backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 9990;
+}
+
+#headerSearchContainer.search-open .header-search__backdrop {
+    display: block;
+}
+
+/* Results dropdown container (full width, above backdrop) */
 .header-search__results-wrap {
     display: none;
     position: absolute;
     top: calc(100% + 6px);
     left: 0;
-    width: min(720px, 100%);
-    z-index: 200;
+    right: 0;
+    width: auto;
+    max-width: none;
+    z-index: 10000;
 }
 
 #headerSearchContainer.search-open .header-search__results-wrap {
