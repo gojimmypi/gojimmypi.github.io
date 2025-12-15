@@ -60,7 +60,6 @@
         width: auto;
         max-width: 100%;
         display: block;
-        margin: 0;
     }
 
     /* Blurb: tighten but keep readable */
@@ -70,10 +69,15 @@
         line-height: 1.25;
     }
 
-        /* HR default margins are usually the biggest "mystery gap" */
-        .logo-container.header-search .header-search__blurb hr {
-            margin: 6px 0;
-        }
+    .logo-container.header-search > table > tbody > tr > td:first-child {
+        padding-right: 14px !important;
+    }
+
+
+    /* HR default margins are usually the biggest "mystery gap" */
+    .logo-container.header-search .header-search__blurb hr {
+        margin: 6px 0;
+    }
 
 /* Search cell (dropdown anchors here) */
 .header-search__search {
