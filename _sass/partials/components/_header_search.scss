@@ -132,7 +132,7 @@
 .header-search__results-wrap {
     display: none;
     position: absolute;
-    top: calc(100% + 6px);
+    top: calc(100% - 6px); /* just uder "Search posts:" text */
     left: 0;
     right: 0;
     width: auto;
@@ -199,4 +199,47 @@
     margin-top: 2px;
     font-size: 0.9em;
     color: var(--hs-muted);
+}
+
+/* ------------------------------------------------------------
+   Header search: center line + reduce input width
+   (additive only, no existing rules modified)
+   ------------------------------------------------------------ */
+
+/* Center the label + input as a unit within the table cell */
+#headerSearchContainer .header-search__search {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+}
+
+/* Make the search box less wide */
+#headerSearchContainer .header-search__input {
+    width: 255px;
+    max-width: 100%;
+}
+
+/* Force results and status to left-align text */
+#headerSearchContainer .header-search__results-wrap,
+#headerSearchContainer .header-search__status,
+#headerSearchContainer .header-search__results {
+    text-align: left;
+}
+
+/* Keep the header search UI above the dark backdrop */
+#headerSearchContainer .header-search__search {
+    position: relative;
+    z-index: 10001;
+}
+
+/* Keep dropdown above both */
+#headerSearchContainer .header-search__results-wrap {
+    z-index: 10002;
+}
+
+/* Backdrop stays below the search UI but above the page */
+#headerSearchContainer .header-search__backdrop {
+    z-index: 10000;
 }

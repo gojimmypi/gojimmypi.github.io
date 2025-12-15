@@ -2,6 +2,45 @@
     <div class="header-search__backdrop" aria-hidden="true"></div>
 
     <table width="99%" cellpadding="0" cellspacing="0" style="border-top:none; border-bottom:none">
+        <tr>
+            <td>
+                <!-- blank spae above gojimmypu logo -->
+            </td>
+            <td>
+                <div class="header-search__search" id="headerSearch" style="position:relative; text-wrap:nowrap">
+                    <label class="header-search__label" for="searchBox">Search posts:</label>
+                    <input class="header-search__input"
+                           id="searchBox"
+                           type="search"
+                           placeholder="Type to search..."
+                           autocomplete="off"
+                           aria-controls="searchResults"
+                           aria-expanded="false"
+                           aria-autocomplete="list">
+                    <button type="button"
+                            id="searchFocusIcon"
+                            class="header-search__icon"
+                            aria-label="Focus search"
+                            tabindex="-1">
+                        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2" />
+                            <line x1="16.65" y1="16.65"
+                                  x2="21" y2="21"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round" />
+                        </svg>
+                    </button>
+                    <div class="header-search__results-wrap">
+                        <div class="header-search__status" id="searchStatus" aria-live="polite"></div>
+                        <ul class="header-search__results" id="searchResults" role="listbox"></ul>
+                    </div>
+                </div>
+            </td>
+        </tr>
         <tr style="border-top:none; border-bottom:none">
             <td style="border-top:none; border-bottom:none; vertical-align:middle">
                 <a name="home_gojimmypi_logo"
@@ -15,32 +54,17 @@
                 <table width="99%" cellpadding="0" cellspacing="0" style="border-top:none; border-bottom:none; vertical-align:top">
                     <tr>
                         <td width="99%" style="border-top:none; border-bottom:none">
-                            <div class="header-search__blurb">
-                                Welcome and thanks for visiting! <br />
-                                <hr style="opacity: 0.25"/>
-                                This site contains various technical details and notes-to-self that perhaps others will find useful. <br />
-                                <hr style="opacity: 0.25"/>
-                                There are no ads here, no sponsored content.
-                                <hr style="opacity: 0.25"/>
-                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td width="99%" style="border-top:none; border-bottom:none">
-                            <div class="header-search__search" id="headerSearch" style="position:relative; text-wrap:nowrap">
-                                <label class="header-search__label" for="searchBox">Search posts:</label>
-                                <input class="header-search__input"
-                                       id="searchBox"
-                                       type="search"
-                                       placeholder="Type to search..."
-                                       autocomplete="off"
-                                       aria-controls="searchResults"
-                                       aria-expanded="false"
-                                       aria-autocomplete="list">
-                                <div class="header-search__results-wrap">
-                                    <div class="header-search__status" id="searchStatus" aria-live="polite"></div>
-                                    <ul class="header-search__results" id="searchResults" role="listbox"></ul>
-                                </div>
+                            <div class="header-search__blurb">
+                                <hr style="opacity: 0.25" />
+                                Welcome and thanks for visiting! <br />
+                                <hr style="opacity: 0.25" />
+                                This site contains various technical details and notes-to-self that perhaps others will find useful. <br />
+                                <hr style="opacity: 0.25" />
+                                There are no ads here, no sponsored content.
                             </div>
                         </td>
                     </tr>

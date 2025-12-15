@@ -20,6 +20,15 @@
         return;
     }
 
+    //var icon = container.querySelector(".header-search__icon");
+    var icon = document.getElementById("searchFocusIcon");
+
+    if (icon && box) {
+        icon.addEventListener("click", function () {
+            box.focus();
+        });
+    }
+
     function setStatus(text) {
         if (status) {
             status.textContent = text;
