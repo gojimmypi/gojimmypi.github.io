@@ -1,17 +1,15 @@
 /* Markdown tables only (do not affect header/layout tables) */
 .post-content table {
-    width: 100%;
-    margin: 18px 0;
-    /* Make it look like a real table box */
+    width: auto; /* shrink to content when small */
+    max-width: 100%; /* never overflow container */
+    margin: 18px auto; /* center narrow tables */
+
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: auto;
     border: 1px solid var(--tbl-border-strong);
     border-radius: 8px;
     overflow: hidden;
-    /* Key fix: fill width and distribute columns */
-    border-collapse: separate;
-    border-spacing: 0;
-    table-layout: fixed;
-    /* Do NOT use display:block here, it causes the "dangling right side" feel */
-    display: table;
 }
 
 /* Cells */
@@ -22,16 +20,16 @@
     text-align: left;
     border-right: 1px solid var(--tbl-border);
     border-bottom: 1px solid var(--tbl-border);
-    /* With table-layout: fixed, this prevents overflow ruining layout */
-    overflow-wrap: anywhere;
+    white-space: normal;
 }
 
-/* Last column and last row cleanup */
+/* Last column cleanup */
 .post-content tr > th:last-child,
 .post-content tr > td:last-child {
     border-right: 0;
 }
 
+/* Last row cleanup */
 .post-content tbody tr:last-child > th,
 .post-content tbody tr:last-child > td {
     border-bottom: 0;
@@ -44,7 +42,7 @@
     border-bottom: 2px solid var(--tbl-border-strong);
 }
 
-/* Zebra striping (no hover) */
+/* Zebra striping (subtle, no hover) */
 .post-content tbody tr:nth-child(even) > th,
 .post-content tbody tr:nth-child(even) > td {
     background: var(--tbl-row-alt);
@@ -77,7 +75,7 @@ html[data-theme="dark"] {
     --tbl-caption: rgba(255, 255, 255, 0.75);
 }
 
-/* Explicit guard: never style the header search table */
+/* Explicit guard: never affect header search/layout tables */
 .logo-container.header-search table,
 .logo-container.header-search th,
 .logo-container.header-search td {
