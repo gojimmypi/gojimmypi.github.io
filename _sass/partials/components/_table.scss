@@ -1,121 +1,88 @@
-// file:  /_sass/partials/components/_table.scss
-/* Table styling (light + dark)
-   Drop-in replacement for the current table rules.
-   Keeps captions, improves borders, spacing, zebra, hover, and readability.
+/* Markdown tables only (keeps header/layout tables untouched)
+   - Clear outer border
+   - Clear grid lines
+   - Strong header band
+   - Zebra striping
+   - No hover
 */
 
-/* Theme tokens (works with data-theme, and also falls back to prefers-color-scheme) */
 :root {
-    --table-bg: transparent;
-    --table-text: inherit;
-    --table-border: rgba(0, 0, 0, 0.18);
-    --table-border-strong: rgba(0, 0, 0, 0.28);
-    --table-head-bg: rgba(0, 0, 0, 0.04);
-    --table-zebra: rgba(0, 0, 0, 0.03);
-    --table-hover: rgba(0, 0, 0, 0.06);
-    --table-caption: rgba(0, 0, 0, 0.65);
+    --tbl-border: rgba(0, 0, 0, 0.30);
+    --tbl-border-strong: rgba(0, 0, 0, 0.45);
+    --tbl-head-bg: rgba(0, 0, 0, 0.10);
+    --tbl-row-alt: rgba(0, 0, 0, 0.04);
+    --tbl-caption: rgba(0, 0, 0, 0.70);
 }
 
 html[data-theme="dark"] {
-    --table-border: rgba(255, 255, 255, 0.18);
-    --table-border-strong: rgba(255, 255, 255, 0.28);
-    --table-head-bg: rgba(255, 255, 255, 0.06);
-    --table-zebra: rgba(255, 255, 255, 0.04);
-    --table-hover: rgba(255, 255, 255, 0.08);
-    --table-caption: rgba(255, 255, 255, 0.70);
+    --tbl-border: rgba(255, 255, 255, 0.28);
+    --tbl-border-strong: rgba(255, 255, 255, 0.42);
+    --tbl-head-bg: rgba(255, 255, 255, 0.12);
+    --tbl-row-alt: rgba(255, 255, 255, 0.06);
+    --tbl-caption: rgba(255, 255, 255, 0.75);
 }
 
-/* Optional: if you do not use data-theme, this still looks good */
-@media (prefers-color-scheme: dark) {
-    html:not([data-theme]) {
-        --table-border: rgba(255, 255, 255, 0.18);
-        --table-border-strong: rgba(255, 255, 255, 0.28);
-        --table-head-bg: rgba(255, 255, 255, 0.06);
-        --table-zebra: rgba(255, 255, 255, 0.04);
-        --table-hover: rgba(255, 255, 255, 0.08);
-        --table-caption: rgba(255, 255, 255, 0.70);
-    }
-}
-
-/* Core table */
-table {
+.post-content table {
     width: 100%;
-    max-width: 100%;
-    margin: 20px auto;
-    padding: 0; /* padding on table causes weird outer spacing */
-    border-collapse: collapse;
+    margin: 20px 0;
+    border-collapse: separate;
     border-spacing: 0;
     empty-cells: hide;
-    background: var(--table-bg);
-    color: var(--table-text);
-    /* "2px 0px" look, but theme-aware */
-    border-top: 2px solid var(--table-border-strong);
-    border-bottom: 2px solid var(--table-border-strong);
-    /* If tables overflow, do not explode the layout */
+    border: 1px solid var(--tbl-border-strong);
+    border-radius: 8px;
+    overflow: hidden;
     display: block;
+    max-width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
 
-    /* Caption */
-    table caption {
-        margin: 8px 0 0 0;
+    .post-content table caption {
+        margin-top: 8px;
         text-align: center;
         caption-side: bottom;
-        color: var(--table-caption);
+        color: var(--tbl-caption);
         font-size: 0.95em;
         line-height: 1.3;
     }
 
-/* Cells */
-th,
-td {
-    padding: 8px 10px;
+.post-content th,
+.post-content td {
+    padding: 10px 12px;
     vertical-align: top;
     text-align: left;
-    border-bottom: 1px solid var(--table-border);
+    border-right: 1px solid var(--tbl-border);
+    border-bottom: 1px solid var(--tbl-border);
+    word-break: normal;
+    overflow-wrap: anywhere;
 }
 
-/* Header row */
-thead th {
-    background: var(--table-head-bg);
-    border-bottom: 2px solid var(--table-border-strong);
-    font-weight: 600;
-    white-space: nowrap; /* helps narrow tables */
+.post-content tr > th:last-child,
+.post-content tr > td:last-child {
+    border-right: 0;
 }
 
-/* Remove the old "kill last header border" behavior; it causes gaps */
-thead > tr:last-child > th {
-    border-bottom: 2px solid var(--table-border-strong);
-}
-
-/* Zebra striping */
-tbody tr:nth-child(even) td,
-tbody tr:nth-child(even) th {
-    background: var(--table-zebra);
-}
-
-/* Hover highlight (nice for wide tables) */
-tbody tr:hover td,
-tbody tr:hover th {
-    background: var(--table-hover);
-}
-
-/* Avoid double line at bottom */
-tbody tr:last-child td,
-tbody tr:last-child th {
+.post-content tbody tr:last-child > th,
+.post-content tbody tr:last-child > td {
     border-bottom: 0;
 }
 
-/* Optional: a little tighter header cell padding than body, if desired */
-thead th {
-    padding-top: 9px;
-    padding-bottom: 9px;
+.post-content thead th {
+    background: var(--tbl-head-bg);
+    font-weight: 700;
+    border-bottom: 2px solid var(--tbl-border-strong);
+    white-space: nowrap;
 }
 
-/* Optional: keep numeric columns aligned (add class="num" to cells/ths) */
-td.num,
-th.num {
-    text-align: right;
-    font-variant-numeric: tabular-nums;
+.post-content tbody tr:nth-child(even) > th,
+.post-content tbody tr:nth-child(even) > td {
+    background: var(--tbl-row-alt);
+}
+
+/* Extra safety: never affect the header-search layout table */
+.logo-container.header-search table,
+.logo-container.header-search th,
+.logo-container.header-search td {
+    border: 0;
+    background: transparent;
 }
