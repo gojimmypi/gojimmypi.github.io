@@ -16,7 +16,7 @@ article {
     /* Fix excerpt + Read More spacing (sequential list view) */
     /* Normalize paragraph spacing inside each article */
     p {
-        margin: 0;
+        margin-bottom: $paragraph-gap-size;
     }
 
     .post-content {
