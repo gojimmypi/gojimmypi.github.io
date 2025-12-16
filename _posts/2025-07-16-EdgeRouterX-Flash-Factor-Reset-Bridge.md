@@ -28,17 +28,17 @@ cat /tmp/device_model
 
 Remove all ethernet cables from the EdgeRouter-X, otherwise some config commands may fail.
 
-<div>
+<div style="margin-bottom:1em">
     Thanks to&nbsp;<a href="https://youtu.be/t3ZEFBHx-ZI">Willie Howe's Ubiquiti EdgeRouter X Hidden Console Port</a>&nbsp;video, I was able to easily find and connect a serial port to the internal UART connector of the EdgeRouter-X:
 </div>
-<br />
+
 
 <div class="separator" style="clear: both; text-align: left;">
     <a href="../images/s1199/EdgeRouter_UART.jpg" style="margin-left: 1em; margin-right: 1em;">
         <img border="0" data-original-height="1199" data-original-width="743" height="400" src="../images/w248-h400/EdgeRouter_UART.jpg" width="248">
     </a>
 </div>
-<br />
+<p></p>
 
 <p>
     Connect via putty to the serial port. 57600, 8N1:
