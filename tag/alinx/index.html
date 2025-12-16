@@ -1,14 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- index.html -->
     <meta charset="UTF-8" />
-    <link rel="stylesheet" id="switch-style" href="/css/grid.css">
-        
+    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1765762888">
+    <!-- file: /_includes/head.html -->
+
 <!-- jekyll.environment: development -->
 <!-- this page is from [tag/alinx/index.html] -->
-    
 
-<meta content='width=device-width, initial-scale=1' name='viewport' />
+
+<!-- Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+
+<!-- helper to avoid page-load flash -->
+<style>
+    html.theme-preload * {
+        transition: none !important;
+    }
+</style>
+
+<script>
+    (function () {
+        var key = "theme";
+        var saved = null;
+
+        try {
+            saved = localStorage.getItem(key);
+        } catch (e) {
+            saved = null;
+        }
+
+        var theme = "dark";
+
+        if (saved === "dark" || saved === "light") {
+            theme = saved;
+        } else if (window.matchMedia) {
+            theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+
+        var root = document.documentElement;
+
+        root.classList.add("theme-preload");
+
+        /* One source of truth for CSS */
+        root.setAttribute("data-theme", theme);
+
+        /* Back-compat for existing JS/CSS that expects html.dark or html.light */
+        root.classList.remove("dark");
+        root.classList.remove("light");
+        root.classList.add(theme);
+
+        /* Let browser UI follow */
+        root.style.setProperty("color-scheme", theme);
+    })();
+</script>
+
+<!-- /helper to avoid page-load flash -->
+<meta content="width=device-width, initial-scale=1" name="viewport" />
 <!-- meta name="color-scheme" content="dark light" -->
 <!-- JS -->
 <!-- see https://developer.chrome.com/docs/lighthouse/pwa/themed-omnibox/?utm_source=lighthouse&utm_medium=devtools -->
@@ -21,8 +73,8 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css">
-<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/main.css?v=1765762888">
+
 <!--script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script moved to above -->
 
 <script type="text/javascript" src="/scripts/jquery.toc.js"></script>
@@ -33,9 +85,8 @@
 <script type="text/javascript" src="/scripts/infinite/init.js?forceversion=2"></script>
 
 
-<script type="text/javascript">
-    
-</script>
+
+
 
 
 <!-- Google Analytics. Put the ID in _config.yml -->
@@ -46,153 +97,129 @@
     // _dark_mode.js
 // typically included in the head.html.
 
-
-//
-// runs once at page load time; determines if a theme was saved, and if not, if the user has a preference
-//
 (function () {
-	const savedTheme = localStorage.getItem('theme');
-	// alert(savedTheme);
-	if (savedTheme) {
-		document.documentElement.className = savedTheme;
-	} else {
-		const userPrefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-		const preferredTheme = userPrefersDarkMode ? 'dark' : 'light';
-		document.documentElement.className = preferredTheme;
-		localStorage.setItem('theme', preferredTheme);
-	}
-	// alert('Saved theme = ' + savedTheme);
+    var key = "theme";
+    var savedTheme = null;
+    var theme = "dark";
+
+    try {
+        savedTheme = localStorage.getItem(key);
+    } catch (e) {
+        savedTheme = null;
+    }
+    // alert('Saved theme = ' + savedTheme);
+    if (savedTheme === "dark" || savedTheme === "light") {
+        theme = savedTheme;
+    } else if (window.matchMedia) {
+        theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        try {
+            localStorage.setItem(key, theme);
+        } catch (e2) {
+        }
+    }
+
+    document.documentElement.className = theme;
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.style.setProperty("color-scheme", theme);
 })();
 
-//
-// given a list of elements in [obj], toggle each of their respective darkmode
-//
 function SafeToggleAll(obj, forceDarkMode) {
-	if (!obj || obj === null || obj === undefined) {
+    if (!obj || obj === null || obj === undefined) {
+        return;
+    }
 
-	}
-	else {
-		obj.forEach(element => {
-			element.classList.toggle("dark-theme", forceDarkMode);
-		});
-	}
+    obj.forEach(function (element) {
+        element.classList.toggle("dark-theme", forceDarkMode);
+    });
 }
-
 //
 // get a list of elements for a given .ClassName or ElementName
 //
 function ToggleDarkModeItem(name, forceDarkMode) {
-	// reminder: stati, not live NodeList, see https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
-	const thisElements = document.querySelectorAll(name);
-	SafeToggleAll(thisElements, forceDarkMode);
+    var thisElements = document.querySelectorAll(name);
+    SafeToggleAll(thisElements, forceDarkMode);
 }
-
 //
 // ToggleDarkMode; forceDarkMode=true to froce into dark mode
-// 
+//
 function ToggleDarkMode(forceDarkMode) {
-	//     if (forceDarkMode === null || forceDarkMode === undefined) {
-	//forceDarkMode = false;
-	//     }
+    var thisTheme = "dark";
 
-	//const userPrefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-	//const thisTheme = userPrefersDarkMode ? 'dark' : 'light';
-
-	if (forceDarkMode == null) {
-		forceDarkMode = true;
-	}
-
-	const savedTheme = (localStorage.getItem('theme') == 'dark') ? 'dark' : 'light';
-
-	var lightModeIcon = document.getElementById("lightModeIcon");
-	var darkModeIcon = document.getElementById("darkModeIcon");
-
-	if (forceDarkMode) {
-		thisTheme = 'dark'; // the default when never saved is dark
-		lightModeIcon.style.setProperty("display", "none");
-		darkModeIcon.style.setProperty("display", "inline");
-	}
-	else {
-		thisTheme = 'light';
-		lightModeIcon.style.setProperty("display", "inline");
-		darkModeIcon.style.setProperty("display", "none");
+    if (forceDarkMode == null) {
+        forceDarkMode = true;
     }
-	document.documentElement.style.setProperty("color-scheme", thisTheme);
-	localStorage.setItem('theme', thisTheme);
 
-	document.body.classList.toggle("dark-theme", forceDarkMode);
+    if (forceDarkMode) {
+        thisTheme = "dark";
+    } else {
+        thisTheme = "light";
+    }
 
-	ToggleDarkModeItem('code', forceDarkMode);
-	ToggleDarkModeItem('pre', forceDarkMode);
-	ToggleDarkModeItem('nav', forceDarkMode);
-	ToggleDarkModeItem('table', forceDarkMode);
+    var lightModeIcon = document.getElementById("lightModeIcon");
+    var darkModeIcon = document.getElementById("darkModeIcon");
 
-	//ToggleDarkModeItem('.highlighter-rouge', forceDarkMode);
-	ToggleDarkModeItem('.color-change', forceDarkMode);
-	ToggleDarkModeItem('.dropdown-content', forceDarkMode);
-	ToggleDarkModeItem('.logo-container', forceDarkMode);
-	ToggleDarkModeItem('.sidebar', forceDarkMode);
-	ToggleDarkModeItem('.authorbox', forceDarkMode); // class="authorbox"
-	// ToggleDarkModeItem('.active', forceDarkMode);
+    if (lightModeIcon && darkModeIcon) {
+        if (forceDarkMode) {
+            lightModeIcon.style.setProperty("display", "none");
+            darkModeIcon.style.setProperty("display", "inline");
+        } else {
+            lightModeIcon.style.setProperty("display", "inline");
+            darkModeIcon.style.setProperty("display", "none");
+        }
+    }
 
-	//const divClasses = document.querySelectorAll('logo-container');
-	//SafeToggleAll(divClasses, forceDarkMode);
+    document.documentElement.setAttribute("data-theme", thisTheme);
+    document.documentElement.style.setProperty("color-scheme", thisTheme);
 
-	//if (!divClasses || divClasses === null || divClasses === undefined) {
-	//	// alert("No divClasses found! ");
-	//}
-	//else {
-	//	divClasses.forEach(element => {
-	//		divClasses.classList.toggle("dark-theme", forceDarkMode);
-	//	});
-	//}
-	// set all custom <element> tages to dark mode
-	// since the article element is customer (but does not have a dash in the name), we iterate all <element> tags:
-	// see https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define (not used)
-	//const articleClasses = document.querySelectorAll('article');
-	//SafeToggleAll(articleClasses, forceDarkMode);
+    try {
+        localStorage.setItem("theme", thisTheme);
+    } catch (e) {
+    }
 
-	ToggleDarkModeItem('article', forceDarkMode);
+    document.body.classList.toggle("dark-theme", forceDarkMode);
 
-	//if (!articleClasses || articleClasses === null || articleClasses === undefined) {
+    ToggleDarkModeItem("code", forceDarkMode);
+    ToggleDarkModeItem("pre", forceDarkMode);
+    ToggleDarkModeItem("nav", forceDarkMode);
+    ToggleDarkModeItem("table", forceDarkMode);
+    ToggleDarkModeItem(".color-change", forceDarkMode);
+    ToggleDarkModeItem(".dropdown-content", forceDarkMode);
+    ToggleDarkModeItem(".logo-container", forceDarkMode);
+    ToggleDarkModeItem(".sidebar", forceDarkMode);
+    ToggleDarkModeItem(".authorbox", forceDarkMode);
+    ToggleDarkModeItem("article", forceDarkMode);
 
-	//}
-	//else {
-	//	articleClasses.forEach(element => {
-	//		element.classList.toggle("dark-theme", forceDarkMode);
-	//	});
-	//}
-
-	// const sidebarClasses = document.querySelectorAll('sidebar')
-
-
-	// page should be in dark mode now		
+    /* Critical: never leave the page hidden after a toggle */
+    document.documentElement.style.setProperty("visibility", "visible");
 }
 
-var _HideForChange = localStorage.getItem('theme');
-if (_HideForChange == null || _HideForChange == "dark") {
-	// while we toggle dark mode, hide the page to avoid blinking / flashing
-	document.documentElement.style.setProperty("visibility", "hidden");
-}
+/* Hide only until DOMContentLoaded to prevent a flash, then always show */
+(function () {
+    var hideForChange = null;
 
+    try {
+        hideForChange = localStorage.getItem("theme");
+    } catch (e) {
+        hideForChange = null;
+    }
 
-//$(window).on('load', function () {
-//	// alert(1);
-//	var _TheActiveTheme = localStorage.getItem('theme');
-//	/* alert(_TheActiveTheme); */
-//	if (_TheActiveTheme == null || _TheActiveTheme == "dark") {
-//		ToggleDarkMode(true)
-//	}
-//	// document.documentElement.style.setProperty("visibility", "visible");
-//});
+    if (hideForChange == null || hideForChange === "dark") {
+        document.documentElement.style.setProperty("visibility", "hidden");
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.documentElement.style.setProperty("visibility", "visible");
+    });
+})();
 
 </script>
 
 <link rel="stylesheet" id="color-change">
+
 <!-- Site Infos -->
 <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>ALINX | gojimmypi</title>
-<meta name="generator" content="Jekyll v3.9.3" />
+<meta name="generator" content="Jekyll v3.10.0" />
 <meta property="og:title" content="ALINX" />
 <meta name="author" content="gojimmypi" />
 <meta property="og:locale" content="en_US" />
@@ -225,11 +252,9 @@ if (_HideForChange == null || _HideForChange == "dark") {
 <link rel="icon" type="image/png" href="/icons/favicon-96x96.png" sizes="96x96">
 <link rel="icon" type="image/png" href="/icons/android-chrome-192x192.png" sizes="192x192">
 <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-<link rel="manifest" href="/manifest.json">
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#c5cae9">
 <meta name="msapplication-TileColor" content="#C5CAE9">
 <meta name="msapplication-TileImage" content="/mstile-144x144.png">
-
 
 
 </head>
@@ -240,25 +265,80 @@ if (_HideForChange == null || _HideForChange == "dark") {
        <header class="head">
 			<!-- use logic to toggle sidebar layouts -->
 			
-           <!-- menu, we did go with a static one, you can build a dynamic one, just google a little around -->
+           <!-- _includes/nav.html -->
 <div class="main-menu">
     <div class="content">
+
+        <!-- First, the burger button on the right (toggle for full menu)  -->
+        <a href="#menu" class="toggle-link noline" aria-label="Open menu">
+            <svg class="icon-menu" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                <rect x="3" y="6" width="18" height="2"></rect>
+                <rect x="3" y="11" width="18" height="2"></rect>
+                <rect x="3" y="16" width="18" height="2"></rect>
+            </svg>
+        </a>
+
+        <!-- If there is enough room, then entire horizontal menu -->
         <nav id="menu">
-            <a class="toggle-link noline"><i class="fa fa-close fa-lg fa-fw"></i></a>
+            <a href="#" class="toggle-link noline" aria-label="Close menu">
+                <!-- a little X to close the menu: -->
+                <svg class="icon-close" viewBox="0 0 24 24" width="42" height="42" aria-hidden="true">
+                    <path d="M6 6l12 12M18 6l-12 12"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                </svg>
+            </a>
+
             <ul>
                 <li>
-                    <a class="homelink" href="/" title="Home"><i class="fa fa-home fa-lg fa-fw"></i></a>
-                </li>
-                <li>
-                    <a href="/about">About</a>
-                </li>
-                <li id="theme-toggle-container" class="lamp-navbar-item">
-                    <button id="theme-toggle" class="lamp" aria-label="Toggle theme" type="button">
-                        <img id="lightModeIcon" src="/icons/light_mode_black_24dp.svg" style="display: inline; height: 34px; width: 34px" title="Light Mode; Click to switch to Dark Mode" /><img id="darkModeIcon" src="/icons/dark_mode_white_24dp.svg" style="display: none; height: 34px; width: 34px " title="Dark Mode; Click to switch to Light Mode" />
-                    </button>
+                    <!-- Home -->
+                    <a class="homelink"
+                       href="/"
+                       title="Home"
+                       aria-label="Home">
+                        <svg class="icon-home" viewBox="0 0 24 24" width="42" height="42" aria-hidden="true">
+                            <path d="M3 11.5L12 4l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-9.5z"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linejoin="round" />
+                        </svg>
+                    </a>
                 </li>
 
+                <li>
+                    <!-- About -->
+                    <a href="/about"
+                       title="About"
+                       aria-label="About">
+                        <!-- Info-circle (common About icon) -->
+                        <svg class="icon-about" viewBox="0 0 24 24" width="42" height="42" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2" />
+                            <line x1="12" y1="10" x2="12" y2="16"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round" />
+                            <circle cx="12" cy="7" r="1" fill="currentColor" />
+                        </svg>
+                    </a>
+                </li>
+
+                <li id="theme-toggle-container" class="lamp-navbar-item">
+                    <button id="theme-toggle" class="lamp" aria-label="Toggle theme" type="button">
+                        <img id="lightModeIcon"
+                             src="/icons/light_mode_black_24dp.svg"
+                             style="display: inline; height: 39px; width: 39px"
+                             title="Light Mode; Click to switch to Dark Mode" />
+                        <img id="darkModeIcon"
+                             src="/icons/dark_mode_white_24dp.svg"
+                             style="display: none; height: 39px; width: 39px"
+                             title="Dark Mode; Click to switch to Light Mode" />
+                    </button>
+                </li>
             </ul>
+
             <ul id="drop-archive" class="dropdown-content">
                 <li>
                     <a href="/tags">Tags</a>
@@ -268,16 +348,16 @@ if (_HideForChange == null || _HideForChange == "dark") {
                 </li>
             </ul>
         </nav>
+
+        <!-- on the right, social media links. -->
         <nav class="iconnav">
+            <!-- see /_sass/partials/components/_iconnav.scss for formatting -->
             <ul>
                 
                 <li class="social">
+                    <!-- nothing -->
                 </li>
-                  
-                <li class="social">
-                    <a name="nav_pinterest" id="nav_pinterest" href="https://fi.pinterest.com/gojimmypi/" class="pinterest"><i title="pinterest" class="fa fa-pinterest fa-lg fa-fw"></i></a>
-                </li>
-                 
+                   
                 <li class="social">
                     <a name="nav_youtube" id="nav_youtube" href="https://www.youtube.com/channel/UCR01egMbYgXQGJaocNEDEwg" class="youtube" title="View gojimmypi YouTube Channel"><img src="/icons/youtube.svg" style="height:34px;width:34px;" /></a>
                 </li>
@@ -297,10 +377,9 @@ if (_HideForChange == null || _HideForChange == "dark") {
             </ul>
         </nav>
 
-        <a href='#menu' class="toggle-link noline">
-            <i class="fa fa-navicon"></i>
-        </a>
     </div>
+
+    <!-- on every page in upper right corner: the octocat link to source code -->
     
 
 
@@ -368,8 +447,6 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 </div>
 
 
-
-
 <div id="colorswitch" class="modal color-change">
     <div class="modal-content">
         <h1>Change Color Palette</h1>
@@ -400,23 +477,30 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
                 <h1 class="title">ALINX</h1>
                 <div class="articles">
                     
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">March 31, 2019</span>
+
     <a href="/ulx3s-sdr-with-alinx-adda/">
         <h1>ULX3S SDR with ALINX AD/DA</h1>
     </a>
+
     <p class="post-content">
-    
-      Last year, I wrote about the ALINX&nbsp;AD/DA Module that I found on fleabay. Anyone interested...
-    
+        
+
+        
+
+        Last year, I wrote about the ALINX&nbsp;AD/DA Module that I found on fleabay. Anyone interested...
     </p>
+
     <p class="actions">
         <a href="/ulx3s-sdr-with-alinx-adda/">Read More</a>
     </p>
+
 </article>
 
 
@@ -426,18 +510,21 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
             </div>
         </div>
         <footer>
-    <div class="content">
-        <span>&copy; 2015-2021 gojimmypi</span>
-        <span> <a href="/archive">Archive</a></span>
-        <span class="backtotop">Back to Top</span>
-    </div>
+    <table width="100%">
+        <tr>
+            <td align="left">
+                <span>&copy; 2015-2025 gojimmypi</span>
+            </td>
+            <td align="center">
+                <span><a href="/archive"> Archive </a></span>
+            </td>
+            <td align="right">
+                <span><a class="backtotop" href="#top">Back to Top</a></span>
+            </td>
+        </tr>
+    </table>
 </footer>
-<!--
 
-<script src="https://use.typekit.net/.js"></script>
-<script>try{Typekit.load({ async: true });}catch(e){}</script>
-
-TypeKit -->
 
 
 <script type="text/javascript">
@@ -503,6 +590,10 @@ TypeKit -->
 
             this.themeOwner.classList.remove(oldTheme);
             this.themeOwner.classList.add(newTheme);
+
+            /* Keep CSS selectors in sync with the current theme */
+            this.themeOwner.setAttribute("data-theme", newTheme);
+
             const forceDarkMode = (newTheme == 'dark') ? true : false;
             ToggleDarkMode(forceDarkMode);
 
@@ -513,7 +604,7 @@ TypeKit -->
 
         syncAriaLabelWithStorage() {
             const nextTheme = themeMap[this.currentTheme];
-            this.toggleElement.setAttribute('aria-label', 'Switch to ${nextTheme} mode theme');
+            this.toggleElement.setAttribute("aria-label", "Switch to " + nextTheme + " mode theme");
         }
     }
 
@@ -537,47 +628,13 @@ TypeKit -->
 
 </script>
 
-<!-- https://web.dev/codelab-make-installable/ -->
-<script type="text/javascript">
-    window.addEventListener('beforeinstallprompt', (event) => {
-        // Prevent the mini-infobar from appearing on mobile.
-        event.preventDefault();
-        console.log('ok', 'beforeinstallprompt', event);
-        // Stash the event so it can be triggered later.
-        window.deferredPrompt = event;
-        // Remove the 'hidden' class from the install button container.
-        divInstall.classList.toggle('hidden', false);
-    });
-
-    btnInstall.addEventListener('click', async () => {
-        console.log('ok', 'btnInstall-clicked');
-        const promptEvent = window.deferredPrompt;
-        if (!promptEvent) {
-            // The deferred prompt isn't available.
-            return;
-        }
-        // Show the install prompt.
-        promptEvent.prompt();
-        // Log the result
-        const result = await promptEvent.userChoice;
-        console.log('ok', 'userChoice', result);
-        // Reset the deferred prompt variable, since
-        // prompt() can only be called once.
-        window.deferredPrompt = null;
-        // Hide the install button.
-        divInstall.classList.toggle('hidden', true);
-    });
-
-    window.addEventListener('appinstalled', (event) => {
-        console.log('ok', 'appinstalled', event);
-        // Clear the deferredPrompt so it can be garbage collected
-        window.deferredPrompt = null;
+<!-- helper to avoid page-load flash -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.documentElement.classList.remove("theme-preload");
+        document.documentElement.style.setProperty("visibility", "visible");
     });
 </script>
-
-<!-- see
-https://github.com/GoogleChrome/lighthouse/blob/main/core/audits/service-worker.js"
--->
 
     </body>
 </html>

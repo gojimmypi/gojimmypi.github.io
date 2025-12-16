@@ -1,14 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- index.html -->
     <meta charset="UTF-8" />
-    <link rel="stylesheet" id="switch-style" href="/css/grid.css">
-        
+    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1765762888">
+    <!-- file: /_includes/head.html -->
+
 <!-- jekyll.environment: development -->
 <!-- this page is from [tag/espressif/index.html] -->
-    
 
-<meta content='width=device-width, initial-scale=1' name='viewport' />
+
+<!-- Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+
+<!-- helper to avoid page-load flash -->
+<style>
+    html.theme-preload * {
+        transition: none !important;
+    }
+</style>
+
+<script>
+    (function () {
+        var key = "theme";
+        var saved = null;
+
+        try {
+            saved = localStorage.getItem(key);
+        } catch (e) {
+            saved = null;
+        }
+
+        var theme = "dark";
+
+        if (saved === "dark" || saved === "light") {
+            theme = saved;
+        } else if (window.matchMedia) {
+            theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+
+        var root = document.documentElement;
+
+        root.classList.add("theme-preload");
+
+        /* One source of truth for CSS */
+        root.setAttribute("data-theme", theme);
+
+        /* Back-compat for existing JS/CSS that expects html.dark or html.light */
+        root.classList.remove("dark");
+        root.classList.remove("light");
+        root.classList.add(theme);
+
+        /* Let browser UI follow */
+        root.style.setProperty("color-scheme", theme);
+    })();
+</script>
+
+<!-- /helper to avoid page-load flash -->
+<meta content="width=device-width, initial-scale=1" name="viewport" />
 <!-- meta name="color-scheme" content="dark light" -->
 <!-- JS -->
 <!-- see https://developer.chrome.com/docs/lighthouse/pwa/themed-omnibox/?utm_source=lighthouse&utm_medium=devtools -->
@@ -21,8 +73,8 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css">
-<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/main.css?v=1765762888">
+
 <!--script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script moved to above -->
 
 <script type="text/javascript" src="/scripts/jquery.toc.js"></script>
@@ -33,9 +85,8 @@
 <script type="text/javascript" src="/scripts/infinite/init.js?forceversion=2"></script>
 
 
-<script type="text/javascript">
-    
-</script>
+
+
 
 
 <!-- Google Analytics. Put the ID in _config.yml -->
@@ -46,153 +97,129 @@
     // _dark_mode.js
 // typically included in the head.html.
 
-
-//
-// runs once at page load time; determines if a theme was saved, and if not, if the user has a preference
-//
 (function () {
-	const savedTheme = localStorage.getItem('theme');
-	// alert(savedTheme);
-	if (savedTheme) {
-		document.documentElement.className = savedTheme;
-	} else {
-		const userPrefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-		const preferredTheme = userPrefersDarkMode ? 'dark' : 'light';
-		document.documentElement.className = preferredTheme;
-		localStorage.setItem('theme', preferredTheme);
-	}
-	// alert('Saved theme = ' + savedTheme);
+    var key = "theme";
+    var savedTheme = null;
+    var theme = "dark";
+
+    try {
+        savedTheme = localStorage.getItem(key);
+    } catch (e) {
+        savedTheme = null;
+    }
+    // alert('Saved theme = ' + savedTheme);
+    if (savedTheme === "dark" || savedTheme === "light") {
+        theme = savedTheme;
+    } else if (window.matchMedia) {
+        theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        try {
+            localStorage.setItem(key, theme);
+        } catch (e2) {
+        }
+    }
+
+    document.documentElement.className = theme;
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.style.setProperty("color-scheme", theme);
 })();
 
-//
-// given a list of elements in [obj], toggle each of their respective darkmode
-//
 function SafeToggleAll(obj, forceDarkMode) {
-	if (!obj || obj === null || obj === undefined) {
+    if (!obj || obj === null || obj === undefined) {
+        return;
+    }
 
-	}
-	else {
-		obj.forEach(element => {
-			element.classList.toggle("dark-theme", forceDarkMode);
-		});
-	}
+    obj.forEach(function (element) {
+        element.classList.toggle("dark-theme", forceDarkMode);
+    });
 }
-
 //
 // get a list of elements for a given .ClassName or ElementName
 //
 function ToggleDarkModeItem(name, forceDarkMode) {
-	// reminder: stati, not live NodeList, see https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
-	const thisElements = document.querySelectorAll(name);
-	SafeToggleAll(thisElements, forceDarkMode);
+    var thisElements = document.querySelectorAll(name);
+    SafeToggleAll(thisElements, forceDarkMode);
 }
-
 //
 // ToggleDarkMode; forceDarkMode=true to froce into dark mode
-// 
+//
 function ToggleDarkMode(forceDarkMode) {
-	//     if (forceDarkMode === null || forceDarkMode === undefined) {
-	//forceDarkMode = false;
-	//     }
+    var thisTheme = "dark";
 
-	//const userPrefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-	//const thisTheme = userPrefersDarkMode ? 'dark' : 'light';
-
-	if (forceDarkMode == null) {
-		forceDarkMode = true;
-	}
-
-	const savedTheme = (localStorage.getItem('theme') == 'dark') ? 'dark' : 'light';
-
-	var lightModeIcon = document.getElementById("lightModeIcon");
-	var darkModeIcon = document.getElementById("darkModeIcon");
-
-	if (forceDarkMode) {
-		thisTheme = 'dark'; // the default when never saved is dark
-		lightModeIcon.style.setProperty("display", "none");
-		darkModeIcon.style.setProperty("display", "inline");
-	}
-	else {
-		thisTheme = 'light';
-		lightModeIcon.style.setProperty("display", "inline");
-		darkModeIcon.style.setProperty("display", "none");
+    if (forceDarkMode == null) {
+        forceDarkMode = true;
     }
-	document.documentElement.style.setProperty("color-scheme", thisTheme);
-	localStorage.setItem('theme', thisTheme);
 
-	document.body.classList.toggle("dark-theme", forceDarkMode);
+    if (forceDarkMode) {
+        thisTheme = "dark";
+    } else {
+        thisTheme = "light";
+    }
 
-	ToggleDarkModeItem('code', forceDarkMode);
-	ToggleDarkModeItem('pre', forceDarkMode);
-	ToggleDarkModeItem('nav', forceDarkMode);
-	ToggleDarkModeItem('table', forceDarkMode);
+    var lightModeIcon = document.getElementById("lightModeIcon");
+    var darkModeIcon = document.getElementById("darkModeIcon");
 
-	//ToggleDarkModeItem('.highlighter-rouge', forceDarkMode);
-	ToggleDarkModeItem('.color-change', forceDarkMode);
-	ToggleDarkModeItem('.dropdown-content', forceDarkMode);
-	ToggleDarkModeItem('.logo-container', forceDarkMode);
-	ToggleDarkModeItem('.sidebar', forceDarkMode);
-	ToggleDarkModeItem('.authorbox', forceDarkMode); // class="authorbox"
-	// ToggleDarkModeItem('.active', forceDarkMode);
+    if (lightModeIcon && darkModeIcon) {
+        if (forceDarkMode) {
+            lightModeIcon.style.setProperty("display", "none");
+            darkModeIcon.style.setProperty("display", "inline");
+        } else {
+            lightModeIcon.style.setProperty("display", "inline");
+            darkModeIcon.style.setProperty("display", "none");
+        }
+    }
 
-	//const divClasses = document.querySelectorAll('logo-container');
-	//SafeToggleAll(divClasses, forceDarkMode);
+    document.documentElement.setAttribute("data-theme", thisTheme);
+    document.documentElement.style.setProperty("color-scheme", thisTheme);
 
-	//if (!divClasses || divClasses === null || divClasses === undefined) {
-	//	// alert("No divClasses found! ");
-	//}
-	//else {
-	//	divClasses.forEach(element => {
-	//		divClasses.classList.toggle("dark-theme", forceDarkMode);
-	//	});
-	//}
-	// set all custom <element> tages to dark mode
-	// since the article element is customer (but does not have a dash in the name), we iterate all <element> tags:
-	// see https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define (not used)
-	//const articleClasses = document.querySelectorAll('article');
-	//SafeToggleAll(articleClasses, forceDarkMode);
+    try {
+        localStorage.setItem("theme", thisTheme);
+    } catch (e) {
+    }
 
-	ToggleDarkModeItem('article', forceDarkMode);
+    document.body.classList.toggle("dark-theme", forceDarkMode);
 
-	//if (!articleClasses || articleClasses === null || articleClasses === undefined) {
+    ToggleDarkModeItem("code", forceDarkMode);
+    ToggleDarkModeItem("pre", forceDarkMode);
+    ToggleDarkModeItem("nav", forceDarkMode);
+    ToggleDarkModeItem("table", forceDarkMode);
+    ToggleDarkModeItem(".color-change", forceDarkMode);
+    ToggleDarkModeItem(".dropdown-content", forceDarkMode);
+    ToggleDarkModeItem(".logo-container", forceDarkMode);
+    ToggleDarkModeItem(".sidebar", forceDarkMode);
+    ToggleDarkModeItem(".authorbox", forceDarkMode);
+    ToggleDarkModeItem("article", forceDarkMode);
 
-	//}
-	//else {
-	//	articleClasses.forEach(element => {
-	//		element.classList.toggle("dark-theme", forceDarkMode);
-	//	});
-	//}
-
-	// const sidebarClasses = document.querySelectorAll('sidebar')
-
-
-	// page should be in dark mode now		
+    /* Critical: never leave the page hidden after a toggle */
+    document.documentElement.style.setProperty("visibility", "visible");
 }
 
-var _HideForChange = localStorage.getItem('theme');
-if (_HideForChange == null || _HideForChange == "dark") {
-	// while we toggle dark mode, hide the page to avoid blinking / flashing
-	document.documentElement.style.setProperty("visibility", "hidden");
-}
+/* Hide only until DOMContentLoaded to prevent a flash, then always show */
+(function () {
+    var hideForChange = null;
 
+    try {
+        hideForChange = localStorage.getItem("theme");
+    } catch (e) {
+        hideForChange = null;
+    }
 
-//$(window).on('load', function () {
-//	// alert(1);
-//	var _TheActiveTheme = localStorage.getItem('theme');
-//	/* alert(_TheActiveTheme); */
-//	if (_TheActiveTheme == null || _TheActiveTheme == "dark") {
-//		ToggleDarkMode(true)
-//	}
-//	// document.documentElement.style.setProperty("visibility", "visible");
-//});
+    if (hideForChange == null || hideForChange === "dark") {
+        document.documentElement.style.setProperty("visibility", "hidden");
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.documentElement.style.setProperty("visibility", "visible");
+    });
+})();
 
 </script>
 
 <link rel="stylesheet" id="color-change">
+
 <!-- Site Infos -->
 <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Espressif | gojimmypi</title>
-<meta name="generator" content="Jekyll v3.9.3" />
+<meta name="generator" content="Jekyll v3.10.0" />
 <meta property="og:title" content="Espressif" />
 <meta name="author" content="gojimmypi" />
 <meta property="og:locale" content="en_US" />
@@ -225,11 +252,9 @@ if (_HideForChange == null || _HideForChange == "dark") {
 <link rel="icon" type="image/png" href="/icons/favicon-96x96.png" sizes="96x96">
 <link rel="icon" type="image/png" href="/icons/android-chrome-192x192.png" sizes="192x192">
 <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-<link rel="manifest" href="/manifest.json">
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#c5cae9">
 <meta name="msapplication-TileColor" content="#C5CAE9">
 <meta name="msapplication-TileImage" content="/mstile-144x144.png">
-
 
 
 </head>
@@ -240,25 +265,80 @@ if (_HideForChange == null || _HideForChange == "dark") {
        <header class="head">
 			<!-- use logic to toggle sidebar layouts -->
 			
-           <!-- menu, we did go with a static one, you can build a dynamic one, just google a little around -->
+           <!-- _includes/nav.html -->
 <div class="main-menu">
     <div class="content">
+
+        <!-- First, the burger button on the right (toggle for full menu)  -->
+        <a href="#menu" class="toggle-link noline" aria-label="Open menu">
+            <svg class="icon-menu" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                <rect x="3" y="6" width="18" height="2"></rect>
+                <rect x="3" y="11" width="18" height="2"></rect>
+                <rect x="3" y="16" width="18" height="2"></rect>
+            </svg>
+        </a>
+
+        <!-- If there is enough room, then entire horizontal menu -->
         <nav id="menu">
-            <a class="toggle-link noline"><i class="fa fa-close fa-lg fa-fw"></i></a>
+            <a href="#" class="toggle-link noline" aria-label="Close menu">
+                <!-- a little X to close the menu: -->
+                <svg class="icon-close" viewBox="0 0 24 24" width="42" height="42" aria-hidden="true">
+                    <path d="M6 6l12 12M18 6l-12 12"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                </svg>
+            </a>
+
             <ul>
                 <li>
-                    <a class="homelink" href="/" title="Home"><i class="fa fa-home fa-lg fa-fw"></i></a>
-                </li>
-                <li>
-                    <a href="/about">About</a>
-                </li>
-                <li id="theme-toggle-container" class="lamp-navbar-item">
-                    <button id="theme-toggle" class="lamp" aria-label="Toggle theme" type="button">
-                        <img id="lightModeIcon" src="/icons/light_mode_black_24dp.svg" style="display: inline; height: 34px; width: 34px" title="Light Mode; Click to switch to Dark Mode" /><img id="darkModeIcon" src="/icons/dark_mode_white_24dp.svg" style="display: none; height: 34px; width: 34px " title="Dark Mode; Click to switch to Light Mode" />
-                    </button>
+                    <!-- Home -->
+                    <a class="homelink"
+                       href="/"
+                       title="Home"
+                       aria-label="Home">
+                        <svg class="icon-home" viewBox="0 0 24 24" width="42" height="42" aria-hidden="true">
+                            <path d="M3 11.5L12 4l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-9.5z"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linejoin="round" />
+                        </svg>
+                    </a>
                 </li>
 
+                <li>
+                    <!-- About -->
+                    <a href="/about"
+                       title="About"
+                       aria-label="About">
+                        <!-- Info-circle (common About icon) -->
+                        <svg class="icon-about" viewBox="0 0 24 24" width="42" height="42" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2" />
+                            <line x1="12" y1="10" x2="12" y2="16"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round" />
+                            <circle cx="12" cy="7" r="1" fill="currentColor" />
+                        </svg>
+                    </a>
+                </li>
+
+                <li id="theme-toggle-container" class="lamp-navbar-item">
+                    <button id="theme-toggle" class="lamp" aria-label="Toggle theme" type="button">
+                        <img id="lightModeIcon"
+                             src="/icons/light_mode_black_24dp.svg"
+                             style="display: inline; height: 39px; width: 39px"
+                             title="Light Mode; Click to switch to Dark Mode" />
+                        <img id="darkModeIcon"
+                             src="/icons/dark_mode_white_24dp.svg"
+                             style="display: none; height: 39px; width: 39px"
+                             title="Dark Mode; Click to switch to Light Mode" />
+                    </button>
+                </li>
             </ul>
+
             <ul id="drop-archive" class="dropdown-content">
                 <li>
                     <a href="/tags">Tags</a>
@@ -268,16 +348,16 @@ if (_HideForChange == null || _HideForChange == "dark") {
                 </li>
             </ul>
         </nav>
+
+        <!-- on the right, social media links. -->
         <nav class="iconnav">
+            <!-- see /_sass/partials/components/_iconnav.scss for formatting -->
             <ul>
                 
                 <li class="social">
+                    <!-- nothing -->
                 </li>
-                  
-                <li class="social">
-                    <a name="nav_pinterest" id="nav_pinterest" href="https://fi.pinterest.com/gojimmypi/" class="pinterest"><i title="pinterest" class="fa fa-pinterest fa-lg fa-fw"></i></a>
-                </li>
-                 
+                   
                 <li class="social">
                     <a name="nav_youtube" id="nav_youtube" href="https://www.youtube.com/channel/UCR01egMbYgXQGJaocNEDEwg" class="youtube" title="View gojimmypi YouTube Channel"><img src="/icons/youtube.svg" style="height:34px;width:34px;" /></a>
                 </li>
@@ -297,10 +377,9 @@ if (_HideForChange == null || _HideForChange == "dark") {
             </ul>
         </nav>
 
-        <a href='#menu' class="toggle-link noline">
-            <i class="fa fa-navicon"></i>
-        </a>
     </div>
+
+    <!-- on every page in upper right corner: the octocat link to source code -->
     
 
 
@@ -368,8 +447,6 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 </div>
 
 
-
-
 <div id="colorswitch" class="modal color-change">
     <div class="modal-content">
         <h1>Change Color Palette</h1>
@@ -400,603 +477,840 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
                 <h1 class="title">Espressif</h1>
                 <div class="articles">
                     
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
+    <span class="date">February 27, 2025</span>
+
+    <a href="/VisualGDB-Toolchains-and-Registry-Settings/">
+        <h1>VisualGDB Notes for Toolchain and Registry Settings</h1>
+    </a>
+
+    <p class="post-content">
+        
+
+        
+
+        Here are some tips and reminders of where to find ESP32 toolchains for the Sysprogs...
+    </p>
+
+    <p class="actions">
+        <a href="/VisualGDB-Toolchains-and-Registry-Settings/">Read More</a>
+    </p>
+
+</article>
+
+
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
+<article>
+    
+    
+    
+
     <span class="date">September 27, 2024</span>
+
     <a href="/Hackaday-Supercon-2024/">
         <h1>Hackaday Supercon 2024</h1>
     </a>
+
     <p class="post-content">
-    
-      I gave a presentation at Hackaday Supercon 2024 in Pasadena, CA. Thank you to everyone...
-    
+        
+
+        
+
+        I gave a presentation at Hackaday Supercon 2024 in Pasadena, CA. Thank you to everyone...
     </p>
+
     <p class="actions">
         <a href="/Hackaday-Supercon-2024/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">June 17, 2023</span>
+
     <a href="/ESP32-S3-Linux/">
         <h1>ESP32-S3 Linux Kernel Setup Guide</h1>
     </a>
+
     <p class="post-content">
-    
-      Embedded Linux on the ESP32-S3 This is a newbies guide to Embedded Linux on the...
-    
+        
+
+        
+
+        Embedded Linux on the ESP32-S3 This is a newbies guide to Embedded Linux on the...
     </p>
+
     <p class="actions">
         <a href="/ESP32-S3-Linux/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">October 01, 2022</span>
+
     <a href="/Replace-mbedTLS-with-wolfSSL-Espresif-ESP32/">
         <h1>Using wolfSSL with the Espressif ESP32</h1>
     </a>
+
     <p class="post-content">
-    
-      Here are some notes on removing the mbedTLS and using the commercial-grade wolfSSL encryption libraries...
-    
+        
+
+        
+
+        Here are some notes on removing the mbedTLS and using the commercial-grade wolfSSL encryption libraries...
     </p>
+
     <p class="actions">
         <a href="/Replace-mbedTLS-with-wolfSSL-Espresif-ESP32/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">August 28, 2022</span>
+
     <a href="/Espressif-ESP32-WiFi-Port-Sniffing-DUT/">
         <h1>Espressif ESP32 WiFi Port Sniffing</h1>
     </a>
+
     <p class="post-content">
-    
-      Sniffing WiFi packets on an ESP32 during development. This blog documents the network configuration used...
-    
+        
+
+        
+
+        Sniffing WiFi packets on an ESP32 during development. This blog documents the network configuration used...
     </p>
+
     <p class="actions">
         <a href="/Espressif-ESP32-WiFi-Port-Sniffing-DUT/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">July 10, 2022</span>
+
     <a href="/ICE-V-Wireless-FPGA-ESP32-C3/">
         <h1>ICE-V Wireless FPGA with ESP32-C3</h1>
     </a>
+
     <p class="post-content">
-    
-      There’s a new open source ESP32 + FPGA Board! I recently received a ICE-V Wireless...
-    
+        
+
+        
+
+        There’s a new open source ESP32 + FPGA Board! I recently received a ICE-V Wireless...
     </p>
+
     <p class="actions">
         <a href="/ICE-V-Wireless-FPGA-ESP32-C3/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">June 04, 2022</span>
+
     <a href="/ESP32-hardware-encryption-wolfSSL/">
         <h1>ESP32 Hardware Encryption with wolfSSL</h1>
     </a>
+
     <p class="post-content">
-    
-      PREVIEW, WIP Here are some notes on the Espressif ESP32 Hardware Encryption Features for wolfSSL....
-    
+        
+
+        
+
+        PREVIEW, WIP Here are some notes on the Espressif ESP32 Hardware Encryption Features for wolfSSL....
     </p>
+
     <p class="actions">
         <a href="/ESP32-hardware-encryption-wolfSSL/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">May 07, 2022</span>
+
     <a href="/Tigard-JTAG-SingleStep-Debugging-ESP32/">
         <h1>JTAG Single Step Debugging ESP32 with Tigard</h1>
     </a>
+
     <p class="post-content">
-    
-      Here are some notes on single-step JTAG debugging the Espressif ESP32 using the Tigard from...
-    
+        
+
+        
+
+        Here are some notes on single-step JTAG debugging the Espressif ESP32 using the Tigard from...
     </p>
+
     <p class="actions">
         <a href="/Tigard-JTAG-SingleStep-Debugging-ESP32/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">May 01, 2022</span>
+
     <a href="/SSH-to-ESP8266/">
         <h1>SSH to ESP8266</h1>
     </a>
+
     <p class="post-content">
-    
-      Create an embedded UART SSH Server on the Adafruit Huzzah ESP8266. Securely connect to Tx/Rx...
-    
+        
+
+        
+
+        Create an embedded UART SSH Server on the Adafruit Huzzah ESP8266. Securely connect to Tx/Rx...
     </p>
+
     <p class="actions">
         <a href="/SSH-to-ESP8266/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">April 10, 2022</span>
+
     <a href="/SSH-to-ULX3S-ESP32/">
         <h1>SSH to ULX3S Espressif ESP32 with wolfSSH</h1>
     </a>
+
     <p class="post-content">
-    
-      So you have a ULX3S and want to connect via SSH. Yes! This is quite...
-    
+        
+
+        
+
+        So you have a ULX3S and want to connect via SSH. Yes! This is quite...
     </p>
+
     <p class="actions">
         <a href="/SSH-to-ULX3S-ESP32/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">April 10, 2022</span>
+
     <a href="/wolfSSH-ESP32-SSH/">
         <h1>Getting Started with wolfSSH for Espressif ESP32</h1>
     </a>
+
     <p class="post-content">
-    
-      Some note on the development of the ESP32 SSH Server. TL;DR Don’t use WSL while...
-    
+        
+
+        
+
+        Some note on the development of the ESP32 SSH Server. TL;DR Don’t use WSL while...
     </p>
+
     <p class="actions">
         <a href="/wolfSSH-ESP32-SSH/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">March 27, 2022</span>
+
     <a href="/Getting-Started-with-wolfSSL-for-Espressif-ESP32/">
         <h1>Getting Started with wolfSSL for Espressif ESP32</h1>
     </a>
+
     <p class="post-content">
-    
-      Some tips for using wolfSSL on the Espressif ESP32 Getting Started with wolfSSL for Espressif...
-    
+        
+
+        
+
+        Some tips for using wolfSSL on the Espressif ESP32 Getting Started with wolfSSL for Espressif...
     </p>
+
     <p class="actions">
         <a href="/Getting-Started-with-wolfSSL-for-Espressif-ESP32/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">September 11, 2021</span>
+
     <a href="/ESP32-JTAG-GDB-Debugging/">
         <h1>ESP32 Segger JLink ESP32 OpenOCD GDB Debugging</h1>
     </a>
+
     <p class="post-content">
-    
-      Some information on using Segger JLink to OpenOCD GDB debug an ESP32 project, specifically my...
-    
+        
+
+        
+
+        Some information on using Segger JLink to OpenOCD GDB debug an ESP32 project, specifically my...
     </p>
+
     <p class="actions">
         <a href="/ESP32-JTAG-GDB-Debugging/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">September 04, 2021</span>
+
     <a href="/wolfSSL-ESP32-project/">
         <h1>wolfSSL ESP32 project</h1>
     </a>
+
     <p class="post-content">
-    
-      Some notes on a sample wolfSSL project for the ESP32. the wolfssh include directory needs...
-    
+        
+
+        
+
+        Some notes on a sample wolfSSL project for the ESP32. the wolfssh include directory needs...
     </p>
+
     <p class="actions">
         <a href="/wolfSSL-ESP32-project/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">August 28, 2021</span>
+
     <a href="/wolfSSL-debugging-wolfSSH/">
         <h1>wolfSSH debugging SSH</h1>
     </a>
+
     <p class="post-content">
-    
-      Some notes on setting up the wolfSSL SSH project. See also the ESP32 SSH Server...
-    
+        
+
+        
+
+        Some notes on setting up the wolfSSL SSH project. See also the ESP32 SSH Server...
     </p>
+
     <p class="actions">
         <a href="/wolfSSL-debugging-wolfSSH/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">August 05, 2021</span>
+
     <a href="/wolfSSH-ssh-debugging/">
         <h1>wolfSSH ssh debugging</h1>
     </a>
+
     <p class="post-content">
-    
-      NOTE: This page is retained only for historical / reference reasons only. GH Pages fails...
-    
+        
+
+        
+
+        NOTE: This page is retained only for historical / reference reasons only. GH Pages fails...
     </p>
+
     <p class="actions">
         <a href="/wolfSSH-ssh-debugging/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">August 01, 2021</span>
+
     <a href="/ESP32-SSH-server/">
         <h1>ESP32 SSH Server</h1>
     </a>
+
     <p class="post-content">
-    
-      (draft / WIP v2) UPDATE: See my ESP32 to UART SSH Server and ESP8266 to...
-    
+        
+
+        
+
+        (draft / WIP v2) UPDATE: See my ESP32 to UART SSH Server and ESP8266 to...
     </p>
+
     <p class="actions">
         <a href="/ESP32-SSH-server/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">March 26, 2020</span>
+
     <a href="/esp32-s2-arrival-day-wsl-test-drive/">
         <h1>ESP32-S2 Arrival Day! WSL test drive</h1>
     </a>
+
     <p class="post-content">
-    
-      My ESP32-S2 Saola R1 arrived!! What exactly is that? Well, I wondered the same thing....
-    
+        
+
+        
+
+        My ESP32-S2 Saola R1 arrived!! What exactly is that? Well, I wondered the same thing....
     </p>
+
     <p class="actions">
         <a href="/esp32-s2-arrival-day-wsl-test-drive/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">February 16, 2020</span>
+
     <a href="/c-sharp-on-radiona-ulx3s-using-nanoframework/">
         <h1>C# on the Radiona ULX3S using the nanoFramework dotnet CLR</h1>
     </a>
+
     <p class="post-content">
-    
-      It has been over a year since I first learned about the Radiona ULX3S development...
-    
+        
+
+        
+
+        It has been over a year since I first learned about the Radiona ULX3S development...
     </p>
+
     <p class="actions">
         <a href="/c-sharp-on-radiona-ulx3s-using-nanoframework/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">January 31, 2020</span>
+
     <a href="/embedded-c-on-ulx3s-esp32/">
         <h1>Embedded C# on the ULX3S ESP32</h1>
     </a>
+
     <p class="post-content">
-    
-      My January efforts have focused on writing C# on an embedded device. Yes, you read...
-    
+        
+
+        
+
+        My January efforts have focused on writing C# on an embedded device. Yes, you read...
     </p>
+
     <p class="actions">
         <a href="/embedded-c-on-ulx3s-esp32/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">June 01, 2019</span>
+
     <a href="/ulx3s-and-visual-micro-in-visual-studio/">
         <h1>ULX3S and Visual Micro in Visual Studio 2019</h1>
     </a>
+
     <p class="post-content">
-    
-      This blog is a walk-though using the Visual Micro Arduino IDE in Visual Studio 2019...
-    
+        
+
+        
+
+        This blog is a walk-though using the Visual Micro Arduino IDE in Visual Studio 2019...
     </p>
+
     <p class="actions">
         <a href="/ulx3s-and-visual-micro-in-visual-studio/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">April 15, 2018</span>
+
     <a href="/single-step-jtag-debugging-esp32/">
         <h1>Single Step JTAG debugging an ESP32 Arduino Sketch with VisualGDB</h1>
     </a>
+
     <p class="post-content">
-    
-      In my last post, I took the latest Preview 1 version of VisualGDB for a...
-    
+        
+
+        
+
+        In my last post, I took the latest Preview 1 version of VisualGDB for a...
     </p>
+
     <p class="actions">
         <a href="/single-step-jtag-debugging-esp32/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">March 31, 2018</span>
+
     <a href="/visualgdb-54-preview-1-ESP-IDF/">
         <h1>VisualGDB 5.4 Preview 1 with support for Advanced ESP-IDF</h1>
     </a>
+
     <p class="post-content">
-    
-      Recently there was an exciting announcement from the clever folks at sysprogs: Support for the...
-    
+        
+
+        
+
+        Recently there was an exciting announcement from the clever folks at sysprogs: Support for the...
     </p>
+
     <p class="actions">
         <a href="/visualgdb-54-preview-1-ESP-IDF/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">March 13, 2018</span>
+
     <a href="/the-magic-of-visual-studio-and-github/">
         <h1>The Magic of Visual Studio and GitHub Integration</h1>
     </a>
+
     <p class="post-content">
-    
-      The more I use Visual Studio 2017 and the integration with GitHub, the more I...
-    
+        
+
+        
+
+        The more I use Visual Studio 2017 and the integration with GitHub, the more I...
     </p>
+
     <p class="actions">
         <a href="/the-magic-of-visual-studio-and-github/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">March 10, 2018</span>
+
     <a href="/single-step-debugging-atmega328-arduino-uno/">
         <h1>Single-Step Debugging the Uno ATMEGA328 (aka Arduino Uno) for the M5Stack LoRa</h1>
     </a>
+
     <p class="post-content">
-    
-      Today I revisit my old friend, the Microchip Atmel ATMEGA328P (aka Arduino Uno), although this...
-    
+        
+
+        
+
+        Today I revisit my old friend, the Microchip Atmel ATMEGA328P (aka Arduino Uno), although this...
     </p>
+
     <p class="actions">
         <a href="/single-step-debugging-atmega328-arduino-uno/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">March 03, 2018</span>
+
     <a href="/lora-range-issues/">
         <h1>LoRa Range Issues </h1>
     </a>
+
     <p class="post-content">
-    
-      This is a continuation of my previous blog:&nbsp;M5Stack LoRa Range Issues . TL;DR The M5Stack...
-    
+        
+
+        
+
+        This is a continuation of my previous blog:&nbsp;M5Stack LoRa Range Issues . TL;DR The M5Stack...
     </p>
+
     <p class="actions">
         <a href="/lora-range-issues/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">February 12, 2018</span>
+
     <a href="/m5stack-lora-range-issues/">
         <h1>M5Stack LoRa Range Issues</h1>
     </a>
+
     <p class="post-content">
-    
-      Investigating 32u4 to M5Stack LoRa poor range issues; Background information &amp; initial tool setup. Well,...
-    
+        
+
+        
+
+        Investigating 32u4 to M5Stack LoRa poor range issues; Background information &amp; initial tool setup. Well,...
     </p>
+
     <p class="actions">
         <a href="/m5stack-lora-range-issues/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">June 09, 2017</span>
+
     <a href="/vscode-jtag-debugging-of-esp32-part-3/">
         <h1>VSCode JTAG Debugging of ESP32 - Part 3</h1>
     </a>
+
     <p class="post-content">
-    
-      (see also&nbsp;hardware setup,&nbsp;part 1, and&nbsp;part 2 ) Test drive of OpenOCD WIP branch with VSCode....
-    
+        
+
+        
+
+        (see also&nbsp;hardware setup,&nbsp;part 1, and&nbsp;part 2 ) Test drive of OpenOCD WIP branch with VSCode....
     </p>
+
     <p class="actions">
         <a href="/vscode-jtag-debugging-of-esp32-part-3/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">May 25, 2017</span>
+
     <a href="/vscode-remote-jtag-debugging-of-esp32/">
         <h1>VSCode JTAG Debugging of ESP32 - Part 2</h1>
     </a>
+
     <p class="post-content">
-    
-      This in a continuation from&nbsp;part 1. If you need help connecting the ESP32 to JTAG,...
-    
+        
+
+        
+
+        This in a continuation from&nbsp;part 1. If you need help connecting the ESP32 to JTAG,...
     </p>
+
     <p class="actions">
         <a href="/vscode-remote-jtag-debugging-of-esp32/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">May 25, 2017</span>
+
     <a href="/vscode-jtag-debugging-of-esp32-part-1/">
         <h1>VSCode JTAG Debugging of ESP32 - Part 1 </h1>
     </a>
+
     <p class="post-content">
-    
-      (last edited June 2, 2017 - added WSL/Ubuntu info, but not working: JTAG device not...
-    
+        
+
+        
+
+        (last edited June 2, 2017 - added WSL/Ubuntu info, but not working: JTAG device not...
     </p>
+
     <p class="actions">
         <a href="/vscode-jtag-debugging-of-esp32-part-1/">Read More</a>
     </p>
+
 </article>
 
 
-    <!-- each post has their own little article element. -->
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-        
     
+    
+
     <span class="date">March 17, 2017</span>
+
     <a href="/jtag-debugging-for-esp32/">
         <h1>JTAG Debugging for ESP32</h1>
     </a>
+
     <p class="post-content">
-    
-      Notes and information on JTAG Debugging the ESP32 WROOM-32 (aka DevKitC, aka ESP32_Core_Board_V2) I started...
-    
+        
+
+        
+
+        Notes and information on JTAG Debugging the ESP32 WROOM-32 (aka DevKitC, aka ESP32_Core_Board_V2) I started...
     </p>
+
     <p class="actions">
         <a href="/jtag-debugging-for-esp32/">Read More</a>
     </p>
+
 </article>
 
 
@@ -1006,18 +1320,21 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
             </div>
         </div>
         <footer>
-    <div class="content">
-        <span>&copy; 2015-2021 gojimmypi</span>
-        <span> <a href="/archive">Archive</a></span>
-        <span class="backtotop">Back to Top</span>
-    </div>
+    <table width="100%">
+        <tr>
+            <td align="left">
+                <span>&copy; 2015-2025 gojimmypi</span>
+            </td>
+            <td align="center">
+                <span><a href="/archive"> Archive </a></span>
+            </td>
+            <td align="right">
+                <span><a class="backtotop" href="#top">Back to Top</a></span>
+            </td>
+        </tr>
+    </table>
 </footer>
-<!--
 
-<script src="https://use.typekit.net/.js"></script>
-<script>try{Typekit.load({ async: true });}catch(e){}</script>
-
-TypeKit -->
 
 
 <script type="text/javascript">
@@ -1083,6 +1400,10 @@ TypeKit -->
 
             this.themeOwner.classList.remove(oldTheme);
             this.themeOwner.classList.add(newTheme);
+
+            /* Keep CSS selectors in sync with the current theme */
+            this.themeOwner.setAttribute("data-theme", newTheme);
+
             const forceDarkMode = (newTheme == 'dark') ? true : false;
             ToggleDarkMode(forceDarkMode);
 
@@ -1093,7 +1414,7 @@ TypeKit -->
 
         syncAriaLabelWithStorage() {
             const nextTheme = themeMap[this.currentTheme];
-            this.toggleElement.setAttribute('aria-label', 'Switch to ${nextTheme} mode theme');
+            this.toggleElement.setAttribute("aria-label", "Switch to " + nextTheme + " mode theme");
         }
     }
 
@@ -1117,47 +1438,13 @@ TypeKit -->
 
 </script>
 
-<!-- https://web.dev/codelab-make-installable/ -->
-<script type="text/javascript">
-    window.addEventListener('beforeinstallprompt', (event) => {
-        // Prevent the mini-infobar from appearing on mobile.
-        event.preventDefault();
-        console.log('ok', 'beforeinstallprompt', event);
-        // Stash the event so it can be triggered later.
-        window.deferredPrompt = event;
-        // Remove the 'hidden' class from the install button container.
-        divInstall.classList.toggle('hidden', false);
-    });
-
-    btnInstall.addEventListener('click', async () => {
-        console.log('ok', 'btnInstall-clicked');
-        const promptEvent = window.deferredPrompt;
-        if (!promptEvent) {
-            // The deferred prompt isn't available.
-            return;
-        }
-        // Show the install prompt.
-        promptEvent.prompt();
-        // Log the result
-        const result = await promptEvent.userChoice;
-        console.log('ok', 'userChoice', result);
-        // Reset the deferred prompt variable, since
-        // prompt() can only be called once.
-        window.deferredPrompt = null;
-        // Hide the install button.
-        divInstall.classList.toggle('hidden', true);
-    });
-
-    window.addEventListener('appinstalled', (event) => {
-        console.log('ok', 'appinstalled', event);
-        // Clear the deferredPrompt so it can be garbage collected
-        window.deferredPrompt = null;
+<!-- helper to avoid page-load flash -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.documentElement.classList.remove("theme-preload");
+        document.documentElement.style.setProperty("visibility", "visible");
     });
 </script>
-
-<!-- see
-https://github.com/GoogleChrome/lighthouse/blob/main/core/audits/service-worker.js"
--->
 
     </body>
 </html>

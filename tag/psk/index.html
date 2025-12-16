@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- index.html -->
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1765762888">
+    <!-- file: /_includes/head.html -->
+
+<!-- jekyll.environment: development -->
+<!-- this page is from [tag/psk/index.html] -->
+
+
+<!-- Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+
+<!-- helper to avoid page-load flash -->
+<style>
+    html.theme-preload * {
+        transition: none !important;
+    }
+</style>
+
+<script>
+    (function () {
+        var key = "theme";
+        var saved = null;
+
+        try {
+            saved = localStorage.getItem(key);
+        } catch (e) {
+            saved = null;
+        }
+
+        var theme = "dark";
+
+        if (saved === "dark" || saved === "light") {
+            theme = saved;
+        } else if (window.matchMedia) {
+            theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+
+        var root = document.documentElement;
+
+        root.classList.add("theme-preload");
+
+        /* One source of truth for CSS */
+        root.setAttribute("data-theme", theme);
+
+        /* Back-compat for existing JS/CSS that expects html.dark or html.light */
+        root.classList.remove("dark");
+        root.classList.remove("light");
+        root.classList.add(theme);
+
+        /* Let browser UI follow */
+        root.style.setProperty("color-scheme", theme);
+    })();
+</script>
+
+<!-- /helper to avoid page-load flash -->
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+<!-- meta name="color-scheme" content="dark light" -->
+<!-- JS -->
+<!-- see https://developer.chrome.com/docs/lighthouse/pwa/themed-omnibox/?utm_source=lighthouse&utm_medium=devtools -->
+<meta name="theme-color" content="#333333" />
+
+<script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css?v=1765762888">
+
+<!--script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script moved to above -->
+
+<script type="text/javascript" src="/scripts/jquery.toc.js"></script>
+<script type="text/javascript" src="/scripts/infinite/1-jquery.jscroll.js"></script>
+<script type="text/javascript" src="/scripts/global/2-imagelightbox.js"></script>
+<script type="text/javascript" src="/scripts/global/scripts.js"></script>
+<script type="text/javascript" src="/js/materialize.min.js"></script>
+<script type="text/javascript" src="/scripts/infinite/init.js?forceversion=2"></script>
+
+
+
+
+
+
+<!-- Google Analytics. Put the ID in _config.yml -->
+
+
+<!-- Load the user's last selected theme for the lamp -->
+<script type="text/javascript">
+    // _dark_mode.js
+// typically included in the head.html.
+
+(function () {
+    var key = "theme";
+    var savedTheme = null;
+    var theme = "dark";
+
+    try {
+        savedTheme = localStorage.getItem(key);
+    } catch (e) {
+        savedTheme = null;
+    }
+    // alert('Saved theme = ' + savedTheme);
+    if (savedTheme === "dark" || savedTheme === "light") {
+        theme = savedTheme;
+    } else if (window.matchMedia) {
+        theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        try {
+            localStorage.setItem(key, theme);
+        } catch (e2) {
+        }
+    }
+
+    document.documentElement.className = theme;
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.style.setProperty("color-scheme", theme);
+})();
+
+function SafeToggleAll(obj, forceDarkMode) {
+    if (!obj || obj === null || obj === undefined) {
+        return;
+    }
+
+    obj.forEach(function (element) {
+        element.classList.toggle("dark-theme", forceDarkMode);
+    });
+}
+//
+// get a list of elements for a given .ClassName or ElementName
+//
+function ToggleDarkModeItem(name, forceDarkMode) {
+    var thisElements = document.querySelectorAll(name);
+    SafeToggleAll(thisElements, forceDarkMode);
+}
+//
+// ToggleDarkMode; forceDarkMode=true to froce into dark mode
+//
+function ToggleDarkMode(forceDarkMode) {
+    var thisTheme = "dark";
+
+    if (forceDarkMode == null) {
+        forceDarkMode = true;
+    }
+
+    if (forceDarkMode) {
+        thisTheme = "dark";
+    } else {
+        thisTheme = "light";
+    }
+
+    var lightModeIcon = document.getElementById("lightModeIcon");
+    var darkModeIcon = document.getElementById("darkModeIcon");
+
+    if (lightModeIcon && darkModeIcon) {
+        if (forceDarkMode) {
+            lightModeIcon.style.setProperty("display", "none");
+            darkModeIcon.style.setProperty("display", "inline");
+        } else {
+            lightModeIcon.style.setProperty("display", "inline");
+            darkModeIcon.style.setProperty("display", "none");
+        }
+    }
+
+    document.documentElement.setAttribute("data-theme", thisTheme);
+    document.documentElement.style.setProperty("color-scheme", thisTheme);
+
+    try {
+        localStorage.setItem("theme", thisTheme);
+    } catch (e) {
+    }
+
+    document.body.classList.toggle("dark-theme", forceDarkMode);
+
+    ToggleDarkModeItem("code", forceDarkMode);
+    ToggleDarkModeItem("pre", forceDarkMode);
+    ToggleDarkModeItem("nav", forceDarkMode);
+    ToggleDarkModeItem("table", forceDarkMode);
+    ToggleDarkModeItem(".color-change", forceDarkMode);
+    ToggleDarkModeItem(".dropdown-content", forceDarkMode);
+    ToggleDarkModeItem(".logo-container", forceDarkMode);
+    ToggleDarkModeItem(".sidebar", forceDarkMode);
+    ToggleDarkModeItem(".authorbox", forceDarkMode);
+    ToggleDarkModeItem("article", forceDarkMode);
+
+    /* Critical: never leave the page hidden after a toggle */
+    document.documentElement.style.setProperty("visibility", "visible");
+}
+
+/* Hide only until DOMContentLoaded to prevent a flash, then always show */
+(function () {
+    var hideForChange = null;
+
+    try {
+        hideForChange = localStorage.getItem("theme");
+    } catch (e) {
+        hideForChange = null;
+    }
+
+    if (hideForChange == null || hideForChange === "dark") {
+        document.documentElement.style.setProperty("visibility", "hidden");
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.documentElement.style.setProperty("visibility", "visible");
+    });
+})();
+
+</script>
+
+<link rel="stylesheet" id="color-change">
+
+<!-- Site Infos -->
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>PSK | gojimmypi</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="PSK" />
+<meta name="author" content="gojimmypi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="blog" />
+<meta property="og:description" content="blog" />
+<link rel="canonical" href="https://gojimmypi.github.io/tag/psk/" />
+<meta property="og:url" content="https://gojimmypi.github.io/tag/psk/" />
+<meta property="og:site_name" content="gojimmypi" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="PSK" />
+<meta name="twitter:site" content="@gojimmypi" />
+<meta name="twitter:creator" content="@#" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","headline":"PSK","url":"https://gojimmypi.github.io/tag/psk/"}</script>
+<!-- End Jekyll SEO tag -->
+
+<!-- http:/realfavicongenerator.net -->
+<link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/icons/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180x180.png">
+<link rel="icon" type="image/png" href="/icons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/icons/favicon-194x194.png" sizes="194x194">
+<link rel="icon" type="image/png" href="/icons/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/icons/android-chrome-192x192.png" sizes="192x192">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#c5cae9">
+<meta name="msapplication-TileColor" content="#C5CAE9">
+<meta name="msapplication-TileImage" content="/mstile-144x144.png">
+
+
+</head>
+<!-- use logic to toggle sidebar layouts -->
+
+    <body class="index">
+
+       <header class="head">
+			<!-- use logic to toggle sidebar layouts -->
+			
+           <!-- _includes/nav.html -->
+<div class="main-menu">
+    <div class="content">
+
+        <!-- First, the burger button on the right (toggle for full menu)  -->
+        <a href="#menu" class="toggle-link noline" aria-label="Open menu">
+            <svg class="icon-menu" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                <rect x="3" y="6" width="18" height="2"></rect>
+                <rect x="3" y="11" width="18" height="2"></rect>
+                <rect x="3" y="16" width="18" height="2"></rect>
+            </svg>
+        </a>
+
+        <!-- If there is enough room, then entire horizontal menu -->
+        <nav id="menu">
+            <a href="#" class="toggle-link noline" aria-label="Close menu">
+                <!-- a little X to close the menu: -->
+                <svg class="icon-close" viewBox="0 0 24 24" width="42" height="42" aria-hidden="true">
+                    <path d="M6 6l12 12M18 6l-12 12"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                </svg>
+            </a>
+
+            <ul>
+                <li>
+                    <!-- Home -->
+                    <a class="homelink"
+                       href="/"
+                       title="Home"
+                       aria-label="Home">
+                        <svg class="icon-home" viewBox="0 0 24 24" width="42" height="42" aria-hidden="true">
+                            <path d="M3 11.5L12 4l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-9.5z"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </li>
+
+                <li>
+                    <!-- About -->
+                    <a href="/about"
+                       title="About"
+                       aria-label="About">
+                        <!-- Info-circle (common About icon) -->
+                        <svg class="icon-about" viewBox="0 0 24 24" width="42" height="42" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2" />
+                            <line x1="12" y1="10" x2="12" y2="16"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round" />
+                            <circle cx="12" cy="7" r="1" fill="currentColor" />
+                        </svg>
+                    </a>
+                </li>
+
+                <li id="theme-toggle-container" class="lamp-navbar-item">
+                    <button id="theme-toggle" class="lamp" aria-label="Toggle theme" type="button">
+                        <img id="lightModeIcon"
+                             src="/icons/light_mode_black_24dp.svg"
+                             style="display: inline; height: 39px; width: 39px"
+                             title="Light Mode; Click to switch to Dark Mode" />
+                        <img id="darkModeIcon"
+                             src="/icons/dark_mode_white_24dp.svg"
+                             style="display: none; height: 39px; width: 39px"
+                             title="Dark Mode; Click to switch to Light Mode" />
+                    </button>
+                </li>
+            </ul>
+
+            <ul id="drop-archive" class="dropdown-content">
+                <li>
+                    <a href="/tags">Tags</a>
+                </li>
+                <li>
+                    <a href="/archive">Yearly</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- on the right, social media links. -->
+        <nav class="iconnav">
+            <!-- see /_sass/partials/components/_iconnav.scss for formatting -->
+            <ul>
+                
+                <li class="social">
+                    <!-- nothing -->
+                </li>
+                   
+                <li class="social">
+                    <a name="nav_youtube" id="nav_youtube" href="https://www.youtube.com/channel/UCR01egMbYgXQGJaocNEDEwg" class="youtube" title="View gojimmypi YouTube Channel"><img src="/icons/youtube.svg" style="height:34px;width:34px;" /></a>
+                </li>
+                     
+                <li class="social">
+                    <a name="nav_twitter" id="nav_twitter" href="https://twitter.com/gojimmypi" class="twitter" title="Visit gojimmypi on Twitter"><img src="/icons/twitter.svg" style="height:34px;width:34px;" /></i></a>
+                </li>
+                 
+                <li class="social">
+                    <a name="nav_mastodon" id="nav_mastodon" href="https://hackaday.social/@gojimmypi" class="mastodon" title="Visit gojimmypi on Mastodon"><img src="/icons/mastodon.svg" style="height:34px;width:34px;" /></a>
+                </li>
+                 
+                <li class="social">
+                    <a name="nav_mailto" id="nav_mailto" href="mailto:gojimmypi@gmail.com" class="noline" title="Send an email to gojimmypi"><img src="/icons/mail.svg" style="height:34px;width:34px;" /></i></a>
+                </li>
+                
+            </ul>
+        </nav>
+
+    </div>
+
+    <!-- on every page in upper right corner: the octocat link to source code -->
+    
+
+
+
+<!--
+jekyll.environment   = [development]
+site.domain          = [gojimmypi.github.io]
+site.github_baseurl  = [https://github.com/gojimmypi/gojimmypi.github.io/]
+page.path            = [tag/psk/index.html]
+this_github_root     = [https://github.com/gojimmypi/gojimmypi.github.io/]
+this_github_filename = [tag/psk/index.html]
+this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/master/tag/psk/index.html]
+-->
+
+<a href="https://github.com/gojimmypi/gojimmypi.github.io/tree/master/tag/psk/index.html"
+   title="Click to view source on GitHub"
+   class="github-corner"
+   aria-label="View source on GitHub">
+    <svg viewBox="0 0 250 250" aria-hidden="true"
+         width="64px" height="64px"
+         style="position: absolute; top: 0px; right: 0px; border: 0px;">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"
+              fill="#151513">
+        </path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="#ffffff"
+              style="transform-origin: 130px 106px;"
+              class="octo-arm">
+        </path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="#ffffff"
+              class="octo-body">
+        </path>
+    </svg>
+    <style>
+        .github-corner:hover .octo-arm {
+            animation: octocat-wave 560ms ease-in-out
+        }
+
+        @keyframes octocat-wave {
+            0%,100% {
+                transform: rotate(0)
+            }
+
+            20%,60% {
+                transform: rotate(-25deg)
+            }
+
+            40%,80% {
+                transform: rotate(10deg)
+            }
+        }
+
+        @media (max-width:500px) {
+            .github-corner:hover .octo-arm {
+                animation: none
+            }
+
+            .github-corner .octo-arm {
+                animation: octocat-wave 560ms ease-in-out
+            }
+        }
+    </style>
+</a>
+</div>
+
+
+<div id="colorswitch" class="modal color-change">
+    <div class="modal-content">
+        <h1>Change Color Palette</h1>
+        <p>
+            <img id="indigo" alt="color palette preview indigo" src="/media/indigo.svg">
+            <img id="brown" alt="color palette preview brown" src="/media/brown.svg">
+            <img id="green" alt="color palette preview green" src="/media/green.svg">
+            <img id="teal" alt="color palette preview teal" src="/media/teal.svg">
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>
+
+        </header>
+        <div id="search">
+	<form role="search" method="get" action="/search/" id="searchform">
+        <input id="query" name="query" type="search" placeholder="Enter here..."/>
+	</form>
+</div>
+        <div class="margin">
+            <div class="content">
+                <div class="switch">
+                    <div id="grid"><span></span></div>
+                    <div id="classic"><span></span></div>
+                </div>
+                <h1 class="title">PSK</h1>
+                <div class="articles">
+                    
+    <!-- /_includes/article_index.html - each post has their own little article element. -->
+<article>
+    
+    
+    
+
+    <span class="date">March 07, 2025</span>
+
+    <a href="/wolfssl-dtls-psk/">
+        <h1>wolfSSL DTLS PSK</h1>
+    </a>
+
+    <p class="post-content">
+        
+
+        
+
+        Some notes on using PSK. Rebuild wolfSSL, create static shared library in $HOME/wolfssl-install-psk. make clean...
+    </p>
+
+    <p class="actions">
+        <a href="/wolfssl-dtls-psk/">Read More</a>
+    </p>
+
+</article>
+
+
+                </div>
+				<!-- use logic to toggle sidebar layouts -->
+				
+            </div>
+        </div>
+        <footer>
+    <table width="100%">
+        <tr>
+            <td align="left">
+                <span>&copy; 2015-2025 gojimmypi</span>
+            </td>
+            <td align="center">
+                <span><a href="/archive"> Archive </a></span>
+            </td>
+            <td align="right">
+                <span><a class="backtotop" href="#top">Back to Top</a></span>
+            </td>
+        </tr>
+    </table>
+</footer>
+
+
+
+<script type="text/javascript">
+    const codeBlocks = document.querySelectorAll('.code-header + .highlighter-rouge');
+    const copyCodeButtons = document.querySelectorAll('.copy-code-button');
+
+
+    if ((codeBlocks.length == 0) && (copyCodeButtons.length > 0)) {
+        
+        alert("Warning: code block missing. Is your language spec missing or not lower case? Copy icons disabled.");
+        
+    }
+    else {
+        copyCodeButtons.forEach((copyCodeButton, index) => {
+            const code = codeBlocks[index].innerText;
+            // some older pages use HTML with a blank innerText, non-blank textContent
+            const codeAlt = codeBlocks[index].textContent;
+
+            copyCodeButton.addEventListener('click', () => {
+                if (code == "" || code == null) {
+                    // use text from innerText
+                    window.navigator.clipboard.writeText(codeAlt);
+                }
+                else {
+                    // use text from textContent
+                    window.navigator.clipboard.writeText(code);
+                }
+                copyCodeButton.classList.add('copied');
+
+                setTimeout(() => {
+                    copyCodeButton.classList.remove('copied');
+                }, 2000);
+            });
+        });
+
+    }
+
+
+    const themeMap = {
+        light: 'dark',
+        dark: 'light',
+    };
+
+    /* lamp theme toggle */
+    class ThemeToggle {
+        constructor({ toggleSelector, themeOwner, storageKey }) {
+            /* this is called once at page load time, not every time the lamp is pressed! */
+            this.toggleElement = document.querySelector(toggleSelector);
+            this.toggleElement.addEventListener('click', () => this.toggle());
+            this.themeOwner = themeOwner;
+            this.storageKey = storageKey;
+            this.theme = localStorage.getItem(storageKey) || 'light';
+            this.syncAriaLabelWithStorage();
+        }
+
+        get currentTheme() {
+            return this.theme;
+        }
+
+        toggle() {
+            const oldTheme = this.currentTheme;
+            const newTheme = themeMap[oldTheme];
+
+            this.themeOwner.classList.remove(oldTheme);
+            this.themeOwner.classList.add(newTheme);
+
+            /* Keep CSS selectors in sync with the current theme */
+            this.themeOwner.setAttribute("data-theme", newTheme);
+
+            const forceDarkMode = (newTheme == 'dark') ? true : false;
+            ToggleDarkMode(forceDarkMode);
+
+            localStorage.setItem(this.storageKey, newTheme);
+            this.theme = newTheme;
+            this.syncAriaLabelWithStorage();
+        }
+
+        syncAriaLabelWithStorage() {
+            const nextTheme = themeMap[this.currentTheme];
+            this.toggleElement.setAttribute("aria-label", "Switch to " + nextTheme + " mode theme");
+        }
+    }
+
+
+    /* lamp toggle */
+    const themeToggle = new ThemeToggle({
+        toggleSelector: '#theme-toggle',
+        storageKey: 'theme',
+        themeOwner: document.documentElement,
+    });
+
+
+    $(document).ready(function () {
+        // move to init ?
+        var _TheActiveTheme = localStorage.getItem('theme');
+        /* alert(_TheActiveTheme); */
+        if (_TheActiveTheme == null || _TheActiveTheme == "dark") {
+            ToggleDarkMode(true)
+        }
+    });
+
+</script>
+
+<!-- helper to avoid page-load flash -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.documentElement.classList.remove("theme-preload");
+        document.documentElement.style.setProperty("visibility", "visible");
+    });
+</script>
+
+    </body>
+</html>
