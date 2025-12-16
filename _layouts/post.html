@@ -20,7 +20,9 @@
             {% endif %}
             {% include nav.html %}
         </header>
-        {% include search.html %}
+        {% if page.search != false %}
+            {% include search.html %}
+        {% endif %}
         <div class="margin">
             <!-- use logic to toggle sidebar layouts -->
             {% if page.sidebar %}
@@ -128,8 +130,10 @@
                             {% include {{page.sidebar_type}}-sidebar.html %}
                             {% endif %}
                         </div>
+                    </div>
+                    {% include footer.html %}
+                </div>
             </div>
-            {% include footer.html %}
         </div>
     </body>
 </html>

@@ -4,14 +4,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- /_layouts/doc.html page.layout = {{ page.layout }} -->
     {% include head.html %}
 </head>
 <!-- use logic to toggle sidebar layouts -->
 {% if page.sidebar %}
-<body class="has-{{page.sidebar_type}}-sidebar-{{page.sidebar_position}}">
-    {% else %}
+    <body class="has-{{page.sidebar_type}}-sidebar-{{page.sidebar_position}}">
+{% else %}
     <body>
-        {% endif %}
+{% endif %}
         <header class="head">
             <!-- use logic to toggle sidebar layouts -->
             {% if page.sidebar == false or page.sidebar_type == "classic" %}
@@ -19,7 +20,9 @@
             {% endif %}
             {% include nav.html %}
         </header>
-        {% include search.html %}
+        {% if page.search != false %}
+            {% include search.html %}
+        {% endif %}
         <div class="margin">
             <!-- use logic to toggle sidebar layouts -->
             {% if page.sidebar %}
@@ -48,6 +51,6 @@
                 </div>
             </div>
             {% include footer.html %}
-
+        </div>
     </body>
 </html>

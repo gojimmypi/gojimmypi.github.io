@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- index.html -->
+    <!-- /_layouts/index.html page.layout = {{ page.layout }} -->
     <meta charset="UTF-8" />
     <link rel="stylesheet" id="switch-style" href="{{ site.baseurl | replace: '//', '/' }}/css/grid.css?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}">
     {% include head.html %}
@@ -15,14 +15,16 @@
 {% else %}
     <body class="index">
 {% endif %}
-       <header class="head">
-			<!-- use logic to toggle sidebar layouts -->
-			{% if page.sidebar == false or page.sidebar_type == "classic" %}
-	            {% include header.html %}
+        <header class="head">
+            <!-- use logic to toggle sidebar layouts -->
+            {% if page.sidebar == false or page.sidebar_type == "classic" %}
+            {% include header.html %}
             {% endif %}
-           {% include nav.html %}
+            {% include nav.html %}
         </header>
-        {% include search.html %}
+        {% if page.search != false %}
+            {% include search.html %}
+        {% endif %}
         <div class="margin">
             <div class="content">
                 <div class="switch">
@@ -33,10 +35,10 @@
                 <div class="articles">
                     {{ content }}
                 </div>
-				<!-- use logic to toggle sidebar layouts -->
-				{% if page.sidebar %}
-					{% include {{page.sidebar_type}}-sidebar.html %}
-				{% endif %}
+                <!-- use logic to toggle sidebar layouts -->
+                {% if page.sidebar %}
+                {% include {{page.sidebar_type}}-sidebar.html %}
+                {% endif %}
             </div>
         </div>
         {% include footer.html %}

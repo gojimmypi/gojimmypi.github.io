@@ -1,13 +1,14 @@
+<!-- /_includes/tag_list.html page.layout = {{ page.layout }} -->
 <ul class="tag-list">
     {% assign tag_list = site.tags %}
     {% if tag_list.first[0] == null %}
-        {% for tag in tag_list %}
-            <li><a href="{{ site.tag_dir | prepend: site.baseurl | replace: '//', '/' }}/{{ tag }}">{{ tag }}</a></li>
-        {% endfor %}
+    {% for tag in tag_list %}
+    <li><a href="{{ site.tag_dir | prepend: site.baseurl | replace: '//', '/' }}/{{ tag }}">{{ tag }}</a></li>
+    {% endfor %}
     {% else %}
-        {% for tag in tag_list %}
-            <li><a href="{{ site.tag_dir | prepend: site.baseurl | replace: '//', '/' }}/{{ tag[0] }}">{{ tag[0] }}</a></li>
-        {% endfor %}
+    {% for tag in tag_list %}
+    <li><a href="{{ site.tag_dir | prepend: site.baseurl | replace: '//', '/' }}/{{ tag[0] }}">{{ tag[0] }}</a></li>
+    {% endfor %}
     {% endif %}
     {% assign tag_list = nil %}
 </ul>
