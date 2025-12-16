@@ -18,13 +18,21 @@ Various sites to find gojimmypi:
 * marketplace.visualstudio.com [Verilog Syntax Highlighter](https://marketplace.visualstudio.com/items?itemName=gojimmypi.gojimmypi-verilog-language-extension)
 * marketplace.visualstudio.com [GCode Language Extension](https://marketplace.visualstudio.com/items?itemName=gojimmypi.gojimmypi-gcode-language-extension)
 * [crowdsupply.com/people/gojimmypi](https://www.crowdsupply.com/people/gojimmypi)
-* [oshpark.com/profiles/gojimmypi](https://oshpark.com/profiles/gojimmypi)
+* [esp32.com forum](https://esp32.com/memberlist.php?mode=viewprofile&u=24751)
 * [github.com/gojimmypi](https://github.com/gojimmypi)
 * [instagram.com/gojimmypi](https://www.instagram.com/gojimmypi/)
+* [Mastodon hackaday.social/@gojimmypi](https://hackaday.social/@gojimmypi)
+* [oshpark.com/profiles/gojimmypi](https://oshpark.com/profiles/gojimmypi)
+* [stackoverflow/users/5432351/gojimmypi](https://stackoverflow.com/users/5432351/gojimmypi)
+* [SysProgs VisualGDB](https://sysprogs.com/w/forums/users/gojimmypi/)
+* [tiktok.com/@gojimmypi](https://www.tiktok.com/@gojimmypi)
+* [Bluesky gojimmypi.bsky.social](https://bsky.app/profile/gojimmypi.bsky.social)
+* [wolfSSL Forum](https://www.wolfssl.com/forums/user4414.html)
+* [X/Twitter.com/gojimmypi](https://x.com/gojimmypi)
 
 The [source code for this web site](https://github.com/gojimmypi/gojimmypi.github.io) is based on a [fork](https://github.com/gojimmypi/gridster-jekyll-theme) 
 of the [ickc fork](https://github.com/ickc/gridster-jekyll-theme),
-of the [DigitalMindCH/gridster-jekyll-theme](https://github.com/DigitalMindCH/gridster-jekyll-theme)
+of the [DigitalMindCH/gridster-jekyll-theme](https://github.com/DigitalMindCH/gridster-jekyll-theme).
 
 You can find out more info about customizing your Jekyll theme, 
 as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
