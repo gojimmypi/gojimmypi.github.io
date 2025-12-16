@@ -1,9 +1,5 @@
 # gojimmypi.github.io
 
-test 4
-
-remove
-
 https://gojimmypi.github.io/gridster-jekyll-theme/video/youtube/
 
 
@@ -25,12 +21,22 @@ hosted by [pages.github.com/](https://pages.github.com/)
 
 ## gojimmypi on the web:
 
-* [github](https://github.com/gojimmypi)
-* [Shared OSHPARK Projects](https://oshpark.com/profiles/gojimmypi)
-* [stackoverflow](https://stackoverflow.com/users/5432351/gojimmypi)
-* [crowdsupply](https://www.crowdsupply.com/people/gojimmypi)
-* [twitter](https://twitter.com/gojimmypi)
-* [sysprogs forum](https://sysprogs.com/w/forums/users/gojimmypi/)
+* marketplace.visualstudio.com [Verilog Syntax Highlighter](https://marketplace.visualstudio.com/items?itemName=gojimmypi.gojimmypi-verilog-language-extension)
+* marketplace.visualstudio.com [GCode Language Extension](https://marketplace.visualstudio.com/items?itemName=gojimmypi.gojimmypi-gcode-language-extension)
+* [crowdsupply.com/people/gojimmypi](https://www.crowdsupply.com/people/gojimmypi)
+* [esp32.com forum](https://esp32.com/memberlist.php?mode=viewprofile&u=24751)
+* [github.com/gojimmypi](https://github.com/gojimmypi)
+* [instagram.com/gojimmypi](https://www.instagram.com/gojimmypi/)
+* [Mastodon hackaday.social/@gojimmypi](https://hackaday.social/@gojimmypi)
+* [oshpark.com/profiles/gojimmypi](https://oshpark.com/profiles/gojimmypi)
+* [stackoverflow/users/5432351/gojimmypi](https://stackoverflow.com/users/5432351/gojimmypi)
+* [SysProgs VisualGDB](https://sysprogs.com/w/forums/users/gojimmypi/)
+* [tiktok.com/@gojimmypi](https://www.tiktok.com/@gojimmypi)
+* [Bluesky gojimmypi.bsky.social](https://bsky.app/profile/gojimmypi.bsky.social)
+* [wolfSSL Forum](https://www.wolfssl.com/forums/user4414.html)
+* [X/Twitter.com/gojimmypi](https://x.com/gojimmypi)
+
+See also [/docs/about.markdown](./docs/about.markdown) at https://gojimmypi.github.io/about/
 
 ## Site feedback & TODO list
 
@@ -49,10 +55,6 @@ Things I like:
 
 Things that need attention:
 
-* Search not working.
 * The fonts used are complex and can be improved.
-* There's an undesired white flash when first visiting each page when in dark mode.
-* Some of the bloat features need to be removed, e.g. [Ruby Sass has reached end-of-life and should no longer be used](https://twitter.com/gojimmypi/status/1670903518700638209?s=20).
+* Some of the bloat features need to be removed, e.g. [Ruby Sass has reached end-of-life and should no longer be used](https://twitter.com/gojimmypi/status/1670903518700638209?s=20) (is this a GitHub feature that has since been updated?).
 * The "categories" is not working properly.
-* The menu bar layout and spacing at the top of the screen needs to be improved.
-* It would be nice to have a mini image of the first image of each post on the main page.
