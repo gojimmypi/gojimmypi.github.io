@@ -14,11 +14,11 @@ tags:
 When things go really sideways and the GitHub master branch of a fork is so terribly messed up and the changes are not even desired,
 there's hope!
 
-TL;DR  
+TL;DR
 - Keep the forked `master` (preferably named `main`) branch clean from incremental merge or update commits, so that these instructions are not needed.
 - Create a separate branch for each commit to upstream.
 - Don't use the web `fetch upstream` button.
-- BACKUP your local GitHub repo before doing enything presented here. 
+- BACKUP your local GitHub repo before doing anything presented here.
 
 ![git train wreck image](../images/git_train_wreck.png)
 
@@ -53,7 +53,7 @@ My attempts to "fix" that didn't go so well. I ended up with _over a thousand_ [
 Somehow my name ended up associated with ALL of the commits from the point I tried to undo. from way back last summer. sigh.
 
 The most radical `git --untangle-mess` I've ever done was to _replace_ the entire main (master) branch with the upstream contents.
-Once again, SO to the rescue: [How to replace master branch in Git, entirely, from another branch](https://stackoverflow.com/questions/2862590/how-to-replace-master-branch-in-git-entirely-from-another-branch) - the 
+Once again, SO to the rescue: [How to replace master branch in Git, entirely, from another branch](https://stackoverflow.com/questions/2862590/how-to-replace-master-branch-in-git-entirely-from-another-branch) - the
 second answer, using `git branch -m`, but checking out the upstream master:
 
 *DANGER*: This completely wipes out the master branch and does a forced push. Use with caution!
@@ -93,13 +93,51 @@ git branch -m newmaster master
 git push -f origin master
 ```
 
+Some cleanup, as although working, we don't want out `master` to track our branch `newmaster`.
+
+```text
+$ git status
+On branch master
+Your branch is up to date with 'origin/newmaster'.
+```
+
+{% include code_header.html %}
+```bash
+# Show what branch you're actually on
+git branch --show-current
+
+git checkout master
+git branch --show-current
+
+# Make sure remotes are up to date
+git fetch --all --prune
+
+# Switch to local master (create/reset it to origin/master if needed)
+git switch master || git switch -C master origin/master
+
+# Ensure local master tracks origin/master
+git branch --set-upstream-to=origin/master master
+
+# Confirm things are the way we want
+git branch --show-current
+git branch -vv
+git remote -v
+git status
+```
+
 in the future, to refresh your fork with the upstream master
 
 {% include code_header.html %}
-```
+```bash
 git fetch upstream
 git pull upstream master
+```
 
+If there are submodule involved:
+
+```bash
+git submodule sync --recursive
+git submodule update --init --recursive
 ```
 
 _Hopefully_ this will work for others. It did for me. I'll never again work on anything but my own branches. Lesson learned.
@@ -122,7 +160,6 @@ I created a [script for squashing commits](https://gist.github.com/gojimmypi/669
 
 ## Resources, Inspiration, Credits, and Other Links
 
-- blog.carbonfive [Always Squash and Rebase your Git Commits](https://blog.carbonfive.com/always-squash-and-rebase-your-git-commits/)
 - [git rebase docs](https://git-scm.com/docs/git-rebase)
 - `git rebase` and `git reset` ideas: [Squash my last X commits together using Git](https://stackoverflow.com/questions/5189560/squash-my-last-x-commits-together-using-git)
 - more on  `git rebase` and `git reset`: [Delete commits from a branch in Git](https://stackoverflow.com/questions/1338728/delete-commits-from-a-branch-in-git)
@@ -132,8 +169,5 @@ I created a [script for squashing commits](https://gist.github.com/gojimmypi/669
 - [Change author of commit](https://www.git-tower.com/learn/git/faq/change-author-name-email)
 - gojimmypi [Keeping a fork up to date](https://gist.github.com/gojimmypi/b281469dcbe9e6d8efd00be7ce18d222)
 - stackoverflow [How can I keep the execution permissions when cloning a repository in windows?](https://stackoverflow.com/questions/68281828/how-can-i-keep-the-execution-permissions-when-cloning-a-repository-in-windows)
-
 - stackoverflow [Git: How to squash all commits on branch](https://stackoverflow.com/questions/25356810/git-how-to-squash-all-commits-on-branch)
-
 - stackoverflow [How to download a single commit-diff from GitHub?](https://stackoverflow.com/questions/21903805/how-to-download-a-single-commit-diff-from-github)
-- 
