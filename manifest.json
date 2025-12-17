@@ -71,7 +71,7 @@
             "name": "About gojimmypi",
             "short_name": "About",
             "description": "About the author of the gojimmypi blog",
-            "url": "/about?source=pwa",
+            "url": "/about/?source=pwa",
             "icons": [
                 {
                     "src": "/icons/favicon-320x320.png",

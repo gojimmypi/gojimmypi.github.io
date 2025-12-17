@@ -50,16 +50,16 @@ paginate_path: /page/:num/
 infinite_scroll: true #change to false if you want to use pagination
 sidebar_toc: true #true if you want the collapsible TOC appears in the sidebar. Once it is turned on site-wide, it can be setup per page. See defaults below.
 math: true #true if you want amsthm. Once it is turned on site-wide, it can be setup per page. See defaults below. See https://github.com/ickc/multimarkdown-amsthm-css
-tags_dir: /tags #All tags summary page
-tag_dir: /tag
-categories_dir: /categories  #All categories summary page
+tags_dir: /tags/ #All tags summary page
+tag_dir: /tag/
+categories_dir: /categories/  #All categories summary page
 category_dir: /category
-authors_dir: /about #ALl authors summary page, a.k.a. about
-author_dir: /author
+authors_dir: /about/ #ALl authors summary page, a.k.a. about
+author_dir: /author/
 author_title_prefix: 'Posted by ' # only used my the author plugin. See README to see how to do it manually
 author_default_avatar: /profile-pic.jpg
-archive_dir: /archive
-media_folder: /media
+archive_dir: /archive/
+media_folder: /media/
 rss: /feed.xml #For nav. The path is fixed by jekyll-feed; omitting this will result in no RSS icon in nav.
 # Jekyll Setup
 full_rebuild: true
