@@ -357,3 +357,5 @@ vendor/
 /jtest.html
 /_posts/*.bak
 /fonts_removed
+/gpg_refresh.sh
+/**/*.bak
