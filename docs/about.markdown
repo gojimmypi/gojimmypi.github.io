@@ -6,7 +6,7 @@ permalink: /about/
 
 This is the blog site for [gojimmypi](/author/gojimmypi/), moved to github after several years at [https://gojimmypi.blogspot.com/](https://gojimmypi.blogspot.com/).
 
-There's a [gojimmypi.com domain](https://gojimmypi.com) that just forwards to [gojimmypi.github.com](https://gojimmypi.github.com).
+There's a [gojimmypi.com domain](https://gojimmypi.com) that just forwards to [gojimmypi.github.io](https://gojimmypi.github.io).
 
 
 Have an RSS Reader? See the <a name="nav_rss" id="nav_rss" href="{{ site.baseurl }}{{ site.rss }}" class="rss">gojimmypi RSS feed</a>
