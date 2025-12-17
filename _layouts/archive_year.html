@@ -1,0 +1,15 @@
+---
+layout: index
+sidebar: true
+sidebar_type: material
+sidebar_position: left
+---
+
+{% assign target_year = page.year | default: "" %}
+
+{% for post in site.posts %}
+    {% assign post_year = post.date | date: "%Y" %}
+    {% if post_year == target_year %}
+        {% include article_index.html %}
+    {% endif %}
+{% endfor %}

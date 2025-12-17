@@ -11,6 +11,7 @@ url: https://gojimmypi.github.io #place url
 baseurl: "" #place folder name if site is served in subfolder
 github_baseurl: https://github.com/gojimmypi/gojimmypi.github.io/ # required for the github-corner links
 usefallback: false
+
 author: #For jekyll-feed
   name: gojimmypi
   email: gojimmypi@gmail.com #Also used in nav
@@ -98,7 +99,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-feed
   - jekyll-seo-tag
-  - jekyll-archives #gh-pages disabled this. See my README on how to do this manually.
+#  - jekyll-archives #gh-pages disabled this. See my README on how to do this manually.
 
 #experiment
 include: ['_site/tag/']
@@ -108,20 +109,6 @@ tags:
     output: true
     permalink: /tag/:name/
 
-# Jekyll-archives plugin setup
-jekyll-archives:
-  enabled:
-    - categories
-    - tags
-    - year
-  layouts:
-    category: category_index
-    tag: tag_index
-    year: archive-year
-  permalinks:
-    category: '/category/:name/' #should be in tag_dir above
-    tag: '/tag/:name/'  #should be in category_dir above
-    year: '/archive/:year/'
 # Compress CSS and HTMLs
 sass:
   style: compressed

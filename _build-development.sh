@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 echo "$1"
 
+./gen_year_archives.sh
+
 # for GH Pages / GitHub Pages and Jekyll install, see:
 # https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll
 if command -v bundle &> /dev/null ; then

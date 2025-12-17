@@ -1,0 +1,10 @@
+---
+layout: archive_year
+title: "Archive: __YEAR__"
+permalink: /archive/__YEAR__/
+year: "__YEAR__"
+sidebar: true
+sidebar_type: material
+sidebar_position: left
+sitemap: false
+---

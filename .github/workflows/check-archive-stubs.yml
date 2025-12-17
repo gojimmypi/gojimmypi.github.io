@@ -1,0 +1,16 @@
+name: Check yearly archive stubs
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify archive stub pages exist
+        run: |
+          bash ./gen_year_archives.sh --check

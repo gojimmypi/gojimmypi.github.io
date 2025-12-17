@@ -1,0 +1,20 @@
+---
+layout: index
+title: Archives
+permalink: /archive/
+sidebar: true
+sidebar_type: material
+sidebar_position: left
+---
+
+<h1 class="title">Archives</h1>
+
+{% assign posts_by_year = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
+
+{% for year in posts_by_year %}
+<h2 id="{{ year.name }}">{{ year.name }}</h2>
+
+    {% for post in year.items %}
+        {% include article_index.html %}
+    {% endfor %}
+{% endfor %}
