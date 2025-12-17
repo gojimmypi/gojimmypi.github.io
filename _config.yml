@@ -117,7 +117,7 @@ jekyll-archives:
   layouts:
     category: category_index
     tag: tag_index
-    year: archive_index
+    year: archive-year
   permalinks:
     category: '/category/:name/' #should be in tag_dir above
     tag: '/tag/:name/'  #should be in category_dir above
