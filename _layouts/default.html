@@ -2,23 +2,30 @@
 <html lang="en">
 <head>
     <!-- _layouts/default.html -->
-    <title>{{ page.title }}</title>
+    <title>{% if page.title != blank %}{{ page.title }}{% else %}Title missing{% endif %}</title>
+
     <!-- link to main stylesheet -->
     <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body>
-    <a id="top"></a>
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about/">About</a></li>
-            <li><a href="/cv">CV</a></li>
-            <li><a href="/blog">Blog</a></li>
-        </ul>
-    </nav>
     <div class="container">
 
-        {{ content }}
+        <title>{% if page.title != blank %}{{ page.title }}{% else %}Title missing{% endif %}</title>
+
+        {% if content != blank %}
+            {{ content }}
+        {% else %}
+            <a id="top"></a>
+            No content!
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                </ul>
+            </nav>
+        {% endif %}
+
 
     </div><!-- /.container -->
     <footer>
