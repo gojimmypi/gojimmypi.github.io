@@ -9,10 +9,10 @@ permalink: /404.html
 ---
 <div class="error">
     <p>Not found. 404</p>
+    Here are some recent posts:<br />
+    <br />
 </div>
 
-Here are some recent posts:<br />
-<br />
 {% for post in site.posts limit:4 %}
     {% include article_index.html %}
 {% endfor %}
