@@ -1,9 +1,15 @@
-﻿<!-- file: /_includes/head.html -->
+<!-- file: /_includes/head.html -->
 {% if (jekyll.environment == "development") %}
 <!-- jekyll.environment: development -->
 <!-- this page is from [{{ page.path }}] -->
 {% else %}
 <!-- jekyll.environment: production -->
+{% endif %}
+
+{% if site.preview_site %}
+<script src="https://analytics.ahrefs.com/analytics.js" data-key="RwCY/0yQXz6mj2UhcKhjTQ" async></script>
+{% else %}
+<!-- analytics.ahrefs.com is not enabled -->
 {% endif %}
 
 <!-- Fonts: Inter -->
