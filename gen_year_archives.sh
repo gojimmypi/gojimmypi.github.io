@@ -1,9 +1,12 @@
 #!/bin/bash
+
 set -euo pipefail
 
 POSTS_DIR="_posts"
 ARCHIVE_ROOT="archive"
 TEMPLATE="templates/archive-year-index.html.in"
+
+CURRENT_YEAR="$(date +%Y)"
 
 usage() {
     echo "Usage: $0 [--check]"
@@ -31,13 +34,15 @@ if [[ ! -f "$TEMPLATE" ]]; then
 fi
 
 # Extract years from filenames beginning with YYYY-MM-DD-
-# Example: _posts/2022-06-14-something.md -> 2022
-mapfile -t YEARS < <(ls -1 "$POSTS_DIR" \
+mapfile -t YEARS < <(
+    ls -1 "$POSTS_DIR" \
     | sed -n 's/^\([0-9][0-9][0-9][0-9]\)-[0-9][0-9]-[0-9][0-9]-.*$/\1/p' \
-    | sort -u)
+    | awk -v cur="$CURRENT_YEAR" '$1 <= cur' \
+    | sort -u
+)
 
 if [[ ${#YEARS[@]} -eq 0 ]]; then
-    echo "No years found in $POSTS_DIR filenames."
+    echo "No non-future years found in $POSTS_DIR filenames."
     exit 0
 fi
 
