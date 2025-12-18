@@ -5,6 +5,7 @@ title: gojimmypi
 preview_site: false
 canonical_site_url: https://gojimmypi.github.io
 ahrefs_analytics: true # optionally enable ahrefs, see _includes/head.html
+google_analytics: true
 description: "blog"
 domain: gojimmypi.github.io #If you want to force HTTPS, put down the domain without the http: e.g. example.com
 url: https://gojimmypi.github.io #place url
