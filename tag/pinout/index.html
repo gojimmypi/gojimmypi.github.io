@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- index.html -->
+    <!-- /_layouts/index.html page.layout = tag_index -->
     <meta charset="UTF-8" />
-    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1765762888">
+    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1766033518">
     <!-- file: /_includes/head.html -->
 
 <!-- jekyll.environment: development -->
 <!-- this page is from [tag/pinout/index.html] -->
+
+
+
+<script src="https://analytics.ahrefs.com/analytics.js" data-key="RwCY/0yQXz6mj2UhcKhjTQ" async></script>
 
 
 <!-- Fonts: Inter -->
@@ -73,7 +77,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1765762888">
+<link rel="stylesheet" href="/css/main.css?v=1766033518">
 
 <!--script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script moved to above -->
 
@@ -262,10 +266,10 @@ function ToggleDarkMode(forceDarkMode) {
 
     <body class="index">
 
-       <header class="head">
-			<!-- use logic to toggle sidebar layouts -->
-			
-           <!-- _includes/nav.html -->
+        <header class="head">
+            <!-- use logic to toggle sidebar layouts -->
+            
+            <!-- _includes/nav.html -->
 <div class="main-menu">
     <div class="content">
 
@@ -449,7 +453,7 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 
 <div id="colorswitch" class="modal color-change">
     <div class="modal-content">
-        <h1>Change Color Palette</h1>
+        <h2>Change Color Palette</h2>
         <p>
             <img id="indigo" alt="color palette preview indigo" src="/media/indigo.svg">
             <img id="brown" alt="color palette preview brown" src="/media/brown.svg">
@@ -463,11 +467,15 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 </div>
 
         </header>
-        <div id="search">
-	<form role="search" method="get" action="/search/" id="searchform">
-        <input id="query" name="query" type="search" placeholder="Enter here..."/>
-	</form>
+        
+            <!-- /_includes/search.html page.layout = tag_index -->
+<div id="search">
+    <form role="search" method="get" action="/search/" id="searchform">
+        <input id="query" name="query" type="search" placeholder="Enter here..." />
+    </form>
 </div>
+
+        
         <div class="margin">
             <div class="content">
                 <div class="switch">
@@ -480,13 +488,11 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">March 26, 2022</span>
 
     <a href="/ENC28J60-ESP32/">
-        <h1>ENC28J60 ESP32</h1>
+        <h2>ENC28J60 ESP32</h2>
     </a>
 
     <p class="post-content">
@@ -494,19 +500,18 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 
         
 
-        wolfSSL install Some tips on hooking up wired-ethernet ENC28J60 to the ESP32. I found this...
+        wolfSSL installSome tips on hooking up wired-ethernet ENC28J60 to the ESP32.I found this helpful review...
     </p>
 
     <p class="actions">
         <a href="/ENC28J60-ESP32/">Read More</a>
     </p>
-
 </article>
 
 
                 </div>
-				<!-- use logic to toggle sidebar layouts -->
-				
+                <!-- use logic to toggle sidebar layouts -->
+                
             </div>
         </div>
         <footer>
@@ -516,7 +521,7 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
                 <span>&copy; 2015-2025 gojimmypi</span>
             </td>
             <td align="center">
-                <span><a href="/archive"> Archive </a></span>
+                <span><a href="/archive/"> Archive </a></span>
             </td>
             <td align="right">
                 <span><a class="backtotop" href="#top">Back to Top</a></span>

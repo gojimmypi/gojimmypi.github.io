@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- index.html -->
+    <!-- /_layouts/index.html page.layout = tag_index -->
     <meta charset="UTF-8" />
-    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1765762888">
+    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1766033518">
     <!-- file: /_includes/head.html -->
 
 <!-- jekyll.environment: development -->
 <!-- this page is from [tag/fpga/index.html] -->
+
+
+
+<script src="https://analytics.ahrefs.com/analytics.js" data-key="RwCY/0yQXz6mj2UhcKhjTQ" async></script>
 
 
 <!-- Fonts: Inter -->
@@ -73,7 +77,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1765762888">
+<link rel="stylesheet" href="/css/main.css?v=1766033518">
 
 <!--script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script moved to above -->
 
@@ -262,10 +266,10 @@ function ToggleDarkMode(forceDarkMode) {
 
     <body class="index">
 
-       <header class="head">
-			<!-- use logic to toggle sidebar layouts -->
-			
-           <!-- _includes/nav.html -->
+        <header class="head">
+            <!-- use logic to toggle sidebar layouts -->
+            
+            <!-- _includes/nav.html -->
 <div class="main-menu">
     <div class="content">
 
@@ -449,7 +453,7 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 
 <div id="colorswitch" class="modal color-change">
     <div class="modal-content">
-        <h1>Change Color Palette</h1>
+        <h2>Change Color Palette</h2>
         <p>
             <img id="indigo" alt="color palette preview indigo" src="/media/indigo.svg">
             <img id="brown" alt="color palette preview brown" src="/media/brown.svg">
@@ -463,11 +467,15 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 </div>
 
         </header>
-        <div id="search">
-	<form role="search" method="get" action="/search/" id="searchform">
-        <input id="query" name="query" type="search" placeholder="Enter here..."/>
-	</form>
+        
+            <!-- /_includes/search.html page.layout = tag_index -->
+<div id="search">
+    <form role="search" method="get" action="/search/" id="searchform">
+        <input id="query" name="query" type="search" placeholder="Enter here..." />
+    </form>
 </div>
+
+        
         <div class="margin">
             <div class="content">
                 <div class="switch">
@@ -480,13 +488,11 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">December 25, 2022</span>
 
     <a href="/orbtrace-mini-initial-setup/">
-        <h1>Orbtrace-mini</h1>
+        <h2>Orbtrace-mini</h2>
     </a>
 
     <p class="post-content">
@@ -500,20 +506,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/orbtrace-mini-initial-setup/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
-    
-    
     
 
     <span class="date">November 30, 2022</span>
 
     <a href="/Hazard3-initial-wolfssl-setup/">
-        <h1>Hazard3 soft RISC-V</h1>
+        <h2>Hazard3 soft RISC-V</h2>
     </a>
 
     <p class="post-content">
@@ -521,26 +524,23 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 
         
 
-        This is some info for Hazard3. Currently messy and WIP. The notes are for setting...
+        This is some info for Hazard3. Currently messy and WIP.The notes are for setting up...
     </p>
 
     <p class="actions">
         <a href="/Hazard3-initial-wolfssl-setup/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">September 04, 2022</span>
 
     <a href="/Hazard3-FPGA-SOFT-CPU-RISCV-JTAG/">
-        <h1>Notes for Hazard3 RISC-V with JTAG</h1>
+        <h2>Notes for Hazard3 RISC-V with JTAG</h2>
     </a>
 
     <p class="post-content">
@@ -548,26 +548,23 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 
         
 
-        Notes on Wren6991’s Hazard3 Soft RISC-V with JTAG See the YosysHQ OSS CAD Suite Installation...
+        Notes on Wren6991’s Hazard3 Soft RISC-V with JTAGSee the YosysHQ OSS CAD Suite InstallationBe sure...
     </p>
 
     <p class="actions">
         <a href="/Hazard3-FPGA-SOFT-CPU-RISCV-JTAG/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">August 07, 2022</span>
 
     <a href="/ICE-V-Wireless-SERV-fusesoc/">
-        <h1>SERV and FuseSoC for the ICE-V Wireless FPGA</h1>
+        <h2>SERV and FuseSoC for the ICE-V Wireless FPGA</h2>
     </a>
 
     <p class="post-content">
@@ -581,20 +578,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/ICE-V-Wireless-SERV-fusesoc/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">July 10, 2022</span>
 
     <a href="/ICE-V-Wireless-FPGA-ESP32-C3/">
-        <h1>ICE-V Wireless FPGA with ESP32-C3</h1>
+        <h2>ICE-V Wireless FPGA with ESP32-C3</h2>
     </a>
 
     <p class="post-content">
@@ -608,20 +602,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/ICE-V-Wireless-FPGA-ESP32-C3/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
-    
-    
     
 
     <span class="date">August 29, 2021</span>
 
     <a href="/RISCV-JTAG-Softcore-debugging/">
-        <h1>RISC-V JTAG Debugging</h1>
+        <h2>RISC-V JTAG Debugging</h2>
     </a>
 
     <p class="post-content">
@@ -629,26 +620,23 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 
         
 
-        Some notes on RISC-V debugging. There are JTAG interfaces avilable on many hardware devices for...
+        Some notes on RISC-V debugging.There are JTAG interfaces avilable on many hardware devices for single-step...
     </p>
 
     <p class="actions">
         <a href="/RISCV-JTAG-Softcore-debugging/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
-    
-    
     
 
     <span class="date">July 17, 2021</span>
 
     <a href="/Edalize-on-WSL/">
-        <h1>Edalize on WSL</h1>
+        <h2>Edalize on WSL</h2>
     </a>
 
     <p class="post-content">
@@ -656,26 +644,23 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 
         
 
-        (draft - WIP) I’ve been wanting to learn more about some of the EDA tools...
+        (draft - WIP)I’ve been wanting to learn more about some of the EDA tools avialable,...
     </p>
 
     <p class="actions">
         <a href="/Edalize-on-WSL/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
-    
-    
     
 
     <span class="date">June 05, 2021</span>
 
     <a href="/ulx3s-fpga-ethernet/">
-        <h1>ULX3S FPGA Ethernet</h1>
+        <h2>ULX3S FPGA Ethernet</h2>
     </a>
 
     <p class="post-content">
@@ -683,26 +668,23 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 
         
 
-        These are my notes on sniffing Ethernet packets with the Radiona ULX3S FPGA. I first...
+        These are my notes on sniffing Ethernet packets with the Radiona ULX3S FPGA.I first learned...
     </p>
 
     <p class="actions">
         <a href="/ulx3s-fpga-ethernet/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">December 20, 2020</span>
 
     <a href="/ice40-fpga-programming-with-wsl-and/">
-        <h1>iCE40 FPGA Programming with WSL and Open Source Tools</h1>
+        <h2>iCE40 FPGA Programming with WSL and Open Source Tools</h2>
     </a>
 
     <p class="post-content">
@@ -710,26 +692,23 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 
         
 
-        Here are some notes on programming the Lattice Semiconductor iCE40 FPGA chip. This is supplementary...
+        Here are some notes on programming the Lattice Semiconductor iCE40 FPGA chip.This is supplementary information...
     </p>
 
     <p class="actions">
         <a href="/ice40-fpga-programming-with-wsl-and/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">August 09, 2020</span>
 
     <a href="/sigrok-on-wsl-for-iua-ice40-usb-analyzer/">
-        <h1>Sigrok on WSL for iua: ice40 USB Analyzer</h1>
+        <h2>Sigrok on WSL for iua: ice40 USB Analyzer</h2>
     </a>
 
     <p class="post-content">
@@ -743,20 +722,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/sigrok-on-wsl-for-iua-ice40-usb-analyzer/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">August 08, 2020</span>
 
     <a href="/icebreaker-bitsy-fpga-early-adopter/">
-        <h1>iCEBreaker Bitsy FPGA - early adopter version</h1>
+        <h2>iCEBreaker Bitsy FPGA - early adopter version</h2>
     </a>
 
     <p class="post-content">
@@ -770,20 +746,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/icebreaker-bitsy-fpga-early-adopter/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">June 06, 2020</span>
 
     <a href="/programming-fpga-devices-from-wsl/">
-        <h1>Programming FPGA Devices from WSL</h1>
+        <h2>Programming FPGA Devices from WSL</h2>
     </a>
 
     <p class="post-content">
@@ -797,20 +770,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/programming-fpga-devices-from-wsl/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">April 11, 2020</span>
 
     <a href="/circuit-python-on-fomu-in-wsl-plus/">
-        <h1>Circuit Python on the FOMU in WSL (plus the pains of building your own RISC-V toolchain)</h1>
+        <h2>Circuit Python on the FOMU in WSL (plus the pains of building your own RISC-V toolchain)</h2>
     </a>
 
     <p class="post-content">
@@ -824,20 +794,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/circuit-python-on-fomu-in-wsl-plus/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">March 29, 2020</span>
 
     <a href="/litex-soft-cpu-on-ulx3s-reloading/">
-        <h1>LiteX Soft CPU on the ULX3S - reloading firmware without reflashing the soft CPU</h1>
+        <h2>LiteX Soft CPU on the ULX3S - reloading firmware without reflashing the soft CPU</h2>
     </a>
 
     <p class="post-content">
@@ -851,20 +818,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/litex-soft-cpu-on-ulx3s-reloading/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">March 28, 2020</span>
 
     <a href="/risc-v-on-ulx3s-with-litex-part-2/">
-        <h1>RISC-V on the ULX3S with LiteX - Part 2</h1>
+        <h2>RISC-V on the ULX3S with LiteX - Part 2</h2>
     </a>
 
     <p class="post-content">
@@ -878,20 +842,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/risc-v-on-ulx3s-with-litex-part-2/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">March 14, 2020</span>
 
     <a href="/risc-v-on-ulx3s-with-litex/">
-        <h1>RISC-V on the ULX3S with LiteX</h1>
+        <h2>RISC-V on the ULX3S with LiteX</h2>
     </a>
 
     <p class="post-content">
@@ -899,26 +860,23 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 
         
 
-        Today is ULX3S Campaign Launch Day on Crowd Supply !! As I write this, funding...
+        Today is ULX3S Campaign Launch Day on Crowd Supply!!As I write this, funding is at...
     </p>
 
     <p class="actions">
         <a href="/risc-v-on-ulx3s-with-litex/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">February 16, 2020</span>
 
     <a href="/c-sharp-on-radiona-ulx3s-using-nanoframework/">
-        <h1>C# on the Radiona ULX3S using the nanoFramework dotnet CLR</h1>
+        <h2>C# on the Radiona ULX3S using the nanoFramework dotnet CLR</h2>
     </a>
 
     <p class="post-content">
@@ -932,20 +890,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/c-sharp-on-radiona-ulx3s-using-nanoframework/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">December 24, 2019</span>
 
     <a href="/ulx3s-and-icestudio/">
-        <h1>ULX3S and IceStudio</h1>
+        <h2>ULX3S and IceStudio</h2>
     </a>
 
     <p class="post-content">
@@ -953,26 +908,23 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 
         
 
-        Today I learned that IceStudio supports the ULX3S ! I thought I'd first try it...
+        Today I learned that IceStudio supports the ULX3S! I thought I'd first try it in...
     </p>
 
     <p class="actions">
         <a href="/ulx3s-and-icestudio/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">June 01, 2019</span>
 
     <a href="/ulx3s-and-visual-micro-in-visual-studio/">
-        <h1>ULX3S and Visual Micro in Visual Studio 2019</h1>
+        <h2>ULX3S and Visual Micro in Visual Studio 2019</h2>
     </a>
 
     <p class="post-content">
@@ -986,20 +938,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/ulx3s-and-visual-micro-in-visual-studio/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">May 18, 2019</span>
 
     <a href="/fpga-boards-and-programming-numato/">
-        <h1>FPGA Boards and Programming the Numato Mimas V2</h1>
+        <h2>FPGA Boards and Programming the Numato Mimas V2</h2>
     </a>
 
     <p class="post-content">
@@ -1013,20 +962,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/fpga-boards-and-programming-numato/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">March 31, 2019</span>
 
     <a href="/ulx3s-sdr-with-alinx-adda/">
-        <h1>ULX3S SDR with ALINX AD/DA</h1>
+        <h2>ULX3S SDR with ALINX AD/DA</h2>
     </a>
 
     <p class="post-content">
@@ -1040,20 +986,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/ulx3s-sdr-with-alinx-adda/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">February 12, 2019</span>
 
     <a href="/ulx3s-ujprog-on-windows-wsl-or-minggw/">
-        <h1>ULX3S - ujprog on Windows WSL or MingGW</h1>
+        <h2>ULX3S - ujprog on Windows WSL or MingGW</h2>
     </a>
 
     <p class="post-content">
@@ -1067,20 +1010,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/ulx3s-ujprog-on-windows-wsl-or-minggw/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">February 09, 2019</span>
 
     <a href="/ulx3s-day-1/">
-        <h1>ULX3S - Day 1</h1>
+        <h2>ULX3S - Day 1</h2>
     </a>
 
     <p class="post-content">
@@ -1094,20 +1034,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/ulx3s-day-1/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">February 03, 2019</span>
 
     <a href="/wsl-tinyfpga-toolchain-risc-v-part-5/">
-        <h1>Reinstalling WSL Ubuntu (prep for TinyFPGA RISC-V toolchain)</h1>
+        <h2>Reinstalling WSL Ubuntu (prep for TinyFPGA RISC-V toolchain)</h2>
     </a>
 
     <p class="post-content">
@@ -1121,20 +1058,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/wsl-tinyfpga-toolchain-risc-v-part-5/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">January 27, 2019</span>
 
     <a href="/risc-v-on-tinyfpga-bx-via-wsl-with/">
-        <h1>RISC-V on tinyFPGA-BX via WSL with nextpnr - Part 3</h1>
+        <h2>RISC-V on tinyFPGA-BX via WSL with nextpnr - Part 3</h2>
     </a>
 
     <p class="post-content">
@@ -1148,20 +1082,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/risc-v-on-tinyfpga-bx-via-wsl-with/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">January 04, 2019</span>
 
     <a href="/risc-v-on-fpga-tinyfpga-via-wsl/">
-        <h1>RISC-V on FPGA (the tinyFPGA) via WSL - Part 2</h1>
+        <h2>RISC-V on FPGA (the tinyFPGA) via WSL - Part 2</h2>
     </a>
 
     <p class="post-content">
@@ -1175,20 +1106,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/risc-v-on-fpga-tinyfpga-via-wsl/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">January 02, 2019</span>
 
     <a href="/tinyfpga-bx-using-tinyprog-in-wsl/">
-        <h1>tinyprog WSL - using TinyFPGA BX in Windows Subsystem for Linux - Part 1</h1>
+        <h2>tinyprog WSL - using TinyFPGA BX in Windows Subsystem for Linux - Part 1</h2>
     </a>
 
     <p class="post-content">
@@ -1202,20 +1130,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/tinyfpga-bx-using-tinyprog-in-wsl/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">December 30, 2018</span>
 
     <a href="/favorite-gizmos-of-2018/">
-        <h1>Favorite Gizmos of 2018</h1>
+        <h2>Favorite Gizmos of 2018</h2>
     </a>
 
     <p class="post-content">
@@ -1229,20 +1154,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/favorite-gizmos-of-2018/">Read More</a>
     </p>
-
 </article>
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article>
     
-    
-    
 
     <span class="date">February 03, 2018</span>
 
     <a href="/first-fpga-test-drive-with-altera/">
-        <h1>First FPGA Test Drive with Altera Cyclone IV</h1>
+        <h2>First FPGA Test Drive with Altera Cyclone IV</h2>
     </a>
 
     <p class="post-content">
@@ -1256,13 +1178,12 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <p class="actions">
         <a href="/first-fpga-test-drive-with-altera/">Read More</a>
     </p>
-
 </article>
 
 
                 </div>
-				<!-- use logic to toggle sidebar layouts -->
-				
+                <!-- use logic to toggle sidebar layouts -->
+                
             </div>
         </div>
         <footer>
@@ -1272,7 +1193,7 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
                 <span>&copy; 2015-2025 gojimmypi</span>
             </td>
             <td align="center">
-                <span><a href="/archive"> Archive </a></span>
+                <span><a href="/archive/"> Archive </a></span>
             </td>
             <td align="right">
                 <span><a class="backtotop" href="#top">Back to Top</a></span>
