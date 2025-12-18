@@ -25,7 +25,7 @@
                 <li>
                     <!-- Home -->
                     <a class="homelink"
-                       href="{{ site.baseurl | replace: '//', '/' }}/"
+                       href="{{ '/' | relative_url }}"
                        title="Home"
                        aria-label="Home">
                         <svg class="icon-home" viewBox="0 0 24 24" width="42" height="42" aria-hidden="true">
@@ -40,7 +40,7 @@
 
                 <li>
                     <!-- About -->
-                    <a href="{{ site.authors_dir | prepend: site.baseurl | replace: '//', '/' }}"
+                    <a href="{{ site.authors_dir | relative_url }}"
                        title="About"
                        aria-label="About">
                         <!-- Info-circle (common About icon) -->
@@ -61,11 +61,11 @@
                 <li id="theme-toggle-container" class="lamp-navbar-item">
                     <button id="theme-toggle" class="lamp" aria-label="Toggle theme" type="button">
                         <img id="lightModeIcon"
-                             src="{{ site.baseurl | replace: '//', '/' }}/icons/light_mode_black_24dp.svg"
+                             src="{{ '/icons/light_mode_black_24dp.svg' | relative_url }}"
                              style="display: inline; height: 39px; width: 39px"
                              title="Light Mode; Click to switch to Dark Mode" />
                         <img id="darkModeIcon"
-                             src="{{ site.baseurl | replace: '//', '/' }}/icons/dark_mode_white_24dp.svg"
+                             src="{{ '/icons/dark_mode_white_24dp.svg' | relative_url }}"
                              style="display: none; height: 39px; width: 39px"
                              title="Dark Mode; Click to switch to Light Mode" />
                     </button>
@@ -74,10 +74,10 @@
 
             <ul id="drop-archive" class="dropdown-content">
                 <li>
-                    <a href="{{ site.tags_dir | prepend: site.baseurl | replace: '//', '/' }}">Tags</a>
+                    <a href="{{ site.tags_dir | relative_url }}">Tags</a>
                 </li>
                 <li>
-                    <a href="{{ site.baseurl | replace: '//', '/' }}/archive">Yearly</a>
+                    <a href="{{ '/archive' | relative_url }}">Yearly</a>
                 </li>
             </ul>
         </nav>
@@ -100,7 +100,9 @@
                 </li>
                 {% endif %} {% if site.youtube %}
                 <li class="social">
-                    <a name="nav_youtube" id="nav_youtube" href="{{ site.youtube }}" class="youtube" title="View {{ site.author.name  }} YouTube Channel"><img src="/icons/youtube.svg" style="height:34px;width:34px;" /></a>
+                    <a name="nav_youtube" id="nav_youtube" href="{{ site.youtube }}" class="youtube" title="View {{ site.author.name  }} YouTube Channel">
+                        <img src="{{ '/icons/youtube.svg' | relative_url }}" style="height:34px;width:34px;" alt="youtube icon"/>
+                    </a>
                 </li>
                 {% endif %} {% if site.vimeo %}
                 <li class="social">
@@ -120,15 +122,21 @@
                 </li>
                 {% endif %} {% if site.twitter.username %}
                 <li class="social">
-                    <a name="nav_twitter" id="nav_twitter" href="https://twitter.com/{{ site.twitter.username }}" class="twitter" title="Visit {{ site.author.name  }} on Twitter"><img src="/icons/twitter.svg" style="height:34px;width:34px;" /></i></a>
+                    <a name="nav_twitter" id="nav_twitter" href="https://twitter.com/{{ site.twitter.username }}" class="twitter" title="Visit {{ site.author.name  }} on Twitter">
+                        <img src="{{ '/icons/twitter.svg' | relative_url }}" style="height:34px;width:34px;" alt="Twitter icon" />
+                    </a>
                 </li>
                 {% endif %} {% if site.mastodon.username %}
                 <li class="social">
-                    <a name="nav_mastodon" id="nav_mastodon" href="https://hackaday.social/@{{ site.mastodon.username }}" class="mastodon" title="Visit {{ site.author.name  }} on Mastodon"><img src="/icons/mastodon.svg" style="height:34px;width:34px;" /></a>
+                    <a name="nav_mastodon" id="nav_mastodon" href="https://hackaday.social/@{{ site.mastodon.username }}" class="mastodon" title="Visit {{ site.author.name  }} on Mastodon">
+                        <img src="{{ '/icons/mastodon.svg' | relative_url }}" style="height:34px;width:34px;" alt="Mastodon icon" />
+                    </a>
                 </li>
                 {% endif %} {% if site.author.email %}
                 <li class="social">
-                    <a name="nav_mailto" id="nav_mailto" href="mailto:{{ site.author.email }}" class="noline" title="Send an email to {{ site.author.name  }}"><img src="/icons/mail.svg" style="height:34px;width:34px;" /></i></a>
+                    <a name="nav_mailto" id="nav_mailto" href="mailto:{{ site.author.email }}" class="noline" title="Send an email to {{ site.author.name  }}">
+                        <img src="{{ '/icons/mail.svg' | relative_url }}" style="height:34px;width:34px;" alt="mail icon" />
+                    </a>
                 </li>
                 {% endif %}
             </ul>
@@ -145,10 +153,10 @@
     <div class="modal-content">
         <h2>Change Color Palette</h2>
         <p>
-            <img id="indigo" alt="color palette preview indigo" src="{{ site.baseurl | replace: '//', '/'  }}{{ site.media_folder }}/indigo.svg">
-            <img id="brown" alt="color palette preview brown" src="{{ site.baseurl | replace: '//', '/'  }}{{ site.media_folder }}/brown.svg">
-            <img id="green" alt="color palette preview green" src="{{ site.baseurl | replace: '//', '/'  }}{{ site.media_folder }}/green.svg">
-            <img id="teal" alt="color palette preview teal" src="{{ site.baseurl | replace: '//', '/'  }}{{ site.media_folder }}/teal.svg">
+            <img id="indigo" alt="color palette preview indigo" src="{{ site.media_folder | append: '/indigo.svg' | relative_url }}" />
+            <img id="brown"  alt="color palette preview brown"  src="{{ site.media_folder | append: '/brown.svg'  | relative_url }}" />
+            <img id="green"  alt="color palette preview green"  src="{{ site.media_folder | append: '/green.svg'  | relative_url }}" />
+            <img id="teal"   alt="color palette preview teal"   src="{{ site.media_folder | append: '/teal.svg'   | relative_url }}" />
         </p>
     </div>
     <div class="modal-footer">

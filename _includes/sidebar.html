@@ -3,10 +3,16 @@
 <div id="renderTOC"></div>
 <div class="widget">
     <!-- categories disabled -->
-    <h2 class="title"><a href="{{ site.categories_dir | prepend: site.baseurl | replace: '//', '/' }}"><!-- categories disabled --></a></h2>
+    <h2 class="title">
+        <a href="{{ site.categories_dir | relative_url }}">
+            <!-- categories disabled -->
+        </a>
+    </h2>
 </div>
 <div class="widget">
-    <h2 class="title"><a href="{{ site.tags_dir | prepend: site.baseurl | replace: '//', '/' }}">Tags</a></h2>
+    <h2 class="title">
+        <a href="{{ site.tags_dir | relative_url }}">Tags</a>
+    </h2>
     <ul class="tag-list">
         {%-     assign tag_list = site.tags | sort -%}
 
@@ -47,11 +53,13 @@
     </ul>
 </div>
 <div class="widget">
-    <h2 class="title"><a href="{{ site.authors_dir | prepend: site.baseurl | replace: '//', '/' }}/">Authors</a></h2>
+    <h2 class="title">
+        <a href="{{ site.authors_dir | relative_url }}">Authors</a>
+    </h2>
     <ul class="author-list">
         {%- for author in site.data.authors -%}
         <li>
-            <a href="{{ site.author_dir | prepend: site.baseurl | replace: '//', '/' }}/{{ author.id }}">
+            <a href="{{ site.author_dir | append: '/' | append: author.id | relative_url }}">
                 {%- if author.name -%}
                     {{ author.name }}
                 {%- else -%}
@@ -63,19 +71,25 @@
     </ul>
 </div>
 <div class="widget">
-    <h2 class="title"><a href="{{ site.baseurl  | replace: '//', '/' }}/archive/">Archive</a></h2>
+    <h2 class="title">
+        <a href="{{ '/archive/' | relative_url }}">Archive</a>
+    </h2>
     <ul class="archive">
         {%- for post in site.posts -%}
+        {%- assign post_year = post.date | date: '%Y' -%}
         {%- unless post.next -%}
         <li>
-            <a href="{{ site.baseurl | replace: '//', '/' }}/archive/{{ post.date | date: '%Y' }}/">{{ post.date | date: '%Y' }}</a>
+            <a href="{{ '/archive/' | append: post_year | append: '/' | relative_url }}">
+                {{ post_year }}
+            </a>
         </li>
         {%- else -%}
-        {%- capture year -%}{{ post.date | date: '%Y' }}{%- endcapture -%}
-        {%- capture nyear -%}{{ post.next.date | date: '%Y' }}{%- endcapture -%}
-        {%- if year != nyear -%}
+        {%- assign next_year = post.next.date | date: '%Y' -%}
+        {%- if post_year != next_year -%}
         <li>
-            <a href="{{ site.baseurl | replace: '//', '/' }}/archive/{{ post.date | date: '%Y' }}/">{{ post.date | date: '%Y' }}</a>
+            <a href="{{ '/archive/' | append: post_year | append: '/' | relative_url }}">
+                {{ post_year }}
+            </a>
         </li>
         {%- endif -%}
         {%- endunless -%}

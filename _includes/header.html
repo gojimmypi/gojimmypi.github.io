@@ -47,9 +47,9 @@
             <td style="border-top:none; border-bottom:none; vertical-align:middle">
                 <a name="home_gojimmypi_logo"
                    id="home_gojimmypi_logo"
-                   href="{{ site.baseurl | replace: '//', '/' }}/"
+                   href="{{ '/' | relative_url }}"
                    class="noline header-search__logo">
-                    <img src="/images/gojimmypi.svg" class="jimmy_logo" alt="gojimmypi logo">
+                    <img src="{{ '/images/gojimmypi.svg' | relative_url }}" class="jimmy_logo" alt="gojimmypi logo">
                 </a>
             </td>
             <td align="left" width="80%" style="vertical-align: middle; border-top: none; border-bottom: none">
@@ -78,7 +78,7 @@
     <script>
         window.SITE_BASEURL = "{{ site.baseurl | replace: '//', '/' }}";
     </script>
-    <script src="/js/search.js" defer></script>
+    <script src="{{ '/js/search.js' | relative_url }}" defer></script>
 
     <script defer>
         (function () {

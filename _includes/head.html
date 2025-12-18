@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
+<link rel="manifest" href="{{ '/manifest.json' | relative_url }}">
 
 <!-- helper to avoid page-load flash -->
 <style>
@@ -68,7 +68,7 @@
 <!-- see https://developer.chrome.com/docs/lighthouse/pwa/themed-omnibox/?utm_source=lighthouse&utm_medium=devtools -->
 <meta name="theme-color" content="#333333" />
 
-<script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script>
+<script type="text/javascript" src="{{ '/js/jquery-2.2.2.min.js' | relative_url }}"></script>
 
 {% if jekyll.environment != "development" %}
 <script type="text/javascript">
@@ -139,16 +139,16 @@ fallback.load({
 </script>
 
 {% else %}
-<link rel="stylesheet" href="/css/main.css?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}">
+<link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}">
 
 <!--script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script moved to above -->
 
-<script type="text/javascript" src="/scripts/jquery.toc.js"></script>
-<script type="text/javascript" src="/scripts/infinite/1-jquery.jscroll.js"></script>
-<script type="text/javascript" src="/scripts/global/2-imagelightbox.js"></script>
-<script type="text/javascript" src="/scripts/global/scripts.js"></script>
-<script type="text/javascript" src="/js/materialize.min.js"></script>
-<script type="text/javascript" src="/scripts/infinite/init.js?forceversion=2"></script>
+<script type="text/javascript" src="{{ '/scripts/jquery.toc.js' | relative_url }}"></script>
+<script type="text/javascript" src="{{ '/scripts/infinite/1-jquery.jscroll.js' | relative_url }}"></script>
+<script type="text/javascript" src="{{ '/scripts/global/2-imagelightbox.js' | relative_url }}"></script>
+<script type="text/javascript" src="{{ '/scripts/global/scripts.js' | relative_url }}"></script>
+<script type="text/javascript" src="{{ '/js/materialize.min.js' | relative_url }}"></script>
+<script type="text/javascript" src="{{ '/scripts/infinite/init.js' | relative_url }}?forceversion=2"></script>
 {% endif %}
 
 {% if page.sidebar_toc %}

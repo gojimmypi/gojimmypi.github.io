@@ -5,7 +5,9 @@
                 <span>&copy; {{ site.copyright }}</span>
             </td>
             <td align="center">
-                <span><a href="{{ site.archive_dir | prepend: site.baseurl | append: '/' | replace: '//', '/' }}"> Archive </a></span>
+                <span>
+                    <a href="{{ site.archive_dir | relative_url }}"> Archive </a>
+                </span>
             </td>
             <td align="right">
                 <span><a class="backtotop" href="#top">Back to Top</a></span>
