@@ -2,70 +2,83 @@
 
 <div id="renderTOC"></div>
 <div class="widget">
-    <h2 class="title"><a href="{{ site.categories_dir | prepend: site.baseurl | replace: '//', '/' }}/"><!-- categories disabled --></a></h2>
+    <!-- categories disabled -->
+    <h2 class="title"><a href="{{ site.categories_dir | prepend: site.baseurl | replace: '//', '/' }}"><!-- categories disabled --></a></h2>
 </div>
 <div class="widget">
-    <h2 class="title"><a href="{{ site.tags_dir | prepend: site.baseurl | replace: '//', '/' }}/">Tags</a></h2>
+    <h2 class="title"><a href="{{ site.tags_dir | prepend: site.baseurl | replace: '//', '/' }}">Tags</a></h2>
     <ul class="tag-list">
-        {% assign tag_list = site.tags | sort %}
-        <!-- detect min and max size of tag -->
-        {% assign min = site.posts.size %}
-        {% assign max = 0 %}
-        {% for tag in tag_list %}
-        {% assign tag_size = {{tag | last | size }} %}
-        {% if min > tag_size %}
-        {% assign min = tag_size %}
-        {% endif %}
-        {% if max < tag_size %}
-        {% assign max = tag_size %}
-        {% endif %}
-        {% endfor %}
-        {% assign range = max | minus: {{min}} %}
-        <!-- end detect -->
-        {% for tag in tag_list %}
-        {% if range == 0 %}
-        {% assign font_size = 100 %}
-        {% else %}
-        {% assign font_size = tag | last | size | minus: {{min}} | times: 70 | divided_by: {{range}} | plus: 71 %} <!-- scale between 71% (1/sqrt(2)) to (71+70)% (sqrt(2)) adjust the 71 and 70 to your need -->
-        {% endif %}
-        <li><a href="{{ site.tag_dir | prepend: site.baseurl | replace: '//', '/' }}/{{ tag[0] | slugify }}" style="font-size: {{font_size}}%">{{ tag[0] }}<sup>{{ tag | last | size }}</sup></a></li>
-        {% endfor %}
-        {% assign tag_list = nil %}
+        {%-     assign tag_list = site.tags | sort -%}
+
+        {%-     comment -%} -------------detect min and max size of tag -------------{%- endcomment -%}
+
+        {%-     assign min = site.posts.size -%}
+        {%-     assign max = 0 -%}
+        {%-     for tag in tag_list -%}
+        {%-         assign tag_size = tag | last | size -%}
+        {%-         if min > tag_size -%}
+        {%-             assign min = tag_size -%}
+        {%-         endif -%}
+        {%-         if max < tag_size -%}
+        {%-             assign max = tag_size -%}
+        {%-         endif -%}
+        {%-     endfor -%}
+        {%-     assign range =  max | minus: min -%}
+        {%-     comment -%} ------------- end detect ------------- {%- endcomment -%}
+
+        {%-     for tag in tag_list -%}
+        {%-         if range == 0 -%}
+        {%-             assign font_size = 100 -%}
+        {%-         else -%}
+        {%-             comment -%} scale between 71% (1/sqrt(2)) to (71+70)% (sqrt(2)) adjust the 71 and 70 to your need {%- endcomment -%}
+        {%-             assign font_size = tag | last | size | minus: min | times: 70 | divided_by: range | plus: 71 -%}
+        {%-         endif -%}
+
+        {%-         assign tag_name = tag[0] -%}
+        {%-         assign tag_slug = tag_name | slugify -%}
+        {%-         assign tag_href = site.tag_dir | append: "/" | append: tag_slug | append: "/" | replace: "//", "/" | relative_url -%}
+        <li>
+            <a href="{{ tag_href }}" style="font-size: {{ font_size }}%">
+                {{ tag_name }}<sup>{{ tag | last | size }}</sup>
+            </a>
+        </li>
+        {%-     endfor -%}
+        {%-     assign tag_list = nil -%}
     </ul>
 </div>
 <div class="widget">
     <h2 class="title"><a href="{{ site.authors_dir | prepend: site.baseurl | replace: '//', '/' }}/">Authors</a></h2>
     <ul class="author-list">
-        {% for author in site.data.authors %}
+        {%- for author in site.data.authors -%}
         <li>
             <a href="{{ site.author_dir | prepend: site.baseurl | replace: '//', '/' }}/{{ author.id }}">
-                {% if author.name %}
-                {{ author.name }}
-                {% else %}
-                {{ author.id }}
-                {% endif %}
+                {%- if author.name -%}
+                    {{ author.name }}
+                {%- else -%}
+                    {{ author.id }}
+                {%- endif -%}
             </a>
         </li>
-        {% endfor %}
+        {%- endfor -%}
     </ul>
 </div>
 <div class="widget">
     <h2 class="title"><a href="{{ site.baseurl  | replace: '//', '/' }}/archive/">Archive</a></h2>
     <ul class="archive">
-        {% for post in site.posts %}
-        {% unless post.next %}
+        {%- for post in site.posts -%}
+        {%- unless post.next -%}
         <li>
             <a href="{{ site.baseurl | replace: '//', '/' }}/archive/{{ post.date | date: '%Y' }}/">{{ post.date | date: '%Y' }}</a>
         </li>
-        {% else %}
-        {% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
-        {% capture nyear %}{{ post.next.date | date: '%Y' }}{% endcapture %}
-        {% if year != nyear %}
+        {%- else -%}
+        {%- capture year -%}{{ post.date | date: '%Y' }}{%- endcapture -%}
+        {%- capture nyear -%}{{ post.next.date | date: '%Y' }}{%- endcapture -%}
+        {%- if year != nyear -%}
         <li>
             <a href="{{ site.baseurl | replace: '//', '/' }}/archive/{{ post.date | date: '%Y' }}/">{{ post.date | date: '%Y' }}</a>
         </li>
-        {% endif %}
-        {% endunless %}
-        {% endfor %}
+        {%- endif -%}
+        {%- endunless -%}
+        {%- endfor -%}
     </ul>
 </div>
