@@ -3,7 +3,16 @@
     {% assign tag_list = site.tags %}
     {% if tag_list.first[0] == null %}
     {% for tag in tag_list %}
-    <li><a href="{{ site.tag_dir | prepend: site.baseurl | replace: '//', '/' }}/{{ tag }}">{{ tag }}</a></li>
+    <li><a href="{{ site.tag_dir | prepend: site.baseurl | replace: '//', '/' }}/s/{{ tag }}">{{ tag }}</a></li>
+    {% assign tag_name = tag[0] | remove_first:"/" %}
+    <!-- this tag:{{ tag_name }} -->
+    <li>
+        <a href="{{ site.tag_dir
+                        | prepend: site.baseurl
+                        | append:"/a"
+                        | append:tag_name }}"></a>
+    </li>
+
     {% endfor %}
     {% else %}
     {% for tag in tag_list %}
