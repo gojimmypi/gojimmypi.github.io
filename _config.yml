@@ -99,15 +99,32 @@ plugins:
   - jekyll-sitemap
   - jekyll-feed
   - jekyll-seo-tag
-#  - jekyll-archives #gh-pages disabled this. See my README on how to do this manually.
+  - jekyll-archives #gh-pages disabled this. See my README on how to do this manually.
 
 #experiment
 include: ['_site/tag/']
+
 #  permalink: "/tag/"
 tags:
   tag:
     output: true
     permalink: /tag/:name/
+
+# Jekyll-archives plugin setup
+# Required to build tag locally; requires manual copy and publish
+jekyll-archives:
+  enabled:
+    - categories
+    - tags
+    - year
+  layouts:
+    category: category_index
+    tag: tag_index
+    year: archive_index
+  permalinks:
+    category: '/category/:name/' #should be in tag_dir above
+    tag: '/tag/:name/'  #should be in category_dir above
+    year: '/archive/:year/'
 
 # Compress CSS and HTMLs
 sass:
