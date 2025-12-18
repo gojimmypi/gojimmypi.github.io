@@ -1,0 +1,82 @@
+@charset "utf-8";
+
+/*
+    Preview banner
+
+    Goals:
+    - Works in both light and dark modes
+    - Does not depend on unknown Sass variables
+    - Avoids theme table background rules leaking into the banner
+*/
+
+/* Banner container */
+.preview-banner {
+    position: relative;
+    z-index: 5000; /* higher than overlays */
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    /*
+        Prefer CSS variables (theme should switch them for dark mode).
+        Provide safe fallbacks so Sass compilation never fails.
+    */
+    background-color: var(--surface, #ffffff) !important;
+    color: var(--text, #111111) !important;
+    border-bottom: 1px solid var(--border, rgba(160, 160, 160, 0.2)) !important;
+    padding: 0.5em 1em;
+    text-align: center;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Prevent table defaults from painting white boxes */
+.preview-banner table,
+.preview-banner tr,
+.preview-banner td {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: 0 !important;
+    color: inherit !important;
+}
+
+/* Banner link */
+.preview-banner a {
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    color: var(--link, inherit) !important;
+    text-decoration: underline;
+    font-weight: 500;
+    line-height: 1.2;
+    position: relative;
+    z-index: 5001;
+    pointer-events: auto !important;
+}
+
+.preview-banner a:hover,
+.preview-banner a:focus {
+    text-decoration: none;
+}
+
+/*
+    If your theme does NOT update CSS variables for dark mode,
+    this block will force a usable dark banner for common toggles.
+*/
+body.dark .preview-banner,
+body.dark-mode .preview-banner,
+html.dark .preview-banner,
+.dark .preview-banner,
+[data-theme="dark"] .preview-banner {
+    background-color: #1b1b1b !important;
+    color: #e6e6e6 !important;
+    border-bottom-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+body.dark .preview-banner a,
+body.dark-mode .preview-banner a,
+html.dark .preview-banner a,
+.dark .preview-banner a,
+[data-theme="dark"] .preview-banner a {
+    color: #9ecbff !important;
+}

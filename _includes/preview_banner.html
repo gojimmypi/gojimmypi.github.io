@@ -1,0 +1,16 @@
+{%- if site.preview_site -%}
+<div class="preview-banner">
+    This is a preview site.
+    {%- if site.canonical_site_url and site.canonical_site_url != "" -%}
+    <a href="{{ site.canonical_site_url }}{{ page.url }}?refer=preview_tesT_layout">
+        Go to the main site (from test layout)
+    </a>
+    {%- else -%}
+    <!-- preview_site enabled, but canonical_site_url not set -->
+    {%- endif -%}
+</div>
+{%- else -%}
+    {%- if site.debug -%}
+    <!-- !preview -->
+    {%- endif -%}
+{%- endif -%}
