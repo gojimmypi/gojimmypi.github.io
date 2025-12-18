@@ -358,3 +358,7 @@ vendor/
 /fonts_removed
 /gpg_refresh.sh
 /**/*.bak
+
+# Never ignore anything under /tags
+!/tag/
+!/tag/**
