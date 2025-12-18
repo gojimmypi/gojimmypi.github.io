@@ -20,6 +20,8 @@
             {% endif %}
             {% include nav.html %}
         </header>
+        {%- include preview_banner.html -%}
+
         {% if page.search != false %}
             {% include search.html %}
         {% endif %}
@@ -46,7 +48,7 @@
                             {% endif %}
                             {% elsif page.type == "image" or page.type == "gallery" %}
                             {% if page.featimg %}
-                            <img class="featimg" src="{{ site.media_folder | prepend: site.baseurl | replace: '//', '/'}}/{{ page.featimg }}" alt="{{ page.featimg }}">
+                            <img class="featimg" src="{{ site.media_folder | append: '/' | append: page.featimg | relative_url }}" alt="{{ page.featimg }}">
                             {% endif %}
                             {% elsif page.type == "audio" %}
                             {% if page.audio-embed %}
@@ -77,7 +79,7 @@
                                 <span class="category">
                                     <span class="name">Categories:</span>
                                     {% for category in page.categories %}
-                                    <a href="{{site.category_dir | prepend: site.baseurl  | replace: '//', '/' }}/{{ category | slugify }}">{{ category }}</a> &nbsp;
+                                    <a href="{{ site.category_dir | append: '/' | append: category | slugify | relative_url }}">{{ category }}</a> &nbsp;
                                     {% endfor %}
                                 </span>
                                 {% endif %}
@@ -112,7 +114,7 @@
                         <div class="post-nav">
                             <div class="post-nav">
                                 {% if page.previous.url %}
-                                <a class="btn prev" href="{{ page.previous.url | prepend: site.baseurl | replace: '//', '/' }}">
+                                <a class="btn prev" href="{{ page.previous.url | relative_url }}">
                                     {{ site.global_html.single_left_arrow }}
                                     <span class="short"> Prev</span>
                                     <span class="long"> Previous Post</span>
@@ -120,7 +122,7 @@
                                 {% endif %}
 
                                 {% if page.next.url %}
-                                <a class="btn next" href="{{ page.next.url | prepend: site.baseurl | replace: '//', '/' }}">
+                                <a class="btn next" href="{{ page.next.url | relative_url }}">
                                     <span class="short">Next </span>
                                     <span class="long">Next Post </span>
                                     {{ site.global_html.single_right_arrow }}

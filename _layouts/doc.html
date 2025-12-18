@@ -23,6 +23,9 @@
         {% if page.search != false %}
             {% include search.html %}
         {% endif %}
+
+        {%- include preview_banner.html -%}
+
         <div class="margin">
             <!-- use logic to toggle sidebar layouts -->
             {% if page.sidebar %}
@@ -33,7 +36,7 @@
                     <div class="content-container">
                         <article>
                             {% if page.featimg %}
-                            <img class="featimg" src="{{ site.media_folder | prepend: site.baseurl | replace: '//', '/'}}/{{ page.featimg }}" alt="{{ page.featimg }}">
+                            <img class="featimg" src="{{ site.media_folder | append: '/' | append: page.featimg | relative_url }}" alt="{{ page.featimg }}">
                             {% endif %}
 
                             <h1 class="page-title">

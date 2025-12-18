@@ -6,7 +6,8 @@
 <head>
     <!-- /_layouts/index.html page.layout = {{ page.layout }} -->
     <meta charset="UTF-8" />
-    <link rel="stylesheet" id="switch-style" href="{{ site.baseurl | replace: '//', '/' }}/css/grid.css?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}">
+    <link rel="stylesheet" id="switch-style" href="{{ '/css/grid.css' | relative_url }}?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}">
+
     {% include head.html %}
 </head>
 <!-- use logic to toggle sidebar layouts -->
@@ -18,8 +19,9 @@
         <header class="head">
             <!-- use logic to toggle sidebar layouts -->
             {% if page.sidebar == false or page.sidebar_type == "classic" %}
-            {% include header.html %}
+                {% include header.html %}
             {% endif %}
+            {%- include preview_banner.html -%}
             {% include nav.html %}
         </header>
         {% if page.search != false %}

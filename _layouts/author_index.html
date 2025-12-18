@@ -6,6 +6,9 @@ sidebar_position: left
 ---
 {% assign the_author = site.data.authors | where: 'id', page.author %}
 {% include author_bio.html %}
+
+{%- include preview_banner.html -%}
+
 {% for post in site.posts %}
     {% if post.author contains page.author %}
         {% include article_index.html %}

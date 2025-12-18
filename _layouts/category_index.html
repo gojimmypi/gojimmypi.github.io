@@ -4,6 +4,9 @@ sidebar: true
 sidebar_type: material
 sidebar_position: left
 ---
+
+{%- include preview_banner.html -%}
+
 {% for post in site.categories[page.title] %}
     {% include article_index.html %}
 {% endfor %}
