@@ -12,7 +12,7 @@
     Posted by
     {% assign the_author = site.data.authors | where: 'id', author %}
     {% for author in the_author %}
-    <a href="{{ site.author_dir | prepend: site.baseurl | replace: '//', '/' }}/{{ author.id }}">
+    <a href="{{ site.author_dir | prepend: site.baseurl | replace: '//', '/' }}{{ author.id }}">
         {% if author.name %}
         {{ author.name }}
         {% else %}

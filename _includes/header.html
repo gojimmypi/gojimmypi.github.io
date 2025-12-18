@@ -76,7 +76,7 @@
     </table>
 
     <script>
-        window.SITE_BASEURL = "{{ site.baseurl }}";
+        window.SITE_BASEURL = "{{ site.baseurl | replace: '//', '/' }}";
     </script>
     <script src="/js/search.js" defer></script>
 

@@ -7,12 +7,14 @@ sidebar_type: material
 sidebar_position: left
 ---
 
-<h1 class="title">Archives</h1>
-
 {% assign posts_by_year = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
 
 {% for year in posts_by_year %}
-<h2 id="{{ year.name }}">{{ year.name }}</h2>
+    <div class="archive-year-header">
+        <hr style="opacity: 0.5" />
+        <h2 id="{{ year.name }}">{{ year.name }}:</h2>
+        <hr style="opacity: 0.5" />
+    </div>
 
     {% for post in year.items %}
         {% include article_index.html %}

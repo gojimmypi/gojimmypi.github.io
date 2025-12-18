@@ -8,7 +8,7 @@ ahrefs_analytics: true # optionally enable ahrefs, see _includes/head.html
 description: "blog"
 domain: gojimmypi.github.io #If you want to force HTTPS, put down the domain without the http: e.g. example.com
 url: https://gojimmypi.github.io #place url
-baseurl: "" #place folder name if site is served in subfolder
+baseurl: "" #place folder name if site is served in subfolder, when using subfolder, NO trailing slash
 github_baseurl: https://github.com/gojimmypi/gojimmypi.github.io/ # required for the github-corner links
 usefallback: false
 
@@ -36,7 +36,7 @@ social: # for jekyll-seo-tag
 # gojimmypi uses \google2135ab0ce8568db2.html
 # google_site_verification: "FdDTVMkMmUJFE1F3mACjcq7jWt3mwyEpb3E09WMctTA" # gojimmypi verified FdDT...
 # Site Setup Infos
-copyright: "2015-2025 gojimmypi" # put your copyright info here excluding the © sign. It will appears in the footer
+copyright: "2015-2025 gojimmypi" # put your copyright info here excluding the (c) sign. It will appears in the footer
 # disqus: gojimmypi # disqus id in the form of <<id>>.disqus.com... ID only!
 # analytics: "UA-33794695-2" # Google Analytics ID; UA-33794695-2 from Gridster
 # cse: "004435532597611518746:uxyjmivw31u" #Google Custom Search Engine id ("cx" variables) Gridster  is 004435532597611518746:uxyjmivw31u
@@ -51,16 +51,16 @@ paginate_path: /page/:num/
 infinite_scroll: true #change to false if you want to use pagination
 sidebar_toc: true #true if you want the collapsible TOC appears in the sidebar. Once it is turned on site-wide, it can be setup per page. See defaults below.
 math: true #true if you want amsthm. Once it is turned on site-wide, it can be setup per page. See defaults below. See https://github.com/ickc/multimarkdown-amsthm-css
-tags_dir: /tags/ #All tags summary page
-tag_dir: /tag/
-categories_dir: /categories/  #All categories summary page
+tags_dir: /tags #All tags summary page
+tag_dir: /tag
+categories_dir: /categories  #All categories summary page
 category_dir: /category
-authors_dir: /about/ #ALl authors summary page, a.k.a. about
-author_dir: /author/
+authors_dir: /about #ALL authors summary page, a.k.a. about
+author_dir: /author
 author_title_prefix: 'Posted by ' # only used my the author plugin. See README to see how to do it manually
 author_default_avatar: /profile-pic.jpg
-archive_dir: /archive/
-media_folder: /media/
+archive_dir: /archive
+media_folder: /media
 rss: /feed.xml #For nav. The path is fixed by jekyll-feed; omitting this will result in no RSS icon in nav.
 # Jekyll Setup
 full_rebuild: true

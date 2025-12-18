@@ -28,7 +28,7 @@
         {% else %}
         {% assign font_size = tag | last | size | minus: {{min}} | times: 70 | divided_by: {{range}} | plus: 71 %} <!-- scale between 71% (1/sqrt(2)) to (71+70)% (sqrt(2)) adjust the 71 and 70 to your need -->
         {% endif %}
-        <li><a href="{{ site.tag_dir | prepend: site.baseurl}}/{{ tag[0] | slugify }}" style="font-size: {{font_size}}%">{{ tag[0] }}<sup>{{ tag | last | size }}</sup></a></li>
+        <li><a href="{{ site.tag_dir | prepend: site.baseurl | replace: '//', '/' }}/{{ tag[0] | slugify }}" style="font-size: {{font_size}}%">{{ tag[0] }}<sup>{{ tag | last | size }}</sup></a></li>
         {% endfor %}
         {% assign tag_list = nil %}
     </ul>
@@ -50,19 +50,19 @@
     </ul>
 </div>
 <div class="widget">
-    <h2 class="title"><a href="{{ site.baseurl }}/archive/">Archive</a></h2>
+    <h2 class="title"><a href="{{ site.baseurl  | replace: '//', '/' }}/archive/">Archive</a></h2>
     <ul class="archive">
         {% for post in site.posts %}
         {% unless post.next %}
         <li>
-            <a href="{{ site.baseurl }}/archive/{{ post.date | date: '%Y' }}/">{{ post.date | date: '%Y' }}</a>
+            <a href="{{ site.baseurl | replace: '//', '/' }}/archive/{{ post.date | date: '%Y' }}/">{{ post.date | date: '%Y' }}</a>
         </li>
         {% else %}
         {% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
         {% capture nyear %}{{ post.next.date | date: '%Y' }}{% endcapture %}
         {% if year != nyear %}
         <li>
-            <a href="{{ site.baseurl }}/archive/{{ post.date | date: '%Y' }}/">{{ post.date | date: '%Y' }}</a>
+            <a href="{{ site.baseurl | replace: '//', '/' }}/archive/{{ post.date | date: '%Y' }}/">{{ post.date | date: '%Y' }}</a>
         </li>
         {% endif %}
         {% endunless %}

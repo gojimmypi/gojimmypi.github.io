@@ -40,3 +40,19 @@ $twotoone: 530px;
 #classic {
     opacity: .7;
 }
+
+/* Archive year header: force line break + control spacing */
+.archive-year-header {
+    display: block;
+    width: 100%;
+    margin: 0.25rem 0 0.5rem 0;
+}
+
+.archive-year-header > h2 {
+    margin: 0;
+}
+
+/* Reduce gap below the page title */
+.index h1.title {
+    margin-bottom: 0.25rem;
+}

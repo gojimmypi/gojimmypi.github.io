@@ -77,7 +77,7 @@
                                 <span class="category">
                                     <span class="name">Categories:</span>
                                     {% for category in page.categories %}
-                                    <a href="{{site.category_dir | prepend: site.baseurl}}/{{ category | slugify }}">{{ category }}</a> &nbsp;
+                                    <a href="{{site.category_dir | prepend: site.baseurl  | replace: '//', '/' }}/{{ category | slugify }}">{{ category }}</a> &nbsp;
                                     {% endfor %}
                                 </span>
                                 {% endif %}
@@ -90,13 +90,13 @@
                                 <span class="tags">
                                     <span class="name">Tags:</span>
                                     {% for tag in page.tags %}
-                                    <a href="{{ site.tag_dir | prepend: site.baseurl}}/{{ tag | slugify }}">{{ tag }}</a> &nbsp;
+                                    <a href="{{ site.tag_dir | prepend: site.baseurl | replace: '//', '/' }}/{{ tag | slugify }}">{{ tag }}</a> &nbsp;
                                     {% endfor %}
                                 </span>
                                 {% endif %}
                                 <br />
                                 <span class="name">More:</span>
-                                <a href="{{ "/search/" | relative_url }}">Search...</a>
+                                <a href="{{ "/search/" | relative_url  | replace: '//', '/' }}">Search...</a>
                             </div>
                             {% endif %}
                             <div>
