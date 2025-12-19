@@ -1,12 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg"
      width="24" height="24" viewBox="0 0 24 24"
      fill="none" stroke="currentColor" stroke-width="1.8"
      stroke-linecap="round" stroke-linejoin="round"
      aria-hidden="true" focusable="false">
-  <!-- Outer circle -->
-  <circle cx="12" cy="12" r="9" />
+    <!-- Outer circle -->
+    <circle cx="12" cy="12" r="9" />
 
-  <!-- Stylized "P" (simple, nav-friendly) -->
-  <path d="M10 18.5l1.1-5.4" />
-  <path d="M12.2 6.9c-2.3 0-4.2 1.7-4.2 4c0 1.5.8 2.4 1.7 2.4
+    <!-- Stylized "P" (simple, nav-friendly) -->
+    <path d="M10 18.5l1.1-5.4" />
+    <path d="M12.2 6.9c-2.3 0-4.2 1.7-4.2 4c0 1.5.8 2.4 1.7 2.4
+           c.7 0 .9-.8 1.0-1.3c.1-.4-.1-.7-.2-1.1c-.2-.6.1-1.9 1.5-1.9
+           c1.2 0 2 1 2 2.4c0 1.6-.7 2.8-2.1 2.8c-.6 0-1.1-.3-1.3-.7" />
+</svg>
