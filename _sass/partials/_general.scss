@@ -125,3 +125,66 @@ body {
         }
     }
 }
+
+footer,
+footer table,
+footer tbody,
+footer tr,
+footer td {
+    background: var(--footer-bg);
+    color: var(--footer-fg);
+}
+
+footer {
+    border-top: 1px solid var(--footer-border);
+}
+
+footer a,
+footer a:visited {
+    color: var(--footer-link);
+    text-decoration: none;
+}
+
+footer a:active,
+footer a:focus-visible,
+footer a:hover,
+footer a:focus {
+    color: var(--footer-link-hover);
+    text-decoration: underline;
+}
+
+footer a svg {
+    fill: currentColor;
+    stroke: currentColor;
+}
+
+footer table {
+    width: 100%;
+    table-layout: fixed; /* prevents cells from forcing horizontal overflow */
+}
+
+/* Prevent horizontal scrolling; clip instead */
+footer td {
+    overflow: hidden; /* never scroll */
+    white-space: nowrap; /* keep each cell on one line */
+    text-overflow: ellipsis; /* if something must clip, it clips */
+}
+
+/* Footer badges: keep on one line, never scroll */
+footer td.footer-badges {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+footer img.footer-badge {
+    display: inline-block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Hide the two badges when layout is tight */
+@media (max-width: 700px) {
+    footer td.footer-badges {
+        display: none;
+    }
+}

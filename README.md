@@ -58,3 +58,5 @@ Things that need attention:
 * The fonts used are complex and can be improved.
 * Some of the bloat features need to be removed, e.g. [Ruby Sass has reached end-of-life and should no longer be used](https://twitter.com/gojimmypi/status/1670903518700638209?s=20) (is this a GitHub feature that has since been updated?).
 * The "categories" is not working properly.
+* Year number summary links are 404: (e.g. https://gojimmypi.github.io/archive/2022/ )
+*

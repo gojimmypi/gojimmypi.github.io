@@ -46,6 +46,12 @@
     --hs-panel-border: var(--border);
     --hs-hover: var(--nav-hover);
     --hs-focus: var(--focus-ring);
+    /* footer */
+    --footer-bg: var(--surface);
+    --footer-fg: var(--text);
+    --footer-link: var(--footer-fg);
+    --footer-link-hover: var(--link-hover);
+    --footer-border: var(--border);
 }
 
 /* DARK MODE overrides */
@@ -74,6 +80,12 @@ body.dark-theme {
     --nav-pill-border: rgba(255, 255, 255, 0.16);
     --nav-hover: rgba(255, 255, 255, 0.08);
     --nav-active: rgba(255, 255, 255, 0.12);
+    /* footer */
+    --footer-bg: var(--surface);
+    --footer-fg: var(--text);
+    --footer-link: var(--footer-fg);
+    --footer-link-hover: var(--link-hover);
+    --footer-border: var(--border);
 }
 
 /* Apply tokens globally */

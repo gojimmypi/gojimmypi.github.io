@@ -1,3 +1,4 @@
+<!-- /_includes/footer.html -->
 <footer>
     <table width="100%">
         <tr>
@@ -6,20 +7,51 @@
             </td>
             <td align="center">
                 <span>
-                    <a href="{{ site.archive_dir | relative_url }}"> Archive </a>
+                    <a href="{{ site.archive_dir | append: '/' | relative_url }}" title="View the archive of all posts">Archive</a>
                 </span>
             </td>
+            {%- if site.page_debug -%}
+            <td align="center" class="footer-badges">
+                <a href="https://github.com/gojimmypi/gridster-jekyll-theme/actions/workflows/check-archive-stubs.yml" title="View GitHub archive sub status">
+                    <img alt="GitHub Actions status"
+                         src="https://github.com/gojimmypi/gridster-jekyll-theme/actions/workflows/check-archive-stubs.yml/badge.svg?branch=gh-pages" />
+                </a>
+            </td>
+            <td align="center" class="footer-badges">
+                <a href="https://github.com/gojimmypi/gridster-jekyll-theme/deployments" title="View GitHub deployment status">
+                    <img alt="GitHub Pages deployment status"
+                         src="https://img.shields.io/github/deployments/gojimmypi/gridster-jekyll-theme/github-pages?label=github-pages" />
+                </a>
+            </td>
+            <td align="center" class="footer-badges">
+                {%- if site.preview_site -%}
+                <span>
+                    {%- if site.canonical_site_url and site.canonical_site_url != "" -%}
+                    <a href="{{ site.canonical_site_url | append: page.url | append: "?refer=preview_test_layout" }}" title="View the main site (from test layout)">
+                        Go to main site
+                    </a>
+                    {%- endif -%}
+                </span>
+                {%- else -%}
+                <span>
+                    <a href="{{ site.url }}/gridster-jekyll-theme{{ page.url }}?refer=main_footer_to_preview" title="View the preview site">
+                        Go to preview
+                    </a>
+                </span>
+                {%- endif -%}
+            </td>
+            {%- endif -%}
             <td align="right">
-                <span><a class="backtotop" href="#top">Back to Top</a></span>
+                <span><a class="backtotop" href="#top" title="Scroll back to the top of the page">Back to top</a></span>
             </td>
         </tr>
     </table>
 </footer>
 
-{% comment %}
+{%- comment -%}
  thanks Aleksandr Hovhannisyan for tips on code segment copy
     https://www.aleksandrhovhannisyan.com/blog/how-to-add-a-copy-to-clipboard-button-to-your-jekyll-blog/
-{% endcomment %}
+{%- endcomment -%}
 
 <script type="text/javascript">
     const codeBlocks = document.querySelectorAll('.code-header + .highlighter-rouge');
@@ -27,9 +59,9 @@
 
 
     if ((codeBlocks.length == 0) && (copyCodeButtons.length > 0)) {
-        {%  if jekyll.environment == "development" %}
+        {%-  if jekyll.environment == "development" -%}
         alert("Warning: code block missing. Is your language spec missing or not lower case? Copy icons disabled.");
-        {% endif %}
+        {%- endif -%}
     }
     else {
         copyCodeButtons.forEach((copyCodeButton, index) => {

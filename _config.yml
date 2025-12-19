@@ -2,7 +2,7 @@
 #
 # Site Settings. Available in Liquid using the "site." prefix
 title: gojimmypi
-preview_site: false
+preview_site: false # Do not edit. This is not the preview site
 canonical_site_url: https://gojimmypi.github.io
 ahrefs_analytics: true # optionally enable ahrefs, see _includes/head.html
 google_analytics: true
@@ -13,13 +13,15 @@ baseurl: "" #place folder name if site is served in subfolder, when using subfol
 github_baseurl: https://github.com/gojimmypi/gojimmypi.github.io/ # required for the github-corner links
 usefallback: false
 
+page_debug: false
+
 author: #For jekyll-feed
   name: gojimmypi
   email: gojimmypi@gmail.com #Also used in nav
   uri: https://gojimmypi.github.io/about/
   twitter: "#" #name only. for jekyll-seo-tag, temporary fix to the incompatibility with site.data.authors
 # tumblr: "#"
-# pinterest: "https://fi.pinterest.com/gojimmypi/"
+pinterest: "https://fi.pinterest.com/gojimmypi/"
 # instagram: "#"
 twitter: # for both nav & jekyll-seo-tag
   username: "gojimmypi" #name only
@@ -102,8 +104,8 @@ plugins:
   - jekyll-seo-tag
   - jekyll-archives #gh-pages disabled this. See my README on how to do this manually.
 
-#experiment
-include: ['_site/tag/']
+# experiment (probably not a good idea()
+# include: ['_site/tag/']
 
 #  permalink: "/tag/"
 tags:

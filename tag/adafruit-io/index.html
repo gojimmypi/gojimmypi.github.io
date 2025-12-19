@@ -3,7 +3,8 @@
 <head>
     <!-- /_layouts/index.html page.layout = tag_index -->
     <meta charset="UTF-8" />
-    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1766033518">
+    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1766168673">
+
     <!-- file: /_includes/head.html -->
 
 <!-- jekyll.environment: development -->
@@ -14,11 +15,34 @@
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="RwCY/0yQXz6mj2UhcKhjTQ" async></script>
 
 
+
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+
+    /* Default consent state (must run before GA loads) */
+    gtag("consent", "default", {
+        "analytics_storage": "denied",
+        "ad_storage": "denied",
+        "ad_user_data": "denied",
+        "ad_personalization": "denied",
+        "wait_for_update": 500
+    });
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LPK5SGT19T"></script>
+<script>
+    gtag("js", new Date());
+    gtag("config", "G-LPK5SGT19T");
+</script>
+
+
 <!-- Fonts: Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
+<link rel="manifest" href="/manifest.json">
 
 <!-- helper to avoid page-load flash -->
 <style>
@@ -77,7 +101,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1766033518">
+<link rel="stylesheet" href="/css/main.css?v=1766168673">
 
 <!--script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script moved to above -->
 
@@ -223,7 +247,7 @@ function ToggleDarkMode(forceDarkMode) {
 <!-- Site Infos -->
 <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Adafruit.IO | gojimmypi</title>
-<meta name="generator" content="Jekyll v3.10.0" />
+<meta name="generator" content="Jekyll v3.9.3" />
 <meta property="og:title" content="Adafruit.IO" />
 <meta name="author" content="gojimmypi" />
 <meta property="og:locale" content="en_US" />
@@ -268,7 +292,6 @@ function ToggleDarkMode(forceDarkMode) {
 
         <header class="head">
             <!-- use logic to toggle sidebar layouts -->
-            
             <!-- _includes/nav.html -->
 <div class="main-menu">
     <div class="content">
@@ -310,10 +333,7 @@ function ToggleDarkMode(forceDarkMode) {
                 </li>
 
                 <li>
-                    <!-- About -->
-                    <a href="/about"
-                       title="About"
-                       aria-label="About">
+                    <!-- About --><a href="/about/" title="About" aria-label="About">
                         <!-- Info-circle (common About icon) -->
                         <svg class="icon-about" viewBox="0 0 24 24" width="42" height="42" aria-hidden="true">
                             <circle cx="12" cy="12" r="9"
@@ -332,7 +352,7 @@ function ToggleDarkMode(forceDarkMode) {
                 <li id="theme-toggle-container" class="lamp-navbar-item">
                     <button id="theme-toggle" class="lamp" aria-label="Toggle theme" type="button">
                         <img id="lightModeIcon"
-                             src="/icons/light_mode_black_24dp.svg"
+                             src="/icons/light_mode_white_24dp.svg"
                              style="display: inline; height: 39px; width: 39px"
                              title="Light Mode; Click to switch to Dark Mode" />
                         <img id="darkModeIcon"
@@ -356,35 +376,34 @@ function ToggleDarkMode(forceDarkMode) {
         <!-- on the right, social media links. -->
         <nav class="iconnav">
             <!-- see /_sass/partials/components/_iconnav.scss for formatting -->
-            <ul>
-                
-                <li class="social">
+            <ul><li class="social">
                     <!-- nothing -->
-                </li>
-                   
-                <li class="social">
-                    <a name="nav_youtube" id="nav_youtube" href="https://www.youtube.com/channel/UCR01egMbYgXQGJaocNEDEwg" class="youtube" title="View gojimmypi YouTube Channel"><img src="/icons/youtube.svg" style="height:34px;width:34px;" /></a>
-                </li>
-                     
-                <li class="social">
-                    <a name="nav_twitter" id="nav_twitter" href="https://twitter.com/gojimmypi" class="twitter" title="Visit gojimmypi on Twitter"><img src="/icons/twitter.svg" style="height:34px;width:34px;" /></i></a>
-                </li>
-                 
-                <li class="social">
-                    <a name="nav_mastodon" id="nav_mastodon" href="https://hackaday.social/@gojimmypi" class="mastodon" title="Visit gojimmypi on Mastodon"><img src="/icons/mastodon.svg" style="height:34px;width:34px;" /></a>
-                </li>
-                 
-                <li class="social">
-                    <a name="nav_mailto" id="nav_mailto" href="mailto:gojimmypi@gmail.com" class="noline" title="Send an email to gojimmypi"><img src="/icons/mail.svg" style="height:34px;width:34px;" /></i></a>
-                </li>
-                
-            </ul>
+                </li><li class="social">
+                    <a name="nav_pinterest" id="nav_pinterest" href="https://fi.pinterest.com/gojimmypi/" class="pinterest" title="View gojimmypi pinterest page">
+                        <img src="/icons/pinterest.svg" style="height:34px;width:34px;" alt="pinterest icon" />
+                    </a>
+                </li><li class="social">
+                    <a name="nav_youtube" id="nav_youtube" href="https://www.youtube.com/channel/UCR01egMbYgXQGJaocNEDEwg" class="youtube" title="View gojimmypi YouTube Channel">
+                        <img src="/icons/youtube.svg" style="height:34px;width:34px;" alt="youtube icon"/>
+                    </a>
+                </li><li class="social">
+                    <a name="nav_twitter" id="nav_twitter" href="https://twitter.com/gojimmypi" class="twitter" title="Visit gojimmypi on Twitter">
+                        <img src="/icons/twitter.svg" style="height:34px;width:34px;" alt="Twitter icon" />
+                    </a>
+                </li><li class="social">
+                    <a name="nav_mastodon" id="nav_mastodon" href="https://hackaday.social/@gojimmypi" class="mastodon" title="Visit gojimmypi on Mastodon">
+                        <img src="/icons/mastodon.svg" style="height:34px;width:34px;" alt="Mastodon icon" />
+                    </a>
+                </li><li class="social">
+                    <a name="nav_mailto" id="nav_mailto" href="mailto:gojimmypi@gmail.com" class="noline" title="Send an email to gojimmypi">
+                        <img src="/icons/mail.svg" style="height:34px;width:34px;" alt="mail icon" />
+                    </a>
+                </li></ul>
         </nav>
 
     </div>
 
     <!-- on every page in upper right corner: the octocat link to source code -->
-    
 
 
 
@@ -447,18 +466,17 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
             }
         }
     </style>
-</a>
-</div>
+</a></div>
 
 
 <div id="colorswitch" class="modal color-change">
     <div class="modal-content">
         <h2>Change Color Palette</h2>
         <p>
-            <img id="indigo" alt="color palette preview indigo" src="/media/indigo.svg">
-            <img id="brown" alt="color palette preview brown" src="/media/brown.svg">
-            <img id="green" alt="color palette preview green" src="/media/green.svg">
-            <img id="teal" alt="color palette preview teal" src="/media/teal.svg">
+            <img id="indigo" alt="color palette preview indigo" src="/media/indigo.svg" />
+            <img id="brown"  alt="color palette preview brown"  src="/media/brown.svg" />
+            <img id="green"  alt="color palette preview green"  src="/media/green.svg" />
+            <img id="teal"   alt="color palette preview teal"   src="/media/teal.svg" />
         </p>
     </div>
     <div class="modal-footer">
@@ -486,27 +504,20 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
                 <div class="articles">
                     
     <!-- /_includes/article_index.html - each post has their own little article element. -->
-<article>
-    
-
-    <span class="date">July 16, 2017</span>
+<article><span class="date">July 16, 2017</span>
 
     <a href="/updating-adafruitio-esp8266-mqtt-code/">
         <h2>Updating adafruit.io ESP8266 MQTT code</h2>
     </a>
 
-    <p class="post-content">
-        
-
-        
-
-        While working on my flow and pressure project, I stumbled upon a notice that Adafruit...
+    <p class="post-content">While working on my flow and pressure project, I stumbled upon a notice that Adafruit...
     </p>
 
     <p class="actions">
-        <a href="/updating-adafruitio-esp8266-mqtt-code/">Read More</a>
+        <a href="/updating-adafruitio-esp8266-mqtt-code/" title="Click to Read More">Read More</a>
     </p>
 </article>
+
 
 
                 </div>
@@ -514,34 +525,28 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
                 
             </div>
         </div>
-        <footer>
+        <!-- /_includes/footer.html -->
+<footer>
     <table width="100%">
         <tr>
             <td align="left">
                 <span>&copy; 2015-2025 gojimmypi</span>
             </td>
             <td align="center">
-                <span><a href="/archive/"> Archive </a></span>
-            </td>
-            <td align="right">
-                <span><a class="backtotop" href="#top">Back to Top</a></span>
+                <span>
+                    <a href="/archive/" title="View the archive of all posts">Archive</a>
+                </span>
+            </td><td align="right">
+                <span><a class="backtotop" href="#top" title="Scroll back to the top of the page">Back to top</a></span>
             </td>
         </tr>
     </table>
-</footer>
-
-
-
-<script type="text/javascript">
+</footer><script type="text/javascript">
     const codeBlocks = document.querySelectorAll('.code-header + .highlighter-rouge');
     const copyCodeButtons = document.querySelectorAll('.copy-code-button');
 
 
-    if ((codeBlocks.length == 0) && (copyCodeButtons.length > 0)) {
-        
-        alert("Warning: code block missing. Is your language spec missing or not lower case? Copy icons disabled.");
-        
-    }
+    if ((codeBlocks.length == 0) && (copyCodeButtons.length > 0)) {alert("Warning: code block missing. Is your language spec missing or not lower case? Copy icons disabled.");}
     else {
         copyCodeButtons.forEach((copyCodeButton, index) => {
             const code = codeBlocks[index].innerText;

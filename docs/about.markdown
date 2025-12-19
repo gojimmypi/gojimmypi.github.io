@@ -62,4 +62,6 @@ Issues that need to be addressed:
 * Categories needs to be either implemented or removed from the sidebar
 * 
 
+{%- if site.page_debug -%}
 This is the `docs/about.markdown` page.
+{%- endif -%}

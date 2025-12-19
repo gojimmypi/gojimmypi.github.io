@@ -40,9 +40,8 @@
 
                 <li>
                     <!-- About -->
-                    <a href="{{ site.authors_dir | relative_url }}"
-                       title="About"
-                       aria-label="About">
+                    {%- assign about_url = site.authors_dir | append: "/" | relative_url -%}
+                    <a href="{{ about_url }}" title="About" aria-label="About">
                         <!-- Info-circle (common About icon) -->
                         <svg class="icon-about" viewBox="0 0 24 24" width="42" height="42" aria-hidden="true">
                             <circle cx="12" cy="12" r="9"
@@ -61,7 +60,7 @@
                 <li id="theme-toggle-container" class="lamp-navbar-item">
                     <button id="theme-toggle" class="lamp" aria-label="Toggle theme" type="button">
                         <img id="lightModeIcon"
-                             src="{{ '/icons/light_mode_black_24dp.svg' | relative_url }}"
+                             src="{{ '/icons/light_mode_white_24dp.svg' | relative_url }}"
                              style="display: inline; height: 39px; width: 39px"
                              title="Light Mode; Click to switch to Dark Mode" />
                         <img id="darkModeIcon"
@@ -86,66 +85,68 @@
         <nav class="iconnav">
             <!-- see /_sass/partials/components/_iconnav.scss for formatting -->
             <ul>
-                {% if site.rss %}
+                {%- if site.rss -%}
                 <li class="social">
                     <!-- nothing -->
                 </li>
-                {% endif %} {% if site.tumblr %}
+                {%- endif -%} {%- if site.tumblr -%}
                 <li class="social">
                     <a name="nav_tumblr" id="nav_tumblr" href="{{ site.tumblr }}" class="tumblr"><i class="fa fa-tumblr fa-lg fa-fw"></i></a>
                 </li>
-                {% endif %} {% if site.pinterest %}
+                {%- endif -%} {%- if site.pinterest -%}
                 <li class="social">
-                    <a name="nav_pinterest" id="nav_pinterest" href="{{ site.pinterest }}" class="pinterest"><i title="pinterest" class="fa fa-pinterest fa-lg fa-fw"></i></a>
+                    <a name="nav_pinterest" id="nav_pinterest" href="{{ site.pinterest }}" class="pinterest" title="View {{ site.author.name  }} pinterest page">
+                        <img src="{{ '/icons/pinterest.svg' | relative_url }}" style="height:34px;width:34px;" alt="pinterest icon" />
+                    </a>
                 </li>
-                {% endif %} {% if site.youtube %}
+                {%- endif -%} {%- if site.youtube -%}
                 <li class="social">
                     <a name="nav_youtube" id="nav_youtube" href="{{ site.youtube }}" class="youtube" title="View {{ site.author.name  }} YouTube Channel">
                         <img src="{{ '/icons/youtube.svg' | relative_url }}" style="height:34px;width:34px;" alt="youtube icon"/>
                     </a>
                 </li>
-                {% endif %} {% if site.vimeo %}
+                {%- endif -%} {%- if site.vimeo -%}
                 <li class="social">
                     <a name="nav_vimeo" id="nav_vimeo" href="{{ site.vimeo }}" class="vimeo"><i class="fa fa-vimeo-square fa-lg fa-fw"></i></a>
                 </li>
-                {% endif %} {% if site.soundcloud %}
+                {%- endif -%} {%- if site.soundcloud -%}
                 <li class="social">
                     <a name="nav_soundcloud" id="nav_soundcloud" href="{{ site.soundcloud }}" class="soundcloud"><i class="fa fa-soundcloud fa-lg fa-fw"></i></a>
                 </li>
-                {% endif %} {% if site.instagram %}
+                {%- endif -%} {%- if site.instagram -%}
                 <li class="social">
                     <a name="nav_instagram" id="nav_instagram" href="{{ site.instagram }}" class="instagram"><i class="fa fa-instagram fa-lg fa-fw"></i></a>
                 </li>
-                {% endif %} {% if site.facebook.publisher %}
+                {%- endif -%} {%- if site.facebook.publisher -%}
                 <li class="social">
                     <a name="nav_facebook" id="nav_facebook" href="{{ site.facebook.publisher }}" class="facebook"><i class="fa fa-facebook fa-lg fa-fw"></i></a>
                 </li>
-                {% endif %} {% if site.twitter.username %}
+                {%- endif -%} {%- if site.twitter.username -%}
                 <li class="social">
                     <a name="nav_twitter" id="nav_twitter" href="https://twitter.com/{{ site.twitter.username }}" class="twitter" title="Visit {{ site.author.name  }} on Twitter">
                         <img src="{{ '/icons/twitter.svg' | relative_url }}" style="height:34px;width:34px;" alt="Twitter icon" />
                     </a>
                 </li>
-                {% endif %} {% if site.mastodon.username %}
+                {%- endif -%} {%- if site.mastodon.username -%}
                 <li class="social">
                     <a name="nav_mastodon" id="nav_mastodon" href="https://hackaday.social/@{{ site.mastodon.username }}" class="mastodon" title="Visit {{ site.author.name  }} on Mastodon">
                         <img src="{{ '/icons/mastodon.svg' | relative_url }}" style="height:34px;width:34px;" alt="Mastodon icon" />
                     </a>
                 </li>
-                {% endif %} {% if site.author.email %}
+                {%- endif -%} {%- if site.author.email -%}
                 <li class="social">
                     <a name="nav_mailto" id="nav_mailto" href="mailto:{{ site.author.email }}" class="noline" title="Send an email to {{ site.author.name  }}">
                         <img src="{{ '/icons/mail.svg' | relative_url }}" style="height:34px;width:34px;" alt="mail icon" />
                     </a>
                 </li>
-                {% endif %}
+                {%- endif -%}
             </ul>
         </nav>
 
     </div>
 
     <!-- on every page in upper right corner: the octocat link to source code -->
-    {% include github-corner.html %}
+    {%- include github-corner.html -%}
 </div>
 
 

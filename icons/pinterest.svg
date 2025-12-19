@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="24" height="24" viewBox="0 0 24 24"
+     fill="none" stroke="currentColor" stroke-width="1.8"
+     stroke-linecap="round" stroke-linejoin="round"
+     aria-hidden="true" focusable="false">
+  <!-- Outer circle -->
+  <circle cx="12" cy="12" r="9" />
+
+  <!-- Stylized "P" (simple, nav-friendly) -->
+  <path d="M10 18.5l1.1-5.4" />
+  <path d="M12.2 6.9c-2.3 0-4.2 1.7-4.2 4c0 1.5.8 2.4 1.7 2.4

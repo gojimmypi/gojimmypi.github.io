@@ -3,7 +3,11 @@
     {% assign tag_list = site.tags %}
     {% if tag_list.first[0] == null %}
     {% for tag in tag_list %}
-    <li><a href="{{ site.tag_dir | prepend: site.baseurl | replace: '//', '/' }}/s/{{ tag }}">{{ tag }}</a></li>
+    <li>
+        <a href="{{ site.tag_dir | prepend: site.baseurl | replace: '//', '/' }}/s/{{ tag }}" title="View all posts with {{ tag }} keyword">
+            {{ tag }}
+        </a>
+    </li>
     {% assign tag_name = tag[0] | remove_first:"/" %}
     <!-- this tag:{{ tag_name }} -->
     <li>
@@ -16,7 +20,11 @@
     {% endfor %}
     {% else %}
     {% for tag in tag_list %}
-    <li><a href="{{ site.tag_dir | prepend: site.baseurl | replace: '//', '/' }}/{{ tag[0] }}">{{ tag[0] }}</a></li>
+    <li>
+        <a href="{{ site.tag_dir | prepend: site.baseurl | replace: '//', '/' }}/{{ tag[0] }}" title="View all posts with {{ tag[0] }} keyword">
+            {{ tag[0] }}
+        </a>
+    </li>
     {% endfor %}
     {% endif %}
     {% assign tag_list = nil %}

@@ -79,7 +79,9 @@
                                 <span class="category">
                                     <span class="name">Categories:</span>
                                     {% for category in page.categories %}
-                                    <a href="{{ site.category_dir | append: '/' | append: category | slugify | relative_url }}">{{ category }}</a> &nbsp;
+                                    <a href="{{ site.category_dir | append: '/' | append: category | slugify | relative_url }}" title="View articles in category: {{ category }}">
+                                        {{ category }}
+                                    </a> &nbsp;
                                     {% endfor %}
                                 </span>
                                 {% endif %}
@@ -95,13 +97,17 @@
                                     {% for tag in page.tags %}
                                     {%- assign tag_slug = tag | slugify -%}
                                     {%- assign tag_path = site.tag_dir | append: "/" | append: tag_slug | append: "/" | replace: "//", "/" -%}
-                                    <a href="{{ tag_path | relative_url }}">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}
+                                    <a href="{{ tag_path | relative_url }}" title="View posts with keyword: {{ tag }}">
+                                        {{ tag }}
+                                    </a>{% unless forloop.last %}, {% endunless %}
                                     {% endfor %}
                                 </span>
                                 {% endif %}
                                 <br />
                                 <span class="name">More:</span>
-                                <a href="{{ "/search/" | relative_url  | replace: '//', '/' }}">Search...</a>
+                                <a href="{{ "/search/" | relative_url  | replace: '//', '/' }}" title="Navigate to the search page">
+                                    Search...
+                                </a>
                             </div>
                             {% endif %}
                             <div>
@@ -114,7 +120,7 @@
                         <div class="post-nav">
                             <div class="post-nav">
                                 {% if page.previous.url %}
-                                <a class="btn prev" href="{{ page.previous.url | relative_url }}">
+                                <a class="btn prev" href="{{ page.previous.url | relative_url }}" title="View the previous article">
                                     {{ site.global_html.single_left_arrow }}
                                     <span class="short"> Prev</span>
                                     <span class="long"> Previous Post</span>
@@ -122,7 +128,7 @@
                                 {% endif %}
 
                                 {% if page.next.url %}
-                                <a class="btn next" href="{{ page.next.url | relative_url }}">
+                                <a class="btn next" href="{{ page.next.url | relative_url }}" title="View the next article">
                                     <span class="short">Next </span>
                                     <span class="long">Next Post </span>
                                     {{ site.global_html.single_right_arrow }}

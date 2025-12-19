@@ -44,7 +44,7 @@
         {%-         assign tag_slug = tag_name | slugify -%}
         {%-         assign tag_href = site.tag_dir | append: "/" | append: tag_slug | append: "/" | replace: "//", "/" | relative_url -%}
         <li>
-            <a href="{{ tag_href }}" style="font-size: {{ font_size }}%">
+            <a href="{{ tag_href }}" style="font-size: {{ font_size }}%" title="View tags with keyword tag: {{ tag_name }}">
                 {{ tag_name }}<sup>{{ tag | last | size }}</sup>
             </a>
         </li>
@@ -54,12 +54,13 @@
 </div>
 <div class="widget">
     <h2 class="title">
-        <a href="{{ site.authors_dir | relative_url }}">Authors</a>
+        <a href="{{ site.authors_dir | relative_url }}" title="View all authors">Authors</a>
     </h2>
     <ul class="author-list">
         {%- for author in site.data.authors -%}
         <li>
-            <a href="{{ site.author_dir | append: '/' | append: author.id | relative_url }}">
+            {%- assign author_path = site.author_dir | append: "/" | append: author.id | append: "/" -%}
+            <a href="{{ author_path | relative_url }}" title="View articles by {{ author.name }}">
                 {%- if author.name -%}
                     {{ author.name }}
                 {%- else -%}
@@ -72,14 +73,14 @@
 </div>
 <div class="widget">
     <h2 class="title">
-        <a href="{{ '/archive/' | relative_url }}">Archive</a>
+        <a href="{{ '/archive/' | relative_url }}" title="View the archive">Archive</a>
     </h2>
     <ul class="archive">
         {%- for post in site.posts -%}
         {%- assign post_year = post.date | date: '%Y' -%}
         {%- unless post.next -%}
         <li>
-            <a href="{{ '/archive/' | append: post_year | append: '/' | relative_url }}">
+            <a href="{{ '/archive/' | append: post_year | append: '/' | relative_url }}" title="View articles from {{ post_year }}">
                 {{ post_year }}
             </a>
         </li>
@@ -87,7 +88,7 @@
         {%- assign next_year = post.next.date | date: '%Y' -%}
         {%- if post_year != next_year -%}
         <li>
-            <a href="{{ '/archive/' | append: post_year | append: '/' | relative_url }}">
+            <a href="{{ '/archive/' | append: post_year | append: '/' | relative_url }}" title="View articles from {{ post_year }}">
                 {{ post_year }}
             </a>
         </li>

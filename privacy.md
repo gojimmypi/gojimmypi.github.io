@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Privacy at gojimmypi.gihub.io
+permalink: /privacy/
 ---
 
 Privacy information.
@@ -17,8 +18,8 @@ Views are my own, not representative of any other company or organization, and m
 
 ## Open Source
 
-This entire site is open source, hosted as [GitHub Pages](pages.github.com) at https://github.com/gojimmypi/gojimmypi.github.io
-with a preview rendered in the `gridster-jekyll-theme` subdirectory from https://github.com/gojimmypi/gridster-jekyll-theme/
+This entire site is open source, hosted as [GitHub Pages](https://pages.github.com) at [github.com/gojimmypi/gojimmypi.github.io](https://github.com/gojimmypi/gojimmypi.github.io)
+with a preview rendered in the `gridster-jekyll-theme` subdirectory from [github.com/gojimmypi/gridster-jekyll-theme/](https://github.com/gojimmypi/gridster-jekyll-theme/)
 
 I suspect both Microsoft and GitHub have their own internal tracking.
 
