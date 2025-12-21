@@ -4,6 +4,8 @@ sidebar: true
 sidebar_type: material
 sidebar_position: left
 ---
+
+<!-- Begin /_layouts/archive_index.html -->
 {% capture page_date %}{{ page.date | date: "%Y" }}{% endcapture %}
 
 {%- include preview_banner.html -%}
@@ -15,3 +17,5 @@ sidebar_position: left
 	    {% include article_index.html %}
 	{% endif %}
 {% endfor %}
+
+<!-- End /_layouts/archive_index.html -->

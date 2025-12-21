@@ -1,15 +1,15 @@
-<!-- file: /_includes/head.html -->
+{%- if site.page_debug -%}<!-- file: /_includes/head.html -->{%- endif -%}
 {% if (jekyll.environment == "development") %}
-<!-- jekyll.environment: development -->
-<!-- this page is from [{{ page.path }}] -->
+{%- if site.page_debug -%}<!-- jekyll.environment: development -->{%- endif -%}
+{%- if site.page_debug -%}<!-- this page is from [{{ page.path }}] -->{%- endif -%}
 {% else %}
-<!-- jekyll.environment: production -->
+{%- if site.page_debug -%}<!-- jekyll.environment: production -->{%- endif -%}
 {% endif %}
 
 {% if site.ahrefs_analytics %}
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="RwCY/0yQXz6mj2UhcKhjTQ" async></script>
 {% else %}
-<!-- analytics.ahrefs.com is not enabled -->
+{%- if site.page_debug -%}<!-- analytics.ahrefs.com is not enabled -->{%- endif -%}
 {% endif %}
 
 {% if site.google_analytics %}
@@ -27,23 +27,23 @@
     });
 </script>
 
-<!-- Google tag (gtag.js) -->
+{%- if site.page_debug -%}<!-- Google tag (gtag.js) -->{%- endif -%}
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-LPK5SGT19T"></script>
 <script>
     gtag("js", new Date());
     gtag("config", "G-LPK5SGT19T");
 </script>
 {% else %}
-<!-- google analytics is not enabled -->
+{%- if site.page_debug -%}<!-- google analytics is not enabled -->{%- endif -%}
 {% endif %}
 
-<!-- Fonts: Inter -->
+{%- if site.page_debug -%}<!-- Fonts: Inter -->{%- endif -%}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="manifest" href="{{ '/manifest.json' | relative_url }}">
 
-<!-- helper to avoid page-load flash -->
+{%- if site.page_debug -%}<!-- helper to avoid page-load flash -->{%- endif -%}
 <style>
     html.theme-preload * {
         transition: none !important;
@@ -86,11 +86,11 @@
     })();
 </script>
 
-<!-- /helper to avoid page-load flash -->
+{%- if site.page_debug -%}<!-- /helper to avoid page-load flash -->{%- endif -%}
 <meta content="width=device-width, initial-scale=1" name="viewport" />
-<!-- meta name="color-scheme" content="dark light" -->
-<!-- JS -->
-<!-- see https://developer.chrome.com/docs/lighthouse/pwa/themed-omnibox/?utm_source=lighthouse&utm_medium=devtools -->
+{%- if site.page_debug -%}<!-- meta name="color-scheme" content="dark light" -->{%- endif -%}
+{%- if site.page_debug -%}<!-- JS -->{%- endif -%}
+{%- if site.page_debug -%}<!-- see https://developer.chrome.com/docs/lighthouse/pwa/themed-omnibox/?utm_source=lighthouse&utm_medium=devtools -->{%- endif -%}
 <meta name="theme-color" content="#333333" />
 
 <script type="text/javascript" src="{{ '/js/jquery-2.2.2.min.js' | relative_url }}"></script>
@@ -166,7 +166,7 @@ fallback.load({
 {% else %}
 <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}">
 
-<!--script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script moved to above -->
+{%- if site.page_debug -%}<!--script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script moved to above -->{%- endif -%}
 
 <script type="text/javascript" src="{{ '/scripts/jquery.toc.js' | relative_url }}"></script>
 <script type="text/javascript" src="{{ '/scripts/infinite/1-jquery.jscroll.js' | relative_url }}"></script>
@@ -187,7 +187,7 @@ fallback.load({
     });
 </script>
 
-<!-- CSS -->
+{%- if site.page_debug -%}<!-- CSS -->{%- endif -%}
 <style type="text/css">
     {% capture include_to_scssify %}
         {% include _heading.scss %}
@@ -205,20 +205,20 @@ fallback.load({
 </style>
 {% endif %}
 
-<!-- Google Analytics. Put the ID in _config.yml -->
+{%- if site.page_debug -%}<!-- Google Analytics. Put the ID in _config.yml -->{%- endif -%}
 {% if jekyll.environment != "development" %}
 <script type="text/javascript">
 </script>
 {% endif %}
 
-<!-- Load the user's last selected theme for the lamp -->
+{%- if site.page_debug -%}<!-- Load the user's last selected theme for the lamp -->{%- endif -%}
 <script type="text/javascript">
     {% include _dark_mode.js %}
 </script>
 
 <link rel="stylesheet" id="color-change">
 
-<!-- Site Infos -->
+{%- if site.page_debug -%}<!-- Site Infos -->{%- endif -%}
 
 
 {%- assign has_title = false -%}
@@ -232,9 +232,11 @@ fallback.load({
 {%- endif -%}
 
 {%- if has_title and has_desc -%}
+    {%- if site.page_debug -%}<!-- 1 -->{%- endif -%}
     {%- seo title=true description=false -%}
     <meta name="description" content="{{ page.description | strip_html | normalize_whitespace | truncate: 155 }}">
 {%- elsif has_title and has_desc == false -%}
+    {%- if site.page_debug -%}<!-- 2 -->{%- endif -%}
     {%- assign site_name = site.name | default: site.title | default: "" -%}
     {%- assign raw_title = page.title | strip_html | normalize_whitespace -%}
     {%- assign full_title = raw_title -%}
@@ -245,15 +247,23 @@ fallback.load({
     {%- seo title=false -%}
 
     {%- if full_title.size > 60 -%}
+        {%- if site.page_debug -%}<!-- 2a -->{%- endif -%}
         <title>{{ raw_title | truncatewords: 8, "" }}{% if site_name != "" %} | {{ site_name }}{% endif %}</title>
     {%- else -%}
+        {%- if site.page_debug -%}<!-- 2b -->{%- endif -%}
+        {%- if page.type == "tag" -%}
+        <title>Pages with tag: {{ full_title }}</title>
+        {%- else -%}
         <title>{{ full_title }}</title>
+        {%- endif -%}
     {%- endif -%}
 {%- elsif has_title == false and has_desc -%}
+    {%- if site.page_debug -%}<!-- 3 -->{%- endif -%}
     {%- seo title=false description=false -%}
     <title>{{ site.name | default: site.title | default: "Untitled" }}</title>
     <meta name="description" content="{{ page.description | strip_html | normalize_whitespace | truncate: 155 }}">
 {%- else -%}
+    {%- if site.page_debug -%}<!-- 4 -->{%- endif -%}
     {%- seo title=false -%}
     <title>{{ site.name | default: site.title | default: "Untitled" }}</title>
 {%- endif -%}

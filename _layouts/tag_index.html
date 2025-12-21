@@ -7,6 +7,10 @@ sidebar_position: left
 is_tag_index: true
 ---
 
+<!-- Begin /_layouts/tag_index.html -->
+
 {% for post in site.tags[page.title] %}
     {% include article_index.html %}
 {% endfor %}
+
+<!-- End /_layouts/tag_index.html -->
