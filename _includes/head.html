@@ -252,7 +252,7 @@ fallback.load({
     {%- else -%}
         {%- if site.page_debug -%}<!-- 2b -->{%- endif -%}
         {%- if page.type == "tag" -%}
-        <title>Pages with tag: {{ full_title }}</title>
+        <title>{{ full_title }} Keyword Tagged Pages</title>
         {%- else -%}
         <title>{{ full_title }}</title>
         {%- endif -%}
