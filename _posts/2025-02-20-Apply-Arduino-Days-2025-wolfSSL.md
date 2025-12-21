@@ -11,7 +11,7 @@ tags:
 
 I'm applying to speak at [Arduino Days 2025](https://days.arduino.cc/)!
 
-# Securing Arduino Projects with Industrial Grade wolfSSL Encryption Software
+## Securing Arduino Projects with Industrial Grade wolfSSL Encryption Software
 
 "Getting Started with wolfSSL on Arduino"
 
@@ -43,14 +43,14 @@ certificate #3389). FIPS 140-3 validation is in progress. For additional
 information, visit the [wolfCrypt FIPS FAQ](https://www.wolfssl.com/license/fips/)
 or contact fips@wolfssl.com.
 
-## Related Links
+### Related Links
 
 - [https://github.com/wolfSSL/wolfssl](https://github.com/wolfSSL/wolfssl)
 - [https://github.com/wolfSSL/arduino-wolfSSL/](https://github.com/wolfSSL/arduino-wolfSSL/)
 - [https://downloads.arduino.cc/libraries/logs/github.com/wolfSSL/Arduino-wolfSSL/](https://downloads.arduino.cc/libraries/logs/github.com/wolfSSL/Arduino-wolfSSL/)
 - [https://www.arduinolibraries.info/libraries/wolfssl](https://www.arduinolibraries.info/libraries/wolfssl)
 
-## My Prior Blogs
+### My Prior Blogs
 
 - [Getting Started with wolfSSL on Arduino](https://www.wolfssl.com/getting-started-with-wolfssl-on-arduino/)
 - [Rapid prototyping with Arduino and wolfSSL](https://www.wolfssl.com/rapid-prototyping-with-arduino-and-wolfssl/)
@@ -59,13 +59,13 @@ or contact fips@wolfssl.com.
 - [Arduino MKR WiFI 1010 Burning Bootloader from Visual Studio with Atmel Ice](https://gojimmypi.github.io/arduino-mkr-wifi-1010-bootloader/)
 - [SWD Debugging the Arduino MKR-WiFi-1010 with Atmel ICE](https://gojimmypi.github.io/swd-debugging-arduino-mkr-wifi-1010/)
 
-## My Prior Presentations
+### My Prior Presentations
 
 - [Hackaday Supercon 2024](https://hackaday.io/superconference/speakers.html); [2024 Hackaday Superconference Speakers, Round One](https://hackaday.com/2024/09/17/2024-hackaday-superconference-speakers-round-one/). Recording not yet online.
 - [Espressif Devcon24 Getting Started with wolfSSL](https://www.youtube.com/watch?v=04DGXkZ1IC4)
 - [Getting Started with wolfSSL on the Espressif ESP32](https://www.youtube.com/watch?v=CzwA3ZBZBZ8)
 - [Getting Started with wolfSSL using Visual Studio 2022](https://www.youtube.com/watch?v=xD3AWFmg-Vo)
 
-# Other stuff
+### Other stuff
 
 - [Arduino-related gojimmypi Tweets](https://www.google.com/search?q=gojimmypi+arduino+site%3Ax.com)

@@ -11,7 +11,7 @@ tags:
 
 Some tips for using wolfSSL on the Espressif ESP32
 
-# Getting Started with wolfSSL for Espressif ESP32
+## Getting Started with wolfSSL for Espressif ESP32
 
 Like many things: _it's easy when you know how_. Here are some notes on getting started with wolfSSL encryption on the Espressif ESP32.
 
@@ -116,9 +116,9 @@ You must have at least _some_ wolfSSL-specific `#define` values *before* the inc
 Make sure that `<wolfssl/wolfcrypt/settings.h>` is included *before* any other woldSSL includes.
 
 Check that there are no stray source files in your `{IDF_PATH}/components/`. It seems that `build` processes will compile, but `clean` does not remove object files
-in the compoenents directory. The resulting errors can be rather unintuitive (yes, I learned this the hard way) 
+in the components directory. The resulting errors can be rather unintuitive (yes, I learned this the hard way)
 
-If you are going to peek at packets, make sure you are using a hub and not a switch (recall a [switch](https://en.wikipedia.org/wiki/Network_switch) 
+If you are going to peek at packets, make sure you are using a hub and not a switch (recall a [switch](https://en.wikipedia.org/wiki/Network_switch)
 will suppress non-broadcast packets on your port). If you don't have a hub, then perhaps your switch can be configured for
 [post monitoring](https://en.wikipedia.org/wiki/Port_mirroring). See my [prior blog for doing this with a Ubiquiti Edgerouter-X](https://gojimmypi.github.io/Edgerouter-Port-Monitor/).
 

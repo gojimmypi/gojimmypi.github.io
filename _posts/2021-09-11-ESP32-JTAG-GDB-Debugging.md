@@ -13,7 +13,7 @@ tags:
 - Espressif
 ---
 
-Some information on using Segger JLink to OpenOCD GDB debug an ESP32 project, specifically 
+Some information on using Segger JLink to OpenOCD GDB debug an ESP32 project, specifically
 my WIP [wolfSSL SSH Server](https://github.com/gojimmypi/wolfssl-esp32/tree/main/wolfssl_ssh_server).
 
 ESP32 JTAG Pinout Wiring; Segger J-Link using WinUSB (v6.1.7600.16385)
@@ -147,7 +147,7 @@ In another Window, in this case WSL, run the `xtensa-esp32-elf-gdb`:
 {% include code_header.html %}
 ```bash
 # in case it is in a different locaion:
-# 
+#
 # /home/gojimmypi/.espressif/tools/xtensa-esp32-elf/esp-2021r1-8.4.0/xtensa-esp32-elf/bin/
 
 cd  /mnt/c/workspace/wolfssl-esp32/wolfssl_ssh_server/build
@@ -160,10 +160,10 @@ in GDB:
 # Next (step over)
 n
 
-# 
+#
 ```
 
-# Config File Settings
+## Config File Settings
 
 For reference, the `interface/jlink.cfg` looks like [this](https://github.com/espressif/openocd-esp32/blob/master/tcl/interface/jlink.cfg).
 Be sure to edit with the respective serial number of your device!
@@ -510,7 +510,7 @@ proc program_esp_bins {build_dir filename args} {
 		if {$restore_clock == 1} {
 			append flash_args " restore_clock"
 		}
-		
+
 		if {[ catch { eval program_esp  $flash_args} ] == 0} {
 			echo "** Flashing done for $bin_file **"
 		} else {

@@ -6,7 +6,7 @@ date: 2021-03-28
 
 The [gojimmypi gridster-jekyll-theme demo site](https://gojimmypi.github.io/gridster-jekyll-theme) is a submodule created from a [the gojimmypi fork](https://github.com/gojimmypi/gridster-jekyll-theme) of the [ickc Gridster/gridster-jekyll-theme](https://github.com/ickc/gridster-jekyll-theme), which itself was a fork from the [DigitalMindCH/gridster-jekyll-theme](DigitalMindCH/gridster-jekyll-theme)
 
-The [gojimmypi preview](https://gojimmypi.github.io/gridster-jekyll-theme) contains a snapshot history of the [original DigitalMindCH/gridster-jekyll-theme](DigitalMindCH/gridster-jekyll-theme), along with ickc changes. 
+The [gojimmypi preview](https://gojimmypi.github.io/gridster-jekyll-theme) contains a snapshot history of the [original DigitalMindCH/gridster-jekyll-theme](DigitalMindCH/gridster-jekyll-theme), along with ickc changes.
 This will be th eventual home for testing changes to https://gojimmypi.github.io
 
 test 10:
@@ -51,22 +51,22 @@ Or better, see the build scripts:
 
 https://search.google.com/search-console
 
-Edit `_config.yml` 
+Edit `_config.yml`
 ```yml
-baseurl: /gridster-jekyll-theme #place folder name if site is served in subfolder   
+baseurl: /gridster-jekyll-theme #place folder name if site is served in subfolder
 ```
 
 Thanks Aleksandr Hovhannisyan for [tips on code segment copy](https://www.aleksandrhovhannisyan.com/blog/how-to-add-a-copy-to-clipboard-button-to-your-jekyll-blog/)
-even though I [stumbled a bit](https://github.com/AleksandrHovhannisyan/aleksandrhovhannisyan.com/issues/35#issuecomment-812950323) at first.    
+even though I [stumbled a bit](https://github.com/AleksandrHovhannisyan/aleksandrhovhannisyan.com/issues/35#issuecomment-812950323) at first.
 
-# Maintenance
+## Maintenance
 
 ```
 bundle update
 bundle update kramdown
 ```
 
-# BareBones New Jekyll Page
+## BareBones New Jekyll Page
 
 ```
  jekyll new .

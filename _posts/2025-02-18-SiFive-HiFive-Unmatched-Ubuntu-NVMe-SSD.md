@@ -14,7 +14,7 @@ tags:
 
 Some notes on setting up the SiFive Unmatched RISC-V to boot from an NVMe SSD.
 
-# Download Ubuntu Image
+## Download Ubuntu Image
 
 Download [cdimage.ubuntu.com/releases/24.10/release/ubuntu-24.10-preinstalled-server-riscv64+unmatched.img.xz](https://cdimage.ubuntu.com/releases/24.10/release/ubuntu-24.10-preinstalled-server-riscv64+unmatched.img.xz)
 from [cdimage.ubuntu.com/releases/](https://cdimage.ubuntu.com/releases/).  Serch for `preinstalled-server-riscv64+unmatched.img.xz` in other latest releases.
@@ -23,7 +23,7 @@ The `.xz` is a compressed file, and Windows 11 will recognize it as such. Extrac
 
 Use the [Raspberry Pi Imager](https://www.raspberrypi.com/software/).
 
-# Config Steps
+## Config Steps
 
 The basic Ubuntu boot, using revised `uInitrd`.
 
@@ -203,7 +203,7 @@ sudo chroot /mnt
 cat /etc/os-release
 ```
 
-# Create uInitrd
+## Create uInitrd
 
 ```
 echo "nvme" | sudo tee -a /etc/initramfs-tools/modules
@@ -238,7 +238,7 @@ booti ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}
 ```
 
 
-# Some NVMe possible fixes
+## Some NVMe possible fixes
 ```
 sudo mkdir -p /mnt/nvme
 sudo mount /dev/nvme0n1p1 /mnt/nvme

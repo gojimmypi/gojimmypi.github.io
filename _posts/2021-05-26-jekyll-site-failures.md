@@ -151,7 +151,7 @@ error: src refspec gh-pages does not match any
 error: failed to push some refs to 'https://github.com/gojimmypi/jekyll-tag-test.git'
 gojimmypi@DESKTOP(WSL): /mnt/c/workspace/jekyll-tag-test (gh-pages *+) gojimmypi/jekyll-tag-test
 ```
- 
+
 So I tried to completely start over fresh:
 
 ```
@@ -201,10 +201,10 @@ fatal: Authentication failed for 'https://github.com/gojimmypi/jekyll-tag-test2.
 gojimmypi@DESKTOP(WSL): /mnt/c/workspace/jekyll-tag-test2 (gh-pages) gojimmypi/jekyll-tag-test2
 ```
 
-Grr... thanks [SO](https://stackoverflow.com/questions/17659206/git-push-results-in-authentication-failed) I forgot I needed to 
+Grr... thanks [SO](https://stackoverflow.com/questions/17659206/git-push-results-in-authentication-failed) I forgot I needed to
 create an [access token](https://github.com/settings/tokens)
 
-# Lesson Learned
+## Lesson Learned
 
 So the lesson learned is that `jekyll new .` apparently needs to be the very first command in an empty directory, and pushed to a completely empty, new repo.
 

@@ -20,17 +20,17 @@ Here are some notes on the Espressif ESP32 Hardware Encryption Features for wolf
 
 Any discussion of ESP32 (or any other) hardware encryption should address the generally
 non-updatable nature of the implementation. For example, early versions of the ESP32
-were discovered by [limitedresults](https://limitedresults.com/) to have 
+were discovered by [limitedresults](https://limitedresults.com/) to have
 [exploitable hardware vulnerabilities](https://limitedresults.com/2019/08/pwn-the-esp32-crypto-core/).
 
-Hardware vulnerabilities exist across the board, for pretty much all platforms: 
+Hardware vulnerabilities exist across the board, for pretty much all platforms:
 [hertzbleed](https://www.tomshardware.com/news/intel-amd-hertzbleed-cpu-vulnerability-boost-clock-speed-steal-crypto-keys),
 [heartbleed](https://www.tomshardware.com/news/stagefright-vulnerability-drm-android-heartbleed,29682.html),
 [Spectre](https://www.tomshardware.com/news/intel-amd-spectre-v2-vulnerability-mitigation-bug-fix-patch-cpu-security), etc.
 
-Clearly physical security is just as important as any software design. 
+Clearly physical security is just as important as any software design.
 
-Key to any security implementation is a prompt disclosure and response from the vendor. 
+Key to any security implementation is a prompt disclosure and response from the vendor.
 Espressif announced [Security Advisory concerning fault injection and eFuse protections (CVE-2019-17391)](https://www.espressif.com/en/news/Security_Advisory_Concerning_Fault_Injection_and_eFuse_Protections%20)
 shortly after "_LimitedResults provided a proof of concept report demonstrating fault injection attack and analysis to recover keys stored in eFuse_".
 
@@ -44,7 +44,7 @@ Of equal importance is proper software implementation. See the [wolfSSL blog on 
 
 Ensure the user settings header is enabled: define `WOLFSSL_USER_SETTINGS` via `-DWOLFSSL_USER_SETTINGS` in the CMake file at compile time.
 
-wolfssl libraries are typically found in the [components](https://github.com/espressif/esp-idf/tree/master/components) directory 
+wolfssl libraries are typically found in the [components](https://github.com/espressif/esp-idf/tree/master/components) directory
 of either the local project `${CMAKE_HOME_DIRECTORY}` or the ESP-IDF `$ENV{IDF_PATH}` directory.
 
 ## Terminology
@@ -59,7 +59,7 @@ of either the local project `${CMAKE_HOME_DIRECTORY}` or the ESP-IDF `$ENV{IDF_P
 
 There are two useful features of hardware security implemented in the ESP32: Storarage and Computational Acceleration.
 
-There's an ability to [store keys](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/security/secure-boot-v1.html#keys) 
+There's an ability to [store keys](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/security/secure-boot-v1.html#keys)
 in the [eFuse non-volatile memory](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf#efuse).
 
 From the [ESP32 Datasheet](https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf), page 12:
@@ -70,8 +70,8 @@ Here's the summary from page 38:
 
 ![Espressif_Cryptographic_Hardware_Acceleration_Block_Diagram.png](../images/Espressif_Cryptographic_Hardware_Acceleration.png)
 
-The interesting files for the wolfSSL hardware encryption for the ESP32 are found in 
-the [esp32-crypt.h](https://github.com/wolfSSL/wolfssl/tree/master/wolfssl/wolfcrypt/port/Espressif) 
+The interesting files for the wolfSSL hardware encryption for the ESP32 are found in
+the [esp32-crypt.h](https://github.com/wolfSSL/wolfssl/tree/master/wolfssl/wolfcrypt/port/Espressif)
 and [source files](https://github.com/wolfSSL/wolfssl/tree/master/wolfcrypt/src/port/Espressif):
 
 - [sp32_aes.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_aes.c)
@@ -101,7 +101,7 @@ Note that on multi-core ESP32 devices, there's a concurrency [warning](https://g
 
 > Do not use these function in multi core mode due to inside they have no safe implementation (without DPORT workaround).
 
-# Reference Documents
+## Reference Documents
 
 The following documents are directly applicable to the crypto-acceleration functions:
 
@@ -112,10 +112,10 @@ The following documents are directly applicable to the crypto-acceleration funct
 
 ### wolfSSL Fine Tuning
 
-If size is more important the speed for software computation, the `USE_SLOW_SHA` can be defined. 
-See [sha.c](https://github.com/wolfSSL/wolfssl/blob/8f7db87f01739d51e4b0b3af904ea3a94dff2584/wolfcrypt/src/sha.c#L482) 
+If size is more important the speed for software computation, the `USE_SLOW_SHA` can be defined.
+See [sha.c](https://github.com/wolfSSL/wolfssl/blob/8f7db87f01739d51e4b0b3af904ea3a94dff2584/wolfcrypt/src/sha.c#L482)
 
-> "_nearly 1 K bigger in code size but 25% faster_". 
+> "_nearly 1 K bigger in code size but 25% faster_".
 
 
 ### wolfSSL ESP32 Hardware Encryption
@@ -247,13 +247,13 @@ There are some interesting notes about the SHA encryption registers on the ESP32
 
 ![FIPS180-4_Message_Preprocessing.png](../images/wolfssl/FIPS180-4_Message_Preprocessing.png)
 
-Reminder: The ESP32 SHA encryption accelerator _does not do final padding_. The `0x80` and 64-bit message length need to be manually added! 
+Reminder: The ESP32 SHA encryption accelerator _does not do final padding_. The `0x80` and 64-bit message length need to be manually added!
 
 Each block of data is hashed into digest for wolfSSL:
 
 ![sha_digest_quickwatch.png](../images/wolfssl/sha_digest_quickwatch.png)
 
-Given the single-computation nature of the hardware accelerated hash content registers, note that even in a single-thread RTOS, multiple 
+Given the single-computation nature of the hardware accelerated hash content registers, note that even in a single-thread RTOS, multiple
 hashes may need to be computed concurrently. This will cause the second one to fall back to software calculations.
 
 For example, in the ESP32 SSH to UART example, the non-blocking call to [wolfSSH_accept](https://github.com/gojimmypi/wolfssh/blob/713c7358501b9107d2e85a2a3f0e296a89a180ad/examples/ESP32-SSH-Server/main/ssh_server.c#L174)
@@ -278,9 +278,9 @@ Extra care should be taken when computing hardware-accelerated hashes in a multi
 
 ### RSA Accelerator
 
-The RSA Accelerator is for math functions. 
+The RSA Accelerator is for math functions.
 See [Espressif/esp32_mp.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_mp.c)
-and Chapter 24, page 582 of the 
+and Chapter 24, page 582 of the
 [ESP32 Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf#24%20RSA%20Accelerator%20(RSA)).
 
 NOTE:
@@ -318,11 +318,11 @@ See Chapter 24.3.3, page 584 of the [ESP32 Technical Reference Manual](https://w
 
 {% include code_header.html %}
 ```c
-    int esp_mp_mulmod(fp_int* X, 
-                      fp_int* Y, 
-                      fp_int* M, 
+    int esp_mp_mulmod(fp_int* X,
+                      fp_int* Y,
+                      fp_int* M,
                       fp_int* Z)
-``` 
+```
 
 
 Support for large-number multiplication:
@@ -331,8 +331,8 @@ Support for large-number multiplication:
 
 {% include code_header.html %}
 ```c
-int esp_mp_mul(fp_int* X, 
-               fp_int* Y, 
+int esp_mp_mul(fp_int* X,
+               fp_int* Y,
                fp_int* Z)
 ```
 
@@ -354,7 +354,7 @@ See chapter 22 of [ESP32 Technical Reference Manual](https://www.espressif.com/s
 
 [esp32_aes.c](https://github.com/wolfSSL/wolfssl/blob/master/wolfcrypt/src/port/Espressif/esp32_aes.c)
 
-### ECC 
+### ECC
 
 *Not* to be confused with the Error Code Capture feature:
 
@@ -367,7 +367,7 @@ TWAI bus error in the form of an error code -- [Technical Reference Manual 21.5.
 - todo
 <br />
 
-### RNG Random Number Generator 
+### RNG Random Number Generator
 
 - todo
 

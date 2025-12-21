@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
     <!-- _layouts/default.html -->
-    <title>{% if page.title != blank %}{{ page.title }}{% else %}Title missing{% endif %}</title>
+    {%- assign site_name = site.name | default: site.title -%}
+    {%- assign raw_title = page.title | default: site_name -%}
+    {%- assign short_title = raw_title | truncatewords: 8, "" -%}
 
+    <title>title: {{ short_title }}{% if site_name and raw_title != site_name %} | {{ site_name }}{% endif %}</title>
     <!-- link to main stylesheet -->
     <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>

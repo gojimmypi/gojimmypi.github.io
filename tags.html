@@ -6,10 +6,13 @@ sidebar_position: left
 title: Posts by Tag
 sitemap: false
 ---
+<!-- tagdir='{{ site.tag_dir }}' -->
+<!-- baseurl='{{ site.baseurl}}' -->
+<!-- result='{{ site.tag_dir | prepend: site.baseurl}}' -->
 {% assign tag_list = site.tags | sort %}
 {% for tag in tag_list %}
   {% assign tagname = tag[0] %}
-  <h2> <a href="{{ site.tag_dir | prepend: site.baseurl | replace: '//', '/' }}{{ tagname | slugify }}">{{ tagname }}</a></h2>
+  <h2> <a href="{{ site.tag_dir | prepend: site.baseurl}}/{{ tagname | slugify }}">{{ tagname }}</a></h2>
   {% for post in site.tags[tagname] %}
     {% include article_index_short.html %}
   {% endfor %}

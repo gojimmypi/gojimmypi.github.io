@@ -1,4 +1,4 @@
-﻿---
+---
 layout: post
 title: "wolfSSL Single Step TLS1.3 Inspection with WireShark"
 date: '2022-03-05'
@@ -10,18 +10,18 @@ tags:
 - GDB
 ---
 
-# Understanding TLS 1.3 connections with wolfSSL.
+## Understanding TLS 1.3 connections with wolfSSL.
 
 [wolfSSL](https://www.wolfssl.com/) is an open source, widely-used encryption library used to secure [billions of connections](https://www.wolfssl.com/docs/case-studies/#:~:text=Through%20use%20in%20games%2C%20databases,wolfSSL%20products%20are%20being%20used.).
 
-This is a packet inspection exercise for one of the [wolfSSL examples](https://github.com/wolfSSL/wolfssl-examples), 
-specifically the [client-tls13](https://github.com/wolfSSL/wolfssl-examples/blob/master/tls/client-tls13.c) 
+This is a packet inspection exercise for one of the [wolfSSL examples](https://github.com/wolfSSL/wolfssl-examples),
+specifically the [client-tls13](https://github.com/wolfSSL/wolfssl-examples/blob/master/tls/client-tls13.c)
 and the [server-tls13](https://github.com/wolfSSL/wolfssl-examples/blob/master/tls/server-tls13.c).
 
-The encryption libraries work on a variety of platforms. Here we will be using [Visual Studio 2019](https://visualstudio.microsoft.com/vs/older-downloads/) 
+The encryption libraries work on a variety of platforms. Here we will be using [Visual Studio 2019](https://visualstudio.microsoft.com/vs/older-downloads/)
 (on Windows) with the [VisualGDB extension](https://visualgdb.com/) debugging Linux code in [WSL](https://docs.microsoft.com/en-us/windows/wsl/).
 
-First, the server app is started. It is [listening on all available local networks](https://github.com/wolfSSL/wolfssl-examples/blob/c85c7a115297f4ab60baab3ea56ea077d01dc1d9/tls/server-tls13.c#L167). 
+First, the server app is started. It is [listening on all available local networks](https://github.com/wolfSSL/wolfssl-examples/blob/c85c7a115297f4ab60baab3ea56ea077d01dc1d9/tls/server-tls13.c#L167).
 One of those networks is of course home `127.0.0.0` and the server will assume itself to be at `127.0.0.1`.
 
 Next, the client is started, single stepping for this exercise. The default parameter for the VisualGDB examples is an address also on the home network: `127.0.0.2`
@@ -54,15 +54,15 @@ For reference: the source code is in `wolfssl-examples\tls` and each of the Visu
 ```
 C:\workspace\wolfssl-examples>tree
 
-├───certs
-│   ├───1024
-│   └───crl
-├───tls
-│   └───VisualGDB-tls
-│       ├───client-tls13
-│       │   ├───Debug
-│       ├───server-tls13
-│       │   └───Debug
++---certs
+|   +---1024
+|   +---crl
++---tls
+|   +---VisualGDB-tls
+|       +---client-tls13
+|       |   +---Debug
+|       +---server-tls13
+|           +---Debug
 ```
 
 Note that when using `make` to build the examples in place for Linux, there are [hard-coded file references](https://github.com/wolfSSL/wolfssl-examples/blob/c85c7a115297f4ab60baab3ea56ea077d01dc1d9/tls/client-tls13.c#L41) to refer to the adjacent [certs directory](https://github.com/wolfSSL/wolfssl-examples/tree/master/certs)
@@ -152,9 +152,9 @@ Once everything is in order, we call `wolfSSL_connect()` to [connect to the serv
 ```c
     /* Connect to wolfSSL on the server side */
     if ((ret = wolfSSL_connect(ssl)) != WOLFSSL_SUCCESS))
-```   
+```
 
-And we see the following TLS 1.3 packets exchanged to initially establish a secure connection 
+And we see the following TLS 1.3 packets exchanged to initially establish a secure connection
 (packets starting at 36920 timestamp):
 
 ![wolfSSL-TLS13-wolfSSL_connect.png](../images/wolfSSL-TLS13-wolfSSL_connect.png)

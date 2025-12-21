@@ -73,10 +73,10 @@
 
             <ul id="drop-archive" class="dropdown-content">
                 <li>
-                    <a href="{{ site.tags_dir | relative_url }}">Tags</a>
+                    <a href="{{ site.tags_dir | append: '/' | relative_url }}">Tags</a>
                 </li>
                 <li>
-                    <a href="{{ '/archive' | relative_url }}">Yearly</a>
+                    <a href="{{ '/archive/' | relative_url }}">Yearly</a>
                 </li>
             </ul>
         </nav>

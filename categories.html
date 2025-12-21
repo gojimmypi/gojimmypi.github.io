@@ -6,10 +6,15 @@ sidebar_position: left
 title: Posts with Categories
 sitemap: false
 ---
-{% assign category_list = site.categories | sort %}
-{% for category in category_list %}
-  {% assign categoryname = category[0] %}
-  {% for post in site.categories[categoryname] %}
-    {% include article_index_short.html %}
-  {% endfor %}
-{% endfor %}
+{%- assign category_list = site.categories | sort -%}
+{%- for category in category_list -%}
+    {%- assign categoryname = category[0] -%}
+    <h2>
+        <a href="{{ site.category_dir | append: '/' | append: category_slug | append: '/' | relative_url }}">
+            {{ categoryname }}
+        </a>
+    </h2>
+    {%- for post in site.categories[categoryname] -%}
+        {%- include article_index_short.html -%}
+    {%- endfor -%}
+{%- endfor -%}

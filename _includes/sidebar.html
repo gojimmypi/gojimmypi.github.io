@@ -4,14 +4,14 @@
 <div class="widget">
     <!-- categories disabled -->
     <h2 class="title">
-        <a href="{{ site.categories_dir | relative_url }}">
+        <a href="{{ site.categories_dir | append: '/' | relative_url }}">
             <!-- categories disabled -->
         </a>
     </h2>
 </div>
 <div class="widget">
     <h2 class="title">
-        <a href="{{ site.tags_dir | relative_url }}">Tags</a>
+        <a href="{{ site.tags_dir | append: '/' | relative_url }}">Tags</a>
     </h2>
     <ul class="tag-list">
         {%-     assign tag_list = site.tags | sort -%}
@@ -54,7 +54,9 @@
 </div>
 <div class="widget">
     <h2 class="title">
-        <a href="{{ site.authors_dir | relative_url }}" title="View all authors">Authors</a>
+        <a href="{{ site.authors_dir | append: '/' | relative_url }}" title="View all authors">
+            Authors
+        </a>
     </h2>
     <ul class="author-list">
         {%- for author in site.data.authors -%}

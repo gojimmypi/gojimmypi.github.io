@@ -12,7 +12,7 @@ tags:
 Here are some tips and reminders of where to find ESP32 toolchains for the Sysprogs VisualGDB extension for Visual Studio.
 
 
-# Registry settings
+## Registry settings
 
 ```
 Computer\HKEY_CURRENT_USER\Software\Free Software Foundation
@@ -71,7 +71,7 @@ Windows Registry Editor Version 5.00
 "GCC"="C:\\SysGCC\\esp8266"
 ```
 
-# User Registry Location
+## User Registry Location
 
 ```
 Computer\HKEY_USERS\S-1-5-21-[user guid]\Software\Free Software Foundation
@@ -130,7 +130,7 @@ Windows Registry Editor Version 5.00
 "GCC"="C:\\SysGCC\\esp8266"
 ```
 
-# Sysprogs GNUToolchains
+## Sysprogs GNUToolchains
 
 ```
 Computer\HKEY_CURRENT_USER\Software\Sysprogs\GNUToolchains
@@ -152,7 +152,7 @@ Windows Registry Editor Version 5.00
 "SysGCC-arm-eabi-14.2.1"="c:\\sysgcc\\arm-eabi"
 ```
 
-# User Toolchains
+## User Toolchains
 
 ```
 Computer\HKEY_USERS\S-1-5-21-[user guid]\Software\Sysprogs\GNUToolchains

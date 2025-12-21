@@ -13,7 +13,7 @@ Some of the features from the original Grdster documentation isn't here. e.g. th
 
 {% raw %}
 
-# Gridster - An Introduction
+## Gridster - An Introduction
 
 Gridster is a powerful jekyll theme.
 
@@ -23,7 +23,7 @@ Gridster comes with a variety of different post types, which make it suitable fo
 
 Let us guide you through the basic setup.
 
-# Dependences
+## Dependences
 
 Jekyll is awesome, but it has quite a few requirements.
 
@@ -49,7 +49,7 @@ For the liverefresh, you will need livereload for your browser of choice. ([Fire
 
 Once you’ve mastered all of these installations, the rest will be a piece of cake.
 
-# Set Up
+## Set Up
 
 As soon as you have all of the dependences installed, you are ready to set up your site.
 
@@ -216,7 +216,7 @@ So the default variables for authors are:
   email: someone@something.com
 ```
 
-# Customization
+## Customization
 
 Of course customizing is endless, especially since jekyll is HTML and not PHP and people like to fiddle with HTML a lot more. We love HTML for its simplicity and we always look forward to playing with it.
 
@@ -298,7 +298,7 @@ replace this with
 
 This adaption will result in the short article index version.
 
-# Add content
+## Add content
 
 As soon as you are happy with how the site looks like, you can start to focus on what makes for a good website: The content!
 
@@ -371,7 +371,7 @@ A new post is created within the `_posts` folder and has to follow a specific na
 ``` highlight
 YEAR-MONTH-DAY-title.FILEFORMAT
 
-// example: 
+// example:
 2015-01-01-happy-new-year.md
 ```
 
@@ -580,7 +580,7 @@ The navigation is located in `_includes/nav.html`
 
 We went with the static navigation, but feel free to create a dynamic one. There are tutorials out there that go over the steps. Just type the question into the search engine of your choice.
 
-# Additional Functionality
+## Additional Functionality
 
 Jekyll is fantastic, but it comes with a few restrictions.
 
@@ -614,7 +614,7 @@ We don’t set any rules or recommendations. It is totally up to you what you wa
 
 Also, the world of inter webs provides much better instructions on that matter than we could ever write. So please Google it.
 
-# Deployment
+## Deployment
 
 When you are ready to go live, you have to think about a few things.
 
@@ -658,7 +658,7 @@ Put all of the files not listed below (especially the `node_modules` and `_site`
 
 ``` highlight
 ├── _data/
-│   └── galleries.yml 
+│   └── galleries.yml
 │
 ├── _includes
 │   ├── article_index.html
@@ -701,8 +701,8 @@ Put all of the files not listed below (especially the `node_modules` and `_site`
 │
 ├── js
 │   └── build/
-│       └── global.min.js 
-│ 
+│       └── global.min.js
+│
 ├── _config.yml
 │
 ├── feed.xml

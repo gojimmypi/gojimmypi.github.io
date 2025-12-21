@@ -219,5 +219,43 @@ fallback.load({
 <link rel="stylesheet" id="color-change">
 
 <!-- Site Infos -->
-{% seo %}
+
+
+{%- assign has_title = false -%}
+{%- if page.title and page.title != blank -%}
+    {%- assign has_title = true -%}
+{%- endif -%}
+
+{%- assign has_desc = false -%}
+{%- if page.description and page.description != blank -%}
+    {%- assign has_desc = true -%}
+{%- endif -%}
+
+{%- if has_title and has_desc -%}
+    {%- seo title=true description=false -%}
+    <meta name="description" content="{{ page.description | strip_html | normalize_whitespace | truncate: 155 }}">
+{%- elsif has_title and has_desc == false -%}
+    {%- assign site_name = site.name | default: site.title | default: "" -%}
+    {%- assign raw_title = page.title | strip_html | normalize_whitespace -%}
+    {%- assign full_title = raw_title -%}
+    {%- if site_name != "" -%}
+        {%- assign full_title = raw_title -%}
+    {%- endif -%}
+
+    {%- seo title=false -%}
+
+    {%- if full_title.size > 60 -%}
+        <title>{{ raw_title | truncatewords: 8, "" }}{% if site_name != "" %} | {{ site_name }}{% endif %}</title>
+    {%- else -%}
+        <title>{{ full_title }}</title>
+    {%- endif -%}
+{%- elsif has_title == false and has_desc -%}
+    {%- seo title=false description=false -%}
+    <title>{{ site.name | default: site.title | default: "Untitled" }}</title>
+    <meta name="description" content="{{ page.description | strip_html | normalize_whitespace | truncate: 155 }}">
+{%- else -%}
+    {%- seo title=false -%}
+    <title>{{ site.name | default: site.title | default: "Untitled" }}</title>
+{%- endif -%}
+
 {% include favicon.html %}
