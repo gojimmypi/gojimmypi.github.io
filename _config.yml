@@ -6,34 +6,41 @@ preview_site: false # Do not edit. This is not the preview site
 canonical_site_url: https://gojimmypi.github.io
 ahrefs_analytics: true # optionally enable ahrefs, see _includes/head.html
 google_analytics: true
-description: "blog"
+description: "Embedded, FPGA, wolfSSL, ESP32, Arduino, and hardware projects."
 domain: gojimmypi.github.io #If you want to force HTTPS, put down the domain without the http: e.g. example.com
 url: https://gojimmypi.github.io #place url
 baseurl: "" #place folder name if site is served in subfolder, when using subfolder, NO trailing slash
 github_baseurl: https://github.com/gojimmypi/gojimmypi.github.io/ # required for the github-corner links
 usefallback: false
+logo: /images/gojimmypi.svg
+image: /images/gojimmypi.jpg
 
 page_debug: false
 
 author: #For jekyll-feed
   name: gojimmypi
-  email: gojimmypi@gmail.com #Also used in nav
   uri: https://gojimmypi.github.io/about/
-  twitter: "#" #name only. for jekyll-seo-tag, temporary fix to the incompatibility with site.data.authors
+  email: gojimmypi@gmail.com # Also used in nav
+  twitter: gojimmypi # name only. for jekyll-seo-tag, temporary fix to the incompatibility with site.data.authors
 # tumblr: "#"
 pinterest: "https://fi.pinterest.com/gojimmypi/"
 # instagram: "#"
 twitter: # for both nav & jekyll-seo-tag
-  username: "gojimmypi" #name only
+  username: gojimmypi #name only
 mastodon: # for both nav & jekyll-seo-tag
-  username: "gojimmypi" #name only
+  username: gojimmypi #name only
 # facebook: # for both nav & jekyll-seo-tag
 #   publisher: "#" #full link
 youtube: "https://www.youtube.com/channel/UCR01egMbYgXQGJaocNEDEwg"
 # vimeo: "#"
 # soundcloud: "#"
 social: # for jekyll-seo-tag
-  links: # put all the social links excluding twitter and facebook here as an array: ["link1", "link2"]
+  links: # put all the social links
+    - https://github.com/gojimmypi
+    - https://twitter.com/gojimmypi
+    - https://hackaday.social/@gojimmypi
+    - https://www.youtube.com/channel/UCR01egMbYgXQGJaocNEDEwg
+    - https://fi.pinterest.com/gojimmypi/
 # google verification: https://support.google.com/webmasters/answer/9008080?hl=en
 # https://search.google.com/search-console/ownership
 # gojimmypi uses \google2135ab0ce8568db2.html
@@ -94,7 +101,48 @@ kramdown:
   syntax_highlighter: rouge
   input: GFM
   hard_wrap: false
-exclude: [.git, .gitignore, .sass-cache, package.json, gruntfile.js, node_modules, README.md, jekyllbuild, Gemfile, Gemfile.lock, preview, img, LICENCE, Organizational Overview.*]
+
+exclude:
+  - .git
+  - .gitignore
+  - .sass-cache
+  - .vs
+  - _drafts
+  - drafts
+  - package.json
+  - gruntfile.js
+  - node_modules
+  - README.md
+  - jekyllbuild
+  - Gemfile
+  - Gemfile.lock
+  - preview
+  - img
+  - LICENCE
+  - Organizational Overview.*
+
+  # Jekyll output (already ignored, but harmless to list)
+  - _site
+
+  # Never exclude generated / copied artifacts when generating tags with jekyll-archives
+  # - tag
+  # - _tag
+
+  # Backup / editor artifacts (explicit)
+  - "*.bak"
+  - "**/*.bak"
+  - "*.BAK"
+  - "**/*.BAK"
+
+  # Common editor / OS cruft (safe, optional but recommended)
+  - "*~"
+  - "**/*~"
+  - "*.swp"
+  - "**/*.swp"
+  - "*.tmp"
+  - "**/*.tmp"
+  - ".DS_Store"
+  - "**/.DS_Store"
 
 # a list of supported GitHub plugins: https://pages.github.com/versions/
 plugins:

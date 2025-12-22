@@ -20,7 +20,7 @@ $(document).ready(function () {
         return false;
     });
 
-    // Responsive Menu
+    // Responsive Menu - toggles the mobile / responsive navigation menu open and closed.
     $(".toggle-link").click(function () {
 
         var _TheActiveTheme = localStorage.getItem('theme');

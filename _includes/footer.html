@@ -99,7 +99,9 @@
         constructor({ toggleSelector, themeOwner, storageKey }) {
             /* this is called once at page load time, not every time the lamp is pressed! */
             this.toggleElement = document.querySelector(toggleSelector);
-            this.toggleElement.addEventListener('click', () => this.toggle());
+            if (this.toggleElement) {
+                this.toggleElement.addEventListener('click', () => this.toggle());
+            }
             this.themeOwner = themeOwner;
             this.storageKey = storageKey;
             this.theme = localStorage.getItem(storageKey) || 'light';

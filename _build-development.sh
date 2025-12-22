@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+reset
+
 echo "$1"
 
 ./gen_year_archives.sh

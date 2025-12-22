@@ -1,6 +1,16 @@
 // _dark_mode.js
-// typically included in the head.html.
+// Loaded early (typically from head.html)
 
+/* Ensure background color is set immediately to prevent white flash */
+function SetThemeBackground(theme) {
+    if (theme === "dark") {
+        document.documentElement.style.backgroundColor = "#111111";
+    } else {
+        document.documentElement.style.backgroundColor = "#ffffff";
+    }
+}
+
+/* Initial theme application (runs immediately) */
 (function () {
     var key = "theme";
     var savedTheme = null;
@@ -22,7 +32,12 @@
         }
     }
 
-    document.documentElement.className = theme;
+    SetThemeBackground(theme);
+
+    document.documentElement.classList.remove("dark");
+    document.documentElement.classList.remove("light");
+    document.documentElement.classList.add(theme);
+
     document.documentElement.setAttribute("data-theme", theme);
     document.documentElement.style.setProperty("color-scheme", theme);
 })();
@@ -36,6 +51,7 @@ function SafeToggleAll(obj, forceDarkMode) {
         element.classList.toggle("dark-theme", forceDarkMode);
     });
 }
+
 //
 // get a list of elements for a given .ClassName or ElementName
 //
@@ -43,21 +59,13 @@ function ToggleDarkModeItem(name, forceDarkMode) {
     var thisElements = document.querySelectorAll(name);
     SafeToggleAll(thisElements, forceDarkMode);
 }
+
 //
-// ToggleDarkMode; forceDarkMode=true to froce into dark mode
-//
+// ToggleDarkMode; forceDarkMode=true to force into dark mode
+// Called when the lamp icon is clicked
+
 function ToggleDarkMode(forceDarkMode) {
-    var thisTheme = "dark";
-
-    if (forceDarkMode == null) {
-        forceDarkMode = true;
-    }
-
-    if (forceDarkMode) {
-        thisTheme = "dark";
-    } else {
-        thisTheme = "light";
-    }
+    var thisTheme = forceDarkMode ? "dark" : "light";
 
     var lightModeIcon = document.getElementById("lightModeIcon");
     var darkModeIcon = document.getElementById("darkModeIcon");
@@ -72,6 +80,13 @@ function ToggleDarkMode(forceDarkMode) {
         }
     }
 
+    SetThemeBackground(thisTheme);
+
+    /* Keep html class in sync with initial load logic */
+    document.documentElement.classList.remove("dark");
+    document.documentElement.classList.remove("light");
+    document.documentElement.classList.add(thisTheme);
+
     document.documentElement.setAttribute("data-theme", thisTheme);
     document.documentElement.style.setProperty("color-scheme", thisTheme);
 
@@ -81,6 +96,11 @@ function ToggleDarkMode(forceDarkMode) {
     }
 
     document.body.classList.toggle("dark-theme", forceDarkMode);
+
+    /* Optional: ensure body background matches after toggle */
+    if (document.body) {
+        document.body.style.backgroundColor = forceDarkMode ? "#111111" : "#ffffff";
+    }
 
     ToggleDarkModeItem("code", forceDarkMode);
     ToggleDarkModeItem("pre", forceDarkMode);
@@ -92,26 +112,4 @@ function ToggleDarkMode(forceDarkMode) {
     ToggleDarkModeItem(".sidebar", forceDarkMode);
     ToggleDarkModeItem(".authorbox", forceDarkMode);
     ToggleDarkModeItem("article", forceDarkMode);
-
-    /* Critical: never leave the page hidden after a toggle */
-    document.documentElement.style.setProperty("visibility", "visible");
 }
-
-/* Hide only until DOMContentLoaded to prevent a flash, then always show */
-(function () {
-    var hideForChange = null;
-
-    try {
-        hideForChange = localStorage.getItem("theme");
-    } catch (e) {
-        hideForChange = null;
-    }
-
-    if (hideForChange == null || hideForChange === "dark") {
-        document.documentElement.style.setProperty("visibility", "hidden");
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        document.documentElement.style.setProperty("visibility", "visible");
-    });
-})();

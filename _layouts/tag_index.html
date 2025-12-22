@@ -8,8 +8,9 @@ is_tag_index: true
 ---
 
 <!-- Begin /_layouts/tag_index.html -->
+{% assign tag_name = page.tag | default: page.title | default: page.slug | default: page.name %}
 
-{% for post in site.tags[page.title] %}
+{% for post in site.tags[tag_name] %}
     {% include article_index.html %}
 {% endfor %}
 

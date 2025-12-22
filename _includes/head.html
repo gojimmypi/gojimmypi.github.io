@@ -1,4 +1,20 @@
 {%- if site.page_debug -%}<!-- file: /_includes/head.html -->{%- endif -%}
+
+{%- if site.page_debug -%}<!-- helper to avoid page-load flash -->{%- endif -%}
+<style>
+    html {
+        background-color: #111111;
+    }
+
+    html[data-theme="light"] {
+        background-color: #ffffff;
+    }
+
+    html.theme-preload *, html.theme-preload *::before, html.theme-preload *::after {
+        transition: none !important;
+    }
+</style>
+
 {% if (jekyll.environment == "development") %}
 {%- if site.page_debug -%}<!-- jekyll.environment: development -->{%- endif -%}
 {%- if site.page_debug -%}<!-- this page is from [{{ page.path }}] -->{%- endif -%}
@@ -42,13 +58,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="manifest" href="{{ '/manifest.json' | relative_url }}">
-
-{%- if site.page_debug -%}<!-- helper to avoid page-load flash -->{%- endif -%}
-<style>
-    html.theme-preload * {
-        transition: none !important;
-    }
-</style>
 
 <script>
     (function () {
@@ -219,7 +228,6 @@ fallback.load({
 <link rel="stylesheet" id="color-change">
 
 {%- if site.page_debug -%}<!-- Site Infos -->{%- endif -%}
-
 
 {%- assign has_title = false -%}
 {%- if page.title and page.title != blank -%}
