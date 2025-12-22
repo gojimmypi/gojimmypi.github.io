@@ -62,35 +62,36 @@
 <script>
     (function () {
         var key = "theme";
-        var saved = null;
-
-        try {
-            saved = localStorage.getItem(key);
-        } catch (e) {
-            saved = null;
-        }
-
+        var savedTheme = null;
         var theme = "dark";
 
-        if (saved === "dark" || saved === "light") {
-            theme = saved;
+        try {
+            savedTheme = localStorage.getItem(key);
+        } catch (e) {
+            savedTheme = null;
+        }
+
+        if (savedTheme === "dark" || savedTheme === "light") {
+            theme = savedTheme;
         } else if (window.matchMedia) {
             theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            try {
+                localStorage.setItem(key, theme);
+            } catch (e2) {
+            }
         }
 
         var root = document.documentElement;
 
         root.classList.add("theme-preload");
 
-        /* One source of truth for CSS */
-        root.setAttribute("data-theme", theme);
+        root.style.backgroundColor = (theme === "dark") ? "#111111" : "#ffffff";
 
-        /* Back-compat for existing JS/CSS that expects html.dark or html.light */
         root.classList.remove("dark");
         root.classList.remove("light");
         root.classList.add(theme);
 
-        /* Let browser UI follow */
+        root.setAttribute("data-theme", theme);
         root.style.setProperty("color-scheme", theme);
     })();
 </script>
@@ -102,7 +103,7 @@
 {%- if site.page_debug -%}<!-- see https://developer.chrome.com/docs/lighthouse/pwa/themed-omnibox/?utm_source=lighthouse&utm_medium=devtools -->{%- endif -%}
 <meta name="theme-color" content="#333333" />
 
-<script type="text/javascript" src="{{ '/js/jquery-2.2.2.min.js' | relative_url }}"></script>
+<script src="{{ '/js/jquery-3.7.1.min.js' | relative_url }}"></script>
 
 {% if jekyll.environment != "development" %}
 <script type="text/javascript">
@@ -127,10 +128,9 @@ fallback.load({
 
     jQuery: [
         {% if jekyll.environment != "development" %}
-        "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js",
-        "https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js",
         {% endif %}
-        "{{ site.baseurl | replace: '//', '/' }}/js/jquery-2.2.2.min.js"
+        "{{ site.baseurl | replace: '//', '/' }}/js/jquery-3.7.1.min.js"
     ],
 
     Materialize: [
@@ -174,8 +174,6 @@ fallback.load({
 
 {% else %}
 <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}">
-
-{%- if site.page_debug -%}<!--script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script moved to above -->{%- endif -%}
 
 <script type="text/javascript" src="{{ '/scripts/jquery.toc.js' | relative_url }}"></script>
 <script type="text/javascript" src="{{ '/scripts/infinite/1-jquery.jscroll.js' | relative_url }}"></script>

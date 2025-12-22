@@ -10,38 +10,6 @@ function SetThemeBackground(theme) {
     }
 }
 
-/* Initial theme application (runs immediately) */
-(function () {
-    var key = "theme";
-    var savedTheme = null;
-    var theme = "dark";
-
-    try {
-        savedTheme = localStorage.getItem(key);
-    } catch (e) {
-        savedTheme = null;
-    }
-    // alert('Saved theme = ' + savedTheme);
-    if (savedTheme === "dark" || savedTheme === "light") {
-        theme = savedTheme;
-    } else if (window.matchMedia) {
-        theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-        try {
-            localStorage.setItem(key, theme);
-        } catch (e2) {
-        }
-    }
-
-    SetThemeBackground(theme);
-
-    document.documentElement.classList.remove("dark");
-    document.documentElement.classList.remove("light");
-    document.documentElement.classList.add(theme);
-
-    document.documentElement.setAttribute("data-theme", theme);
-    document.documentElement.style.setProperty("color-scheme", theme);
-})();
-
 function SafeToggleAll(obj, forceDarkMode) {
     if (!obj || obj === null || obj === undefined) {
         return;
