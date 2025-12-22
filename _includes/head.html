@@ -106,7 +106,7 @@
 <script src="{{ '/js/jquery-3.7.1.min.js' | relative_url }}"></script>
 
 {% if jekyll.environment != "development" %}
-<script type="text/javascript">
+<script>
 </script>
 {% endif %}
 
@@ -117,11 +117,11 @@
 {% endif %}
 
 {% if site.usefallback == null or site.usefallback == true %}
-<script type="text/javascript">
+<script>
     {% include _fallback.min.js %}
 </script>
 
-<script type="text/javascript">
+<script>
 fallback.load({
 
     main: "{{ site.baseurl | replace: '//', '/' }}/css/main.css?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}",
@@ -175,16 +175,16 @@ fallback.load({
 {% else %}
 <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}">
 
-<script type="text/javascript" src="{{ '/scripts/jquery.toc.js' | relative_url }}"></script>
-<script type="text/javascript" src="{{ '/scripts/infinite/1-jquery.jscroll.js' | relative_url }}"></script>
-<script type="text/javascript" src="{{ '/scripts/global/2-imagelightbox.js' | relative_url }}"></script>
-<script type="text/javascript" src="{{ '/scripts/global/scripts.js' | relative_url }}"></script>
-<script type="text/javascript" src="{{ '/js/materialize.min.js' | relative_url }}"></script>
-<script type="text/javascript" src="{{ '/scripts/infinite/init.js' | relative_url }}?forceversion=2"></script>
+<script src="{{ '/scripts/jquery.toc.js' | relative_url }}"></script>
+<script src="{{ '/scripts/infinite/1-jquery.jscroll.js' | relative_url }}"></script>
+<script src="{{ '/scripts/global/2-imagelightbox.js' | relative_url }}"></script>
+<script src="{{ '/scripts/global/scripts.js' | relative_url }}"></script>
+<script src="{{ '/js/materialize.min.js' | relative_url }}"></script>
+<script src="{{ '/scripts/infinite/init.js' | relative_url }}?forceversion=2"></script>
 {% endif %}
 
 {% if page.sidebar_toc %}
-<script type="text/javascript">
+<script>
     fallback.ready(function () {
         $('#post-content').toc({
             renderIn: '#renderTOC',
@@ -214,12 +214,12 @@ fallback.load({
 
 {%- if site.page_debug -%}<!-- Google Analytics. Put the ID in _config.yml -->{%- endif -%}
 {% if jekyll.environment != "development" %}
-<script type="text/javascript">
+<script>
 </script>
 {% endif %}
 
 {%- if site.page_debug -%}<!-- Load the user's last selected theme for the lamp -->{%- endif -%}
-<script type="text/javascript">
+<script>
     {% include _dark_mode.js %}
 </script>
 
