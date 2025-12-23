@@ -1,3 +1,5 @@
+/* file: /scripts/infinite/init.js */
+
 $(document).ready(function () {
     $(".articles").jscroll({
         contentSelector: "article, .pagination",
