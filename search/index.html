@@ -4,15 +4,24 @@ title: Search
 permalink: /search/
 ---
 
-<!-- This is the /search/index.html file to view search as a page (link at bottom of articles) -->
+{%- if site.page_debug -%}
+<!--
+    This is the /search/index.html file to view search as a page (link at bottom of articles)
+
+    See /_includes/header_search_ui.html for on-page searching
+
+    See <head> element for needed script:
+
+    <script>
+        window.SITE_BASEURL = "{{ site.baseurl | replace: '//', '/' }}";
+    </script>
+    <script src="/js/search.js"></script>
+-->
+{%- endif -%}
+
 <div class="search">
     <label for="searchBoxPage">Search posts</label>
     <input id="searchBoxPage" type="search" placeholder="Type to search..." autocomplete="off">
     <div id="searchStatusPage" aria-live="polite"></div>
     <ul id="searchResultsPage"></ul>
 </div>
-
-<script>
-    window.SITE_BASEURL = "{{ site.baseurl | replace: '//', '/' }}";
-</script>
-<script src="/js/search.js"></script>

@@ -197,6 +197,12 @@ fallback.load({
 <script src="{{ '/scripts/infinite/init.js' | relative_url }}?forceversion=2"></script>
 {% endif %}
 
+<script>
+    window.SITE_BASEURL = "{{ site.baseurl | replace: '//', '/' }}";
+</script>
+<script src="{{ '/js/search.js' | relative_url }}" defer></script>
+
+
 {% if page.sidebar_toc %}
 <script>
     fallback.ready(function () {

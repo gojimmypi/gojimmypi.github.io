@@ -17,7 +17,10 @@
     <body class="index">
 {% endif %}
         <header class="head">
-            <!-- use logic to toggle sidebar layouts page.sidebar = {% page.sidebar %} ;  page.sidebar_type = {% page.sidebar_type %} -->
+            {%- if site.page_debug -%}
+            <!-- use logic to toggle sidebar layouts page.sidebar = {{ page.sidebar }} ; page.sidebar_type = {{ page.sidebar_type }} -->
+            {%- endif -%}
+
             {% if page.sidebar == false or page.sidebar_type == "classic" %}
                 {% include header.html %}
             {% endif %}
