@@ -1,16 +1,17 @@
+/* FINGERPRINT_PREVIEW_SASS_SIDEBAR */
 // classic sidebar styles
 .classic-sidebar{
     width: $sidebar-width;
     background: white;
     @include shadow(1);
-    
+
     @media screen and (max-width: $sidebarcollapse){
         width: 100%;
         margin-bottom: $margin-width;
     }
 }
 
-.has-classic-sidebar-left{   
+.has-classic-sidebar-left{
     .margin{
         .content{
             @include flexbox(row-reverse, wrap, space-between, flex-start);
@@ -49,7 +50,7 @@
                     margin-bottom: $margin-width;
                 }
             }
-        }    
+        }
     }
 }
 
@@ -64,11 +65,11 @@
     overflow-y: auto;
     @include shadow(1);
     transition: .3s all ease;
-    
+
     .row{
         padding: 20px;
         border-bottom: $line;
-        
+
         .ts-no-slogan,
         .ts-icon{
             display: none;
