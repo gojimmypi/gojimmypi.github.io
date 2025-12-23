@@ -11,6 +11,17 @@
         background-color: #ffffff;
     }
 
+    /* Critical: prevent material sidebar flash before CSS tokens load */
+    .material-sidebar {
+        background-color: #f0f1f3;
+        color: #111111;
+    }
+
+    html[data-theme="dark"] .material-sidebar {
+        background-color: #2b2b2b;
+        color: #e7eaf0;
+    }
+
     html.theme-preload *, html.theme-preload *::before, html.theme-preload *::after {
         transition: none !important;
     }
@@ -92,7 +103,9 @@
         root.classList.remove("light");
         root.classList.add(theme);
 
+        /* Ensure the attribute exists before first paint (sidebar uses it) */
         root.setAttribute("data-theme", theme);
+
         root.style.setProperty("color-scheme", theme);
     })();
 </script>
@@ -178,7 +191,7 @@ fallback.load({
 
 <script src="{{ '/scripts/jquery.toc.js' | relative_url }}"></script>
 <script src="{{ '/scripts/infinite/1-jquery.jscroll.js' | relative_url }}"></script>
-<script src="{{ '/scripts/global/2-imagelightbox.js' | relative_url }}"></script>
+<script src="{{ '/scripts/global/2-imagelightbox.js' | relative_url }}?forceversion=2"></script>
 <script src="{{ '/scripts/global/scripts.js' | relative_url }}"></script>
 <script src="{{ '/js/materialize.min.js' | relative_url }}"></script>
 <script src="{{ '/scripts/infinite/init.js' | relative_url }}?forceversion=2"></script>

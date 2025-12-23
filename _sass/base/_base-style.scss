@@ -1,4 +1,4 @@
-﻿// file: _sass/base/_base_style.scss
+// file: _sass/base/_base_style.scss
 
 @charset "utf-8";
 
@@ -95,13 +95,17 @@ body {
     color: var(--text);
 }
 
-html {
-    color-scheme: light dark;
+html[data-theme="dark"] {
+    color-scheme: dark;
 }
 
-    html.theme-preload * {
-        transition: none !important;
-    }
+html[data-theme="light"] {
+    color-scheme: light;
+}
+
+html.theme-preload * {
+    transition: none !important;
+}
 
 /* ------------------------------------------------------------------ */
 
@@ -193,7 +197,8 @@ html body :not(pre) > code[class*="language-"] {
     border-radius: 6px;
     padding: 0.12em 0.35em;
     line-height: 1.2;
-    white-space: break-spaces;
+    white-space: normal;
+    word-break: break-word;
 }
 
 /* Block code surface */

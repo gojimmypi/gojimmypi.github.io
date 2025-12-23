@@ -55,9 +55,8 @@
 
 <script>
     /* This is typically the start of non IIFE code */
-    const codeBlocks = document.querySelectorAll('.code-header + .highlighter-rouge');
-    const copyCodeButtons = document.querySelectorAll('.copy-code-button');
-
+    const codeBlocks = document.querySelectorAll(".code-header + .highlighter-rouge");
+    const copyCodeButtons = document.querySelectorAll(".copy-code-button");
 
     if ((codeBlocks.length == 0) && (copyCodeButtons.length > 0)) {
         {%-  if jekyll.environment == "development" -%}
@@ -70,7 +69,7 @@
             // some older pages use HTML with a blank innerText, non-blank textContent
             const codeAlt = codeBlocks[index].textContent;
 
-            copyCodeButton.addEventListener('click', () => {
+            copyCodeButton.addEventListener("click", () => {
                 if (code == "" || code == null) {
                     // use text from innerText
                     window.navigator.clipboard.writeText(codeAlt);
@@ -79,20 +78,19 @@
                     // use text from textContent
                     window.navigator.clipboard.writeText(code);
                 }
-                copyCodeButton.classList.add('copied');
+                copyCodeButton.classList.add("copied");
 
                 setTimeout(() => {
-                    copyCodeButton.classList.remove('copied');
+                    copyCodeButton.classList.remove("copied");
                 }, 2000);
             });
         });
 
     }
 
-
     const themeMap = {
-        light: 'dark',
-        dark: 'light',
+        light: "dark",
+        dark: "light",
     };
 
     /* lamp theme toggle */
@@ -101,11 +99,11 @@
             /* this is called once at page load time, not every time the lamp is pressed! */
             this.toggleElement = document.querySelector(toggleSelector);
             if (this.toggleElement) {
-                this.toggleElement.addEventListener('click', () => this.toggle());
+                this.toggleElement.addEventListener("click", () => this.toggle());
             }
             this.themeOwner = themeOwner;
             this.storageKey = storageKey;
-            this.theme = localStorage.getItem(storageKey) || 'light';
+            this.theme = localStorage.getItem(storageKey) || "light";
             this.syncAriaLabelWithStorage();
         }
 
@@ -123,7 +121,7 @@
             /* Keep CSS selectors in sync with the current theme */
             this.themeOwner.setAttribute("data-theme", newTheme);
 
-            const forceDarkMode = (newTheme == 'dark') ? true : false;
+            const forceDarkMode = (newTheme == "dark") ? true : false;
             ToggleDarkMode(forceDarkMode);
 
             localStorage.setItem(this.storageKey, newTheme);
@@ -137,30 +135,48 @@
         }
     }
 
-
     /* lamp toggle */
     const themeToggle = new ThemeToggle({
-        toggleSelector: '#theme-toggle',
-        storageKey: 'theme',
+        toggleSelector: "#theme-toggle",
+        storageKey: "theme",
         themeOwner: document.documentElement,
     });
-
-
-    $(document).ready(function () {
-        // move to init ?
-        var _TheActiveTheme = localStorage.getItem('theme');
-        /* alert(_TheActiveTheme); */
-        if (_TheActiveTheme == null || _TheActiveTheme == "dark") {
-            ToggleDarkMode(true)
-        }
-    });
-
 </script>
 
 <!-- helper to avoid page-load flash -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.documentElement.classList.remove("theme-preload");
-        document.documentElement.style.setProperty("visibility", "visible");
-    });
+    (function () {
+        if (window.__themeRevealDone) {
+            return;
+        }
+        window.__themeRevealDone = true;
+
+        function applyThemeClasses() {
+            var saved = null;
+            try {
+                saved = localStorage.getItem("theme");
+            }
+            catch (e) {
+                saved = null;
+            }
+            if (saved == null || saved === "dark") {
+                ToggleDarkMode(true);
+            }
+            else {
+                ToggleDarkMode(false);
+            }
+        }
+
+        function reveal() {
+            applyThemeClasses();
+            document.documentElement.classList.remove("theme-preload");
+            document.documentElement.style.visibility = "visible";
+        }
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", reveal, { once: true });
+        } else {
+            reveal();
+        }
+    })();
 </script>

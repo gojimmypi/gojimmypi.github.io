@@ -29,10 +29,24 @@ function ToggleDarkModeItem(name, forceDarkMode) {
 }
 
 //
+var currentMode = "empty_currentMode";
 // ToggleDarkMode; forceDarkMode=true to force into dark mode
 // Called when the lamp icon is clicked
 
 function ToggleDarkMode(forceDarkMode) {
+    var getTheme = "empty_getTheme";
+    try {
+        localStorage.getItem("theme", getTheme);
+    }
+    catch (e) {
+
+    }
+
+    /* did we already set the desired theme? */
+    if (getTheme == currentMode) {
+        return;
+    }
+
     var thisTheme = forceDarkMode ? "dark" : "light";
 
     var lightModeIcon = document.getElementById("lightModeIcon");
@@ -40,12 +54,18 @@ function ToggleDarkMode(forceDarkMode) {
 
     if (lightModeIcon && darkModeIcon) {
         if (forceDarkMode) {
+            currentMode = "dark";
             lightModeIcon.style.setProperty("display", "none");
             darkModeIcon.style.setProperty("display", "inline");
-        } else {
+        }
+        else {
+            currentMode = "light";
             lightModeIcon.style.setProperty("display", "inline");
             darkModeIcon.style.setProperty("display", "none");
         }
+    }
+    else {
+        /* missing!*/
     }
 
     SetThemeBackground(thisTheme);
@@ -60,7 +80,9 @@ function ToggleDarkMode(forceDarkMode) {
 
     try {
         localStorage.setItem("theme", thisTheme);
-    } catch (e) {
+    }
+    catch (e) {
+
     }
 
     document.body.classList.toggle("dark-theme", forceDarkMode);
