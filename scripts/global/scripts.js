@@ -1,4 +1,8 @@
 /* scripts/global/scripts.js  */
+
+/* NOTE: Similar (not identical) site UI init + cookies + lightbox code exists in js/global.infinite.toc.min.js.
+   This file uses baseUrl = window.SITE_BASEURL || "", and has a slightly different ".toggle-link" handler. */
+
 $(document).ready(function () {
 
     var baseUrl = window.SITE_BASEURL || "";
@@ -85,23 +89,25 @@ $(document).ready(function () {
     }
 });
 
+/* NOTE: Similar (not identical) scroll hook exists in js/global.infinite.toc.min.js. */
 $(window).scroll(function () {
     // scroll stuff
 });
 
+/* NOTE: Similar cookie helper functions exist in js/global.infinite.toc.min.js, but formatting differs. */
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+d.toUTCString();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + "; " + expires;
 }
 
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
+    for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
+        while (c.charAt(0) == ' ') c = c.substring(1);
         if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
     }
     return "";
@@ -116,7 +122,7 @@ function checkCookie(cname) {
     }
 }
 
-// lightbox stuff
+/* NOTE: Similar (not identical) lightbox init exists in js/global.infinite.toc.min.js. */
 $(function () {
     var activityIndicatorOn = function () {
             $('<div id="imagelightbox-loading"><div></div></div>').appendTo('body');
@@ -216,7 +222,7 @@ $(function () {
             $('.imagelightbox-arrow').remove();
         };
 
-    //	ALL COMBINED
+    //  ALL COMBINED
     var selectorF = 'a[data-imagelightbox="f"]';
     var instanceF = $(selectorF).imageLightbox({
         onStart: function () {
