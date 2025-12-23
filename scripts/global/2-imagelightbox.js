@@ -79,7 +79,17 @@
 
             isTargetValid = function( element )
             {
-                return $( element ).prop( 'tagName' ).toLowerCase() == 'a' && ( new RegExp( '\.(' + options.allowedTypes + ')$', 'i' ) ).test( $( element ).attr( 'href' ) );
+                if (!element || element.nodeType !== 1) {
+                    return false;
+                }
+
+                if (element.tagName !== 'A') {
+                    return false;
+                }
+
+                var href = element.getAttribute('href') || '';
+
+                return new RegExp('\\.(' + options.allowedTypes + ')$', 'i').test(href);
             },
 
             setImage = function()
