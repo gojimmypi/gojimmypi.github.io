@@ -17,7 +17,7 @@
     <body class="index">
 {% endif %}
         <header class="head">
-            <!-- use logic to toggle sidebar layouts -->
+            <!-- use logic to toggle sidebar layouts page.sidebar = {% page.sidebar %} ;  page.sidebar_type = {% page.sidebar_type %} -->
             {% if page.sidebar == false or page.sidebar_type == "classic" %}
                 {% include header.html %}
             {% endif %}
@@ -25,7 +25,7 @@
             {% include nav.html %}
         </header>
         {% if page.search != false %}
-            {% include search.html %}
+            <!-- move search here -->
         {% endif %}
         <div class="margin">
             <div class="content">
