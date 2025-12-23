@@ -8,10 +8,12 @@
     var boxPage;
     var resultsPage;
     var statusPage;
+    var tagsOnlyPage;
 
     boxPage = document.getElementById("searchBoxPage");
     resultsPage = document.getElementById("searchResultsPage");
     statusPage = document.getElementById("searchStatusPage");
+    tagsOnlyPage = document.getElementById("searchTagsOnlyPage");
 
     /* Header widgets (optional) */
     var containerHeader;
@@ -19,11 +21,13 @@
     var resultsHeader;
     var statusHeader;
     var backdropHeader;
+    var tagsOnlyHeader;
 
     containerHeader = document.getElementById("headerSearchContainer");
     boxHeader = document.getElementById("searchBox");
     resultsHeader = document.getElementById("searchResults");
     statusHeader = document.getElementById("searchStatus");
+    tagsOnlyHeader = document.getElementById("searchTagsOnlyHeader");
     backdropHeader = null;
 
     if (containerHeader) {
@@ -34,10 +38,12 @@
     var box;
     var results;
     var status;
+    var tagsOnly;
 
     box = boxPage || boxHeader;
     results = resultsPage || resultsHeader;
     status = statusPage || statusHeader;
+    tagsOnly = tagsOnlyPage || tagsOnlyHeader;
 
     if (!box || !results || !status) {
         return;
@@ -71,47 +77,58 @@
             .filter(function (s) { return s.length >= 2; });
     }
 
-    function scoreItem(item, terms) {
-        var title;
-        var tags;
-        var cats;
-        var excerpt;
-        var hay;
-        var score;
-        var i;
-        var t;
+    function isTagsOnlyEnabled() {
+        if (!tagsOnly) {
+            return false;
+        }
+        return !!tagsOnly.checked;
+    }
 
-        title = (item.title || "").toLowerCase();
-        tags = Array.isArray(item.tags) ? item.tags.join(" ").toLowerCase() : "";
-        cats = Array.isArray(item.categories) ? item.categories.join(" ").toLowerCase() : "";
-        excerpt = (item.excerpt || "").toLowerCase();
+function scoreItem(item, terms, tagsOnlyMode) {
+    var title;
+    var tags;
+    var cats;
+    var excerpt;
+    var score;
+    var i;
+    var t;
 
-        hay = title + " " + tags + " " + cats + " " + excerpt;
+    title = (item.title || "").toLowerCase();
+    tags = Array.isArray(item.tags) ? item.tags.join(" ").toLowerCase() : "";
+    cats = Array.isArray(item.categories) ? item.categories.join(" ").toLowerCase() : "";
+    excerpt = (item.excerpt || "").toLowerCase();
 
-        score = 0;
+    score = 0;
 
-        for (i = 0; i < terms.length; i += 1) {
-            t = terms[i];
-            if (!t) {
-                continue;
-            }
-
-            if (title.indexOf(t) >= 0) {
-                score += 10;
-            }
-            if (tags.indexOf(t) >= 0) {
-                score += 6;
-            }
-            if (cats.indexOf(t) >= 0) {
-                score += 4;
-            }
-            if (hay.indexOf(t) >= 0) {
-                score += 1;
-            }
+    for (i = 0; i < terms.length; i += 1) {
+        t = terms[i];
+        if (!t) {
+            continue;
         }
 
-        return score;
+        if (tagsOnlyMode) {
+            if (tags.indexOf(t) >= 0) {
+                score += 10;
+            }
+            continue;
+        }
+
+        if (title.indexOf(t) >= 0) {
+            score += 10;
+        }
+        if (excerpt.indexOf(t) >= 0) {
+            score += 5;
+        }
+        if (tags.indexOf(t) >= 0) {
+            score += 4;
+        }
+        if (cats.indexOf(t) >= 0) {
+            score += 2;
+        }
     }
+
+    return score;
+}
 
     /* ------------------------------------------------------------
        Header dropdown UX (only if header container exists)
@@ -334,7 +351,7 @@
         return url;
     }
 
-    function render(items, terms) {
+    function render(items, terms, tagsOnlyMode) {
         clearResults();
 
         if (!terms.length) {
@@ -350,7 +367,7 @@
         scored = [];
 
         for (i = 0; i < items.length; i += 1) {
-            s = scoreItem(items[i], terms);
+            s = scoreItem(items[i], terms, tagsOnlyMode);
             if (s > 0) {
                 scored.push({ item: items[i], score: s });
             }
@@ -402,19 +419,26 @@
     }
 
     function init(data) {
-        function onInput() {
+        function runSearch() {
             var q;
             var terms;
+            var tagsOnlyMode;
 
             q = box.value || "";
             terms = tokenize(q);
-            render(data, terms);
+            tagsOnlyMode = isTagsOnlyEnabled();
+
+            render(data, terms, tagsOnlyMode);
         }
 
-        box.addEventListener("input", onInput);
+        box.addEventListener("input", runSearch);
+
+        if (tagsOnly) {
+            tagsOnly.addEventListener("change", runSearch);
+        }
 
         if ((box.value || "").trim().length >= 2) {
-            onInput();
+            runSearch();
         } else {
             setStatus("");
             headerUpdateOpenState();
