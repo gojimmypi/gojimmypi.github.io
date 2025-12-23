@@ -117,5 +117,8 @@ cp --recursive ./_site/tag/* ./tag
 echo "Copy complete."
 echo ""
 
+echo "Ensure all tag files use LF line endings"
+dos2unix tag/**/*.html
+
 echo "running: bundle exec jekyll serve --profile --incremental --drafts"
 bundle exec jekyll serve --profile --incremental --drafts

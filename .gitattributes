@@ -4,3 +4,9 @@
 *.js   text eol=lf
 *.scss text eol=lf
 *.yml  text eol=lf
+
+# Explicitly enforce LF for generated pages
+tag/**/*.html     text eol=lf
+tags/**/*.html    text eol=lf
+author/**/*.html  text eol=lf
+archive/**/*.html text eol=lf

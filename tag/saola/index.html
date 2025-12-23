@@ -3,123 +3,119 @@
 <head>
     <!-- /_layouts/index.html page.layout = tag_index -->
     <meta charset="UTF-8" />
-    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1766346951">
+    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1766517018">
 
-    
+    <style>
+    html {
+        background-color: #111111;
+        visibility: hidden;
+    }
 
+    html[data-theme="light"] {
+        background-color: #ffffff;
+    }
 
-<script src="https://analytics.ahrefs.com/analytics.js" data-key="RwCY/0yQXz6mj2UhcKhjTQ" async></script>
+    /* Critical: prevent material sidebar flash before CSS tokens load */
+    .material-sidebar {
+        background-color: #f0f1f3;
+        color: #111111;
+    }
 
+    html[data-theme="dark"] .material-sidebar {
+        background-color: #2b2b2b;
+        color: #e7eaf0;
+    }
 
-
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-
-    /* Default consent state (must run before GA loads) */
-    gtag("consent", "default", {
-        "analytics_storage": "denied",
-        "ad_storage": "denied",
-        "ad_user_data": "denied",
-        "ad_personalization": "denied",
-        "wait_for_update": 500
-    });
-</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-LPK5SGT19T"></script>
-<script>
-    gtag("js", new Date());
-    gtag("config", "G-LPK5SGT19T");
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="manifest" href="/manifest.json"><style>
-    html.theme-preload * {
+    html.theme-preload *, html.theme-preload *::before, html.theme-preload *::after {
         transition: none !important;
     }
 </style>
 
+
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="/manifest.json">
+
 <script>
     (function () {
         var key = "theme";
-        var saved = null;
-
-        try {
-            saved = localStorage.getItem(key);
-        } catch (e) {
-            saved = null;
-        }
-
+        var savedTheme = null;
         var theme = "dark";
 
-        if (saved === "dark" || saved === "light") {
-            theme = saved;
+        try {
+            savedTheme = localStorage.getItem(key);
+        } catch (e) {
+            savedTheme = null;
+        }
+
+        if (savedTheme === "dark" || savedTheme === "light") {
+            theme = savedTheme;
         } else if (window.matchMedia) {
             theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            try {
+                localStorage.setItem(key, theme);
+            } catch (e2) {
+            }
         }
 
         var root = document.documentElement;
 
         root.classList.add("theme-preload");
 
-        /* One source of truth for CSS */
-        root.setAttribute("data-theme", theme);
+        root.style.backgroundColor = (theme === "dark") ? "#111111" : "#ffffff";
 
-        /* Back-compat for existing JS/CSS that expects html.dark or html.light */
         root.classList.remove("dark");
         root.classList.remove("light");
         root.classList.add(theme);
 
-        /* Let browser UI follow */
+        /* Ensure the attribute exists before first paint (sidebar uses it) */
+        root.setAttribute("data-theme", theme);
+
         root.style.setProperty("color-scheme", theme);
     })();
 </script><meta content="width=device-width, initial-scale=1" name="viewport" /><meta name="theme-color" content="#333333" />
 
-<script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script>
+<script src="/js/jquery-3.7.1.min.js"></script>
 
 
 
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1766346951"><script type="text/javascript" src="/scripts/jquery.toc.js"></script>
-<script type="text/javascript" src="/scripts/infinite/1-jquery.jscroll.js"></script>
-<script type="text/javascript" src="/scripts/global/2-imagelightbox.js"></script>
-<script type="text/javascript" src="/scripts/global/scripts.js"></script>
-<script type="text/javascript" src="/js/materialize.min.js"></script>
-<script type="text/javascript" src="/scripts/infinite/init.js?forceversion=2"></script>
+<link rel="stylesheet" href="/css/main.css?v=1766517018">
+
+<script src="/scripts/jquery.toc.js"></script>
+<script src="/scripts/infinite/1-jquery.jscroll.js"></script>
+<script src="/scripts/global/2-imagelightbox.js?forceversion=2"></script>
+<script src="/scripts/global/scripts.js"></script>
+<script src="/js/materialize.min.js"></script>
+<script src="/scripts/infinite/init.js?forceversion=2"></script>
+
+
+<script>
+    window.SITE_BASEURL = "";
+</script>
+<script src="/js/search.js" defer></script>
 
 
 
 
-<script type="text/javascript">
+<script>
     // _dark_mode.js
-// typically included in the head.html.
+// Loaded early (typically from head.html)
 
-(function () {
-    var key = "theme";
-    var savedTheme = null;
-    var theme = "dark";
-
-    try {
-        savedTheme = localStorage.getItem(key);
-    } catch (e) {
-        savedTheme = null;
+/* Ensure background color is set immediately to prevent white flash */
+function SetThemeBackground(theme) {
+    if (theme === "dark") {
+        document.documentElement.style.backgroundColor = "#111111";
+    } else {
+        document.documentElement.style.backgroundColor = "#ffffff";
     }
-    // alert('Saved theme = ' + savedTheme);
-    if (savedTheme === "dark" || savedTheme === "light") {
-        theme = savedTheme;
-    } else if (window.matchMedia) {
-        theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-        try {
-            localStorage.setItem(key, theme);
-        } catch (e2) {
-        }
-    }
-
-    document.documentElement.className = theme;
-    document.documentElement.setAttribute("data-theme", theme);
-    document.documentElement.style.setProperty("color-scheme", theme);
-})();
+}
 
 function SafeToggleAll(obj, forceDarkMode) {
     if (!obj || obj === null || obj === undefined) {
@@ -130,6 +126,7 @@ function SafeToggleAll(obj, forceDarkMode) {
         element.classList.toggle("dark-theme", forceDarkMode);
     });
 }
+
 //
 // get a list of elements for a given .ClassName or ElementName
 //
@@ -137,44 +134,70 @@ function ToggleDarkModeItem(name, forceDarkMode) {
     var thisElements = document.querySelectorAll(name);
     SafeToggleAll(thisElements, forceDarkMode);
 }
+
 //
-// ToggleDarkMode; forceDarkMode=true to froce into dark mode
-//
+var currentMode = "empty_currentMode";
+// ToggleDarkMode; forceDarkMode=true to force into dark mode
+// Called when the lamp icon is clicked
+
 function ToggleDarkMode(forceDarkMode) {
-    var thisTheme = "dark";
+    var getTheme = "empty_getTheme";
+    try {
+        localStorage.getItem("theme", getTheme);
+    }
+    catch (e) {
 
-    if (forceDarkMode == null) {
-        forceDarkMode = true;
     }
 
-    if (forceDarkMode) {
-        thisTheme = "dark";
-    } else {
-        thisTheme = "light";
+    /* did we already set the desired theme? */
+    if (getTheme == currentMode) {
+        return;
     }
+
+    var thisTheme = forceDarkMode ? "dark" : "light";
 
     var lightModeIcon = document.getElementById("lightModeIcon");
     var darkModeIcon = document.getElementById("darkModeIcon");
 
     if (lightModeIcon && darkModeIcon) {
         if (forceDarkMode) {
+            currentMode = "dark";
             lightModeIcon.style.setProperty("display", "none");
             darkModeIcon.style.setProperty("display", "inline");
-        } else {
+        }
+        else {
+            currentMode = "light";
             lightModeIcon.style.setProperty("display", "inline");
             darkModeIcon.style.setProperty("display", "none");
         }
     }
+    else {
+        /* missing!*/
+    }
+
+    SetThemeBackground(thisTheme);
+
+    /* Keep html class in sync with initial load logic */
+    document.documentElement.classList.remove("dark");
+    document.documentElement.classList.remove("light");
+    document.documentElement.classList.add(thisTheme);
 
     document.documentElement.setAttribute("data-theme", thisTheme);
     document.documentElement.style.setProperty("color-scheme", thisTheme);
 
     try {
         localStorage.setItem("theme", thisTheme);
-    } catch (e) {
+    }
+    catch (e) {
+
     }
 
     document.body.classList.toggle("dark-theme", forceDarkMode);
+
+    /* Optional: ensure body background matches after toggle */
+    if (document.body) {
+        document.body.style.backgroundColor = forceDarkMode ? "#111111" : "#ffffff";
+    }
 
     ToggleDarkModeItem("code", forceDarkMode);
     ToggleDarkModeItem("pre", forceDarkMode);
@@ -186,29 +209,7 @@ function ToggleDarkMode(forceDarkMode) {
     ToggleDarkModeItem(".sidebar", forceDarkMode);
     ToggleDarkModeItem(".authorbox", forceDarkMode);
     ToggleDarkModeItem("article", forceDarkMode);
-
-    /* Critical: never leave the page hidden after a toggle */
-    document.documentElement.style.setProperty("visibility", "visible");
 }
-
-/* Hide only until DOMContentLoaded to prevent a flash, then always show */
-(function () {
-    var hideForChange = null;
-
-    try {
-        hideForChange = localStorage.getItem("theme");
-    } catch (e) {
-        hideForChange = null;
-    }
-
-    if (hideForChange == null || hideForChange === "dark") {
-        document.documentElement.style.setProperty("visibility", "hidden");
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        document.documentElement.style.setProperty("visibility", "visible");
-    });
-})();
 
 </script>
 
@@ -217,8 +218,8 @@ function ToggleDarkMode(forceDarkMode) {
 <meta property="og:title" content="Saola" />
 <meta name="author" content="gojimmypi" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="blog" />
-<meta property="og:description" content="blog" />
+<meta name="description" content="Embedded, FPGA, wolfSSL, ESP32, Arduino, and hardware projects." />
+<meta property="og:description" content="Embedded, FPGA, wolfSSL, ESP32, Arduino, and hardware projects." />
 <link rel="canonical" href="https://gojimmypi.github.io/tag/saola/" />
 <meta property="og:url" content="https://gojimmypi.github.io/tag/saola/" />
 <meta property="og:site_name" content="gojimmypi" />
@@ -226,9 +227,9 @@ function ToggleDarkMode(forceDarkMode) {
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Saola" />
 <meta name="twitter:site" content="@gojimmypi" />
-<meta name="twitter:creator" content="@#" />
+<meta name="twitter:creator" content="@gojimmypi" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"gojimmypi"},"description":"blog","headline":"Saola","url":"https://gojimmypi.github.io/tag/saola/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"gojimmypi"},"description":"Embedded, FPGA, wolfSSL, ESP32, Arduino, and hardware projects.","headline":"Saola","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://gojimmypi.github.io/images/gojimmypi.svg"},"name":"gojimmypi"},"url":"https://gojimmypi.github.io/tag/saola/"}</script>
 <!-- End Jekyll SEO tag -->
 <title>Saola Keyword Tagged Pages</title><!-- http://realfavicongenerator.net -->
 <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-touch-icon-57x57.png">
@@ -255,9 +256,7 @@ function ToggleDarkMode(forceDarkMode) {
 
     <body class="index">
 
-        <header class="head">
-            <!-- use logic to toggle sidebar layouts -->
-            <!-- _includes/nav.html -->
+        <header class="head"><!-- _includes/nav.html -->
 <div class="main-menu">
     <div class="content">
 
@@ -453,13 +452,7 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 
         </header>
         
-            <!-- /_includes/search.html page.layout = tag_index -->
-<div id="search">
-    <form role="search" method="get" action="/search/" id="searchform">
-        <input id="query" name="query" type="search" placeholder="Enter here..." />
-    </form>
-</div>
-
+            <!-- move search here -->
         
         <div class="margin">
             <div class="content">
@@ -470,6 +463,7 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
                 <h1 class="title">Saola</h1>
                 <div class="articles">
                     <!-- Begin /_layouts/tag_index.html -->
+
 
 
     <!-- /_includes/article_index.html - each post has their own little article element. -->
@@ -490,6 +484,7 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 
 
 <!-- End /_layouts/tag_index.html -->
+
                 </div>
                 <!-- use logic to toggle sidebar layouts -->
                 
@@ -511,10 +506,10 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
             </td>
         </tr>
     </table>
-</footer><script type="text/javascript">
-    const codeBlocks = document.querySelectorAll('.code-header + .highlighter-rouge');
-    const copyCodeButtons = document.querySelectorAll('.copy-code-button');
-
+</footer><script>
+    /* This is typically the start of non IIFE code */
+    const codeBlocks = document.querySelectorAll(".code-header + .highlighter-rouge");
+    const copyCodeButtons = document.querySelectorAll(".copy-code-button");
 
     if ((codeBlocks.length == 0) && (copyCodeButtons.length > 0)) {alert("Warning: code block missing. Is your language spec missing or not lower case? Copy icons disabled.");}
     else {
@@ -523,7 +518,7 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
             // some older pages use HTML with a blank innerText, non-blank textContent
             const codeAlt = codeBlocks[index].textContent;
 
-            copyCodeButton.addEventListener('click', () => {
+            copyCodeButton.addEventListener("click", () => {
                 if (code == "" || code == null) {
                     // use text from innerText
                     window.navigator.clipboard.writeText(codeAlt);
@@ -532,20 +527,19 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
                     // use text from textContent
                     window.navigator.clipboard.writeText(code);
                 }
-                copyCodeButton.classList.add('copied');
+                copyCodeButton.classList.add("copied");
 
                 setTimeout(() => {
-                    copyCodeButton.classList.remove('copied');
+                    copyCodeButton.classList.remove("copied");
                 }, 2000);
             });
         });
 
     }
 
-
     const themeMap = {
-        light: 'dark',
-        dark: 'light',
+        light: "dark",
+        dark: "light",
     };
 
     /* lamp theme toggle */
@@ -553,10 +547,12 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
         constructor({ toggleSelector, themeOwner, storageKey }) {
             /* this is called once at page load time, not every time the lamp is pressed! */
             this.toggleElement = document.querySelector(toggleSelector);
-            this.toggleElement.addEventListener('click', () => this.toggle());
+            if (this.toggleElement) {
+                this.toggleElement.addEventListener("click", () => this.toggle());
+            }
             this.themeOwner = themeOwner;
             this.storageKey = storageKey;
-            this.theme = localStorage.getItem(storageKey) || 'light';
+            this.theme = localStorage.getItem(storageKey) || "light";
             this.syncAriaLabelWithStorage();
         }
 
@@ -574,7 +570,7 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
             /* Keep CSS selectors in sync with the current theme */
             this.themeOwner.setAttribute("data-theme", newTheme);
 
-            const forceDarkMode = (newTheme == 'dark') ? true : false;
+            const forceDarkMode = (newTheme == "dark") ? true : false;
             ToggleDarkMode(forceDarkMode);
 
             localStorage.setItem(this.storageKey, newTheme);
@@ -588,32 +584,50 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
         }
     }
 
-
     /* lamp toggle */
     const themeToggle = new ThemeToggle({
-        toggleSelector: '#theme-toggle',
-        storageKey: 'theme',
+        toggleSelector: "#theme-toggle",
+        storageKey: "theme",
         themeOwner: document.documentElement,
     });
-
-
-    $(document).ready(function () {
-        // move to init ?
-        var _TheActiveTheme = localStorage.getItem('theme');
-        /* alert(_TheActiveTheme); */
-        if (_TheActiveTheme == null || _TheActiveTheme == "dark") {
-            ToggleDarkMode(true)
-        }
-    });
-
 </script>
 
 <!-- helper to avoid page-load flash -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.documentElement.classList.remove("theme-preload");
-        document.documentElement.style.setProperty("visibility", "visible");
-    });
+    (function () {
+        if (window.__themeRevealDone) {
+            return;
+        }
+        window.__themeRevealDone = true;
+
+        function applyThemeClasses() {
+            var saved = null;
+            try {
+                saved = localStorage.getItem("theme");
+            }
+            catch (e) {
+                saved = null;
+            }
+            if (saved == null || saved === "dark") {
+                ToggleDarkMode(true);
+            }
+            else {
+                ToggleDarkMode(false);
+            }
+        }
+
+        function reveal() {
+            applyThemeClasses();
+            document.documentElement.classList.remove("theme-preload");
+            document.documentElement.style.visibility = "visible";
+        }
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", reveal, { once: true });
+        } else {
+            reveal();
+        }
+    })();
 </script>
 
     </body>
