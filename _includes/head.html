@@ -277,8 +277,33 @@ Pretty title only.
 
 {%- if site.page_debug -%}<!-- pretty_title={{ pretty_title }} -->{%- endif -%}
 
+
+{%- comment -%}
+Ensure og:image exists.
+Priority: page.image -> page.thumbnail (migrated posts) -> site.image
+Always emit absolute URLs.
+{%- endcomment -%}
+
+{%- assign resolved_image = "" -%}
+{%- if page.image and page.image != blank -%}
+    {%- assign resolved_image = page.image -%}
+{%- elsif page.thumbnail and page.thumbnail != blank -%}
+    {%- assign resolved_image = page.thumbnail -%}
+{%- elsif site.image and site.image != blank -%}
+    {%- assign resolved_image = site.image -%}
+{%- endif -%}
+
 {%- seo title=false -%}
+
+{%- if resolved_image != "" -%}
+<meta property="og:image" content="{{ resolved_image | absolute_url }}">
+<meta property="og:image:secure_url" content="{{ resolved_image | absolute_url }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{{ resolved_image | absolute_url }}">
+{%- endif -%}
+
 <title>{{ pretty_title }}</title>
+
 
 
 {% include favicon.html %}
