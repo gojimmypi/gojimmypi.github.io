@@ -55,7 +55,7 @@ nav.dark-theme:not(#menu):not(.iconnav) {
     Burger menu alignment fix (mobile/off-canvas):
     When #menu is opened via :target (click burger), center the icons and links.
 */
-@media screen and (max-width: 900px) {
+@media (max-width: 900px) {
     #menu:target > ul {
         text-align: center !important;
     }

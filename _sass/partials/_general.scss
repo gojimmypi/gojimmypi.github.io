@@ -97,7 +97,7 @@ body {
     transform: translate(0);
     will-change: top, opacity;
 
-    @media screen and (max-width: $modal-width-change) {
+    @media (max-width: $modal-width-change) {
         width: 80%;
     }
 

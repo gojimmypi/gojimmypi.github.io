@@ -43,13 +43,13 @@
             float: right;
         }
 
-        @media screen and (max-width: 490px) {
+        @media (max-width: 490px) {
             .long {
                 display: none;
             }
         }
 
-        @media screen and (max-width: 318px) {
+        @media (max-width: 318px) {
             .short {
                 display: none;
             }

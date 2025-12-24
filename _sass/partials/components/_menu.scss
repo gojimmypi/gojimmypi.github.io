@@ -14,7 +14,7 @@
         DESKTOP ONLY: pill styling for the horizontal menu.
         This does NOT affect the slide-out panel (mobile).
     */
-    @media screen and (min-width: $mainnav-collapse) {
+    @media (min-width: $mainnav-collapse) {
         border-radius: 10px;
         padding: 5px 6px;
         /*
@@ -29,7 +29,7 @@
         border: 1px solid rgba(0, 0, 0, 0.18);
     }
     /* Desktop horizontal menu: hide labels as we approach the collapse breakpoint */
-    @media screen and (max-width: ($mainnav-collapse + 240px)) and (min-width: ($mainnav-collapse + 1px)) {
+    @media (max-width: ($mainnav-collapse + 240px)) and (min-width: ($mainnav-collapse + 1px)) {
         /* Your markup uses .nav-text, your SCSS uses .menu-text in mobile */
         .nav-text {
             display: none;
@@ -42,7 +42,7 @@
         }
     }
     /* Desktop-only inner pill styling for menu items */
-    @media screen and (min-width: ($mainnav-collapse + 1px)) {
+    @media (min-width: ($mainnav-collapse + 1px)) {
 
         > ul > li {
             border-radius: 8px;
@@ -118,7 +118,7 @@
         display: block;
     }
     // Responsive Version (Off-Canvas)
-    @media screen and (max-width: $mainnav-collapse) {
+    @media (max-width: $mainnav-collapse) {
         padding: 0;
         width: 320px;
         height: 100%;
@@ -265,7 +265,7 @@
 
 // Toggle
 .toggle-link {
-    @media screen and (min-width: $mainnav-collapse) {
+    @media (min-width: $mainnav-collapse) {
         display: none;
     }
 }

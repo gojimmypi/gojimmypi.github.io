@@ -15,7 +15,7 @@
             border-radius: 50em;
         }
 
-        @media screen and (max-width: $authorbox-collapse){
+        @media (max-width: $authorbox-collapse){
             @include center();
             padding-right: 0;
         }
@@ -27,7 +27,7 @@
         @include flexbox(row, wrap, flex-start,flex-start);
         width: 100%;
 
-        @media screen and (min-width: $authorbox-collapse + 1){
+        @media (min-width: $authorbox-collapse + 1){
             width: calc(100% - #{$avatar} );
             height: 100%;
         }

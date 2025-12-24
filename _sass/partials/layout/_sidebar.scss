@@ -5,7 +5,7 @@
     color: var(--text);
     @include shadow(1);
 
-    @media screen and (max-width: $sidebarcollapse){
+    @media (max-width: $sidebarcollapse){
         width: 100%;
         margin-bottom: $margin-width;
     }
@@ -21,7 +21,7 @@
                 width: calc(100% - #{$subs});
             }
 
-            @media screen and (max-width: $sidebarcollapse){
+            @media (max-width: $sidebarcollapse){
                 @include flexbox(column, wrap, flex-start, center);
                 .content-container,
                 .articles{
@@ -42,7 +42,7 @@
                 width: calc(100% - #{$subs});
             }
 
-            @media screen and (max-width: $sidebarcollapse){
+            @media (max-width: $sidebarcollapse){
                 @include flexbox(column, wrap, flex-start, center);
                 .content-container,
                 .articles{
@@ -80,7 +80,7 @@
         display: none;
         transition: .5s all ease;
     }
-    @media screen and (max-width: $sidebarcollapse) {
+    @media (max-width: $sidebarcollapse) {
         transform: translateX(-($sidebar-width - $margin-width));
         &.open {
             transition-delay: .5s;
@@ -122,7 +122,7 @@
     &,
     .main-menu {
         width: calc(100% - #{$sidebar-width});
-        @media screen and (max-width: $sidebarcollapse) {
+        @media (max-width: $sidebarcollapse) {
             width: calc(100% - #{$margin-width});
         }
     }
@@ -136,7 +136,7 @@
     .material-sidebar {
         left: 0;
     }
-    @media screen and (max-width: $sidebarcollapse) {
+    @media (max-width: $sidebarcollapse) {
         margin-left: $margin-width;
         .main-menu {
             margin-left: $margin-width;
@@ -152,7 +152,7 @@
     .material-sidebar {
         right: 0;
     }
-    @media screen and (max-width: $sidebarcollapse) {
+    @media (max-width: $sidebarcollapse) {
         margin-right: $margin-width;
         .main-menu {
             margin-right: $margin-width;

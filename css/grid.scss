@@ -16,7 +16,7 @@ $twotoone: 530px;
     /* Use gap instead of percent margins */
     gap: 25px;
 
-    @media screen and (max-width: $twotoone) {
+    @media (max-width: $twotoone) {
         justify-content: center;
     }
     /* Keep your jScroll wrapper fix */
@@ -29,17 +29,17 @@ $twotoone: 530px;
         flex: 0 0 calc((100% - (25px * 3)) / 4);
         margin: 0;
 
-        @media screen and (max-width: $fourtothree) {
+        @media (max-width: $fourtothree) {
             /* 3 columns */
             flex: 0 0 calc((100% - (25px * 2)) / 3);
         }
 
-        @media screen and (max-width: $threetotwo) and (min-width: $twotoone + 1) {
+        @media (max-width: $threetotwo) and (min-width: $twotoone + 1) {
             /* 2 columns */
             flex: 0 0 calc((100% - (25px * 1)) / 2);
         }
 
-        @media screen and (max-width: $twotoone) {
+        @media (max-width: $twotoone) {
             flex: 0 0 100%;
             margin-bottom: 25px; /* optional; gap already adds spacing */
         }

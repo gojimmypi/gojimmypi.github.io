@@ -208,7 +208,7 @@
     animation: fade-in .25s linear;
 }
 
-@media only screen and (max-width: 41.250em) {
+@media (max-width: 41.250em) {
     #container{
         width: 100%;
     }
@@ -237,7 +237,7 @@
     }
 }
 
-@media only screen and (max-width: 20em) /* 320 */{
+@media (max-width: 20em) /* 320 */{
     .imagelightbox-arrow-left {
         left: 0;
     }

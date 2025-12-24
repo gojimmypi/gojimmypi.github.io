@@ -15,21 +15,21 @@
     z-index: 20;
 
     // logo media queries
-    @media screen and (min-width: $from-full-to-noslogan){
+    @media (min-width: $from-full-to-noslogan){
         .ts-no-slogan,
         .ts-icon{
             display: none;
         }
     }
 
-    @media screen and (max-width: $from-full-to-noslogan - 1) and (min-width: $from-noslogan-to-icon + 1){
+    @media (max-width: $from-full-to-noslogan - 1) and (min-width: $from-noslogan-to-icon + 1){
         .ts-full,
         .ts-icon{
             display: none;
         }
     }
 
-    @media screen and (max-width: $from-noslogan-to-icon){
+    @media (max-width: $from-noslogan-to-icon){
         .ts-full,
         .ts-no-slogan{
             display: none;
@@ -46,7 +46,7 @@
         box-sizing: border-box;
         overflow: hidden;
 
-        @media screen and (max-width: $from-noslogan-to-icon){
+        @media (max-width: $from-noslogan-to-icon){
             padding: 120px 10px;
         }
 

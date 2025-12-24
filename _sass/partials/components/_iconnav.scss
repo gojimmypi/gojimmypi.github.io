@@ -27,7 +27,7 @@
     display: flex;
     align-items: center;
     // hide some of the icons once there is not enough space
-    @media screen and (max-width: 368px) {
+    @media (max-width: 368px) {
         .tumblr,
         .instagram,
         .twitter,
@@ -81,7 +81,7 @@
         matching the visual language used on the #menu items.
         Does not affect the mobile slide-out menu.
     */
-    @media screen and (min-width: ($mainnav-collapse + 1px)) {
+    @media (min-width: ($mainnav-collapse + 1px)) {
         ul li {
             margin-left: 4px;
         }
