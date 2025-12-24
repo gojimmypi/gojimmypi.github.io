@@ -1,4 +1,4 @@
-﻿// file: /_sass/base/_settings.scss
+// file: /_sass/base/_settings.scss
 @charset "UTF-8";
 
 @import "../toolbox/palettes/base";
@@ -64,9 +64,9 @@ $headings-font: $main-font;
 // use values from text-transform [none|capitalize|uppercase|lowercase|initial|inherit]
 $headings-text-transform: none;
 
-$code-font: Courier New, Courier, Consolas, "Liberation Mono", Menlo, STFangSong, "华文仿宋", FangSong, "仿宋", monospace;
+$code-font: Courier New, Courier, Consolas, Menlo, monospace;
 
-$sc-font: "fontin_smallcapsregular", "Gill Sans", "Gill Sans MT", Calibri, "PingFang HK", "蘋方-港", "PingFang TC", "蘋方-繁", "PingFang SC", "蘋方-簡", "PingFang", "source-han-sans-traditional", "Microsoft YaHei New", "Microsoft Yahei", "微软雅黑", SimSun, 宋体, STXihei, "华文细黑", sans-serif;
+$sc-font: Gill Sans, Gill Sans MT, Calibri, Arial, Helvetica, sans-serif;
 
 $sc-letter-spacing: .1em;
 
@@ -136,7 +136,7 @@ $so-bg: rgba(white, .8);
 $so-color: black;
 
 // Menu
-$mainnav-collapse: 600px;
+$mainnav-collapse: 750px; // the distance which nav menu disappears and burger appears
 $mainnav-responsive-text-align: center;
 
 // Post Pages

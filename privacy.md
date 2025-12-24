@@ -10,7 +10,7 @@ Privacy information.
 
 Generally on the internet, there's no privacy these days. Sad, I know.
 
-That said, I try to not have any sort of invasive tracking. I currently have no ads and no sponsored contents.
+That said, I try to not have any sort of invasive tracking. I currently have no ads and no sponsored content.
 
 I do not personally capture or sell any information.
 

@@ -163,6 +163,7 @@
 
 #headerSearchContainer.search-open .header-search__backdrop {
     display: block;
+    pointer-events: auto; /* open: blocks page clicks */
 }
 
 /* Results dropdown container (full width, above backdrop) */
@@ -276,7 +277,19 @@
     z-index: 10002;
 }
 
-/* Backdrop stays below the search UI but above the page */
+/* Backdrop blocks the page only while open */
 #headerSearchContainer .header-search__backdrop {
-    z-index: 10000;
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 9990;
+    pointer-events: none; /* closed: inert */
+}
+
+.checkbox-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    white-space: nowrap;
 }

@@ -35,6 +35,61 @@
                                   stroke-width="2"
                                   stroke-linejoin="round" />
                         </svg>
+                        <span class="nav-text">Home</span>
+                    </a>
+                </li>
+
+                <li>
+                    <!-- Search -->
+                    <a class="homelink"
+                       href="{{ '/search/' | relative_url }}"
+                       title="Search"
+                       aria-label="Search">
+                        <svg class="icon-search"
+                             viewBox="0 0 24 24"
+                             width="42"
+                             height="42"
+                             aria-hidden="true">
+                            <circle cx="11" cy="11" r="7"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"></circle>
+                            <line x1="16.65" y1="16.65" x2="21" y2="21"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"></line>
+                        </svg>
+                        <span class="nav-text">Search</span>
+                    </a>
+                </li>
+
+                <li>
+                    <!-- Privacy -->
+                    <a class="homelink"
+                       href="{{ '/privacy/' | relative_url }}"
+                       title="Privacy Policy"
+                       aria-label="Privacy">
+                        <svg class="icon-privacy"
+                             viewBox="0 0 24 24"
+                             width="42"
+                             height="42"
+                             aria-hidden="true">
+                            <rect x="5" y="11" width="14" height="10" rx="2"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linejoin="round"></rect>
+                            <path d="M8 11V8a4 4 0 0 1 8 0v3"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"></path>
+                        </svg>
+                        <span class="nav-text">Privacy</span>
                     </a>
                 </li>
 
@@ -54,6 +109,7 @@
                                   stroke-linecap="round" />
                             <circle cx="12" cy="7" r="1" fill="currentColor" />
                         </svg>
+                        <span class="nav-text">About</span>
                     </a>
                 </li>
 
@@ -70,6 +126,7 @@
                              style="display: none; height: 39px; width: 39px"
                              title="Dark Mode; Click to switch to Light Mode" />
                     </button>
+                    <span class="nav-text">Theme</span>
                 </li>
             </ul>
 

@@ -20,11 +20,11 @@ permalink: /search/
 {%- endif -%}
 
 <div class="search">
-    <label for="searchBoxPage">Search posts</label>
+    <label for="searchBoxPage">Search posts:</label>
     <input id="searchBoxPage" type="search" placeholder="Type to search..." autocomplete="off">
-    <label>
-    <input type="checkbox" id="searchTagsOnlyPage">
-        Search tags only
+    <label class="checkbox-inline">
+        <input type="checkbox" id="searchTagsOnlyPage">
+        <span>Search tags only</span>
     </label>
     <div id="searchStatusPage" aria-live="polite"></div>
     <ul id="searchResultsPage"></ul>

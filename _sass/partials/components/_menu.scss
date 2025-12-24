@@ -2,10 +2,14 @@
 // Main Nav (Home - About - Dark Mode)
 
 #menu {
+    z-index: 11050;
     font-family: $sc-font;
     letter-spacing: $sc-letter-spacing;
-    z-index: 105;
     color: $primary-text-icon-color;
+    /* Hide menu text labels by default (desktop + closed state) */
+    .nav-text {
+        display: none;
+    }
     /*
         DESKTOP ONLY: pill styling for the horizontal menu.
         This does NOT affect the slide-out panel (mobile).
@@ -24,29 +28,41 @@
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 -10px 18px rgba(0, 0, 0, 0.18), 0 1px 2px rgba(0, 0, 0, 0.18);
         border: 1px solid rgba(0, 0, 0, 0.18);
     }
+    /* Desktop horizontal menu: hide labels as we approach the collapse breakpoint */
+    @media screen and (max-width: ($mainnav-collapse + 240px)) and (min-width: ($mainnav-collapse + 1px)) {
+        /* Your markup uses .nav-text, your SCSS uses .menu-text in mobile */
+        .nav-text {
+            display: none;
+        }
+        /* tighten horizontal padding so icons fit */
+        > ul > li > a,
+        > ul > li > button {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+    }
     /* Desktop-only inner pill styling for menu items */
     @media screen and (min-width: ($mainnav-collapse + 1px)) {
 
-        #menu > ul > li {
+        > ul > li {
             border-radius: 8px;
             margin-left: 4px;
         }
 
-            #menu > ul > li > a {
-                border-radius: 8px;
-                padding: 0 10px;
-                background: linear-gradient( to bottom, rgba(255, 255, 255, 0.18), rgba(0, 0, 0, 0.18) );
-                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.20), inset 0 -6px 10px rgba(0, 0, 0, 0.22);
-                transition: background 0.2s ease, box-shadow 0.2s ease;
-            }
+        > ul > li > a {
+            border-radius: 8px;
+            padding: 0 10px;
+            background: linear-gradient( to bottom, rgba(255, 255, 255, 0.18), rgba(0, 0, 0, 0.18) );
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.20), inset 0 -6px 10px rgba(0, 0, 0, 0.22);
+            transition: background 0.2s ease, box-shadow 0.2s ease;
+        }
 
-            #menu > ul > li:hover > a,
-            #menu > ul > li.active > a {
-                background: linear-gradient( to bottom, rgba(255, 255, 255, 0.26), rgba(0, 0, 0, 0.26) );
-                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), inset 0 -6px 12px rgba(0, 0, 0, 0.28);
-            }
+        > ul > li:hover > a,
+        > ul > li.active > a {
+            background: linear-gradient( to bottom, rgba(255, 255, 255, 0.26), rgba(0, 0, 0, 0.26) );
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), inset 0 -6px 12px rgba(0, 0, 0, 0.28);
+        }
     }
-
 
     .toggle-link {
         display: none;
@@ -87,20 +103,20 @@
         height: 44px;
     }
 
-        > ul > li > a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 44px;
-            line-height: 1;
-            padding-top: 0;
-            padding-bottom: 0;
-            width: auto;
-        }
+    > ul > li > a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        line-height: 1;
+        padding-top: 0;
+        padding-bottom: 0;
+        width: auto;
+    }
 
-            > ul > li > a svg {
-                display: block;
-            }
+    > ul > li > a svg {
+        display: block;
+    }
     // Responsive Version (Off-Canvas)
     @media screen and (max-width: $mainnav-collapse) {
         padding: 0;
@@ -113,7 +129,6 @@
         right: -320px;
         transform: translate(0px, 0px);
         transition: .3s all ease;
-        z-index: 108;
         @include shadow("1-half");
         background: var(--surface);
         color: var(--text);
@@ -180,6 +195,22 @@
             line-height: inherit;
             width: 100%;
         }
+        /* Mobile slide-out: show text labels next to icons and align nicely */
+        .nav-text {
+            display: inline-block;
+            margin-left: 10px;
+            white-space: nowrap;
+        }
+
+        > ul > li > a {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        > ul > li > a svg {
+            flex: 0 0 auto;
+        }
     }
 }
 
@@ -193,7 +224,7 @@
     left: 0px;
     font-weight: normal;
     @include shadow(1);
-    z-index: 2;
+    z-index: 11040;
 
     a {
         font-size: 1rem;
@@ -211,6 +242,24 @@
         line-height: inherit;
         /* Reserve space for GitHub corner (octocat) */
         padding-right: 40px;
+    }
+    /*
+        Fix: .main-menu was the topmost element (elementFromPoint) over the header search.
+        Make the empty/transparent parts of the fixed bar not steal clicks, while keeping
+        actual controls clickable.
+    */
+    pointer-events: none;
+
+    a,
+    button,
+    nav,
+    ul,
+    li,
+    svg,
+    img,
+    .toggle-link,
+    #menu {
+        pointer-events: auto;
     }
 }
 
