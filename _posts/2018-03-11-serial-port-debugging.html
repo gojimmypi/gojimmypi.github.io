@@ -53,7 +53,7 @@ First, an example of a properly working H (from "Hello World") as sent by Putty:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Putty_Source.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="445" data-original-width="462" height="308" src="../images/s320/Putty_Source.PNG" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="445" data-original-width="462" height="308" src="../images/s320/Putty_Source.PNG" width="320"></a>
 </div>
 <br />Fairly straightforward serial port setup: 9600 8N1. I connected my oscilloscope probe to GND and Tx of a 
 <a href="https://www.ebay.com/itm/201543906640">typical USB TTL adapter</a>
@@ -62,7 +62,7 @@ First, an example of a properly working H (from "Hello World") as sent by Putty:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Putty.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="480" data-original-width="800" height="240" src="../images/s400/Putty.png" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="480" data-original-width="800" height="240" src="../images/s400/Putty.png" width="400"></a>
 </div>
 <br />Reminder that&nbsp;
 <a href="https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter">UART</a>/TTL&nbsp;<a href="https://en.wikipedia.org/wiki/RS-232">RS232</a>
@@ -86,7 +86,7 @@ Here's the source code in Atmel Studio. Also pretty straightforward:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/AVR_Code.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="254" data-original-width="575" height="176" src="../images/s400/AVR_Code.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="254" data-original-width="575" height="176" src="../images/s400/AVR_Code.PNG" width="400"></a>
 </div>
 <br />
 Here too, 9600, (default 8N1). But with a much different result:
@@ -95,7 +95,7 @@ Here too, 9600, (default 8N1). But with a much different result:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/AVR.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="480" data-original-width="800" height="240" src="../images/s400/AVR.png" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="480" data-original-width="800" height="240" src="../images/s400/AVR.png" width="400"></a>
 </div>
 <br />
 The first curious thing I observed was that the delay(milliseconds) function was off by an order of 16 (as measured by eye).&nbsp; Note the scale here is 5mS per division; 10x slower that the trace above!
@@ -125,7 +125,7 @@ The AVR serial port does indeed look like it is approximately 16x slower. Zoomin
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/DS1Z_QuickPrint3.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="480" data-original-width="800" height="240" src="../images/s400/DS1Z_QuickPrint3.png" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="480" data-original-width="800" height="240" src="../images/s400/DS1Z_QuickPrint3.png" width="400"></a>
 </div>
 <br />
 It appears that that first 4 bit pulse is actually 6.3 ms long. Interestingly it is not 6.4 ms (or more precisely not 6.67 ms). That makes a difference of&nbsp; (6,300 μS / (4 * 100 μS) = 15.75x, not the nice round 16.&nbsp; More precisely: (6,300 μS / (4 * 104.17 μS) = 15.12x.
@@ -137,7 +137,7 @@ It appears that that first 4 bit pulse is actually 6.3 ms long. Interestingly it
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Char_mash.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="481" data-original-width="786" height="243" src="../images/s400/Char_mash.png" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="481" data-original-width="786" height="243" src="../images/s400/Char_mash.png" width="400"></a>
 </div>
 
 <div class="separator" style="clear: both; text-align: left;">
@@ -152,7 +152,7 @@ UPDATE: Ok, so after getting some sleep I thought more about this problem. I was
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/baud_scale_code.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="266" data-original-width="625" height="170" src="../images/s400/baud_scale_code.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="266" data-original-width="625" height="170" src="../images/s400/baud_scale_code.PNG" width="400"></a>
 </div>
 <br />
 And setting the decode frequency to the un-scaled value... TADA! Perfectly decoded. &lt;Happy dance&gt;.
@@ -165,7 +165,7 @@ I've kept the estimated and precise numbers above, as the initial estimate of 15
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/H_CrLf.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="480" data-original-width="800" height="240" src="../images/s400/H_CrLf.png" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="480" data-original-width="800" height="240" src="../images/s400/H_CrLf.png" width="400"></a>
 </div>
 <br />Oh and look at that "extra" data: I'm doing a Serial.print
 <b>ln</b>
@@ -191,7 +191,7 @@ There's still the ISP Clock Frequency setting in Atmel Studio:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/ISP_clocl.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="496" data-original-width="709" height="223" src="../images/s320/ISP_clocl.png" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="496" data-original-width="709" height="223" src="../images/s320/ISP_clocl.png" width="320"></a>
 </div>
 <br />But that's just the clock speed at which the ISP is 
 <i>doing</i>
@@ -270,7 +270,7 @@ M5-RadioHead branch of my LoRa-GPIO project)</a><br />
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/F_CPU.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="857" data-original-width="891" height="383" src="../images/s400/F_CPU.png" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="857" data-original-width="891" height="383" src="../images/s400/F_CPU.png" width="400"></a>
 </div>
 <br />
 Although this certainly does not clarify why the problems exists in the first place. Perhaps if I had found the value something like 1,058,236 here, it would have been more of an AHA moment.&nbsp; (1.0582 * 15.1195 = 16).&nbsp; At this point I am thinking perhaps all this may be caused by a bad crystal oscillator. (?)
@@ -282,7 +282,7 @@ Although this certainly does not clarify why the problems exists in the first pl
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/libusb-filter.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="530" data-original-width="489" height="400" src="../images/s400/libusb-filter.PNG" width="368"></a>
+<img alt="illustration image" border="0" data-original-height="530" data-original-width="489" height="400" src="../images/s400/libusb-filter.PNG" width="368"></a>
 </div>
 <br />
 The Arduino IDE uses avrdude to program the ATmega328; the resultant output looks like this:
@@ -361,13 +361,13 @@ Many thanks to Jimmy Lai at M5Stack for sending me fuse selection setting pics (
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/M5Stack_AVR_Recomended_Fuse_Settings.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="528" data-original-width="894" height="235" src="../images/s400/M5Stack_AVR_Recomended_Fuse_Settings.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="528" data-original-width="894" height="235" src="../images/s400/M5Stack_AVR_Recomended_Fuse_Settings.PNG" width="400"></a>
 </div>
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/M5Stack_AVR_Recomended_Fuse_Settings2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="516" data-original-width="899" height="228" src="../images/s400/M5Stack_AVR_Recomended_Fuse_Settings2.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="516" data-original-width="899" height="228" src="../images/s400/M5Stack_AVR_Recomended_Fuse_Settings2.PNG" width="400"></a>
 </div>
 
 <div class="separator" style="clear: both; text-align: center;">
@@ -376,7 +376,7 @@ Many thanks to Jimmy Lai at M5Stack for sending me fuse selection setting pics (
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/M5Stack_AVR_Recomended_Fuse_Settings3.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="364" data-original-width="610" height="237" src="../images/s400/M5Stack_AVR_Recomended_Fuse_Settings3.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="364" data-original-width="610" height="237" src="../images/s400/M5Stack_AVR_Recomended_Fuse_Settings3.PNG" width="400"></a>
 </div>
 <br />
 In the second and third pic, it is important to note that the DIVCK8 needs to be left unchecked, despite the value here showing 4E in that first pic. The desired values are: CE D9 FF
@@ -387,7 +387,7 @@ My fuse settings before:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Fuses-Before.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="768" data-original-width="755" height="400" src="../images/s400/Fuses-Before.PNG" width="392"></a>
+<img alt="illustration image" border="0" data-original-height="768" data-original-width="755" height="400" src="../images/s400/Fuses-Before.PNG" width="392"></a>
 </div>
 <br />
 <br />
@@ -401,7 +401,7 @@ Notice LOW.SUT_CKSEL! It is set to an internal clock! There's actually an extern
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/crystal.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="492" data-original-width="636" height="308" src="../images/s400/crystal.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="492" data-original-width="636" height="308" src="../images/s400/crystal.PNG" width="400"></a>
 </div>
 <br />
 Ok, one would think that even with an external clock, if the fuse settings say to use an internal clock - and this is in fact the default value, that it would work properly with the ATmega328p, eh? Apparently not. As seen above, the clock was wildly off.
@@ -413,7 +413,7 @@ When changing the fuses, there's a nice indication of what has been changed, but
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Fuses-changing.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="766" data-original-width="801" height="382" src="../images/s400/Fuses-changing.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="766" data-original-width="801" height="382" src="../images/s400/Fuses-changing.PNG" width="400"></a>
 </div>
 
 <div class="separator" style="clear: both; text-align: left;">
@@ -425,7 +425,7 @@ When pressing the Program button, there's a warning that if you don't know what 
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Fuse_Warning.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="357" data-original-width="439" height="325" src="../images/s400/Fuse_Warning.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="357" data-original-width="439" height="325" src="../images/s400/Fuse_Warning.PNG" width="400"></a>
 </div>
 <br />
 Braving the ominous warning dialog box... My final fuses look like this:
@@ -434,7 +434,7 @@ Braving the ominous warning dialog box... My final fuses look like this:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Fuses-After.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="719" data-original-width="811" height="353" src="../images/s400/Fuses-After.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="719" data-original-width="811" height="353" src="../images/s400/Fuses-After.PNG" width="400"></a>
 </div>
 <br />
 

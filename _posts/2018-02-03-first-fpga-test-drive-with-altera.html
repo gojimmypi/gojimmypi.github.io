@@ -24,7 +24,7 @@ I decided to finally learn how to program an FPGA! Here are some first impressio
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/myCyclone.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="703" data-original-width="872" height="257" src="../images/s320/myCyclone.PNG" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="703" data-original-width="872" height="257" src="../images/s320/myCyclone.PNG" width="320"></a>
 </div>
 <br />
 TL;DR
@@ -59,7 +59,7 @@ The USB Blaster was not Plug-N-Play, and Quartus Prime did not see it:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Blaster_not_working.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="110" data-original-width="239" src="../images/s1600/Blaster_not_working.PNG"></a>
+<img alt="illustration image" border="0" data-original-height="110" data-original-width="239" src="../images/s1600/Blaster_not_working.PNG"></a>
 </div>
 <br />A quick google search indicated that 
 <a href="https://www.altera.com/support/support-resources/download/drivers/usb-blaster/dri-usb-blaster-vista.html">the drivers need to be manually installed</a>
@@ -77,7 +77,7 @@ You must have system administration (Administrator) privileges to install the US
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/blaster_pins.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="386" data-original-width="609" height="403" src="../images/s640/blaster_pins.PNG" width="640"></a>
+<img alt="illustration image" border="0" data-original-height="386" data-original-width="609" height="403" src="../images/s640/blaster_pins.PNG" width="640"></a>
 </div>
 <br />The important thing to note here is that 
 <i>programming via JTAG is temporary</i>! My board came pre-programmed with something that cycles though the 4 LED's on the board. There's always a little fear of sending a new program that toasts your new FPGA (yes, this is absolutely possible!). So it is cool that upon power cycle, the original config is loaded back into the FPGA to confirm all us well. Fortunately my first program <a href="https://twitter.com/gojimmypi/status/958103753554518016">actually worked</a>
@@ -92,7 +92,7 @@ a directory for your project. Any you only need to type it once. Here, the defau
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/default_project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="315" data-original-width="468" height="215" src="../images/s320/default_project.PNG" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="315" data-original-width="468" height="215" src="../images/s320/default_project.PNG" width="320"></a>
 </div>
 <br />
 <br />
@@ -102,7 +102,7 @@ Be sure to append a project name to the directory:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/named_project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="319" data-original-width="380" height="268" src="../images/s320/named_project.PNG" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="319" data-original-width="380" height="268" src="../images/s320/named_project.PNG" width="320"></a>
 </div>
 <br />
 Or better yet, I keep all my project in c:\workspace\ in this case for the new myFPGAgizmo project:
@@ -111,7 +111,7 @@ Or better yet, I keep all my project in c:\workspace\ in this case for the new m
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/new_project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="320" data-original-width="406" height="252" src="../images/s320/new_project.PNG" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="320" data-original-width="406" height="252" src="../images/s320/new_project.PNG" width="320"></a>
 </div>
 <br />
 You can set the default location in: Tools - Options - General - Default File Location.
@@ -127,7 +127,7 @@ I created an empty project...
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/empty_project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="256" data-original-width="482" height="169" src="../images/s320/empty_project.PNG" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="256" data-original-width="482" height="169" src="../images/s320/empty_project.PNG" width="320"></a>
 </div>
 <br />
 and did not add any design files...
@@ -136,7 +136,7 @@ and did not add any design files...
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/add_files.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="250" data-original-width="439" height="182" src="../images/s320/add_files.PNG" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="250" data-original-width="439" height="182" src="../images/s320/add_files.PNG" width="320"></a>
 </div>
 <br />This next step is important... the default device is set to "Auto". What this does is completely 
 <i>disables</i>
@@ -147,7 +147,7 @@ For a newbie like me.. the solution was not very obvious. To avoid this, change 
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/EP4CE6E22C8.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="639" data-original-width="805" height="316" src="../images/s400/EP4CE6E22C8.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="639" data-original-width="805" height="316" src="../images/s400/EP4CE6E22C8.PNG" width="400"></a>
 </div>
 <br />
 The tools are left as default:
@@ -156,7 +156,7 @@ The tools are left as default:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/tools.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="347" data-original-width="806" height="137" src="../images/s320/tools.PNG" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="347" data-original-width="806" height="137" src="../images/s320/tools.PNG" width="320"></a>
 </div>
 <br />
 On the final Project Wizard page, the summary is shown:
@@ -165,7 +165,7 @@ On the final Project Wizard page, the summary is shown:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/project_summary.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="639" data-original-width="806" height="316" src="../images/s400/project_summary.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="639" data-original-width="806" height="316" src="../images/s400/project_summary.PNG" width="400"></a>
 </div>
 <br />
 Tada! All done, right? Nope. The "Wizard" still does not actually complete a project.
@@ -186,7 +186,7 @@ Not exactly to most intuitive error message for a newbie.&nbsp;
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/error_design_entry.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="375" data-original-width="692" height="173" src="../images/s320/error_design_entry.PNG" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="375" data-original-width="692" height="173" src="../images/s320/error_design_entry.PNG" width="320"></a>
 </div>
 <br />
 <br />Good luck finding "Add Design Entity" in the menu. Here, you just need to know that a new Design 
@@ -202,7 +202,7 @@ File - New - Verilog HDL File:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/new_verilog.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="467" data-original-width="283" height="320" src="../images/s320/new_verilog.PNG" width="193"></a>
+<img alt="illustration image" border="0" data-original-height="467" data-original-width="283" height="320" src="../images/s320/new_verilog.PNG" width="193"></a>
 </div>
 <br />
 Quartus does not give you an opportunity to name this file when it is first created. Only at save time will it prompt to give it a new name. Visual Studio users will not be impressed.
@@ -211,7 +211,7 @@ Quartus does not give you an opportunity to name this file when it is first crea
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/top_level.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="201" data-original-width="633" height="101" src="../images/s320/top_level.PNG" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="201" data-original-width="633" height="101" src="../images/s320/top_level.PNG" width="320"></a>
 </div>
 <br />Now another important note: The name of the module MUST MATCH the name of the "top level" file name, and it is 
 <b>case sensitive</b>
@@ -229,7 +229,7 @@ Here the "myFPGAgimoName" needs to be the same as the file name "myFPGAgizmo":
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Top_Level_Undefined.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="651" data-original-width="832" height="499" src="../images/s640/Top_Level_Undefined.PNG" width="640"></a>
+<img alt="illustration image" border="0" data-original-height="651" data-original-width="832" height="499" src="../images/s640/Top_Level_Undefined.PNG" width="640"></a>
 </div>
 <br />
 
@@ -261,7 +261,7 @@ endmodule </code></pre>
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/pin_assignment.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="219" data-original-width="335" height="209" src="../images/s320/pin_assignment.PNG" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="219" data-original-width="335" height="209" src="../images/s320/pin_assignment.PNG" width="320"></a>
 </div>
 <br />
 <br />As can be seen in the schematic, Pin 87 is LED4, and Pins 88 and 89 are tied to keys (button switches) KEY1 and KEY2 (but yes, instead labeled S1 and S2 on the board). Yes, those are the
@@ -280,7 +280,7 @@ Click on Assignments - Pin Planner. (recall above, we explicitly assigned our ch
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/pin_edit.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="533" data-original-width="1069" height="316" src="../images/s640/pin_edit.PNG" width="640"></a>
+<img alt="illustration image" border="0" data-original-height="533" data-original-width="1069" height="316" src="../images/s640/pin_edit.PNG" width="640"></a>
 </div>
 <br />
 We need to assign the pins to keys and LED as shown in the schematic:
@@ -289,7 +289,7 @@ We need to assign the pins to keys and LED as shown in the schematic:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/pins_assigned.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="87" data-original-width="359" height="77" src="../images/s320/pins_assigned.PNG" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="87" data-original-width="359" height="77" src="../images/s320/pins_assigned.PNG" width="320"></a>
 </div>
 <br />
 Simply close the Pin Planner and compile again. We're ready to send the FPGA code to our device!
@@ -304,7 +304,7 @@ Click Tools - Programmer. If the currently selected hardware says "No Hardware",
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/hardware_setup.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="690" data-original-width="909" height="302" src="../images/s400/hardware_setup.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="690" data-original-width="909" height="302" src="../images/s400/hardware_setup.PNG" width="400"></a>
 </div>
 <br />
 In this case, I selected the USB Blaster by double-clicking on it.
@@ -316,7 +316,7 @@ To send the FPGA code to the device, select "Processing - Start" (or simply pres
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/programmed.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="229" data-original-width="903" height="161" src="../images/s640/programmed.PNG" width="640"></a>
+<img alt="illustration image" border="0" data-original-height="229" data-original-width="903" height="161" src="../images/s640/programmed.PNG" width="640"></a>
 </div>
 <br />
 <br />
@@ -336,7 +336,7 @@ Note we've programmed the FPGA via the JTAG connector on the board. When the boa
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Quartus_versions.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="408" data-original-width="752" height="216" src="../images/s400/Quartus_versions.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="408" data-original-width="752" height="216" src="../images/s400/Quartus_versions.PNG" width="400"></a>
 </div>
 <br />That's it for now... 
 <a href="https://twitter.com/gojimmypi">send me a message on twitter</a>

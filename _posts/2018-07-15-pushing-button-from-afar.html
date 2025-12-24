@@ -28,7 +28,7 @@ This blog entry is about pushing a button. Seems simple enough, eh? Except when 
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Working_M5_Remote.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="579" data-original-width="1083" height="213" src="../images/s400/Working_M5_Remote.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="579" data-original-width="1083" height="213" src="../images/s400/Working_M5_Remote.PNG" width="400"></a>
 </div>
 <br />
 <br />How to get there: The first thing needed is to disassemble the remote and determine how it normally works. The remote I am using is a Somfy TR2 similar to 
@@ -36,7 +36,7 @@ This blog entry is about pushing a button. Seems simple enough, eh? Except when 
 . Note that although there are 4 pins, it is simply a SPST switch:<br />
 <br />
 <table cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/Remote_Button.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;">
-<img border="0" data-original-height="434" data-original-width="1042" height="166" src="../images/s400/Remote_Button.PNG" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">
+<img alt="illustration image" border="0" data-original-height="434" data-original-width="1042" height="166" src="../images/s400/Remote_Button.PNG" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">
 Photo credit: Grayhill spec sheet</td></tr></tbody></table><br />
 I confirmed both visually and with an ohmmeter that indeed I have a similar switch and proceeded to connect some external wires to it:
 <br />
@@ -56,7 +56,7 @@ Here, Green is a ground (all 4 pins, 2 from each switch); Orange is BP1 and Yell
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Remote_Wires_Labeled.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="517" data-original-width="760" height="271" src="../images/s400/Remote_Wires_Labeled.png" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="517" data-original-width="760" height="271" src="../images/s400/Remote_Wires_Labeled.png" width="400"></a>
 </div>
 <br />
 <br />
@@ -72,7 +72,7 @@ Looking at the specs for the 2N3904, the max collector current is a whopping 200
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/2n3904_max_c.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="210" data-original-width="632" height="131" src="../images/s400/2n3904_max_c.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="210" data-original-width="632" height="131" src="../images/s400/2n3904_max_c.PNG" width="400"></a>
 </div>
 <br />
 And for a collector current of (we'll round up) to 0.5 mA, we'll have a minimum gain of around 60 to 80 (let's pick a gain of 70 for discussion-sake):
@@ -81,7 +81,7 @@ And for a collector current of (we'll round up) to 0.5 mA, we'll have a minimum 
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/2n3904_gain.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="84" data-original-width="637" height="42" src="../images/s320/2n3904_gain.PNG" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="84" data-original-width="637" height="42" src="../images/s320/2n3904_gain.PNG" width="320"></a>
 </div>
 <br />
 <br />
@@ -94,7 +94,7 @@ Our button-pressing supplement thus looks like this (shown for BP1, but the same
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Button_Transistor.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="245" data-original-width="455" height="215" src="../images/s400/Button_Transistor.png" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="245" data-original-width="455" height="215" src="../images/s400/Button_Transistor.png" width="400"></a>
 </div>
 Note that this circuit will allow our 32u4 to control the remote via a GPIO pin. Fortunately the remote is also smart enough to turn itself off - if for some reason the button remains pressed so that the battery does not drain (such as being poked by your keys in your pocket). In our case: regardless of the state of the pin during power up (or application crash) the battery will be preserved. <br />
 The manual prototype looks like this:
@@ -103,7 +103,7 @@ The manual prototype looks like this:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Manual_Prototype.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="601" data-original-width="966" height="248" src="../images/s400/Manual_Prototype.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="601" data-original-width="966" height="248" src="../images/s400/Manual_Prototype.PNG" width="400"></a>
 </div>
 <br />
 <br />
@@ -119,7 +119,7 @@ Note the red wire to drive the base of the transistor is stuffed into the batter
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/RTLSDR_Zadig.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="265" data-original-width="588" height="180" src="../images/s400/RTLSDR_Zadig.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="265" data-original-width="588" height="180" src="../images/s400/RTLSDR_Zadig.PNG" width="400"></a>
 </div>
 <br />
 <br />
@@ -129,7 +129,7 @@ And tada! Exit Cubic SDR (no need, at least for me, to reboot computer)... relau
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Start_SDR.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="354" data-original-width="718" height="196" src="../images/s400/Start_SDR.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="354" data-original-width="718" height="196" src="../images/s400/Start_SDR.PNG" width="400"></a>
 </div>
 <br />
 The waterfall immediately starts! Press the button on the remote a few times, and we can see the pulse at about 433.5 MHz. Notice the messy side-band noise, as well as someone else continuously transmitting at about 432 MHz:
@@ -138,7 +138,7 @@ The waterfall immediately starts! Press the button on the remote a few times, an
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/button_press.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="430" data-original-width="1143" height="150" src="../images/s400/button_press.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="430" data-original-width="1143" height="150" src="../images/s400/button_press.PNG" width="400"></a>
 </div>
 <br />
 <br />I have the source code for all this on GitHub here:&nbsp;

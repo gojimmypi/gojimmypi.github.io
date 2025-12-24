@@ -21,7 +21,7 @@ I've been learning about FPGA devices... recording my thoughts, experiences, and
 &nbsp;complete with audio, video, SD slot, 7-segment display, on-board LEDs, and more... for about 50 bucks.<br />
 <br />
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/numato_pic_cropped.jpg" imageanchor="1" style="margin-left: auto; margin-right: auto;">
-<img border="0" data-original-height="1110" data-original-width="890" height="320" src="../images/s320/numato_pic_cropped.jpg" width="255"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Numato Mimas-V2 FPGA Development Board with demo code running</td></tr></tbody></table>
+<img alt="illustration image" border="0" data-original-height="1110" data-original-width="890" height="320" src="../images/s320/numato_pic_cropped.jpg" width="255"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Numato Mimas-V2 FPGA Development Board with demo code running</td></tr></tbody></table>
 <div class="separator" style="clear: both; text-align: center;">
 </div>
 <br />The other is the old, now obsolete but excellent new learning opportunity&nbsp;
@@ -31,7 +31,7 @@ I've been learning about FPGA devices... recording my thoughts, experiences, and
 
 <div class="separator" style="clear: both; text-align: center;">
 <a href="../images/s1600/Pano.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="675" data-original-width="1200" height="180" src="../images/s320/Pano.jpg" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="675" data-original-width="1200" height="180" src="../images/s320/Pano.jpg" width="320"></a>
 </div>
 <br />In particular, Tom Verbeure has these impressive&nbsp;
 <a href="https://github.com/tomverbeure/panologic">Pano Logic Zero Logic G1</a>&nbsp;and&nbsp;<a href="https://github.com/tomverbeure/panologic-g2">G2</a>&nbsp;GitHub repositories&nbsp;(see also&nbsp;<a href="https://hackaday.io/project/136227-pano-logic-zero-client-g1">this Hackaday project</a>
@@ -66,7 +66,7 @@ I've been learning about FPGA devices... recording my thoughts, experiences, and
 , which appears to be the second-to-lowest-end device with 9,152 logic cells and 106 user IOs. Still, this is probably more than adequate for a learning / development board.<br />
 <br />
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/Spartan6_Feature_Comparison.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;">
-<img border="0" data-original-height="375" data-original-width="735" height="203" src="../images/s400/Spartan6_Feature_Comparison.PNG" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">
+<img alt="illustration image" border="0" data-original-height="375" data-original-width="735" height="203" src="../images/s400/Spartan6_Feature_Comparison.PNG" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">
 Excerpt from Xilinx(TM) Spartan-6 Family Overview PDF&nbsp;&nbsp;</td></tr></tbody></table><br />
 My first experience with latest ISE was really horrible. The "Windows version" is actually an Oracle VirtuaBox linux VM. The Xilinx software might be ok, but the VM in which is runs is not cool. Perhaps I am just used to the clean and effective VM machines provided by the folks at VMWare. But in my case, the mouse controls were simply horrible &amp; lagged.&nbsp; The keyboard control is wonky: hold down the right-ctrl key. I am right handed, my right hand is usually on the mouse; super annoying to switch between the VM and my host. The list goes on.&nbsp; (Update: after a Windows reboot, the laggy mouse in the VirtualBox seems to have been resolved. Other operations are still wonky)
 <br />
@@ -97,7 +97,7 @@ I found that running iMPACT as Administrator in Windows solved this problem for 
 <br />
 <br />
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/iMPACT_RunAsAdmin.png" imageanchor="1" style="margin-left: auto; margin-right: auto;">
-<img border="0" data-original-height="444" data-original-width="517" height="275" src="../images/s320/iMPACT_RunAsAdmin.png" width="320"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">
+<img alt="illustration image" border="0" data-original-height="444" data-original-width="517" height="275" src="../images/s320/iMPACT_RunAsAdmin.png" width="320"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">
 Run iMPACT as Administrator to resolve USB&nbsp; JTAG device problems.</td></tr></tbody></table><br />
 <br />
 There are a bunch of apps that get installed with the Xilinx software. The development environment of interest is the ISE, listed under either 32bit or 64bit "Project Navigator". Although I have a 64 bit machine, the 32 bit software seemed to be more reliable.
@@ -106,14 +106,14 @@ There are a bunch of apps that get installed with the Xilinx software. The devel
 
 <div class="separator" style="clear: both; text-align: center;">
 <a href="../images/s1600/ProjectNavigator.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="221" data-original-width="299" src="../images/s1600/ProjectNavigator.png"></a>
+<img alt="illustration image" border="0" data-original-height="221" data-original-width="299" src="../images/s1600/ProjectNavigator.png"></a>
 </div>
 <br />If you try to open a&nbsp;
 <a href="https://github.com/numato/samplecode/blob/master/FPGA/MimasV2/mimasV2Demo/mimasV2Demo.xise">Xilinx project file such as the Numato demo</a>
 , and the ISE just blinks and exits, it may be because the project file was created with a newer version. I found that simply editing the project file with your favorite text editor seems to work. Edit the version here:<br />
 <br />
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td><a href="../images/s1600/MimasProjectVersion.png" imageanchor="1" style="margin-left: auto; margin-right: auto;">
-<img border="0" data-original-height="431" data-original-width="814" height="168" src="../images/s320/MimasProjectVersion.png" width="320"></a></td></tr><tr><td class="tr-caption" style="font-size: 12.8px;">xise version setting</td></tr></tbody></table>
+<img alt="illustration image" border="0" data-original-height="431" data-original-width="814" height="168" src="../images/s320/MimasProjectVersion.png" width="320"></a></td></tr><tr><td class="tr-caption" style="font-size: 12.8px;">xise version setting</td></tr></tbody></table>
 If the ISE still exits immediately when double-clicking on an xise file, then the 64-bit version is probably launching. When I launch the 32 bit version, then manually open the xise project file, all seemed to go much more smoothly. I'm not sure why the 64 bit version is unhappy on my 64 bit Windows 10.<br />
 <br />Numato has a&nbsp;
 <a href="https://github.com/numato/samplecode">bunch of sample code on GitHub</a>, including the&nbsp;<a href="https://github.com/numato/samplecode/tree/master/FPGA/MimasV2/mimasV2Demo">demo source code</a>&nbsp;and an interesting&nbsp;<a href="https://github.com/numato/samplecode/tree/master/FPGA/ExpansionModules/IP4776CZ38HDMITransmitter">HDMI driver</a>
@@ -131,7 +131,7 @@ If the ISE still exits immediately when double-clicking on an xise file, then th
 That's great - if you can find the "Generate Programming Files":<br />
 <br />
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/mimasv2demo-1.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;">
-<img border="0" data-original-height="582" data-original-width="576" height="400" src="../images/s400/mimasv2demo-1.PNG" width="393"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">
+<img alt="illustration image" border="0" data-original-height="582" data-original-width="576" height="400" src="../images/s400/mimasv2demo-1.PNG" width="393"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">
 By default, the "Generate Programming Files" is not visible.</td></tr></tbody></table><br />
 In order to actually create the binary file, click on the&nbsp;MimasV2TopModuleLX9 filename in the Hierarchy window, then the Generate Programming Files will appear in the lower pane:
 <br />
@@ -139,7 +139,7 @@ In order to actually create the binary file, click on the&nbsp;MimasV2TopModuleL
 
 <div class="separator" style="clear: both; text-align: center;">
 <a href="../images/s1600/mimasv2demo-2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="576" data-original-width="567" height="400" src="../images/s400/mimasv2demo-2.PNG" width="392"></a>
+<img alt="illustration image" border="0" data-original-height="576" data-original-width="567" height="400" src="../images/s400/mimasv2demo-2.PNG" width="392"></a>
 </div>
 <br />
 <br />
@@ -147,7 +147,7 @@ Unlike Visual Studio, that indicates at compile time where the binary files are.
 <br />
 <br />
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/mimasV2_binary_files.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;">
-<img border="0" data-original-height="516" data-original-width="657" height="313" src="../images/s400/mimasV2_binary_files.PNG" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">MimasV2 sample code bin and bit files.</td></tr></tbody></table>
+<img alt="illustration image" border="0" data-original-height="516" data-original-width="657" height="313" src="../images/s400/mimasV2_binary_files.PNG" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">MimasV2 sample code bin and bit files.</td></tr></tbody></table>
 The bin and bit files are different sizes. I used the bin file.<br />
 <br />
 Poking around at things, I saw this message when clicking on "Module Level Utilization":
@@ -156,7 +156,7 @@ Poking around at things, I saw this message when clicking on "Module Level Utili
 
 <div class="separator" style="clear: both; text-align: center;">
 <a href="../images/s1600/Module_Utilization.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="229" data-original-width="787" height="184" src="../images/s640/Module_Utilization.PNG" width="640"></a>
+<img alt="illustration image" border="0" data-original-height="229" data-original-width="787" height="184" src="../images/s640/Module_Utilization.PNG" width="640"></a>
 </div>
 <br />
 I read that about 5 times while trying to find where, exactly it was referring to. I'm glad I saved the snip of that, as after closing it, future clicks on the "Module Level Utilization" no longer gave the information.
@@ -168,7 +168,7 @@ The actual location is found under "Implement Design". Right-click on "Map" and 
 
 <div class="separator" style="clear: both; text-align: center;">
 <a href="../images/s1600/ISE_Map.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="421" data-original-width="470" height="356" src="../images/s400/ISE_Map.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="421" data-original-width="470" height="356" src="../images/s400/ISE_Map.PNG" width="400"></a>
 </div>
 
 <div class="separator" style="clear: both; text-align: center;">
@@ -180,7 +180,7 @@ Then check this box:
 
 <div class="separator" style="clear: both; text-align: center;">
 <a href="../images/s1600/Generate_Detailed_MAP_Report.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="457" data-original-width="980" height="182" src="../images/s400/Generate_Detailed_MAP_Report.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="457" data-original-width="980" height="182" src="../images/s400/Generate_Detailed_MAP_Report.PNG" width="400"></a>
 </div>
 <br />
 Re-run the Map (right click, re-run)... and indeed the Module Level Utilization is now available:
@@ -189,7 +189,7 @@ Re-run the Map (right click, re-run)... and indeed the Module Level Utilization 
 
 <div class="separator" style="clear: both; text-align: center;">
 <a href="../images/s1600/Module_Level_Utilization.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="573" data-original-width="1366" height="167" src="../images/s400/Module_Level_Utilization.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="573" data-original-width="1366" height="167" src="../images/s400/Module_Level_Utilization.PNG" width="400"></a>
 </div>
 <br />
 One thing in particular to the ISE newbie, is how to actually get binary data onto the FPGA. Tools - Program? No, of course not. There's something called "iMPACT" that is used for that. :/&nbsp; Clearly someone needs to hire a better UI/UX expert.
@@ -204,7 +204,7 @@ Note that several times after bringing my computer out of sleep mode, Windows 10
 
 <div class="separator" style="clear: both; text-align: center;">
 <a href="../images/s1600/Numato_Device_Manager.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="96" data-original-width="425" height="71" src="../images/s320/Numato_Device_Manager.PNG" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="96" data-original-width="425" height="71" src="../images/s320/Numato_Device_Manager.PNG" width="320"></a>
 </div>
 <br />
 <br />The folks at Numato have put together a quite nice&nbsp;
@@ -215,7 +215,7 @@ Note that several times after bringing my computer out of sleep mode, Windows 10
 . This makes flashing firmware onto the Numato FPGA board a breeze:<br />
 <br />
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td><a href="../images/s1600/Mimas_Config_Tool.png" imageanchor="1" style="margin-left: auto; margin-right: auto;">
-<img border="0" data-original-height="440" data-original-width="433" height="320" src="../images/s320/Mimas_Config_Tool.png" width="314"></a></td></tr><tr><td class="tr-caption" style="font-size: 12.8px;">Numato Mimas V2 Config tool uploading binary code to FPGA flash.</td></tr></tbody></table>
+<img alt="illustration image" border="0" data-original-height="440" data-original-width="433" height="320" src="../images/s320/Mimas_Config_Tool.png" width="314"></a></td></tr><tr><td class="tr-caption" style="font-size: 12.8px;">Numato Mimas V2 Config tool uploading binary code to FPGA flash.</td></tr></tbody></table>
 My only suggestion might be to make it open source, and/or provide a command-line version. It also might have been nice to limit the com port selection to those actually found on the computer. The most important thing is that it works: simple to use and seems to work well.<br />
 <br />If for some reason the sample code does not run properly. Numato provides a 
 <a href="https://productdata.numato.com/assets/downloads/fpga/mimasv2/mimasv2_sample_bin_file.bin" target="_blank">sample bin file</a>
@@ -231,7 +231,7 @@ My only suggestion might be to make it open source, and/or provide a command-lin
 
 <div class="separator" style="clear: both; text-align: center;">
 <a href="../images/s1600/BadPath.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="190" data-original-width="323" height="187" src="../images/s320/BadPath.png" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="190" data-original-width="323" height="187" src="../images/s320/BadPath.png" width="320"></a>
 </div>
 <br />
 Navigate to the blink\ise directory and open the ise.xise file:
@@ -240,7 +240,7 @@ Navigate to the blink\ise directory and open the ise.xise file:
 
 <div class="separator" style="clear: both; text-align: center;">
 <a href="../images/s1600/Blink_ISE.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="311" data-original-width="675" height="146" src="../images/s320/Blink_ISE.PNG" width="320"></a>
+<img alt="illustration image" border="0" data-original-height="311" data-original-width="675" height="146" src="../images/s320/Blink_ISE.PNG" width="320"></a>
 </div>
 <br />
 <br />Disclosure: I am not affiliated with any of the entities mentioned in this blog. All opinions are my own and do not reflect that of my employer. The kind folks at Numato sent me a free Mimas-2 board stating: "

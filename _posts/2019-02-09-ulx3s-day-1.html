@@ -23,13 +23,13 @@ My board arrived all the way from Croatia, and just in time for the weekend! Pow
 <br />
 <div class="separator" style="clear: both; text-align: center;">
 <a href="../images/s1600/ULX3S_power_on.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="313" data-original-width="508" height="196" src="../images/s320/ULX3S_power_on.PNG" width="320"></a></div>
+<img alt="illustration image" border="0" data-original-height="313" data-original-width="508" height="196" src="../images/s320/ULX3S_power_on.PNG" width="320"></a></div>
 <br />
 One of the first things I noticed is that there are TWO micro-USB ports:
 <br />
 <br />
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/ULX3S_front.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;">
-<img border="0" data-original-height="916" data-original-width="800" height="400" src="../images/s400/ULX3S_front.PNG" width="346"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">ULX3S Board Diagram, from&nbsp;http://radiona.org/ulx3s/</td></tr></tbody></table>One of them is used for JTAG, connected to a&nbsp;&nbsp;<a href="https://www.ftdichip.com/Products/ICs/FT231X.html">FTDI FT231XS</a> chip. The other is "connected directly to FPGA". Despite having reviewed the online documentation prior to board arrival, I admit I was surprised to see the <i>two </i>USB connectors. (Uh-oh; which do I use?? will there be ground-loop problem if I use them both?) The <a href="https://github.com/emard/ulx3s#features">feature list</a>
+<img alt="illustration image" border="0" data-original-height="916" data-original-width="800" height="400" src="../images/s400/ULX3S_front.PNG" width="346"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">ULX3S Board Diagram, from&nbsp;http://radiona.org/ulx3s/</td></tr></tbody></table>One of them is used for JTAG, connected to a&nbsp;&nbsp;<a href="https://www.ftdichip.com/Products/ICs/FT231X.html">FTDI FT231XS</a> chip. The other is "connected directly to FPGA". Despite having reviewed the online documentation prior to board arrival, I admit I was surprised to see the <i>two </i>USB connectors. (Uh-oh; which do I use?? will there be ground-loop problem if I use them both?) The <a href="https://github.com/emard/ulx3s#features">feature list</a>
  only names the one used for JTAG, but both are of course clearly labeled on the diagram (see above); Interesting how one sees things differently when actually holding the physical item.<br />
 <br />There are a bunch of interesting links for the&nbsp;
 <a href="https://github.com/RadionaOrg/ulx3s-links/">ulx3s here</a>
@@ -167,7 +167,7 @@ Although I was able to <a href="{{ site.baseurl }}{% post_url 2019-01-02-tinyfpg
 <br />
 <div class="separator" style="clear: both; text-align: center;">
 <a href="../images/s1600/ULX3S-initial.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="260" data-original-width="576" height="179" src="../images/s400/ULX3S-initial.PNG" width="400"></a></div>
+<img alt="illustration image" border="0" data-original-height="260" data-original-width="576" height="179" src="../images/s400/ULX3S-initial.PNG" width="400"></a></div>
 <br />
 As the error appeared that OpenOCD was looking for the libusb drivers:
 <br />
@@ -194,7 +194,7 @@ Zadig to the rescue once again, forcing a change to the drivers to libusbK:   <b
 <br />
 <div class="separator" style="clear: both; text-align: center;">
 <a href="../images/s1600/ULX3S-libusbK.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="403" data-original-width="584" height="275" src="../images/s400/ULX3S-libusbK.PNG" width="400"></a></div>
+<img alt="illustration image" border="0" data-original-height="403" data-original-width="584" height="275" src="../images/s400/ULX3S-libusbK.PNG" width="400"></a></div>
 This worked! OpenOCD found the Lattice FPGA:<br />
 
 {% include code_header.html %}
@@ -401,13 +401,13 @@ So that's my first day with the ULXS3. Pretty cool so far. Stay tuned for more..
 <ul><li><a href="https://radiona.org/new-fpga-board-ulx3s/">https://radiona.org/new-fpga-board-ulx3s/</a></li><li><a href="https://gitter.im/ulx3s/">ulx3s on gitter</a></li><li><a href="https://github.com/RadionaOrg/ulx3s-links">RadionaOrg ulx3s-links</a></li><li><a href="https://github.com/emard/ulx3s-bin">https://github.com/emard/ulx3s-bin</a></li><li><a href="https://github.com/emard/ulx3s">https://github.com/emard/ulx3s</a></li><li><a href="https://github.com/emard/ulx3s/blob/master/doc/schematics.pdf">ulx3s schematics.pdf</a></li><li><a href="https://hr.mouser.com/ProductDetail/Espressif-Systems/ESP-WROOM-32-16MB?qs=sGAEpiMZZMsRr7brxAGoXSSUPDSAjAiV1M6iRPUJ5tDjstOHDp9d7Q%3d%3d">ESP32 used on the ULX3S</a></li><li><a href="http://www.clifford.at/icestorm/">Project IceStorm</a></li><li>Crowdsupply&nbsp;<a href="https://www.crowdsupply.com/1bitsquared/icebreaker-fpga">1bitsquared icebreaker-fpga</a></li><li><a href="https://github.com/esden/wtfpga">Fork of securelyfitz/WTFpga for iCEBreaker</a></li><li><a href="https://github.com/icebreaker-fpga/icebreaker-pmod">iCEBreaker pmod</a></li><li><a href="https://github.com/richardeoin/ftx-prog">ftx-prog</a></li><li><a href="https://github.com/f32c/tools">ujprog and f32cup.py</a></li><li><a href="http://openocd.org/doc/html/Debug-Adapter-Configuration.html">
 OpenOCD Debug Adapter Configuration</a></li><li><br />
 </li></ul>  <span style="visibility:hidden;display:none;"><a href="../images/s1600/Twitter_Logo_WhiteOnBlue.png" imageanchor="1">
-<img border="0" src="../images/s200/Twitter_Logo_WhiteOnBlue.png" width="200" height="200" data-original-width="400" data-original-height="400"></a> <a href="../images/s1600/Twitter_Logo_WhiteOnImage.png" imageanchor="1">
-<img border="0" src="../images/s200/Twitter_Logo_WhiteOnImage.png" width="200" height="200" data-original-width="400" data-original-height="400"></a> <a href="../images/s1600/github.png" imageanchor="1">
-<img border="0" src="../images/s200/github.png" width="200" height="116" data-original-width="296" data-original-height="171"></a><a href="../images/s1600/github.png" imageanchor="1">
-<img border="0" src="../images/s200/github.png" width="200" height="195" data-original-width="524" data-original-height="512"></a> <a href="../images/s1600/github_new_cropped.png" imageanchor="1">
-<img border="0" src="../images/s320/github_new_cropped.png" width="320" height="311" data-original-width="1600" data-original-height="1557"></a> <a href="../images/s1600/github_new_grey_cropped.png" imageanchor="1">
-<img border="0" src="../images/s320/github_new_grey_cropped.png" width="320" height="294" data-original-width="1600" data-original-height="1469"></a> <a href="../images/s1600/green_space.png" imageanchor="1">
-<img border="0" src="../images/s320/green_space.png" width="320" height="234" data-original-width="1128" data-original-height="825"></a> </span>
+<img alt="illustration image" border="0" src="../images/s200/Twitter_Logo_WhiteOnBlue.png" width="200" height="200" data-original-width="400" data-original-height="400"></a> <a href="../images/s1600/Twitter_Logo_WhiteOnImage.png" imageanchor="1">
+<img alt="illustration image" border="0" src="../images/s200/Twitter_Logo_WhiteOnImage.png" width="200" height="200" data-original-width="400" data-original-height="400"></a> <a href="../images/s1600/github.png" imageanchor="1">
+<img alt="illustration image" border="0" src="../images/s200/github.png" width="200" height="116" data-original-width="296" data-original-height="171"></a><a href="../images/s1600/github.png" imageanchor="1">
+<img alt="illustration image" border="0" src="../images/s200/github.png" width="200" height="195" data-original-width="524" data-original-height="512"></a> <a href="../images/s1600/github_new_cropped.png" imageanchor="1">
+<img alt="illustration image" border="0" src="../images/s320/github_new_cropped.png" width="320" height="311" data-original-width="1600" data-original-height="1557"></a> <a href="../images/s1600/github_new_grey_cropped.png" imageanchor="1">
+<img alt="illustration image" border="0" src="../images/s320/github_new_grey_cropped.png" width="320" height="294" data-original-width="1600" data-original-height="1469"></a> <a href="../images/s1600/green_space.png" imageanchor="1">
+<img alt="illustration image" border="0" src="../images/s320/green_space.png" width="320" height="234" data-original-width="1128" data-original-height="825"></a> </span>
  <br />
  Copyright (c) gojimmypi all rights reserved. Blogger Image Move Cleaned: 5/3/2021 1:35:54 PM
 <br />

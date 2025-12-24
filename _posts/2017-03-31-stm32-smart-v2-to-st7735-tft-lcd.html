@@ -16,7 +16,7 @@ Here are my notes on interfacing your basic 1.8" ST7735 TFT LCD display with an&
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/STM32_to_ST7735_boards.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" height="195" src="../images/s400/STM32_to_ST7735_boards.png" width="400"></a>
+<img alt="illustration image" border="0" height="195" src="../images/s400/STM32_to_ST7735_boards.png" width="400"></a>
 </div>
 <br />
 
@@ -30,7 +30,7 @@ This should have been a trivial project. The STM32 board has an 8 pin female hea
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/STM32_to_ST7735_before.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" height="210" src="../images/s400/STM32_to_ST7735_before.png" width="400"></a>
+<img alt="illustration image" border="0" height="210" src="../images/s400/STM32_to_ST7735_before.png" width="400"></a>
 </div>
 <br />
 
@@ -44,7 +44,7 @@ To make matters worse, even the sample code I planned to use was using yet anoth
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/code.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" src="../images/s1600/code.PNG"></a>
+<img alt="illustration image" border="0" src="../images/s1600/code.PNG"></a>
 </div>
 <br />
 
@@ -54,7 +54,7 @@ So ok, first whip together a bunch of jumper wires to make sure everything actua
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/working_with_jumpers.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" height="320" src="../images/s320/working_with_jumpers.PNG" width="240"></a>
+<img alt="illustration image" border="0" height="320" src="../images/s320/working_with_jumpers.PNG" width="240"></a>
 </div>
 <br />
 
@@ -70,7 +70,7 @@ Here's the interface modifications needed:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/STM32_to_ST7735_wiring.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" height="185" src="../images/s400/STM32_to_ST7735_wiring.png" width="400"></a>
+<img alt="illustration image" border="0" height="185" src="../images/s400/STM32_to_ST7735_wiring.png" width="400"></a>
 </div>
 <br />
 
@@ -81,7 +81,7 @@ And here's what my newly created adapter looks like:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/actual_adapter.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" height="312" src="../images/s320/actual_adapter.PNG" width="320"></a>
+<img alt="illustration image" border="0" height="312" src="../images/s320/actual_adapter.PNG" width="320"></a>
 </div>
 <br />
 
@@ -92,7 +92,7 @@ This allows a somewhat more graceful connection, sans poulpe:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/working_with_adapter.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" height="320" src="../images/s320/working_with_adapter.PNG" width="213"></a>
+<img alt="illustration image" border="0" height="320" src="../images/s320/working_with_adapter.PNG" width="213"></a>
 </div>
 <br />
 
@@ -126,7 +126,7 @@ Type STM32F103C8 in the filter to find the MCU chip used in the board.
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/IDE-Device-Select.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" height="300" src="../images/s400/IDE-Device-Select.PNG" width="400"></a>
+<img alt="illustration image" border="0" height="300" src="../images/s400/IDE-Device-Select.PNG" width="400"></a>
 </div>
 <br />
 <br />
@@ -136,7 +136,7 @@ Then pick the "LEDBlink (StdPeriph)" sample project to generate:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Sample-StdPeriph-Project.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" height="152" src="../images/s400/Sample-StdPeriph-Project.PNG" width="400"></a>
+<img alt="illustration image" border="0" height="152" src="../images/s400/Sample-StdPeriph-Project.PNG" width="400"></a>
 </div>
 <br />
 <br />
@@ -149,7 +149,7 @@ On the last page, pick your debugger. I'm using a Segger J-Link:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/debugger-select.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" height="245" src="../images/s400/debugger-select.PNG" width="400"></a>
+<img alt="illustration image" border="0" height="245" src="../images/s400/debugger-select.PNG" width="400"></a>
 </div>
 <br />(I have some other 
 <a href="http://gojimmypi.blogspot.com/2017/03/Segger-J-Link-STM32-with-VisualGDB.html">Segger&nbsp;USB tips here</a>
@@ -161,7 +161,7 @@ In order to add ST7735 LED Display support, only the main project directory file
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Files-to-copy.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" src="../images/s1600/Files-to-copy.PNG"></a>
+<img alt="illustration image" border="0" src="../images/s1600/Files-to-copy.PNG"></a>
 </div>
 <br />
 The crmsis and stm_lib directories can be ignored.
@@ -184,7 +184,7 @@ Things went a bit rough at first. Even once I was able to get the app to compile
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/stuck_code.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" src="../images/s1600/stuck_code.PNG"></a>
+<img alt="illustration image" border="0" src="../images/s1600/stuck_code.PNG"></a>
 </div>
 <br />
 
@@ -205,7 +205,7 @@ And sure enough, when turning on the DEBUG_DEFAULT_INTERRUPT_HANDLERS feature in
 
 <div class="separator" style="clear: both; text-align: center;">
 <a href="../images/s1600/debug_interrupt.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" height="304" src="../images/s640/debug_interrupt.PNG" width="640"></a>
+<img alt="illustration image" border="0" height="304" src="../images/s640/debug_interrupt.PNG" width="640"></a>
 </div>
 <br />
 
@@ -216,7 +216,7 @@ The problem was immediately obvious. The SysTick_Handler was not properly config
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/systick_def.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" height="118" src="../images/s400/systick_def.PNG" width="400"></a>
+<img alt="illustration image" border="0" height="118" src="../images/s400/systick_def.PNG" width="400"></a>
 </div>
 <br />
 
@@ -237,7 +237,7 @@ This board uses GPIO Pins 13 and 15 (SPI Port 2), so set this in the config file
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/SPI-port-2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" height="345" src="../images/s400/SPI-port-2.PNG" width="400"></a>
+<img alt="illustration image" border="0" height="345" src="../images/s400/SPI-port-2.PNG" width="400"></a>
 </div>
 <br />
 Additionally, the A0 and CS pins need to be set. From the pin diagram, A0 is Port B pin 1, and CD is Port B pin 12.&nbsp; 
@@ -257,7 +257,7 @@ Additionally, the A0 and CS pins need to be set. From the pin diagram, A0 is Por
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Other-Pins.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" height="176" src="../images/s640/Other-Pins.PNG" width="640"></a>
+<img alt="illustration image" border="0" height="176" src="../images/s640/Other-Pins.PNG" width="640"></a>
 </div>
 
 <div class="separator" style="clear: both; text-align: left;">

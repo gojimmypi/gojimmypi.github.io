@@ -30,7 +30,7 @@ for quite some time now, but I've only programmed it while it was sitting right 
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/loose-sensor-fittings.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="699" data-original-width="1062" height="261" src="../images/s400/loose-sensor-fittings.png" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="699" data-original-width="1062" height="261" src="../images/s400/loose-sensor-fittings.png" width="400"></a>
 </div>
 <br />You may wonder why I would be interested in something as boring as water pressure. Well, not long ago I discovered my pressure regulator quietly failed. Let's just say I will never again ignore water pressure! There's a reason for the regulator - and the maximum ratings on the water heater. The water softener. The reverse osmosis system.... For only about 10 bucks, you can keep an eye on pressure the &nbsp;manual, old-school way with 
 <a href="https://www.amazon.com/gp/product/B00004RACK/">this Rain Bird P2A Water Pressure Test Gauge</a>
@@ -88,7 +88,7 @@ So now using the Arduino OTA command with the destination of the VisualStudio bi
 python.exe C:\Users\gojimmypi\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.3.0\tools\espota.py -i 192.168.1.103 -p 8266 --auth= -f C:\Users\gojimmypi\AppData\Local\Temp\VMBuilds\WaterPressureFlow\esp8266_generic\Release\WaterPressureFlow.ino.bin</code></pre>
 I thought perhaps this could be fully automated by adding the command to the Post Build Event in VisualStudio:<br />&nbsp; 
 <a href="../images/s1600/Post-Build-Event.png" imageanchor="1">
-<img border="0" data-original-height="563" data-original-width="1421" height="157" src="../images/s400/Post-Build-Event.png" width="400"></a><br />However I was unable to get the command to trigger. This article on 
+<img alt="illustration image" border="0" data-original-height="563" data-original-width="1421" height="157" src="../images/s400/Post-Build-Event.png" width="400"></a><br />However I was unable to get the command to trigger. This article on 
 <a href="https://docs.microsoft.com/en-us/cpp/ide/specifying-build-events">Specifying Build Events</a>
  at Microsoft seems to indicate that last option "In Excluded From Build, specify Yes if you do not want the event to run". However my prompt is "Use in Build". I tried both Yes and No - and the OTA command appears to never have been attempted. Perhaps this is because it is a VisualMicro project. No worries, still just as easy to use the up-arrow in a DOS box to re-upload freshly compiled code.  <br />
 <br />I'm still hopeful that I will be able to do this in a single build operation. The VisualMicro site has a page indicating that 

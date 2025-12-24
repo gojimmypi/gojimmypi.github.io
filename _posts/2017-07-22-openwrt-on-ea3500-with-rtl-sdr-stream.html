@@ -14,7 +14,7 @@ Recently I saw an interesting <a href="http://www.rtl-sdr.com/">rtl-sdr</a> arti
 ).<br />
 <br />
 <table cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: left;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/Cisco-SDR.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;">
-<img border="0" data-original-height="676" data-original-width="1081" height="250" src="../images/s400/Cisco-SDR.PNG" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Cisco EA3500 with NooElec RTL-SDR</td></tr></tbody></table>The video was so interesting, that I found a used EA3500 for sale on <a href="https://www.ebay.com/sch/i.html?_nkw=Cisco+EA3500">ebay</a> and immediately purchased it to try this myself! (not a single one of my routers has a USB interface. Go figure) There are also used ones on <a href="https://smile.amazon.com/s/?field-keywords=ea3500">amazon</a>
+<img alt="illustration image" border="0" data-original-height="676" data-original-width="1081" height="250" src="../images/s400/Cisco-SDR.PNG" width="400"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Cisco EA3500 with NooElec RTL-SDR</td></tr></tbody></table>The video was so interesting, that I found a used EA3500 for sale on <a href="https://www.ebay.com/sch/i.html?_nkw=Cisco+EA3500">ebay</a> and immediately purchased it to try this myself! (not a single one of my routers has a USB interface. Go figure) There are also used ones on <a href="https://smile.amazon.com/s/?field-keywords=ea3500">amazon</a>
  as well.<br />
 <br />
 Although it was the topic of SDR caught my attention, it is still a pretty good video on OpenWrt.
@@ -375,7 +375,7 @@ As such, the ES3500 is connected to the "internet" via WiFi instead of via the y
 
 <div class="separator" style="clear: both; text-align: center;">
 <a href="../images/s1600/traffic-rules.PNG" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;">
-<img border="0" data-original-height="119" data-original-width="946" height="80" src="../images/s640/traffic-rules.PNG" width="640"></a>
+<img alt="illustration image" border="0" data-original-height="119" data-original-width="946" height="80" src="../images/s640/traffic-rules.PNG" width="640"></a>
 </div>
 
 <br />
@@ -383,7 +383,7 @@ However I wanted to follow along and use port forwarding instead, like this:
 <br />
 <br />
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="../images/s1600/port-forward.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;">
-<img border="0" data-original-height="158" data-original-width="1051" height="96" src="../images/s640/port-forward.PNG" width="640"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">A port forward that looks like it should work, but does not.</td></tr></tbody></table>
+<img alt="illustration image" border="0" data-original-height="158" data-original-width="1051" height="96" src="../images/s640/port-forward.PNG" width="640"></a></td></tr><tr><td class="tr-caption" style="text-align: center;">A port forward that looks like it should work, but does not.</td></tr></tbody></table>
 <div class="separator" style="clear: both; text-align: center;">
 </div>
 <br />
@@ -401,7 +401,7 @@ Now "connection refused" is an interesting error. It says things are working but
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/ssh-note.PNG" imageanchor="1" style="margin-left: auto; margin-right: auto;">
-<img border="0" data-original-height="589" data-original-width="707" height="333" src="../images/s400/ssh-note.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="589" data-original-width="707" height="333" src="../images/s400/ssh-note.PNG" width="400"></a>
 </div>
 <br />
 <br />
@@ -412,14 +412,14 @@ Even setting the "allow remote hosts", I continued to get the port refusal error
 <div class="separator" style="clear: both; text-align: center;">
 </div>
 <a href="../images/s1600/port-forward-router.PNG" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;">
-<img border="0" data-original-height="274" data-original-width="1026" height="170" src="../images/s640/port-forward-router.PNG" width="640"></a><br />
+<img alt="illustration image" border="0" data-original-height="274" data-original-width="1026" height="170" src="../images/s640/port-forward-router.PNG" width="640"></a><br />
 And so once that is working, several other ports also need to be forwarded:  
 <br />
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/final-rules.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="506" data-original-width="1054" height="306" src="../images/s640/final-rules.PNG" width="640"></a>
+<img alt="illustration image" border="0" data-original-height="506" data-original-width="1054" height="306" src="../images/s640/final-rules.PNG" width="640"></a>
 </div>
 Note that when moving your client computer between the ES3500 network (192.168.2.x) and the local wired/wireless network (192.168.1.x) - there's a delay of up to several minutes in Windows obtaining the new address and getting everything setup, during which you'll see messages like this when attempting ssh:<br />
 <br />
@@ -484,7 +484,7 @@ The video moves on to trying performance with a 5GHz band. I don't have any othe
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/airspy-config.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="392" data-original-width="419" height="373" src="../images/s400/airspy-config.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="392" data-original-width="419" height="373" src="../images/s400/airspy-config.PNG" width="400"></a>
 </div>
 <br />
 Although the original pic above has the RTL-SDR plugged directly into the router, it is probably a good idea to use an extension cord, as shown in the video to get the receiver a bit farther away.
@@ -503,7 +503,7 @@ Press play button in SDR# and voila! <br />
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/network-sdr.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="778" data-original-width="981" height="505" src="../images/s640/network-sdr.PNG" width="640"></a>
+<img alt="illustration image" border="0" data-original-height="778" data-original-width="981" height="505" src="../images/s640/network-sdr.PNG" width="640"></a>
 </div>
 <br />
 <br />

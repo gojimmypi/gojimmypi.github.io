@@ -24,7 +24,7 @@ Having an embedded crypto chip to offload SSL processing for say, an ESP8266 sou
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/ATT88CK50_startup..PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="128" data-original-width="333" height="152" src="../images/s400/ATT88CK50_startup..PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="128" data-original-width="333" height="152" src="../images/s400/ATT88CK50_startup..PNG" width="400"></a>
 </div>
 <br />
 Once you plug in the device, the dialog box will change:
@@ -33,7 +33,7 @@ Once you plug in the device, the dialog box will change:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/ATT88CK50_startup2.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="213" data-original-width="273" src="../images/s1600/ATT88CK50_startup2.PNG"></a>
+<img alt="illustration image" border="0" data-original-height="213" data-original-width="273" src="../images/s1600/ATT88CK50_startup2.PNG"></a>
 </div>
 <br />Note that the AT88CK590 USB dongle has 3 different security chips on it, each with 3 different I2C addresses. These three chips are controlled by the onboard ATmega 8-bit&nbsp;
 <a href="http://www.microchip.com/wwwproducts/en/AT90USB1287">Atmel AVR® AT90USB1287 microcontroller</a>. The <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/doc7593.pdf">complete&nbsp;AT90USB1287 datasheet</a> is a whopping 456 pages long, There's also a <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/7593S.pdf">summary datasheet</a> that's only 39 pages. The <a href="http://www.atmel.com/Images/Atmel-CryptoAuth-AT88CK590_Schematics.pdf">schematic diagram</a>
@@ -51,7 +51,7 @@ As a side note, when using Atmel Studio, here's a list of the supported programm
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/device_programming.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="535" data-original-width="766" height="277" src="../images/s400/device_programming.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="535" data-original-width="766" height="277" src="../images/s400/device_programming.PNG" width="400"></a>
 </div>
 <br />
 <br />
@@ -61,7 +61,7 @@ The so-called "walk-through"s in the AECS Config help were less than impressive.
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/system_status.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="541" data-original-width="534" height="400" src="../images/s400/system_status.PNG" width="393"></a>
+<img alt="illustration image" border="0" data-original-height="541" data-original-width="534" height="400" src="../images/s400/system_status.PNG" width="393"></a>
 </div>
 <br />
 Next, there was no mention of the most important point - that the Key ID number for step 2 needs to match Key ID in step #3. &nbsp;Obvious of course once you know this - but for first time users following a Walk-Through... hmm.
@@ -70,7 +70,7 @@ Next, there was no mention of the most important point - that the Key ID number 
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Validate_MAC.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="587" data-original-width="460" height="400" src="../images/s400/Validate_MAC.PNG" width="312"></a>
+<img alt="illustration image" border="0" data-original-height="587" data-original-width="460" height="400" src="../images/s400/Validate_MAC.PNG" width="312"></a>
 </div>
 <br />
 So anyhow, type a challenge phrase, press the [Execute Nonce] button, then [Execute Mac] then [Execute CheckMac]. If successful there should be a Matched status.
@@ -82,7 +82,7 @@ The ATAES132 walk-though is even less complete &amp; less helpful.
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/AT_walk_through.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="271" data-original-width="225" src="../images/s1600/AT_walk_through.PNG"></a>
+<img alt="illustration image" border="0" data-original-height="271" data-original-width="225" src="../images/s1600/AT_walk_through.PNG"></a>
 </div>
 <br />There's only online help for 2 of the 3 chips: the ATSHA204 and and ATAES132. Of course my 
 <a href="http://www.mouser.com/ProductDetail/Microchip-Technology-Atmel/ATECC508A-SSHDA-B/">ATECC508A</a> is not listed. :| &nbsp;The only reason I ordered this evaluation kit was to take that chip for a test drive. After a bit of digging, I eventually discovered "<i><a href="http://www.microchip.com/design-centers/security-ics/cryptoauthentication/sha">The ATECC108A and ATECC508A are supersets of the ATSHA204A and thus upward compatible</a></i>". I was unable to find a full datasheet for the 508 - however once knowing that it is a superset of the <a href="http://www.atmel.com/Images/Atmel-8885-CryptoAuth-ATSHA204A-Datasheet.pdf">ATSHA204A</a>, one makes the assumption that the <a href="http://www.atmel.com/Images/Atmel-8885-CryptoAuth-ATSHA204A-Datasheet.pdf">datasheet</a>
@@ -102,7 +102,7 @@ Once you start the AECS Config tool, it appears there is no way to select a diff
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/Test_508.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="619" data-original-width="1154" height="340" src="../images/s640/Test_508.PNG" width="640"></a>
+<img alt="illustration image" border="0" data-original-height="619" data-original-width="1154" height="340" src="../images/s640/Test_508.PNG" width="640"></a>
 </div>
 <br />So also take note of the downloads on the Atmel site. The first two code samples after the ACES software are for the ATSHA204 chip, 
 <b>not</b>
@@ -111,7 +111,7 @@ Once you start the AECS Config tool, it appears there is no way to select a diff
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/downloads.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="222" data-original-width="662" height="214" src="../images/s640/downloads.PNG" width="640"></a>
+<img alt="illustration image" border="0" data-original-height="222" data-original-width="662" height="214" src="../images/s640/downloads.PNG" width="640"></a>
 </div>
 The last download, the&nbsp;<a href="http://www.atmel.com/images/Atmel-CryptoAuth-AT88CK590_Project-C-code.zip">Atmel-CryptoAuth-AT88CK590_Project-C-code.zip</a>
  has over 3000 files. Alas that too, seems to be limited to the SHA204 and AES132 libraries. Cool if that's what you are looking for, but I was hoping to dig into the new '508s (the third and most interesting of the chips!)<br />
@@ -148,7 +148,7 @@ The last download, the&nbsp;<a href="http://www.atmel.com/images/Atmel-CryptoAut
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/flip.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="228" data-original-width="443" height="205" src="../images/s400/flip.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="228" data-original-width="443" height="205" src="../images/s400/flip.PNG" width="400"></a>
 </div>
 <br />The 
 <a href="http://www.microchip.com/developmenttools/productdetails.aspx?partno=flip">newer (January 2017) flip program on the MicroChip site</a>
@@ -160,7 +160,7 @@ Fortunately I happened to already have a Windows 7 machine setup in a VMWare Wor
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/libusb_missing.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="531" data-original-width="629" height="539" src="../images/s640/libusb_missing.PNG" width="640"></a>
+<img alt="illustration image" border="0" data-original-height="531" data-original-width="629" height="539" src="../images/s640/libusb_missing.PNG" width="640"></a>
 </div>
 <br />The issue here, is that apparently the Atmel drivers needs to be manually installed/updated. Once again, thanks&nbsp;@MartyMacGyver for the 
 <a href="https://github.com/MartyMacGyver/CryptoAuth-explorations/wiki/Flashing-the-USB-Dongle's-Firmware">tips on replacing the AT90USB1287</a>
@@ -169,7 +169,7 @@ Fortunately I happened to already have a Windows 7 machine setup in a VMWare Wor
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/atmel_device_win_7.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="350" data-original-width="385" height="362" src="../images/s400/atmel_device_win_7.PNG" width="400"></a>
+<img alt="illustration image" border="0" data-original-height="350" data-original-width="385" height="362" src="../images/s400/atmel_device_win_7.PNG" width="400"></a>
 </div>
 <br />
 Then manually select the Atmel Flip directory:
@@ -178,7 +178,7 @@ Then manually select the Atmel Flip directory:
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/atmel_update_win_7.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="221" data-original-width="580" height="241" src="../images/s640/atmel_update_win_7.PNG" width="640"></a>
+<img alt="illustration image" border="0" data-original-height="221" data-original-width="580" height="241" src="../images/s640/atmel_update_win_7.PNG" width="640"></a>
 </div>
 <br />
 (as usual, you may be prompted to reboot)
@@ -279,14 +279,14 @@ I simply want to have an embedded solution for SSL. They certainly don't make it
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/buy_now_not.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="513" data-original-width="1079" height="304" src="../images/s640/buy_now_not.PNG" width="640"></a>
+<img alt="illustration image" border="0" data-original-height="513" data-original-width="1079" height="304" src="../images/s640/buy_now_not.PNG" width="640"></a>
 </div>
 <br />
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/not_found_1.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="327" data-original-width="881" height="236" src="../images/s640/not_found_1.PNG" width="640"></a>
+<img alt="illustration image" border="0" data-original-height="327" data-original-width="881" height="236" src="../images/s640/not_found_1.PNG" width="640"></a>
 </div>
 <br />I at least 
 <a href="http://www.mouser.com/Search/Refine.aspx?Keyword=AT88CK9000">found them at Mouser</a>. There are 2 options: <a href="http://www.mouser.com/ProductDetail/Microchip-Technology-Atmel/AT88CK9000-TSU/">$374 for the 3 lead SOT23 package</a>, oh - but $<a href="http://www.mouser.com/ProductDetail/Microchip-Technology-Atmel/AT88CK9000-8SH/">499 for the 8 pic SOIC package</a>
@@ -295,7 +295,7 @@ I simply want to have an embedded solution for SSL. They certainly don't make it
 
 <div class="separator" style="clear: both; text-align: left;">
 <a href="../images/s1600/AT88CK9000.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" data-original-height="456" data-original-width="1034" height="282" src="../images/s640/AT88CK9000.PNG" width="640"></a>
+<img alt="illustration image" border="0" data-original-height="456" data-original-width="1034" height="282" src="../images/s640/AT88CK9000.PNG" width="640"></a>
 </div>
 <br />
 Ok, so back to getting the device into DFU mode. Looks like I will need to jump in with both feet with no return.
