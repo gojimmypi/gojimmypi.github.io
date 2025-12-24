@@ -141,7 +141,7 @@ If you prefer to not do this on a global scale, simply remove the <code class="h
 <a href="https://twitter.com/gojimmypi/status/1080881753974341632?s=20">toolchain did not compile</a>
 &nbsp;- instead ending in a simple "recipe for 'build-tools' failed". Early on in the process, this error was encountered:<br />
 checking for the correct version of gmp.h... no
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -162,7 +162,7 @@ make[2]: *** [stamps/build-gcc-newlib-stage1] Error 1
 make[2]: *** Waiting for unfinished jobs....</code></pre>
 <br />
 It is unfortunate that the build attempt continued, as it takes an incredibly long time on my machine. Eventually it returned with: 
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -227,7 +227,7 @@ gojimmypi@MYHOST : ~/workspace/picorv32
 0 $ riscv32-unknown-elf-gcc
 riscv32-unknown-elf-gcc: command not found</code></pre>
 Fortunately this was a simple matter of the command not being in the path. I started a fresh WSL instance to be sure, and indeed it was not added to my path. So I manually edited<a href="https://github.com/tinyfpga/TinyFPGA-BX/blob/master/examples/picosoc/Makefile"> Luke's Makefile</a> to explicitly name the path. I searched from it in DOS, and found several of them in each of these directories (just as described in the <a href="https://github.com/cliffordwolf/picorv32/blob/master/README.md#building-a-pure-rv32i-toolchain">instructions</a>
-): <code class="highlight"></code><br />
+): 
 
 {% include code_header.html %}
 
@@ -240,7 +240,7 @@ Fortunately this was a simple matter of the command not being in the path. I sta
 01/03/2019  11:47 PM    &lt;DIR&gt;          riscv32imc
                0 File(s)              0 bytes</code></pre>
 In particular, look at those creation dates! The full monty compile took quite a long time on my system. Together, the 4 of them take up over 3GB of disk space in the <code class="highlight">/opt</code>
- directory! I'm not sure how accurate that is - as when going to the parent directory in Windows: <code class="highlight"></code><br />
+ directory! I'm not sure how accurate that is - as when going to the parent directory in Windows: 
 
 {% include code_header.html %}
 
@@ -322,7 +322,7 @@ gojimmypi@MYHOST : ~/workspace/picorv32
 205K    ./tests
 20G     .</code></pre>
 One more thing for future reference: I was not starting with a clean WSL. I don't know if anything I had previously installed was also a missing requirement. Using <code class="highlight"> history | grep "sudo apt-get install"</code>
-, I found that I had previously manually installed these items: <code class="highlight"></code><br />
+, I found that I had previously manually installed these items: 
 
 {% include code_header.html %}
 
@@ -373,7 +373,7 @@ sudo apt-get install gdb \
                      libmpfr-dev \
                      libmpc-dev </code></pre>
 Back to calling the compiler: here are the lines I edited in the <a href="https://github.com/tinyfpga/TinyFPGA-BX/blob/master/examples/picosoc/Makefile">Makefile</a>
- to explicitly call the RISC-V compiler I wanted: <code class="highlight"></code><br />
+ to explicitly call the RISC-V compiler I wanted: 
 
 {% include code_header.html %}
 

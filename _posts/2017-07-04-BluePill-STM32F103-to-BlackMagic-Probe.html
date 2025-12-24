@@ -35,10 +35,8 @@ Recently, I learned about the really awesome <a href="https://1bitsquared.com/pr
 <br />
 To get started, ensure the tool chain is installed:
 <br />
-<code class="highlight"></code><br />
 
 {% include code_header.html %}
-
 <pre class="language highlighter-rouge">
 <code class="highlight">
 sudo apt-get update
@@ -64,7 +62,7 @@ cd srcmake clean &amp;&amp; make PROBE_HOST=stlink</code></pre>
 <br />
 when all looks good, see if you can talk to your board:
 <br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -76,7 +74,7 @@ cd ~/workspace/blackmagic/src/
 python ~/workspace/stm32loader/stm32loader.py -p /dev/ttyUSB0</code></pre>
 <br />
 it should return a result like this: 
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -96,7 +94,7 @@ cd ~/workspace/blackmagic/src/
 python ~/workspace/stm32loader/stm32loader.py -p /dev/ttyUSB0 -e -w -v blackmagic_dfu.bin</code></pre>
 <br />
 The first time I tried, there was an error (also not the jumper setting needed for BOOT0=1: 
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -141,7 +139,7 @@ Read 256 bytes at 0x8000100
 Read 256 bytes at 0x8001900
 Read 256 bytes at 0x8001A00
 Verification OK</code></pre>
-DFU loader done! Be sure to move jumpers back to default of "0" and press reset again. The instructions that I followed indicated that the USB device should be disconnected and reconnected. Not much interesting or different there upon re-insertion. Device is still a cp2104 on /dev/ttyUSB0  <code class="highlight"></code><br />
+DFU loader done! Be sure to move jumpers back to default of "0" and press reset again. The instructions that I followed indicated that the USB device should be disconnected and reconnected. Not much interesting or different there upon re-insertion. Device is still a cp2104 on /dev/ttyUSB0  
 
 {% include code_header.html %}
 
@@ -155,7 +153,7 @@ DFU loader done! Be sure to move jumpers back to default of "0" and press reset 
 [927124.418786] usb 2-2.1: SerialNumber: 012345678
 [927124.424936] cp210x 2-2.1:1.0: cp210x converter detected
 [927124.433135] usb 2-2.1: cp210x converter now attached to ttyUSB0 </code></pre>
-The first time I ran dfu-util: <code class="highlight"></code><br />
+The first time I ran dfu-util: 
 
 {% include code_header.html %}
 
@@ -163,7 +161,7 @@ The first time I ran dfu-util: <code class="highlight"></code><br />
 <code class="highlight">
 dfu-util -d 1d50:6018,:6017 -s 0x08002000:leave -D blackmagic.bin</code></pre>
 <code class="highlight"></code>
-I received an error: <code class="highlight"></code><br />
+I received an error: 
 
 {% include code_header.html %}
 
@@ -187,7 +185,7 @@ The reason for the error? I missed the MOST IMPORTANT PART:
 Disconnect everything and use the USB to connect.</b><br />
 <br />
 The Black Magic probe uses the micro USB connector, NOT the Serial TTL! (oops) Sure enough, the device is now listed in Device Manager:
-<code class="highlight"></code><br />
+
 <br />
 
 <div class="separator" style="clear: both; text-align: left;">

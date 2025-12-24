@@ -49,7 +49,7 @@ In any case, the code seems to work well for the intended purpose: The FTDI chip
 <a href="https://twitter.com/gojimmypi/status/1036066455052156933"> initial out-of-box experience was quite good</a>; I had the device working almost immediately thanks to the great <a href="http://www.excamera.com/sphinx/spidriver/index.html">documentation page</a>
 . It would have been sooner, had my Ubuntu VM not been in the middle of an update. (thus preventing me from installing anything new). The Windows command-line does not work quite as documented, since the ports are not named /dev/ttyUSB[n]. Fortunately the parameters accept Windows-style port names:<br />
 <br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -66,7 +66,7 @@ In any case, the code seems to work well for the intended purpose: The FTDI chip
 Very cool. Moving on from the initial test, I played a bit with the pre-compiled Windows executable. Minor stumble here, as my 64-bit Windows 10 installed the app into the x86 directory, thus the sample command-line was slightly different than the docs:
 <br />
 <br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -97,7 +97,7 @@ Note that if you exit the SPIdriver Windows app, you may need to wait a few mome
 <a href="http://www.excamera.com/sphinx/spidriver/index.html#st7735r-1-8-lcd">sending an entire picture to another SPI display</a>
 ! Here too, I had a minor stumble, as the docs claim that&nbsp; the command looks like this:<br />
 <br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -108,7 +108,7 @@ Note that if you exit the SPIdriver Windows app, you may need to wait a few mome
 This brought up the python help for me, and ignored the rest of the parameters. On Windows the command was this one (also note different picture):
 <br />
 <br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 

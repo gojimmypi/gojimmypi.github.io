@@ -259,7 +259,7 @@ PATH=/opt/riscv32i/bin:$PATH</code></pre>
 <br />
 Once the RISC-V toolchain is installed, there's some sample code in the picosoc directory. Fortunately rxrbln has already made some modifications in the Makefile for the ULX3S. The C code is compiled with:
 <br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -270,7 +270,7 @@ make ulx3s_fw.img</code></pre>
 <br />
 To upload the code to the ULX3S:
 <br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -280,7 +280,7 @@ make ulx3sprog</code></pre>
 <br />
 <br />
 Note from the Makefile there are 2 key steps: #1 to put the ulx3s.bit soft CPU onto the FPGA, then #2 put the firmware into FLASH memory: 
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -293,7 +293,7 @@ Note from the Makefile there are 2 key steps: #1 to put the ulx3s.bit soft CPU o
 <code class="highlight">/usr/local/bin/ujprog</code> however the rxrbln Makefile expects it to be <code class="highlight">
 /usr/src/f32c-ujprog/ujprog/ujprog</code><br />
 so we'll just create a quick symlink 
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 

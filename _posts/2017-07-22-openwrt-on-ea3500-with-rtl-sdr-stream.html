@@ -106,14 +106,14 @@ BusyBox v1.24.2 () built-in shell (ash)
   * 2 oz. Cranberry Juice
  -----------------------------------------------------
 root@OpenWrt:~#</code></pre>
-Next set password with <code class="highlight"></code><br />
+Next set password with 
 
 {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">passwd</code></pre>
 <code class="highlight"></code>
- command: <code class="highlight"></code><br />
+ command: 
 
 {% include code_header.html %}
 
@@ -135,7 +135,7 @@ If you are familar with VI/VIM you can skip this step, otherwise you can install
 opkg update</code></pre>
 <br />
 You may wish to save you original configs: 
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -144,7 +144,7 @@ You may wish to save you original configs:
 cp  /etc/config/network  /etc/config/network.bak
 cp  /etc/config/wireless /etc/config/wireless.bak</code></pre>
 <code class="highlight"></code>
-Edit /etc/config/network that originally looks like this: <code class="highlight"></code><br />
+Edit /etc/config/network that originally looks like this: 
 
 {% include code_header.html %}
 
@@ -181,7 +181,7 @@ config switch_vlan
 config switch_vlan
         option device 'switch0'
         option vlan '2'        option ports '4 6'</code></pre>
-<code class="highlight"></code><br />
+
 He edits the network from 192.168.1.1 to 192.168.2.1 
 <br />
 
@@ -204,7 +204,7 @@ config interface 'wan6'
         option ifname 'wlan0'</code></pre>
 <br />
 Then edit /etc/config/wireless that for a default config, that originally looks like this. 
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -239,7 +239,7 @@ config wifi-iface
         option ssid     OpenWrt
         option encryption none</code></pre>
 <code class="highlight"></code>
- <code class="highlight"></code><br />
+ 
 
 {% include code_header.html %}
 
@@ -250,7 +250,7 @@ config wifi-device  radio0
         # option channel  11
         option disabled 0</code></pre>
 <code class="highlight"></code>
-And edit the wifi-iface section for 2GHz: <code class="highlight"></code><br />
+And edit the wifi-iface section for 2GHz: 
 
 {% include code_header.html %}
 
@@ -264,7 +264,7 @@ config wifi-iface
         option encryption psk2
         option key      yourwifipassword</code></pre>
 <code class="highlight"></code>
-Edit the wifi-iface section for 5GHz in a similar manner if you have one (I do not). The reboot, wait, and ssh to the NEW IP address:  <code class="highlight"></code><br />
+Edit the wifi-iface section for 5GHz in a similar manner if you have one (I do not). The reboot, wait, and ssh to the NEW IP address:  
 
 {% include code_header.html %}
 
@@ -299,14 +299,14 @@ opkg update
 opkg install luci-ssl
 /etc/init.d/uhttpd start
 /etc/init.d/uhttpd enable</code></pre>
-Then see which RTL packages are available: <code class="highlight"></code><br />
+Then see which RTL packages are available: 
 
 {% include code_header.html %}
 
 <pre class="language highlighter-rouge">
 <code class="highlight">
 opkg list | grep rtl</code></pre>
-He then goes on to install rtl-sdr <code class="highlight"></code><br />
+He then goes on to install rtl-sdr 
 
 {% include code_header.html %}
 
@@ -317,7 +317,7 @@ which rtl_fm
 which rtl_tcp
 rtl_tcp -h</code></pre>
 <code class="highlight"></code>Plugging in my <a href="https://smile.amazon.com/dp/B01GDN1T4S">NooElec RTL-SDR</a> that I received for Christmas (what a cool gift!!) I see this latest entry with <code class="highlight">dmesg</code>
-: <code class="highlight"></code><br />
+: 
 
 {% include code_header.html %}
 
@@ -325,7 +325,7 @@ rtl_tcp -h</code></pre>
 <code class="highlight">
 [ 2819.934581] usb 1-1: new high-speed USB device number 2 using orion-ehci</code></pre>
 <code class="highlight"></code>
-Then simply run rtl_tcp: <code class="highlight"></code><br />
+Then simply run rtl_tcp: 
 
 {% include code_header.html %}
 
@@ -346,7 +346,7 @@ to receive samples in GRC and control rtl_tcp parameters (frequency, gain, ...).
 
 <br />
 &nbsp; 
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -357,7 +357,7 @@ opkg install dump1090
 opkg install iperf</code></pre>
 <code class="highlight"></code>
 Part two of the video starts out a bit confusing... but skip the first 7 minutes and pick up at the OpenWrt login prompt.  There's a reminder on restarting WiFi:<br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -367,7 +367,7 @@ wifi down; wifi up
 # or
 ifconfig wlan0 down
 ifconfig wlan0 up</code></pre>
-<code class="highlight"></code><br />
+
 Basically to ensure there's an IP address listed for wlan0. (the client DHCP address for your WiFi network; remember this device was configured as STA, not AP (above).
 <br />
 As such, the ES3500 is connected to the "internet" via WiFi instead of via the yellow RJ-45 connector. Thus for wireless access, port forwarding is needed. At first, I setup a simple traffic rule that worked: 
@@ -377,7 +377,7 @@ As such, the ES3500 is connected to the "internet" via WiFi instead of via the y
 <a href="../images/s1600/traffic-rules.PNG" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;">
 <img border="0" data-original-height="119" data-original-width="946" height="80" src="../images/s640/traffic-rules.PNG" width="640"></a>
 </div>
-<code class="highlight"></code><br />
+
 <br />
 However I wanted to follow along and use port forwarding instead, like this: 
 <br />

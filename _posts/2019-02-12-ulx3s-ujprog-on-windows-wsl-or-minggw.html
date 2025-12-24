@@ -145,7 +145,7 @@ make</code></pre>
 <br />
 of course results in failure:
 <br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -158,7 +158,7 @@ make: *** [ujprog] Error 127</code></pre>
 <br />Try to compile the win make file (copy the respective Makefile so the 
 <code class="highlight">-f</code>
  is not needed every time):<br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -169,7 +169,7 @@ make</code></pre>
 <br />results in a bunch of warnings repeated about 
 <code class="highlight">usleep</code>, but more importantly a critical <code class="highlight">error: 'EOPNOTSUPP' undeclared</code>
  as shown here: <br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -202,7 +202,7 @@ In file included from ujprog.c:55:
 [... snip ...]</code></pre>
 I tried making the changes described in <a href="https://github.com/nmap/nmap/issues/183">nmap/nmap#183</a> - specifically adding to <code class="highlight">ujprog.c</code>
 : <br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 

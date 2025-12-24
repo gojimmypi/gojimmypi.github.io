@@ -124,7 +124,7 @@ P4 to H2 for oled_clk /SCL to sd_clk      (GPIO14)</code></pre>
 <a href="https://github.com/espressif/arduino-esp32/blob/7d7824701fe5e22f08555d3e1ce3180a922b2151/libraries/SPI/examples/SPI_Multiple_Buses/SPI_Multiple_Buses.ino#L37">this code on the espressif/arduino-esp32</a>
  repo for VSPI and HSPI initialization and pins:<br />
 <br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -198,7 +198,7 @@ Hm. Well, yes, I guess that is technically true. Still, I wanted to see if I cou
 <a href="https://github.com/adafruit/Adafruit-SSD1331-OLED-Driver-Library-for-Arduino">source code</a>, the SPI bus for the display gets interesting at startup time, or specifically during <a href="https://github.com/adafruit/Adafruit-SSD1331-OLED-Driver-Library-for-Arduino/blob/1ed3a35896300bbcdda6af3c05354285be893d46/Adafruit_SSD1331.cpp#L73">Adafruit_SSD1331::begin</a>
  - where initialization bytes are sent to the display:<br />
 <br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -286,7 +286,7 @@ Although the Salaea software is not implemented with the proper Windows UI (bann
 <a href="https://github.com/gojimmypi/ulx3s-examples/blob/e0daf5a862a484877575830303fbc1aa64782b79/nanoFramework/nanoFrameworkSSD1331/OLED_SSD1331.cs#L111">Here's the code</a>
  to send an SPI byte:<br />
 <br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -317,7 +317,7 @@ Although the Salaea software is not implemented with the proper Windows UI (bann
 Next, I tried to use the built-in nanoFramework SPI driver, but manually control the D/C line.
 <br />
 <br />
-<code class="highlight"></code><br />
+
 
 {% include code_header.html %}
 
@@ -334,7 +334,7 @@ private void WriteCommand(byte command)
             _spi.Write(_buffer1); // all 8 bits in about 54uS
             _DS.Write(GpioPinValue.High);
         }</code></pre>
-<code class="highlight"></code><br />
+
 <br />
 Here's what it looks like on the logic analyzer:
 <br />

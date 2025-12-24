@@ -142,7 +142,7 @@ Recently there was an exciting announcement from the clever folks at <a href="ht
 </div>
 
 <div>
-    <code class="highlight"></code><br />
+    
 
     {% include code_header.html %}
 
@@ -151,7 +151,7 @@ Recently there was an exciting announcement from the clever folks at <a href="ht
 USERPROFILE=C:\Users\gojimmypi</code></pre>
     <br />
     Why? Well Arduino-style libraries are typically installed in:
-    <code class="highlight"></code><br />
+    
     <br />
 
     {% include code_header.html %}
@@ -159,10 +159,10 @@ USERPROFILE=C:\Users\gojimmypi</code></pre>
 <pre class="language highlighter-rouge">
 <code class="highlight">
 ($USERPROFILE)\Documents\Arduino</code></pre>
-    <code class="highlight"></code><br />
+    
     <br />
     In my case, libraries such as:
-    <code class="highlight"></code><br />
+    
 
     {% include code_header.html %}
 
@@ -260,7 +260,7 @@ USERPROFILE=C:\Users\gojimmypi</code></pre>
     <br />
     Over the course of time, my Windows 10 drivers were changed, resulting in the dreaded message:
     <br />
-    <code class="highlight"></code><br />
+    
 
     {% include code_header.html %}
 
@@ -269,7 +269,7 @@ USERPROFILE=C:\Users\gojimmypi</code></pre>
 Error: libusb_open() failed with LIBUSB_ERROR_ACCESS
 Error: no device found
 Error: unable to open ftdi device with vid 0403, pid 6010, description '*', serial '*' at bus location '*'</code></pre>
-    <code class="highlight"></code><br />
+    
     <br />
 
 </div>
@@ -295,7 +295,7 @@ Error: unable to open ftdi device with vid 0403, pid 6010, description '*', seri
     That specifically looks like this:
     <br />
     <br />
-    <code class="highlight"></code><br />
+    
 
     {% include code_header.html %}
 
@@ -312,7 +312,7 @@ ftdi_channel 0
 # just TCK TDI TDO TMS, no reset
 ftdi_layout_init 0x0008 0x000b
 reset_config none</code></pre>
-    <code class="highlight"></code><br />
+    
     <br />
     <br />
 
