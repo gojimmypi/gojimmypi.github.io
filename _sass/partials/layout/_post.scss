@@ -31,16 +31,20 @@
         }
     }
 
-    .post-nav {
-        @include clearfix();
+    .post-nav.pill {
+        display: block;
+        width: 100%;
         margin: 20px 0;
+        padding: 0 13%;
 
-        .prev {
-            float: left;
+        > .post-nav {
+            display: flex;
+            align-items: center;
+            width: 100%;
         }
 
-        .next {
-            float: right;
+        > .post-nav .next {
+            margin-left: auto;
         }
 
         @media (max-width: 490px) {

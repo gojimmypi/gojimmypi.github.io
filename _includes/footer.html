@@ -3,7 +3,11 @@
     <table width="100%">
         <tr>
             <td align="left">
-                <span class="pill">&copy; {{ site.copyright }}</span>
+                <span class="pill" title="Copyright &copy; {{ site.copyright_year }} {{ site.copyright_owner }}">
+                    <span>&copy;</span>
+                    <span class="hide-on-narrow-768"> {{ site.copyright_year }}</span>
+                    <span>{{ site.copyright_owner }}</span>
+                </span>
             </td>
             <td align="center">
                 <span>

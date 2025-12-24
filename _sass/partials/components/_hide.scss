@@ -1,0 +1,8 @@
+// file: /_sass/partials/components/_hide.scss
+
+
+@media (max-width: 768px) {
+    .hide-on-narrow-768 {
+        display: none;
+    }
+}
