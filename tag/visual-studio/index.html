@@ -3,7 +3,7 @@
 <head>
     <!-- /_layouts/index.html page.layout = tag_index -->
     <meta charset="UTF-8" />
-    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1766517018">
+    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1766545240">
 
     <style>
     html {
@@ -33,6 +33,8 @@
 
 
 
+
+<script src="https://analytics.ahrefs.com/analytics.js" data-key="RwCY/0yQXz6mj2UhcKhjTQ" async></script>
 
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -86,7 +88,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1766517018">
+<link rel="stylesheet" href="/css/main.css?v=1766545240">
 
 <script src="/scripts/jquery.toc.js"></script>
 <script src="/scripts/infinite/1-jquery.jscroll.js"></script>
@@ -293,6 +295,61 @@ function ToggleDarkMode(forceDarkMode) {
                                   stroke-width="2"
                                   stroke-linejoin="round" />
                         </svg>
+                        <span class="nav-text">Home</span>
+                    </a>
+                </li>
+
+                <li>
+                    <!-- Search -->
+                    <a class="homelink"
+                       href="/search/"
+                       title="Search"
+                       aria-label="Search">
+                        <svg class="icon-search"
+                             viewBox="0 0 24 24"
+                             width="42"
+                             height="42"
+                             aria-hidden="true">
+                            <circle cx="11" cy="11" r="7"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"></circle>
+                            <line x1="16.65" y1="16.65" x2="21" y2="21"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"></line>
+                        </svg>
+                        <span class="nav-text">Search</span>
+                    </a>
+                </li>
+
+                <li>
+                    <!-- Privacy -->
+                    <a class="homelink"
+                       href="/privacy/"
+                       title="Privacy Policy"
+                       aria-label="Privacy">
+                        <svg class="icon-privacy"
+                             viewBox="0 0 24 24"
+                             width="42"
+                             height="42"
+                             aria-hidden="true">
+                            <rect x="5" y="11" width="14" height="10" rx="2"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linejoin="round"></rect>
+                            <path d="M8 11V8a4 4 0 0 1 8 0v3"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"></path>
+                        </svg>
+                        <span class="nav-text">Privacy</span>
                     </a>
                 </li>
 
@@ -310,6 +367,7 @@ function ToggleDarkMode(forceDarkMode) {
                                   stroke-linecap="round" />
                             <circle cx="12" cy="7" r="1" fill="currentColor" />
                         </svg>
+                        <span class="nav-text">About</span>
                     </a>
                 </li>
 
@@ -326,15 +384,16 @@ function ToggleDarkMode(forceDarkMode) {
                              style="display: none; height: 39px; width: 39px"
                              title="Dark Mode; Click to switch to Light Mode" />
                     </button>
+                    <span class="nav-text">Theme</span>
                 </li>
             </ul>
 
             <ul id="drop-archive" class="dropdown-content">
                 <li>
-                    <a href="/tags/">Tags</a>
+                    <a href="/tags/" class="pill-link" title="View all tags">Tags</a>
                 </li>
                 <li>
-                    <a href="/archive/">Yearly</a>
+                    <a href="/archive/" class="pill-link" title="View yearly archive summary">Yearly</a>
                 </li>
             </ul>
         </nav>
@@ -655,14 +714,14 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <table width="100%">
         <tr>
             <td align="left">
-                <span>&copy; 2015-2025 gojimmypi</span>
+                <span class="pill">&copy; 2015-2025 gojimmypi</span>
             </td>
             <td align="center">
                 <span>
-                    <a href="/archive/" title="View the archive of all posts">Archive</a>
+                    <a href="/archive/" class="pill-link" title="View the archive of all posts">Archive</a>
                 </span>
             </td><td align="right">
-                <span><a class="backtotop" href="#top" title="Scroll back to the top of the page">Back to top</a></span>
+                <span><a class="backtotop pill-link" href="#top" title="Scroll back to the top of the page">Back to top</a></span>
             </td>
         </tr>
     </table>
