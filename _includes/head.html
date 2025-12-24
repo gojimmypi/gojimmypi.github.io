@@ -202,7 +202,6 @@ fallback.load({
 </script>
 <script src="{{ '/js/search.js' | relative_url }}" defer></script>
 
-
 {% if page.sidebar_toc %}
 <script>
     fallback.ready(function () {
@@ -247,10 +246,13 @@ fallback.load({
 
 {%- if site.page_debug -%}<!-- Site Infos -->{%- endif -%}
 
-{%- assign has_title = false -%}
+{%- assign raw_title = "" -%}
 {%- if page.title and page.title != blank -%}
-    {%- assign has_title = true -%}
+    {%- assign raw_title = page.title -%}
+{%- else -%}
+    {%- assign raw_title = site.title | default: "Untitled" -%}
 {%- endif -%}
+{%- assign clean_title = raw_title | strip_html | normalize_whitespace -%}
 
 {%- assign raw_desc = "" -%}
 {%- if page.description and page.description != blank -%}
@@ -260,27 +262,20 @@ fallback.load({
 {%- else -%}
     {%- assign raw_desc = site.description | default: "" -%}
 {%- endif -%}
-
 {%- assign clean_desc = raw_desc | strip_html | normalize_whitespace | truncate: 155, "" -%}
 
 {%- comment -%}
-We want jekyll-seo-tag to emit title/canonical/OG/Twitter/JSON-LD,
-but NOT description (we emit our own bounded description tags below).
+Let jekyll-seo-tag emit canonical/OG/Twitter/JSON-LD,
+but NOT title or description. We emit those ourselves.
 {%- endcomment -%}
+{%- seo title=false description=false -%}
 
-{%- if has_title -%}
-    {%- seo title=true description=false -%}
-    <title>{{ page.title | strip_html | normalize_whitespace }}</title>
-{%- else -%}
-    {%- seo title=false description=false -%}
-    <title>{{ site.title | default: "Untitled" }}</title>
-{%- endif -%}
+<title>{{ clean_title }}</title>
 
 {%- if clean_desc and clean_desc != blank -%}
 <meta name="description" content="{{ clean_desc }}">
 <meta property="og:description" content="{{ clean_desc }}">
 <meta name="twitter:description" content="{{ clean_desc }}">
 {%- endif -%}
-
 
 {% include favicon.html %}
