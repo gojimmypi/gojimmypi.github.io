@@ -91,20 +91,23 @@ global_html:
     double_right_arrow: ">>"
     single_left_arrow:  "<"
     double_left_arrow:  "<<"
+
+# SEO settings
 defaults:
-  -
-    scope:
+  - scope:
       path: ""
-      type: "posts"
+      type: posts
     values:
-      layout: "post"
-      sidebar: true #true for sidebar false for none
-      sidebar_type: "material" #"material" or "classic"
-      sidebar_position: "left" #"left" or "right"
+      layout: post
+      sidebar: true
+      sidebar_type: material
+      sidebar_position: left
       sidebar_toc: false
-      type: "standard"
-      homedisplay: "featimg"
+      type: standard
+      homedisplay: featimg
       comments: false
+      seo_description_max_words: 25
+
 excerpt_separator: "<!-- more -->"
 markdown: kramdown
 kramdown:
