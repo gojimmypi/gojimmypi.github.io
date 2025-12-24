@@ -4,6 +4,16 @@ sidebar: false
 sitemap: false
 ---
 
+<header class="page-header">
+    <h1>
+        {%- if paginator.page > 1 -%}
+            {{ site.title }} - Page {{ paginator.page }}
+        {%- else -%}
+            {{ site.title }}
+        {%- endif -%}
+    </h1>
+</header>
+
 {%- for post in paginator.posts -%}
     {%- include article_index.html -%}
 {%- endfor -%}
