@@ -14,12 +14,19 @@ That said, I try to not have any sort of invasive tracking. I currently have no 
 
 I do not personally capture or sell any information.
 
+## Perspective
+
 Views are my own, not representative of any other company or organization, and may sometimes be inaccurate.
 
 ## Open Source
 
-This entire site is open source, hosted as [GitHub Pages](https://pages.github.com) at [github.com/gojimmypi/gojimmypi.github.io](https://github.com/gojimmypi/gojimmypi.github.io)
-with a preview rendered in the `gridster-jekyll-theme` subdirectory from [github.com/gojimmypi/gridster-jekyll-theme/](https://github.com/gojimmypi/gridster-jekyll-theme/)
+This entire site is open source, hosted as [GitHub Pages](https://pages.github.com) at:
+
+[github.com/gojimmypi/gojimmypi.github.io](https://github.com/gojimmypi/gojimmypi.github.io)
+
+There's a preview rendered in the `gridster-jekyll-theme` subdirectory from:
+
+[github.com/gojimmypi/gridster-jekyll-theme/](https://github.com/gojimmypi/gridster-jekyll-theme/)
 
 I suspect both Microsoft and GitHub have their own internal tracking.
 
@@ -27,7 +34,7 @@ I suspect both Microsoft and GitHub have their own internal tracking.
 
 To improve the web experience for everyone, I use some additional analytics tools for testing and evaluating the content.
 
-I use the Google Analytics and [Google Search Console](https://search.google.com/search-console/about). See the `google_analytics: true` in the [_config.yml](https://github.com/gojimmypi/gojimmypi.github.io/blob/master/_config.yml) file.
+I previously used the Google Analytics and [Google Search Console](https://search.google.com/search-console/about). See the `google_analytics: true` in the [_config.yml](https://github.com/gojimmypi/gojimmypi.github.io/blob/master/_config.yml) file.
 
 Recently I started also using [ahrefs](https://ahrefs.com/). See the `ahrefs_analytics: true` in the [_config.yml](https://github.com/gojimmypi/gojimmypi.github.io/blob/master/_config.yml) file.
 
