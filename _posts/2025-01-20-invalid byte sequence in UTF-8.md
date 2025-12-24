@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Invalid byte sequence in UTF-8"
-description: "Notes on fixing \"invalid byte sequence in UTF-8\" message in markdown files. Reminder that the problem is typically caused when copy/paste operation from a non-standard text source (such"
+description: "Notes on fixing \\\"invalid byte sequence in UTF-8\\\" message in markdown files. Reminder that the problem is typically caused when copy/paste operation"
 date: '2025-01-20'
 author: gojimmypi
 tags:

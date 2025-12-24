@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "RISC-V JTAG Debugging"
-description: "Some notes on RISC-V debugging. There are JTAG interfaces avilable on many hardware devices for single-step debugging code. But what about a softcore CPU built on an FPGA?"
+description: "Some notes on RISC-V debugging. There are JTAG interfaces avilable on many hardware devices for single-step debugging code. But what about a softcore CPU"
 date: '2021-08-29'
 author: gojimmypi
 tags:

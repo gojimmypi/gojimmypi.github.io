@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "PPK2 Power Analysis"
-description: "As part of my [homework](https://github.com/gojimmypi/IoT_BBQ/blob/main/Assignments/Exercise_10.md) and [class project](https://github.com/gojimmypi/IoT_BBQ/blob/main/Assignments/Final_Project.md) for the [Making Embedded Systems class](https://classpert.com/classpertx/courses/making-embedded-systems/cohort), here are some of my notes on measuring the power consumption of my [B-L475E-IOT01A"
+description: "As part of my [homework](https://github.com/gojimmypi/IoT_BBQ/blob/main/Assignments/Exercise_10.md) and [class project](https://github.com/gojimmypi/IoT_BB"
 date: '2022-02-11'
 author: gojimmypi
 tags:

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Notes for Hazard3 RISC-V with JTAG"
-description: "Notes on [Wren6991's Hazard3 Soft RISC-V with JTAG](https://github.com/Wren6991/Hazard3) See the [YosysHQ OSS CAD Suite Installation](https://github.com/YosysHQ/oss-cad-suite-build#installation) Be sure to use the `-L` with `curl`. See [Dealing with HTTP 301"
+description: "Notes on [Wren6991's Hazard3 Soft RISC-V with JTAG](https://github.com/Wren6991/Hazard3) See the [YosysHQ OSS CAD Suite Installation](https://github.com/Yo"
 date: '2022-09-04'
 author: gojimmypi
 tags:

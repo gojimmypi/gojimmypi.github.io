@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "ESP32 Hardware Encryption with wolfSSL"
-description: "PREVIEW, WIP Here are some notes on the Espressif ESP32 Hardware Encryption Features for wolfSSL. Any discussion of ESP32 (or any other) hardware encryption should address the generally"
+description: "PREVIEW, WIP Here are some notes on the Espressif ESP32 Hardware Encryption Features for wolfSSL. Any discussion of ESP32 (or any other) hardware"
 date: '2022-06-04'
 author: gojimmypi
 tags:

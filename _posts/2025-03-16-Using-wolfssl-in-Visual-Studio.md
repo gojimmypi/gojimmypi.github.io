@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Using wolfssl in Visual Studio"
-description: "Some notes on using wolfSSL in Visual Studio. See my blog [Getting Started with wolfSSL using Visual Studio 2022](https://www.wolfssl.com/getting-started-with-wolfssl-using-visual-studio-2022/). The [wolfSSL source code](https://github.com/wolfSSL/wolfssl) is written in C and"
+description: "Some notes on using wolfSSL in Visual Studio. See my blog [Getting Started with wolfSSL using Visual Studio 2022](https://www.wolfssl.com/getting-started-w"
 date: '2025-03-16'
 author: gojimmypi
 tags:

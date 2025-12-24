@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Apply to Present at Arduino Days 2025 for wolfSSL"
-description: "I'm applying to speak at [Arduino Days 2025](https://days.arduino.cc/)! ## Securing Arduino Projects with Industrial Grade wolfSSL Encryption Software \"Getting Started with wolfSSL on Arduino\" Included in presentation: -"
+description: "I'm applying to speak at [Arduino Days 2025](https://days.arduino.cc/)! ## Securing Arduino Projects with Industrial Grade wolfSSL Encryption Software"
 date: '2025-02-20'
 author: gojimmypi
 tags:

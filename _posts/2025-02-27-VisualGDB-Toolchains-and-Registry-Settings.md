@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "VisualGDB Notes for Toolchain and Registry Settings"
-description: "Here are some tips and reminders of where to find ESP32 toolchains for the Sysprogs VisualGDB extension for Visual Studio. ## Registry settings ``` Computer\\HKEY_CURRENT_USER\\Software\\Free Software Foundation ```"
+description: "Here are some tips and reminders of where to find ESP32 toolchains for the Sysprogs VisualGDB extension for Visual Studio. ## Registry settings ```"
 date: '2025-02-27'
 author: gojimmypi
 tags:

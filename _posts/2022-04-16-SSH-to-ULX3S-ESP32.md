@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "SSH to ULX3S Espressif ESP32 with wolfSSH"
-description: "So you have a ULX3S and want to connect via SSH. Yes! This is quite easy to do with open source software. The [ULX3S](https://www.crowdsupply.com/radiona/ulx3s) is cool not only"
+description: "So you have a ULX3S and want to connect via SSH. Yes! This is quite easy to do with open source software. The [ULX3S](https://www.crowdsupply.com/radiona/u"
 date: '2022-04-10'
 author: gojimmypi
 tags:

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Hackaday Supercon 2024"
-description: "I gave a presentation at [Hackaday Supercon 2024](https://hackaday.com/tag/2024-hackaday-supercon/) in Pasadena, CA. Thank you to everyone that attended. You were part of an awesome, much-appreciated attentive and kind audience."
+description: "I gave a presentation at [Hackaday Supercon 2024](https://hackaday.com/tag/2024-hackaday-supercon/) in Pasadena, CA. Thank you to everyone that attended."
 date: '2024-09-27'
 author: gojimmypi
 tags:

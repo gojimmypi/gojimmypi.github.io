@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Getting Started with wolfSSH for Espressif ESP32"
-description: "Some note on the development of the ESP32 SSH Server. TL;DR * Don't use WSL while debugging; use putty or some other SSH client Currently in development, there's"
+description: "Some note on the development of the ESP32 SSH Server. TL;DR * Don't use WSL while debugging; use putty or some other SSH client Currently in development,"
 date: '2022-04-10'
 author: gojimmypi
 tags:

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Jekyll Site Failures"
-description: "Here are some tips in creating a new GitHub Pages virtual directory: what didn't work. First, [Creating a GitHub Pages site with Jekyll](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll) Next, I created another repo"
+description: "Here are some tips in creating a new GitHub Pages virtual directory: what didn't work. First, [Creating a GitHub Pages site with Jekyll](https://docs.githu"
 date: '2021-05-26'
 author: gojimmypi
 tags:

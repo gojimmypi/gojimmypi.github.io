@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Jekyll Pagination and Scrolling"
-description: "Another cool feature I wanted to fix was the infinite scrolling of blog previews. This turned out to be by far the most time consuming issue. The underlying"
+description: "Another cool feature I wanted to fix was the infinite scrolling of blog previews. This turned out to be by far the most time consuming issue. The"
 date: '2021-05-14'
 author: gojimmypi
 tags:

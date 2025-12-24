@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Jekyll Gridster Migration Notes"
-description: "The [gojimmypi gridster-jekyll-theme demo site](https://gojimmypi.github.io/gridster-jekyll-theme) is a submodule created from a [the gojimmypi fork](https://github.com/gojimmypi/gridster-jekyll-theme) of the [ickc Gridster/gridster-jekyll-theme](https://github.com/ickc/gridster-jekyll-theme), which itself was a fork from the [DigitalMindCH/gridster-jekyll-theme](DigitalMindCH/gridster-jekyll-theme) The [gojimmypi"
+description: "The [gojimmypi gridster-jekyll-theme demo site](https://gojimmypi.github.io/gridster-jekyll-theme) is a submodule created from a [the gojimmypi"
 date: 2021-03-28
 ---
 

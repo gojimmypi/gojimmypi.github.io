@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "SiFive HiFive Unmatched Ubuntu NVMe SSD Boot"
-description: "Some notes on setting up the SiFive Unmatched RISC-V to boot from an NVMe SSD. ## Download Ubuntu Image Download [cdimage.ubuntu.com/releases/24.10/release/ubuntu-24.10-preinstalled-server-riscv64+unmatched.img.xz](https://cdimage.ubuntu.com/releases/24.10/release/ubuntu-24.10-preinstalled-server-riscv64+unmatched.img.xz) from [cdimage.ubuntu.com/releases/](https://cdimage.ubuntu.com/releases/). Serch for `preinstalled-server-riscv64+unmatched.img.xz` in other"
+description: "Some notes on setting up the SiFive Unmatched RISC-V to boot from an NVMe SSD. ## Download Ubuntu Image Download [cdimage.ubuntu.com/releases/24.10/release"
 date: '2025-02-17'
 author: gojimmypi
 tags:
