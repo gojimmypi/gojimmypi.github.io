@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Envox BenchBox 3 Upgrade"
+description: "The Envos BenchBox 3 has some upgrades, and possible hardware modification due. If like me, you bought your [BB3 via the Crowd Supply campaign](https://www.crowdsupply.com/envox/eez-bb3), you may wish to"
 date: '2021-07-04'
 author: gojimmypi
 tags:

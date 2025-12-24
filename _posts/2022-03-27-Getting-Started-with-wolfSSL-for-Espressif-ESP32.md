@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Getting Started with wolfSSL for Espressif ESP32"
+description: "Some tips for using wolfSSL on the Espressif ESP32 ## Getting Started with wolfSSL for Espressif ESP32 Like many things: _it's easy when you know how_. Here are"
 date: '2022-03-27'
 author: gojimmypi
 tags:

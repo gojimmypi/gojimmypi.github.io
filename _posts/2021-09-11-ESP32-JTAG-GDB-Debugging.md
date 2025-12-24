@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "ESP32 Segger JLink ESP32 OpenOCD GDB Debugging"
+description: "Some information on using Segger JLink to OpenOCD GDB debug an ESP32 project, specifically my WIP [wolfSSL SSH Server](https://github.com/gojimmypi/wolfssl-esp32/tree/main/wolfssl_ssh_server). ESP32 JTAG Pinout Wiring; Segger J-Link using WinUSB (v6.1.7600.16385)"
 date: '2021-09-11'
 author: gojimmypi
 tags:

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Syntax Highlighting and Code Segments"
+description: "I'm using the defauly Jekyll sytax highlighter that works well, until it doesn't. Reminder that language tags are CASE SENSTIVE! ````md ```html good sample ``` and NOT: ```HTML"
 date: '2021-05-23'
 author: gojimmypi
 tags:

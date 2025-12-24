@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Building Z80 Emulator for CP/M on ESP8266 with a Raspberry Pi"
+description: "Last month I saw an intriguing article on creating a Z80 CP/M Emulator on my favorite device - the ESP8266 on hackaday.io. https://hackaday.io/project/20552-cpm-8266 My first real computer was"
 date: '2017-04-27T16:34:00.000-07:00'
 author: gojimmypi
 tags:

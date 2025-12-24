@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "EdgeRouter-X Port Mirroring: Inspect ESP32 Network Packets"
+description: "By default the Ubiquiti EdgeRouter-X acts as a swtich, meaning packets from other ports will generally not be visible. See the `/sbin/switch` command, in particular the `mirror` option:"
 date: '2022-03-19'
 author: gojimmypi
 tags:

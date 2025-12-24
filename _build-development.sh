@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
 
+
+# Optional update:
+#   bundle update github-pages
+#   bundle install
+#   bundle exec github-pages versions
+
+
 reset
 
 echo "$1"
 
 ./gen_year_archives.sh
+ ./find_missing_description.sh _posts
 
 # for GH Pages / GitHub Pages and Jekyll install, see:
 # https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll

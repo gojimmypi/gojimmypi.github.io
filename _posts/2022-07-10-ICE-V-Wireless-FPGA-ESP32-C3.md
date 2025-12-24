@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "ICE-V Wireless FPGA with ESP32-C3"
+description: "There's a new open source ESP32 + FPGA Board! I recently received a [ICE-V Wireless ESP32-C3 + ICE40 FPGA board](https://groupgets.com/campaigns/1036-ice-v-wireless). Full disclosure: [@QwertyEmbedded](https://twitter.com/qwertyembedded) reached out via Twitter with"
 date: '2022-07-10'
 author: gojimmypi
 tags:

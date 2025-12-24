@@ -21,7 +21,7 @@ usefallback: false
 logo: /images/gojimmypi.svg
 image: /images/gojimmypi.jpg
 
-page_debug: false
+page_debug: true
 
 author: # For jekyll-feed
   name: gojimmypi
@@ -94,7 +94,7 @@ global_html:
 
 # SEO settings
 seo:
-  description: false
+  description: false # this probably does not do what we would want, but leaving it anyhow. Be sure to add description from matter to posts
 excerpt_separator: "<!-- more -->"
 defaults:
   - scope:

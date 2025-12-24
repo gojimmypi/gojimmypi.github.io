@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Jekyll Sample Page Notes"
+description: "A sample HTML file called [testpage2](https://github.com/gojimmypi/gridster-jekyll-theme/blob/gh-pages/testpage2.html) in the root: ``` --- layout: test_layout sidebar: false sitemap: false --- this is some test page content {% include test_include.html %}"
 date: 2021-05-01
 ---
 

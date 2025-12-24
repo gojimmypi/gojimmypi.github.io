@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Espressif ESP32 WiFi Port Sniffing"
+description: "Sniffing WiFi packets on an ESP32 during development. ![overview image](../images/ESP32-DUT/overview.png) This blog documents the network configuration used in an ESP32 test environment with some challenges: - The ESP32"
 date: '2022-08-28'
 author: gojimmypi
 tags:

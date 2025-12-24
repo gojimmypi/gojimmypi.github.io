@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "wolfSSL ESP32 project"
+description: "Some notes on a sample wolfSSL project for the ESP32. the wolfssh include directory needs to be manually copied to the `components/wolfssl`. As the Espressif IDE options is"
 date: '2021-09-04'
 author: gojimmypi
 tags:

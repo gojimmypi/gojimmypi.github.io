@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Page Links to GitHub Source"
+description: "I was inspired by the little icon on the jscroll site . I'd like to have a similar link on all of my pages that links directly to"
 date: '2021-05-16'
 author: gojimmypi
 tags:

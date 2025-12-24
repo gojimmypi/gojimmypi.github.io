@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Orbtrace-mini"
+description: "I first learned about the [orbtrace-mini](https://orbcode.org/orbtrace-mini/) on [Hackaday](https://hackaday.com/2022/07/26/orbtrace-effort-open-tool-for-professional-debugging/). Upon reading that article, I immediately sent [zyp] an email expressing my interest. I received a prompt reply and was"
 date: '2022-12-25'
 author: gojimmypi
 tags:

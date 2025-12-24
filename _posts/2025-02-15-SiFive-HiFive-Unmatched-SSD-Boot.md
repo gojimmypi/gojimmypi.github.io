@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "SiFive HiFive Unmatched SSD Boot"
+description: "Log all terminal window output to a file. For `putty.exe` this is under `Session` - `Logging` First, enter `U-BOOT` and save all SPI environment settings. ``` U-Boot SPL"
 date: '2025-02-15'
 author: gojimmypi
 tags:

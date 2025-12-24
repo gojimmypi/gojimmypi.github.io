@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "wolfSSH debugging SSH"
+description: "Some notes on setting up the wolfSSL SSH project. See also the [ESP32 SSH Server](https://gojimmypi.github.io/ESP32-SSH-server/) post. This is a replacement update after odd GHPages problems were encountered trying"
 date: '2021-08-28'
 author: gojimmypi
 tags:

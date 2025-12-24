@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "git tangle: how to replace an entire branch"
+description: "When things go really sideways and the GitHub master branch of a fork is so terribly messed up and the changes are not even desired, there's hope! TL;DR"
 date: '2022-04-23'
 author: gojimmypi
 tags:

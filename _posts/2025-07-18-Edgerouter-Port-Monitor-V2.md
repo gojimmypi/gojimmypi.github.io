@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "EdgeRouter-X Port Mirroring: Inspect ESP32 Network Packets V2"
+description: "This setup is similar to a prior blog, but this time using an [ExpressVPN Go Router](https://www.expressvpn.com/blog/aircove-go-new-portable-vpn-router/). The AirCove Go is cool for a variety of reasons, not only"
 date: '2025-07-18'
 author: gojimmypi
 tags:

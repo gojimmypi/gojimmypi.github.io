@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Jekyll GitHub Pages Search"
+description: "The first search result from 2015 was this little [gem](https://github.com/slashdotdash/jekyll-lunr-js-search/issues/82#issuecomment-156757982): >GitHub pages runs Jekyll in safe mode which disables all plugins. This is also noted at the [jekyllrb"
 date: '2021-07-21'
 author: gojimmypi
 tags:

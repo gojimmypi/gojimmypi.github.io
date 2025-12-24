@@ -246,36 +246,39 @@ fallback.load({
 
 {%- if site.page_debug -%}<!-- Site Infos -->{%- endif -%}
 
-{%- assign raw_title = "" -%}
-{%- if page.title and page.title != blank -%}
-    {%- assign raw_title = page.title -%}
-{%- else -%}
-    {%- assign raw_title = site.title | default: "Untitled" -%}
-{%- endif -%}
-{%- assign clean_title = raw_title | strip_html | normalize_whitespace -%}
-
-{%- assign raw_desc = "" -%}
-{%- if page.description and page.description != blank -%}
-    {%- assign raw_desc = page.description -%}
-{%- elsif page.excerpt and page.excerpt != blank -%}
-    {%- assign raw_desc = page.excerpt -%}
-{%- else -%}
-    {%- assign raw_desc = site.description | default: "" -%}
-{%- endif -%}
-{%- assign clean_desc = raw_desc | strip_html | normalize_whitespace | truncate: 155, "" -%}
 
 {%- comment -%}
-Let jekyll-seo-tag emit canonical/OG/Twitter/JSON-LD,
-but NOT title or description. We emit those ourselves.
+Pretty title only.
+- We emit our own title element.
+- We let jekyll-seo-tag emit everything else (canonical/OG/Twitter/JSON-LD),
+  but disable its title output to avoid duplicates.
 {%- endcomment -%}
-{%- seo title=false description=false -%}
 
-<title>{{ clean_title }}</title>
+{%- assign site_name = site.name | default: site.title | default: "" -%}
+{%- assign raw_title = page.title | default: "" | strip_html | normalize_whitespace -%}
 
-{%- if clean_desc and clean_desc != blank -%}
-<meta name="description" content="{{ clean_desc }}">
-<meta property="og:description" content="{{ clean_desc }}">
-<meta name="twitter:description" content="{{ clean_desc }}">
+{%- assign pretty_title = "" -%}
+{%- if raw_title != "" -%}
+    {%- if page.type == "tag" -%}
+        {%- assign pretty_title = raw_title | append: " Keyword Tagged Pages" -%}
+    {%- else -%}
+        {%- assign pretty_title = raw_title -%}
+    {%- endif -%}
+
+    {%- if site_name != "" -%}
+        {%- assign pretty_title = pretty_title | append: " | " | append: site_name -%}
+    {%- endif -%}
+{%- else -%}
+    {%- assign pretty_title = site_name -%}
+    {%- if pretty_title == "" -%}
+        {%- assign pretty_title = "Untitled" -%}
+    {%- endif -%}
 {%- endif -%}
+
+{%- if site.page_debug -%}<!-- pretty_title={{ pretty_title }} -->{%- endif -%}
+
+{%- seo title=false -%}
+<title>{{ pretty_title }}</title>
+
 
 {% include favicon.html %}
