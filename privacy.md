@@ -27,9 +27,9 @@ I suspect both Microsoft and GitHub have their own internal tracking.
 
 To improve the web experience for everyone, I use some additional analytics tools for testing and evaluating the content.
 
-I use the Google Analytics and [Google Search Console](https://search.google.com/search-console/about). See the `google_analytics: true` in the [_config.yml](./_config.yml) file.
+I use the Google Analytics and [Google Search Console](https://search.google.com/search-console/about). See the `google_analytics: true` in the [_config.yml](https://github.com/gojimmypi/gojimmypi.github.io/blob/master/_config.yml) file.
 
-Recently I started also using [ahrefs](https://ahrefs.com/). See the `ahrefs_analytics: true` in the [_config.yml](./_config.yml) file.
+Recently I started also using [ahrefs](https://ahrefs.com/). See the `ahrefs_analytics: true` in the [_config.yml](https://github.com/gojimmypi/gojimmypi.github.io/blob/master/_config.yml) file.
 
 ## Related Privacy Policies:
 
