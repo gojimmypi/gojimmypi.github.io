@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "EdgeRouter-X Factory Reset Flash and Setup New Bridge"
+description: "This blog details the steps needed to reflash an EdgeRouterX and upgrade firmware"
 date: '2025-07-16'
 author: gojimmypi
 tags:
