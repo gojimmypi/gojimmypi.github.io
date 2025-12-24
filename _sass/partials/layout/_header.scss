@@ -4,7 +4,8 @@
 @import "../components/codeheader";
 @import "../components/lamp";
 @import "../components/pill-link";
-// @import "../../mixins";
+@import "../components/hide";
+// @import "../../mixins"; // TODO See toolbox/_all.scss
 
 .head{
     position: relative;
