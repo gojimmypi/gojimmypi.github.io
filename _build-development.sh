@@ -104,6 +104,10 @@ else
   fi
 fi
 
+
+echo "bundle exec jekyll clean"
+bundle exec jekyll clean
+
 # we'll gnerate a full website without serving it up to allow for a manual copy of site tag files
 echo "[optional] bundle exec jekyll build --trace"
 bundle exec jekyll build --trace
@@ -118,7 +122,7 @@ echo "Copy complete."
 echo ""
 
 echo "Ensure all tag files use LF line endings"
-dos2unix tag/**/*.html
+dos2unix tag/**/*.html > /dev/null 2>&1
 
 echo "running: bundle exec jekyll serve --profile --incremental --drafts"
 bundle exec jekyll serve --profile --incremental --drafts
