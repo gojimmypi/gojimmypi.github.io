@@ -7,7 +7,9 @@ copyright_year:  "2015-2025"     # normally visible, hidden on narrow screens in
 
 description: "Embedded, FPGA, wolfSSL, ESP32, Arduino, and hardware projects."
 domain: gojimmypi.github.io      # If you want to force HTTPS, put down the domain without the http: e.g. example.com
-preview_site: false # Do not edit. This is not the preview site
+
+preview_site: false              # Do not edit. This is not the preview site
+
 canonical_site_url: https://gojimmypi.github.io
 url: https://gojimmypi.github.io # place url
 baseurl: ""                      # place folder name if site is served in subfolder, when using subfolder, NO trailing slash
@@ -21,7 +23,7 @@ usefallback: false
 logo: /images/gojimmypi.svg
 image: /images/gojimmypi.jpg
 
-page_debug: true
+page_debug: true                 # pages may display diagnostics and breadcrumbs
 
 author: # For jekyll-feed
   name: gojimmypi
