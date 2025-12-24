@@ -93,6 +93,9 @@ global_html:
     double_left_arrow:  "<<"
 
 # SEO settings
+seo:
+  description: false
+excerpt_separator: "<!-- more -->"
 defaults:
   - scope:
       path: ""
@@ -108,7 +111,6 @@ defaults:
       comments: false
       seo_description_max_words: 25
 
-excerpt_separator: "<!-- more -->"
 markdown: kramdown
 kramdown:
   syntax_highlighter: rouge

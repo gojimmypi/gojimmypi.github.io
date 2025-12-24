@@ -30,3 +30,5 @@ end
 
 # Used only locally:
 gem "webrick", "~> 1.8"
+
+gem "jekyll-archives", "~> 2.3"
