@@ -287,24 +287,15 @@ fallback.load({
 {%- assign clean_desc = raw_desc | strip_html | normalize_whitespace | truncatewords: seo_words, "" | truncate: 155, "" -%}
 
 {%- comment -%}
-Least intrusive fix:
-- Keep jekyll-seo-tag for everything EXCEPT description (it ignores "description=false").
-- Do not call {%- seo -%} at all; otherwise it will still emit long meta/og/jsonld descriptions.
-- Emit only the tags you already control (title + short descriptions).
+jekyll-seo-tag generates canonical/OG/Twitter/JSON-LD.
+Descriptions are disabled via _config.yml: seo: { description: false }
+We emit bounded description tags once below.
 {%- endcomment -%}
 
-{%- if has_title and has_desc -%}
-    {%- if site.page_debug -%}<!-- 1 -->{%- endif -%}
-    <title>{{ raw_title }}</title>
-{%- elsif has_title and has_desc == false -%}
-    {%- if site.page_debug -%}<!-- 2 -->{%- endif -%}
-    <title>{{ full_title }}</title>
-{%- elsif has_title == false and has_desc -%}
-    {%- if site.page_debug -%}<!-- 3 -->{%- endif -%}
-    <title>{{ site.name | default: site.title | default: "Untitled" }}</title>
-{%- else -%}
-    {%- if site.page_debug -%}<!-- 4 -->{%- endif -%}
-    <title>{{ site.name | default: site.title | default: "Untitled" }}</title>
+{%- seo -%}
+
+{%- if has_title -%}
+<title>{{ full_title }}</title>
 {%- endif -%}
 
 {%- if clean_desc and clean_desc != blank -%}
@@ -312,5 +303,7 @@ Least intrusive fix:
 <meta property="og:description" content="{{ clean_desc }}">
 <meta name="twitter:description" content="{{ clean_desc }}">
 {%- endif -%}
+
+
 
 {% include favicon.html %}
