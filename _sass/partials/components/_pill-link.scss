@@ -1,0 +1,35 @@
+// file: /_sass/partials/components/_pill-link.scss
+
+// generic pill surface (text or link)
+.pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 8px;
+    color: inherit;
+    margin: 5px;
+    line-height: 1.5;
+    @include surface-inset;
+}
+
+.pill-link {
+    @extend .pill;
+
+    /* force same horizontal padding even if other link rules override */
+    padding-left: 12px;
+    padding-right: 12px;
+    text-decoration: none;
+    transition: filter 0.15s ease;
+
+    &:hover {
+        filter: brightness(1.08);
+    }
+
+    &:active {
+        filter: brightness(0.96);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--focus-ring);
+        outline-offset: 2px;
+    }
+}

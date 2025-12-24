@@ -1,6 +1,22 @@
 // file: /_sass/partials/components/_iconnav.scss
 // social media and search icon container within main menu
 
+
+/* ------------------------------------------------------------------
+   Depth primitive: inset (3D pill surface)
+   ------------------------------------------------------------------ */
+
+@mixin surface-inset {
+    background: linear-gradient( to bottom, rgba(255, 255, 255, 0.18), rgba(0, 0, 0, 0.18) );
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.20), inset 0 -6px 10px rgba(0, 0, 0, 0.22);
+}
+
+/* Optional class hook for direct HTML use */
+.surface-inset {
+    @include surface-inset;
+}
+
+
 .iconnav {
     position: static;
     right: auto;
@@ -70,17 +86,10 @@
             margin-left: 4px;
         }
 
-            ul li a {
-                padding: 4px 6px;
-                background: linear-gradient( to bottom, rgba(255, 255, 255, 0.18), rgba(0, 0, 0, 0.18) );
-                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.20), inset 0 -6px 10px rgba(0, 0, 0, 0.22);
-                transition: background 0.2s ease, box-shadow 0.2s ease;
-            }
-
-                ul li a:hover,
-                ul li a:focus {
-                    background: linear-gradient( to bottom, rgba(255, 255, 255, 0.26), rgba(0, 0, 0, 0.26) );
-                    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), inset 0 -6px 12px rgba(0, 0, 0, 0.28);
-                }
+        ul li a {
+            padding: 4px 6px;
+            @include surface-inset;
+            transition: background 0.2s ease, box-shadow 0.2s ease, filter 0.15s ease;
+        }
     }
 }

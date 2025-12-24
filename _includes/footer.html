@@ -3,11 +3,11 @@
     <table width="100%">
         <tr>
             <td align="left">
-                <span>&copy; {{ site.copyright }}</span>
+                <span class="pill">&copy; {{ site.copyright }}</span>
             </td>
             <td align="center">
                 <span>
-                    <a href="{{ site.archive_dir | append: '/' | relative_url }}" title="View the archive of all posts">Archive</a>
+                    <a href="{{ site.archive_dir | append: '/' | relative_url }}" class="pill-link" title="View the archive of all posts">Archive</a>
                 </span>
             </td>
             {%- if site.page_debug -%}
@@ -42,7 +42,7 @@
             </td>
             {%- endif -%}
             <td align="right">
-                <span><a class="backtotop" href="#top" title="Scroll back to the top of the page">Back to top</a></span>
+                <span><a class="backtotop pill-link" href="#top" title="Scroll back to the top of the page">Back to top</a></span>
             </td>
         </tr>
     </table>
