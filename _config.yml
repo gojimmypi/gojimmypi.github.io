@@ -2,22 +2,25 @@
 #
 # Site Settings. Available in Liquid using the "site." prefix
 title: gojimmypi
+description: "Embedded, FPGA, wolfSSL, ESP32, Arduino, and hardware projects."
+domain: gojimmypi.github.io      # If you want to force HTTPS, put down the domain without the http: e.g. example.com
 preview_site: false # Do not edit. This is not the preview site
 canonical_site_url: https://gojimmypi.github.io
-ahrefs_analytics: true # optionally enable ahrefs, see _includes/head.html
-google_analytics: true
-description: "Embedded, FPGA, wolfSSL, ESP32, Arduino, and hardware projects."
-domain: gojimmypi.github.io #If you want to force HTTPS, put down the domain without the http: e.g. example.com
-url: https://gojimmypi.github.io #place url
-baseurl: "" #place folder name if site is served in subfolder, when using subfolder, NO trailing slash
+url: https://gojimmypi.github.io # place url
+baseurl: ""                      # place folder name if site is served in subfolder, when using subfolder, NO trailing slash
 github_baseurl: https://github.com/gojimmypi/gojimmypi.github.io/ # required for the github-corner links
+
+ahrefs_analytics: true           # optionally enable ahrefs, see _includes/head.html
+google_analytics: false          # optionally enable google analytics, see _includes/head.html
+
 usefallback: false
+
 logo: /images/gojimmypi.svg
 image: /images/gojimmypi.jpg
 
 page_debug: false
 
-author: #For jekyll-feed
+author: # For jekyll-feed
   name: gojimmypi
   uri: https://gojimmypi.github.io/about/
   email: gojimmypi@gmail.com # Also used in nav
@@ -25,12 +28,12 @@ author: #For jekyll-feed
 # tumblr: "#"
 pinterest: "https://fi.pinterest.com/gojimmypi/"
 # instagram: "#"
-twitter: # for both nav & jekyll-seo-tag
+twitter:              # for both nav & jekyll-seo-tag
   username: gojimmypi #name only
-mastodon: # for both nav & jekyll-seo-tag
+mastodon:             # for both nav & jekyll-seo-tag
   username: gojimmypi #name only
-# facebook: # for both nav & jekyll-seo-tag
-#   publisher: "#" #full link
+# facebook:           # for both nav & jekyll-seo-tag
+#   publisher: "      #" #full link
 youtube: "https://www.youtube.com/channel/UCR01egMbYgXQGJaocNEDEwg"
 # vimeo: "#"
 # soundcloud: "#"
@@ -58,23 +61,28 @@ typekitid: "" #Put your TypeKit Kit ID here. mit7aeg is the Gridster template
 permalink: /:categories/:title/
 paginate: 8
 paginate_path: /page/:num/
-infinite_scroll: true #change to false if you want to use pagination
-sidebar_toc: true #true if you want the collapsible TOC appears in the sidebar. Once it is turned on site-wide, it can be setup per page. See defaults below.
-math: true #true if you want amsthm. Once it is turned on site-wide, it can be setup per page. See defaults below. See https://github.com/ickc/multimarkdown-amsthm-css
-tags_dir: /tags #All tags summary page
+infinite_scroll: true # change to false if you want to use pagination
+sidebar_toc: true     # true if you want the collapsible TOC appears in the sidebar. Once it is turned on site-wide, it can be setup per page. See defaults below.
+math: true            # true if you want amsthm. Once it is turned on site-wide, it can be setup per page. See defaults below. See https://github.com/ickc/multimarkdown-amsthm-css
+
+tags_dir: /tags       # All tags summary page
 tag_dir: /tag
-categories_dir: /categories  #All categories summary page
+
+categories_dir: /categories       # All categories summary page
 category_dir: /category
-authors_dir: /about #ALL authors summary page, a.k.a. about
+authors_dir: /about               # ALL authors summary page, a.k.a. about
 author_dir: /author
 author_title_prefix: 'Posted by ' # only used my the author plugin. See README to see how to do it manually
 author_default_avatar: /profile-pic.jpg
 archive_dir: /archive
 media_folder: /media
+
 rss: /feed.xml #For nav. The path is fixed by jekyll-feed; omitting this will result in no RSS icon in nav.
+
 # Jekyll Setup
 full_rebuild: true
 encoding: utf-8
+
 # HTML TEXT
 global_html:
     single_right_arrow: ">"
@@ -173,8 +181,8 @@ jekyll-archives:
     tag: tag_index
     year: archive_index
   permalinks:
-    category: '/category/:name/' #should be in tag_dir above
-    tag: '/tag/:name/'  #should be in category_dir above
+    category: '/category/:name/' # should be in tag_dir above
+    tag: '/tag/:name/'           # should be in category_dir above
     year: '/archive/:year/'
 
 # Compress CSS and HTMLs
