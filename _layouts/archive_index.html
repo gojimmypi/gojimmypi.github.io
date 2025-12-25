@@ -4,6 +4,7 @@ sidebar: true
 sidebar_type: material
 sidebar_position: left
 is_archive_index: true
+last_modified_at: 2025-12-25T09:04:00-08:00
 ---
 
 <!-- Begin /_layouts/archive_index.html -->
@@ -13,10 +14,10 @@ is_archive_index: true
 
 <h1 class="title">Posts from {{ page_date }}</h1>
 {% for post in site.posts %}
-	{% capture post_date %}{{ post.date | date: "%Y" }}{% endcapture %}
-	{% if post_date == page_date %}
-	    {% include article_index.html %}
-	{% endif %}
+    {% capture post_date %}{{ post.date | date: "%Y" }}{% endcapture %}
+    {% if post_date == page_date %}
+        {% include article_index.html %}
+    {% endif %}
 {% endfor %}
 
 <!-- End /_layouts/archive_index.html -->

@@ -2,6 +2,7 @@
 layout: page
 title: Privacy at gojimmypi.gihub.io
 permalink: /privacy/
+last_modified_at: 2025-12-25T09:16:00-08:00
 ---
 
 Privacy information.

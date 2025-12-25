@@ -2,6 +2,7 @@
 layout: page
 title: About
 permalink: /about/
+last_modified_at: 2025-12-25T09:01:00-08:00
 ---
 
 This is the blog site for [gojimmypi](/author/gojimmypi/), moved to github after several years at [https://gojimmypi.blogspot.com/](https://gojimmypi.blogspot.com/).
