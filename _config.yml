@@ -164,10 +164,10 @@ exclude:
 # a list of supported GitHub plugins: https://pages.github.com/versions/
 plugins:
   - jekyll-paginate
-  - jekyll-sitemap
+  - jekyll-sitemap   # automatically generates /sitemap.xml
   - jekyll-feed
-  - jekyll-seo-tag
-  - jekyll-archives #gh-pages disabled this. See my README on how to do this manually.
+  - jekyll-seo-tag   # there should be exacly one instance. See /_includes/head.html for "{%- seo "...
+  - jekyll-archives  # gh-pages disabled this. See my README on how to do this manually.
 
 # experiment (probably not a good idea()
 # include: ['_site/tag/']
