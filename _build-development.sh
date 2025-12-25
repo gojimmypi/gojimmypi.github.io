@@ -11,6 +11,8 @@ reset
 
 echo "$1"
 
+echo "Version 1.01"
+
 ./gen_year_archives.sh
  ./find_missing_description.sh _posts
 
@@ -56,7 +58,7 @@ cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "Starting in $(pwd)"
 
-# get the base url from the _config.yml file  (note we want the explicit line starting with baseurl: as there are now other settings that contina the same text! )
+# get the base url from the _config.yml file  (note we want the explicit line starting with baseurl: as there are now other settings that contian the same text! )
 baseurl_line=$(grep -R "^baseurl:" "_config.yml" | tail -n1)
 
 echo "Found baseurl configuration line in _config.yml file:"
@@ -96,7 +98,11 @@ fi
 
 echo ""
 mkdir -p $TAG_DIR
-echo "WARNING: this is an auto-generated directory to fix missing tag files. See _build-development.sh" > $TAG_DIR/README.md
+echo "---"                                         >  $TAG_DIR/README.md
+echo "sitemap: false"                              >> $TAG_DIR/README.md
+echo "last_modified_at: 2025-12-25T09:42:02-08:00" >> $TAG_DIR/README.md
+echo "---"                                         >> $TAG_DIR/README.md
+echo "WARNING: this is an auto-generated directory to create tag files. See _build-development.sh" >> $TAG_DIR/README.md
 
 if [ "$1" == "--assume-yes" ]; then
   echo "Skipping browser launch for $1"
@@ -111,7 +117,6 @@ else
     python3 -mwebbrowser http://127.0.0.1:4000/$baseurl/
   fi
 fi
-
 
 echo "bundle exec jekyll clean"
 bundle exec jekyll clean
@@ -128,6 +133,37 @@ mkdir -p ./tag
 cp --recursive ./_site/tag/* ./tag
 echo "Copy complete."
 echo ""
+
+TAG_DIR="./tag"
+README="./tag/README.md"
+
+if [ ! -d "$TAG_DIR" ]; then
+    echo "ERROR: directory '$TAG_DIR' not found" >&2
+    exit 1
+fi
+
+if [ ! -f "$README" ]; then
+    echo "ERROR: file '$README' not found" >&2
+    exit 1
+fi
+
+echo "Here we go! TAG_DIR=$TAG_DIR, "
+{
+    echo
+    echo "## Tags"
+    echo
+
+    for d in "$TAG_DIR"/*/; do
+        [ -d "$d" ] || continue
+
+        tag_name=$(basename "$d")
+
+        # Jekyll-friendly relative link
+        echo "- [${tag_name}](${TAG_DIR}/${tag_name}/)"
+    done
+} >> "$README"
+
+
 
 echo "Ensure all tag files use LF line endings"
 dos2unix tag/**/*.html > /dev/null 2>&1
