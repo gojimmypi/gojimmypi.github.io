@@ -23,7 +23,7 @@ usefallback: false
 logo: /images/gojimmypi.svg
 image: /images/gojimmypi.jpg
 
-page_debug: true                 # pages may display diagnostics and breadcrumbs
+page_debug: false                 # pages may display diagnostics and breadcrumbs
 
 author: # For jekyll-feed
   name: gojimmypi
