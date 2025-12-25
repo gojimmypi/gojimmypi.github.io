@@ -21,15 +21,28 @@ jobs:
           BUNDLE_GEMFILE: ${{ github.workspace }}/Gemfile
 
       - name: Show GitHub Pages versions
-        run: |
-          bundle exec github-pages versions
         env:
           BUNDLE_GEMFILE: ${{ github.workspace }}/Gemfile
+        run: |
+            bundle exec github-pages versions
 
       - name: Verify archive stub pages exist
         run: |
-          bash ./gen_year_archives.sh --check
+            bash ./gen_year_archives.sh --check
 
       - name: Check for missing titles
         run: |
-          bash ./find_missing_description.sh _posts
+            bash ./find_missing_description.sh _posts
+
+      - name: Check for tag files
+        run: |
+            count=$(find _site/tag -mindepth 1 -maxdepth 1 -type d | wc -l)
+
+            if [ "$count" -ge 10 ]; then
+                echo "OK: _site/tag has $count subdirectories"
+            else
+                echo "FAIL: _site/tag has only $count subdirectories"
+            fi
+
+
+
