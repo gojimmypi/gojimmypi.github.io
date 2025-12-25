@@ -96,7 +96,7 @@ fi
 
 echo ""
 mkdir -p $TAG_DIR
-echo "WARNING: this is an auto-generated directory to fix missing tag files. See _build-development.sh\n" > $TAG_DIR/README.md
+echo "WARNING: this is an auto-generated directory to fix missing tag files. See _build-development.sh" > $TAG_DIR/README.md
 
 if [ "$1" == "--assume-yes" ]; then
   echo "Skipping browser launch for $1"
