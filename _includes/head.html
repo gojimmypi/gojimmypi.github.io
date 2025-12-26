@@ -149,34 +149,34 @@
 <script>
 fallback.load({
 
-    main: "{{ site.baseurl | replace: '//', '/' }}/css/main.css?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}",
+    main: "{{ '/css/main.css' | relative_url }}?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}",
 
     jQuery: [
         {% if jekyll.environment != "development" %}
         "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js",
         {% endif %}
-        "{{ site.baseurl | replace: '//', '/' }}/js/jquery-3.7.1.min.js"
+        "{{ '/js/jquery-3.7.1.min.js' | relative_url }}"
     ],
 
     Materialize: [
         {% if jekyll.environment != "development" %}
         "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js",
         {% endif %}
-        "{{ site.baseurl | replace: '//', '/' }}/js/materialize.min.js"
+        "{{ '/js/materialize.min.js' | relative_url }}"
     ],
 
     cssTransitionSupport: [
         {% if site.infinite_scroll == true %}
             {% if site.sidebar_toc == true %}
-                "{{ site.baseurl | replace: '//', '/' }}/js/global.infinite.toc.min.js"
+                "{{ '/js/global.infinite.toc.min.js' | relative_url }}"
             {% else %}
-                "{{ site.baseurl | replace: '//', '/' }}/js/global.infinite.min.js"
+                "{{ '/js/global.infinite.min.js' | relative_url }}"
             {% endif %}
         {% else %}
             {% if site.sidebar_toc == true %}
-                "{{ site.baseurl | replace: '//', '/' }}/js/global.toc.min.js"
+                "{{ '/js/global.toc.min.js' | relative_url }}"
             {% else %}
-                "{{ site.baseurl | replace: '//', '/' }}/js/global.min.js"
+                "{{ '/js/global.min.js' | relative_url }}"
             {% endif %}
         {% endif %}
     ]
@@ -185,7 +185,7 @@ fallback.load({
         {% if jekyll.environment != "development" %}
         "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full",
         {% endif %}
-        "{{ site.baseurl | replace: '//', '/' }}/MathJax/MathJax.js?config=TeX-AMS_CHTML-full"
+        "{{ '/MathJax/MathJax.js' | relative_url }}?config=TeX-AMS_CHTML-full"
     ]
     {% endif %}
 
@@ -196,6 +196,7 @@ fallback.load({
     }
 });
 </script>
+
 
 {% else %}
 <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}">

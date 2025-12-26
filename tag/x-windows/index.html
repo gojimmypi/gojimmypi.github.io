@@ -3,7 +3,7 @@
 <head>
     <!-- /_layouts/index.html page.layout = tag_index -->
     <meta charset="UTF-8" />
-    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1766720112">
+    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1766769031">
 
     <style>
     html {
@@ -35,9 +35,8 @@
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="RwCY/0yQXz6mj2UhcKhjTQ" async></script>
 
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+
 <link rel="manifest" href="/manifest.json">
 
 <script>
@@ -86,7 +85,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1766720112">
+<link rel="stylesheet" href="/css/main.css?v=1766769031">
 
 <script src="/scripts/jquery.toc.js"></script>
 <script src="/scripts/infinite/1-jquery.jscroll.js"></script>
@@ -532,22 +531,6 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
     <!-- /_includes/article_index.html - each post has their own little article element. -->
 <article><span class="date">September 04, 2022</span>
 
-    <a href="/Hazard3-FPGA-SOFT-CPU-RISCV-JTAG.md/">
-        <h2>Notes for Hazard3 RISC-V with JTAG</h2>
-    </a>
-
-    <p class="post-content">Notes on [Wren6991's Hazard3 Soft RISC-V with JTAG](https://github.com/Wren6991/Hazard3)See the [YosysHQ OSS CAD Suite Installation](https://github.com/YosysHQ/oss-cad-suite-build#installation)Be sure...
-    </p>
-
-    <p class="actions">
-        <a href="/Hazard3-FPGA-SOFT-CPU-RISCV-JTAG.md/" title="Click to Read More">Read More</a>
-    </p>
-</article>
-
-
-    <!-- /_includes/article_index.html - each post has their own little article element. -->
-<article><span class="date">September 04, 2022</span>
-
     <a href="/Hazard3-FPGA-SOFT-CPU-RISCV-JTAG/">
         <h2>Notes for Hazard3 RISC-V with JTAG</h2>
     </a>
@@ -557,22 +540,6 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
 
     <p class="actions">
         <a href="/Hazard3-FPGA-SOFT-CPU-RISCV-JTAG/" title="Click to Read More">Read More</a>
-    </p>
-</article>
-
-
-    <!-- /_includes/article_index.html - each post has their own little article element. -->
-<article><span class="date">August 09, 2020</span>
-
-    <a href="/sigrok-on-wsl-for-iua-ice40-usb-analyzer.html/">
-        <h2>Sigrok on WSL for iua: ice40 USB Analyzer</h2>
-    </a>
-
-    <p class="post-content">In my previous post on the iCEBreaker Bitsy FPGA - early adopter version, I mentioned...
-    </p>
-
-    <p class="actions">
-        <a href="/sigrok-on-wsl-for-iua-ice40-usb-analyzer.html/" title="Click to Read More">Read More</a>
     </p>
 </article>
 
@@ -654,35 +621,55 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
         </tr>
     </table>
 </footer><script>
-    /* This is typically the start of non IIFE code */
-    const codeBlocks = document.querySelectorAll(".code-header + .highlighter-rouge");
-    const copyCodeButtons = document.querySelectorAll(".copy-code-button");
+    (function () {
+        function initCopyCodeButtons() {
+            const codeBlocks = document.querySelectorAll(".code-header + .highlighter-rouge");
+            const copyCodeButtons = document.querySelectorAll(".copy-code-button");
 
-    if ((codeBlocks.length == 0) && (copyCodeButtons.length > 0)) {alert("Warning: code block missing. Is your language spec missing or not lower case? Copy icons disabled.");}
-    else {
-        copyCodeButtons.forEach((copyCodeButton, index) => {
-            const code = codeBlocks[index].innerText;
-            // some older pages use HTML with a blank innerText, non-blank textContent
-            const codeAlt = codeBlocks[index].textContent;
+            if (copyCodeButtons.length === 0) {
+                return;
+            }
 
-            copyCodeButton.addEventListener("click", () => {
-                if (code == "" || code == null) {
-                    // use text from innerText
-                    window.navigator.clipboard.writeText(codeAlt);
-                }
-                else {
-                    // use text from textContent
-                    window.navigator.clipboard.writeText(code);
-                }
-                copyCodeButton.classList.add("copied");
+            if (codeBlocks.length === 0) {console.warn("Copy-code: found copy buttons but no matching code blocks (.code-header + .highlighter-rouge).");// Disable buttons so nothing breaks
+                copyCodeButtons.forEach((btn) => {
+                    btn.setAttribute("disabled", "disabled");
+                    btn.classList.add("copy-disabled");
+                });
+                return;
+            }
 
-                setTimeout(() => {
-                    copyCodeButton.classList.remove("copied");
-                }, 2000);
-            });
-        });
+            const count = Math.min(codeBlocks.length, copyCodeButtons.length);
 
-    }
+            if (count !== copyCodeButtons.length) {console.warn("Copy-code: button/block count mismatch. buttons=", copyCodeButtons.length, "blocks=", codeBlocks.length);}
+
+            for (let index = 0; index < count; index++) {
+                const copyCodeButton = copyCodeButtons[index];
+                const block = codeBlocks[index];
+
+                copyCodeButton.addEventListener("click", function () {
+                    const code = block.innerText;
+                    const codeAlt = block.textContent;
+
+                    if (code === "" || code === null) {
+                        window.navigator.clipboard.writeText(codeAlt);
+                    } else {
+                        window.navigator.clipboard.writeText(code);
+                    }
+
+                    copyCodeButton.classList.add("copied");
+                    setTimeout(function () {
+                        copyCodeButton.classList.remove("copied");
+                    }, 2000);
+                });
+            }
+        }
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", initCopyCodeButtons);
+        } else {
+            initCopyCodeButtons();
+        }
+    })();
 
     const themeMap = {
         light: "dark",
