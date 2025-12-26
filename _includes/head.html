@@ -34,6 +34,12 @@
 {%- if site.page_debug -%}<!-- jekyll.environment: production -->{%- endif -%}
 {% endif %}
 
+{%- if site.bing_analytics -%}
+<meta name="msvalidate.01" content="A969D8F45360D5416B54559060001149" />
+{%- else -%}
+    {%- if site.page_debug -%}<!-- bing_analytics is not enabled -->{%- endif -%}
+{%- endif -%}
+
 {% if site.ahrefs_analytics %}
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="RwCY/0yQXz6mj2UhcKhjTQ" async></script>
 {% else %}
