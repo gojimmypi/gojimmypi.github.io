@@ -135,7 +135,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - preview
-  - scripts
+# - scripts # never exclude scripts
   - img
   - LICENCE
   - Organizational Overview.*
