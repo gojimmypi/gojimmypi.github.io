@@ -16,7 +16,7 @@ baseurl: ""                      # place folder name if site is served in subfol
 github_baseurl: https://github.com/gojimmypi/gojimmypi.github.io/ # required for the github-corner links
 
 ahrefs_analytics: true           # optionally enable ahrefs, see _includes/head.html
-bing_analytics:   true           # optionally enable bing webmaster tools, see _includes/head.html
+bing_analytics:   true           # optionally enable bing webmaster tools, see _includes/head.html and 92f91e18ddc94fe7a892abfc1dafa66c.txt
 google_analytics: false          # optionally enable google analytics, see _includes/head.html
 
 usefallback: false
@@ -139,6 +139,9 @@ exclude:
   - img
   - LICENCE
   - Organizational Overview.*
+
+include:
+  - 92f91e18ddc94fe7a892abfc1dafa66c.txt # bing / indexnow API file
 
   # Jekyll output (already ignored, but harmless to list)
   - _site
