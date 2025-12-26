@@ -71,10 +71,15 @@
 {%- if site.page_debug -%}<!-- google analytics is not enabled -->{%- endif -%}
 {% endif %}
 
-{%- if site.page_debug -%}<!-- Fonts: Inter -->{%- endif -%}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+{%- if site.fonts_googleapis -%}
+    {%- if site.page_debug -%}<!-- Fonts: Inter -->{%- endif -%}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+{% else %}
+    {%- if site.page_debug -%}<!-- fonts.googleapis.com is not enabled -->{%- endif -%}
+{% endif %}
+
 <link rel="manifest" href="{{ '/manifest.json' | relative_url }}">
 
 <script>

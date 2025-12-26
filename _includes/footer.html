@@ -58,39 +58,63 @@
 {%- endcomment -%}
 
 <script>
-    /* This is typically the start of non IIFE code */
-    const codeBlocks = document.querySelectorAll(".code-header + .highlighter-rouge");
-    const copyCodeButtons = document.querySelectorAll(".copy-code-button");
+    (function () {
+        function initCopyCodeButtons() {
+            const codeBlocks = document.querySelectorAll(".code-header + .highlighter-rouge");
+            const copyCodeButtons = document.querySelectorAll(".copy-code-button");
 
-    if ((codeBlocks.length == 0) && (copyCodeButtons.length > 0)) {
-        {%-  if jekyll.environment == "development" -%}
-        alert("Warning: code block missing. Is your language spec missing or not lower case? Copy icons disabled.");
-        {%- endif -%}
-    }
-    else {
-        copyCodeButtons.forEach((copyCodeButton, index) => {
-            const code = codeBlocks[index].innerText;
-            // some older pages use HTML with a blank innerText, non-blank textContent
-            const codeAlt = codeBlocks[index].textContent;
+            if (copyCodeButtons.length === 0) {
+                return;
+            }
 
-            copyCodeButton.addEventListener("click", () => {
-                if (code == "" || code == null) {
-                    // use text from innerText
-                    window.navigator.clipboard.writeText(codeAlt);
-                }
-                else {
-                    // use text from textContent
-                    window.navigator.clipboard.writeText(code);
-                }
-                copyCodeButton.classList.add("copied");
+            if (codeBlocks.length === 0) {
+                {%- if jekyll.environment == "development" -%}
+                console.warn("Copy-code: found copy buttons but no matching code blocks (.code-header + .highlighter-rouge).");
+                {%- endif -%}
+                // Disable buttons so nothing breaks
+                copyCodeButtons.forEach((btn) => {
+                    btn.setAttribute("disabled", "disabled");
+                    btn.classList.add("copy-disabled");
+                });
+                return;
+            }
 
-                setTimeout(() => {
-                    copyCodeButton.classList.remove("copied");
-                }, 2000);
-            });
-        });
+            const count = Math.min(codeBlocks.length, copyCodeButtons.length);
 
-    }
+            if (count !== copyCodeButtons.length) {
+                {%- if jekyll.environment == "development" -%}
+                console.warn("Copy-code: button/block count mismatch. buttons=", copyCodeButtons.length, "blocks=", codeBlocks.length);
+                {%- endif -%}
+            }
+
+            for (let index = 0; index < count; index++) {
+                const copyCodeButton = copyCodeButtons[index];
+                const block = codeBlocks[index];
+
+                copyCodeButton.addEventListener("click", function () {
+                    const code = block.innerText;
+                    const codeAlt = block.textContent;
+
+                    if (code === "" || code === null) {
+                        window.navigator.clipboard.writeText(codeAlt);
+                    } else {
+                        window.navigator.clipboard.writeText(code);
+                    }
+
+                    copyCodeButton.classList.add("copied");
+                    setTimeout(function () {
+                        copyCodeButton.classList.remove("copied");
+                    }, 2000);
+                });
+            }
+        }
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", initCopyCodeButtons);
+        } else {
+            initCopyCodeButtons();
+        }
+    })();
 
     const themeMap = {
         light: "dark",

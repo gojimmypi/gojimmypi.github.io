@@ -63,7 +63,7 @@ social: # for jekyll-seo-tag
 typekitid: "" #Put your TypeKit Kit ID here. mit7aeg is the Gridster template
 
 # fonts.googleapis.com
-# fonts_googleapis: true
+fonts_googleapis: false
 
 # Site Setup
 # relative_permalinks: false # see https://stackoverflow.com/questions/18401297/jekyll-not-generating-pages-in-subfolders (trying to fix auto-generated tags)
