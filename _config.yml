@@ -61,6 +61,10 @@ social: # for jekyll-seo-tag
 # typekitid see https://www.adobe.io/apis/creativecloud/adobe-fonts/docs.html#!typekit/fonts-api-docs/master/api-reference/web_font_preview_api.md
 # see _includes/footer.html  (does not seem to populate with this value?)
 typekitid: "" #Put your TypeKit Kit ID here. mit7aeg is the Gridster template
+
+# fonts.googleapis.com
+# fonts_googleapis: true
+
 # Site Setup
 # relative_permalinks: false # see https://stackoverflow.com/questions/18401297/jekyll-not-generating-pages-in-subfolders (trying to fix auto-generated tags)
 permalink: /:categories/:title/
@@ -140,9 +144,6 @@ exclude:
   - LICENCE
   - Organizational Overview.*
 
-include:
-  - 92f91e18ddc94fe7a892abfc1dafa66c.txt # bing / indexnow API file
-
   # Jekyll output (already ignored, but harmless to list)
   - _site
 
@@ -165,6 +166,9 @@ include:
   - "**/*.tmp"
   - ".DS_Store"
   - "**/.DS_Store"
+
+include:
+  - 92f91e18ddc94fe7a892abfc1dafa66c.txt # bing / indexnow API file
 
 # a list of supported GitHub plugins: https://pages.github.com/versions/
 plugins:
