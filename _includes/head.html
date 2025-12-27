@@ -137,10 +137,11 @@
 
 <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}">
 
-<script src="{{ '/scripts/jquery.toc.js' | relative_url }}"></script>
-<script src="{{ '/scripts/infinite/1-jquery.jscroll.js' | relative_url }}"></script>
-<script src="{{ '/scripts/global/scripts.js' | relative_url }}"></script>
-<script src="{{ '/scripts/infinite/init.js' | relative_url }}?forceversion=2"></script>
+<script src="{{ '/js/jquery.toc.js' | relative_url }}"></script>
+<script src="{{ '/js/jquery.jscroll.js' | relative_url }}"></script>
+<script src="{{ '/js/scripts.js' | relative_url }}"></script>
+<script src="{{ '/js/init.js' | relative_url }}?forceversion=2"></script>
+<script src="{{ '/js/imagelightbox.js' | relative_url }}?forceversion=2"></script>
 
 <script>
     window.SITE_BASEURL = "{{ site.baseurl | replace: '//', '/' }}";

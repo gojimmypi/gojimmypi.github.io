@@ -1,4 +1,4 @@
-/* file: /scripts/infinite/init.js */
+/* file: /js/init.js */
 
 $(document).ready(function () {
     var isMobile;

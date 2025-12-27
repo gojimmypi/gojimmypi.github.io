@@ -1,4 +1,4 @@
-/* scripts/global/scripts.js  */
+/* file: /js/scripts.js */
 
 /* NOTE: Similar (not identical) site UI init + cookies + lightbox code exists in js/global.infinite.toc.min.js.
    This file uses baseUrl = window.SITE_BASEURL || "", and has a slightly different ".toggle-link" handler. */
