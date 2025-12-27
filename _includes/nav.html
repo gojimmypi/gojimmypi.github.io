@@ -92,6 +92,8 @@
                         <span class="nav-text">Privacy</span>
                     </a>
                 </li>
+
+{%- comment -%}
 <!--
                 <li>
                     <a href="{{ '/tools/' | relative_url }}"
@@ -126,6 +128,8 @@
                     </a>
                 </li>
 -->
+{%- endcomment -%}
+
                 <li>
                     <!-- About -->
                     {%- assign about_url = site.authors_dir | append: "/" | relative_url -%}
