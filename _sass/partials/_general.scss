@@ -75,56 +75,7 @@ body {
     width: 100%;
 }
 
-// tables and modals are both taken pretty much entirely from http://materializecss.com
 @import "components/_table.scss";
-
-// modals
-.modal {
-    @include shadow(4);
-    display: none;
-    position: fixed;
-    left: 0;
-    right: 0;
-    background-color: $white;
-    padding: 0;
-    max-height: 70%;
-    width: 55%;
-    margin: auto;
-    overflow-y: auto;
-    z-index: 1000;
-
-    border-radius: 2px;
-    transform: translate(0);
-    will-change: top, opacity;
-
-    @media (max-width: $modal-width-change) {
-        width: 80%;
-    }
-
-    h1,h2,h3,h4 {
-        margin-top: 0;
-    }
-
-    .modal-content {
-        padding: 24px;
-	    h4 {
-			font-family: $sc-font;
-	        letter-spacing: $sc-letter-spacing;
-		}
-    }
-
-    .modal-footer {
-        border-radius: 0 0 2px 2px;
-        padding: 4px 6px;
-        height: 56px;
-        width: 100%;
-
-        .btn, .btn-flat {
-            float: right;
-            margin: 6px 0;
-        }
-    }
-}
 
 footer,
 footer table,
