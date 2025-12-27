@@ -7,10 +7,6 @@ $(document).ready(function () {
 
     var baseUrl = window.SITE_BASEURL || "";
 
-    // trigger modal for switching the stylesheet
-    $('.modal-trigger').leanModal();
-
-
     // sidebar toggling responsive
     $('.sidebar-toggle').click(function () {
         $('.sidebar').toggleClass('open');
