@@ -1,7 +1,7 @@
 # Updates: this file is loaded only once when running  ./_build-development.sh
 #
 # Site Settings. Available in Liquid using the "site." prefix
-title: gojimmypi
+title: "Blogs by gojimmypi"
 copyright_owner: "gojimmypi"     # put your copyright info here excluding the (c) sign. It will appear in the footer
 copyright_year:  "2015-2025"     # normally visible, hidden on narrow screens in footer
 
