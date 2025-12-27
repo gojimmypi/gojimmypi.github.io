@@ -11,12 +11,25 @@ last_modified_at: 2025-12-25T09:11:00-08:00
 
     {% include head.html %}
 </head>
+{%- if site.page_debug -%}
 <!-- use logic to toggle sidebar layouts -->
-{% if page.sidebar %}
-    <body class="index has-{{page.sidebar_type}}-sidebar-{{page.sidebar_position}}">
-{% else %}
-    <body class="index">
+{%- endif -%}
+
+{%- assign body_class = "index" -%}
+
+{%- if page.sidebar -%}
+    {%- if site.page_debug -%}
+        <!-- append page.sidebar_type and page.sidebar_position -->
+    {%- endif -%}
+    {%- assign body_class = body_class
+        | append: " has-"
+        | append: page.sidebar_type
+        | append: "-sidebar-"
+        | append: page.sidebar_position
+    -%}
 {% endif %}
+
+    <body class="{{ body_class }}">
         <header class="head">
             {%- if site.page_debug -%}
             <!-- use logic to toggle sidebar layouts page.sidebar = {{ page.sidebar }} ; page.sidebar_type = {{ page.sidebar_type }} -->
@@ -29,22 +42,32 @@ last_modified_at: 2025-12-25T09:11:00-08:00
             {% include nav.html %}
         </header>
         {% if page.search != false %}
-            <!-- TODO move search here -->
-        {% endif %}
+            {%- if site.page_debug -%}
+                <!-- TODO move search here -->
+            {%- endif -%}
+        {%- endif -%}
         <div class="margin">
             <div class="content">
+                {%- if site.page_debug -%}
+                    <!-- This is the Grid or Sequential article layout control: -->
+                {% endif %}
                 <div class="switch">
-                    <div id="grid"><span></span></div>
-                    <div id="classic"><span></span></div>
+                    <div id="grid" title="Click for grid layout"><span></span></div>
+                    <div id="classic" title="Click for classic sequential layout"><span></span></div>
                 </div>
-                {% if page.title %}<h1 class="title">{{ page.title }}</h1>{% endif %}
+                {% if page.title -%}
+                    <h1 class="title">{{ site.title }} | {{ page.title }}</h1>
+                {% endif -%}
 
                 {{ content }}
 
-                <!-- use logic to toggle sidebar layouts -->
-                {% if page.sidebar %}
-                {% include {{page.sidebar_type}}-sidebar.html %}
-                {% endif %}
+                {% if site.page_debug -%}
+                    <!-- use logic to toggle sidebar layouts -->
+                {% endif -%}
+                {% if page.sidebar -%}
+                    {%- include {{page.sidebar_type}}-sidebar.html -%}
+                {% endif -%}
+
             </div>
         </div>
         {% include footer.html %}
