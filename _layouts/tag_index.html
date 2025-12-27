@@ -6,14 +6,20 @@ sidebar_type: material
 sidebar_position: left
 is_tag_index: true
 sitemap: false
-last_modified_at: 2025-12-25T09:00:00-08:00
+last_modified_at: 2025-12-26T09:00:00-08:00
 ---
 
+{%- if site.page_debug -%}
 <!-- Begin /_layouts/tag_index.html -->
-{% assign tag_name = page.tag | default: page.title | default: page.slug | default: page.name %}
+{%- endif -%}
 
-{% for post in site.tags[tag_name] %}
-    {% include article_index.html %}
-{% endfor %}
+{%- assign tag_name = page.tag | default: page.title | default: page.slug | default: page.name -%}
+<div class="articles">
+    {%- for post in site.tags[tag_name] -%}
+        {% include article_index.html %}
+    {%- endfor -%}
+</div>
 
+{%- if site.page_debug -%}
 <!-- End /_layouts/tag_index.html -->
+{%- endif -%}
