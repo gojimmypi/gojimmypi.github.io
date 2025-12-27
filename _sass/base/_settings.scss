@@ -57,7 +57,7 @@ $link-color: $dark-primary-color;
 /* Base font: modern UI sans (crisp and readable) */
 // $main-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 // "Inter" is part of fonts.googleapis.com, currently disabled
-$main-font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$main-font: "system-ui", "-apple-system," "Segoe UI", "Roboto", "Helvetica", "Arial", "sans-serif";
 
 /* Headings: match body for a clean professional look */
 $headings-font: $main-font;
@@ -65,9 +65,9 @@ $headings-font: $main-font;
 // use values from text-transform [none|capitalize|uppercase|lowercase|initial|inherit]
 $headings-text-transform: none;
 
-$code-font: "Courier New", Courier, Consolas, Menlo, monospace;
+$code-font: "Courier New", "Courier", "Consolas", "Menlo", "monospace";
 
-$sc-font: Gill Sans, Gill Sans MT, Calibri, Arial, Helvetica, sans-serif;
+$sc-font: "Gill Sans", "Gill Sans MT", "Calibri", "Arial", "Helvetica", "sans-serif";
 
 $sc-letter-spacing: .1em;
 
