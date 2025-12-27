@@ -96,7 +96,6 @@ function ToggleDarkMode(forceDarkMode) {
     ToggleDarkModeItem("pre", forceDarkMode);
     ToggleDarkModeItem("nav", forceDarkMode);
     ToggleDarkModeItem("table", forceDarkMode);
-    ToggleDarkModeItem(".color-change", forceDarkMode);
     ToggleDarkModeItem(".archive-content", forceDarkMode);
     ToggleDarkModeItem(".logo-container", forceDarkMode);
     ToggleDarkModeItem(".sidebar", forceDarkMode);
