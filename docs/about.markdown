@@ -2,17 +2,16 @@
 layout: page
 title: About
 permalink: /about/
-last_modified_at: 2025-12-25T09:01:00-08:00
+last_modified_at: 2025-12-27T09:01:00-08:00
 ---
 
 This is the blog site for [gojimmypi](/author/gojimmypi/), moved to github after several years at [https://gojimmypi.blogspot.com/](https://gojimmypi.blogspot.com/).
 
-There's a [gojimmypi.com domain](https://gojimmypi.com) that just forwards to [gojimmypi.github.io](https://gojimmypi.github.io).
+There's only one [gojimmypi.com](https://gojimmypi.com) domain that just forwards to [gojimmypi.github.io](https://gojimmypi.github.io).
 
+A variety of [tools](../tools/) were used to help validate pages.
 
 Have an RSS Reader? See the <a name="nav_rss" id="nav_rss" href="{{ site.baseurl  | replace: '//', '/' }}{{ site.rss }}" class="rss">gojimmypi RSS feed</a>
-
-
 
 Various sites to find gojimmypi:
 
@@ -24,6 +23,7 @@ Various sites to find gojimmypi:
 * [instagram.com/gojimmypi](https://www.instagram.com/gojimmypi/)
 * [Mastodon hackaday.social/@gojimmypi](https://hackaday.social/@gojimmypi)
 * [oshpark.com/profiles/gojimmypi](https://oshpark.com/profiles/gojimmypi)
+* [printables.com/@gojimmypi_17688](https://www.printables.com/@gojimmypi_17688)
 * [stackoverflow/users/5432351/gojimmypi](https://stackoverflow.com/users/5432351/gojimmypi)
 * [SysProgs VisualGDB](https://sysprogs.com/w/forums/users/gojimmypi/)
 * [tiktok.com/@gojimmypi](https://www.tiktok.com/@gojimmypi)
@@ -49,19 +49,7 @@ You can find the source code for Jekyll at GitHub:
 
 [jekyll-organization]: https://github.com/jekyll
 
-There's a [sitemap here](https://gojimmypi.github.io/sitemap.xml)
-
-There is only one domain registered at this time:  [gojimmypi.com](https://gojimmypi.com)
-
-Issues that need to be addressed:
-
-* Page load times are rather long. See [pagespeed.web.dev](https://pagespeed.web.dev/report?url=https%3A%2F%2Fgojimmypi.github.io&utm_source=google_domains&utm_medium=product&utm_campaign=website_card&hl=en-US)
-* jQuery needs to be updated.
-* There's an annoying flash of white before the site initially loads in dark mode.
-* Is `/js/materialize.min.js` actually needed? Can it be removed?
-* Tags should not be case sensitive for sort & search
-* Categories needs to be either implemented or removed from the sidebar
-* 
+There's a [sitemap.xml here](https://gojimmypi.github.io/sitemap.xml).
 
 {%- if site.page_debug -%}
 This is the `docs/about.markdown` page.
