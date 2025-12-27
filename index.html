@@ -14,6 +14,7 @@ sitemap: false
     </h1>
 </header>
 
+<div class="articles">
 {%- for post in paginator.posts -%}
     {%- include article_index.html -%}
 {%- endfor -%}
@@ -62,14 +63,14 @@ sitemap: false
 
     <!-- next link -->
 
-    {% if paginator.next_page %}
+    {%- if paginator.next_page -%}
         <a class="btn next"
            href="{{ paginator.next_page_path | relative_url }}">
             {{ site.global_html.single_right_arrow }}
         </a>
-    {% else %}
+    {%- else -%}
         <span class="btn disabled">{{ site.global_html.single_right_arrow }}</span>
-    {% endif %}
+    {%- endif -%}
 
     <!-- last page link -->
 
@@ -84,3 +85,4 @@ sitemap: false
     {%- endif -%}
 </div>
 {%- endif -%}
+</div>

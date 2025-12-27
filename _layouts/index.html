@@ -29,7 +29,7 @@ last_modified_at: 2025-12-25T09:11:00-08:00
             {% include nav.html %}
         </header>
         {% if page.search != false %}
-            <!-- move search here -->
+            <!-- TODO move search here -->
         {% endif %}
         <div class="margin">
             <div class="content">
@@ -38,9 +38,9 @@ last_modified_at: 2025-12-25T09:11:00-08:00
                     <div id="classic"><span></span></div>
                 </div>
                 {% if page.title %}<h1 class="title">{{ page.title }}</h1>{% endif %}
-                <div class="articles">
-                    {{ content }}
-                </div>
+
+                {{ content }}
+
                 <!-- use logic to toggle sidebar layouts -->
                 {% if page.sidebar %}
                 {% include {{page.sidebar_type}}-sidebar.html %}
