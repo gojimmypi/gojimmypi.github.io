@@ -163,7 +163,7 @@
 
 #headerSearchContainer.search-open .header-search__backdrop {
     display: block;
-    pointer-events: auto; /* open: blocks page clicks */
+    pointer-events: unset; /* open: blocks page clicks */
 }
 
 /* Results dropdown container (full width, above backdrop) */

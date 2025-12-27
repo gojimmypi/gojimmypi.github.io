@@ -51,7 +51,7 @@
     line-height: 1.2;
     position: relative;
     z-index: 5001;
-    pointer-events: auto !important;
+    pointer-events: unset !important;
 }
 
 .preview-banner a:hover,
