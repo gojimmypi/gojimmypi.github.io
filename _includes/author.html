@@ -1,24 +1,34 @@
 <!-- /_includes/author.html page.layout = {{ page.layout }} -->
-{% comment %}  This is the "posted by" text at near the topc of each blog page  {% endcomment %}
-{% if post.author %}
-  {% assign author = post.author %}
-{% elsif page.author %}
-  {% assign author = page.author %}
-{% else %}
-  {% assign author = site.author %}
-{% endif %}
-{% if author %}
+{%- comment -%} This is the "posted by" text near the top of each blog page {%- endcomment -%}
+{%- if post.author -%}
+    {%- assign author = post.author -%}
+{%- elsif page.author -%}
+    {%- assign author = page.author -%}
+{%- else -%}
+    {%- assign author = site.author -%}
+{%- endif -%}
+
+{%- if author -%}
 <span class="author">
     Posted by
-    {% assign the_author = site.data.authors | where: 'id', author %}
-    {% for author in the_author %}
-    <a href="{{ site.author_dir | append: '/' | append: author.id | append: '/' | relative_url }}">
-        {% if author.name %}
-        {{ author.name }}
-        {% else %}
-        {{ author.id }}
-        {% endif %}
-    </a>
-    {% endfor %}
+    {% assign the_author = site.data.authors | where: "id", author %}
+
+    {%- if the_author and the_author[0] and the_author[0].id == "gojimmypi" -%}
+        <a href="{{ site.about_page | default: '/about/' | relative_url }}">gojimmypi</a>
+    {%- elsif the_author and the_author[0] -%}
+        {%- for author_item in the_author -%}
+            <a href="{{ site.author_dir | append: '/' | append: author_item.id | append: '/' | relative_url }}">
+                {%- if author_item.name -%}
+                    {{ author_item.name }}
+                {%- else -%}
+                    {{ author_item.id }}
+                {%- endif -%}
+            </a>
+        {%- endfor -%}
+    {%- else -%}
+        <a href="{{ site.about_page | default: '/about/' | relative_url }}">
+            {{ author }}
+        </a>
+    {%- endif -%}
 </span>
-{% endif %}
+{%- endif -%}
