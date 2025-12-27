@@ -130,7 +130,7 @@
                 </li>
             </ul>
 
-            <ul id="drop-archive" class="dropdown-content">
+            <ul id="drop-archive" class="archive-content">
                 <li>
                     <a href="{{ site.tags_dir | append: '/' | relative_url }}" class="pill-link" title="View all tags">Tags</a>
                 </li>
@@ -206,20 +206,4 @@
 
     <!-- on every page in upper right corner: the octocat link to source code -->
     {%- include github-corner.html -%}
-</div>
-
-
-<div id="colorswitch" class="modal color-change">
-    <div class="modal-content">
-        <h2>Change Color Palette</h2>
-        <p>
-            <img id="indigo" alt="color palette preview indigo" src="{{ site.media_folder | append: '/indigo.svg' | relative_url }}" />
-            <img id="brown"  alt="color palette preview brown"  src="{{ site.media_folder | append: '/brown.svg'  | relative_url }}" />
-            <img id="green"  alt="color palette preview green"  src="{{ site.media_folder | append: '/green.svg'  | relative_url }}" />
-            <img id="teal"   alt="color palette preview teal"   src="{{ site.media_folder | append: '/teal.svg'   | relative_url }}" />
-        </p>
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-    </div>
 </div>
