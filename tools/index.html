@@ -1,0 +1,48 @@
+---
+layout: page
+title: Web tools
+permalink: /tools/
+last_modified_at: 2025-12-27T09:17:00-08:00
+---
+
+{%- if site.page_debug -%}
+<!--
+    This is the /tools/index.html file
+
+    See <head> element for needed script:
+
+    <script>
+        window.SITE_BASEURL = "{{ site.baseurl | replace: '//', '/' }}";
+    </script>
+    <script src="/js/search.js"></script>
+-->
+{%- endif -%}
+
+<div>
+    <ul>
+        <li>
+            <a title="Sitemap file"
+               href="../sitemap.xml">
+                sitemap.xml
+            </a>
+"
+        </li>
+        <li><a title="jigsaww3 org css validator"
+               href="https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fgojimmypi.github.io%2F&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en">
+                jigsaw.w3.org/css-validator
+            </a>
+        </li>
+        <li>
+            <a  title="pagespeed.web.dev"
+                hhref="https://pagespeed.web.dev/report?url=https%3A%2F%2Fgojimmypi.github.io&utm_source=google_domains&utm_medium=product&utm_campaign=website_card&hl=en-US">
+                pagespeed.web.dev
+            </a>
+        </li>
+        <li>
+            <a title="Bing webmaster tools"
+               href="https://www.bing.com/webmasters/home?siteUrl=https://gojimmypi.github.io/">
+                www.bing.com/webmasters/home
+            </a>
+        </li>
+    </ul>
+</div>
