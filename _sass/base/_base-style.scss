@@ -197,8 +197,11 @@ html body :not(pre) > code[class*="language-"] {
     border-radius: 6px;
     padding: 0.12em 0.35em;
     line-height: 1.2;
+
+    /* inline code should wrap, but not destroy readability */
     white-space: normal;
-    word-break: break-word;
+    overflow-wrap: break-word;
+    word-break: normal;
 }
 
 /* Block code surface */
