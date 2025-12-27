@@ -42,7 +42,7 @@ $include-blockquote-style: yes;
 $include-definition-list-style: yes;
 
 // if set to yes, WordPress default classes will be added
-$inlcude-WordPress-kit: no;
+$include-WordPress-kit: no;
 
 // color variables (use colors as values)
 //----------------------------------------
@@ -100,7 +100,7 @@ $background-color: #F9F9F9;
 $paragraph-gap-size: 1em;
 
 // depends on: $container-settings
-$container-class-name: 'content';
+$container-class-name: "content";
 $container-background-color: transparent;
 $container-max-width: 1500px; // use px here
 $container-width: 90%; // use % here
@@ -150,8 +150,6 @@ $authorbox-collapse: 510px;
 // lightbox
 $lightbox-container-background: $almost-black;
 
-// shortcuts
-$line: 1px solid rgba(160,160,160,.2);
 
 // sidebar
 $sidebar-width: 320px;
