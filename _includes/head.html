@@ -135,79 +135,12 @@
 </script>
 {% endif %}
 
-{% if page.math %}
-<script type="text/x-mathjax-config">
-    {% include _mathjax-cdn-setup.min.js %}
-</script>
-{% endif %}
-
-{% if site.usefallback == null or site.usefallback == true %}
-<script>
-    {% include _fallback.min.js %}
-</script>
-
-<script>
-fallback.load({
-
-    main: "{{ '/css/main.css' | relative_url }}?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}",
-
-    jQuery: [
-        {% if jekyll.environment != "development" %}
-        "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js",
-        {% endif %}
-        "{{ '/js/jquery-3.7.1.min.js' | relative_url }}"
-    ],
-
-    Materialize: [
-        {% if jekyll.environment != "development" %}
-        "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js",
-        {% endif %}
-        "{{ '/js/materialize.min.js' | relative_url }}"
-    ],
-
-    cssTransitionSupport: [
-        {% if site.infinite_scroll == true %}
-            {% if site.sidebar_toc == true %}
-                "{{ '/js/global.infinite.toc.min.js' | relative_url }}"
-            {% else %}
-                "{{ '/js/global.infinite.min.js' | relative_url }}"
-            {% endif %}
-        {% else %}
-            {% if site.sidebar_toc == true %}
-                "{{ '/js/global.toc.min.js' | relative_url }}"
-            {% else %}
-                "{{ '/js/global.min.js' | relative_url }}"
-            {% endif %}
-        {% endif %}
-    ]
-    {% if page.math %},
-    MathJax: [
-        {% if jekyll.environment != "development" %}
-        "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full",
-        {% endif %}
-        "{{ '/MathJax/MathJax.js' | relative_url }}?config=TeX-AMS_CHTML-full"
-    ]
-    {% endif %}
-
-}, {
-    shim: {
-        "Materialize": ["jQuery"],
-        "cssTransitionSupport": ["Materialize"]
-    }
-});
-</script>
-
-
-{% else %}
 <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}?v={% if site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%s' }}{% endif %}">
 
 <script src="{{ '/scripts/jquery.toc.js' | relative_url }}"></script>
 <script src="{{ '/scripts/infinite/1-jquery.jscroll.js' | relative_url }}"></script>
-<script src="{{ '/scripts/global/2-imagelightbox.js' | relative_url }}?forceversion=2"></script>
 <script src="{{ '/scripts/global/scripts.js' | relative_url }}"></script>
-<script src="{{ '/js/materialize.min.js' | relative_url }}"></script>
 <script src="{{ '/scripts/infinite/init.js' | relative_url }}?forceversion=2"></script>
-{% endif %}
 
 <script>
     window.SITE_BASEURL = "{{ site.baseurl | replace: '//', '/' }}";

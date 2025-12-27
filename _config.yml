@@ -72,7 +72,7 @@ paginate: 8
 paginate_path: /page/:num/
 infinite_scroll: true # change to false if you want to use pagination
 sidebar_toc: true     # true if you want the collapsible TOC appears in the sidebar. Once it is turned on site-wide, it can be setup per page. See defaults below.
-math: true            # true if you want amsthm. Once it is turned on site-wide, it can be setup per page. See defaults below. See https://github.com/ickc/multimarkdown-amsthm-css
+math: false           # true if you want amsthm. Once it is turned on site-wide, it can be setup per page. See defaults below. See https://github.com/ickc/multimarkdown-amsthm-css
 
 tags_dir: /tags       # All tags summary page
 tag_dir: /tag
