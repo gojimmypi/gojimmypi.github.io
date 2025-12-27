@@ -20,64 +20,64 @@
     line-height: 1.2;
 }
 
-    /* Hard-scope table defaults (theme CSS often adds padding/line-height) */
-    .logo-container.header-search table,
-    .logo-container.header-search tr,
-    .logo-container.header-search td {
-        border-collapse: collapse;
-        border-spacing: 0;
-        margin: 0 !important;
-        padding: 0 !important;
-        line-height: 1.2 !important;
-        vertical-align: top !important;
-    }
+/* Hard-scope table defaults (theme CSS often adds padding/line-height) */
+.logo-container.header-search table,
+.logo-container.header-search tr,
+.logo-container.header-search td {
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+    vertical-align: top !important;
+}
 
-    /* Logo anchor: do not contribute extra line box height */
-    .logo-container.header-search a.header-search__logo {
-        position: static;
-        top: auto;
-        left: auto;
-        transform: none;
-        transition: none;
-        display: inline-block;
-        width: auto;
-        height: auto;
-        padding: 4px 6px;
-        margin: 0;
-        border-radius: 12px;
-        line-height: 0;
-    }
+/* Logo anchor: do not contribute extra line box height */
+.logo-container.header-search a.header-search__logo {
+    position: static;
+    top: auto;
+    left: auto;
+    transform: none;
+    transition: none;
+    display: inline-block;
+    width: auto;
+    height: auto;
+    padding: 4px 6px;
+    margin: 0;
+    border-radius: 12px;
+    line-height: 0;
+}
 
-        /* Kill any paddinghack pseudo-elements on `.logo` inside this header block */
-        .logo-container.header-search a.header-search__logo::before,
-        .logo-container.header-search a.header-search__logo::after {
-            content: none;
-            display: none;
-        }
+/* Kill any paddinghack pseudo-elements on `.logo` inside this header block */
+.logo-container.header-search a.header-search__logo::before,
+.logo-container.header-search a.header-search__logo::after {
+    content: none;
+    display: none;
+}
 
-    .logo-container.header-search img.jimmy_logo {
-        height: 125px;
-        width: auto;
-        max-width: 100%;
-        display: block;
-    }
+.logo-container.header-search img.jimmy_logo {
+    height: 125px;
+    width: auto;
+    max-width: 100%;
+    display: block;
+}
 
-    /* Blurb: tighten but keep readable */
-    .logo-container.header-search .header-search__blurb {
-        margin: 0;
-        padding: 0;
-        line-height: 1.25;
-    }
+/* Blurb: tighten but keep readable */
+.logo-container.header-search .header-search__blurb {
+    margin: 0;
+    padding: 0;
+    line-height: 1.25;
+}
 
-    .logo-container.header-search > table > tbody > tr > td:first-child {
-        padding-right: 14px !important;
-    }
+.logo-container.header-search > table > tbody > tr > td:first-child {
+    padding-right: 14px !important;
+}
 
 
-    /* HR default margins are usually the biggest "mystery gap" */
-    .logo-container.header-search .header-search__blurb hr {
-        margin: 6px 0;
-    }
+/* HR default margins are usually the biggest "mystery gap" */
+.logo-container.header-search .header-search__blurb hr {
+    margin: 6px 0;
+}
 
 /* Search cell (dropdown anchors here) */
 .header-search__search {
@@ -163,7 +163,7 @@
 
 #headerSearchContainer.search-open .header-search__backdrop {
     display: block;
-    pointer-events: unset; /* open: blocks page clicks */
+    pointer-events: auto; /* open: blocks page clicks */
 }
 
 /* Results dropdown container (full width, above backdrop) */
