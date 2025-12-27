@@ -9,54 +9,56 @@
 
 reset
 
+cd ../
+echo "Starting from $(pwd)"
+
 echo "$1"
 
 echo "Version 1.01"
 
-./gen_year_archives.sh
- ./find_missing_description.sh _posts
+./scripts/gen_year_archives.sh
+
+./scripts/find_missing_description.sh _posts
 
 # for GH Pages / GitHub Pages and Jekyll install, see:
 # https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll
 if command -v bundle &> /dev/null ; then
-  echo "Confirmed bundler is installed"
+    echo "Confirmed bundler is installed"
 else
-  echo "ERROR: It appears bundler is not installed." >&2
-  echo "see https://jekyllrb.com/docs/installation/ubuntu/"
-  exit 1
+    echo "ERROR: It appears bundler is not installed." >&2
+    echo "see https://jekyllrb.com/docs/installation/ubuntu/"
+    exit 1
 fi
 
 bundle exec jekyll --help &> /dev/null
 if [ $? -eq 0 ]; then
-  echo "Confirmed jekyll bundle is installed"
+    echo "Confirmed jekyll bundle is installed"
 else
-  bundle exec jekyll --help
-  echo 'Error: bundle exec jekyll is not installed or returned an error.' >&2
-  echo "see https://jekyllrb.com/docs/installation/ubuntu/"
-  exit 1
+    bundle exec jekyll --help
+    echo 'Error: bundle exec jekyll is not installed or returned an error.' >&2
+    echo "see https://jekyllrb.com/docs/installation/ubuntu/"
+    exit 1
 fi
 
 if command -v sass &> /dev/null ; then
-  echo "Confirmed sass is installed"
+    echo "Confirmed sass is installed"
 else
-  echo ""
-  echo "WARNING: It appears sass is not installed. See https://sass-lang.com/install"
-  echo ""
+    echo ""
+    echo "WARNING: It appears sass is not installed. See https://sass-lang.com/install"
+    echo ""
 fi
 
 if command -v grunt &> /dev/null ; then
-  echo "Confirmed appears is installed"
+    echo "Confirmed appears is installed"
 else
-  echo ""
-  echo "WARNING: It appears grunt is not installed. File transformations in gruntfile.js will NOT occur."
-  echo ""
+    echo ""
+    echo "WARNING: It appears grunt is not installed. File transformations in gruntfile.js will NOT occur."
+    echo ""
 fi
 
 bundle check
 
-cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-echo "Starting in $(pwd)"
+# cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # get the base url from the _config.yml file  (note we want the explicit line starting with baseurl: as there are now other settings that contian the same text! )
 baseurl_line=$(grep -R "^baseurl:" "_config.yml" | tail -n1)
@@ -105,17 +107,17 @@ echo "---"                                         >> $TAG_DIR/README.md
 echo "WARNING: this is an auto-generated directory to create tag files. See _build-development.sh" >> $TAG_DIR/README.md
 
 if [ "$1" == "--assume-yes" ]; then
-  echo "Skipping browser launch for $1"
-  echo ""
-  echo "View web page at: http://127.0.0.1:4000/$baseurl/"
-  echo ""
+    echo "Skipping browser launch for $1"
+    echo ""
+    echo "View web page at: http://127.0.0.1:4000/$baseurl/"
+    echo ""
 else
-  echo "launching browser for baseurl=$baseurl found in_config.yml"
-  if [ "$baseurl" == "" ]; then
-    python3 -mwebbrowser http://127.0.0.1:4000/
-  else
-    python3 -mwebbrowser http://127.0.0.1:4000/$baseurl/
-  fi
+    echo "launching browser for baseurl=$baseurl found in_config.yml"
+    if [ "$baseurl" == "" ]; then
+        python3 -mwebbrowser http://127.0.0.1:4000/
+    else
+        python3 -mwebbrowser http://127.0.0.1:4000/$baseurl/
+    fi
 fi
 
 echo "bundle exec jekyll clean"

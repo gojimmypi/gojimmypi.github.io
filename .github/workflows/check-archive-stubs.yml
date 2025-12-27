@@ -28,11 +28,11 @@ jobs:
 
       - name: Verify archive stub pages exist
         run: |
-            bash ./gen_year_archives.sh --check
+            bash ./scripts/gen_year_archives.sh --check
 
       - name: Check for missing titles
         run: |
-            bash ./find_missing_description.sh _posts
+            bash ./scripts/find_missing_description.sh _posts
 
       - name: Check for tag files
         run: |
