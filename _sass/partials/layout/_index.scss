@@ -1,12 +1,20 @@
 // Layout switcher on index pages
 .switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 10px;
-    padding: 10px 0;
+    padding: 6px 14px;
+    border-radius: 8px;
+    line-height: 1.5;
+
+    @include surface-inset; // reuses existing pill surface mixin. See _iconnav.scss
 
     @media (max-width: $layoutswitch-hiding-point) {
         display: none;
     }
 }
+
 
 .title {
     width: 100%;
