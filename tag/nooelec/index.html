@@ -3,7 +3,7 @@
 <head>
     <!-- /_layouts/index.html page.layout = tag_index -->
     <meta charset="UTF-8" />
-    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1766801419">
+    <link rel="stylesheet" id="switch-style" href="/css/grid.css?v=1766866083">
 
     <style>
     html {
@@ -82,18 +82,12 @@
 
 
 
-
-
-
-<link rel="stylesheet" href="/css/main.css?v=1766801419">
+<link rel="stylesheet" href="/css/main.css?v=1766866083">
 
 <script src="/scripts/jquery.toc.js"></script>
 <script src="/scripts/infinite/1-jquery.jscroll.js"></script>
-<script src="/scripts/global/2-imagelightbox.js?forceversion=2"></script>
 <script src="/scripts/global/scripts.js"></script>
-<script src="/js/materialize.min.js"></script>
 <script src="/scripts/infinite/init.js?forceversion=2"></script>
-
 
 <script>
     window.SITE_BASEURL = "";
@@ -202,7 +196,7 @@ function ToggleDarkMode(forceDarkMode) {
     ToggleDarkModeItem("nav", forceDarkMode);
     ToggleDarkModeItem("table", forceDarkMode);
     ToggleDarkModeItem(".color-change", forceDarkMode);
-    ToggleDarkModeItem(".dropdown-content", forceDarkMode);
+    ToggleDarkModeItem(".archive-content", forceDarkMode);
     ToggleDarkModeItem(".logo-container", forceDarkMode);
     ToggleDarkModeItem(".sidebar", forceDarkMode);
     ToggleDarkModeItem(".authorbox", forceDarkMode);
@@ -389,7 +383,7 @@ function ToggleDarkMode(forceDarkMode) {
                 </li>
             </ul>
 
-            <ul id="drop-archive" class="dropdown-content">
+            <ul id="drop-archive" class="archive-content">
                 <li>
                     <a href="/tags/" class="pill-link" title="View all tags">Tags</a>
                 </li>
@@ -493,22 +487,6 @@ this_github_page     = [https://github.com/gojimmypi/gojimmypi.github.io/tree/ma
         }
     </style>
 </a></div>
-
-
-<div id="colorswitch" class="modal color-change">
-    <div class="modal-content">
-        <h2>Change Color Palette</h2>
-        <p>
-            <img id="indigo" alt="color palette preview indigo" src="/media/indigo.svg" />
-            <img id="brown"  alt="color palette preview brown"  src="/media/brown.svg" />
-            <img id="green"  alt="color palette preview green"  src="/media/green.svg" />
-            <img id="teal"   alt="color palette preview teal"   src="/media/teal.svg" />
-        </p>
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-    </div>
-</div>
 
         </header>
         <div class="margin">
