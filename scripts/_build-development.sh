@@ -20,6 +20,8 @@ echo "Version 1.01"
 
 ./scripts/find_missing_description.sh _posts
 
+./scripts/check_no_underscores.sh _posts
+
 # for GH Pages / GitHub Pages and Jekyll install, see:
 # https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll
 if command -v bundle &> /dev/null ; then
