@@ -263,6 +263,12 @@
     }
 }
 
+/* See /_sass/partials/components/_iconnav.scss  */
+
+.main-menu .iconnav a.bluesky {
+    color: #1185FE;
+}
+
 // Toggle
 .toggle-link {
     @media (min-width: $mainnav-collapse) {

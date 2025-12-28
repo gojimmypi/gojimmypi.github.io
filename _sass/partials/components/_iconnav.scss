@@ -26,15 +26,71 @@
     padding: 10px 8px;
     display: flex;
     align-items: center;
-    // hide some of the icons once there is not enough space
-    @media (max-width: 368px) {
-        .tumblr,
-        .instagram,
+    // hide social media icons once there is not enough space. 450px + [n] total icons * 50px
+    @media (max-width: 550px) {
+        .mailto,
         .twitter,
+        .mastodon,
+        .bluesky,
+        .instagram,
+        .pinterest,
         .youtube {
             display: none;
         }
     }
+    // As window shrinks, hide one more icon
+    @media (max-width: 600px) {
+        .twitter,
+        .mastodon,
+        .bluesky,
+        .instagram,
+        .pinterest,
+        .youtube {
+            display: none;
+        }
+    }
+    // As window shrinks, hide one more icon
+    @media (max-width: 650px) {
+        .mastodon,
+        .bluesky,
+        .instagram,
+        .pinterest,
+        .youtube {
+            display: none;
+        }
+    }
+    // As window shrinks, hide one more icon
+    @media (max-width: 700px) {
+        .bluesky,
+        .instagram,
+        .pinterest,
+        .youtube {
+            display: none;
+        }
+    }
+    // As window shrinks, hide one more icon
+    @media (max-width: 750px) {
+        .instagram,
+        .pinterest,
+        .youtube {
+            display: none;
+        }
+    }
+    // As window shrinks, hide .pinterest and youtube
+    @media (max-width: 800px) {
+        .pinterest,
+        .youtube {
+            display: none;
+        }
+    }
+    // As window shrinks, hide .pinterest
+    @media (max-width: 850px) {
+        .pinterest {
+            display: none;
+        }
+    }
+
+    // more than 850px wide screen to display everything
 
     ul {
         list-style: none;

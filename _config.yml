@@ -33,11 +33,15 @@ author: # For jekyll-feed
   twitter: gojimmypi # name only. for jekyll-seo-tag, temporary fix to the incompatibility with site.data.authors
 # tumblr: "#"
 pinterest: "https://fi.pinterest.com/gojimmypi/"
-# instagram: "#"
+instagram:
+    username: "gojimmypi"
 twitter:              # for both nav & jekyll-seo-tag
   username: gojimmypi #name only
 mastodon:             # for both nav & jekyll-seo-tag
   username: gojimmypi #name only
+bluesky:
+  username: "@gojimmypi.bsky.social"
+
 # facebook:           # for both nav & jekyll-seo-tag
 #   publisher: "      #" #full link
 youtube: "https://www.youtube.com/channel/UCR01egMbYgXQGJaocNEDEwg"
@@ -46,10 +50,12 @@ youtube: "https://www.youtube.com/channel/UCR01egMbYgXQGJaocNEDEwg"
 social: # for jekyll-seo-tag
   links: # put all the social links
     - https://github.com/gojimmypi
-    - https://twitter.com/gojimmypi
+    - https://x.com/gojimmypi
     - https://hackaday.social/@gojimmypi
     - https://www.youtube.com/channel/UCR01egMbYgXQGJaocNEDEwg
     - https://fi.pinterest.com/gojimmypi/
+    - https://bsky.app/profile/gojimmypi.bsky.social
+
 # google verification: https://support.google.com/webmasters/answer/9008080?hl=en
 # https://search.google.com/search-console/ownership
 # gojimmypi uses \google2135ab0ce8568db2.html
