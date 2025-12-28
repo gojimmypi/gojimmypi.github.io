@@ -241,7 +241,7 @@
         height: inherit;
         line-height: inherit;
         /* Reserve space for GitHub corner (octocat) */
-        padding-right: 40px;
+        padding-right: 10px;
     }
     /*
         Fix: .main-menu was the topmost element (elementFromPoint) over the header search.
