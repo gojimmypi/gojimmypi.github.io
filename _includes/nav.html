@@ -271,20 +271,20 @@
                 </li>
                 {%- endif -%} {%- if site.mastodon.username -%}
                 <li class="social">
-                    <a name="nav_mastodon" 
-                       id="nav_mastodon" 
-                       href="https://hackaday.social/@{{ site.mastodon.username }}" 
-                       class="mastodon" 
+                    <a name="nav_mastodon"
+                       id="nav_mastodon"
+                       href="https://hackaday.social/@{{ site.mastodon.username }}"
+                       class="mastodon"
                        title="Visit {{ site.author.name  }} on Mastodon">
                         <img src="{{ '/icons/mastodon.svg' | relative_url }}" style="height:34px;width:34px;" alt="Mastodon icon" />
                     </a>
                 </li>
                 {%- endif -%} {%- if site.author.email -%}
                 <li class="social">
-                    <a name="nav_mailto" 
-                       id="nav_mailto" 
-                       href="mailto:{{ site.author.email }}" 
-                       class="mailto" 
+                    <a name="nav_mailto"
+                       id="nav_mailto"
+                       href="mailto:{{ site.author.email }}"
+                       class="mailto"
                        title="Send an email to {{ site.author.name  }}">
                         <img src="{{ '/icons/mail.svg' | relative_url }}" style="height:34px;width:34px;" alt="mail icon" />
                     </a>
