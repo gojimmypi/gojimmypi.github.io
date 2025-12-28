@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "ESP32 SSH Server"
-description: "(draft / WIP v2) UPDATE: See my [ESP32 to UART SSH Server](https://github.com/gojimmypi/wolfssh/tree/ESP32_Development/examples/ESP32-SSH-Server) and"
+description: "draft v2 UPDATE: See my ESP32 to UART SSH Server"
 date: '2021-08-01'
 author: gojimmypi
 tags:
@@ -13,8 +13,8 @@ tags:
 
 (draft / WIP v2)
 
-UPDATE: See 
-my [ESP32 to UART SSH Server](https://github.com/gojimmypi/wolfssh/tree/ESP32_Development/examples/ESP32-SSH-Server) 
+UPDATE: See
+my [ESP32 to UART SSH Server](https://github.com/gojimmypi/wolfssh/tree/ESP32_Development/examples/ESP32-SSH-Server)
 and [ESP8266 to UART SSH Server](https://github.com/gojimmypi/wolfssh/tree/ESP8266_Development/examples/ESP8266-SSH-Server)
 and my [other blogs about wolfSSH](https://gojimmypi.github.io/tag/wolfssh/).
 
@@ -104,7 +104,7 @@ make[1]: *** [src/tls.o] Error 1
 make: *** [component-wolfssl-build] Error 2
 ```
 
-As I could not seem to find where to fix this, and a simple `#define HAVE_FFDHE_2048` did not work. 
+As I could not seem to find where to fix this, and a simple `#define HAVE_FFDHE_2048` did not work.
 
 Update: be sure to edit the proper `settings.h`; see [this issue](https://github.com/espressif/esp-wolfssl/issues/11). The one used
 by the IDE examples is *not* from the clone directory, rather:
@@ -159,7 +159,7 @@ There are `esp-idf` config files (`config.h` and `user_settings.h`) that DO seem
 ls $IDF_PATH/components/wolfssl/include/ -al
 ```
 
-Recall there's no native USB support in WSL1, so we'll call the Windows/DOS `python.exe`. 
+Recall there's no native USB support in WSL1, so we'll call the Windows/DOS `python.exe`.
 Here we are using `COM4` with Python 3.6 installed in `C:\python36`:
 
 {% include code_header.html %}

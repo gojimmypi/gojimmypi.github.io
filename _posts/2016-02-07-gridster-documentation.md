@@ -1,6 +1,6 @@
 ---
 title:	Gridster Documentation
-description: "This documentation are from the original Gridster. Since the source is not available, I convert it to Markdown file by pandoc: ```shell pandoc -t"
+description: "This documentation are from the original Gridster. Since the source is not available, I convert it to Markdown file by pandoc"
 sidebar_toc:	true
 ---
 

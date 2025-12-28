@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Notes for Hazard3 RISC-V with JTAG"
-description: "Notes on [Wren6991's Hazard3 Soft RISC-V with JTAG](https://github.com/Wren6991/Hazard3) See the [YosysHQ OSS CAD Suite Installation](https://github.com/Yo"
+description: "Notes on Wren6991's Hazard3 Soft RISC-V with JTAG. See the YosysHQ OSS CAD Suite Installation"
 date: '2022-09-04'
 author: gojimmypi
 tags:
@@ -41,7 +41,7 @@ source $MYOSSCADSUITE/oss-cad-suite/environment
 ```
 export MY_GITHUB_NAME=gojimmypi
 export WORKSPACE="/mnt/c/workspace"
-export MY_HAZARD3_NAME="hazard3-$MY_GITHUB_NAME" 
+export MY_HAZARD3_NAME="hazard3-$MY_GITHUB_NAME"
 export MY_HAZARD3_PATH="$WORKSPACE/$MY_HAZARD3_NAME"
 
 cd $WORKSPACE
@@ -62,7 +62,7 @@ or
 
 Fetch [Luke's Hazard3](https://github.com/Wren6991/Hazard3) repo:
 ```
-git clone --recursive https://github.com/$MY_GITHUB_NAME/Hazard3.git 
+git clone --recursive https://github.com/$MY_GITHUB_NAME/Hazard3.git
 ```
 
 Perform the install steps:
@@ -92,7 +92,7 @@ export DISPLAY=:0
 /mnt/c/cygwin64/bin/run.exe --quote /usr/bin/bash.exe -l -c " exec /usr/bin/startxwin -- -listen tcp -nowgl"
 ```
 
-There was a [small problem](https://github.com/Wren6991/Hazard3/issues/4) encountered. Although quickly resolved, for reference, 
+There was a [small problem](https://github.com/Wren6991/Hazard3/issues/4) encountered. Although quickly resolved, for reference,
 this blog uses the [commit at f48177c](https://github.com/Wren6991/Hazard3/tree/f48177c6440c336e5a0f884d1a8d85d8bc0af87d).
 
 Note that the [Makefile](https://github.com/Wren6991/Hazard3/blob/f48177c6440c336e5a0f884d1a8d85d8bc0af87d/test/sim/hellow/Makefile#L1) in `hazard3\test\sim\hellow` may need to be adjusted:
@@ -107,7 +107,7 @@ AFLAGS = -march=rv32i
 include ../common/src_only_app.mk
 ```
 
-The RISC-V toolchain that was already installed did not support the z-opcodes, so the `-march=rv32i_zicsr_zba_zbb_zbc_zbs` parameter 
+The RISC-V toolchain that was already installed did not support the z-opcodes, so the `-march=rv32i_zicsr_zba_zbb_zbc_zbs` parameter
 was changed to `-march=rv32i` for this exercise. The specific version of the riscv32 compiler used:
 
 ```
@@ -124,7 +124,7 @@ This section won't apply to native Linux.
 
 #### Windows Store X-Server
 
-Launch the [Windows X-Server from the Microsoft Store](https://www.microsoft.com/store/productId/9NLP712ZMN9Q). Just click the `Open` button. 
+Launch the [Windows X-Server from the Microsoft Store](https://www.microsoft.com/store/productId/9NLP712ZMN9Q). Just click the `Open` button.
 There's no obvious UI, and nothing _appears_ to happen. There should be a `X410` Background Process running as viewed in Windows Task Manager.
 
 
@@ -168,7 +168,7 @@ Here's the entire makefile section:
 {% include code_header.html %}
 ```
 PROJ = ulx3s_adda
-sim: 
+sim:
 	rm -f $(PROJ).vcd
 	iverilog  -o $(PROJ).vvp $(PROJ).v $(PROJ)_tb.v
 	vvp $(PROJ).vvp
@@ -193,7 +193,7 @@ xserver:
 	fi
 ```
 
-I ended up running into an [error I could not resolve](https://github.com/Wren6991/Hazard3/issues/4). 
+I ended up running into an [error I could not resolve](https://github.com/Wren6991/Hazard3/issues/4).
 Thank you, Luke for the [prompt resolution](https://github.com/Wren6991/Hazard3/issues/4#issuecomment-1236430541)!.
 
 Next, [install RISC-C OpenOCD](https://github.com/Wren6991/Hazard3#building-riscv-openocd), in this case for WSL2:
@@ -239,7 +239,7 @@ First build libusb
 install from https://github.com/libusb/libusb/releases/tag/v1.0.26 see [other releases](https://github.com/libusb/libusb/releases)
 
 ```
-sudo apt install libudev-dev 
+sudo apt install libudev-dev
 
 cd libusb-1.0.21
 
@@ -296,7 +296,7 @@ echo "LT_SYS_LIBRARY_PATH = $LT_SYS_LIBRARY_PATH"
 echo "PKG_CONFIG_PATH    = $PKG_CONFIG_PATH"
 
 # testing this one
- ./configure --enable-maintainer-mode --build=i686-pc-linux-gnu --host=i686-w64-mingw32 --libdir=/mnt/c/workspace/riscv-openocd/libusb-1.0.21/libusb/.libs  --disable-werror   --with-ftd2xx-win32-zipdir="/mnt/c/download/FTDI/CDM v2.12.24 WHQL Certified/i386"  --with-ftd2xx-lib=static  --enable-ft2232_ftd2xx   --disable-at91rm9200  --enable-remote-bitbang --enable-ftdi --program-prefix=riscv- --enable-debug-log --disable-usb-blaster 
+ ./configure --enable-maintainer-mode --build=i686-pc-linux-gnu --host=i686-w64-mingw32 --libdir=/mnt/c/workspace/riscv-openocd/libusb-1.0.21/libusb/.libs  --disable-werror   --with-ftd2xx-win32-zipdir="/mnt/c/download/FTDI/CDM v2.12.24 WHQL Certified/i386"  --with-ftd2xx-lib=static  --enable-ft2232_ftd2xx   --disable-at91rm9200  --enable-remote-bitbang --enable-ftdi --program-prefix=riscv- --enable-debug-log --disable-usb-blaster
 
 
 # this is failing:
@@ -366,7 +366,7 @@ make -j $(nproc)
 - FTDI [driver installation](https://ftdichip.com/document/installation-guides/)
 - stackoverflow [How to install and use "make" in Windows?](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows) - [chocolatey](https://chocolatey.org/install)
 - stackoverflow [Installing libusb-1.0 on Windows 7](https://stackoverflow.com/questions/20315797/installing-libusb-1-0-on-windows-7)
-- gnu [cross compilation](https://www.gnu.org/software/automake/manual/html_node/Cross_002dCompilation.html)  
+- gnu [cross compilation](https://www.gnu.org/software/automake/manual/html_node/Cross_002dCompilation.html)
 - gnu [Specifying target triplets](https://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-2.71/html_node/Specifying-Target-Triplets.html#Specifying-Names)
 - sourceforce forum [[Libusb-devel] MinGW-W64 build of libusb-1.0 Windows Backend](https://sourceforge.net/p/libusb/mailman/message/25200713/)
 - stack exchange [`openocd` configure script cannot find `libusb`](https://unix.stackexchange.com/questions/493785/openocd-configure-script-cannot-find-libusb): see `LIBUSB1_CFLAGS="-isystem /usr/include/libusb-1.0"`

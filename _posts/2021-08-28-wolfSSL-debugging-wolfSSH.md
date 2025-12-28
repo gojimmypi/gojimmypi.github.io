@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "wolfSSH debugging SSH"
-description: "Some notes on setting up the wolfSSL SSH project. See also the [ESP32 SSH Server](https://gojimmypi.github.io/ESP32-SSH-server/) post. This is a"
+description: "Some notes on setting up the wolfSSL SSH project. See also the ESP32 SSH Server"
 date: '2021-08-28'
 author: gojimmypi
 tags:
@@ -18,7 +18,7 @@ See the [GH Pages Fails to Publish Page](https://github.community/t/gh-pages-fai
 
 - ## Overview
 
-There are two Visual Studio solution files: a regular, 32-bit environment, and a 64-bit one. 
+There are two Visual Studio solution files: a regular, 32-bit environment, and a 64-bit one.
 Oddly, my Visual Studio 2019 did not seem to be happy with the 64 bit solution. Although the code would compile,
 there were hundreds of false errors related to IDE processing (or lack thereof) dependency files.
 
@@ -26,7 +26,7 @@ there were hundreds of false errors related to IDE processing (or lack thereof) 
 
 `ourDhParam` is "the filename of the Diffie-Hellman cert we will use". Default: `./certs/dh2048.pem`.
 
-see [line 1940 of wolfssl/wolfssl/test.h](https://github.com/wolfSSL/wolfssl/blob/bd6b765b17299e8fa9d1a6dc432c4da9597f0cf9/wolfssl/test.h#L1940) for blocking accept(); 
+see [line 1940 of wolfssl/wolfssl/test.h](https://github.com/wolfSSL/wolfssl/blob/bd6b765b17299e8fa9d1a6dc432c4da9597f0cf9/wolfssl/test.h#L1940) for blocking accept();
 This is 5 packet init exchange that should include `hello`:
 ```
     *clientfd = accept(*sockfd, (struct sockaddr*)client_addr,
@@ -60,7 +60,7 @@ Enter file in which to save the key (C:\Users\gojimmypi/.ssh/id_rsa): c:\workspa
 
 - ### Append the public key to the WSL ~/.ssh/authorized_keys
 
-Note the server is running in WSL, so the keys are in `~/.ssh`. Adding this `authorized_key` allows us to connecte to 
+Note the server is running in WSL, so the keys are in `~/.ssh`. Adding this `authorized_key` allows us to connecte to
 local ssh server from local host.
 
 {% include code_header.html %}
@@ -88,7 +88,7 @@ in
 C:\workspace\wolfssl-demo\IDE\Espressif\ESP-IDF\examples\wolfssl_server\build\include\sdkconfig.h
 ```
 
-- ## Building 
+- ## Building
 The [ESP-IDF install](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/#get-started-get-esp-idf) should be completed.
 
 {% include code_header.html %}
@@ -109,7 +109,7 @@ See [wolfSSH requires the wolfSSL library](https://github.com/wolfSSL/wolfssl/is
 # edit the next lines as needed. I keep GitHub repos in C:\workspace\
 WORKSPACE=/mnt/c/workspace
 ESP32_COM=COM8
-PYTHON_EXE=/mnt/c/Users/$USER/AppData/Local/Programs/Python/Python38/python.exe 
+PYTHON_EXE=/mnt/c/Users/$USER/AppData/Local/Programs/Python/Python38/python.exe
 
 sudo echo "Here we go. If prompted for password, press ctrl-c"
 
@@ -207,11 +207,11 @@ cp $HOME/esp/esp-idf/components/esptool_py/esptool/esptool.py /mnt/c/workspace/e
 
 $PYTHON_EXE c:\\workspace\\esp-build\\esptool.py                --chip esp32 --port COM8        --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 c:\\workspace\\wolfssl\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\bootloader\\bootloader.bin 0x10000  c:\\workspace\\wolfssl\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\tls_server.bin 0x8000  c:\\workspace\\wolfssl\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\partitions_singleapp.bin
 
-# if you see an error: 
+# if you see an error:
 # try:   pip install pyserial
 # WSL users should probably do that in DOS
 
-# or 
+# or
 
 # /mnt/c/python36/python.exe c:\\workspace\\esp-build\\esptool.py                --chip esp32 --port COM4        --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 c:\\workspace\\wolfssl\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\bootloader\\bootloader.bin 0x10000  c:\\workspace\\wolfssl\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\tls_server.bin 0x8000  c:\\workspace\\wolfssl\\IDE\\Espressif\\ESP-IDF\\examples\\wolfssl_server\\build\\partitions_singleapp.bin
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Syntax Highlighting and Code Segments"
-description: "I'm using the defauly Jekyll sytax highlighter that works well, until it doesn't. Reminder that language tags are CASE SENSTIVE! ````md ```html good"
+description: "Using the defauly Jekyll syntax highlighter that works well, until"
 date: '2021-05-23'
 author: gojimmypi
 tags:
@@ -12,7 +12,7 @@ tags:
 - Code Segment
 ---
 
-I'm using the defauly Jekyll sytax highlighter that works well, until it doesn't. Reminder that language tags
+I'm using the default Jekyll syntax highlighter that works well, until it doesn't. Reminder that language tags
 are CASE SENSTIVE!
 
 ````md
@@ -43,6 +43,6 @@ Next, when using mardown `md` files, note that the liquid `include code_header.h
 ```
 ````
 
-My copy-to-clipboard feature was implemented with thanks once again toAleksandr Hovhannisyan for his 
+My copy-to-clipboard feature was implemented with thanks once again toAleksandr Hovhannisyan for his
 [How to Add a Copy-to-Clipboard Button to Jekyll](https://www.aleksandrhovhannisyan.com/blog/how-to-add-a-copy-to-clipboard-button-to-your-jekyll-blog/) blog.
 

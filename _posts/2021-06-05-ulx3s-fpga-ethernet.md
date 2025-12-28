@@ -1,14 +1,14 @@
 ---
 layout: post
 title: "ULX3S FPGA Ethernet"
-description: "These are my notes on sniffing Ethernet packets with the Radiona ULX3S FPGA. I first learned of [emard's ethernet example](https://github.com/emard/ulx3s-m"
+description: "These are my notes on sniffing Ethernet packets with the Radiona ULX3S FPGA. I first learned of emard's ethernet example"
 date: '2021-06-05'
 author: gojimmypi
 tags:
 - ULX3S
 - FPGA
 - Ethernet
-- LAN8720 
+- LAN8720
 - ST7789
 ---
 
@@ -16,7 +16,7 @@ These are my notes on sniffing Ethernet packets with the Radiona ULX3S FPGA.
 
 I first learned of [emard's ethernet example](https://github.com/emard/ulx3s-misc/tree/master/examples/eth/rmii/proj) when I recieved an email
 for a new [issue](https://github.com/emard/ulx3s/issues/14). I promptly ordered a [LAN8720 PMod](https://www.amazon.com/gp/product/B07S8MRH92/) as well
-as a [ST7789 SPI TFT LCD](https://www.amazon.com/gp/product/B07P9X3L7M/). 
+as a [ST7789 SPI TFT LCD](https://www.amazon.com/gp/product/B07P9X3L7M/).
 
 The [verilog source code](https://github.com/emard/ulx3s-misc/blob/master/examples/eth/rmii/proj/top/top_eth_hex_demo.v) is surprisingly short.
 Packet capture and display driver in less that 350 lines of code, including comments.
@@ -59,7 +59,7 @@ make -f makefile.trellis
 ```
 
 Note that I was doing this on WSL1, which does not support native USB devices. Thus in the [ulx3s-misc/scripts/trellis_main.mk](https://github.com/emard/ulx3s-misc/blob/0b72cbd94c0cd9e0c2b095ea97fa021ae3c5f898/scripts/trellis_main.mk#L91)
-I needed to make a change to instead call the Windows/DOS exetable version of `fujprog`. 
+I needed to make a change to instead call the Windows/DOS exetable version of `fujprog`.
 
 {% include code_header.html %}
 ```

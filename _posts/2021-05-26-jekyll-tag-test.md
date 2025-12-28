@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Jekyll Tag Test"
-description: "Here are some tips in creating a new GitHub Pages Jekyll virtual directory First, see [Creating a GitHub Pages site with Jekyll](https://docs.github.com/en"
+description: "Here are some tips in creating a new GitHub Pages Jekyll virtual directory First"
 date: '2021-05-26'
 author: gojimmypi
 tags:
@@ -13,12 +13,12 @@ tags:
 Here are some tips in creating a new GitHub Pages Jekyll virtual directory
 
 First, see [Creating a GitHub Pages site with Jekyll](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll).
-My root GitHub page is located at [github.com/gojimmypi/gojimmypi.github.io](https://github.com/gojimmypi/gojimmypi.github.io) 
+My root GitHub page is located at [github.com/gojimmypi/gojimmypi.github.io](https://github.com/gojimmypi/gojimmypi.github.io)
 and is hosted at [gojimmypi.github.io/](https://gojimmypi.github.io/)
 
 Now, one could simply create a directory in the `gojimmypi.github.io` repo, but here I have notes on creating a _separate repo_ that will be that virtual subdirectory.
 
-I created another completely blank repo called [jekyll-tag-test](https://github.com/gojimmypi/jekyll-tag-test). (no default files, _nothing_!) 
+I created another completely blank repo called [jekyll-tag-test](https://github.com/gojimmypi/jekyll-tag-test). (no default files, _nothing_!)
 See [prior blog](../jekyll-site-failures/) on some of the problems that could be encountered.
 
 
@@ -174,9 +174,9 @@ gem "wdm", "~> 0.1.1", :platforms => [:mingw, :x64_mingw, :mswin]
 ```
 
 Curiously, the locally generated page and the one at GitHub look completely different. It appears that some of the generated files locally
-in the `_site` directory to not get generated at the GitHub web site. I have no idea why. 
-I ended up [asking on the community forum](https://github.community/t/github-page-jekyll-looks-very-different-from-local-from-the-very-beginning/10816/3). 
-Eventually I figured it out on my own and posted the [answer](https://github.community/t/github-page-jekyll-looks-very-different-from-local-from-the-very-beginning/10816/5?u=gojimmypi), 
+in the `_site` directory to not get generated at the GitHub web site. I have no idea why.
+I ended up [asking on the community forum](https://github.community/t/github-page-jekyll-looks-very-different-from-local-from-the-very-beginning/10816/3).
+Eventually I figured it out on my own and posted the [answer](https://github.community/t/github-page-jekyll-looks-very-different-from-local-from-the-very-beginning/10816/5?u=gojimmypi),
 specifically that I needed to edit the `_config.yml` file:
 
 {% include code_header.html %}
@@ -191,7 +191,7 @@ Although 4+ years old, [Long Qian's Jekyll Tags on Github Pages Blog](https://lo
 > Github pages do not support customized Ruby plugins for Jekyll site. It is also true that the great jekyll-tagging is not one of Github default jekyll plugins.
 
 There are no tag-related plugins on the [list of supported GitHub plugins](https://pages.github.com/versions/). The one [jekyll-seo-tag](https://rubygems.org/gems/jekyll-seo-tag)
-is for metatag [Search Engine Optimization](https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md#usage) based on `_config.yml` settings. 
+is for metatag [Search Engine Optimization](https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md#usage) based on `_config.yml` settings.
 The [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) is no longer under active development.
 
 [![Gem Version](https://badge.fury.io/rb/jekyll-paginate.svg)](https://badge.fury.io/rb/jekyll-paginate)

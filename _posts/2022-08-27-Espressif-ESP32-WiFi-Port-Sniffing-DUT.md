@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Espressif ESP32 WiFi Port Sniffing"
-description: "Sniffing WiFi packets on an ESP32 during development. ![overview image](../images/ESP32-DUT/overview.png) This blog documents the network configuration"
+description: "Sniffing WiFi packets on an ESP32 during development. This blog documents the network configuration"
 date: '2022-08-28'
 author: gojimmypi
 tags:
@@ -83,13 +83,13 @@ Although the test topology may sound complicated at first, it is actually fairly
 
 ## Topology
 
-The main production network is on a completely separate LAN and ISP. That netwok uses [PiHole](https://pi-hole.net/) 
+The main production network is on a completely separate LAN and ISP. That netwok uses [PiHole](https://pi-hole.net/)
 as described in a [previous blog](https://gojimmypi.github.io/raspberry-pi-pi-hole-setup-notes/).
 
-The good thing about the Pi-Hole is all the DNS lookups for undesired sites are blocked. 
+The good thing about the Pi-Hole is all the DNS lookups for undesired sites are blocked.
 The bad thing is that during testing, a test destination address may be blocked.
 
-The test network here will use [StarLink](https://www.starlink.com/) ISP. There's no Pi-Hole and there's also no wired Ethernet interface. 
+The test network here will use [StarLink](https://www.starlink.com/) ISP. There's no Pi-Hole and there's also no wired Ethernet interface.
 (There's an optional [Ethernet Adapter sold separately](https://shop.starlink.com/products/us-consumer-ethernet-adapter-gen2))
 
 ```
@@ -119,7 +119,7 @@ See prior [blog on Port Mirroring](https://gojimmypi.github.io/Edgerouter-Port-M
  Test Router <<--Wired-->> Port-Sniffer <<--Ethernet-to-ISP-->> Internet
 ```
 
-The EdgeRouter-X will be used to help sniff WiFi packets. It will sit between the wired connection of the ISP (in this case, a bridge) 
+The EdgeRouter-X will be used to help sniff WiFi packets. It will sit between the wired connection of the ISP (in this case, a bridge)
 and the WiFi Test Router (`RT1`) for the `DUT`. The EdgeRouter-X does not have WiFi capability, but it does have a port mirroring feature.
 
 ```
@@ -151,8 +151,8 @@ EdgeRouter Configure Port Mirror:
 ![EdgeRouter-PortMirror.png](../images/ESP32-DUT/EdgeRouter-PortMirror.png)
 
 
-In order to get wired Ethernet of the EdgeRouter-X to connect to the StarLink WiFi, the AC750/RE220 is configured in bridge (extender) mode. 
-Basically the RE220 creates a single wired-Ethernet port that is on the same subnet as the StarLink WiFi. Other network 
+In order to get wired Ethernet of the EdgeRouter-X to connect to the StarLink WiFi, the AC750/RE220 is configured in bridge (extender) mode.
+Basically the RE220 creates a single wired-Ethernet port that is on the same subnet as the StarLink WiFi. Other network
 topologies may not need this.
 
 ```
@@ -174,7 +174,7 @@ There are LED indicators on the TP-Link AC750 (aka RE220) from page 4 of the [ma
 
 The ESP32 Device Under Test (DUT) connects to a Linksys Test Router (RT1) over WiFi. SSID = `dut-test`.
 
-Note that in order to connect and see the test router configuration, 
+Note that in order to connect and see the test router configuration,
 the network cable will need to be moved from the EdgeRouter (192.168.75.x)
 to the Test Router (192.168.25.x) as the WiFi WAN port of a router typically does not allow inbound security config.
 
@@ -237,4 +237,4 @@ See also:
 - [SSH to ESP8266](https://gojimmypi.github.io/SSH-to-ESP8266/)
 - [REST API SOAP Payload Sniffing](https://gojimmypi.github.io/rest-api-soap-payload-sniffing/)
 - [EdgeRouter-X Port Mirroring: Inspect ESP32 Network Packets](https://gojimmypi.github.io/Edgerouter-Port-Monitor/)
-- [Dual WAN OpenVPN with EdgeRouter X or RT-AX86U](https://gojimmypi.github.io/dual-wan-openvpn-with-edgerouter-x-or/) 
+- [Dual WAN OpenVPN with EdgeRouter X or RT-AX86U](https://gojimmypi.github.io/dual-wan-openvpn-with-edgerouter-x-or/)

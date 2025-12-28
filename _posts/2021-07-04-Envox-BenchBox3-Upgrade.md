@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Envox BenchBox 3 Upgrade"
-description: "The Envos BenchBox 3 has some upgrades, and possible hardware modification due. If like me, you bought your [BB3 via the Crowd Supply campaign](https://www"
+description: "The Envos BenchBox 3 has some upgrades, and possible hardware modification due. If like me, you bought your BB3 via the Crowd Supply campaign"
 date: '2021-07-04'
 author: gojimmypi
 tags:
@@ -10,11 +10,11 @@ tags:
 
 The Envos BenchBox 3 has some upgrades, and possible hardware modification due.
 
-If like me, you bought your [BB3 via the Crowd Supply campaign](https://www.crowdsupply.com/envox/eez-bb3), 
+If like me, you bought your [BB3 via the Crowd Supply campaign](https://www.crowdsupply.com/envox/eez-bb3),
 you may wish to review [my ground safety modification notes](../envox-eez-bench-box-3-ground/).
 
-There's been a recent flurry of [BB3 news](https://www.crowdsupply.com/envox/eez-bb3/updates/latest-firmware-1-7-released-and-a-note-for-two-channel-bb3-users), 
-including an update to the firmware to [version 1.7](https://github.com/eez-open/modular-psu-firmware/releases/tag/1.7), 
+There's been a recent flurry of [BB3 news](https://www.crowdsupply.com/envox/eez-bb3/updates/latest-firmware-1-7-released-and-a-note-for-two-channel-bb3-users),
+including an update to the firmware to [version 1.7](https://github.com/eez-open/modular-psu-firmware/releases/tag/1.7),
 as well as a potential [problem with R4 overheating](https://github.com/eez-open/modular-psu/issues/108).
 
 [Instructions for upgrading the firmware](https://www.envox.eu/eez-bench-box-3/bb3-user-manual/13-firmware-upgrade/) can be found in the online manual.
@@ -36,7 +36,7 @@ I saw a success message!
 
 Next, just power off, be sure to remove USB cable, wait a few seconds, and power back on.
 
-Since I was upgrading from V1.4, I saw the "MCU Version is not available. Please choose:" message. 
+Since I was upgrading from V1.4, I saw the "MCU Version is not available. Please choose:" message.
 
 > _If you got BB3 as a kit through a Crowd Supply crowdfunding campaign and the color of the MCU module PCB is green, choose r2B4 (the newer version of r3B3 has a PCB in blue)._
 

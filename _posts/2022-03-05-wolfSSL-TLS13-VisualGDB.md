@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "wolfSSL Single Step TLS1.3 Inspection with WireShark"
-description: "## Understanding TLS 1.3 connections with wolfSSL. [wolfSSL](https://www.wolfssl.com/) is an open source, widely-used encryption library used to secure"
+description: "Understanding TLS 1.3 connections with wolfSSL. wolfSSL is an open source, widely-used encryption library used to secure"
 date: '2022-03-05'
 author: gojimmypi
 tags:

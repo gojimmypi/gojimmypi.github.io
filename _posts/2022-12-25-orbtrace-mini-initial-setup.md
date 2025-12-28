@@ -1,28 +1,28 @@
 ---
 layout: post
 title: "Orbtrace-mini"
-description: "I first learned about the [orbtrace-mini](https://orbcode.org/orbtrace-mini/) on [Hackaday](https://hackaday.com/2022/07/26/orbtrace-effort-open-tool-for-p"
+description: "I first learned about the orbtrace-mini on Hackaday"
 date: '2022-12-25'
 author: gojimmypi
 tags:
 - Orbtrace
-- Orbuculum 
+- Orbuculum
 - Debugger
 - Trace
 - FPGA
 ---
 
-I first learned about the [orbtrace-mini](https://orbcode.org/orbtrace-mini/) 
-on [Hackaday](https://hackaday.com/2022/07/26/orbtrace-effort-open-tool-for-professional-debugging/). 
-Upon reading that article, I immediately sent [zyp] an email expressing my interest. I received a 
+I first learned about the [orbtrace-mini](https://orbcode.org/orbtrace-mini/)
+on [Hackaday](https://hackaday.com/2022/07/26/orbtrace-effort-open-tool-for-professional-debugging/).
+Upon reading that article, I immediately sent [zyp] an email expressing my interest. I received a
 prompt reply and was instructed to add myself to the [waiting list](https://github.com/orbcode/orbtrace/issues/11).
 My board recently arrived!
 
 ![orbtrace_board.png](../images/orbcode/orbtrace_board.png)
 
-When I first plugged my new [orbtrace-mini](https://orbcode.org/orbtrace-mini/) into Windows 10, 
+When I first plugged my new [orbtrace-mini](https://orbcode.org/orbtrace-mini/) into Windows 10,
 I saw the usual song-and-dance about installing a new device.
-There was a small delay and then a message that "Your device is setup and ready". 
+There was a small delay and then a message that "Your device is setup and ready".
 
 I Check Device Manager, just to be sure. I saw all these warnings:
 
@@ -49,7 +49,7 @@ But saw this error:
 
 ![ming32_setup_error](../images/orbcode/ming32_setup_error.png)
 
-I don't use mingw very often, particularly now that WSL is so cool. I needed to google _how_ to update, as 'aptget -update' of course doesn't work here. 
+I don't use mingw very often, particularly now that WSL is so cool. I needed to google _how_ to update, as 'aptget -update' of course doesn't work here.
 I tried to [update](https://www.msys2.org/docs/updating/):
 
 ```
@@ -91,7 +91,7 @@ I see a similar response in ming64:
 ![orbuculum_monitor_no_active_connection_from_msys.png](../images/orbcode/orbuculum_monitor_no_active_connection_from_msys.png)
 
 This is almost certainly an issue easily resolved with Zadig, but I've been unable to find anyone else that encountered this
-problem and I don't know which drives to use for all the different devices. I've reached out on [Discord](https://discord.gg/P7FYThy) 
+problem and I don't know which drives to use for all the different devices. I've reached out on [Discord](https://discord.gg/P7FYThy)
 and will update here soon.
 
 I had a reply from [zyp] almost immediately:
@@ -106,7 +106,7 @@ pacman -S mingw-w64-ucrt-x86_64-openFPGALoader
 ```
 
 ![openFPGALoader_msys2_install.png](../images/orbcode/openFPGALoader_msys2_install.png)
- 
+
 The executable gets installed to `C:\msys64\ucrt64\bin`.
 
 Running from a DOS prompt and the device is not found. Tried unplugging and re-plugging. Same result:
@@ -147,7 +147,7 @@ Interface 6:
 
 ![zadig_orbtrace_interface_6.png](../images/orbcode/zadig_orbtrace_interface_6.png)
 
-I also tried using the [dfu_util](https://github.com/ulx3s/dfu-util/tree/master/bin-win64) 
+I also tried using the [dfu_util](https://github.com/ulx3s/dfu-util/tree/master/bin-win64)
 that's worked for my ULX3S, but saw the same results:
 
 ![dfu_util_orbtrace_dos_not_detected.png](../images/orbcode/dfu_util_orbtrace_dos_not_detected.png)
@@ -157,7 +157,7 @@ So I opened [orbtrace #12](https://github.com/orbcode/orbtrace/issues/12).
 
 I tried to use Zadig to set a variety of drivers on `Interface 0` without success.
 
-Having no luck on Windows, I tried `dfu-util` on my Ubuntu VM. 
+Having no luck on Windows, I tried `dfu-util` on my Ubuntu VM.
 I already had 0.9 installed, but it could not see any devices.
 Next I tried the latest version from as described on [dfu-util.sourceforge.net](https://dfu-util.sourceforge.net/build.html).
 Still no joy.
@@ -178,7 +178,7 @@ make
 
 ## Milestone
 
-After all of the above, I realized I was confusing the bootloader (aka gateware) with the application. 
+After all of the above, I realized I was confusing the bootloader (aka gateware) with the application.
 I ended up completing my upgrade steps in an Ubuntu VM, not Windows.
 
 `Bootloader mode` is when the purple light is on. Key here: HOLD DOWN the button while powering the device up UNTIL the light turns purple.

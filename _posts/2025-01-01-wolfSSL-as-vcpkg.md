@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Microsoft vcpkg port for wolfSSL"
-description: "From [https://github.com/microsoft/vcpkg](https://github.com/microsoft/vcpkg): > Initially launched in 2016 as a tool for assisting developers in"
+description: "From github.com/microsoft/vcpkg Initially launched in 2016 as a tool for assisting developers"
 date: '2024-12-28'
 author: gojimmypi
 tags:

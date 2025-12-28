@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Edalize on WSL"
-description: "(draft - WIP) I've been wanting to learn more about some of the [EDA](https://en.wikipedia.org/wiki/Electronic_design_automation) tools avialable, in"
+description: "(draft - WIP) I've been wanting to learn more about some of the EDA tools avialable"
 date: '2021-07-17'
 author: gojimmypi
 tags:
@@ -12,7 +12,7 @@ tags:
 
 (draft - WIP)
 
-I've been wanting to learn more about some of the [EDA](https://en.wikipedia.org/wiki/Electronic_design_automation) tools avialable, 
+I've been wanting to learn more about some of the [EDA](https://en.wikipedia.org/wiki/Electronic_design_automation) tools avialable,
 in particular the open source [Edalize](https://github.com/olofk/edalize) that [Olof Kindgren](https://twitter.com/olofkindgren) has created.
 
 There was a [minor stumble](https://github.com/olofk/edalize/issues/258) during my first attempt just to install Edalize on WSL.
@@ -91,7 +91,7 @@ files = [
    'file_type' : 'verilogSource'}
 ]
 
-# The design has a toplevel Verilog parameter with the name clk_freq_hz that accepts integers. 
+# The design has a toplevel Verilog parameter with the name clk_freq_hz that accepts integers.
 # We set its default value to 1000. The testbench also has an option to enable waveform dumping by setting a plusarg called vcd:
 parameters = {'clk_freq_hz' : {'datatype' : 'int', 'default' : 1000, 'paramtype' : 'vlogparam'},
               'vcd' : {'datatype' : 'bool', 'paramtype' : 'plusarg'}}
@@ -115,7 +115,7 @@ backend = get_edatool(tool)(edam=edam,
 os.makedirs(work_root)
 backend.configure()
 
-# At this point, we still haven't run the actual EDA tool and the files in the `work_root` directory 
+# At this point, we still haven't run the actual EDA tool and the files in the `work_root` directory
 # can be used without Edalize if that is preferred. But let's continue the example with Edalize.
 
 # Build the simulation model:

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "JTAG Single Step Debugging ESP32 with Tigard"
-description: "Here are some notes on single-step JTAG debugging the Espressif ESP32 using the [Tigard from Crowd Supply](https://www.crowdsupply.com/securinghw/tigard)"
+description: "Here are some notes on single-step JTAG debugging the Espressif ESP32 using the Tigard from Crowd Supply"
 date: '2022-05-07'
 author: gojimmypi
 tags:
@@ -12,15 +12,15 @@ tags:
 - Tigard
 ---
 
-Here are some notes on single-step JTAG debugging the Espressif ESP32 using the 
+Here are some notes on single-step JTAG debugging the Espressif ESP32 using the
 [Tigard from Crowd Supply](https://www.crowdsupply.com/securinghw/tigard) in Visual Studio
 with the [Sysprogs VisualGDB](https://visualgdb.com/) extension.
 
 ![Tigard](../images/Tigard.png)
 
-The Tigard will be used to aid in the development of the 
+The Tigard will be used to aid in the development of the
 [ESP32 SSH to UART](https://github.com/gojimmypi/wolfssh/tree/ESP32_Development/examples/ESP32-SSH-Server) project
-running on [several ESP32 boards](https://twitter.com/gojimmypi/status/1517819633952120834?s=20) 
+running on [several ESP32 boards](https://twitter.com/gojimmypi/status/1517819633952120834?s=20)
 as well as the [ESP8266](https://twitter.com/gojimmypi/status/1522390443345940481?s=20).
 
 ESP32 JTAG Pinout Wiring:
@@ -61,7 +61,7 @@ C:\Users\%USERNAME%\AppData\Local\VisualGDB\EmbeddedDebugPackages\com.sysprogs.e
 
 Here's the config file selection as viewed from Visual Studio:
 
-![Tigard-JTAG-VisualGDB.png](../images/Tigard-JTAG-VisualGDB.png) 
+![Tigard-JTAG-VisualGDB.png](../images/Tigard-JTAG-VisualGDB.png)
 
 Out of the box, the intial JTAG test did not go so well. The first output from VisualGDB gave this error:
 
@@ -94,7 +94,7 @@ Error: Failed to clear OCDDCR_ENABLEOCD!
 
 ```
 
-As much as I want to like Windows, after all these years the USB drivers are still a pain. 
+As much as I want to like Windows, after all these years the USB drivers are still a pain.
 [Zadig](https://zadig.akeo.ie/) to the rescue, once again (see also [Single Step JTAG Debugging ESP32](https://gojimmypi.github.io/single-step-jtag-debugging-esp32/)).
 
 Here's where it started, Windows defaults:
@@ -140,7 +140,7 @@ Error: No JTAG interface configured yet.  Issue 'init' command in startup script
 Error: Failed to clear OCDDCR_ENABLEOCD!
 ```
 
-A simple matter of unplugging the Tigard for a few moments, and plugging it back in was the soluton. 
+A simple matter of unplugging the Tigard for a few moments, and plugging it back in was the soluton.
 
 A successful Tigard JTAG test then looks like this:
 
