@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Jekyll Tag Test"
+title: "Jekyll Tag Test Directory"
 description: "Here are some tips in creating a new GitHub Pages Jekyll virtual directory First"
 date: '2021-05-26'
 author: gojimmypi
@@ -10,7 +10,7 @@ tags:
 - Tag
 ---
 
-Here are some tips in creating a new GitHub Pages Jekyll virtual directory
+Here are some tips in creating a new GitHub Pages Jekyll virtual directory.
 
 First, see [Creating a GitHub Pages site with Jekyll](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll).
 My root GitHub page is located at [github.com/gojimmypi/gojimmypi.github.io](https://github.com/gojimmypi/gojimmypi.github.io)
@@ -20,6 +20,10 @@ Now, one could simply create a directory in the `gojimmypi.github.io` repo, but 
 
 I created another completely blank repo called [jekyll-tag-test](https://github.com/gojimmypi/jekyll-tag-test). (no default files, _nothing_!)
 See [prior blog](../jekyll-site-failures/) on some of the problems that could be encountered.
+
+It is important that any pages generated do not have a collision with repo name! For instance,
+I have the title of this post "Jekyll Tag Test" which conflicted with the repo. The resulting
+page https://gojimmypi.github.io/jekyll-tag-test/ thus ended up blank. Not at all intuitive.
 
 
 {% include code_header.html %}
