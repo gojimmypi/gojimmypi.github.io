@@ -8,10 +8,15 @@
     {%- assign author = site.author -%}
 {%- endif -%}
 
-{%- if author -%}
+{%- assign author_id = author -%}
+{%- if author_id and author_id.name -%}
+    {%- assign author_id = author_id.name -%}
+{%- endif -%}
+
+{%- if author_id -%}
 <span class="author">
     Posted by
-    {% assign the_author = site.data.authors | where: "id", author %}
+    {% assign the_author = site.data.authors | where: "id", author_id %}
 
     {%- if the_author and the_author[0] and the_author[0].id == "gojimmypi" -%}
         <a href="{{ site.about_page | default: '/about/' | relative_url }}">gojimmypi</a>
@@ -27,7 +32,7 @@
         {%- endfor -%}
     {%- else -%}
         <a href="{{ site.about_page | default: '/about/' | relative_url }}">
-            {{ author }}
+            {{ author_id }}
         </a>
     {%- endif -%}
 </span>
