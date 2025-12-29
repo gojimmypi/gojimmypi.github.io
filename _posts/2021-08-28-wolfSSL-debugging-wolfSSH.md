@@ -217,7 +217,7 @@ $PYTHON_EXE c:\\workspace\\esp-build\\esptool.py                --chip esp32 --p
 
 ```
 
-- # Espressif ESP32GH missing fix 2
+- ## Espressif ESP32GH missing fix 2
 
 {% include code_header.html %}
 ```

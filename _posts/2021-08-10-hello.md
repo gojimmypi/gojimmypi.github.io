@@ -106,7 +106,7 @@ cd /mnt/c/workspace/wolfssl-demo/IDE/Espressif/ESP-IDF/examples/wolfssl_server
 
 ```
 
-- # Espressif ESP32GH missing fix 2
+- ## Espressif ESP32GH missing fix 2
 ```
 cd ~/esp
 . $HOME/esp/esp-idf/export.sh
