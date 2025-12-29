@@ -46,8 +46,8 @@ Remove all ethernet cables from the EdgeRouter-X, otherwise some config commands
 </p>
 
 <div class="separator" style="clear: both; text-align: left;">
-    <a href="../images/s1039/EdgeOS_Putty.PNG" style="margin-left: 1em; margin-right: 1em;">
-        <img border="0" data-original-height="294" data-original-width="1039" src="../images/s320/EdgeOS_Putty.PNG" width="320">
+    <a href="../images/s1039/EdgeOS_Putty.png" style="margin-left: 1em; margin-right: 1em;">
+        <img border="0" data-original-height="294" data-original-width="1039" src="../images/s320/EdgeOS_Putty.PNG" width="320" alt="putty image">
     </a>
 </div>
 <br />
