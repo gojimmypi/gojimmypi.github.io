@@ -25,7 +25,7 @@ echo "Version 1.01"
 
 echo "Confirming none of the post names conflicts with repo name"
 if comm -12 \
-    <(curl -fsSL "https://api.github.com/users/gojimmypi/repos?per_page=100" \
+    <(curl -fsSL "https://api.github.com/users/gojimmypi/repos?per_page=500" \
         | python3 -c 'import sys,json; print("\n".join(r["name"] for r in json.load(sys.stdin)))' \
         | sort -u) \
     <(find ./_site -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort -u)
