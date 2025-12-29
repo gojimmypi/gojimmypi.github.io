@@ -30,3 +30,45 @@ last_modified_at: 2025-12-25T09:17:00-08:00
     <div id="searchStatusPage" aria-live="polite"></div>
     <ul id="searchResultsPage"></ul>
 </div>
+<hr />
+<div class="post-content">
+    Type in a keyword to search. Click the checkbox to limit the search to only those keywords assigned.
+    <br />
+    <br />
+    View all of the keyword tags and the related blogs at the <a href="../tags/">Posts by Tag</a> page.
+    <br />
+    <br />
+    There's also a <a href="../archive/">summary archive grouped by year</a>.
+</div>
+
+{%- comment -%}
+<!-- script to ensure the input box for search has focus at page load time. See pageFocusTimeout -->
+{%- endcomment -%}
+
+<script>
+    (function () {
+        "use strict";
+
+        function focusSearch() {
+            var input;
+
+            input = document.getElementById("searchBoxPage");
+            if (!input) {
+                return;
+            }
+
+            input.focus();
+            try {
+                input.setSelectionRange(0, 0);
+            }
+            catch (e) {
+                /* ignore */
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", focusSearch);
+        window.addEventListener("pageshow", focusSearch);
+        var pageFocusTimeout = 250;
+        setTimeout(focusSearch, pageFocusTimeout);
+    }());
+</script>
