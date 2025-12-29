@@ -67,6 +67,10 @@
     margin: 0;
     padding: 0;
     line-height: 1.25;
+
+    white-space: normal;
+    overflow-wrap: anywhere; /* breaks long tokens if needed */
+    word-break: normal;
 }
 
 .logo-container.header-search > table > tbody > tr > td:first-child {
@@ -94,7 +98,7 @@
 }
 
 .header-search__input {
-    width: 70%;
+    width: 60%;
     max-width: 520px;
     padding: 9px 10px;
     border-radius: 6px;
@@ -251,12 +255,6 @@
     justify-content: center;
     width: 100%;
     text-align: center;
-}
-
-/* Make the search box less wide */
-#headerSearchContainer .header-search__input {
-    width: 255px;
-    max-width: 100%;
 }
 
 /* Force results and status to left-align text */
