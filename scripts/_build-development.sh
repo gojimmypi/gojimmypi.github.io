@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -e
 
 # Optional update:
 #   bundle update github-pages
@@ -15,6 +16,24 @@ echo "Starting from $(pwd)"
 echo "$1"
 
 echo "Version 1.01"
+
+
+DEV_CONFIG="_config_dev.yml"
+DEV_CONFIG_TEMPLATE="templates/_config_dev.yml.in"
+
+if [ -f "$DEV_CONFIG" ]; then
+    echo "Found dev config $DEV_CONFIG overrides:"
+else
+    if [ -f "$DEV_CONFIG_TEMPLATE" ]; then
+        echo "Creating $DEV_CONFIG from $DEV_CONFIG_TEMPLATE"
+        cp "$DEV_CONFIG_TEMPLATE" "$DEV_CONFIG"
+    else
+        echo "ERROR: $DEV_CONFIG_TEMPLATE not found"
+        exit 1
+    fi
+fi
+
+sed -n '/^[[:space:]]*#/d;/^[[:space:]]*$/d;p' "$DEV_CONFIG"
 
 ./scripts/gen_year_archives.sh
 
@@ -186,5 +205,5 @@ echo "Here we go! TAG_DIR=$TAG_DIR, "
 echo "Ensure all tag files use LF line endings"
 dos2unix tag/**/*.html > /dev/null 2>&1
 
-echo "running: bundle exec jekyll serve --profile --incremental --drafts"
-bundle exec jekyll serve --profile --incremental --drafts
+echo "running: bundle exec jekyll serve --config _config.yml,_config_dev.yml --profile --incremental --drafts"
+bundle                exec jekyll serve --config _config.yml,_config_dev.yml --profile --incremental --drafts

@@ -1,6 +1,9 @@
 # Updates: this file is loaded only once when running  ./_build-development.sh
 #
+# Check for overrides in _config_dev.yml
+#
 # Site Settings. Available in Liquid using the "site." prefix
+#
 title: "Blogs by gojimmypi"
 copyright_owner: "gojimmypi"     # put your copyright info here excluding the (c) sign. It will appear in the footer
 copyright_year:  "2015-2025"     # normally visible, hidden on narrow screens in footer
@@ -147,6 +150,7 @@ exclude:
   - preview
   - scripts # always exclude bash scripts
 # - js      # never exclude javascript
+  - templates
   - img
   - LICENCE
   - Organizational Overview.*
@@ -157,6 +161,10 @@ exclude:
   # Never exclude generated / copied artifacts when generating tags with jekyll-archives
   # - tag
   # - _tag
+
+  # template input files
+  - "*.in"
+  - "**/*.in"
 
   # Backup / editor artifacts (explicit)
   - "*.bak"

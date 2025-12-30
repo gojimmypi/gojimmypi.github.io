@@ -1,0 +1,30 @@
+# -------------------------------------------------------------------
+# Local development overrides for Jekyll
+#
+# Usage:
+#   bundle exec jekyll serve --config _config.yml,_config_dev.yml
+#
+# This file MUST NOT be used by GitHub Pages.
+# It overrides only values that should differ locally.
+# -------------------------------------------------------------------
+
+# Local site URL (must match how you browse the site)
+url: "http://localhost:4000"
+
+# GitHub Pages uses baseurl=""
+# Keep this the same locally unless you intentionally serve under a subpath
+baseurl: ""
+
+# Explicitly mark local environment (useful for debugging)
+environment: development
+
+# Disable plugins that rely on production-only context (optional)
+# Uncomment only if needed
+# google_analytics: false
+# sitemap: false
+
+# Optional: reduce noise while developing
+# quiet: true
+
+# Optional: ensure future posts are visible locally
+# future: true

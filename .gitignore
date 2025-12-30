@@ -362,3 +362,6 @@ vendor/
 # Never ignore anything under /tags
 !/tag/
 !/tag/**
+
+# Exclude local dev config overrides
+/_config_dev.yml
