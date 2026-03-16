@@ -92,11 +92,13 @@ function scoreItem(item, terms, tagsOnlyMode) {
     var score;
     var i;
     var t;
+    var isDirectory;
 
     title = (item.title || "").toLowerCase();
     tags = Array.isArray(item.tags) ? item.tags.join(" ").toLowerCase() : "";
     cats = Array.isArray(item.categories) ? item.categories.join(" ").toLowerCase() : "";
     excerpt = (item.excerpt || "").toLowerCase();
+    isDirectory = item.type === "directory";
 
     score = 0;
 
@@ -114,14 +116,21 @@ function scoreItem(item, terms, tagsOnlyMode) {
         }
 
         if (title.indexOf(t) >= 0) {
-            score += 10;
+            if (isDirectory) {
+                score += 50;
+            } else {
+                score += 10;
+            }
         }
+
         if (excerpt.indexOf(t) >= 0) {
             score += 5;
         }
+
         if (tags.indexOf(t) >= 0) {
             score += 4;
         }
+
         if (cats.indexOf(t) >= 0) {
             score += 2;
         }
@@ -374,6 +383,20 @@ function scoreItem(item, terms, tagsOnlyMode) {
         }
 
         scored.sort(function (a, b) {
+            var aDir;
+            var bDir;
+
+            aDir = a.item && a.item.type === "directory";
+            bDir = b.item && b.item.type === "directory";
+
+            if (aDir && !bDir) {
+                return -1;
+            }
+
+            if (!aDir && bDir) {
+                return 1;
+            }
+
             return b.score - a.score;
         });
 

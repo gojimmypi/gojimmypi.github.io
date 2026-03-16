@@ -5,14 +5,65 @@ last_modified_at: 2025-12-28
 ---
 
 [
+{% assign dir_segments = "" %}
+
+{% for page in site.pages %}
+  {% assign parts = page.url | split: "/" %}
+  {% assign seg = parts[1] %}
+  {% if seg != "" and parts.size > 2 %}
+    {% capture dir_segments %}{{ dir_segments }}|{{ seg }}{% endcapture %}
+  {% endif %}
+{% endfor %}
+
+{% for collection in site.collections %}
+  {% for doc in collection.docs %}
+    {% assign parts = doc.url | split: "/" %}
+    {% assign seg = parts[1] %}
+    {% if seg != "" and parts.size > 2 %}
+      {% capture dir_segments %}{{ dir_segments }}|{{ seg }}{% endcapture %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+
+{% for file in site.static_files %}
+  {% assign parts = file.path | split: "/" %}
+  {% assign seg = parts[1] %}
+  {% if seg != "" and parts.size > 2 %}
+    {% capture dir_segments %}{{ dir_segments }}|{{ seg }}{% endcapture %}
+  {% endif %}
+{% endfor %}
+
+{% assign root_dirs = dir_segments | split: "|" | uniq | sort_natural %}
+
+{% assign emitted = false %}
+
+{% for dir in root_dirs %}
+  {% if dir != "" %}
+    {% if emitted %},{% endif %}
+    {
+      "title": {{ dir | append: "/" | jsonify }},
+      "url": {{ dir | prepend: "/" | append: "/" | relative_url | jsonify }},
+      "date": null,
+      "tags": [{{ dir | jsonify }}, "directory"],
+      "categories": ["directory"],
+      "excerpt": {{ "Root directory" | jsonify }},
+      "type": "directory"
+    }
+    {% assign emitted = true %}
+  {% endif %}
+{% endfor %}
+
 {% for post in site.posts %}
+  {% if emitted %},{% endif %}
   {
     "title": {{ post.title | jsonify }},
     "url": {{ post.url | relative_url | jsonify }},
     "date": {{ post.date | date: "%Y-%m-%d" | jsonify }},
     "tags": {{ post.tags | jsonify }},
     "categories": {{ post.categories | jsonify }},
-    "excerpt": {{ post.excerpt | strip_html | strip_newlines | jsonify }}
-  }{% unless forloop.last %},{% endunless %}
+    "excerpt": {{ post.excerpt | strip_html | strip_newlines | jsonify }},
+    "type": "post"
+  }
+  {% assign emitted = true %}
 {% endfor %}
 ]
