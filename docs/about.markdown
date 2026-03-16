@@ -30,6 +30,9 @@ Various sites to find gojimmypi:
 * [Bluesky gojimmypi.bsky.social](https://bsky.app/profile/gojimmypi.bsky.social)
 * [wolfSSL Forum](https://www.wolfssl.com/forums/user4414.html)
 * [X/Twitter.com/gojimmypi](https://x.com/gojimmypi)
+* [Autodesk](https://forums.autodesk.com/t5/user/viewprofilepage/user-id/18636341)
+* [Wikipedia User Gojimmypi](https://en.wikipedia.org/wiki/User:Gojimmypi)
+* [codeberg.org/gojimmypi](https://codeberg.org/gojimmypi)
 
 The [source code for this web site](https://github.com/gojimmypi/gojimmypi.github.io) is based on a [fork](https://github.com/gojimmypi/gridster-jekyll-theme) 
 of the [ickc fork](https://github.com/ickc/gridster-jekyll-theme),

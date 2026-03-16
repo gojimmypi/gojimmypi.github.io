@@ -2,8 +2,6 @@
 
 [https://gojimmypi.github.io](https://gojimmypi.github.io/)
 
-See issues:
-
 
 hosted by [pages.github.com/](https://pages.github.com/)
 
@@ -23,6 +21,7 @@ hosted by [pages.github.com/](https://pages.github.com/)
 * [Bluesky gojimmypi.bsky.social](https://bsky.app/profile/gojimmypi.bsky.social)
 * [wolfSSL Forum](https://www.wolfssl.com/forums/user4414.html)
 * [X/Twitter.com/gojimmypi](https://x.com/gojimmypi)
+* [Autodesk](https://forums.autodesk.com/t5/user/viewprofilepage/user-id/18636341)
 
 See also [/docs/about.markdown](./docs/about.markdown) at https://gojimmypi.github.io/about/
 
