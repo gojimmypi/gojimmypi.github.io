@@ -33,6 +33,7 @@ Various sites to find gojimmypi:
 * [Autodesk](https://forums.autodesk.com/t5/user/viewprofilepage/user-id/18636341)
 * [Wikipedia User Gojimmypi](https://en.wikipedia.org/wiki/User:Gojimmypi)
 * [codeberg.org/gojimmypi](https://codeberg.org/gojimmypi)
+* [Etsy](https://www.etsy.com/people/gojimmypi)
 
 The [source code for this web site](https://github.com/gojimmypi/gojimmypi.github.io) is based on a [fork](https://github.com/gojimmypi/gridster-jekyll-theme) 
 of the [ickc fork](https://github.com/ickc/gridster-jekyll-theme),

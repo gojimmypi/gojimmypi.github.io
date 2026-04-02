@@ -22,6 +22,7 @@ hosted by [pages.github.com/](https://pages.github.com/)
 * [wolfSSL Forum](https://www.wolfssl.com/forums/user4414.html)
 * [X/Twitter.com/gojimmypi](https://x.com/gojimmypi)
 * [Autodesk](https://forums.autodesk.com/t5/user/viewprofilepage/user-id/18636341)
+* [Etsy](https://www.etsy.com/people/gojimmypi)
 
 See also [/docs/about.markdown](./docs/about.markdown) at https://gojimmypi.github.io/about/
 
