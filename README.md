@@ -23,6 +23,13 @@ hosted by [pages.github.com/](https://pages.github.com/)
 * [X/Twitter.com/gojimmypi](https://x.com/gojimmypi)
 * [Autodesk](https://forums.autodesk.com/t5/user/viewprofilepage/user-id/18636341)
 * [Etsy](https://www.etsy.com/people/gojimmypi)
+* [ThingVerse](https://www.thingiverse.com/gojimmypi/designs)
+* [Elecrow Community](https://www.elecrow.com/share-projects.html)
+* [GrabCAD](https://grabcad.com/gojimmypi-1/models)
+* [Thangs](https://thangs.com/designer/gojimmypi)
+* [MyMiniFactory](https://www.myminifactory.com/users/gojimmypi)
+* [MakerWorld](https://makerworld.com/en/@gojimmypi)
+* [Cults3D](https://cults3d.com/en/users/gojimmypi)
 
 See also [/docs/about.markdown](./docs/about.markdown) at https://gojimmypi.github.io/about/
 
