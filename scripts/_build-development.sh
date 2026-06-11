@@ -204,7 +204,7 @@ echo "Here we go! TAG_DIR=$TAG_DIR, "
     done
 } >> "$README"
 
-
+python3 -m json.tool ./_site/search.json >/dev/null && echo "OK: valid JSON"
 
 echo "Ensure all tag files use LF line endings"
 dos2unix tag/**/*.html > /dev/null 2>&1
