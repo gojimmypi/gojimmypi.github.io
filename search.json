@@ -1,7 +1,7 @@
 ---
 layout: null
 permalink: /search.json
-last_modified_at: 2025-12-28
+last_modified_at: 2026-06-10
 ---
 
 [
@@ -10,8 +10,10 @@ last_modified_at: 2025-12-28
 {% for page in site.pages %}
   {% assign parts = page.url | split: "/" %}
   {% assign seg = parts[1] %}
-  {% if seg != "" and parts.size > 2 %}
-    {% capture dir_segments %}{{ dir_segments }}|{{ seg }}{% endcapture %}
+  {% if seg != "" %}
+    {% if parts.size > 2 or page.name == "index.html" %}
+      {% capture dir_segments %}{{ dir_segments }}|{{ seg }}{% endcapture %}
+    {% endif %}
   {% endif %}
 {% endfor %}
 
@@ -35,21 +37,25 @@ last_modified_at: 2025-12-28
 
 {% assign root_dirs = dir_segments | split: "|" | uniq | sort_natural %}
 
+{% assign excluded_root_dirs = "archive|author|blog|category|css|icons|images|js|media|page|search|tag" | split: "|" %}
+
 {% assign emitted = false %}
 
 {% for dir in root_dirs %}
   {% if dir != "" %}
-    {% if emitted %},{% endif %}
-    {
-      "title": {{ dir | append: "/" | jsonify }},
-      "url": {{ dir | prepend: "/" | append: "/" | relative_url | jsonify }},
-      "date": null,
-      "tags": [{{ dir | jsonify }}, "directory"],
-      "categories": ["directory"],
-      "excerpt": {{ "Root directory" | jsonify }},
-      "type": "directory"
-    }
-    {% assign emitted = true %}
+    {% unless excluded_root_dirs contains dir %}
+      {% if emitted %},{% endif %}
+      {
+        "title": {{ dir | append: "/" | jsonify }},
+        "url": {{ dir | prepend: "/" | append: "/" | relative_url | jsonify }},
+        "date": null,
+        "tags": [{{ dir | jsonify }}, "directory"],
+        "categories": ["directory"],
+        "excerpt": {{ "Root directory" | jsonify }},
+        "type": "directory"
+      }
+      {% assign emitted = true %}
+    {% endunless %}
   {% endif %}
 {% endfor %}
 
