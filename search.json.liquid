@@ -11,7 +11,7 @@ last_modified_at: 2026-06-10
   {% assign parts = page.url | split: "/" %}
   {% assign seg = parts[1] %}
   {% if seg != "" %}
-    {% if parts.size > 2 or page.name == "index.html" %}
+    {% if parts.size > 2 or page.name == "index.html" or page.name == "index.md" %}
       {% capture dir_segments %}{{ dir_segments }}|{{ seg }}{% endcapture %}
     {% endif %}
   {% endif %}
