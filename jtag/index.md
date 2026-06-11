@@ -2,18 +2,17 @@
 layout: page
 sidebar: false
 sitemap: false
-last_modified_at: 2026-06-4T11:00:00-08:00
+last_modified_at: 2026-06-11T11:10:00-07:00
 ---
 
 {%- if site.page_debug -%}
 <!-- begin /jtag/index.html -->
 {%- endif -%}
 
-<div>
+Keeping some JTAG related references here.
 
-    Keeping some JTAG related references here.<br />
-    <br />
+---
 
+`JTAG`
     
 
-</div>
