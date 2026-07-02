@@ -24,6 +24,7 @@ My SKY26a (draft, not submitted) [PDK](https://skywater-pdk.readthedocs.io/en/ma
 - GitHub: [github.com/gojimmypi/ttsky-UART-FSM-TRNG-Lab](https://github.com/gojimmypi/ttsky-UART-FSM-TRNG-Lab/)
 - Post release notes: [gojimmypi.github.io/trng](https://gojimmypi.github.io/trng/)
 
+See also: 
      
 Tiny Tapeout [Calculator](https://app.tinytapeout.com/calculator).
 
@@ -35,5 +36,60 @@ Upload a file from a recent successful [gds.yaml workflow](https://github.com/go
 
 This will allow you to view the layout of your design and verify that it looks correct before tapeout. You can also share the GDS viewer link with others to get feedback on your design.
 
+## Magic
 
- 
+To build local GDS and LEF files, `Magic` is needed.
+
+- http://opencircuitdesign.com/magic/
+- https://github.com/RTimothyEdwards/magic
+
+```
+cd "$HOME/ttsetup"
+
+sudo apt update
+sudo apt install -y \
+    build-essential git m4 csh tcsh \
+    libx11-dev tcl-dev tk-dev \
+    libcairo2-dev libncurses-dev \
+    libglu1-mesa-dev freeglut3-dev mesa-common-dev
+
+git clone https://github.com/RTimothyEdwards/magic.git
+cd magic
+
+./configure --prefix="$HOME/ttsetup/magic"
+make -j"$(nproc)"
+make install
+
+export PATH="$HOME/ttsetup/magic/bin:$PATH"
+```
+
+## Create Downstream Update
+
+```
+cd /mnt/c/workspace/
+
+mkdir ttgf0p3-analog-UART-FSM-TRNG-Lab
+
+cd ./ttgf0p3-analog-UART-FSM-TRNG-Lab/
+
+git init
+
+# Initialized empty Git repository in /mnt/c/workspace/ttgf0p3-analog-UART-FSM-TRNG-Lab/.git/
+
+git remote add origin https://github.com/$USER/ttgf0p3-analog-UART-FSM-TRNG-Lab.git
+
+git remote add upstream https://github.com/gojimmypi/ttgf0p3-UART-FSM-TRNG-Lab.git
+
+git fetch upstream main
+
+git pull upstream main
+```
+
+<iframe
+    width="560"
+    height="315"
+    src="https://www.youtube-nocookie.com/embed/qVWq_XZko-M"
+    title="YouTube video player"
+    frameborder="0"
+    allowfullscreen>
+</iframe>
