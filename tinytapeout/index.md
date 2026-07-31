@@ -18,11 +18,14 @@ My GF26 is at:
 - [app.tinytapeout.com/projects/4337](https://app.tinytapeout.com/projects/4337/) 
 - GitHub: [github.com/gojimmypi/ttgf-UART-FSM-TRNG-Lab](https://github.com/gojimmypi/ttgf-UART-FSM-TRNG-Lab/)
 - Post release notes: [gojimmypi.github.io/trng](https://gojimmypi.github.io/trng/)
+- [GF-26a Datasheet](https://tinytapeout.github.io/tinytapeout-gf-26a/datasheet.pdf) page 103.
 
 My SKY26a (draft, not submitted) [PDK](https://skywater-pdk.readthedocs.io/en/main/) is 
 - [app.tinytapeout.com/projects/4338/](https://app.tinytapeout.com/projects/4338/)
 - GitHub: [github.com/gojimmypi/ttsky-UART-FSM-TRNG-Lab](https://github.com/gojimmypi/ttsky-UART-FSM-TRNG-Lab/)
 - Post release notes: [gojimmypi.github.io/trng](https://gojimmypi.github.io/trng/)
+
+My TT Online Workshop TA Exercise [wokwi](https://wokwi.com/projects/469115756408046593)
 
 See also: 
      
@@ -93,3 +96,10 @@ git pull upstream main
     frameborder="0"
     allowfullscreen>
 </iframe>
+
+
+## Interesting Projects and links
+
+- https://github.com/Essenceia/Teapot/blob/main/tools/main.c
+- https://github.com/TinyTapeout/tt-commander-app
+
