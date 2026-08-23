@@ -1,0 +1,1 @@
+The Hazard3-Doom is case sensitive. This is a redirect from the all lower case.
