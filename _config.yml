@@ -192,6 +192,7 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag   # there should be exacly one instance. See /_includes/head.html for "{%- seo "...
   - jekyll-archives  # gh-pages disabled this. See my README on how to do this manually.
+  - jekyll-redirect-from # allow redirects to be specified in the front matter of a page or post
 
 # experiment (probably not a good idea()
 # include: ['_site/tag/']
