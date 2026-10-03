@@ -19,4 +19,8 @@ tags:
 
 Stay tuned for notes on Supercon 2026 in Pasadena, CA.
 
-https://hazard3-doom.readthedocs.io/en/latest/
+In the meantime, check out the following links for more information on Hazard3 Doom and ULX3S Doom:
+
+[hazard3-doom.readthedocs.io/](https://hazard3-doom.readthedocs.io/)
+
+[ulx3s.github.io/ulx-doom](https://ulx3s.github.io/ulx-doom)
